@@ -92,14 +92,28 @@ Remember: Respond with ONLY the JSON object, no other text.`
     let responseText = data.content[0].text;
     console.log('Raw response:', responseText);
 
-    // Clean up the response to extract JSON
-    // First, try to find JSON object in the response
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      responseText = jsonMatch[0];
+    // Clean up the response to extract JSON more robustly
+    console.log('Raw response length:', responseText.length);
+    
+    // Method 1: Look for ```json blocks first
+    const jsonBlockMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/);
+    if (jsonBlockMatch) {
+      responseText = jsonBlockMatch[1].trim();
+      console.log('Extracted from JSON block:', responseText);
     } else {
-      // Fallback: clean up markdown
-      responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      // Method 2: Look for any JSON object
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        responseText = jsonMatch[0];
+        console.log('Extracted JSON object:', responseText);
+      } else {
+        // Method 3: Try to find the last occurrence of {
+        const lastBrace = responseText.lastIndexOf('{');
+        if (lastBrace !== -1) {
+          responseText = responseText.substring(lastBrace);
+          console.log('Extracted from last brace:', responseText);
+        }
+      }
     }
 
     console.log('Cleaned response:', responseText);
