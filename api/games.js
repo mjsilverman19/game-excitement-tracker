@@ -1,4 +1,4 @@
-// File: /api/games.js - ESPN Win Probability Analysis
+// File: /api/games.js - Principled Win Probability Variance Analysis
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log(`Analyzing ${sport} games for ${date} using ESPN probability data...`);
+    console.log(`Analyzing ${sport} games for ${date} using principled variance analysis...`);
     
     // Get games for the date
     const games = await getGamesForDate(date, sport);
@@ -35,21 +35,21 @@ export default async function handler(req, res) {
           date: date,
           sport: sport,
           source: 'ESPN Win Probability API',
-          analysisType: 'Real Win Probability Variance',
+          analysisType: 'Principled Uncertainty Analysis',
           gameCount: 0
         }
       });
     }
 
-    // Analyze each game's win probability variance
+    // Analyze each game with principled uncertainty metrics
     const analyzedGames = await Promise.all(
-      games.map(async (game) => await analyzeGameVariance(game))
+      games.map(async (game) => await analyzeGameUncertainty(game))
     );
 
     // Filter out failed analyses
     const validGames = analyzedGames.filter(game => game !== null);
 
-    console.log(`Successfully analyzed ${validGames.length} games`);
+    console.log(`Successfully analyzed ${validGames.length} games with principled metrics`);
 
     return res.status(200).json({
       success: true,
@@ -58,17 +58,17 @@ export default async function handler(req, res) {
         date: date,
         sport: sport,
         source: 'ESPN Win Probability API',
-        analysisType: 'Real Win Probability Variance',
+        analysisType: 'Principled Uncertainty Analysis',
         gameCount: validGames.length
       }
     });
 
   } catch (error) {
-    console.error('Error in ESPN analysis:', error);
+    console.error('Error in principled analysis:', error);
     
     res.status(500).json({
       success: false,
-      error: 'Failed to analyze game data',
+      error: 'Failed to analyze game uncertainty',
       details: error.message,
       games: []
     });
@@ -129,9 +129,9 @@ async function getGamesForDate(date, sport) {
   }
 }
 
-async function analyzeGameVariance(game) {
+async function analyzeGameUncertainty(game) {
   try {
-    console.log(`Analyzing win probability for ${game.awayTeam} @ ${game.homeTeam}`);
+    console.log(`Analyzing uncertainty for ${game.awayTeam} @ ${game.homeTeam}`);
     
     // Fetch win probability data from ESPN
     const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
@@ -140,32 +140,31 @@ async function analyzeGameVariance(game) {
     
     if (!response.ok) {
       console.log(`No probability data for game ${game.id}`);
-      // Fallback to basic score-based rating
       return createBasicAnalysis(game);
     }
 
     const probData = await response.json();
     
-    if (!probData.items || probData.items.length === 0) {
-      console.log(`Empty probability data for game ${game.id}`);
+    if (!probData.items || probData.items.length < 10) {
+      console.log(`Insufficient probability data for game ${game.id}`);
       return createBasicAnalysis(game);
     }
 
-    // Calculate variance from actual probability data
-    const variance = calculateWinProbabilityVariance(probData.items, game);
+    // Calculate principled uncertainty metrics
+    const uncertainty = calculatePrincipledUncertainty(probData.items, game);
     
     return {
-      id: `espn-${game.id}`,
+      id: `uncertainty-${game.id}`,
       homeTeam: game.homeTeam,
       awayTeam: game.awayTeam,
       homeScore: game.homeScore,
       awayScore: game.awayScore,
-      excitement: variance.excitement,
+      excitement: uncertainty.excitement,
       overtime: game.overtime,
-      description: variance.description,
-      varianceAnalysis: variance.analysis,
-      keyMoments: variance.keyMoments,
-      source: 'ESPN Win Probability API'
+      description: uncertainty.description,
+      varianceAnalysis: uncertainty.analysis,
+      keyMoments: uncertainty.keyMoments,
+      source: 'Principled Uncertainty Analysis'
     };
 
   } catch (error) {
@@ -174,117 +173,216 @@ async function analyzeGameVariance(game) {
   }
 }
 
-function calculateWinProbabilityVariance(probabilities, game) {
+function calculatePrincipledUncertainty(probabilities, game) {
   try {
-    // Extract home team probabilities throughout the game
-    const homeProbs = probabilities.map(p => ({
-      probability: p.homeWinPercentage || 50,
-      playId: p.playId || 0,
-      period: p.period || 1
-    })).filter(p => p.probability !== null && p.probability !== undefined);
+    // Extract and clean probability data
+    const cleanProbs = probabilities
+      .map((p, index) => ({
+        probability: p.homeWinPercentage || 50,
+        period: p.period || 1,
+        index: index,
+        timeWeight: calculateTimeWeight(p.period || 1, probabilities.length, index)
+      }))
+      .filter(p => p.probability !== null && p.probability !== undefined)
+      .sort((a, b) => a.index - b.index);
 
-    if (homeProbs.length < 10) {
-      console.log('Insufficient probability data, using basic analysis');
-      return createBasicVarianceAnalysis(game);
+    if (cleanProbs.length < 10) {
+      return createBasicUncertaintyAnalysis(game);
     }
 
-    // Calculate variance metrics
-    const swings = findMajorSwings(homeProbs);
-    const maxVariance = calculateMaxVariance(homeProbs);
-    const fourthQuarterDrama = analyzeFourthQuarter(homeProbs);
+    // Metric 1: Average distance from 50% (uncertainty throughout)
+    const avgUncertainty = cleanProbs.reduce((sum, p) => sum + Math.abs(p.probability - 50), 0) / cleanProbs.length;
     
-    // Calculate base excitement from variance
-    let excitement = 5.0;
+    // Metric 2: Time-weighted uncertainty (late game matters more)
+    const timeWeightedUncertainty = cleanProbs.reduce((sum, p) => sum + (Math.abs(p.probability - 50) * p.timeWeight), 0) / cleanProbs.length;
     
-    // Major swings scoring
-    if (swings.count >= 6) excitement = 9.0 + Math.random() * 1.0;
-    else if (swings.count >= 4) excitement = 7.5 + Math.random() * 1.5;
-    else if (swings.count >= 2) excitement = 6.0 + Math.random() * 1.5;
-    else excitement = 3.0 + Math.random() * 2.0;
+    // Metric 3: Outcome surprise (how predictable was the winner?)
+    const outcomeSurprise = calculateOutcomeSurprise(cleanProbs, game);
     
-    // Bonuses
-    if (game.overtime) excitement += 1.0;
-    if (maxVariance > 60) excitement += 0.5; // Huge swings
-    if (fourthQuarterDrama.swings >= 2) excitement += 1.0; // Late drama
+    // Metric 4: Momentum volatility (how often did momentum shift?)
+    const momentumVolatility = calculateMomentumVolatility(cleanProbs);
     
+    // Metric 5: Late-game drama (final quarter uncertainty)
+    const lateGameDrama = calculateLateGameDrama(cleanProbs);
+
+    // Combine metrics into excitement score (0-10 scale)
+    let excitement = combineUncertaintyMetrics({
+      avgUncertainty,
+      timeWeightedUncertainty, 
+      outcomeSurprise,
+      momentumVolatility,
+      lateGameDrama
+    });
+
+    // Overtime bonus
+    if (game.overtime) {
+      excitement += 1.0;
+    }
+
     // Cap at 10.0
-    excitement = Math.min(10.0, excitement);
-    
+    excitement = Math.min(10.0, Math.max(0.0, excitement));
+
+    // Generate analysis
+    const analysis = generateUncertaintyAnalysis({
+      avgUncertainty,
+      timeWeightedUncertainty,
+      outcomeSurprise, 
+      momentumVolatility,
+      lateGameDrama,
+      overtime: game.overtime
+    });
+
+    const keyMoments = findKeyUncertaintyMoments(cleanProbs);
+
     return {
       excitement: Math.round(excitement * 10) / 10,
-      description: generateVarianceDescription(swings.count, maxVariance, fourthQuarterDrama, game.overtime),
-      analysis: `${swings.count} major probability swings, max variance: ${Math.round(maxVariance)}%`,
-      keyMoments: swings.moments.slice(0, 3) // Top 3 moments
+      description: analysis.description,
+      analysis: analysis.technical,
+      keyMoments: keyMoments
     };
 
   } catch (error) {
-    console.error('Error calculating variance:', error);
-    return createBasicVarianceAnalysis(game);
+    console.error('Error in principled calculation:', error);
+    return createBasicUncertaintyAnalysis(game);
   }
 }
 
-function findMajorSwings(probabilities) {
-  const swings = [];
-  const moments = [];
-  let swingCount = 0;
+function calculateTimeWeight(period, totalDataPoints, index) {
+  // Give higher weight to later periods and later moments within periods
+  const periodWeight = Math.pow(period, 1.5); // 1st=1, 2nd=2.8, 3rd=5.2, 4th=8.0
+  const progressWeight = 1 + (index / totalDataPoints); // 1.0 to 2.0 based on game progress
+  return periodWeight * progressWeight;
+}
+
+function calculateOutcomeSurprise(probabilities, game) {
+  if (probabilities.length < 5) return 0;
   
-  for (let i = 1; i < probabilities.length - 1; i++) {
-    const prev = probabilities[i - 1].probability;
-    const curr = probabilities[i].probability;
-    const next = probabilities[i + 1].probability;
+  // Who actually won?
+  const homeWon = game.homeScore > game.awayScore;
+  
+  // What was the average prediction throughout the game?
+  const avgHomeProbability = probabilities.reduce((sum, p) => sum + p.probability, 0) / probabilities.length;
+  
+  // How surprised should we be by the outcome?
+  const expectedHomeProbability = avgHomeProbability / 100;
+  const actualOutcome = homeWon ? 1 : 0;
+  
+  // Surprise = how far the outcome was from expectation
+  return Math.abs(actualOutcome - expectedHomeProbability) * 100;
+}
+
+function calculateMomentumVolatility(probabilities) {
+  if (probabilities.length < 10) return 0;
+  
+  // Calculate how often momentum shifted (rolling average changes direction)
+  let volatility = 0;
+  const windowSize = 5;
+  
+  for (let i = windowSize; i < probabilities.length - windowSize; i++) {
+    const prevAvg = probabilities.slice(i - windowSize, i).reduce((sum, p) => sum + p.probability, 0) / windowSize;
+    const nextAvg = probabilities.slice(i, i + windowSize).reduce((sum, p) => sum + p.probability, 0) / windowSize;
+    const change = Math.abs(nextAvg - prevAvg);
     
-    // Look for swings of 15+ percentage points
-    const swing1 = Math.abs(curr - prev);
-    const swing2 = Math.abs(next - curr);
-    
-    if (swing1 >= 15 || swing2 >= 15) {
-      swingCount++;
-      const period = probabilities[i].period;
-      const direction = curr > prev ? 'increased' : 'decreased';
-      moments.push(`Q${period}: Win probability ${direction} by ${Math.round(Math.max(swing1, swing2))}%`);
+    if (change > 8) { // Significant momentum shift
+      volatility += change * probabilities[i].timeWeight;
     }
   }
   
-  return {
-    count: swingCount,
-    moments: moments
-  };
+  return volatility / probabilities.length;
 }
 
-function calculateMaxVariance(probabilities) {
-  const probs = probabilities.map(p => p.probability);
-  const max = Math.max(...probs);
-  const min = Math.min(...probs);
-  return max - min;
-}
-
-function analyzeFourthQuarter(probabilities) {
+function calculateLateGameDrama(probabilities) {
+  // Focus on 4th quarter drama
   const fourthQuarter = probabilities.filter(p => p.period >= 4);
-  if (fourthQuarter.length < 5) return { swings: 0 };
+  if (fourthQuarter.length < 5) return 0;
   
-  let swings = 0;
-  for (let i = 1; i < fourthQuarter.length; i++) {
-    const swing = Math.abs(fourthQuarter[i].probability - fourthQuarter[i-1].probability);
-    if (swing >= 10) swings++;
-  }
+  // How uncertain was the outcome in the 4th quarter?
+  const avgFourthUncertainty = fourthQuarter.reduce((sum, p) => sum + Math.abs(p.probability - 50), 0) / fourthQuarter.length;
   
-  return { swings };
+  // Bonus for very late uncertainty (final few data points)
+  const finalMoments = fourthQuarter.slice(-5);
+  const finalUncertainty = finalMoments.reduce((sum, p) => sum + Math.abs(p.probability - 50), 0) / finalMoments.length;
+  
+  return (avgFourthUncertainty + finalUncertainty) / 2;
 }
 
-function generateVarianceDescription(swings, maxVariance, fourthQuarter, overtime) {
+function combineUncertaintyMetrics(metrics) {
+  // Convert each metric to 0-10 scale and weight them
+  
+  // Average uncertainty: Lower = more exciting (invert the scale)
+  const uncertaintyScore = Math.max(0, 10 - (metrics.avgUncertainty / 5)); // 0-50 avg uncertainty maps to 10-0 excitement
+  
+  // Time-weighted uncertainty: Lower = more exciting (invert)
+  const timeWeightedScore = Math.max(0, 10 - (metrics.timeWeightedUncertainty / 8));
+  
+  // Outcome surprise: Higher = more exciting
+  const surpriseScore = Math.min(10, metrics.outcomeSurprise / 5); // 0-50 surprise maps to 0-10
+  
+  // Momentum volatility: Higher = more exciting  
+  const volatilityScore = Math.min(10, metrics.momentumVolatility / 3);
+  
+  // Late game drama: Higher = more exciting
+  const dramaScore = Math.min(10, metrics.lateGameDrama / 5);
+  
+  // Weighted combination (late drama and time-weighted uncertainty matter most)
+  const excitement = (
+    uncertaintyScore * 0.2 +      // 20% - overall uncertainty
+    timeWeightedScore * 0.3 +     // 30% - time-weighted (late matters more)  
+    surpriseScore * 0.2 +         // 20% - outcome surprise
+    volatilityScore * 0.15 +      // 15% - momentum volatility
+    dramaScore * 0.15             // 15% - late game drama
+  );
+  
+  return excitement;
+}
+
+function generateUncertaintyAnalysis(metrics) {
+  const { avgUncertainty, timeWeightedUncertainty, outcomeSurprise, momentumVolatility, lateGameDrama, overtime } = metrics;
+  
+  let description = '';
+  let technical = '';
+  
   if (overtime) {
-    return `Overtime thriller with ${swings} major probability swings`;
-  } else if (swings >= 6) {
-    return `${swings} massive probability swings, ${Math.round(maxVariance)}% total variance`;
-  } else if (swings >= 4) {
-    return `${swings} significant momentum shifts throughout the game`;
-  } else if (fourthQuarter.swings >= 2) {
-    return `Fourth quarter drama with ${fourthQuarter.swings} late probability swings`;
-  } else if (swings >= 2) {
-    return `${swings} notable probability swings, competitive throughout`;
+    description = 'Overtime thriller with sustained uncertainty throughout regulation';
+    technical = `Avg uncertainty: ${Math.round(avgUncertainty)}%, Late drama: ${Math.round(lateGameDrama)}%`;
+  } else if (avgUncertainty < 15 && lateGameDrama < 20) {
+    description = 'Consistently close with high uncertainty throughout entire game';
+    technical = `Sustained uncertainty: ${Math.round(avgUncertainty)}%, Outcome surprise: ${Math.round(outcomeSurprise)}%`;
+  } else if (lateGameDrama > 25) {
+    description = 'Late-game drama with significant fourth quarter uncertainty';
+    technical = `4th quarter uncertainty: ${Math.round(lateGameDrama)}%, Final outcome surprise: ${Math.round(outcomeSurprise)}%`;
+  } else if (outcomeSurprise > 30) {
+    description = 'Surprising outcome defied probability predictions';
+    technical = `Outcome surprise: ${Math.round(outcomeSurprise)}%, Avg uncertainty: ${Math.round(avgUncertainty)}%`;
+  } else if (momentumVolatility > 4) {
+    description = 'Multiple momentum shifts created sustained drama';
+    technical = `Momentum volatility: ${Math.round(momentumVolatility)}, Time-weighted uncertainty: ${Math.round(timeWeightedUncertainty)}%`;
   } else {
-    return 'Relatively steady probability throughout, limited variance';
+    description = 'Moderate uncertainty with some competitive moments';
+    technical = `Avg uncertainty: ${Math.round(avgUncertainty)}%, Late drama: ${Math.round(lateGameDrama)}%`;
   }
+  
+  return { description, technical };
+}
+
+function findKeyUncertaintyMoments(probabilities) {
+  const moments = [];
+  
+  // Find the biggest probability swings
+  for (let i = 1; i < probabilities.length - 1; i++) {
+    const prevProb = probabilities[i - 1].probability;
+    const currProb = probabilities[i].probability;
+    const swing = Math.abs(currProb - prevProb);
+    
+    if (swing > 20) {
+      const period = probabilities[i].period;
+      const direction = currProb > prevProb ? 'increased' : 'decreased';
+      moments.push(`Q${period}: Probability ${direction} ${Math.round(swing)}% in key moment`);
+    }
+  }
+  
+  // Return top 3 moments
+  return moments.slice(0, 3);
 }
 
 function createBasicAnalysis(game) {
@@ -315,7 +413,7 @@ function createBasicAnalysis(game) {
   };
 }
 
-function createBasicVarianceAnalysis(game) {
+function createBasicUncertaintyAnalysis(game) {
   const margin = Math.abs(game.homeScore - game.awayScore);
   let excitement = margin <= 3 ? 7.5 : margin <= 7 ? 6.0 : margin <= 14 ? 4.5 : 2.5;
   if (game.overtime) excitement += 1.0;
@@ -323,7 +421,7 @@ function createBasicVarianceAnalysis(game) {
   return {
     excitement: Math.min(10.0, excitement),
     description: `${margin}-point game ${game.overtime ? 'with overtime' : ''}`,
-    analysis: 'Limited probability data available',
+    analysis: 'Limited probability data - score-based analysis',
     keyMoments: []
   };
 }
