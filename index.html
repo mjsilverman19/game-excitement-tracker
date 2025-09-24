@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Excitement Tracker - AI Powered</title>
+    <title>Game Excitement Tracker</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -29,16 +29,15 @@
             const [error, setError] = useState(null);
             const [analysisSource, setAnalysisSource] = useState('');
 
-            // Fetch game data using Claude API
+            // Fetch game data using ESPN win probability analysis
             const fetchGameData = async (date, sport) => {
                 setLoading(true);
                 setError(null);
                 setAnalysisSource('');
                 
-                console.log(`Analyzing ${sport} games for ${date} with Claude AI...`);
+                console.log(`Analyzing ${sport} games for ${date}...`);
                 
                 try {
-                    // Call your Vercel serverless function
                     const response = await fetch('/api/games', {
                         method: 'POST',
                         headers: {
@@ -55,7 +54,7 @@
                     }
 
                     const data = await response.json();
-                    console.log('Claude API Response:', data);
+                    console.log('API Response:', data);
 
                     if (!data.success) {
                         throw new Error(data.details || 'API call failed');
@@ -68,9 +67,8 @@
                         return;
                     }
 
-                    // Set the games and metadata
                     setGames(data.games);
-                    setAnalysisSource(data.metadata?.source || 'Claude AI Analysis');
+                    setAnalysisSource(data.metadata?.source || 'ESPN Analysis');
                     
                 } catch (error) {
                     console.error('Error fetching game data:', error);
@@ -147,14 +145,14 @@
                                 color: '#666', 
                                 margin: '0 0 5px 0'
                             }
-                        }, 'AI-powered win probability variance analysis'),
+                        }, 'Win probability variance analysis'),
                         analysisSource && React.createElement('div', {
                             style: {
                                 fontSize: '10px',
                                 color: '#888',
                                 marginTop: '5px'
                             }
-                        }, `🤖 ${analysisSource}`)
+                        }, analysisSource)
                     ),
                     
                     // Controls
@@ -313,7 +311,7 @@
                                 }, 'ANALYZING WIN PROBABILITY VARIANCE...'),
                                 React.createElement('div', {
                                     style: { fontSize: '11px', color: '#666' }
-                                }, 'Claude AI is searching ESPN for game data and momentum swings')
+                                }, 'Fetching ESPN game data and analyzing momentum swings')
                             )
                         : filteredGames.length === 0 ?
                             React.createElement('div', {
@@ -412,7 +410,7 @@
                                                     marginBottom: '8px',
                                                     fontWeight: 'bold'
                                                 }
-                                            }, `📊 ${game.description}`),
+                                            }, game.description),
                                             
                                             game.varianceAnalysis && React.createElement('div', {
                                                 style: {
@@ -420,7 +418,7 @@
                                                     color: '#666',
                                                     marginBottom: '8px'
                                                 }
-                                            }, `🔄 ${game.varianceAnalysis}`),
+                                            }, game.varianceAnalysis),
                                             
                                             game.keyMoments && game.keyMoments.length > 0 && React.createElement('div', {
                                                 style: {
@@ -444,7 +442,7 @@
                             )
                     ),
                     
-                    // Enhanced Rating Legend
+                    // Rating Legend
                     React.createElement('div', {
                         style: {
                             backgroundColor: '#fff',
@@ -458,7 +456,7 @@
                                 fontWeight: 'bold',
                                 margin: '0 0 10px 0'
                             }
-                        }, 'AI EXCITEMENT ANALYSIS:'),
+                        }, 'EXCITEMENT ANALYSIS:'),
                         React.createElement('div', {
                             style: { 
                                 display: 'grid',
@@ -541,7 +539,7 @@
                                 fontSize: '10px',
                                 color: '#666'
                             }
-                        }, '🤖 Claude AI analyzes ESPN win probability charts to identify games with high variance and dramatic momentum swings')
+                        }, 'Excitement ratings based on ESPN win probability variance analysis')
                     )
                 )
             );
