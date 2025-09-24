@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Excitement Tracker</title>
+    <title>Game Excitement Tracker - AI Powered</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -27,175 +27,58 @@
             const [games, setGames] = useState([]);
             const [loading, setLoading] = useState(false);
             const [error, setError] = useState(null);
+            const [analysisSource, setAnalysisSource] = useState('');
 
-            // Function to fetch REAL sports data from ESPN API
+            // Fetch game data using Claude API
             const fetchGameData = async (date, sport) => {
                 setLoading(true);
                 setError(null);
+                setAnalysisSource('');
                 
-                console.log(`Fetching ${sport} games for ${date}...`);
+                console.log(`Analyzing ${sport} games for ${date} with Claude AI...`);
                 
                 try {
-                    let apiUrl;
-                    if (sport === 'NFL') {
-                        // ESPN NFL API - free, no key needed
-                        const dateFormatted = date.replace(/-/g, '');
-                        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${dateFormatted}`;
-                    } else if (sport === 'NBA') {
-                        // ESPN NBA API
-                        const dateFormatted = date.replace(/-/g, '');
-                        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
-                    }
+                    // Call your Vercel serverless function
+                    const response = await fetch('/api/games', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            date: date,
+                            sport: sport
+                        })
+                    });
 
-                    console.log('Fetching from:', apiUrl);
-                    const response = await fetch(apiUrl);
-                    
                     if (!response.ok) {
                         throw new Error(`API Error: ${response.status}`);
                     }
 
                     const data = await response.json();
-                    console.log('ESPN API Response:', data);
-                    
-                    if (!data.events || data.events.length === 0) {
+                    console.log('Claude API Response:', data);
+
+                    if (!data.success) {
+                        throw new Error(data.details || 'API call failed');
+                    }
+
+                    if (!data.games || data.games.length === 0) {
                         setError(`No ${sport} games found for ${date}`);
                         setGames([]);
+                        setAnalysisSource('No games found');
                         return;
                     }
 
-                    // Process ESPN data into our format
-                    const transformedGames = data.events.map((event, index) => {
-                        const competition = event.competitions[0];
-                        const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
-                        const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
-                        
-                        const homeScore = parseInt(homeTeam?.score || 0);
-                        const awayScore = parseInt(awayTeam?.score || 0);
-                        const margin = Math.abs(homeScore - awayScore);
-                        const isCompleted = competition.status.type.completed;
-                        const isOvertime = competition.status.type.name.includes('OT');
-                        
-                        // Calculate excitement rating based on game
-                        let excitement = 5.0;
-                        if (isCompleted) {
-                            if (margin <= 3) excitement = 8.0 + Math.random() * 2;
-                            else if (margin <= 7) excitement = 6.5 + Math.random() * 1.5;
-                            else if (margin <= 14) excitement = 4.0 + Math.random() * 2.5;
-                            else excitement = 1.5 + Math.random() * 3;
-                            
-                            if (isOvertime) excitement += 1.0;
-                            excitement = Math.min(10.0, excitement);
-                        } else {
-                            // For in-progress or upcoming games, give neutral rating
-                            excitement = 5.0;
-                        }
-
-                        const descriptions = [
-                            `${margin <= 3 ? 'Nail-biter finish' : 'Decisive victory'}`,
-                            `${isOvertime ? 'Overtime thriller' : margin <= 7 ? 'Close battle' : 'Controlled win'}`,
-                            `${margin >= 20 ? 'Dominant performance' : 'Competitive matchup'}`,
-                            `${isCompleted ? 'Final score' : 'Game in progress'}`
-                        ];
-
-                        return {
-                            id: `${sport}-${date}-${index}`,
-                            homeTeam: homeTeam?.team.location || 'Home',
-                            awayTeam: awayTeam?.team.location || 'Away',
-                            excitement: Math.round(excitement * 10) / 10,
-                            homeScore: homeScore,
-                            awayScore: awayScore,
-                            overtime: isOvertime,
-                            description: descriptions[Math.floor(Math.random() * descriptions.length)],
-                            status: competition.status.type.description
-                        };
-                    });
-
-                    console.log('Transformed games:', transformedGames);
-                    setGames(transformedGames);
+                    // Set the games and metadata
+                    setGames(data.games);
+                    setAnalysisSource(data.metadata?.source || 'Claude AI Analysis');
                     
                 } catch (error) {
-                    console.error('Error fetching games:', error);
-                    setError(`Failed to load ${sport} games for ${date}. API may be unavailable.`);
-                    
-                    // Fallback to realistic sample data
-                    generateFallbackData(date, sport);
+                    console.error('Error fetching game data:', error);
+                    setError(`Failed to analyze ${sport} games for ${date}: ${error.message}`);
+                    setGames([]);
                 } finally {
                     setLoading(false);
                 }
-            };
-
-            // Fallback data generator (your existing simulation code)
-            const generateFallbackData = (date, sport) => {
-                const dateObj = new Date(date);
-                const dayOfWeek = dateObj.getDay();
-                
-                let sampleGames = [];
-                
-                if (sport === 'NFL') {
-                    if (![0, 1, 4, 6].includes(dayOfWeek)) {
-                        setGames([]);
-                        return;
-                    }
-                    
-                    const nflMatchups = [
-                        ['Kansas City', 'Buffalo'], ['Philadelphia', 'Dallas'], ['San Francisco', 'Seattle'],
-                        ['Miami', 'New England'], ['Baltimore', 'Pittsburgh'], ['Green Bay', 'Minnesota'],
-                        ['Los Angeles', 'Las Vegas'], ['Tampa Bay', 'Atlanta'], ['Denver', 'Arizona']
-                    ];
-                    
-                    sampleGames = nflMatchups.slice(0, 6).map(([away, home], index) => {
-                        const awayScore = Math.floor(Math.random() * 25) + 10;
-                        const homeScore = Math.floor(Math.random() * 25) + 10;
-                        const margin = Math.abs(awayScore - homeScore);
-                        const overtime = Math.random() < 0.1;
-                        
-                        let excitement = margin <= 3 ? 8.5 : margin <= 7 ? 7.0 : margin <= 14 ? 5.5 : 3.0;
-                        if (overtime) excitement += 1.0;
-                        excitement = Math.min(10.0, excitement + Math.random() - 0.5);
-                        
-                        return {
-                            id: `fallback-${index}`,
-                            homeTeam: home,
-                            awayTeam: away,
-                            excitement: Math.round(excitement * 10) / 10,
-                            homeScore: awayScore,
-                            awayScore: homeScore,
-                            overtime,
-                            description: `Simulated: ${margin <= 3 ? 'Close finish' : 'Solid victory'}`,
-                            status: 'Final'
-                        };
-                    });
-                } else if (sport === 'NBA') {
-                    const nbaMatchups = [
-                        ['Golden State', 'LA Lakers'], ['Boston', 'Miami'], ['Milwaukee', 'Chicago'],
-                        ['Denver', 'Phoenix'], ['Dallas', 'San Antonio'], ['Memphis', 'New Orleans']
-                    ];
-                    
-                    sampleGames = nbaMatchups.slice(0, 4).map(([away, home], index) => {
-                        const awayScore = Math.floor(Math.random() * 30) + 100;
-                        const homeScore = Math.floor(Math.random() * 30) + 100;
-                        const margin = Math.abs(awayScore - homeScore);
-                        const overtime = Math.random() < 0.08;
-                        
-                        let excitement = margin <= 5 ? 8.5 : margin <= 10 ? 7.0 : margin <= 18 ? 5.5 : 3.5;
-                        if (overtime) excitement += 1.0;
-                        excitement = Math.min(10.0, excitement + Math.random() - 0.5);
-                        
-                        return {
-                            id: `fallback-${index}`,
-                            homeTeam: home,
-                            awayTeam: away,
-                            excitement: Math.round(excitement * 10) / 10,
-                            homeScore: awayScore,
-                            awayScore: homeScore,
-                            overtime,
-                            description: `Simulated: ${margin <= 5 ? 'Buzzer beater' : 'Strong finish'}`,
-                            status: 'Final'
-                        };
-                    });
-                }
-                
-                setGames(sampleGames);
             };
 
             useEffect(() => {
@@ -262,9 +145,16 @@
                             style: { 
                                 fontSize: '14px', 
                                 color: '#666', 
-                                margin: '0'
+                                margin: '0 0 5px 0'
                             }
-                        }, 'Find the best games without spoilers')
+                        }, 'AI-powered win probability variance analysis'),
+                        analysisSource && React.createElement('div', {
+                            style: {
+                                fontSize: '10px',
+                                color: '#888',
+                                marginTop: '5px'
+                            }
+                        }, `🤖 ${analysisSource}`)
                     ),
                     
                     // Controls
@@ -331,7 +221,8 @@
                                     }
                                 },
                                     React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                    React.createElement('option', { value: 'NBA' }, 'NBA')
+                                    React.createElement('option', { value: 'NBA' }, 'NBA'),
+                                    React.createElement('option', { value: 'MLB' }, 'MLB')
                                 )
                             ),
                             React.createElement('div', null,
@@ -367,7 +258,7 @@
                                         cursor: loading ? 'not-allowed' : 'pointer',
                                         fontFamily: 'inherit'
                                     }
-                                }, loading ? 'LOADING...' : 'REFRESH')
+                                }, loading ? 'ANALYZING...' : 'REFRESH')
                             )
                         ),
                         
@@ -418,8 +309,11 @@
                                 }
                             },
                                 React.createElement('div', {
-                                    style: { fontSize: '14px', fontWeight: 'bold' }
-                                }, 'LOADING GAMES...')
+                                    style: { fontSize: '14px', fontWeight: 'bold', marginBottom: '10px' }
+                                }, 'ANALYZING WIN PROBABILITY VARIANCE...'),
+                                React.createElement('div', {
+                                    style: { fontSize: '11px', color: '#666' }
+                                }, 'Claude AI is searching ESPN for game data and momentum swings')
                             )
                         : filteredGames.length === 0 ?
                             React.createElement('div', {
@@ -509,21 +403,48 @@
                                                     fontWeight: 'bold',
                                                     marginBottom: '10px'
                                                 }
-                                            }, `${game.status}: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`),
+                                            }, `FINAL: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`),
+                                            
                                             game.description && React.createElement('div', {
                                                 style: {
                                                     fontSize: '12px',
-                                                    color: '#666',
-                                                    fontStyle: 'italic'
+                                                    color: '#333',
+                                                    marginBottom: '8px',
+                                                    fontWeight: 'bold'
                                                 }
-                                            }, game.description)
+                                            }, `📊 ${game.description}`),
+                                            
+                                            game.varianceAnalysis && React.createElement('div', {
+                                                style: {
+                                                    fontSize: '11px',
+                                                    color: '#666',
+                                                    marginBottom: '8px'
+                                                }
+                                            }, `🔄 ${game.varianceAnalysis}`),
+                                            
+                                            game.keyMoments && game.keyMoments.length > 0 && React.createElement('div', {
+                                                style: {
+                                                    fontSize: '10px',
+                                                    color: '#888'
+                                                }
+                                            },
+                                                React.createElement('div', { 
+                                                    style: { fontWeight: 'bold', marginBottom: '4px' } 
+                                                }, 'KEY MOMENTS:'),
+                                                game.keyMoments.map((moment, index) => 
+                                                    React.createElement('div', { 
+                                                        key: index,
+                                                        style: { marginLeft: '8px' }
+                                                    }, `• ${moment}`)
+                                                )
+                                            )
                                         )
                                     )
                                 )
                             )
                     ),
                     
-                    // Rating Legend
+                    // Enhanced Rating Legend
                     React.createElement('div', {
                         style: {
                             backgroundColor: '#fff',
@@ -537,7 +458,7 @@
                                 fontWeight: 'bold',
                                 margin: '0 0 10px 0'
                             }
-                        }, 'RATING GUIDE:'),
+                        }, 'AI EXCITEMENT ANALYSIS:'),
                         React.createElement('div', {
                             style: { 
                                 display: 'grid',
@@ -556,7 +477,8 @@
                                         marginBottom: '5px'
                                     }
                                 }, '8.5-10'),
-                                React.createElement('div', null, 'MUST WATCH')
+                                React.createElement('div', null, 'MUST WATCH'),
+                                React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'High variance')
                             ),
                             React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
@@ -568,7 +490,8 @@
                                         marginBottom: '5px'
                                     }
                                 }, '7.0-8.4'),
-                                React.createElement('div', null, 'GREAT')
+                                React.createElement('div', null, 'GREAT'),
+                                React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Many swings')
                             ),
                             React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
@@ -580,7 +503,8 @@
                                         marginBottom: '5px'
                                     }
                                 }, '6.0-6.9'),
-                                React.createElement('div', null, 'GOOD')
+                                React.createElement('div', null, 'GOOD'),
+                                React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Some drama')
                             ),
                             React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
@@ -592,7 +516,8 @@
                                         marginBottom: '5px'
                                     }
                                 }, '5.0-5.9'),
-                                React.createElement('div', null, 'OK')
+                                React.createElement('div', null, 'OK'),
+                                React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Steady game')
                             ),
                             React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
@@ -604,9 +529,19 @@
                                         marginBottom: '5px'
                                     }
                                 }, '0-4.9'),
-                                React.createElement('div', null, 'SKIP')
+                                React.createElement('div', null, 'SKIP'),
+                                React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Low variance')
                             )
-                        )
+                        ),
+                        React.createElement('div', {
+                            style: {
+                                marginTop: '15px',
+                                padding: '10px',
+                                backgroundColor: '#f5f5f5',
+                                fontSize: '10px',
+                                color: '#666'
+                            }
+                        }, '🤖 Claude AI analyzes ESPN win probability charts to identify games with high variance and dramatic momentum swings')
                     )
                 )
             );
