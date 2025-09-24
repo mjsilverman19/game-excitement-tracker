@@ -1,198 +1,145 @@
-// File: /api/games.js - Redis caching version
+// /api/games.js — last 7 days, single cached analysis per sport
+import { Redis } from "@upstash/redis";
+const redis = Redis.fromEnv();
 
-import { Redis } from '@upstash/redis'
-
-const redis = Redis.fromEnv()
+const TTL = 60 * 60 * 12; // 12h cache
 
 export default async function handler(req, res) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+  const { sport = "NFL" } = req.body || {};
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  // Compute last 7 full calendar days in UTC: [end-6, end]
+  const end = new Date();                      // now
+  end.setUTCHours(0, 0, 0, 0);                 // start of today UTC
+  const start = new Date(end);
+  start.setUTCDate(end.getUTCDate() - 7);      // last 7 full days
 
-  const { date, sport } = req.body;
-
-  if (!date || !sport) {
-    return res.status(400).json({ error: 'Date and sport are required' });
-  }
+  const rangeKey = `${iso(start)}_${iso(sub(end,1))}`; // e.g., 2025-09-16_2025-09-22
+  const cacheKey = `games:${sport}:last7:${rangeKey}`;
 
   try {
-    console.log(`Checking Redis cache for ${sport} games on ${date}...`);
-    
-    // Check cache first
-    const cacheKey = `games:${sport}:${date}`;
-    const cachedData = await redis.get(cacheKey);
-    
-    if (cachedData) {
-      console.log('Cache hit! Serving cached data');
+    const cached = await redis.get(cacheKey);
+    if (cached) {
       return res.status(200).json({
         success: true,
-        games: cachedData.games,
-        metadata: {
-          ...cachedData.metadata,
-          source: 'Cached Claude Analysis',
-          cached: true,
-          cacheTime: cachedData.timestamp
-        }
+        games: cached.games,
+        metadata: { ...cached.metadata, cached: true, source: "Redis", range: rangeKey },
       });
     }
 
-    console.log('Cache miss. Running Claude analysis...');
-    
-    // No cache - run Claude analysis
-    const analysisResult = await runClaudeAnalysis(date, sport);
-    
-    if (analysisResult.success) {
-      // Cache the results for 24 hours
-      const cacheData = {
-        games: analysisResult.games,
-        metadata: analysisResult.metadata,
-        timestamp: new Date().toISOString()
-      };
-      
-      await redis.setex(cacheKey, 86400, JSON.stringify(cacheData)); // 24 hours
-      console.log(`Cached results for ${cacheKey}`);
-    }
-    
-    return res.status(200).json(analysisResult);
+    const analysis = await runClaudeAnalysisLast7(sport, start, end);
 
-  } catch (error) {
-    console.error('Error in games API:', error);
-    
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch game data',
-      details: error.message,
-      games: []
-    });
+    const payload = {
+      games: analysis.games,
+      metadata: {
+        sport,
+        range: rangeKey,
+        source: "Claude AI + WP variance",
+        gameCount: analysis.games.length,
+        analyzedAt: new Date().toISOString(),
+      },
+    };
+
+    await redis.set(cacheKey, payload, { ex: TTL });
+    return res.status(200).json({ success: true, ...payload });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ success: false, error: String(e), games: [] });
   }
 }
 
-async function runClaudeAnalysis(date, sport) {
-  console.log(`Running Claude analysis for ${sport} games on ${date}...`);
+// ---- AI analysis for a range (one call) ----
+async function runClaudeAnalysisLast7(sport, startDate, endDate) {
+  const dateRange = `${iso(startDate)} to ${iso(sub(endDate,1))}`;
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'x-api-key': process.env.ANTHROPIC_API_KEY
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4000,
-        messages: [
-          {
-            role: 'user',
-            content: `Analyze ALL ${sport} games played on ${date}. This is for a sports excitement tracking app.
+  const prompt = `
+You are helping build a sports excitement tracker.
 
-TASK: For each completed game, find ESPN or sports site data and analyze win probability variance throughout the game.
+Look at all ${sport} games played from ${dateRange}. Imagine you are viewing each game's ESPN win probability chart.
+Judge excitement from volatility: big swings, multiple 50% crossings, late-game flips, and overtime.
 
-Rate excitement 1-10 based on WIN PROBABILITY VARIANCE:
-- HIGH variance (6+ major swings, lead changes): 8-10 rating
-- MODERATE variance (3-5 swings): 6-8 rating  
-- LOW variance (1-2 swings): 4-6 rating
-- MINIMAL variance (blowout): 1-3 rating
+Rate 1–10:
+- 8–10: chaotic chart, many swings and late drama
+- 6–8: several swings or a notable comeback
+- 4–6: modest movement
+- 1–3: steady blowout
 
-Bonuses: Overtime +1, final 2-min drama +0.5-1, major comeback +1.5
+Bonuses: +1 overtime, +0.5–1 for final 2-minute drama, +1.5 major comeback.
 
-For each game, analyze:
-1. How many times win probability shifted significantly (20%+ swings)
-2. Lead changes throughout the game
-3. Critical momentum-shifting moments
-4. 4th quarter/final minutes drama
+Respond with JSON ONLY:
 
-Return comprehensive analysis for ALL games that day.
-
-Respond with ONLY this JSON (no other text):
 {
   "games": [
     {
-      "homeTeam": "Las Vegas", 
-      "awayTeam": "LA Rams",
-      "homeScore": 17,
-      "awayScore": 16, 
-      "excitement": 9.2,
+      "date": "YYYY-MM-DD",
+      "homeTeam": "Team",
+      "awayTeam": "Team",
+      "homeScore": 0,
+      "awayScore": 0,
+      "excitement": 0.0,
       "overtime": false,
-      "description": "6 major probability swings, game-winning FG with 0:03 left",
-      "varianceAnalysis": "Win probability: 65% Rams → 25% → 80% → 30% → 75% → 20% → 85% Raiders",
-      "keyMoments": ["Pick-6 flipped 40% probability", "Missed FG opened door", "Final drive TD"]
+      "description": "one terse English sentence about the ride",
+      "varianceAnalysis": "short string describing swings/crossings",
+      "keyMoments": ["bullet", "bullet"]
     }
   ]
 }
+If no games, return {"games": []}.
+`.trim();
 
-Find ALL games from ${date}. If none: {"games": []}`
-          }
-        ]
-      })
-    });
+  const r = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "anthropic-version": "2023-06-01",
+      "x-api-key": process.env.ANTHROPIC_API_KEY,
+    },
+    body: JSON.stringify({
+      model: "claude-3-5-sonnet-20240620",
+      max_tokens: 4000,
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Claude API error:', response.status, errorText);
-      throw new Error(`Claude API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    let responseText = data.content[0].text;
-
-    // Extract JSON from response
-    const jsonBlockMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/);
-    if (jsonBlockMatch) {
-      responseText = jsonBlockMatch[1].trim();
-    } else {
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        responseText = jsonMatch[0];
-      }
-    }
-
-    const gameData = JSON.parse(responseText);
-
-    if (!gameData || !Array.isArray(gameData.games)) {
-      throw new Error('Invalid response format');
-    }
-
-    // Process games
-    const processedGames = gameData.games.map((game, index) => ({
-      id: `cached-${date}-${index}`,
-      homeTeam: game.homeTeam || 'Unknown',
-      awayTeam: game.awayTeam || 'Unknown',
-      homeScore: parseInt(game.homeScore) || 0,
-      awayScore: parseInt(game.awayScore) || 0,
-      excitement: Math.round(parseFloat(game.excitement || 5.0) * 10) / 10,
-      overtime: Boolean(game.overtime),
-      description: game.description || 'Game completed',
-      varianceAnalysis: game.varianceAnalysis || 'Analysis pending',
-      keyMoments: game.keyMoments || [],
-      source: 'Claude AI + Win Probability Analysis'
-    }));
-
-    return {
-      success: true,
-      games: processedGames,
-      metadata: {
-        date: date,
-        sport: sport,
-        source: 'Claude AI + Win Probability Analysis',
-        analysisType: 'Cached Win Probability Variance',
-        gameCount: processedGames.length,
-        analysisTime: new Date().toISOString()
-      }
-    };
-
-  } catch (error) {
-    console.error('Claude analysis failed:', error);
-    throw error;
+  if (!r.ok) {
+    const t = await r.text();
+    throw new Error(`Claude API ${r.status}: ${t}`);
   }
+
+  const data = await r.json();
+  let text = data?.content?.[0]?.text ?? "";
+  // strip fences if present
+  const fenced = text.match(/```json\s*([\s\S]*?)\s*```/);
+  if (fenced) text = fenced[1].trim();
+  const jsonish = text.match(/\{[\s\S]*\}/)?.[0] ?? "{}";
+  const parsed = JSON.parse(jsonish);
+
+  const games = Array.isArray(parsed.games) ? parsed.games : [];
+  const normalized = games.map((g, i) => ({
+    id: `last7-${iso(startDate)}-${i}`,
+    date: g.date || null,
+    homeTeam: g.homeTeam ?? "Unknown",
+    awayTeam: g.awayTeam ?? "Unknown",
+    homeScore: toInt(g.homeScore),
+    awayScore: toInt(g.awayScore),
+    excitement: toFloat(g.excitement, 5.0),
+    overtime: Boolean(g.overtime),
+    description: g.description || "",
+    varianceAnalysis: g.varianceAnalysis || "",
+    keyMoments: Array.isArray(g.keyMoments) ? g.keyMoments : [],
+    source: "Claude AI",
+  }));
+
+  return { games: normalized };
 }
+
+// ---- helpers ----
+function iso(d) { return new Date(d).toISOString().slice(0, 10); }
+function sub(d, days) { const x = new Date(d); x.setUTCDate(x.getUTCDate() - days); return x; }
+function toInt(v) { const n = parseInt(v, 10); return Number.isFinite(n) ? n : 0; }
+function toFloat(v, def) { const n = parseFloat(v); return Number.isFinite(n) ? Math.round(n*10)/10 : def; }
