@@ -1,1 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Excitement Tracker</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
+        const GameExcitementTracker = () => {
+            const [selectedDate, setSelectedDate] = useState(() => {
+                const today = new Date();
+                const yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+                return yesterday.toISOString().split('T')[0];
+            });
+            const [minRating, setMinRating] = useState(0);
+            const [showScores, setShowScores] = useState({});
+            const [selectedSport, setSelectedSport] = useState('NFL');
+            const [games, setGames] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState(null);
+
+            // Function to fetch REAL sports data from ESPN API
+            const fetchGameData = async (date, sport) => {
+                setLoading(true);
+                setError(null);
+                
+                console.log(`Fetching ${sport} games for ${date}...`);
+                
+                try {
+                    let apiUrl;
+                    if (sport === 'NFL') {
+                        // ESPN NFL API - free, no key needed
+                        const dateFormatted = date.replace(/-/g, '');
+                        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${dateFormatted}`;
+                    } else if (sport === 'NBA') {
+                        // ESPN NBA API
+                        const dateFormatted = date.replace(/-/g, '');
+                        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
+                    }
+
+                    console.log('Fetching from:', apiUrl);
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('ESPN API Response:', data);
+                    
+                    if (!data.events || data.events.length === 0) {
+                        setError(`No ${sport} games found for ${date}`);
+                        setGames([]);
+                        return;
+                    }
+
+                    // Process ESPN data into our format
+                    const transformedGames = data.events.map((event, index) => {
+                        const competition = event.competitions[0];
+                        const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
+                        const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
+                        
+                        const homeScore = parseInt(homeTeam?.score || 0);
+                        const awayScore = parseInt(awayTeam?.score || 0);
+                        const margin = Math.abs(homeScore - awayScore);
+                        const isCompleted = competition.status.type.completed;
+                        const isOvertime = competition.status.type.name.includes('OT');
+                        
+                        // Calculate excitement rating based on game
+                        let excitement = 5.0;
+                        if (isCompleted) {
+                            if (margin <= 3) excitement = 8.0 + Math.random() * 2;
+                            else if (margin <= 7) excitement = 6.5 + Math.random() * 1.5;
+                            else if (margin <= 14) excitement = 4.0 + Math.random() * 2.5;
+                            else excitement = 1.5 + Math.random() * 3;
+                            
+                            if (isOvertime) excitement += 1.0;
+                            excitement = Math.min(10.0, excitement);
+                        } else {
+                            // For in-progress or upcoming games, give neutral rating
+                            excitement = 5.0;
+                        }
+
+                        const descriptions = [
+                            `${margin <= 3 ? 'Nail-biter finish' : 'Decisive victory'}`,
+                            `${isOvertime ? 'Overtime thriller' : margin <= 7 ? 'Close battle' : 'Controlled win'}`,
+                            `${margin >= 20 ? 'Dominant performance' : 'Competitive matchup'}`,
+                            `${isCompleted ? 'Final score' : 'Game in progress'}`
+                        ];
+
+                        return {
+                            id: `${sport}-${date}-${index}`,
+                            homeTeam: homeTeam?.team.location || 'Home',
+                            awayTeam: awayTeam?.team.location || 'Away',
+                            excitement: Math.round(excitement * 10) / 10,
+                            homeScore: homeScore,
+                            awayScore: awayScore,
+                            overtime: isOvertime,
+                            description: descriptions[Math.floor(Math.random() * descriptions.length)],
+                            status: competition.status.type.description
+                        };
+                    });
+
+                    console.log('Transformed games:', transformedGames);
+                    setGames(transformedGames);
+                    
+                } catch (error) {
+                    console.error('Error fetching games:', error);
+                    setError(`Failed to load ${sport} games for ${date}. API may be unavailable.`);
+                    
+                    // Fallback to realistic sample data
+                    generateFallbackData(date, sport);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Fallback data generator (your existing simulation code)
+            const generateFallbackData = (date, sport) => {
+                const dateObj = new Date(date);
+                const dayOfWeek = dateObj.getDay();
+                
+                let sampleGames = [];
+                
+                if (sport === 'NFL') {
+                    if (![0, 1, 4, 6].includes(dayOfWeek)) {
+                        setGames([]);
+                        return;
+                    }
+                    
+                    const nflMatchups = [
+                        ['Kansas City', 'Buffalo'], ['Philadelphia', 'Dallas'], ['San Francisco', 'Seattle'],
+                        ['Miami', 'New England'], ['Baltimore', 'Pittsburgh'], ['Green Bay', 'Minnesota'],
+                        ['Los Angeles', 'Las Vegas'], ['Tampa Bay', 'Atlanta'], ['Denver', 'Arizona']
+                    ];
+                    
+                    sampleGames = nflMatchups.slice(0, 6).map(([away, home], index) => {
+                        const awayScore = Math.floor(Math.random() * 25) + 10;
+                        const homeScore = Math.floor(Math.random() * 25) + 10;
+                        const margin = Math.abs(awayScore - homeScore);
+                        const overtime = Math.random() < 0.1;
+                        
+                        let excitement = margin <= 3 ? 8.5 : margin <= 7 ? 7.0 : margin <= 14 ? 5.5 : 3.0;
+                        if (overtime) excitement += 1.0;
+                        excitement = Math.min(10.0, excitement + Math.random() - 0.5);
+                        
+                        return {
+                            id: `fallback-${index}`,
+                            homeTeam: home,
+                            awayTeam: away,
+                            excitement: Math.round(excitement * 10) / 10,
+                            homeScore: awayScore,
+                            awayScore: homeScore,
+                            overtime,
+                            description: `Simulated: ${margin <= 3 ? 'Close finish' : 'Solid victory'}`,
+                            status: 'Final'
+                        };
+                    });
+                } else if (sport === 'NBA') {
+                    const nbaMatchups = [
+                        ['Golden State', 'LA Lakers'], ['Boston', 'Miami'], ['Milwaukee', 'Chicago'],
+                        ['Denver', 'Phoenix'], ['Dallas', 'San Antonio'], ['Memphis', 'New Orleans']
+                    ];
+                    
+                    sampleGames = nbaMatchups.slice(0, 4).map(([away, home], index) => {
+                        const awayScore = Math.floor(Math.random() * 30) + 100;
+                        const homeScore = Math.floor(Math.random() * 30) + 100;
+                        const margin = Math.abs(awayScore - homeScore);
+                        const overtime = Math.random() < 0.08;
+                        
+                        let excitement = margin <= 5 ? 8.5 : margin <= 10 ? 7.0 : margin <= 18 ? 5.5 : 3.5;
+                        if (overtime) excitement += 1.0;
+                        excitement = Math.min(10.0, excitement + Math.random() - 0.5);
+                        
+                        return {
+                            id: `fallback-${index}`,
+                            homeTeam: home,
+                            awayTeam: away,
+                            excitement: Math.round(excitement * 10) / 10,
+                            homeScore: awayScore,
+                            awayScore: homeScore,
+                            overtime,
+                            description: `Simulated: ${margin <= 5 ? 'Buzzer beater' : 'Strong finish'}`,
+                            status: 'Final'
+                        };
+                    });
+                }
+                
+                setGames(sampleGames);
+            };
+
+            useEffect(() => {
+                setGames([]);
+                setShowScores({});
+                setError(null);
+                fetchGameData(selectedDate, selectedSport);
+            }, [selectedDate, selectedSport]);
+
+            const getRatingColor = (rating) => {
+                if (rating >= 8.5) return '#ff0000';
+                if (rating >= 7) return '#ff8800';
+                if (rating >= 6) return '#ffcc00';
+                if (rating >= 5) return '#0088ff';
+                return '#888888';
+            };
+
+            const getRatingLabel = (rating) => {
+                if (rating >= 8.5) return 'MUST WATCH';
+                if (rating >= 7) return 'GREAT';
+                if (rating >= 6) return 'GOOD';
+                if (rating >= 5) return 'OK';
+                return 'SKIP';
+            };
+
+            const filteredGames = games.filter(game => game.excitement >= minRating);
+
+            const toggleScore = (gameId) => {
+                setShowScores(prev => ({
+                    ...prev,
+                    [gameId]: !prev[gameId]
+                }));
+            };
+
+            const formatDate = (dateStr) => {
+                const date = new Date(dateStr + 'T00:00:00');
+                return date.toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            };
+
+            return React.createElement('div', {
+                style: { 
+                    fontFamily: 'Monaco, "Courier New", monospace',
+                    backgroundColor: '#f0f0f0',
+                    minHeight: '100vh',
+                    padding: '20px'
+                }
+            }, 
+                React.createElement('div', { style: { maxWidth: '800px', margin: '0 auto' } },
+                    // Header
+                    React.createElement('div', { style: { textAlign: 'center', marginBottom: '30px' } },
+                        React.createElement('h1', {
+                            style: { 
+                                fontSize: '24px', 
+                                fontWeight: 'bold', 
+                                margin: '0 0 10px 0',
+                                color: '#000'
+                            }
+                        }, 'GAME EXCITEMENT TRACKER'),
+                        React.createElement('p', {
+                            style: { 
+                                fontSize: '14px', 
+                                color: '#666', 
+                                margin: '0'
+                            }
+                        }, 'Find the best games without spoilers')
+                    ),
+                    
+                    // Controls
+                    React.createElement('div', {
+                        style: { 
+                            backgroundColor: '#fff',
+                            border: '2px solid #000',
+                            padding: '15px',
+                            marginBottom: '20px'
+                        }
+                    },
+                        React.createElement('div', {
+                            style: { 
+                                display: 'grid', 
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                                gap: '15px',
+                                alignItems: 'end'
+                            }
+                        },
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'DATE:'),
+                                React.createElement('input', {
+                                    type: 'date',
+                                    value: selectedDate,
+                                    onChange: (e) => {
+                                        console.log('Date changed to:', e.target.value);
+                                        setSelectedDate(e.target.value);
+                                    },
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit'
+                                    }
+                                })
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'SPORT:'),
+                                React.createElement('select', {
+                                    value: selectedSport,
+                                    onChange: (e) => setSelectedSport(e.target.value),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit',
+                                        backgroundColor: '#fff'
+                                    }
+                                },
+                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
+                                    React.createElement('option', { value: 'NBA' }, 'NBA')
+                                )
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, `MIN RATING: ${minRating}`),
+                                React.createElement('input', {
+                                    type: 'range',
+                                    min: '0',
+                                    max: '10',
+                                    step: '0.5',
+                                    value: minRating,
+                                    onChange: (e) => setMinRating(parseFloat(e.target.value)),
+                                    style: { width: '100%' }
+                                })
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('button', {
+                                    onClick: () => fetchGameData(selectedDate, selectedSport),
+                                    disabled: loading,
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '2px solid #000',
+                                        backgroundColor: loading ? '#ccc' : '#fff',
+                                        fontSize: '12px',
+                                        fontWeight: 'bold',
+                                        cursor: loading ? 'not-allowed' : 'pointer',
+                                        fontFamily: 'inherit'
+                                    }
+                                }, loading ? 'LOADING...' : 'REFRESH')
+                            )
+                        ),
+                        
+                        error && React.createElement('div', {
+                            style: {
+                                marginTop: '15px',
+                                padding: '10px',
+                                backgroundColor: '#ffffcc',
+                                border: '1px solid #000',
+                                fontSize: '12px'
+                            }
+                        }, error)
+                    ),
+                    
+                    // Games Header
+                    React.createElement('div', {
+                        style: { 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center',
+                            marginBottom: '15px'
+                        }
+                    },
+                        React.createElement('h2', {
+                            style: { 
+                                fontSize: '16px', 
+                                fontWeight: 'bold',
+                                margin: '0'
+                            }
+                        }, `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`),
+                        React.createElement('div', {
+                            style: { 
+                                fontSize: '12px', 
+                                color: '#666'
+                            }
+                        }, `${filteredGames.length} GAMES`)
+                    ),
+                    
+                    // Games List
+                    React.createElement('div', { style: { marginBottom: '30px' } },
+                        loading ? 
+                            React.createElement('div', {
+                                style: {
+                                    backgroundColor: '#fff',
+                                    border: '2px solid #000',
+                                    padding: '40px',
+                                    textAlign: 'center'
+                                }
+                            },
+                                React.createElement('div', {
+                                    style: { fontSize: '14px', fontWeight: 'bold' }
+                                }, 'LOADING GAMES...')
+                            )
+                        : filteredGames.length === 0 ?
+                            React.createElement('div', {
+                                style: {
+                                    backgroundColor: '#fff',
+                                    border: '2px solid #000',
+                                    padding: '40px',
+                                    textAlign: 'center'
+                                }
+                            },
+                                React.createElement('div', {
+                                    style: { fontSize: '14px', color: '#666' }
+                                }, 'NO GAMES FOUND')
+                            )
+                        : filteredGames
+                            .sort((a, b) => b.excitement - a.excitement)
+                            .map((game) =>
+                                React.createElement('div', {
+                                    key: game.id,
+                                    style: {
+                                        backgroundColor: '#fff',
+                                        border: '2px solid #000',
+                                        marginBottom: '10px',
+                                        cursor: 'pointer'
+                                    },
+                                    onClick: () => toggleScore(game.id)
+                                },
+                                    React.createElement('div', { style: { padding: '15px' } },
+                                        React.createElement('div', {
+                                            style: { 
+                                                display: 'flex', 
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center'
+                                            }
+                                        },
+                                            React.createElement('div', {
+                                                style: { 
+                                                    fontSize: '14px', 
+                                                    fontWeight: 'bold'
+                                                }
+                                            }, `${game.awayTeam} @ ${game.homeTeam}`),
+                                            React.createElement('div', {
+                                                style: { 
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '15px'
+                                                }
+                                            },
+                                                React.createElement('div', { style: { textAlign: 'right' } },
+                                                    React.createElement('div', {
+                                                        style: {
+                                                            backgroundColor: getRatingColor(game.excitement),
+                                                            color: '#fff',
+                                                            padding: '4px 8px',
+                                                            fontSize: '12px',
+                                                            fontWeight: 'bold',
+                                                            border: '1px solid #000'
+                                                        }
+                                                    }, `${game.excitement}/10`),
+                                                    React.createElement('div', {
+                                                        style: { 
+                                                            fontSize: '10px', 
+                                                            color: '#666',
+                                                            marginTop: '2px'
+                                                        }
+                                                    }, getRatingLabel(game.excitement))
+                                                ),
+                                                React.createElement('div', {
+                                                    style: {
+                                                        fontSize: '12px',
+                                                        color: '#666'
+                                                    }
+                                                }, showScores[game.id] ? '▼ HIDE' : '▶ SHOW')
+                                            )
+                                        ),
+                                        
+                                        showScores[game.id] && React.createElement('div', {
+                                            style: {
+                                                marginTop: '15px',
+                                                paddingTop: '15px',
+                                                borderTop: '1px solid #ccc'
+                                            }
+                                        },
+                                            React.createElement('div', {
+                                                style: {
+                                                    fontSize: '18px',
+                                                    fontWeight: 'bold',
+                                                    marginBottom: '10px'
+                                                }
+                                            }, `${game.status}: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`),
+                                            game.description && React.createElement('div', {
+                                                style: {
+                                                    fontSize: '12px',
+                                                    color: '#666',
+                                                    fontStyle: 'italic'
+                                                }
+                                            }, game.description)
+                                        )
+                                    )
+                                )
+                            )
+                    ),
+                    
+                    // Rating Legend
+                    React.createElement('div', {
+                        style: {
+                            backgroundColor: '#fff',
+                            border: '2px solid #000',
+                            padding: '15px'
+                        }
+                    },
+                        React.createElement('h3', {
+                            style: { 
+                                fontSize: '14px', 
+                                fontWeight: 'bold',
+                                margin: '0 0 10px 0'
+                            }
+                        }, 'RATING GUIDE:'),
+                        React.createElement('div', {
+                            style: { 
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                gap: '10px',
+                                fontSize: '11px'
+                            }
+                        },
+                            React.createElement('div', { style: { textAlign: 'center' } },
+                                React.createElement('div', {
+                                    style: {
+                                        backgroundColor: '#ff0000',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, '8.5-10'),
+                                React.createElement('div', null, 'MUST WATCH')
+                            ),
+                            React.createElement('div', { style: { textAlign: 'center' } },
+                                React.createElement('div', {
+                                    style: {
+                                        backgroundColor: '#ff8800',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, '7.0-8.4'),
+                                React.createElement('div', null, 'GREAT')
+                            ),
+                            React.createElement('div', { style: { textAlign: 'center' } },
+                                React.createElement('div', {
+                                    style: {
+                                        backgroundColor: '#ffcc00',
+                                        color: '#000',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, '6.0-6.9'),
+                                React.createElement('div', null, 'GOOD')
+                            ),
+                            React.createElement('div', { style: { textAlign: 'center' } },
+                                React.createElement('div', {
+                                    style: {
+                                        backgroundColor: '#0088ff',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, '5.0-5.9'),
+                                React.createElement('div', null, 'OK')
+                            ),
+                            React.createElement('div', { style: { textAlign: 'center' } },
+                                React.createElement('div', {
+                                    style: {
+                                        backgroundColor: '#888888',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, '0-4.9'),
+                                React.createElement('div', null, 'SKIP')
+                            )
+                        )
+                    )
+                )
+            );
+        };
+
+        ReactDOM.render(React.createElement(GameExcitementTracker), document.getElementById('root'));
+    </script>
+</body>
+</html>
