@@ -7,332 +7,6 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-        
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Orbitron', monospace;
-            overflow-x: hidden;
-        }
-
-        .field-background {
-            background: linear-gradient(135deg, 
-                #2d5a3d 0%, 
-                #3d7051 25%, 
-                #4a8660 50%, 
-                #3d7051 75%, 
-                #2d5a3d 100%);
-            position: relative;
-            min-height: 100vh;
-        }
-
-        .field-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(255,255,255,0.1) 48px, rgba(255,255,255,0.1) 50px),
-                repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.1) 48px, rgba(255,255,255,0.1) 50px);
-            pointer-events: none;
-        }
-
-        .scoreboard-container {
-            background: linear-gradient(135deg, #1a4a2e, #2d5a3d);
-            border: 3px solid #fff;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 2px 10px rgba(255,255,255,0.1);
-            margin: 20px;
-            overflow: hidden;
-        }
-
-        .scoreboard-header {
-            background: linear-gradient(135deg, #000, #333);
-            color: #00ff00;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 3px solid #fff;
-            position: relative;
-        }
-
-        .scoreboard-title {
-            font-size: 28px;
-            font-weight: 900;
-            text-shadow: 0 0 10px #00ff00, 2px 2px 4px #000;
-            letter-spacing: 2px;
-        }
-
-        .controls-panel {
-            background: linear-gradient(135deg, #1a4a2e, #2d5a3d);
-            padding: 20px;
-            border-bottom: 2px solid #fff;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .control-group {
-            background: rgba(0,0,0,0.3);
-            border: 2px solid #fff;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        .control-label {
-            color: #ffff00;
-            font-size: 14px;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px #000;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .control-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #333;
-            border-radius: 5px;
-            background: linear-gradient(135deg, #000, #222);
-            color: #00ff00;
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            font-size: 14px;
-            text-shadow: 0 0 5px #00ff00;
-        }
-
-        .control-input:focus {
-            outline: none;
-            border-color: #00ff00;
-            box-shadow: 0 0 10px #00ff00;
-        }
-
-        .refresh-button {
-            background: linear-gradient(135deg, #ff6600, #ff8800);
-            border: 3px solid #fff;
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
-            font-size: 14px;
-            padding: 12px;
-            cursor: pointer;
-            text-shadow: 1px 1px 2px #000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-        }
-
-        .refresh-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-        }
-
-        .refresh-button:disabled {
-            background: linear-gradient(135deg, #666, #888);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .games-header {
-            background: rgba(0,0,0,0.4);
-            color: #ffff00;
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px #000;
-        }
-
-        .game-card {
-            background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8));
-            border: 2px solid #fff;
-            border-radius: 10px;
-            margin: 10px 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .game-card:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            border-color: #00ff00;
-        }
-
-        .game-header {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(255,255,255,0.1), rgba(0,0,0,0.3));
-        }
-
-        .matchup {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            text-shadow: 1px 1px 3px #000;
-            letter-spacing: 1px;
-        }
-
-        .rating-display {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .rating-badge {
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-weight: 900;
-            font-size: 16px;
-            text-shadow: 1px 1px 2px #000;
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .rating-label {
-            font-size: 12px;
-            color: #ffff00;
-            text-shadow: 1px 1px 2px #000;
-            font-weight: 700;
-        }
-
-        .show-hide {
-            background: rgba(0,0,0,0.5);
-            color: #fff;
-            padding: 8px 15px;
-            border: 2px solid #fff;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px #000;
-        }
-
-        .game-details {
-            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,50,0,0.3));
-            padding: 20px;
-            border-top: 2px solid #00ff00;
-        }
-
-        .final-score {
-            font-size: 24px;
-            font-weight: 900;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00, 2px 2px 4px #000;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .ot-badge {
-            background: linear-gradient(135deg, #ff6600, #ff8800);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 900;
-            text-shadow: 1px 1px 2px #000;
-            border: 2px solid #fff;
-            margin-left: 15px;
-        }
-
-        .game-description {
-            color: #ccc;
-            font-style: italic;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-            text-shadow: 1px 1px 2px #000;
-        }
-
-        .loading-screen {
-            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,50,0,0.3));
-            border: 2px solid #fff;
-            border-radius: 10px;
-            margin: 20px;
-            padding: 60px;
-            text-align: center;
-        }
-
-        .loading-text {
-            color: #00ff00;
-            font-size: 20px;
-            font-weight: 900;
-            text-shadow: 0 0 15px #00ff00, 2px 2px 4px #000;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .legend {
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,50,0,0.3));
-            border: 2px solid #fff;
-            border-radius: 10px;
-            margin: 20px;
-            padding: 20px;
-        }
-
-        .legend-title {
-            color: #ffff00;
-            font-size: 18px;
-            font-weight: 900;
-            text-shadow: 1px 1px 3px #000;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .legend-item {
-            text-align: center;
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-
-        .legend-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 900;
-            font-size: 14px;
-            text-shadow: 1px 1px 2px #000;
-            border: 2px solid #fff;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
-
-        .legend-desc {
-            color: #ccc;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .error-message {
-            background: linear-gradient(135deg, #660000, #880000);
-            border: 2px solid #ff0000;
-            border-radius: 8px;
-            color: #fff;
-            padding: 15px;
-            margin: 15px 0;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px #000;
-        }
-    </style>
 </head>
 <body>
     <div id="root"></div>
@@ -364,9 +38,11 @@
                 try {
                     let apiUrl;
                     if (sport === 'NFL') {
+                        // ESPN NFL API - free, no key needed
                         const dateFormatted = date.replace(/-/g, '');
                         apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${dateFormatted}`;
                     } else if (sport === 'NBA') {
+                        // ESPN NBA API
                         const dateFormatted = date.replace(/-/g, '');
                         apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
                     }
@@ -387,6 +63,7 @@
                         return;
                     }
 
+                    // Process ESPN data into our format
                     const transformedGames = data.events.map((event, index) => {
                         const competition = event.competitions[0];
                         const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
@@ -398,6 +75,7 @@
                         const isCompleted = competition.status.type.completed;
                         const isOvertime = competition.status.type.name.includes('OT');
                         
+                        // Calculate excitement rating based on game
                         let excitement = 5.0;
                         if (isCompleted) {
                             if (margin <= 3) excitement = 8.0 + Math.random() * 2;
@@ -408,6 +86,7 @@
                             if (isOvertime) excitement += 1.0;
                             excitement = Math.min(10.0, excitement);
                         } else {
+                            // For in-progress or upcoming games, give neutral rating
                             excitement = 5.0;
                         }
 
@@ -436,13 +115,16 @@
                     
                 } catch (error) {
                     console.error('Error fetching games:', error);
-                    setError(`Failed to load ${sport} games for ${date}. Using sample data.`);
+                    setError(`Failed to load ${sport} games for ${date}. API may be unavailable.`);
+                    
+                    // Fallback to realistic sample data
                     generateFallbackData(date, sport);
                 } finally {
                     setLoading(false);
                 }
             };
 
+            // Fallback data generator (your existing simulation code)
             const generateFallbackData = (date, sport) => {
                 const dateObj = new Date(date);
                 const dayOfWeek = dateObj.getDay();
@@ -457,10 +139,11 @@
                     
                     const nflMatchups = [
                         ['Kansas City', 'Buffalo'], ['Philadelphia', 'Dallas'], ['San Francisco', 'Seattle'],
-                        ['Miami', 'New England'], ['Baltimore', 'Pittsburgh'], ['Green Bay', 'Minnesota']
+                        ['Miami', 'New England'], ['Baltimore', 'Pittsburgh'], ['Green Bay', 'Minnesota'],
+                        ['Los Angeles', 'Las Vegas'], ['Tampa Bay', 'Atlanta'], ['Denver', 'Arizona']
                     ];
                     
-                    sampleGames = nflMatchups.map(([away, home], index) => {
+                    sampleGames = nflMatchups.slice(0, 6).map(([away, home], index) => {
                         const awayScore = Math.floor(Math.random() * 25) + 10;
                         const homeScore = Math.floor(Math.random() * 25) + 10;
                         const margin = Math.abs(awayScore - homeScore);
@@ -482,6 +165,34 @@
                             status: 'Final'
                         };
                     });
+                } else if (sport === 'NBA') {
+                    const nbaMatchups = [
+                        ['Golden State', 'LA Lakers'], ['Boston', 'Miami'], ['Milwaukee', 'Chicago'],
+                        ['Denver', 'Phoenix'], ['Dallas', 'San Antonio'], ['Memphis', 'New Orleans']
+                    ];
+                    
+                    sampleGames = nbaMatchups.slice(0, 4).map(([away, home], index) => {
+                        const awayScore = Math.floor(Math.random() * 30) + 100;
+                        const homeScore = Math.floor(Math.random() * 30) + 100;
+                        const margin = Math.abs(awayScore - homeScore);
+                        const overtime = Math.random() < 0.08;
+                        
+                        let excitement = margin <= 5 ? 8.5 : margin <= 10 ? 7.0 : margin <= 18 ? 5.5 : 3.5;
+                        if (overtime) excitement += 1.0;
+                        excitement = Math.min(10.0, excitement + Math.random() - 0.5);
+                        
+                        return {
+                            id: `fallback-${index}`,
+                            homeTeam: home,
+                            awayTeam: away,
+                            excitement: Math.round(excitement * 10) / 10,
+                            homeScore: awayScore,
+                            awayScore: homeScore,
+                            overtime,
+                            description: `Simulated: ${margin <= 5 ? 'Buzzer beater' : 'Strong finish'}`,
+                            status: 'Final'
+                        };
+                    });
                 }
                 
                 setGames(sampleGames);
@@ -495,11 +206,11 @@
             }, [selectedDate, selectedSport]);
 
             const getRatingColor = (rating) => {
-                if (rating >= 8.5) return 'linear-gradient(135deg, #ff0000, #ff3333)';
-                if (rating >= 7) return 'linear-gradient(135deg, #ff6600, #ff8800)';
-                if (rating >= 6) return 'linear-gradient(135deg, #ffaa00, #ffcc00)';
-                if (rating >= 5) return 'linear-gradient(135deg, #0088ff, #00aaff)';
-                return 'linear-gradient(135deg, #666666, #888888)';
+                if (rating >= 8.5) return '#ff0000';
+                if (rating >= 7) return '#ff8800';
+                if (rating >= 6) return '#ffcc00';
+                if (rating >= 5) return '#0088ff';
+                return '#888888';
             };
 
             const getRatingLabel = (rating) => {
@@ -528,162 +239,372 @@
                 });
             };
 
-            return React.createElement('div', { className: 'field-background' },
-                React.createElement('div', { className: 'field-lines' }),
-                React.createElement('div', { className: 'scoreboard-container' },
+            return React.createElement('div', {
+                style: { 
+                    fontFamily: 'Monaco, "Courier New", monospace',
+                    backgroundColor: '#f0f0f0',
+                    minHeight: '100vh',
+                    padding: '20px'
+                }
+            }, 
+                React.createElement('div', { style: { maxWidth: '800px', margin: '0 auto' } },
                     // Header
-                    React.createElement('div', { className: 'scoreboard-header' },
-                        React.createElement('div', { className: 'scoreboard-title' }, 'GAME EXCITEMENT TRACKER'),
-                        React.createElement('div', { 
+                    React.createElement('div', { style: { textAlign: 'center', marginBottom: '30px' } },
+                        React.createElement('h1', {
+                            style: { 
+                                fontSize: '24px', 
+                                fontWeight: 'bold', 
+                                margin: '0 0 10px 0',
+                                color: '#000'
+                            }
+                        }, 'GAME EXCITEMENT TRACKER'),
+                        React.createElement('p', {
                             style: { 
                                 fontSize: '14px', 
-                                color: '#ffff00', 
-                                marginTop: '8px',
-                                textShadow: '1px 1px 2px #000'
+                                color: '#666', 
+                                margin: '0'
                             }
-                        }, 'FIND THE BEST GAMES WITHOUT SPOILERS')
+                        }, 'Find the best games without spoilers')
                     ),
                     
                     // Controls
-                    React.createElement('div', { className: 'controls-panel' },
-                        React.createElement('div', { className: 'control-group' },
-                            React.createElement('div', { className: 'control-label' }, 'DATE'),
-                            React.createElement('input', {
-                                type: 'date',
-                                value: selectedDate,
-                                onChange: (e) => setSelectedDate(e.target.value),
-                                className: 'control-input'
-                            })
-                        ),
-                        React.createElement('div', { className: 'control-group' },
-                            React.createElement('div', { className: 'control-label' }, 'SPORT'),
-                            React.createElement('select', {
-                                value: selectedSport,
-                                onChange: (e) => setSelectedSport(e.target.value),
-                                className: 'control-input'
-                            },
-                                React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                React.createElement('option', { value: 'NBA' }, 'NBA')
+                    React.createElement('div', {
+                        style: { 
+                            backgroundColor: '#fff',
+                            border: '2px solid #000',
+                            padding: '15px',
+                            marginBottom: '20px'
+                        }
+                    },
+                        React.createElement('div', {
+                            style: { 
+                                display: 'grid', 
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                                gap: '15px',
+                                alignItems: 'end'
+                            }
+                        },
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'DATE:'),
+                                React.createElement('input', {
+                                    type: 'date',
+                                    value: selectedDate,
+                                    onChange: (e) => {
+                                        console.log('Date changed to:', e.target.value);
+                                        setSelectedDate(e.target.value);
+                                    },
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit'
+                                    }
+                                })
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'SPORT:'),
+                                React.createElement('select', {
+                                    value: selectedSport,
+                                    onChange: (e) => setSelectedSport(e.target.value),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit',
+                                        backgroundColor: '#fff'
+                                    }
+                                },
+                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
+                                    React.createElement('option', { value: 'NBA' }, 'NBA')
+                                )
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, `MIN RATING: ${minRating}`),
+                                React.createElement('input', {
+                                    type: 'range',
+                                    min: '0',
+                                    max: '10',
+                                    step: '0.5',
+                                    value: minRating,
+                                    onChange: (e) => setMinRating(parseFloat(e.target.value)),
+                                    style: { width: '100%' }
+                                })
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('button', {
+                                    onClick: () => fetchGameData(selectedDate, selectedSport),
+                                    disabled: loading,
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '2px solid #000',
+                                        backgroundColor: loading ? '#ccc' : '#fff',
+                                        fontSize: '12px',
+                                        fontWeight: 'bold',
+                                        cursor: loading ? 'not-allowed' : 'pointer',
+                                        fontFamily: 'inherit'
+                                    }
+                                }, loading ? 'LOADING...' : 'REFRESH')
                             )
                         ),
-                        React.createElement('div', { className: 'control-group' },
-                            React.createElement('div', { className: 'control-label' }, `MIN RATING: ${minRating}`),
-                            React.createElement('input', {
-                                type: 'range',
-                                min: '0',
-                                max: '10',
-                                step: '0.5',
-                                value: minRating,
-                                onChange: (e) => setMinRating(parseFloat(e.target.value)),
-                                className: 'control-input',
-                                style: { height: '10px' }
-                            })
-                        ),
-                        React.createElement('div', { className: 'control-group' },
-                            React.createElement('div', { className: 'control-label' }, 'ACTIONS'),
-                            React.createElement('button', {
-                                onClick: () => fetchGameData(selectedDate, selectedSport),
-                                disabled: loading,
-                                className: 'refresh-button'
-                            }, loading ? 'LOADING...' : 'REFRESH')
-                        )
+                        
+                        error && React.createElement('div', {
+                            style: {
+                                marginTop: '15px',
+                                padding: '10px',
+                                backgroundColor: '#ffffcc',
+                                border: '1px solid #000',
+                                fontSize: '12px'
+                            }
+                        }, error)
                     ),
                     
-                    error && React.createElement('div', { className: 'error-message' }, error),
-                    
                     // Games Header
-                    React.createElement('div', { className: 'games-header' },
-                        React.createElement('div', null, `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`),
-                        React.createElement('div', null, `${filteredGames.length} GAMES`)
+                    React.createElement('div', {
+                        style: { 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center',
+                            marginBottom: '15px'
+                        }
+                    },
+                        React.createElement('h2', {
+                            style: { 
+                                fontSize: '16px', 
+                                fontWeight: 'bold',
+                                margin: '0'
+                            }
+                        }, `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`),
+                        React.createElement('div', {
+                            style: { 
+                                fontSize: '12px', 
+                                color: '#666'
+                            }
+                        }, `${filteredGames.length} GAMES`)
                     ),
                     
                     // Games List
-                    loading ? 
-                        React.createElement('div', { className: 'loading-screen' },
-                            React.createElement('div', { className: 'loading-text' }, 'LOADING GAMES...')
-                        )
-                    : filteredGames.length === 0 ?
-                        React.createElement('div', { className: 'loading-screen' },
-                            React.createElement('div', { className: 'loading-text' }, 'NO GAMES FOUND')
-                        )
-                    : filteredGames
-                        .sort((a, b) => b.excitement - a.excitement)
-                        .map((game) =>
+                    React.createElement('div', { style: { marginBottom: '30px' } },
+                        loading ? 
                             React.createElement('div', {
-                                key: game.id,
-                                className: 'game-card',
-                                onClick: () => toggleScore(game.id)
+                                style: {
+                                    backgroundColor: '#fff',
+                                    border: '2px solid #000',
+                                    padding: '40px',
+                                    textAlign: 'center'
+                                }
                             },
-                                React.createElement('div', { className: 'game-header' },
-                                    React.createElement('div', { className: 'matchup' }, 
-                                        `${game.awayTeam} @ ${game.homeTeam}`
-                                    ),
-                                    React.createElement('div', { className: 'rating-display' },
-                                        React.createElement('div', null,
+                                React.createElement('div', {
+                                    style: { fontSize: '14px', fontWeight: 'bold' }
+                                }, 'LOADING GAMES...')
+                            )
+                        : filteredGames.length === 0 ?
+                            React.createElement('div', {
+                                style: {
+                                    backgroundColor: '#fff',
+                                    border: '2px solid #000',
+                                    padding: '40px',
+                                    textAlign: 'center'
+                                }
+                            },
+                                React.createElement('div', {
+                                    style: { fontSize: '14px', color: '#666' }
+                                }, 'NO GAMES FOUND')
+                            )
+                        : filteredGames
+                            .sort((a, b) => b.excitement - a.excitement)
+                            .map((game) =>
+                                React.createElement('div', {
+                                    key: game.id,
+                                    style: {
+                                        backgroundColor: '#fff',
+                                        border: '2px solid #000',
+                                        marginBottom: '10px',
+                                        cursor: 'pointer'
+                                    },
+                                    onClick: () => toggleScore(game.id)
+                                },
+                                    React.createElement('div', { style: { padding: '15px' } },
+                                        React.createElement('div', {
+                                            style: { 
+                                                display: 'flex', 
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center'
+                                            }
+                                        },
                                             React.createElement('div', {
-                                                className: 'rating-badge',
-                                                style: { background: getRatingColor(game.excitement) }
-                                            }, `${game.excitement}/10`),
-                                            React.createElement('div', { className: 'rating-label' }, 
-                                                getRatingLabel(game.excitement)
+                                                style: { 
+                                                    fontSize: '14px', 
+                                                    fontWeight: 'bold'
+                                                }
+                                            }, `${game.awayTeam} @ ${game.homeTeam}`),
+                                            React.createElement('div', {
+                                                style: { 
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '15px'
+                                                }
+                                            },
+                                                React.createElement('div', { style: { textAlign: 'right' } },
+                                                    React.createElement('div', {
+                                                        style: {
+                                                            backgroundColor: getRatingColor(game.excitement),
+                                                            color: '#fff',
+                                                            padding: '4px 8px',
+                                                            fontSize: '12px',
+                                                            fontWeight: 'bold',
+                                                            border: '1px solid #000'
+                                                        }
+                                                    }, `${game.excitement}/10`),
+                                                    React.createElement('div', {
+                                                        style: { 
+                                                            fontSize: '10px', 
+                                                            color: '#666',
+                                                            marginTop: '2px'
+                                                        }
+                                                    }, getRatingLabel(game.excitement))
+                                                ),
+                                                React.createElement('div', {
+                                                    style: {
+                                                        fontSize: '12px',
+                                                        color: '#666'
+                                                    }
+                                                }, showScores[game.id] ? '▼ HIDE' : '▶ SHOW')
                                             )
                                         ),
-                                        React.createElement('div', { className: 'show-hide' },
-                                            showScores[game.id] ? '▼ HIDE' : '▶ SHOW'
+                                        
+                                        showScores[game.id] && React.createElement('div', {
+                                            style: {
+                                                marginTop: '15px',
+                                                paddingTop: '15px',
+                                                borderTop: '1px solid #ccc'
+                                            }
+                                        },
+                                            React.createElement('div', {
+                                                style: {
+                                                    fontSize: '18px',
+                                                    fontWeight: 'bold',
+                                                    marginBottom: '10px'
+                                                }
+                                            }, `${game.status}: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`),
+                                            game.description && React.createElement('div', {
+                                                style: {
+                                                    fontSize: '12px',
+                                                    color: '#666',
+                                                    fontStyle: 'italic'
+                                                }
+                                            }, game.description)
                                         )
-                                    )
-                                ),
-                                
-                                showScores[game.id] && React.createElement('div', { className: 'game-details' },
-                                    React.createElement('div', { className: 'final-score' },
-                                        `${game.status}: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}`,
-                                        game.overtime && React.createElement('span', { className: 'ot-badge' }, 'OT')
-                                    ),
-                                    game.description && React.createElement('div', { className: 'game-description' }, 
-                                        game.description
                                     )
                                 )
                             )
-                        ),
+                    ),
                     
                     // Rating Legend
-                    React.createElement('div', { className: 'legend' },
-                        React.createElement('div', { className: 'legend-title' }, 'RATING GUIDE'),
-                        React.createElement('div', { className: 'legend-grid' },
-                            React.createElement('div', { className: 'legend-item' },
+                    React.createElement('div', {
+                        style: {
+                            backgroundColor: '#fff',
+                            border: '2px solid #000',
+                            padding: '15px'
+                        }
+                    },
+                        React.createElement('h3', {
+                            style: { 
+                                fontSize: '14px', 
+                                fontWeight: 'bold',
+                                margin: '0 0 10px 0'
+                            }
+                        }, 'RATING GUIDE:'),
+                        React.createElement('div', {
+                            style: { 
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                gap: '10px',
+                                fontSize: '11px'
+                            }
+                        },
+                            React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
-                                    className: 'legend-badge',
-                                    style: { background: 'linear-gradient(135deg, #ff0000, #ff3333)' }
+                                    style: {
+                                        backgroundColor: '#ff0000',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
                                 }, '8.5-10'),
-                                React.createElement('div', { className: 'legend-desc' }, 'MUST WATCH')
+                                React.createElement('div', null, 'MUST WATCH')
                             ),
-                            React.createElement('div', { className: 'legend-item' },
+                            React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
-                                    className: 'legend-badge',
-                                    style: { background: 'linear-gradient(135deg, #ff6600, #ff8800)' }
+                                    style: {
+                                        backgroundColor: '#ff8800',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
                                 }, '7.0-8.4'),
-                                React.createElement('div', { className: 'legend-desc' }, 'GREAT')
+                                React.createElement('div', null, 'GREAT')
                             ),
-                            React.createElement('div', { className: 'legend-item' },
+                            React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
-                                    className: 'legend-badge',
-                                    style: { background: 'linear-gradient(135deg, #ffaa00, #ffcc00)' }
+                                    style: {
+                                        backgroundColor: '#ffcc00',
+                                        color: '#000',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
                                 }, '6.0-6.9'),
-                                React.createElement('div', { className: 'legend-desc' }, 'GOOD')
+                                React.createElement('div', null, 'GOOD')
                             ),
-                            React.createElement('div', { className: 'legend-item' },
+                            React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
-                                    className: 'legend-badge',
-                                    style: { background: 'linear-gradient(135deg, #0088ff, #00aaff)' }
+                                    style: {
+                                        backgroundColor: '#0088ff',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
                                 }, '5.0-5.9'),
-                                React.createElement('div', { className: 'legend-desc' }, 'OK')
+                                React.createElement('div', null, 'OK')
                             ),
-                            React.createElement('div', { className: 'legend-item' },
+                            React.createElement('div', { style: { textAlign: 'center' } },
                                 React.createElement('div', {
-                                    className: 'legend-badge',
-                                    style: { background: 'linear-gradient(135deg, #666666, #888888)' }
+                                    style: {
+                                        backgroundColor: '#888888',
+                                        color: '#fff',
+                                        padding: '4px',
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
                                 }, '0-4.9'),
-                                React.createElement('div', { className: 'legend-desc' }, 'SKIP')
+                                React.createElement('div', null, 'SKIP')
                             )
                         )
                     )
