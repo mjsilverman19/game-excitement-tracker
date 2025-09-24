@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Game Excitement Tracker - AI Powered</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -14,96 +14,80 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const GameExcitementTracker = () => {
-      // original state kept where useful; date picker removed
+    function GameExcitementTracker() {
+      // UI state (date picker replaced by display-only range)
       const [minRating, setMinRating] = useState(0);
       const [showScores, setShowScores] = useState({});
       const [selectedSport, setSelectedSport] = useState('NFL');
+
+      // data state
       const [games, setGames] = useState([]);
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState(null);
       const [analysisSource, setAnalysisSource] = useState('');
+      const [rangeLabel, setRangeLabel] = useState('Last 7 days');
 
-      // Fetch game data via your serverless function (last 7 days, cached)
+      // Helpers
+      const getRatingColor = (r) => {
+        if (r >= 8.5) return '#ff0000';
+        if (r >= 7)   return '#ff8800';
+        if (r >= 6)   return '#ffcc00';
+        if (r >= 5)   return '#0088ff';
+        return '#888888';
+      };
+      const getRatingLabel = (r) => {
+        if (r >= 8.5) return 'MUST WATCH';
+        if (r >= 7)   return 'GREAT';
+        if (r >= 6)   return 'GOOD';
+        if (r >= 5)   return 'OK';
+        return 'SKIP';
+      };
+      const formatDate = (iso) => {
+        if (!iso) return '';
+        const d = new Date(iso + 'T00:00:00');
+        return d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+      };
+
+      // API call (weekly)
       const fetchGameData = async (sport) => {
         setLoading(true);
         setError(null);
         setAnalysisSource('');
+        setShowScores({});
 
         try {
-          const response = await fetch('/api/games', {
+          const res = await fetch('/api/games', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sport }) // no date
+            body: JSON.stringify({ sport }) // date removed; backend returns last 7 days
           });
+          if (!res.ok) throw new Error(`API Error: ${res.status}`);
 
-          if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
-          }
+          const data = await res.json();
+          if (!data.success) throw new Error(data.details || data.error || 'Analysis failed');
 
-          const data = await response.json();
+          const list = Array.isArray(data.games) ? data.games : [];
+          setGames(list);
 
-          if (!data.success) {
-            throw new Error(data.details || data.error || 'API call failed');
-          }
-
-          if (!data.games || data.games.length === 0) {
-            setError(`No ${sport} games found in the last 7 days`);
-            setGames([]);
-            setAnalysisSource('No games found');
-            return;
-          }
-
-          setGames(data.games);
-
-          // Show source and the range from the backend if present
-          const src = data.metadata?.source || 'AI Analysis';
-          const range = data.metadata?.range ? ` • ${data.metadata.range}` : '';
-          const cached = data.metadata?.cached ? ' • Cached' : '';
-          setAnalysisSource(`${src}${range}${cached}`);
-        } catch (err) {
-          setError(`Failed to analyze ${sport}: ${err.message}`);
+          const src  = data.metadata?.source || 'AI Analysis';
+          const rng  = data.metadata?.range ? ` • ${data.metadata.range}` : '';
+          const flag = data.metadata?.cached ? ' • Cached' : '';
+          setAnalysisSource(`${src}${rng}${flag}`);
+          setRangeLabel(data.metadata?.range ? data.metadata.range : 'Last 7 days');
+        } catch (e) {
           setGames([]);
+          setError(`Failed to analyze ${sport}: ${e.message}`);
         } finally {
           setLoading(false);
         }
       };
 
-      useEffect(() => {
-        setGames([]);
-        setShowScores({});
-        setError(null);
-        fetchGameData(selectedSport);
-      }, [selectedSport]);
+      useEffect(() => { fetchGameData(selectedSport); }, [selectedSport]);
 
-      const getRatingColor = (rating) => {
-        if (rating >= 8.5) return '#ff0000';
-        if (rating >= 7) return '#ff8800';
-        if (rating >= 6) return '#ffcc00';
-        if (rating >= 5) return '#0088ff';
-        return '#888888';
-      };
+      const filteredGames = games.filter(g => (g.excitement ?? 0) >= minRating);
+      const toggleScore = (id) => setShowScores((s) => ({ ...s, [id]: !s[id] }));
 
-      const getRatingLabel = (rating) => {
-        if (rating >= 8.5) return 'MUST WATCH';
-        if (rating >= 7) return 'GREAT';
-        if (rating >= 6) return 'GOOD';
-        if (rating >= 5) return 'OK';
-        return 'SKIP';
-      };
-
-      const filteredGames = games.filter(game => (game.excitement ?? 0) >= minRating);
-
-      const toggleScore = (gameId) => {
-        setShowScores(prev => ({ ...prev, [gameId]: !prev[gameId] }));
-      };
-
-      // kept for possible future use elsewhere
-      const formatDate = (dateStr) => {
-        const date = new Date(dateStr + 'T00:00:00');
-        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-      };
-
+      // UI
       return React.createElement('div', {
         style: {
           fontFamily: 'Monaco, "Courier New", monospace',
@@ -113,36 +97,23 @@
         }
       },
         React.createElement('div', { style: { maxWidth: '800px', margin: '0 auto' } },
+
           // Header
           React.createElement('div', { style: { textAlign: 'center', marginBottom: '30px' } },
             React.createElement('h1', {
-              style: {
-                fontSize: '24px',
-                fontWeight: 'bold',
-                margin: '0 0 10px 0',
-                color: '#000'
-              }
+              style: { fontSize: '24px', fontWeight: 'bold', margin: '0 0 10px 0', color: '#000' }
             }, 'GAME EXCITEMENT TRACKER'),
             React.createElement('p', {
-              style: {
-                fontSize: '14px',
-                color: '#666',
-                margin: '0 0 5px 0'
-              }
+              style: { fontSize: '14px', color: '#666', margin: '0 0 5px 0' }
             }, 'AI-powered win probability variance analysis'),
             analysisSource && React.createElement('div', {
               style: { fontSize: '10px', color: '#888', marginTop: '5px' }
             }, `🤖 ${analysisSource}`)
           ),
 
-          // Controls
+          // Controls card
           React.createElement('div', {
-            style: {
-              backgroundColor: '#fff',
-              border: '2px solid #000',
-              padding: '15px',
-              marginBottom: '20px'
-            }
+            style: { backgroundColor: '#fff', border: '2px solid #000', padding: '15px', marginBottom: '20px' }
           },
             React.createElement('div', {
               style: {
@@ -152,15 +123,10 @@
                 alignItems: 'end'
               }
             },
-              // RANGE (replaces date input, same visual weight)
+              // RANGE (replaces date input, but keeps visual slot)
               React.createElement('div', null,
                 React.createElement('label', {
-                  style: {
-                    display: 'block',
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    marginBottom: '5px'
-                  }
+                  style: { display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '5px' }
                 }, 'RANGE:'),
                 React.createElement('div', {
                   style: {
@@ -171,18 +137,13 @@
                     backgroundColor: '#f7f7f7',
                     fontFamily: 'inherit'
                   }
-                }, 'Last 7 days')
+                }, rangeLabel || 'Last 7 days')
               ),
 
               // SPORT
               React.createElement('div', null,
                 React.createElement('label', {
-                  style: {
-                    display: 'block',
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    marginBottom: '5px'
-                  }
+                  style: { display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '5px' }
                 }, 'SPORT:'),
                 React.createElement('select', {
                   value: selectedSport,
@@ -205,12 +166,7 @@
               // MIN RATING
               React.createElement('div', null,
                 React.createElement('label', {
-                  style: {
-                    display: 'block',
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    marginBottom: '5px'
-                  }
+                  style: { display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '5px' }
                 }, `MIN RATING: ${minRating}`),
                 React.createElement('input', {
                   type: 'range',
@@ -223,7 +179,7 @@
                 })
               ),
 
-              // REFRESH
+              // REFRESH BUTTON
               React.createElement('div', null,
                 React.createElement('button', {
                   onClick: () => fetchGameData(selectedSport),
@@ -231,7 +187,7 @@
                   style: {
                     width: '100%',
                     padding: '8px',
-                    border: '2px solid '#000',
+                    border: '2px solid #000',   // fixed
                     backgroundColor: loading ? '#ccc' : '#fff',
                     fontSize: '12px',
                     fontWeight: 'bold',
@@ -242,35 +198,23 @@
               )
             ),
 
+            // Error banner
             error && React.createElement('div', {
-              style: {
-                marginTop: '15px',
-                padding: '10px',
-                backgroundColor: '#ffffcc',
-                border: '1px solid #000',
-                fontSize: '12px'
-              }
+              style: { marginTop: '15px', padding: '10px', backgroundColor: '#ffffcc', border: '1px solid #000', fontSize: '12px' }
             }, error)
           ),
 
-          // Games Header
+          // Section header
           React.createElement('div', {
-            style: {
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '15px'
-            }
+            style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }
           },
             React.createElement('h2', {
               style: { fontSize: '16px', fontWeight: 'bold', margin: '0' }
             }, `LAST 7 DAYS - ${selectedSport}`),
-            React.createElement('div', { style: { fontSize: '12px', color: '#666' } },
-              `${filteredGames.length} GAMES`
-            )
+            React.createElement('div', { style: { fontSize: '12px', color: '#666' } }, `${filteredGames.length} GAMES`)
           ),
 
-          // Games List
+          // Games list
           React.createElement('div', { style: { marginBottom: '30px' } },
             loading
               ? React.createElement('div', {
@@ -298,9 +242,7 @@
                         onClick: () => toggleScore(game.id)
                       },
                         React.createElement('div', { style: { padding: '15px' } },
-                          React.createElement('div', {
-                            style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' }
-                          },
+                          React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
                             React.createElement('div', { style: { fontSize: '14px', fontWeight: 'bold' } },
                               `${game.awayTeam} @ ${game.homeTeam}`,
                               game.date ? ` — ${formatDate(game.date)}` : ''
@@ -330,24 +272,21 @@
                           showScores[game.id] && React.createElement('div', {
                             style: { marginTop: '15px', paddingTop: '15px', borderTop: '1px solid #ccc' }
                           },
-                            React.createElement('div', {
-                              style: { fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }
-                            }, `FINAL: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`),
-
+                            React.createElement('div', { style: { fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' } },
+                              `FINAL: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`
+                            ),
                             game.description && React.createElement('div', {
                               style: { fontSize: '12px', color: '#333', marginBottom: '8px', fontWeight: 'bold' }
                             }, `📊 ${game.description}`),
-
                             game.varianceAnalysis && React.createElement('div', {
                               style: { fontSize: '11px', color: '#666', marginBottom: '8px' }
                             }, `🔄 ${game.varianceAnalysis}`),
-
-                            game.keyMoments && game.keyMoments.length > 0 && React.createElement('div', {
+                            Array.isArray(game.keyMoments) && game.keyMoments.length > 0 && React.createElement('div', {
                               style: { fontSize: '10px', color: '#888' }
                             },
                               React.createElement('div', { style: { fontWeight: 'bold', marginBottom: '4px' } }, 'KEY MOMENTS:'),
-                              game.keyMoments.map((moment, index) =>
-                                React.createElement('div', { key: index, style: { marginLeft: '8px' } }, `• ${moment}`)
+                              game.keyMoments.map((m, i) =>
+                                React.createElement('div', { key: i, style: { marginLeft: '8px' } }, `• ${m}`)
                               )
                             )
                           )
@@ -356,53 +295,36 @@
                     )
           ),
 
-          // Rating Legend
+          // Rating legend
           React.createElement('div', {
             style: { backgroundColor: '#fff', border: '2px solid #000', padding: '15px' }
           },
-            React.createElement('h3', { style: { fontSize: '14px', fontWeight: 'bold', margin: '0 0 10px 0' } },
-              'AI EXCITEMENT ANALYSIS:'
-            ),
+            React.createElement('h3', { style: { fontSize: '14px', fontWeight: 'bold', margin: '0 0 10px 0' } }, 'AI EXCITEMENT ANALYSIS:'),
             React.createElement('div', {
-              style: {
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-                gap: '10px',
-                fontSize: '11px'
-              }
+              style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', fontSize: '11px' }
             },
               React.createElement('div', { style: { textAlign: 'center' } },
-                React.createElement('div', {
-                  style: { backgroundColor: '#ff0000', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' }
-                }, '8.5-10'),
+                React.createElement('div', { style: { backgroundColor: '#ff0000', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' } }, '8.5-10'),
                 React.createElement('div', null, 'MUST WATCH'),
                 React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'High variance')
               ),
               React.createElement('div', { style: { textAlign: 'center' } },
-                React.createElement('div', {
-                  style: { backgroundColor: '#ff8800', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' }
-                }, '7.0-8.4'),
+                React.createElement('div', { style: { backgroundColor: '#ff8800', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' } }, '7.0-8.4'),
                 React.createElement('div', null, 'GREAT'),
                 React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Many swings')
               ),
               React.createElement('div', { style: { textAlign: 'center' } },
-                React.createElement('div', {
-                  style: { backgroundColor: '#ffcc00', color: '#000', padding: '4px', fontWeight: 'bold', marginBottom: '5px' }
-                }, '6.0-6.9'),
+                React.createElement('div', { style: { backgroundColor: '#ffcc00', color: '#000', padding: '4px', fontWeight: 'bold', marginBottom: '5px' } }, '6.0-6.9'),
                 React.createElement('div', null, 'GOOD'),
                 React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Some drama')
               ),
               React.createElement('div', { style: { textAlign: 'center' } },
-                React.createElement('div', {
-                  style: { backgroundColor: '#0088ff', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' }
-                }, '5.0-5.9'),
+                React.createElement('div', { style: { backgroundColor: '#0088ff', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' } }, '5.0-5.9'),
                 React.createElement('div', null, 'OK'),
                 React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Steady game')
               ),
               React.createElement('div', { style: { textAlign: 'center' } },
-                React.createElement('div', {
-                  style: { backgroundColor: '#888888', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' }
-                }, '0-4.9'),
+                React.createElement('div', { style: { backgroundColor: '#888888', color: '#fff', padding: '4px', fontWeight: 'bold', marginBottom: '5px' } }, '0-4.9'),
                 React.createElement('div', null, 'SKIP'),
                 React.createElement('div', { style: { fontSize: '9px', color: '#888', marginTop: '2px' } }, 'Low variance')
               )
@@ -413,7 +335,7 @@
           )
         )
       );
-    };
+    }
 
     ReactDOM.render(React.createElement(GameExcitementTracker), document.getElementById('root'));
   </script>
