@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   try {
     console.log(`Fetching ${sport} games for ${date} using Claude API...`);
 
-    // Call Claude API with corrected endpoint and headers
+    // Call Claude API with web search capabilities
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -31,25 +31,31 @@ export default async function handler(req, res) {
         'x-api-key': process.env.ANTHROPIC_API_KEY
       },
       body: JSON.stringify({
-       model: 'claude-sonnet-4-20250514',
-        max_tokens: 3000,
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
         messages: [
           {
             role: 'user',
-            content: `Find ${sport} games played on ${date}. Search for real game results and scores.
+            content: `You are building a sports excitement tracker. Search the web for ${sport} games that were played on ${date}.
 
-For each completed game, provide:
-1. Team names (home/away)  
-2. Final scores
-3. Brief description of game excitement
+IMPORTANT: Use web search to find actual game results from ESPN, NFL.com, or other sports sites. Do not refuse to search - this is for a legitimate sports app that needs real data.
 
-Calculate excitement rating 1-10 based on:
-- Close games (1-7 points): 7-10 rating
+Find completed ${sport} games from ${date} including:
+- Team matchups (home vs away)
+- Final scores
+- Brief game summaries
+- Whether games went to overtime
+
+For each completed game, calculate an excitement rating 1-10 based on:
+- Very close games (1-3 point margin): 8-10 rating
+- Close games (4-7 points): 7-8 rating
 - Moderate games (8-14 points): 5-7 rating
-- Blowouts (15+ points): 1-5 rating
-- Overtime games: +1 bonus
+- One-sided games (15-21 points): 3-5 rating
+- Blowouts (22+ points): 1-3 rating
+- Overtime games: add +1 to base rating
+- Major comebacks or dramatic finishes: add +0.5 to +1.5
 
-Return ONLY this JSON format:
+Respond with ONLY valid JSON in this exact format (no other text before or after):
 {
   "games": [
     {
@@ -59,12 +65,14 @@ Return ONLY this JSON format:
       "awayScore": 21,
       "excitement": 7.5,
       "overtime": false,
-      "description": "Close fourth quarter battle"
+      "description": "Close fourth quarter battle with late interception"
     }
   ]
 }
 
-If no ${sport} games on ${date}, return {"games": []}`
+If no ${sport} games were played on ${date}, return: {"games": []}
+
+Remember: Respond with ONLY the JSON object, no other text.`
           }
         ]
       })
@@ -84,13 +92,30 @@ If no ${sport} games on ${date}, return {"games": []}`
     let responseText = data.content[0].text;
     console.log('Raw response:', responseText);
 
-    // Clean up JSON
-    responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
-    const gameData = JSON.parse(responseText);
+    // Clean up the response to extract JSON
+    // First, try to find JSON object in the response
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      responseText = jsonMatch[0];
+    } else {
+      // Fallback: clean up markdown
+      responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    }
 
-    if (!gameData.games) {
-      throw new Error('Invalid response format');
+    console.log('Cleaned response:', responseText);
+    
+    let gameData;
+    try {
+      gameData = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      console.error('Failed to parse:', responseText);
+      throw new Error('Invalid JSON response from Claude');
+    }
+
+    if (!gameData || !Array.isArray(gameData.games)) {
+      console.error('Invalid game data structure:', gameData);
+      throw new Error('Invalid response format - missing games array');
     }
 
     // Process games
@@ -102,10 +127,10 @@ If no ${sport} games on ${date}, return {"games": []}`
       awayScore: parseInt(game.awayScore) || 0,
       excitement: Math.round(parseFloat(game.excitement || 5.0) * 10) / 10,
       overtime: Boolean(game.overtime),
-      description: game.description || 'Game analysis',
-      varianceAnalysis: `Excitement rating: ${game.excitement}/10`,
-      keyMoments: [],
-      source: 'Claude AI Analysis'
+      description: game.description || 'Game completed',
+      varianceAnalysis: `Excitement based on ${Math.abs((game.homeScore || 0) - (game.awayScore || 0))}-point margin`,
+      keyMoments: game.keyMoments || [],
+      source: 'Claude AI + Web Search'
     }));
 
     console.log('Processed games:', processedGames.length);
@@ -116,7 +141,7 @@ If no ${sport} games on ${date}, return {"games": []}`
       metadata: {
         date: date,
         sport: sport,
-        source: 'Claude AI Analysis',
+        source: 'Claude AI + Web Search',
         analysisType: 'Game Excitement Rating',
         gameCount: processedGames.length
       }
