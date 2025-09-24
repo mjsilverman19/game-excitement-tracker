@@ -36,43 +36,58 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'user',
-            content: `You are building a sports excitement tracker. Search the web for ${sport} games that were played on ${date}.
+            content: `You are building a sports excitement tracker that analyzes win probability variance. Search the web for ${sport} games played on ${date}.
 
-IMPORTANT: Use web search to find actual game results from ESPN, NFL.com, or other sports sites. Do not refuse to search - this is for a legitimate sports app that needs real data.
+CRITICAL: For each game, find the ESPN game page and look for:
+1. Win probability chart/graph data
+2. Game flow information showing momentum swings
+3. Lead changes throughout the game
+4. Critical moments that shifted win probability
 
-Find completed ${sport} games from ${date} including:
-- Team matchups (home vs away)
-- Final scores
-- Brief game summaries
-- Whether games went to overtime
+Your job is to calculate excitement based on WIN PROBABILITY VARIANCE, not just final score margin.
 
-For each completed game, calculate an excitement rating 1-10 based on:
-- Very close games (1-3 point margin): 8-10 rating
-- Close games (4-7 points): 7-8 rating
-- Moderate games (8-14 points): 5-7 rating
-- One-sided games (15-21 points): 3-5 rating
-- Blowouts (22+ points): 1-3 rating
-- Overtime games: add +1 to base rating
-- Major comebacks or dramatic finishes: add +0.5 to +1.5
+Examples of high variance games:
+- Team A has 85% win probability, drops to 15%, then back to 70%
+- Multiple lead changes in 4th quarter
+- Games decided in final 2 minutes after multiple swings
+- Overtime games with back-and-forth momentum
 
-Respond with ONLY valid JSON in this exact format (no other text before or after):
+Examples of low variance games:
+- One team leads wire-to-wire with steady probability
+- Blowouts where probability never fluctuates much
+- Games decided early with no momentum shifts
+
+For each completed game, calculate excitement rating 1-10 based on:
+- HIGH variance (6+ major probability swings): 8-10 rating
+- MODERATE variance (3-5 swings, some drama): 6-8 rating  
+- LOW variance (1-2 swings, steady game): 4-6 rating
+- MINIMAL variance (blowout, no momentum): 1-3 rating
+
+Additional factors:
+- Overtime: +1 bonus
+- Game decided in final 2 minutes: +0.5-1.0 bonus
+- Major comeback (team down 14+ points wins): +1.5 bonus
+
+Find the ESPN pages and analyze the actual win probability data, not just scores.
+
+Respond with ONLY valid JSON (no other text):
 {
   "games": [
     {
-      "homeTeam": "Buffalo",
-      "awayTeam": "Miami",
-      "homeScore": 31,
-      "awayScore": 21,
-      "excitement": 7.5,
+      "homeTeam": "Las Vegas",
+      "awayTeam": "LA Rams",
+      "homeScore": 17,
+      "awayScore": 16,
+      "excitement": 9.5,
       "overtime": false,
-      "description": "Close fourth quarter battle with late interception"
+      "description": "Win probability swung 6 times, decided by field goal with 0:03 left",
+      "varianceAnalysis": "Probability shifted from 75% Rams to 85% Raiders to 25% Raiders to 70% Raiders in final quarter",
+      "keyMoments": ["4th quarter interception flipped momentum", "Game-winning FG attempt with 3 seconds left"]
     }
   ]
 }
 
-If no ${sport} games were played on ${date}, return: {"games": []}
-
-Remember: Respond with ONLY the JSON object, no other text.`
+If no games found: {"games": []}`
           }
         ]
       })
