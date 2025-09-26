@@ -99,6 +99,17 @@
                 { value: '5-3', label: 'Super Bowl', week: 5, seasonType: '3' }
             ];
 
+            // CFB week options
+            const cfbWeekOptions = [
+                ...Array.from({length: 15}, (_, i) => ({
+                    value: `${i + 1}`,
+                    label: `Week ${i + 1}`,
+                    week: i + 1
+                })),
+                { value: 'bowl', label: 'Bowl Games', week: 'bowl' },
+                { value: 'playoff', label: 'Playoff Games', week: 'playoff' }
+            ];
+
             // Fetch game data using ESPN win probability analysis
             const fetchGameData = async (params) => {
                 setLoading(true);
@@ -163,6 +174,14 @@
                         week: selectedWeekOption.week,
                         season: parseInt(selectedSeason),
                         seasonType: selectedWeekOption.seasonType,
+                        weekLabel: selectedWeekOption.label
+                    });
+                } else if (selectedSport === 'CFB') {
+                    const selectedWeekOption = cfbWeekOptions.find(w => w.value === selectedWeek);
+                    fetchGameData({
+                        sport: selectedSport,
+                        week: selectedWeekOption.week,
+                        season: parseInt(selectedSeason),
                         weekLabel: selectedWeekOption.label
                     });
                 } else {
