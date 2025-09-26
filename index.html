@@ -69,9 +69,8 @@
                 yesterday.setDate(today.getDate() - 1);
                 return yesterday.toISOString().split('T')[0];
             });
-            const [selectedWeek, setSelectedWeek] = useState(currentNFLWeek.week.toString());
+            const [selectedWeek, setSelectedWeek] = useState(`${currentNFLWeek.week}-2`); // Format: "week-seasonType"
             const [selectedSeason, setSelectedSeason] = useState(currentNFLWeek.season.toString());
-            const [selectedSeasonType, setSelectedSeasonType] = useState('2'); // Default to Regular Season
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
             const [selectedSport, setSelectedSport] = useState('NFL');
@@ -82,13 +81,21 @@
 
             const currentYear = new Date().getFullYear();
             const availableSeasons = Array.from({length: 5}, (_, i) => currentYear - i);
-            const nflWeeks = Array.from({length: 18}, (_, i) => i + 1);
-
-            // Season type options
-            const seasonTypes = [
-                { value: '2', label: 'Regular Season' },
-                { value: '3', label: 'Playoffs' },
-                { value: '1', label: 'Preseason' }
+            
+            // Combined week options for regular season and playoffs
+            const weekOptions = [
+                // Regular season weeks
+                ...Array.from({length: 18}, (_, i) => ({
+                    value: `${i + 1}-2`,
+                    label: `Week ${i + 1} (Regular Season)`,
+                    week: i + 1,
+                    seasonType: '2'
+                })),
+                // Playoff rounds
+                { value: '1-3', label: 'Wild Card Round', week: 1, seasonType: '3' },
+                { value: '2-3', label: 'Divisional Round', week: 2, seasonType: '3' },
+                { value: '3-3', label: 'Conference Championships', week: 3, seasonType: '3' },
+                { value: '4-3', label: 'Super Bowl', week: 4, seasonType: '3' }
             ];
 
             // Fetch game data using ESPN win probability analysis
@@ -99,7 +106,7 @@
                 
                 const { sport } = params;
                 const searchParam = sport === 'NFL' 
-                    ? `Week ${params.week} (${params.season}) - ${seasonTypes.find(st => st.value === params.seasonType)?.label}`
+                    ? `${params.weekLabel} (${params.season})`
                     : params.date;
                 
                 console.log(`Analyzing ${sport} games for ${searchParam}...`);
@@ -149,11 +156,13 @@
                 setError(null);
                 
                 if (selectedSport === 'NFL') {
+                    const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
                     fetchGameData({
                         sport: selectedSport,
-                        week: parseInt(selectedWeek),
+                        week: selectedWeekOption.week,
                         season: parseInt(selectedSeason),
-                        seasonType: selectedSeasonType
+                        seasonType: selectedWeekOption.seasonType,
+                        weekLabel: selectedWeekOption.label
                     });
                 } else {
                     fetchGameData({
@@ -204,8 +213,8 @@
 
             const getDisplayTitle = () => {
                 if (selectedSport === 'NFL') {
-                    const seasonTypeLabel = seasonTypes.find(st => st.value === selectedSeasonType)?.label;
-                    return `NFL WEEK ${selectedWeek} (${selectedSeason}) - ${seasonTypeLabel}`;
+                    const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
+                    return `NFL ${selectedWeekOption?.label} (${selectedSeason})`;
                 } else {
                     return `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`;
                 }
@@ -317,34 +326,6 @@
                                     ))
                                 )
                             ),
-
-                            // NFL Season Type (only show for NFL)
-                            selectedSport === 'NFL' && React.createElement('div', null,
-                                React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
-                                        fontWeight: 'bold',
-                                        marginBottom: '5px'
-                                    }
-                                }, 'TYPE:'),
-                                React.createElement('select', {
-                                    value: selectedSeasonType,
-                                    onChange: (e) => setSelectedSeasonType(e.target.value),
-                                    style: {
-                                        width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #000',
-                                        fontSize: '12px',
-                                        fontFamily: 'inherit',
-                                        backgroundColor: '#fff'
-                                    }
-                                },
-                                    seasonTypes.map(type => (
-                                        React.createElement('option', { key: type.value, value: type.value }, type.label)
-                                    ))
-                                )
-                            ),
                             
                             // NFL Week (only show for NFL)
                             selectedSport === 'NFL' && React.createElement('div', null,
@@ -368,8 +349,8 @@
                                         backgroundColor: '#fff'
                                     }
                                 },
-                                    nflWeeks.map(weekNum => (
-                                        React.createElement('option', { key: weekNum, value: weekNum }, `Week ${weekNum}`)
+                                    weekOptions.map(option => (
+                                        React.createElement('option', { key: option.value, value: option.value }, option.label)
                                     ))
                                 )
                             ),
