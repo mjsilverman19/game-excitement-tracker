@@ -1,6 +1,192 @@
-// UPDATED: Replace the calculateSimpleEntertainment function in your API
+// File: /api/games.js - Refined Game Entertainment Analysis with Better Scoring
 
-function calculateSimpleEntertainment(probabilities, game) {
+export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { date, sport, week, season } = req.body;
+
+  if (!sport || (sport === 'NFL' && !week) || (sport !== 'NFL' && !date)) {
+    return res.status(400).json({ 
+      error: sport === 'NFL' ? 'Week and sport are required for NFL' : 'Date and sport are required' 
+    });
+  }
+
+  try {
+    let searchParam;
+    if (sport === 'NFL' && week) {
+      searchParam = { week, season: season || new Date().getFullYear() };
+      console.log(`Analyzing NFL Week ${week} (${searchParam.season}) games...`);
+    } else {
+      searchParam = { date };
+      console.log(`Analyzing ${sport} games for ${date}...`);
+    }
+    
+    // Get games for the week/date
+    const games = await getGamesForSearch(searchParam, sport);
+    
+    if (!games || games.length === 0) {
+      return res.status(200).json({
+        success: true,
+        games: [],
+        metadata: {
+          date: sport === 'NFL' ? `Week ${week} (${searchParam.season})` : date,
+          sport: sport,
+          source: 'ESPN Win Probability API',
+          analysisType: 'Refined Entertainment Analysis',
+          gameCount: 0
+        }
+      });
+    }
+
+    // Analyze each game
+    const analyzedGames = await Promise.all(
+      games.map(async (game) => await analyzeGameEntertainment(game))
+    );
+
+    // Filter out failed analyses
+    const validGames = analyzedGames.filter(game => game !== null);
+
+    console.log(`Successfully analyzed ${validGames.length} games`);
+
+    return res.status(200).json({
+      success: true,
+      games: validGames,
+      metadata: {
+        date: sport === 'NFL' ? `Week ${week} (${searchParam.season})` : date,
+        sport: sport,
+        source: 'ESPN Win Probability API',
+        analysisType: 'Refined Entertainment Analysis',
+        gameCount: validGames.length
+      }
+    });
+
+  } catch (error) {
+    console.error('Error in analysis:', error);
+    
+    res.status(500).json({
+      success: false,
+      error: 'Failed to analyze game entertainment',
+      details: error.message,
+      games: []
+    });
+  }
+}
+
+async function getGamesForSearch(searchParam, sport) {
+  try {
+    let apiUrl;
+    
+    if (sport === 'NFL' && searchParam.week) {
+      // NFL week-based search
+      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}`;
+      if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
+        apiUrl += `&season=${searchParam.season}`;
+      }
+    } else if (sport === 'NBA') {
+      const dateFormatted = searchParam.date.replace(/-/g, '');
+      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
+    } else {
+      throw new Error(`Unsupported sport: ${sport}`);
+    }
+
+    console.log(`Fetching games from: ${apiUrl}`);
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      throw new Error(`ESPN API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.events || data.events.length === 0) {
+      console.log('No games found');
+      return [];
+    }
+
+    // Extract game data
+    const games = data.events.map(event => {
+      const competition = event.competitions[0];
+      const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
+      const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
+      
+      return {
+        id: event.id,
+        homeTeam: homeTeam?.team.location || homeTeam?.team.displayName,
+        awayTeam: awayTeam?.team.location || awayTeam?.team.displayName,
+        homeScore: parseInt(homeTeam?.score || 0),
+        awayScore: parseInt(awayTeam?.score || 0),
+        isCompleted: competition.status.type.completed,
+        overtime: competition.status.type.name.includes('OT'),
+        status: competition.status.type.description
+      };
+    });
+
+    console.log(`Found ${games.length} games`);
+    return games.filter(game => game.isCompleted);
+    
+  } catch (error) {
+    console.error('Error fetching games:', error);
+    return [];
+  }
+}
+
+async function analyzeGameEntertainment(game) {
+  try {
+    console.log(`Analyzing entertainment for ${game.awayTeam} @ ${game.homeTeam}`);
+    
+    // Fetch win probability data from ESPN
+    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
+    
+    const response = await fetch(probUrl);
+    
+    if (!response.ok) {
+      console.log(`No probability data for game ${game.id}`);
+      return createFallback(game);
+    }
+
+    const probData = await response.json();
+    
+    if (!probData.items || probData.items.length < 10) {
+      console.log(`Insufficient probability data for game ${game.id}`);
+      return createFallback(game);
+    }
+
+    // Calculate entertainment score - REFINED
+    const excitement = calculateRefinedEntertainment(probData.items, game);
+    
+    return {
+      id: `game-${game.id}`,
+      homeTeam: game.homeTeam,
+      awayTeam: game.awayTeam,
+      homeScore: game.homeScore,
+      awayScore: game.awayScore,
+      excitement: excitement.score,
+      overtime: game.overtime,
+      description: excitement.description,
+      varianceAnalysis: excitement.analysis,
+      keyMoments: excitement.moments,
+      source: 'Refined Analysis'
+    };
+
+  } catch (error) {
+    console.error(`Error analyzing game ${game.id}:`, error);
+    return createFallback(game);
+  }
+}
+
+function calculateRefinedEntertainment(probabilities, game) {
   // Clean the probability data
   const probs = probabilities
     .map(p => Math.max(1, Math.min(99, p.homeWinPercentage || 50)))
@@ -123,7 +309,20 @@ function calculateSimpleEntertainment(probabilities, game) {
   };
 }
 
-// UPDATED: Also update the createScoreBasedAnalysis function for more granular fallback scoring
+function findKeyMoments(probs) {
+  const moments = [];
+  
+  // Find biggest swings
+  for (let i = 10; i < probs.length; i++) {
+    const swing = Math.abs(probs[i] - probs[i-10]);
+    if (swing > 25) {
+      const quarter = Math.ceil((i / probs.length) * 4);
+      moments.push(`Q${quarter}: Major probability swing (${Math.round(swing)}%)`);
+    }
+  }
+  
+  return moments.slice(0, 3);
+}
 
 function createScoreBasedAnalysis(game) {
   const margin = Math.abs(game.homeScore - game.awayScore);
@@ -175,5 +374,23 @@ function createScoreBasedAnalysis(game) {
     description: description,
     analysis: `${margin}-point game, ${totalScore} total points`,
     moments: []
+  };
+}
+
+function createFallback(game) {
+  const analysis = createScoreBasedAnalysis(game);
+  
+  return {
+    id: `fallback-${game.id}`,
+    homeTeam: game.homeTeam,
+    awayTeam: game.awayTeam,
+    homeScore: game.homeScore,
+    awayScore: game.awayScore,
+    excitement: analysis.score,
+    overtime: game.overtime,
+    description: analysis.description,
+    varianceAnalysis: analysis.analysis + " (no probability data)",
+    keyMoments: [],
+    source: 'Score-based Analysis'
   };
 }
