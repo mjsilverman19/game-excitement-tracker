@@ -180,25 +180,49 @@ async function getGamesForSearch(searchParam, sport) {
   }
 }
 
-function parseGameFromCoreAPI(gameData) {
+async function parseGameFromCoreAPI(gameData) {
   try {
     const competition = gameData.competitions?.[0];
     if (!competition) return null;
 
-    const homeTeam = competition.competitors?.find(c => c.homeAway === 'home');
-    const awayTeam = competition.competitors?.find(c => c.homeAway === 'away');
+    const homeCompetitor = competition.competitors?.find(c => c.homeAway === 'home');
+    const awayCompetitor = competition.competitors?.find(c => c.homeAway === 'away');
+    
+    if (!homeCompetitor || !awayCompetitor) return null;
+
+    // Fetch team details and scores from reference URLs
+    const [homeTeamData, awayTeamData, homeScoreData, awayScoreData, statusData] = await Promise.all([
+      fetch(homeCompetitor.team.$ref).then(r => r.ok ? r.json() : null),
+      fetch(awayCompetitor.team.$ref).then(r => r.ok ? r.json() : null),
+      fetch(homeCompetitor.score.$ref).then(r => r.ok ? r.json() : null),
+      fetch(awayCompetitor.score.$ref).then(r => r.ok ? r.json() : null),
+      fetch(competition.status.$ref).then(r => r.ok ? r.json() : null)
+    ]);
+
+    // Extract team names
+    const homeTeam = homeTeamData?.location || homeTeamData?.displayName || 'Unknown';
+    const awayTeam = awayTeamData?.location || awayTeamData?.displayName || 'Unknown';
+    
+    // Extract scores
+    const homeScore = parseInt(homeScoreData?.value || 0);
+    const awayScore = parseInt(awayScoreData?.value || 0);
+    
+    // Extract game status
+    const isCompleted = statusData?.type?.completed || false;
+    const overtime = statusData?.type?.name?.includes('OT') || false;
+    const status = statusData?.type?.description || '';
     
     return {
       id: gameData.id,
-      homeTeam: homeTeam?.team?.location || homeTeam?.team?.displayName,
-      awayTeam: awayTeam?.team?.location || awayTeam?.team?.displayName,
-      homeScore: parseInt(homeTeam?.score || 0),
-      awayScore: parseInt(awayTeam?.score || 0),
-      isCompleted: competition.status?.type?.completed || false,
-      overtime: competition.status?.type?.name?.includes('OT') || false,
-      status: competition.status?.type?.description || '',
+      homeTeam: homeTeam,
+      awayTeam: awayTeam,
+      homeScore: homeScore,
+      awayScore: awayScore,
+      isCompleted: isCompleted,
+      overtime: overtime,
+      status: status,
       venue: competition.venue?.fullName || '',
-      weather: competition.weather || null
+      weather: null
     };
   } catch (error) {
     console.error('Error parsing game from core API:', error);
