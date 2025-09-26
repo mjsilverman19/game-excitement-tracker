@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { date, sport, week, season } = req.body;
+  const { date, sport, week, season, seasonType } = req.body;
 
   console.log('What we received:', req.body);
   console.log('Season is:', season, 'and its type is:', typeof season);
@@ -31,8 +31,9 @@ export default async function handler(req, res) {
     if (sport === 'NFL' && week) {
       // Handle both number (3) and string ("Week 3") formats
       const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
-      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
-      console.log(`Analyzing NFL Week ${weekNumber} (${searchParam.season}) games...`);
+      const typeNumber = seasonType || 2; // Default to regular season (2)
+      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear(), seasonType: typeNumber };
+      console.log(`Analyzing NFL Week ${weekNumber} (${searchParam.season}) ${typeNumber === 3 ? 'Playoffs' : 'Regular Season'} games...`);
     } else {
       searchParam = { date };
       console.log(`Analyzing ${sport} games for ${date}...`);
@@ -96,10 +97,10 @@ async function getGamesForSearch(searchParam, sport) {
     if (sport === 'NFL' && searchParam.week) {
       // Use core API for historical data, scoreboard API for current season
       if (searchParam.season && parseInt(searchParam.season) < 2025) {
-        apiUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${searchParam.season}/types/2/weeks/${searchParam.week}/events`;
+        apiUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${searchParam.season}/types/${searchParam.seasonType}/weeks/${searchParam.week}/events`;
         usesCoreAPI = true;
       } else {
-        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}`;
+        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=${searchParam.seasonType}&week=${searchParam.week}`;
         if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
           apiUrl += `&season=${searchParam.season}`;
         }
