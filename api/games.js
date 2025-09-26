@@ -186,6 +186,13 @@ async function parseGameFromCoreAPI(gameData) {
     const competition = gameData.competitions?.[0];
     if (!competition) return null;
 
+    // Filter out Pro Bowl games - they have different naming patterns
+    if (gameData.name?.toLowerCase().includes('pro bowl') || 
+        gameData.shortName?.toLowerCase().includes('pro bowl')) {
+      console.log(`Skipping Pro Bowl game: ${gameData.name}`);
+      return null;
+    }
+
     const homeCompetitor = competition.competitors?.find(c => c.homeAway === 'home');
     const awayCompetitor = competition.competitors?.find(c => c.homeAway === 'away');
     
@@ -203,6 +210,12 @@ async function parseGameFromCoreAPI(gameData) {
     // Extract team names
     const homeTeam = homeTeamData?.location || homeTeamData?.displayName || 'Unknown';
     const awayTeam = awayTeamData?.location || awayTeamData?.displayName || 'Unknown';
+    
+    // Additional Pro Bowl filter - check if teams are NFC/AFC
+    if (homeTeam === 'NFC' || homeTeam === 'AFC' || awayTeam === 'NFC' || awayTeam === 'AFC') {
+      console.log(`Skipping Pro Bowl game with conference teams: ${awayTeam} @ ${homeTeam}`);
+      return null;
+    }
     
     // Extract scores
     const homeScore = parseInt(homeScoreData?.value || 0);
