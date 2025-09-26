@@ -17,6 +17,9 @@ export default async function handler(req, res) {
 
   const { date, sport, week, season } = req.body;
 
+  console.log('What we received:', req.body);
+  console.log('Season is:', season, 'and its type is:', typeof season);
+
   if (!sport || (sport === 'NFL' && !week) || (sport !== 'NFL' && !date)) {
     return res.status(400).json({ 
       error: sport === 'NFL' ? 'Week and sport are required for NFL' : 'Date and sport are required' 
@@ -26,7 +29,7 @@ export default async function handler(req, res) {
   try {
     let searchParam;
     if (sport === 'NFL' && week) {
-      searchParam = { week, season: season || new Date().getFullYear() };
+      searchParam = { week, season: season ? parseInt(season) : new Date().getFullYear() };
       console.log(`Analyzing NFL Week ${week} (${searchParam.season}) games...`);
     } else {
       searchParam = { date };
@@ -90,7 +93,7 @@ async function getGamesForSearch(searchParam, sport) {
     
     if (sport === 'NFL' && searchParam.week) {
       // Use core API for historical data, scoreboard API for current season
-      if (searchParam.season && searchParam.season < 2025) {
+      if (searchParam.season && parseInt(searchParam.season) < 2025) {
         apiUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${searchParam.season}/types/2/weeks/${searchParam.week}/events`;
         usesCoreAPI = true;
       } else {
