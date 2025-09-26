@@ -88,10 +88,7 @@ async function getGamesForSearch(searchParam, sport) {
     let apiUrl;
     
     if (sport === 'NFL' && searchParam.week) {
-      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}`;
-      if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
-        apiUrl += `&season=${searchParam.season}`;
-      }
+      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}&season=${searchParam.season}`;
     } else if (sport === 'NBA') {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
