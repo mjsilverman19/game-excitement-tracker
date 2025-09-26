@@ -1,4 +1,4 @@
-// File: /api/games.js - Enhanced Entertainment Analysis with Spoiler-Free Features
+// File: /api/games.js - Enhanced Entertainment Analysis with CFB Support
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -20,7 +20,8 @@ export default async function handler(req, res) {
   console.log('What we received:', req.body);
   console.log('Season is:', season, 'and its type is:', typeof season);
 
-  if (!sport || (sport === 'NFL' && !week) || (sport !== 'NFL' && !date)) {
+  // Updated validation to include CFB
+  if (!sport || (sport === 'NFL' && !week) || (['NBA', 'CFB'].includes(sport) && !date)) {
     return res.status(400).json({ 
       error: sport === 'NFL' ? 'Week and sport are required for NFL' : 'Date and sport are required' 
     });
@@ -58,12 +59,12 @@ export default async function handler(req, res) {
 
     // Analyze each game with enhanced algorithm
     const analyzedGames = await Promise.all(
-      games.map(async (game) => await analyzeGameEntertainment(game))
+      games.map(async (game) => await analyzeGameEntertainment(game, sport))
     );
 
     const validGames = analyzedGames.filter(game => game !== null);
 
-    console.log(`Successfully analyzed ${validGames.length} games with enhanced metrics`);
+    console.log(`Successfully analyzed ${validGames.length} ${sport} games with enhanced metrics`);
 
     return res.status(200).json({
       success: true,
@@ -108,11 +109,15 @@ async function getGamesForSearch(searchParam, sport) {
     } else if (sport === 'NBA') {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
+    } else if (sport === 'CFB') {
+      // Add CFB support - uses date-based API like NBA
+      const dateFormatted = searchParam.date.replace(/-/g, '');
+      apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=${dateFormatted}`;
     } else {
       throw new Error(`Unsupported sport: ${sport}`);
     }
 
-    console.log(`Fetching games from: ${apiUrl}`);
+    console.log(`Fetching ${sport} games from: ${apiUrl}`);
     const response = await fetch(apiUrl);
     
     if (!response.ok) {
@@ -146,7 +151,7 @@ async function getGamesForSearch(searchParam, sport) {
       return games.filter(game => game !== null && game.isCompleted);
       
     } else {
-      // Handle scoreboard API response (existing logic)
+      // Handle scoreboard API response (works for NFL, NBA, and CFB)
       if (!data.events || data.events.length === 0) {
         console.log('No games found');
         return [];
@@ -171,12 +176,12 @@ async function getGamesForSearch(searchParam, sport) {
         };
       });
 
-      console.log(`Found ${games.length} games`);
+      console.log(`Found ${games.length} ${sport} games`);
       return games.filter(game => game.isCompleted);
     }
     
   } catch (error) {
-    console.error('Error fetching games:', error);
+    console.error(`Error fetching ${sport} games:`, error);
     return [];
   }
 }
@@ -244,25 +249,28 @@ async function parseGameFromCoreAPI(gameData) {
   }
 }
 
-async function analyzeGameEntertainment(game) {
+async function analyzeGameEntertainment(game, sport = 'NFL') {
   try {
-    console.log(`Analyzing entertainment for ${game.awayTeam} @ ${game.homeTeam}`);
+    console.log(`Analyzing entertainment for ${game.awayTeam} @ ${game.homeTeam} (${sport})`);
+    
+    // Determine the correct league for the API URL
+    const league = sport === 'CFB' ? 'college-football' : 'nfl';
     
     // Fetch win probability data from ESPN
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
+    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
     
     const response = await fetch(probUrl);
     
     if (!response.ok) {
-      console.log(`No probability data for game ${game.id}`);
-      return createEnhancedFallback(game);
+      console.log(`No probability data for ${sport} game ${game.id}`);
+      return createEnhancedFallback(game, sport);
     }
 
     const probData = await response.json();
     
     if (!probData.items || probData.items.length < 10) {
-      console.log(`Insufficient probability data for game ${game.id}`);
-      return createEnhancedFallback(game);
+      console.log(`Insufficient probability data for ${sport} game ${game.id}`);
+      return createEnhancedFallback(game, sport);
     }
 
     // Calculate enhanced entertainment metrics
@@ -280,12 +288,12 @@ async function analyzeGameEntertainment(game) {
       varianceAnalysis: `Confidence: ${Math.round(entertainment.confidence * 100)}% - Key factors: ${entertainment.keyFactors.join(', ')}`,
       keyMoments: generateKeyMomentsFromBreakdown(entertainment.breakdown),
       breakdown: entertainment.breakdown,
-      source: 'Enhanced Entertainment Analysis'
+      source: `Enhanced Entertainment Analysis (${sport})`
     };
 
   } catch (error) {
-    console.error(`Error analyzing game ${game.id}:`, error);
-    return createEnhancedFallback(game);
+    console.error(`Error analyzing ${sport} game ${game.id}:`, error);
+    return createEnhancedFallback(game, sport);
   }
 }
 
@@ -832,7 +840,7 @@ function generateKeyMomentsFromBreakdown(breakdown) {
   return moments.slice(0, 3);
 }
 
-function createEnhancedFallback(game) {
+function createEnhancedFallback(game, sport = 'NFL') {
   const result = createContextualFallback(game, {});
   
   return {
@@ -847,7 +855,7 @@ function createEnhancedFallback(game) {
     varianceAnalysis: `Score-based analysis - Confidence: ${Math.round(result.confidence * 100)}%`,
     keyMoments: result.keyFactors.map(factor => `Analysis based on ${factor.toLowerCase()}`),
     breakdown: result.breakdown,
-    source: 'Enhanced Fallback Analysis'
+    source: `Enhanced Fallback Analysis (${sport})`
   };
 }
 
