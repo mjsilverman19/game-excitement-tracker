@@ -111,15 +111,20 @@ async function getGamesForSearch(searchParam, sport) {
           apiUrl += `&season=${searchParam.season}`;
         }
       }
+    } else if (sport === 'CFB' && searchParam.week) {
+      // CFB uses same dual-API approach as NFL
+      if (searchParam.season && parseInt(searchParam.season) < 2025) {
+        apiUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/college-football/seasons/${searchParam.season}/types/2/weeks/${searchParam.week}/events`;
+        usesCoreAPI = true;
+      } else {
+        apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?week=${searchParam.week}`;
+        if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
+          apiUrl += `&season=${searchParam.season}`;
+        }
+      }
     } else if (sport === 'NBA') {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
-    } else if (sport === 'CFB') {
-      // CFB uses simple week-based scoreboard API (not core API)
-      apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?week=${searchParam.week}`;
-      if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
-        apiUrl += `&season=${searchParam.season}`;
-      }
     } else {
       throw new Error(`Unsupported sport: ${sport}`);
     }
