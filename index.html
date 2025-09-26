@@ -71,6 +71,7 @@
             });
             const [selectedWeek, setSelectedWeek] = useState(currentNFLWeek.week.toString());
             const [selectedSeason, setSelectedSeason] = useState(currentNFLWeek.season.toString());
+            const [selectedSeasonType, setSelectedSeasonType] = useState('2'); // Default to Regular Season
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
             const [selectedSport, setSelectedSport] = useState('NFL');
@@ -83,6 +84,13 @@
             const availableSeasons = Array.from({length: 5}, (_, i) => currentYear - i);
             const nflWeeks = Array.from({length: 18}, (_, i) => i + 1);
 
+            // Season type options
+            const seasonTypes = [
+                { value: '2', label: 'Regular Season' },
+                { value: '3', label: 'Playoffs' },
+                { value: '1', label: 'Preseason' }
+            ];
+
             // Fetch game data using ESPN win probability analysis
             const fetchGameData = async (params) => {
                 setLoading(true);
@@ -91,7 +99,7 @@
                 
                 const { sport } = params;
                 const searchParam = sport === 'NFL' 
-                    ? `Week ${params.week} (${params.season})`
+                    ? `Week ${params.week} (${params.season}) - ${seasonTypes.find(st => st.value === params.seasonType)?.label}`
                     : params.date;
                 
                 console.log(`Analyzing ${sport} games for ${searchParam}...`);
@@ -144,7 +152,8 @@
                     fetchGameData({
                         sport: selectedSport,
                         week: parseInt(selectedWeek),
-                        season: parseInt(selectedSeason)
+                        season: parseInt(selectedSeason),
+                        seasonType: selectedSeasonType
                     });
                 } else {
                     fetchGameData({
@@ -195,7 +204,8 @@
 
             const getDisplayTitle = () => {
                 if (selectedSport === 'NFL') {
-                    return `NFL WEEK ${selectedWeek} (${selectedSeason})`;
+                    const seasonTypeLabel = seasonTypes.find(st => st.value === selectedSeasonType)?.label;
+                    return `NFL WEEK ${selectedWeek} (${selectedSeason}) - ${seasonTypeLabel}`;
                 } else {
                     return `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`;
                 }
@@ -304,6 +314,34 @@
                                 },
                                     availableSeasons.map(year => (
                                         React.createElement('option', { key: year, value: year }, year)
+                                    ))
+                                )
+                            ),
+
+                            // NFL Season Type (only show for NFL)
+                            selectedSport === 'NFL' && React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'TYPE:'),
+                                React.createElement('select', {
+                                    value: selectedSeasonType,
+                                    onChange: (e) => setSelectedSeasonType(e.target.value),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit',
+                                        backgroundColor: '#fff'
+                                    }
+                                },
+                                    seasonTypes.map(type => (
+                                        React.createElement('option', { key: type.value, value: type.value }, type.label)
                                     ))
                                 )
                             ),
