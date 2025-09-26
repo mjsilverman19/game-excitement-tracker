@@ -21,6 +21,8 @@
                 yesterday.setDate(today.getDate() - 1);
                 return yesterday.toISOString().split('T')[0];
             });
+            const [selectedWeek, setSelectedWeek] = useState('1');
+            const [selectedSeason, setSelectedSeason] = useState(new Date().getFullYear().toString());
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
             const [selectedSport, setSelectedSport] = useState('NFL');
@@ -29,13 +31,22 @@
             const [error, setError] = useState(null);
             const [analysisSource, setAnalysisSource] = useState('');
 
+            const currentYear = new Date().getFullYear();
+            const availableSeasons = Array.from({length: 5}, (_, i) => currentYear - i);
+            const nflWeeks = Array.from({length: 18}, (_, i) => i + 1);
+
             // Fetch game data using ESPN win probability analysis
-            const fetchGameData = async (date, sport) => {
+            const fetchGameData = async (params) => {
                 setLoading(true);
                 setError(null);
                 setAnalysisSource('');
                 
-                console.log(`Analyzing ${sport} games for ${date}...`);
+                const { sport } = params;
+                const searchParam = sport === 'NFL' 
+                    ? `Week ${params.week} (${params.season})`
+                    : params.date;
+                
+                console.log(`Analyzing ${sport} games for ${searchParam}...`);
                 
                 try {
                     const response = await fetch('/api/games', {
@@ -43,10 +54,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({
-                            date: date,
-                            sport: sport
-                        })
+                        body: JSON.stringify(params)
                     });
 
                     if (!response.ok) {
@@ -61,7 +69,7 @@
                     }
 
                     if (!data.games || data.games.length === 0) {
-                        setError(`No ${sport} games found for ${date}`);
+                        setError(`No ${sport} games found for ${searchParam}`);
                         setGames([]);
                         setAnalysisSource('No games found');
                         return;
@@ -72,19 +80,36 @@
                     
                 } catch (error) {
                     console.error('Error fetching game data:', error);
-                    setError(`Failed to analyze ${sport} games for ${date}: ${error.message}`);
+                    setError(`Failed to analyze ${sport} games for ${searchParam}: ${error.message}`);
                     setGames([]);
                 } finally {
                     setLoading(false);
                 }
             };
 
-            useEffect(() => {
+            const handleAnalyze = () => {
                 setGames([]);
                 setShowScores({});
                 setError(null);
-                fetchGameData(selectedDate, selectedSport);
-            }, [selectedDate, selectedSport]);
+                
+                if (selectedSport === 'NFL') {
+                    fetchGameData({
+                        sport: selectedSport,
+                        week: parseInt(selectedWeek),
+                        season: parseInt(selectedSeason)
+                    });
+                } else {
+                    fetchGameData({
+                        sport: selectedSport,
+                        date: selectedDate
+                    });
+                }
+            };
+
+            // Auto-fetch on load
+            useEffect(() => {
+                handleAnalyze();
+            }, []); // Only run once on mount
 
             const getRatingColor = (rating) => {
                 if (rating >= 8.5) return '#ff0000';
@@ -118,6 +143,14 @@
                     month: 'short', 
                     day: 'numeric' 
                 });
+            };
+
+            const getDisplayTitle = () => {
+                if (selectedSport === 'NFL') {
+                    return `NFL WEEK ${selectedWeek} (${selectedSeason})`;
+                } else {
+                    return `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`;
+                }
             };
 
             return React.createElement('div', {
@@ -167,36 +200,12 @@
                         React.createElement('div', {
                             style: { 
                                 display: 'grid', 
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
                                 gap: '15px',
                                 alignItems: 'end'
                             }
                         },
-                            React.createElement('div', null,
-                                React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
-                                        fontWeight: 'bold',
-                                        marginBottom: '5px'
-                                    }
-                                }, 'DATE:'),
-                                React.createElement('input', {
-                                    type: 'date',
-                                    value: selectedDate,
-                                    onChange: (e) => {
-                                        console.log('Date changed to:', e.target.value);
-                                        setSelectedDate(e.target.value);
-                                    },
-                                    style: {
-                                        width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #000',
-                                        fontSize: '12px',
-                                        fontFamily: 'inherit'
-                                    }
-                                })
-                            ),
+                            // Sport selector
                             React.createElement('div', null,
                                 React.createElement('label', {
                                     style: { 
@@ -219,10 +228,91 @@
                                     }
                                 },
                                     React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                    React.createElement('option', { value: 'NBA' }, 'NBA'),
-                                    React.createElement('option', { value: 'MLB' }, 'MLB')
+                                    React.createElement('option', { value: 'NBA' }, 'NBA')
                                 )
                             ),
+                            
+                            // NFL Season (only show for NFL)
+                            selectedSport === 'NFL' && React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'SEASON:'),
+                                React.createElement('select', {
+                                    value: selectedSeason,
+                                    onChange: (e) => setSelectedSeason(e.target.value),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit',
+                                        backgroundColor: '#fff'
+                                    }
+                                },
+                                    availableSeasons.map(year => (
+                                        React.createElement('option', { key: year, value: year }, year)
+                                    ))
+                                )
+                            ),
+                            
+                            // NFL Week (only show for NFL)
+                            selectedSport === 'NFL' && React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'WEEK:'),
+                                React.createElement('select', {
+                                    value: selectedWeek,
+                                    onChange: (e) => setSelectedWeek(e.target.value),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit',
+                                        backgroundColor: '#fff'
+                                    }
+                                },
+                                    nflWeeks.map(weekNum => (
+                                        React.createElement('option', { key: weekNum, value: weekNum }, `Week ${weekNum}`)
+                                    ))
+                                )
+                            ),
+                            
+                            // Date picker (only show for non-NFL)
+                            selectedSport !== 'NFL' && React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: { 
+                                        display: 'block', 
+                                        fontSize: '12px', 
+                                        fontWeight: 'bold',
+                                        marginBottom: '5px'
+                                    }
+                                }, 'DATE:'),
+                                React.createElement('input', {
+                                    type: 'date',
+                                    value: selectedDate,
+                                    onChange: (e) => setSelectedDate(e.target.value),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #000',
+                                        fontSize: '12px',
+                                        fontFamily: 'inherit'
+                                    }
+                                })
+                            ),
+                            
+                            // Min rating slider
                             React.createElement('div', null,
                                 React.createElement('label', {
                                     style: { 
@@ -242,9 +332,11 @@
                                     style: { width: '100%' }
                                 })
                             ),
+                            
+                            // Analyze button
                             React.createElement('div', null,
                                 React.createElement('button', {
-                                    onClick: () => fetchGameData(selectedDate, selectedSport),
+                                    onClick: handleAnalyze,
                                     disabled: loading,
                                     style: {
                                         width: '100%',
@@ -256,7 +348,7 @@
                                         cursor: loading ? 'not-allowed' : 'pointer',
                                         fontFamily: 'inherit'
                                     }
-                                }, loading ? 'ANALYZING...' : 'REFRESH')
+                                }, loading ? 'ANALYZING...' : 'ANALYZE')
                             )
                         ),
                         
@@ -286,7 +378,7 @@
                                 fontWeight: 'bold',
                                 margin: '0'
                             }
-                        }, `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`),
+                        }, getDisplayTitle()),
                         React.createElement('div', {
                             style: { 
                                 fontSize: '12px', 
