@@ -36,10 +36,27 @@ export default async function handler(req, res) {
       searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear(), seasonType: typeNumber };
       console.log(`Analyzing NFL Week ${weekNumber} (${searchParam.season}) ${typeNumber === 3 ? 'Playoffs' : 'Regular Season'} games...`);
     } else if (sport === 'CFB' && week) {
-      // CFB also uses week-based system
-      const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
-      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
-      console.log(`Analyzing CFB Week ${weekNumber} (${searchParam.season}) games...`);
+      // CFB postseason and regular season handling
+      let weekNumber, seasonTypeNumber;
+      
+      if (week === 'postseason') {
+        // All CFB postseason games (bowls and playoffs) are in seasontype 3, week 1
+        weekNumber = '1';
+        seasonTypeNumber = 3;
+      } else {
+        // Regular season
+        weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
+        seasonTypeNumber = 2;
+      }
+      
+      searchParam = { 
+        week: weekNumber, 
+        season: season ? parseInt(season) : new Date().getFullYear(),
+        seasonType: seasonTypeNumber 
+      };
+      
+      const gameTypeLabel = week === 'postseason' ? 'Postseason' : `Week ${weekNumber}`;
+      console.log(`Analyzing CFB ${gameTypeLabel} (${searchParam.season}) games...`);
     } else {
       searchParam = { date };
       console.log(`Analyzing ${sport} games for ${date}...`);
@@ -114,10 +131,10 @@ async function getGamesForSearch(searchParam, sport) {
     } else if (sport === 'CFB' && searchParam.week) {
       // CFB uses same dual-API approach as NFL
       if (searchParam.season && parseInt(searchParam.season) < 2025) {
-        apiUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/college-football/seasons/${searchParam.season}/types/2/weeks/${searchParam.week}/events`;
+        apiUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/college-football/seasons/${searchParam.season}/types/${searchParam.seasonType}/weeks/${searchParam.week}/events`;
         usesCoreAPI = true;
       } else {
-        apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?week=${searchParam.week}`;
+        apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?seasontype=${searchParam.seasonType}&week=${searchParam.week}`;
         if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
           apiUrl += `&season=${searchParam.season}`;
         }
