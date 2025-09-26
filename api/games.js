@@ -88,8 +88,10 @@ async function getGamesForSearch(searchParam, sport) {
     let apiUrl;
     
     if (sport === 'NFL' && searchParam.week) {
-      // Always include season parameter for NFL
-      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}&season=${searchParam.season}`;
+      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}`;
+      if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
+        apiUrl += `&season=${searchParam.season}`;
+      }
     } else if (sport === 'NBA') {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
@@ -107,11 +109,11 @@ async function getGamesForSearch(searchParam, sport) {
     const data = await response.json();
     
     if (!data.events || data.events.length === 0) {
-      console.log('No games found for this week/season combination');
+      console.log('No games found');
       return [];
     }
 
-    // Extract game data
+    // Extract game data with additional context
     const games = data.events.map(event => {
       const competition = event.competitions[0];
       const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
@@ -131,7 +133,7 @@ async function getGamesForSearch(searchParam, sport) {
       };
     });
 
-    console.log(`Found ${games.length} games, ${games.filter(g => g.isCompleted).length} completed`);
+    console.log(`Found ${games.length} games`);
     return games.filter(game => game.isCompleted);
     
   } catch (error) {
