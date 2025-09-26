@@ -20,10 +20,10 @@ export default async function handler(req, res) {
   console.log('What we received:', req.body);
   console.log('Season is:', season, 'and its type is:', typeof season);
 
-  // Updated validation to include CFB
-  if (!sport || (sport === 'NFL' && !week) || (['NBA', 'CFB'].includes(sport) && !date)) {
+  // Updated validation for NFL/CFB (week-based) and NBA (date-based)
+  if (!sport || (['NFL', 'CFB'].includes(sport) && !week) || (sport === 'NBA' && !date)) {
     return res.status(400).json({ 
-      error: sport === 'NFL' ? 'Week and sport are required for NFL' : 'Date and sport are required' 
+      error: ['NFL', 'CFB'].includes(sport) ? 'Week and sport are required' : 'Date and sport are required' 
     });
   }
 
