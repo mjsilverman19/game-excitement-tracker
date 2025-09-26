@@ -88,8 +88,14 @@ async function getGamesForSearch(searchParam, sport) {
     let apiUrl;
     
     if (sport === 'NFL' && searchParam.week) {
-      // Always include season parameter for NFL
-      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}&season=${searchParam.season}`;
+      // Try different ESPN API formats for historical data
+      if (searchParam.season && searchParam.season < new Date().getFullYear()) {
+        // Historical seasons might need different URL structure
+        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}&season=${searchParam.season}`;
+      } else {
+        // Current season
+        apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}&season=${searchParam.season}`;
+      }
     } else if (sport === 'NBA') {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
@@ -100,14 +106,23 @@ async function getGamesForSearch(searchParam, sport) {
     console.log(`Fetching games from: ${apiUrl}`);
     const response = await fetch(apiUrl);
     
+    console.log(`API Response Status: ${response.status}`);
+    
     if (!response.ok) {
       throw new Error(`ESPN API error: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log(`API returned ${data.events?.length || 0} events`);
     
     if (!data.events || data.events.length === 0) {
-      console.log('No games found');
+      console.log('No games found - checking if this is a valid week/season combination');
+      
+      // Log additional debugging info
+      console.log('Season:', searchParam.season);
+      console.log('Week:', searchParam.week);
+      console.log('Full API response structure:', Object.keys(data));
+      
       return [];
     }
 
@@ -131,11 +146,12 @@ async function getGamesForSearch(searchParam, sport) {
       };
     });
 
-    console.log(`Found ${games.length} games`);
+    console.log(`Found ${games.length} games total, ${games.filter(g => g.isCompleted).length} completed`);
     return games.filter(game => game.isCompleted);
     
   } catch (error) {
     console.error('Error fetching games:', error);
+    console.error('Search parameters:', searchParam);
     return [];
   }
 }
