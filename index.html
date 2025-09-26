@@ -99,15 +99,14 @@
                 { value: '5-3', label: 'Super Bowl', week: 5, seasonType: '3' }
             ];
 
-            // CFB week options
+            // CFB week options - simplified postseason
             const cfbWeekOptions = [
                 ...Array.from({length: 15}, (_, i) => ({
                     value: `${i + 1}`,
                     label: `Week ${i + 1}`,
                     week: i + 1
                 })),
-                { value: 'bowl', label: 'Bowl Games', week: 'bowl' },
-                { value: 'playoff', label: 'Playoff Games', week: 'playoff' }
+                { value: 'postseason', label: 'Postseason Games', week: 'postseason' }
             ];
 
             // Fetch game data using ESPN win probability analysis
