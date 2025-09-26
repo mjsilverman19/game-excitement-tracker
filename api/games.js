@@ -39,8 +39,12 @@ export default async function handler(req, res) {
       // CFB postseason and regular season handling
       let weekNumber, seasonTypeNumber;
       
-      if (week === 'postseason') {
-        // All CFB postseason games (bowls and playoffs) are in seasontype 3, week 1
+      if (week === 'playoff') {
+        // CFB playoff games are in seasontype 4, week 1
+        weekNumber = '1';
+        seasonTypeNumber = 4;
+      } else if (week === 'bowl') {
+        // CFB bowl games are in seasontype 3, week 1
         weekNumber = '1';
         seasonTypeNumber = 3;
       } else {
@@ -55,7 +59,7 @@ export default async function handler(req, res) {
         seasonType: seasonTypeNumber 
       };
       
-      const gameTypeLabel = week === 'postseason' ? 'Postseason' : `Week ${weekNumber}`;
+      const gameTypeLabel = week === 'playoff' ? 'Playoff' : week === 'bowl' ? 'Bowl' : `Week ${weekNumber}`;
       console.log(`Analyzing CFB ${gameTypeLabel} (${searchParam.season}) games...`);
     } else {
       searchParam = { date };
