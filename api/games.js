@@ -24,9 +24,6 @@ export default async function handler(req, res) {
   if (!sport || (['NFL', 'CFB'].includes(sport) && !week) || (sport === 'NBA' && !date)) {
     return res.status(400).json({ 
       error: ['NFL', 'CFB'].includes(sport) ? 'Week and sport are required' : 'Date and sport are required' 
-    } else {
-      searchParam = { date };
-      console.log(`Analyzing ${sport} games for ${date}...`);
     });
   }
 
@@ -43,11 +40,9 @@ export default async function handler(req, res) {
       const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
       searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
       console.log(`Analyzing CFB Week ${weekNumber} (${searchParam.season}) games...`);
-    } else if (sport === 'CFB' && week) {
-      // CFB also uses week-based system but with simpler parameters
-      const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
-      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
-      console.log(`Analyzing CFB Week ${weekNumber} (${searchParam.season}) games...`);
+    } else {
+      searchParam = { date };
+      console.log(`Analyzing ${sport} games for ${date}...`);
     } ${typeNumber === 3 ? 'Playoffs' : 'Regular Season'} games...`);
     } else if (sport === 'CFB' && week) {
       // CFB also uses week-based system
