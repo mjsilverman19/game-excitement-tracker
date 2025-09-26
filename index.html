@@ -69,7 +69,7 @@
                 yesterday.setDate(today.getDate() - 1);
                 return yesterday.toISOString().split('T')[0];
             });
-            const [selectedWeek, setSelectedWeek] = useState(`${currentNFLWeek.week}-2`); // Format: "week-seasonType"
+            const [selectedWeek, setSelectedWeek] = useState(`${currentNFLWeek.week}-2`);
             const [selectedSeason, setSelectedSeason] = useState(currentNFLWeek.season.toString());
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
@@ -83,7 +83,7 @@
             const startYear = 2015;
             const availableSeasons = Array.from({length: currentYear - startYear + 1}, (_, i) => currentYear - i);
             
-            // Combined week options for regular season and playoffs
+            // NFL week options for regular season and playoffs
             const weekOptions = [
                 // Regular season weeks
                 ...Array.from({length: 18}, (_, i) => ({
@@ -118,6 +118,8 @@
                 
                 const { sport } = params;
                 const searchParam = sport === 'NFL' 
+                    ? `${params.weekLabel} (${params.season})`
+                    : sport === 'CFB'
                     ? `${params.weekLabel} (${params.season})`
                     : params.date;
                 
@@ -235,6 +237,9 @@
                 if (selectedSport === 'NFL') {
                     const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
                     return `NFL ${selectedWeekOption?.label} (${selectedSeason})`;
+                } else if (selectedSport === 'CFB') {
+                    const selectedWeekOption = cfbWeekOptions.find(w => w.value === selectedWeek);
+                    return `CFB ${selectedWeekOption?.label} (${selectedSeason})`;
                 } else {
                     return `${formatDate(selectedDate).toUpperCase()} - ${selectedSport}`;
                 }
@@ -304,7 +309,15 @@
                                 }, 'SPORT:'),
                                 React.createElement('select', {
                                     value: selectedSport,
-                                    onChange: (e) => setSelectedSport(e.target.value),
+                                    onChange: (e) => {
+                                        setSelectedSport(e.target.value);
+                                        // Reset week when changing sports
+                                        if (e.target.value === 'NFL') {
+                                            setSelectedWeek(`${currentNFLWeek.week}-2`);
+                                        } else if (e.target.value === 'CFB') {
+                                            setSelectedWeek('1');
+                                        }
+                                    },
                                     style: {
                                         width: '100%',
                                         padding: '8px',
@@ -320,8 +333,8 @@
                                 )
                             ),
                             
-                            // NFL Season (only show for NFL)
-                            selectedSport === 'NFL' && React.createElement('div', null,
+                            // Season (show for NFL and CFB)
+                            (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: { 
                                         display: 'block', 
@@ -348,8 +361,8 @@
                                 )
                             ),
                             
-                            // NFL Week (only show for NFL)
-                            selectedSport === 'NFL' && React.createElement('div', null,
+                            // Week selector (show for NFL and CFB)
+                            (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: { 
                                         display: 'block', 
@@ -370,14 +383,18 @@
                                         backgroundColor: '#fff'
                                     }
                                 },
-                                    weekOptions.map(option => (
-                                        React.createElement('option', { key: option.value, value: option.value }, option.label)
-                                    ))
+                                    selectedSport === 'NFL' 
+                                        ? weekOptions.map(option => (
+                                            React.createElement('option', { key: option.value, value: option.value }, option.label)
+                                        ))
+                                        : cfbWeekOptions.map(option => (
+                                            React.createElement('option', { key: option.value, value: option.value }, option.label)
+                                        ))
                                 )
                             ),
                             
-                            // Date picker (only show for non-NFL)
-                            selectedSport !== 'NFL' && React.createElement('div', null,
+                            // Date picker (only show for NBA)
+                            selectedSport === 'NBA' && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: { 
                                         display: 'block', 
