@@ -80,7 +80,8 @@
             const [analysisSource, setAnalysisSource] = useState('');
 
             const currentYear = new Date().getFullYear();
-            const availableSeasons = Array.from({length: 5}, (_, i) => currentYear - i);
+            const startYear = 2015;
+            const availableSeasons = Array.from({length: currentYear - startYear + 1}, (_, i) => currentYear - i);
             
             // Combined week options for regular season and playoffs
             const weekOptions = [
