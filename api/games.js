@@ -29,8 +29,8 @@ export default async function handler(req, res) {
   try {
     let searchParam;
     if (sport === 'NFL' && week) {
-      // Extract week number from "Week X" format
-      const weekNumber = week.toString().replace(/^Week\s*/i, '');
+      // Handle both number (3) and string ("Week 3") formats
+      const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
       searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
       console.log(`Analyzing NFL Week ${weekNumber} (${searchParam.season}) games...`);
     } else {
