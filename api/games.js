@@ -70,29 +70,12 @@ export default async function handler(req, res) {
     const games = await getGamesForSearch(searchParam, sport);
     
     if (!games || games.length === 0) {
-      // More specific error messages for CFB playoffs
-      let noGamesMessage = `No ${sport} games found`;
-      if (sport === 'CFB' && week === 'playoff') {
-        noGamesMessage = `No CFB playoff games found for ${searchParam.season}. Playoff data may not be available for this season.`;
-      } else if (sport === 'NFL' || sport === 'CFB') {
-        noGamesMessage += ` for Week ${week} (${searchParam.season})`;
-      } else {
-        noGamesMessage += ` for ${date}`;
-      }
-      
       return res.status(200).json({
         success: true,
         games: [],
         metadata: {
           date: ['NFL', 'CFB'].includes(sport) ? `Week ${week} (${searchParam.season})` : date,
           sport: sport,
-          source: 'ESPN Win Probability API',
-          analysisType: 'Enhanced Entertainment Analysis',
-          gameCount: 0,
-          message: noGamesMessage
-        }
-      });
-    }
           source: 'ESPN Win Probability API',
           analysisType: 'Enhanced Entertainment Analysis',
           gameCount: 0
@@ -377,7 +360,7 @@ function calculateEnhancedEntertainment(probabilities, game, gameContext = {}) {
     const spoilerFreeDescription = generateSpoilerFreeDescription(uncertaintyMetrics, game);
 
     return {
-      entertainmentScore: Math.round(entertainment.score * 100) / 100, // 2 decimal places
+      entertainmentScore: Math.round(entertainment.score * 10) / 10,
       confidence: entertainment.confidence,
       breakdown: entertainment.breakdown,
       narrative: spoilerFreeDescription, // Spoiler-free description
@@ -707,11 +690,11 @@ function combineEnhancedMetrics(metrics) {
     narrative
   } = metrics;
   
-  const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 28, 10); // Raised threshold from 25 to 28
+  const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 25, 10);
   const persistenceScore = linear(uncertaintyPersistence, 0, 0.4, 0, 10);
-  const peakScore = sigmoidTransform(peakUncertainty, 22, 10); // Raised threshold from 20 to 22
-  const comebackScore = sigmoidTransform(comebackFactor, 35, 10); // Raised threshold from 30 to 35
-  const tensionScore = sigmoidTransform(situationalTension, 18, 10); // Raised threshold from 15 to 18
+  const peakScore = sigmoidTransform(peakUncertainty, 20, 10);
+  const comebackScore = sigmoidTransform(comebackFactor, 30, 10);
+  const tensionScore = sigmoidTransform(situationalTension, 15, 10);
   const narrativeScore = narrative;
   
   const weights = calculateAdaptiveWeights(metrics);
@@ -727,22 +710,19 @@ function combineEnhancedMetrics(metrics) {
   
   const contextScore = rawScore * scoringContext * competitiveBalance;
   
-  // Apply a scaling factor to make perfect 10s rarer
-  const scaledScore = Math.pow(contextScore / 10, 1.1) * 10;
-  
   const confidence = calculateConfidence(metrics);
   
   return {
-    score: Math.min(10.0, Math.max(0.0, scaledScore)),
+    score: Math.min(10.0, Math.max(0.0, contextScore)),
     confidence: confidence,
     breakdown: {
-      uncertainty: Math.round(uncertaintyScore * 100) / 100, // 2 decimal places
-      persistence: Math.round(persistenceScore * 100) / 100,
-      peaks: Math.round(peakScore * 100) / 100,
-      comeback: Math.round(comebackScore * 100) / 100,
-      tension: Math.round(tensionScore * 100) / 100,
-      narrative: Math.round(narrativeScore * 100) / 100,
-      context: Math.round((scoringContext * competitiveBalance) * 100) / 100
+      uncertainty: Math.round(uncertaintyScore * 10) / 10,
+      persistence: Math.round(persistenceScore * 10) / 10,
+      peaks: Math.round(peakScore * 10) / 10,
+      comeback: Math.round(comebackScore * 10) / 10,
+      tension: Math.round(tensionScore * 10) / 10,
+      narrative: Math.round(narrativeScore * 10) / 10,
+      context: Math.round((scoringContext * competitiveBalance) * 10) / 10
     },
     narrative: generateNarrativeDescription(metrics),
     keyFactors: identifyKeyFactors(metrics)
