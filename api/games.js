@@ -27,10 +27,12 @@ export default async function handler(req, res) {
     let searchParam;
     if (sport === 'NFL' && week) {
       searchParam = { week, season: season || new Date().getFullYear() };
+      console.log(`Received parameters - week: ${week}, season: ${season}, searchParam.season: ${searchParam.season}`);
       console.log(`Analyzing NFL Week ${week} (${searchParam.season}) games...`);
     } else {
       searchParam = { date };
       console.log(`Analyzing ${sport} games for ${date}...`);
+    }.log(`Analyzing ${sport} games for ${date}...`);
     }
     
     // Get games for the week/date
@@ -88,7 +90,15 @@ async function getGamesForSearch(searchParam, sport) {
     let apiUrl;
     
     if (sport === 'NFL' && searchParam.week) {
-      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}&season=${searchParam.season}`;
+      // NFL week-based search
+      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${searchParam.week}`;
+      // Only add season parameter if it's different from current year
+      if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
+        apiUrl += `&season=${searchParam.season}`;
+        console.log(`Using historical season: ${searchParam.season}`);
+      } else {
+        console.log(`Using current season (no season param)`);
+      }
     } else if (sport === 'NBA') {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
