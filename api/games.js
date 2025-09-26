@@ -35,6 +35,20 @@ export default async function handler(req, res) {
       const typeNumber = seasonType || 2; // Default to regular season (2)
       searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear(), seasonType: typeNumber };
       console.log(`Analyzing NFL Week ${weekNumber} (${searchParam.season}) ${typeNumber === 3 ? 'Playoffs' : 'Regular Season'} games...`);
+    } else if (sport === 'CFB' && week) {
+      // CFB also uses week-based system but with simpler parameters
+      const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
+      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
+      console.log(`Analyzing CFB Week ${weekNumber} (${searchParam.season}) games...`);
+    } else {
+      searchParam = { date };
+      console.log(`Analyzing ${sport} games for ${date}...`);
+    } ${typeNumber === 3 ? 'Playoffs' : 'Regular Season'} games...`);
+    } else if (sport === 'CFB' && week) {
+      // CFB also uses week-based system
+      const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
+      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear() };
+      console.log(`Analyzing CFB Week ${weekNumber} (${searchParam.season}) games...`);
     } else {
       searchParam = { date };
       console.log(`Analyzing ${sport} games for ${date}...`);
@@ -110,9 +124,11 @@ async function getGamesForSearch(searchParam, sport) {
       const dateFormatted = searchParam.date.replace(/-/g, '');
       apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
     } else if (sport === 'CFB') {
-      // Add CFB support - uses date-based API like NBA
-      const dateFormatted = searchParam.date.replace(/-/g, '');
-      apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=${dateFormatted}`;
+      // CFB uses simple week-based API (no seasontype needed)
+      apiUrl = `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?week=${searchParam.week}`;
+      if (searchParam.season && searchParam.season !== new Date().getFullYear()) {
+        apiUrl += `&season=${searchParam.season}`;
+      }
     } else {
       throw new Error(`Unsupported sport: ${sport}`);
     }
