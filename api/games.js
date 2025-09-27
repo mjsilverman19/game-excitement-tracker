@@ -194,7 +194,14 @@ async function getGamesForSearch(searchParam, sport) {
         const competition = event.competitions[0];
         const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
         const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
-        
+
+        const seasonInfo = event.season?.type || {};
+        const labels = Array.isArray(event.labels)
+          ? event.labels
+              .map(label => label.description || label.shortName || label.detail || label.name)
+              .filter(Boolean)
+          : [];
+
         return {
           id: event.id,
           homeTeam: homeTeam?.team.location || homeTeam?.team.displayName,
@@ -205,7 +212,13 @@ async function getGamesForSearch(searchParam, sport) {
           overtime: competition.status.type.name.includes('OT'),
           status: competition.status.type.description,
           venue: competition.venue?.fullName || '',
-          weather: competition.weather || null
+          weather: competition.weather || null,
+          seasonType: normalizeNumericValue(seasonInfo.type ?? seasonInfo.id ?? seasonInfo),
+          seasonLabel: seasonInfo.name || null,
+          eventImportance: normalizeNumericValue(event.importance ?? competition.importance),
+          labels,
+          neutralSite: Boolean(competition.neutralSite),
+          startDate: event.date
         };
       });
 
@@ -263,7 +276,14 @@ async function parseGameFromCoreAPI(gameData) {
     const isCompleted = statusData?.type?.completed || false;
     const overtime = statusData?.type?.name?.includes('OT') || false;
     const status = statusData?.type?.description || '';
-    
+
+    const labels = Array.isArray(gameData.labels)
+      ? gameData.labels
+          .map(label => label.description || label.shortName || label.detail || label.name)
+          .filter(Boolean)
+      : [];
+    const seasonInfo = gameData.season?.type || {};
+
     return {
       id: gameData.id,
       homeTeam: homeTeam,
@@ -274,7 +294,13 @@ async function parseGameFromCoreAPI(gameData) {
       overtime: overtime,
       status: status,
       venue: competition.venue?.fullName || '',
-      weather: null
+      weather: null,
+      seasonType: normalizeNumericValue(seasonInfo.type ?? seasonInfo.id ?? seasonInfo),
+      seasonLabel: seasonInfo.name || null,
+      eventImportance: normalizeNumericValue(gameData.importance ?? gameData.eventImportance),
+      labels,
+      neutralSite: Boolean(competition.site?.neutral),
+      startDate: gameData.date || competition.date || null
     };
   } catch (error) {
     console.error('Error parsing game from core API:', error);
@@ -288,6 +314,7 @@ async function analyzeGameEntertainment(game, sport = 'NFL') {
     
     // Determine the correct league for the API URL
     const league = sport === 'CFB' ? 'college-football' : 'nfl';
+    const gameContext = buildGameContext(game, sport);
     
     // Fetch win probability data from ESPN
     const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
@@ -296,18 +323,18 @@ async function analyzeGameEntertainment(game, sport = 'NFL') {
     
     if (!response.ok) {
       console.log(`No probability data for ${sport} game ${game.id}`);
-      return createEnhancedFallback(game, sport);
+      return createEnhancedFallback(game, sport, gameContext);
     }
 
     const probData = await response.json();
     
     if (!probData.items || probData.items.length < 10) {
       console.log(`Insufficient probability data for ${sport} game ${game.id}`);
-      return createEnhancedFallback(game, sport);
+      return createEnhancedFallback(game, sport, gameContext);
     }
 
     // Calculate enhanced entertainment metrics
-    const entertainment = calculateEnhancedEntertainment(probData.items, game);
+    const entertainment = calculateEnhancedEntertainment(probData.items, game, gameContext);
     
     return {
       id: `enhanced-${game.id}`,
@@ -326,8 +353,46 @@ async function analyzeGameEntertainment(game, sport = 'NFL') {
 
   } catch (error) {
     console.error(`Error analyzing ${sport} game ${game.id}:`, error);
-    return createEnhancedFallback(game, sport);
+    const fallbackContext = buildGameContext(game, sport);
+    return createEnhancedFallback(game, sport, fallbackContext);
   }
+}
+
+function buildGameContext(game, sport) {
+  const labels = Array.isArray(game.labels) ? game.labels : [];
+  const seasonType = normalizeNumericValue(game.seasonType);
+  const eventImportance = normalizeNumericValue(game.eventImportance);
+
+  const context = {
+    sport,
+    seasonType,
+    seasonLabel: game.seasonLabel || null,
+    eventImportance,
+    labels,
+    neutralSite: Boolean(game.neutralSite),
+    startDate: game.startDate || null,
+    homeTeam: game.homeTeam,
+    awayTeam: game.awayTeam,
+    overtime: Boolean(game.overtime),
+    homeScore: Number(game.homeScore || 0),
+    awayScore: Number(game.awayScore || 0),
+    totalScore: Number(game.homeScore || 0) + Number(game.awayScore || 0),
+    margin: Math.abs(Number(game.homeScore || 0) - Number(game.awayScore || 0)),
+    qualityMetrics: game.qualityMetrics || null,
+    preGameSpread: normalizeNumericValue(game.preGameSpread),
+    expectation: game.expectation || null
+  };
+
+  const labelMatches = (patterns) => labels.some(label => patterns.test(label));
+
+  context.isPlayoff = seasonType !== null ? seasonType >= 3 : labelMatches(/playoff|postseason|championship|bowl/i);
+  context.isChampionship = labelMatches(/championship|title|final/i);
+  context.isBowl = labelMatches(/bowl/i);
+  context.isRivalry = labelMatches(/rivalry|classic|cup/i);
+  context.isElimination = labelMatches(/elimination|winner-takes-all|winner take all/i);
+  context.importanceScore = eventImportance ?? (context.isChampionship ? 5 : context.isPlayoff ? 3 : context.isRivalry ? 2 : 0);
+
+  return context;
 }
 
 // ENHANCED ALGORITHM FROM YOUR DOCUMENT
@@ -357,7 +422,7 @@ function calculateEnhancedEntertainment(probabilities, game, gameContext = {}) {
     });
 
     // Generate spoiler-free description
-    const spoilerFreeDescription = generateSpoilerFreeDescription(uncertaintyMetrics, game);
+    const spoilerFreeDescription = generateSpoilerFreeDescription(uncertaintyMetrics, game, gameContext);
 
     return {
       entertainmentScore: Math.round(entertainment.score * 10) / 10,
@@ -432,9 +497,10 @@ function calculateAdvancedUncertaintyMetrics(probabilities, game) {
   const peakUncertainty = findPeakUncertaintyMoments(probabilities);
   const comebackFactor = analyzeComebackDynamics(probabilities, game);
   const situationalTension = calculateSituationalTension(probabilities);
-  
+
   // Add lead changes for spoiler-free descriptions
-  const leadChanges = calculateLeadChanges(probabilities);
+  const leadChangeMetrics = calculateLeadChanges(probabilities);
+  const probabilityNoise = calculateProbabilityNoise(probabilities);
 
   return {
     timeWeightedUncertainty,
@@ -442,23 +508,187 @@ function calculateAdvancedUncertaintyMetrics(probabilities, game) {
     peakUncertainty,
     comebackFactor,
     situationalTension,
-    leadChanges
+    leadChanges: leadChangeMetrics.total,
+    leadChangeBreakdown: leadChangeMetrics.breakdown,
+    probabilityNoise
   };
 }
 
 function calculateLeadChanges(probabilities) {
+  const scoreboardChanges = calculateScoreboardLeadChanges(probabilities);
+  const probabilityChanges = calculateProbabilityLeadChanges(probabilities);
+
+  if (scoreboardChanges !== null) {
+    return {
+      total: Math.max(scoreboardChanges, probabilityChanges),
+      breakdown: {
+        scoreboard: scoreboardChanges,
+        probability: probabilityChanges
+      }
+    };
+  }
+
+  return {
+    total: probabilityChanges,
+    breakdown: {
+      probability: probabilityChanges
+    }
+  };
+}
+
+function calculateScoreboardLeadChanges(probabilities) {
+  let lastLeader = null;
+  let changes = 0;
+  let sawScore = false;
+
+  probabilities.forEach(point => {
+    const score = extractScoresFromProbabilityPoint(point);
+
+    if (!score) {
+      return;
+    }
+
+    const { home, away } = score;
+    if (home === null || away === null) {
+      return;
+    }
+
+    sawScore = true;
+
+    if (home === away) {
+      return;
+    }
+
+    const currentLeader = home > away ? 'home' : 'away';
+    if (lastLeader && currentLeader !== lastLeader) {
+      changes++;
+    }
+    lastLeader = currentLeader;
+  });
+
+  return sawScore ? changes : null;
+}
+
+function calculateProbabilityLeadChanges(probabilities) {
   let changes = 0;
   let lastLeader = null;
-  
-  probabilities.forEach(p => {
-    const currentLeader = p.probability > 50 ? 'home' : 'away';
+
+  probabilities.forEach(point => {
+    if (point.probability === null || point.probability === undefined) {
+      return;
+    }
+
+    const currentLeader = point.probability > 50 ? 'home' : point.probability < 50 ? 'away' : null;
+    if (!currentLeader) {
+      return;
+    }
+
     if (lastLeader && lastLeader !== currentLeader) {
       changes++;
     }
     lastLeader = currentLeader;
   });
-  
+
   return changes;
+}
+
+function extractScoresFromProbabilityPoint(point) {
+  const readCandidate = (candidate) => {
+    if (candidate === null || candidate === undefined) return null;
+    if (typeof candidate === 'number') return candidate;
+    if (typeof candidate === 'string') {
+      const parsed = parseInt(candidate, 10);
+      return Number.isNaN(parsed) ? null : parsed;
+    }
+    if (typeof candidate === 'object') {
+      if (typeof candidate.value === 'number') return candidate.value;
+      if (typeof candidate.displayValue === 'string') {
+        const parsed = parseInt(candidate.displayValue, 10);
+        return Number.isNaN(parsed) ? null : parsed;
+      }
+    }
+    return null;
+  };
+
+  const homeCandidates = [
+    point.homeScore,
+    point.homeTeamScore,
+    point.homeTeamPoints,
+    point.homePoints,
+    point.home,
+    point.team1Score
+  ];
+
+  const awayCandidates = [
+    point.awayScore,
+    point.awayTeamScore,
+    point.awayTeamPoints,
+    point.awayPoints,
+    point.away,
+    point.team2Score
+  ];
+
+  let homeScore = null;
+  for (const candidate of homeCandidates) {
+    const value = readCandidate(candidate);
+    if (value !== null) {
+      homeScore = value;
+      break;
+    }
+  }
+
+  if (homeScore === null && point.homeTeam && typeof point.homeTeam.score === 'number') {
+    homeScore = point.homeTeam.score;
+  }
+
+  let awayScore = null;
+  for (const candidate of awayCandidates) {
+    const value = readCandidate(candidate);
+    if (value !== null) {
+      awayScore = value;
+      break;
+    }
+  }
+
+  if (awayScore === null && point.awayTeam && typeof point.awayTeam.score === 'number') {
+    awayScore = point.awayTeam.score;
+  }
+
+  if (homeScore === null && awayScore === null) {
+    return null;
+  }
+
+  return {
+    home: homeScore,
+    away: awayScore
+  };
+}
+
+function calculateProbabilityNoise(probabilities) {
+  if (!probabilities || probabilities.length < 2) {
+    return 0;
+  }
+
+  let diffSum = 0;
+  let validPairs = 0;
+
+  for (let i = 1; i < probabilities.length; i++) {
+    const current = probabilities[i].probability;
+    const previous = probabilities[i - 1].probability;
+
+    if (current === null || current === undefined || previous === null || previous === undefined) {
+      continue;
+    }
+
+    diffSum += Math.abs(current - previous);
+    validPairs++;
+  }
+
+  if (validPairs === 0) {
+    return 0;
+  }
+
+  return diffSum / validPairs;
 }
 
 function calculateExponentialTimeWeighting(probabilities) {
@@ -581,10 +811,105 @@ function calculateSituationalTension(probabilities) {
 }
 
 function calculateContextualFactors(game, context) {
+  const scoringContext = analyzeScoring(game);
+  const competitiveBalance = assessCompetitiveBalance(game, context);
+  const stakesMultiplier = assessStakes(context);
+  const qualityFactor = assessQualityOfPlay(context);
+  const expectationAdjustment = calculateExpectationAdjustment(context);
+
   return {
-    scoringContext: analyzeScoring(game),
-    competitiveBalance: assessCompetitiveBalance(game, context)
+    scoringContext,
+    competitiveBalance,
+    stakesMultiplier,
+    qualityFactor,
+    expectationAdjustment,
+    contextSummary: summarizeContextFlags(context)
   };
+}
+
+function assessStakes(context) {
+  if (!context) return 1.0;
+
+  let multiplier = 1.0;
+
+  if (context.isChampionship) {
+    multiplier += 0.25;
+  } else if (context.isPlayoff) {
+    multiplier += 0.18;
+  } else if (context.isBowl) {
+    multiplier += 0.12;
+  }
+
+  if (context.isRivalry) {
+    multiplier += 0.07;
+  }
+
+  if (typeof context.eventImportance === 'number') {
+    multiplier += Math.min(0.2, context.eventImportance * 0.04);
+  }
+
+  if (context.isElimination) {
+    multiplier += 0.08;
+  }
+
+  return Math.min(1.6, Math.max(0.85, multiplier));
+}
+
+function assessQualityOfPlay(context) {
+  if (!context) return 1.0;
+
+  let factor = 1.0;
+  const { qualityMetrics } = context;
+
+  if (qualityMetrics) {
+    if (typeof qualityMetrics.offensiveEfficiency === 'number') {
+      factor += Math.max(-0.1, Math.min(0.15, (qualityMetrics.offensiveEfficiency - 1) * 0.1));
+    }
+    if (typeof qualityMetrics.turnoverDifferential === 'number') {
+      factor += Math.max(-0.15, Math.min(0.05, -qualityMetrics.turnoverDifferential * 0.03));
+    }
+    if (typeof qualityMetrics.explosivePlays === 'number') {
+      factor += Math.min(0.12, qualityMetrics.explosivePlays * 0.01);
+    }
+  }
+
+  if (context.totalScore < 24 && context.margin >= 17) {
+    factor -= 0.15;
+  }
+  if (context.totalScore >= 60 && context.margin <= 10) {
+    factor += 0.08;
+  }
+  if (context.margin >= 25) {
+    factor -= 0.2;
+  }
+
+  return Math.min(1.3, Math.max(0.7, factor));
+}
+
+function calculateExpectationAdjustment(context) {
+  if (!context) return 1.0;
+
+  if (typeof context.expectation === 'string') {
+    if (/upset/i.test(context.expectation)) return 1.15;
+    if (/dominant|chalk/i.test(context.expectation)) return 0.92;
+  }
+
+  return 1.0;
+}
+
+function summarizeContextFlags(context) {
+  if (!context) return [];
+
+  const flags = [];
+  if (context.isChampionship) flags.push('Championship stakes');
+  else if (context.isPlayoff) flags.push('Playoff stakes');
+  else if (context.isBowl) flags.push('Bowl game');
+
+  if (context.isRivalry) flags.push('Rivalry matchup');
+  if (context.neutralSite) flags.push('Neutral site');
+  if (context.isElimination) flags.push('Elimination game');
+
+  return flags;
 }
 
 function analyzeScoring(game) {
@@ -703,6 +1028,11 @@ function combineEnhancedMetrics(metrics) {
     situationalTension,
     scoringContext,
     competitiveBalance,
+    stakesMultiplier,
+    qualityFactor,
+    expectationAdjustment,
+    probabilityNoise,
+    contextSummary,
     narrative
   } = metrics;
   
@@ -715,6 +1045,10 @@ function combineEnhancedMetrics(metrics) {
   const narrativeScore = narrative;
   
   const weights = calculateAdaptiveWeights(metrics);
+  const noisePenalty = calculateNoisePenalty(probabilityNoise);
+  const stakesBoost = stakesMultiplier ?? 1.0;
+  const qualityBoost = qualityFactor ?? 1.0;
+  const expectationBoost = expectationAdjustment ?? 1.0;
   
   const rawScore = (
     uncertaintyScore * weights.uncertainty +
@@ -725,7 +1059,7 @@ function combineEnhancedMetrics(metrics) {
     narrativeScore * weights.narrative
   );
   
-  const contextScore = rawScore * scoringContext * competitiveBalance;
+  const contextScore = rawScore * scoringContext * competitiveBalance * stakesBoost * qualityBoost * expectationBoost * noisePenalty;
   
   const confidence = calculateConfidence(metrics);
   
@@ -739,15 +1073,20 @@ function combineEnhancedMetrics(metrics) {
       comeback: Math.round(comebackScore * 10) / 10,
       tension: Math.round(tensionScore * 10) / 10,
       narrative: Math.round(narrativeScore * 10) / 10,
-      context: Math.round((scoringContext * competitiveBalance) * 10) / 10
+      context: Math.round((scoringContext * competitiveBalance) * 10) / 10,
+      stakes: Math.round((stakesBoost) * 10) / 10,
+      quality: Math.round((qualityBoost) * 10) / 10,
+      expectation: Math.round((expectationBoost) * 10) / 10,
+      noise: Math.round((noisePenalty) * 10) / 10,
+      leadChanges: metrics.leadChanges ?? 0
     },
-    narrative: generateNarrativeDescription(metrics),
+    narrative: generateNarrativeDescription(metrics, contextSummary),
     keyFactors: identifyKeyFactors(metrics)
   };
 }
 
 // SPOILER-FREE DESCRIPTION GENERATOR
-function generateSpoilerFreeDescription(uncertaintyMetrics, game) {
+function generateSpoilerFreeDescription(uncertaintyMetrics, game, context = {}) {
   const descriptors = [];
   const totalScore = game.homeScore + game.awayScore;
   
@@ -772,6 +1111,14 @@ function generateSpoilerFreeDescription(uncertaintyMetrics, game) {
   
   // Comeback potential
   if (uncertaintyMetrics.comebackFactor > 35) descriptors.push("Comeback drama");
+
+  if (context.isPlayoff || context.isChampionship) {
+    descriptors.push(context.isChampionship ? "Title stakes" : "Playoff stakes");
+  } else if (context.isBowl) {
+    descriptors.push("Bowl spotlight");
+  } else if (context.isRivalry) {
+    descriptors.push("Rivalry energy");
+  }
   
   // Return top 2-3 descriptors
   return descriptors.length > 0 ? descriptors.slice(0, 3).join(", ") : "Competitive matchup";
@@ -791,6 +1138,19 @@ function calculateBalanceFromProbability(probability) {
   return Math.max(0, 50 - difference);
 }
 
+function calculateNoisePenalty(noiseLevel) {
+  if (!noiseLevel || noiseLevel <= 8) {
+    return 1.0;
+  }
+
+  if (noiseLevel >= 30) {
+    return 0.75;
+  }
+
+  const scale = (noiseLevel - 8) / (30 - 8);
+  return 1.0 - scale * 0.25;
+}
+
 function linear(value, minIn, maxIn, minOut, maxOut) {
   const clampedValue = Math.max(minIn, Math.min(maxIn, value));
   return minOut + (clampedValue - minIn) * (maxOut - minOut) / (maxIn - minIn);
@@ -805,6 +1165,19 @@ function calculateVolatility(values) {
   }
   
   return Math.sqrt(sumSquaredDiffs / (values.length - 1));
+}
+
+function normalizeNumericValue(value, fallback = null) {
+  if (value === null || value === undefined) {
+    return fallback;
+  }
+
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : fallback;
+  }
+
+  const parsed = parseFloat(value);
+  return Number.isNaN(parsed) ? fallback : parsed;
 }
 
 function calculateLateGameWeight(index, totalLength) {
@@ -834,6 +1207,12 @@ function calculateAdaptiveWeights(metrics) {
     baseWeights.narrative -= 0.05;
   }
   
+  if ((metrics.probabilityNoise || 0) > 18) {
+    baseWeights.peaks -= 0.05;
+    baseWeights.comeback -= 0.02;
+    baseWeights.narrative += 0.07;
+  }
+
   return baseWeights;
 }
 
@@ -845,16 +1224,18 @@ function calculateConfidence(metrics) {
     metrics.uncertaintyPersistence > 0.3,
     metrics.peakUncertainty >= 24,
     metrics.comebackFactor > 25,
-    metrics.situationalTension >= 16
+    metrics.situationalTension >= 16,
+    (metrics.stakesMultiplier || 1) > 1.05,
+    (metrics.probabilityNoise || 0) <= 15
   ];
-  
+
   const agreementCount = scores.filter(s => s).length;
   confidence += agreementCount * 0.04;
-  
+
   return Math.min(1.0, confidence);
 }
 
-function generateNarrativeDescription(metrics) {
+function generateNarrativeDescription(metrics, contextSummary = []) {
   const factors = [];
   
   if (metrics.comebackFactor > 35) factors.push("dramatic comeback");
@@ -862,6 +1243,17 @@ function generateNarrativeDescription(metrics) {
   if (metrics.peakUncertainty > 25) factors.push("crucial momentum swings");
   if (metrics.situationalTension > 18) factors.push("late-game pressure");
   if (metrics.gameType?.overtime) factors.push("overtime thriller");
+  if ((metrics.leadChanges || 0) >= 4) factors.push("frequent lead changes");
+  if ((metrics.probabilityNoise || 0) <= 10 && (metrics.timeWeightedUncertainty || 0) >= 28) {
+    factors.push("clean, high-leverage finish");
+  }
+
+  if (Array.isArray(contextSummary) && contextSummary.length > 0) {
+    const contextPhrase = contextSummary[0].toLowerCase();
+    if (!factors.some(item => item.includes(contextPhrase))) {
+      factors.push(contextPhrase);
+    }
+  }
   
   if (factors.length === 0) return "competitive game with moderate entertainment";
   
@@ -877,6 +1269,22 @@ function identifyKeyFactors(metrics) {
     { name: "High-pressure situations", value: metrics.situationalTension }
   ];
   
+  if ((metrics.leadChanges || 0) >= 2) {
+    factors.push({ name: "Frequent lead changes", value: metrics.leadChanges * 20 });
+  }
+
+  if ((metrics.stakesMultiplier || 1) > 1.05) {
+    factors.push({ name: "High stakes setting", value: (metrics.stakesMultiplier - 1) * 120 });
+  }
+
+  if ((metrics.qualityFactor || 1) > 1.05) {
+    factors.push({ name: "Quality of play", value: (metrics.qualityFactor - 1) * 100 });
+  }
+
+  if ((metrics.probabilityNoise || 0) <= 12 && (metrics.timeWeightedUncertainty || 0) >= 24) {
+    factors.push({ name: "Composed finish", value: (30 - metrics.probabilityNoise) * 5 });
+  }
+
   return factors
     .sort((a, b) => b.value - a.value)
     .slice(0, 3)
@@ -895,12 +1303,18 @@ function generateKeyMomentsFromBreakdown(breakdown) {
   if (breakdown.peaks > 7) {
     moments.push("Critical uncertainty peak reached");
   }
+  if (breakdown.stakes && breakdown.stakes > 1.1) {
+    moments.push("High-stakes implications");
+  }
+  if (breakdown.noise && breakdown.noise >= 0.95) {
+    moments.push("Clean finish without chaos");
+  }
   
   return moments.slice(0, 3);
 }
 
-function createEnhancedFallback(game, sport = 'NFL') {
-  const result = createContextualFallback(game, {});
+function createEnhancedFallback(game, sport = 'NFL', context = {}) {
+  const result = createContextualFallback(game, context);
   
   return {
     id: `fallback-${game.id}`,
@@ -931,6 +1345,7 @@ function createContextualFallback(game, context) {
   
   if (totalScore > 50) baseScore += 1.0;
   if (game.overtime) baseScore += 1.5;
+  if (context?.isPlayoff || context?.isChampionship) baseScore += 0.5;
   
   // Generate spoiler-free fallback description
   const descriptors = [];
@@ -941,19 +1356,38 @@ function createContextualFallback(game, context) {
   else if (margin > 21) descriptors.push("Decisive outcome");
   
   if (game.overtime) descriptors.push("Overtime");
+
+  const contextFlags = summarizeContextFlags(context);
+  if (contextFlags.length > 0) {
+    descriptors.push(contextFlags[0]);
+  }
+
+  const stakesBoost = assessStakes(context);
+  const qualityFactor = assessQualityOfPlay(context);
+  const expectationAdjustment = calculateExpectationAdjustment(context);
+
+  const adjustedScore = Math.min(10.0, baseScore * stakesBoost * qualityFactor * expectationAdjustment);
   
   const spoilerFreeDesc = descriptors.length > 0 ? descriptors.join(", ") : "Competitive matchup";
 
   return {
-    entertainmentScore: Math.min(10.0, baseScore),
-    confidence: 0.6,
+    entertainmentScore: adjustedScore,
+    confidence: Math.max(0.4, Math.min(0.85, 0.55 + (stakesBoost - 1) * 0.2 + (qualityFactor - 1) * 0.1)),
     breakdown: { 
       fallback: true,
       margin: margin,
       totalScore: totalScore,
-      overtime: game.overtime 
+      overtime: game.overtime,
+      stakes: Math.round(stakesBoost * 10) / 10,
+      quality: Math.round(qualityFactor * 10) / 10,
+      expectation: Math.round(expectationAdjustment * 10) / 10
     },
     narrative: spoilerFreeDesc,
-    keyFactors: ["Final margin", "Total scoring", game.overtime ? "Overtime" : "Regulation finish"].filter(Boolean)
+    keyFactors: [
+      "Final margin",
+      "Total scoring",
+      game.overtime ? "Overtime" : "Regulation finish",
+      contextFlags[0] || null
+    ].filter(Boolean)
   };
 }
