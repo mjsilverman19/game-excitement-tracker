@@ -690,11 +690,12 @@ function combineEnhancedMetrics(metrics) {
     narrative
   } = metrics;
   
-  const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 25, 10);
-  const persistenceScore = linear(uncertaintyPersistence, 0, 0.4, 0, 10);
-  const peakScore = sigmoidTransform(peakUncertainty, 20, 10);
-  const comebackScore = sigmoidTransform(comebackFactor, 30, 10);
-  const tensionScore = sigmoidTransform(situationalTension, 15, 10);
+  // Updated sigmoid transforms with reduced scale (8.5 instead of 10)
+  const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 25, 8.5);
+  const persistenceScore = linear(uncertaintyPersistence, 0, 0.4, 0, 8.5);
+  const peakScore = sigmoidTransform(peakUncertainty, 20, 8.5);
+  const comebackScore = sigmoidTransform(comebackFactor, 30, 8.5);
+  const tensionScore = sigmoidTransform(situationalTension, 15, 8.5);
   const narrativeScore = narrative;
   
   const weights = calculateAdaptiveWeights(metrics);
