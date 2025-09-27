@@ -376,7 +376,7 @@ function calculateEnhancedEntertainment(probabilities, game, gameContext = {}) {
 function preprocessProbabilities(probabilities, game) {
   const cleaned = probabilities
     .map((p, index) => ({
-      probability: Math.max(0.1, Math.min(99.9, p.homeWinPercentage || 50)),
+      probability: normalizeWinProbability(p.homeWinPercentage),
       period: p.period || 1,
       timeRemaining: p.timeRemaining || estimateTimeRemaining(index, probabilities.length),
       index: index,
@@ -385,6 +385,22 @@ function preprocessProbabilities(probabilities, game) {
     .filter(p => p.probability !== null);
 
   return applyAdaptiveSmoothing(cleaned);
+}
+
+function normalizeWinProbability(value) {
+  if (value === null || value === undefined) {
+    return 50;
+  }
+
+  const numeric = typeof value === 'number' ? value : parseFloat(value);
+  if (Number.isNaN(numeric)) {
+    return 50;
+  }
+
+  const percent = numeric <= 1 ? numeric * 100 : numeric;
+  const clamped = Math.max(0.1, Math.min(99.9, percent));
+
+  return clamped;
 }
 
 function estimateTimeRemaining(index, totalLength) {
@@ -452,9 +468,9 @@ function calculateExponentialTimeWeighting(probabilities) {
   probabilities.forEach((p, index) => {
     const gameProgress = index / probabilities.length;
     const weight = Math.exp(gameProgress * 2);
-    const uncertainty = Math.abs(p.probability - 50);
-    
-    weightedSum += uncertainty * weight;
+    const balance = calculateBalanceFromProbability(p.probability);
+
+    weightedSum += balance * weight;
     totalWeight += weight;
   });
   
@@ -462,14 +478,14 @@ function calculateExponentialTimeWeighting(probabilities) {
 }
 
 function calculateUncertaintyPersistence(probabilities) {
-  const uncertaintyThreshold = 20;
+  const balanceThreshold = 30;
   let persistentPeriods = 0;
   let currentStreak = 0;
   
   probabilities.forEach(p => {
-    const uncertainty = Math.abs(p.probability - 50);
-    
-    if (uncertainty <= uncertaintyThreshold) {
+    const balance = calculateBalanceFromProbability(p.probability);
+
+    if (balance >= balanceThreshold) {
       currentStreak++;
     } else {
       if (currentStreak >= 5) {
@@ -488,14 +504,14 @@ function calculateUncertaintyPersistence(probabilities) {
 
 function findPeakUncertaintyMoments(probabilities) {
   const peaks = [];
-  const minPeakHeight = 15;
+  const minPeakHeight = 25;
   
   for (let i = 2; i < probabilities.length - 2; i++) {
-    const current = Math.abs(probabilities[i].probability - 50);
-    const prev2 = Math.abs(probabilities[i-2].probability - 50);
-    const prev1 = Math.abs(probabilities[i-1].probability - 50);
-    const next1 = Math.abs(probabilities[i+1].probability - 50);
-    const next2 = Math.abs(probabilities[i+2].probability - 50);
+    const current = calculateBalanceFromProbability(probabilities[i].probability);
+    const prev2 = calculateBalanceFromProbability(probabilities[i-2].probability);
+    const prev1 = calculateBalanceFromProbability(probabilities[i-1].probability);
+    const next1 = calculateBalanceFromProbability(probabilities[i+1].probability);
+    const next2 = calculateBalanceFromProbability(probabilities[i+2].probability);
     
     if (current > minPeakHeight && 
         current >= prev2 && current >= prev1 && 
@@ -548,16 +564,16 @@ function calculateSituationalTension(probabilities) {
   
   probabilities.forEach((p, index) => {
     const gameProgress = index / probabilities.length;
-    const uncertainty = Math.abs(p.probability - 50);
-    
-    if (gameProgress > 0.9 && uncertainty > 15) {
-      tensionScore += uncertainty * 2.0;
+    const balance = calculateBalanceFromProbability(p.probability);
+
+    if (gameProgress > 0.9 && balance > 30) {
+      tensionScore += balance * 2.0;
     }
-    else if (gameProgress > 0.75 && uncertainty > 20) {
-      tensionScore += uncertainty * 1.3;
+    else if (gameProgress > 0.75 && balance > 25) {
+      tensionScore += balance * 1.3;
     }
-    else if (uncertainty > 25) {
-      tensionScore += uncertainty * 0.8;
+    else if (balance > 20) {
+      tensionScore += balance * 0.8;
     }
   });
   
@@ -616,11 +632,11 @@ function analyzeNarrativeFlow(probabilities, game) {
 function assessOpeningTone(earlyProbs) {
   if (earlyProbs.length < 5) return 5.0;
   
-  const earlyUncertainty = earlyProbs.reduce((sum, p) => {
-    return sum + Math.abs(p.probability - 50);
+  const earlyBalance = earlyProbs.reduce((sum, p) => {
+    return sum + calculateBalanceFromProbability(p.probability);
   }, 0) / earlyProbs.length;
   
-  return earlyUncertainty > 30 ? 3.0 : earlyUncertainty < 15 ? 7.0 : 5.0;
+  return earlyBalance < 20 ? 3.0 : earlyBalance > 30 ? 7.0 : 5.0;
 }
 
 function assessMidGame(probabilities) {
@@ -652,8 +668,8 @@ function assessClimax(probabilities) {
   
   if (climax.length === 0) return 5.0;
   
-  const maxTension = Math.max(...climax.map(p => Math.abs(p.probability - 50)));
-  const avgTension = climax.reduce((sum, p) => sum + Math.abs(p.probability - 50), 0) / climax.length;
+  const maxTension = Math.max(...climax.map(p => calculateBalanceFromProbability(p.probability)));
+  const avgTension = climax.reduce((sum, p) => sum + calculateBalanceFromProbability(p.probability), 0) / climax.length;
   const volatility = calculateVolatility(climax.map(p => p.probability));
   
   return Math.min(10, (maxTension * 0.4 + avgTension * 0.3 + volatility * 0.3) / 5);
@@ -663,15 +679,15 @@ function assessResolution(probabilities, game) {
   const finalProbs = probabilities.slice(-5);
   if (finalProbs.length === 0) return 5.0;
   
-  const finalUncertainty = finalProbs.reduce((sum, p) => sum + Math.abs(p.probability - 50), 0) / finalProbs.length;
+  const finalBalance = finalProbs.reduce((sum, p) => sum + calculateBalanceFromProbability(p.probability), 0) / finalProbs.length;
   
   const margin = Math.abs(game.homeScore - game.awayScore);
   const overtime = game.overtime;
   
   if (overtime) return 9.0;
   
-  if (margin <= 3 && finalUncertainty > 20) return 8.5;
-  if (margin <= 7 && finalUncertainty > 15) return 7.0;
+  if (margin <= 3 && finalBalance > 28) return 8.5;
+  if (margin <= 7 && finalBalance > 24) return 7.0;
   
   if (margin <= 14) return 5.5;
   
@@ -691,11 +707,11 @@ function combineEnhancedMetrics(metrics) {
   } = metrics;
   
   // Updated sigmoid transforms with reduced scale and adjusted midpoints
-  const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 15, 8.5);
+  const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 28, 8.5);
   const persistenceScore = linear(uncertaintyPersistence, 0, 0.4, 0, 8.5);
-  const peakScore = sigmoidTransform(peakUncertainty, 20, 8.5);
+  const peakScore = sigmoidTransform(peakUncertainty, 26, 8.5);
   const comebackScore = sigmoidTransform(comebackFactor, 30, 8.5);
-  const tensionScore = sigmoidTransform(situationalTension, 10, 8.5);
+  const tensionScore = sigmoidTransform(situationalTension, 18, 8.5);
   const narrativeScore = narrative;
   
   const weights = calculateAdaptiveWeights(metrics);
@@ -740,7 +756,7 @@ function generateSpoilerFreeDescription(uncertaintyMetrics, game) {
   else if (uncertaintyMetrics.leadChanges >= 1) descriptors.push("Back-and-forth action");
   
   // Timing of drama
-  if (uncertaintyMetrics.timeWeightedUncertainty <= 20) descriptors.push("Late drama");
+  if (uncertaintyMetrics.timeWeightedUncertainty >= 28) descriptors.push("Late drama");
   if (uncertaintyMetrics.uncertaintyPersistence > 0.6) descriptors.push("Sustained tension");
   
   // Style indicators
@@ -764,6 +780,15 @@ function generateSpoilerFreeDescription(uncertaintyMetrics, game) {
 // Utility functions
 function sigmoidTransform(value, midpoint, scale) {
   return scale / (1 + Math.exp(-(value - midpoint) / (midpoint * 0.3)));
+}
+
+function calculateBalanceFromProbability(probability) {
+  if (probability === null || probability === undefined) {
+    return 0;
+  }
+
+  const difference = Math.abs(probability - 50);
+  return Math.max(0, 50 - difference);
 }
 
 function linear(value, minIn, maxIn, minOut, maxOut) {
@@ -803,7 +828,7 @@ function calculateAdaptiveWeights(metrics) {
     baseWeights.persistence -= 0.05;
   }
   
-  if (metrics.situationalTension > 20) {
+  if (metrics.situationalTension > 24) {
     baseWeights.tension += 0.1;
     baseWeights.peaks -= 0.05;
     baseWeights.narrative -= 0.05;
@@ -816,11 +841,11 @@ function calculateConfidence(metrics) {
   let confidence = 0.8;
   
   const scores = [
-    metrics.timeWeightedUncertainty > 20,
+    metrics.timeWeightedUncertainty >= 28,
     metrics.uncertaintyPersistence > 0.3,
-    metrics.peakUncertainty > 15,
+    metrics.peakUncertainty >= 24,
     metrics.comebackFactor > 25,
-    metrics.situationalTension > 12
+    metrics.situationalTension >= 16
   ];
   
   const agreementCount = scores.filter(s => s).length;
