@@ -74,7 +74,6 @@
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
             const [showDetailedScores, setShowDetailedScores] = useState({});
-            const [embeddedVideos, setEmbeddedVideos] = useState({});
             const [selectedSport, setSelectedSport] = useState('NFL');
             const [games, setGames] = useState([]);
             const [loading, setLoading] = useState(false);
@@ -165,7 +164,6 @@
             const handleAnalyze = () => {
                 setGames([]);
                 setShowScores({});
-                setEmbeddedVideos({});
                 setError(null);
                 
                 if (selectedSport === 'NFL') {
@@ -328,53 +326,16 @@
                 return `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
             };
 
-            // YouTube embed helper functions
-            const extractYouTubeVideoId = (url) => {
-                if (!url) return null;
-
-                // Handle different YouTube URL formats
-                const patterns = [
-                    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
-                    /youtube\.com\/embed\/([^&\n?#]+)/,
-                    /youtube\.com\/v\/([^&\n?#]+)/
-                ];
-
-                for (const pattern of patterns) {
-                    const match = url.match(pattern);
-                    if (match) return match[1];
-                }
-
-                return null;
-            };
-
-            const toggleVideoEmbed = async (gameId) => {
-                if (embeddedVideos[gameId]) {
-                    // Hide video
-                    setEmbeddedVideos(prev => ({
-                        ...prev,
-                        [gameId]: null
-                    }));
-                } else {
-                    // Show video - fetch URL and embed
-                    const game = games.find(g => g.id === gameId);
-                    if (game) {
-                        try {
-                            const url = await getHighlightUrl(game);
-                            const videoId = extractYouTubeVideoId(url);
-
-                            if (videoId) {
-                                setEmbeddedVideos(prev => ({
-                                    ...prev,
-                                    [gameId]: videoId
-                                }));
-                            } else {
-                                // If no video ID, open in new tab as fallback
-                                window.open(url, '_blank', 'noopener,noreferrer');
-                            }
-                        } catch (error) {
-                            console.error('Failed to load video:', error);
-                        }
-                    }
+            // Simple highlight link handler
+            const openHighlights = async (game) => {
+                try {
+                    const url = await getHighlightUrl(game);
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                } catch (error) {
+                    console.error('Failed to load highlights:', error);
+                    // Fallback to search
+                    const fallbackUrl = getHighlightSearchFallback(game);
+                    window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
                 }
             };
 
@@ -1138,10 +1099,10 @@
                                                 React.createElement('button', {
                                                     onClick: async (e) => {
                                                         e.stopPropagation();
-                                                        await toggleVideoEmbed(game.id);
+                                                        await openHighlights(game);
                                                     },
                                                     style: {
-                                                        backgroundColor: '#ff4444',
+                                                        backgroundColor: '#ff0000',
                                                         color: '#fff',
                                                         padding: '8px 16px',
                                                         fontSize: '12px',
@@ -1152,53 +1113,7 @@
                                                         display: 'inline-block',
                                                         cursor: 'pointer'
                                                     }
-                                                }, embeddedVideos[game.id] ? '❌ Hide Video' : '📺 Watch Highlights')
-                                            ),
-
-                                            // Embedded YouTube video
-                                            embeddedVideos[game.id] && React.createElement('div', {
-                                                style: {
-                                                    marginTop: '15px',
-                                                    marginBottom: '15px'
-                                                }
-                                            },
-                                                React.createElement('iframe', {
-                                                    width: '100%',
-                                                    height: '315',
-                                                    src: `https://www.youtube.com/embed/${embeddedVideos[game.id]}?rel=0&modestbranding=1`,
-                                                    title: `${game.awayTeam} vs ${game.homeTeam} Highlights`,
-                                                    frameBorder: '0',
-                                                    allow: 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
-                                                    allowFullScreen: true,
-                                                    style: {
-                                                        borderRadius: '8px',
-                                                        border: '2px solid #000'
-                                                    }
-                                                }),
-                                                // Fallback "Watch on YouTube" button
-                                                React.createElement('div', {
-                                                    style: {
-                                                        textAlign: 'center',
-                                                        marginTop: '10px'
-                                                    }
-                                                },
-                                                    React.createElement('a', {
-                                                        href: `https://www.youtube.com/watch?v=${embeddedVideos[game.id]}`,
-                                                        target: '_blank',
-                                                        rel: 'noopener,noreferrer',
-                                                        style: {
-                                                            backgroundColor: '#ff0000',
-                                                            color: '#fff',
-                                                            padding: '6px 12px',
-                                                            fontSize: '11px',
-                                                            fontWeight: 'bold',
-                                                            textDecoration: 'none',
-                                                            borderRadius: '3px',
-                                                            border: '1px solid #000',
-                                                            display: 'inline-block'
-                                                        }
-                                                    }, '🔗 Watch on YouTube')
-                                                )
+                                                }, '📺 Watch Highlights')
                                             ),
 
                                             game.description && React.createElement('div', {
