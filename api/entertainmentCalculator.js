@@ -114,6 +114,7 @@ function calculateAdvancedUncertaintyMetrics(probabilities, game) {
 
   const leadChangeMetrics = calculateLeadChanges(probabilities);
   const probabilityNoise = calculateProbabilityNoise(probabilities);
+  const dramaticFinish = calculateDramaticFinish(probabilities);
 
   return {
     timeWeightedUncertainty,
@@ -123,7 +124,8 @@ function calculateAdvancedUncertaintyMetrics(probabilities, game) {
     situationalTension,
     leadChanges: leadChangeMetrics.total,
     leadChangeBreakdown: leadChangeMetrics.breakdown,
-    probabilityNoise
+    probabilityNoise,
+    dramaticFinish
   };
 }
 
@@ -302,6 +304,19 @@ function calculateProbabilityNoise(probabilities) {
   }
 
   return diffSum / validPairs;
+}
+
+function calculateDramaticFinish(probabilities) {
+  const lastTenPercent = probabilities.slice(-Math.floor(probabilities.length * 0.1));
+  
+  let maxSwing = 0;
+  for (let i = 1; i < lastTenPercent.length; i++) {
+    const swing = Math.abs(lastTenPercent[i].probability - lastTenPercent[i-1].probability);
+    maxSwing = Math.max(maxSwing, swing);
+  }
+  
+  // Convert to 0-10 scale
+  return Math.min(10, maxSwing * 0.2);
 }
 
 function calculateExponentialTimeWeighting(probabilities) {
