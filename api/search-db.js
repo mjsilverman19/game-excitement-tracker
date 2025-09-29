@@ -36,6 +36,14 @@ export default async function handler(req, res) {
   } = req.query;
 
   try {
+    // Validate sport
+    if (sport && !['NFL', 'CFB'].includes(sport)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid sport. Only NFL and CFB are supported.'
+      });
+    }
+
     // Build the query
     let query = supabase
       .from('games')

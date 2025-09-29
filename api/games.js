@@ -22,9 +22,9 @@ export default async function handler(req, res) {
   console.log('What we received:', req.body);
   console.log('Season is:', season, 'and its type is:', typeof season);
 
-  if (!sport || (['NFL', 'CFB'].includes(sport) && !week) || (sport === 'NBA' && !date)) {
+  if (!sport || !['NFL', 'CFB'].includes(sport) || !week) {
     return res.status(400).json({
-      error: ['NFL', 'CFB'].includes(sport) ? 'Week and sport are required' : 'Date and sport are required'
+      error: 'Week and sport (NFL or CFB) are required'
     });
   }
 
@@ -58,9 +58,6 @@ export default async function handler(req, res) {
 
       const gameTypeLabel = week === 'playoff' ? 'Playoff' : week === 'bowl' ? 'Bowl' : `Week ${weekNumber}`;
       console.log(`Analyzing CFB ${gameTypeLabel} (${searchParam.season}) games...`);
-    } else {
-      searchParam = { date };
-      console.log(`Analyzing ${sport} games for ${date}...`);
     }
 
     const games = await getGamesForSearch(searchParam, sport);
@@ -70,7 +67,7 @@ export default async function handler(req, res) {
         success: true,
         games: [],
         metadata: {
-          date: ['NFL', 'CFB'].includes(sport) ? `Week ${week} (${searchParam.season})` : date,
+          date: `Week ${week} (${searchParam.season})`,
           sport: sport,
           source: 'ESPN Win Probability API',
           analysisType: 'Enhanced Entertainment Analysis',
@@ -91,7 +88,7 @@ export default async function handler(req, res) {
       success: true,
       games: validGames,
       metadata: {
-        date: ['NFL', 'CFB'].includes(sport) ? `Week ${week} (${searchParam.season})` : date,
+        date: `Week ${week} (${searchParam.season})`,
         sport: sport,
         source: 'ESPN Win Probability API',
         analysisType: 'Enhanced Entertainment Analysis',

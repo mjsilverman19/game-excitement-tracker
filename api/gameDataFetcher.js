@@ -25,11 +25,8 @@ export async function getGamesForSearch(searchParam, sport) {
           apiUrl += `&season=${searchParam.season}`;
         }
       }
-    } else if (sport === 'NBA') {
-      const dateFormatted = searchParam.date.replace(/-/g, '');
-      apiUrl = `https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${dateFormatted}`;
     } else {
-      throw new Error(`Unsupported sport: ${sport}`);
+      throw new Error(`Unsupported sport: ${sport}. Only NFL and CFB are supported.`);
     }
 
     console.log(`Fetching ${sport} games from: ${apiUrl}`);
