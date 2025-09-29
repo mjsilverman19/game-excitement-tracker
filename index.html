@@ -1007,7 +1007,7 @@
                 if (query.season) params.append('season', query.season);
                 if (query.week) params.append('week', query.week);
                 if (typeof query.minRating !== 'undefined' && query.minRating !== null && !Number.isNaN(query.minRating)) {
-                    params.append('minExcitement', (parseFloat(query.minRating) * 10).toString()); // 0-100 scale
+                    params.append('minExcitement', (parseFloat(query.minRating)).toString()); // 0-10 scale to match DB
                 }
                 if (query.limit) params.append('limit', String(query.limit));
                 if (query.sortBy) params.append('sortBy', query.sortBy);
@@ -1124,7 +1124,7 @@
             games.forEach(game => {
                 const isOT = game.overtime ? ' (OT)' : '';
                 const dateStr = new Date(game.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                const excitement10 = (typeof game.excitement === 'number') ? (game.excitement / 10) : 0; // normalize 0-100 -> 0-10
+                const excitement10 = (typeof game.excitement === 'number') ? game.excitement : 0; // already 0-10 from DB
                 const color = getRatingColor(excitement10);
                 const label = getRatingLabel(excitement10);
 
