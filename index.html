@@ -73,6 +73,7 @@
             const [selectedSeason, setSelectedSeason] = useState(currentNFLWeek.season.toString());
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
+            const [showDetailedScores, setShowDetailedScores] = useState({});
             const [selectedSport, setSelectedSport] = useState('NFL');
             const [games, setGames] = useState([]);
             const [loading, setLoading] = useState(false);
@@ -222,6 +223,116 @@
                     ...prev,
                     [gameId]: !prev[gameId]
                 }));
+            };
+
+            const toggleDetailedScore = (gameId) => {
+                setShowDetailedScores(prev => ({
+                    ...prev,
+                    [gameId]: !prev[gameId]
+                }));
+            };
+
+            const generateMultipleRatings = (game) => {
+                const breakdown = game.breakdown || {};
+                const baseExcitement = game.excitement || 5;
+
+                // IMPORTANCE: Based on stakes, context, quality, and expectations
+                // These are multipliers (1.0 = baseline), but we need to boost high-stakes games
+                const rawStakes = breakdown.stakes || 1;
+
+                // Enhanced scaling for major games with proper playoff hierarchy
+                let stakesScore;
+                if (rawStakes >= 1.25) { // Championship games (Super Bowl, CFP National Championship)
+                    stakesScore = Math.min(10, 8.5 + ((rawStakes - 1.25) * 4)); // Maps 1.25-1.6 to 8.5-9.9
+                } else if (rawStakes >= 1.22) { // Conference Championships, CFP Semifinals
+                    stakesScore = Math.min(10, 7.5 + ((rawStakes - 1.22) * 10)); // Maps 1.22-1.25 to 7.5-8.2
+                } else if (rawStakes >= 1.18) { // Divisional/Conference playoffs
+                    stakesScore = Math.min(10, 6 + ((rawStakes - 1.18) * 12.5)); // Maps 1.18-1.22 to 6-6.5
+                } else if (rawStakes >= 1.15) { // Wild Card, First Round playoffs
+                    stakesScore = Math.min(10, 4.5 + ((rawStakes - 1.15) * 16.7)); // Maps 1.15-1.18 to 4.5-5.0
+                } else if (rawStakes >= 1.12) { // Major bowl games, important bowls
+                    stakesScore = Math.min(10, 3.5 + ((rawStakes - 1.12) * 10)); // Maps 1.12-1.15 to 3.5-3.8
+                } else if (rawStakes >= 1.08) { // Regular bowl games
+                    stakesScore = Math.min(10, 2.5 + ((rawStakes - 1.08) * 12.5)); // Maps 1.08-1.12 to 2.5-3.0
+                } else {
+                    stakesScore = Math.min(10, rawStakes * 3.5); // Regular season: 1.0-1.08 to 3.5-3.8
+                }
+
+                const contextScore = Math.min(10, (breakdown.context || 0) + 3); // Context score + baseline
+                const qualityScore = Math.min(10, (breakdown.quality || 1) * 4); // Quality multiplier -> 0-10 scale
+                const expectationScore = Math.min(10, (breakdown.expectation || 1) * 4); // Expectation multiplier -> 0-10 scale
+
+                const importance = Math.min(10, Math.max(1,
+                    (stakesScore * 0.5) + (contextScore * 0.25) + (qualityScore * 0.15) + (expectationScore * 0.1)
+                ));
+
+                // DRAMA: Based on tension, peaks, comeback, and narrative (0-10 scale values)
+                const drama = Math.min(10, Math.max(1,
+                    ((breakdown.tension || 0) * 0.3) +
+                    ((breakdown.peaks || 0) * 0.3) +
+                    ((breakdown.comeback || 0) * 0.25) +
+                    ((breakdown.narrative || 0) * 0.15) +
+                    1.5 // baseline
+                ));
+
+                // COMPETITIVENESS: Based on uncertainty, persistence, lead changes, and overall excitement
+                const leadChangesScore = Math.min(10, (breakdown.leadChanges || 0) * 1.5 + 3); // Lead changes to 0-10 scale
+                const competitiveness = Math.min(10, Math.max(1,
+                    ((breakdown.uncertainty || 0) * 0.35) +
+                    ((breakdown.persistence || 0) * 0.25) +
+                    (leadChangesScore * 0.2) +
+                    (baseExcitement * 0.2)
+                ));
+
+                return {
+                    importance: Math.round(importance * 10) / 10,
+                    drama: Math.round(drama * 10) / 10,
+                    competitiveness: Math.round(competitiveness * 10) / 10
+                };
+            };
+
+            const getHighlightUrl = async (game) => {
+                // Try to get direct NFL highlight video first
+                try {
+                    const response = await fetch('/api/youtube-highlights', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            awayTeam: game.awayTeam,
+                            homeTeam: game.homeTeam,
+                            awayScore: game.awayScore,
+                            homeScore: game.homeScore
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.videoUrl) {
+                            return data.videoUrl;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch YouTube highlights:', error);
+                }
+
+                // Fallback to search if API fails
+                return getHighlightSearchFallback(game);
+            };
+
+            const getHighlightSearchFallback = (game) => {
+                const year = new Date().getFullYear();
+                let searchQuery;
+
+                if (game.awayScore && game.homeScore) {
+                    searchQuery = `"${game.awayTeam} vs. ${game.homeTeam}" NFL highlights ${year}`;
+                } else {
+                    searchQuery = `"${game.awayTeam} vs ${game.homeTeam}" "NFL highlights" ${year}`;
+                }
+
+                searchQuery += ` -recap -news -reaction -fantasy -breaking -analysis -preview`;
+                return `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
             };
 
             const formatDate = (dateStr) => {
@@ -868,20 +979,20 @@
                                 },
                                     React.createElement('div', { style: { padding: '15px' } },
                                         React.createElement('div', {
-                                            style: { 
-                                                display: 'flex', 
+                                            style: {
+                                                display: 'flex',
                                                 justifyContent: 'space-between',
                                                 alignItems: 'center'
                                             }
                                         },
                                             React.createElement('div', {
-                                                style: { 
-                                                    fontSize: '14px', 
+                                                style: {
+                                                    fontSize: '14px',
                                                     fontWeight: 'bold'
                                                 }
                                             }, `${game.awayTeam} @ ${game.homeTeam}`),
                                             React.createElement('div', {
-                                                style: { 
+                                                style: {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     gap: '15px'
@@ -899,8 +1010,8 @@
                                                         }
                                                     }, `${game.excitement}/10`),
                                                     React.createElement('div', {
-                                                        style: { 
-                                                            fontSize: '10px', 
+                                                        style: {
+                                                            fontSize: '10px',
                                                             color: '#666',
                                                             marginTop: '2px'
                                                         }
@@ -914,7 +1025,7 @@
                                                 }, showScores[game.id] ? '▼ HIDE' : '▶ SHOW')
                                             )
                                         ),
-                                        
+
                                         showScores[game.id] && React.createElement('div', {
                                             style: {
                                                 marginTop: '15px',
@@ -922,14 +1033,116 @@
                                                 borderTop: '1px solid #ccc'
                                             }
                                         },
+                                            // Score reveal section with button
                                             React.createElement('div', {
                                                 style: {
-                                                    fontSize: '18px',
-                                                    fontWeight: 'bold',
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center',
+                                                    marginBottom: '15px'
+                                                }
+                                            },
+                                                showDetailedScores[game.id]
+                                                    ? React.createElement('div', {
+                                                        style: {
+                                                            fontSize: '18px',
+                                                            fontWeight: 'bold',
+                                                            color: '#000'
+                                                        }
+                                                    }, `FINAL: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`)
+                                                    : React.createElement('div', {
+                                                        style: {
+                                                            fontSize: '14px',
+                                                            color: '#666',
+                                                            fontStyle: 'italic'
+                                                        }
+                                                    }, 'Click to reveal final score'),
+                                                React.createElement('button', {
+                                                    onClick: (e) => {
+                                                        e.stopPropagation();
+                                                        toggleDetailedScore(game.id);
+                                                    },
+                                                    style: {
+                                                        backgroundColor: showDetailedScores[game.id] ? '#666' : '#0066cc',
+                                                        color: '#fff',
+                                                        border: 'none',
+                                                        padding: '6px 12px',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold',
+                                                        cursor: 'pointer',
+                                                        borderRadius: '3px'
+                                                    }
+                                                }, showDetailedScores[game.id] ? 'HIDE SCORE' : 'REVEAL SCORE')
+                                            ),
+
+                                            // Multiple ratings grid
+                                            React.createElement('div', {
+                                                style: {
+                                                    display: 'grid',
+                                                    gridTemplateColumns: 'repeat(3, 1fr)',
+                                                    gap: '10px',
+                                                    marginBottom: '15px'
+                                                }
+                                            }, (() => {
+                                                const ratings = generateMultipleRatings(game);
+                                                return Object.entries(ratings).map(([metric, rating]) =>
+                                                    React.createElement('div', {
+                                                        key: metric,
+                                                        style: {
+                                                            textAlign: 'center',
+                                                            backgroundColor: '#f8f8f8',
+                                                            padding: '8px',
+                                                            border: '1px solid #ddd',
+                                                            borderRadius: '3px'
+                                                        }
+                                                    },
+                                                        React.createElement('div', {
+                                                            style: {
+                                                                fontSize: '10px',
+                                                                fontWeight: 'bold',
+                                                                color: '#666',
+                                                                textTransform: 'uppercase',
+                                                                marginBottom: '2px'
+                                                            }
+                                                        }, metric),
+                                                        React.createElement('div', {
+                                                            style: {
+                                                                fontSize: '14px',
+                                                                fontWeight: 'bold',
+                                                                color: getRatingColor(rating)
+                                                            }
+                                                        }, rating.toFixed(1))
+                                                    )
+                                                );
+                                            })()),
+
+                                            // Highlights link
+                                            React.createElement('div', {
+                                                style: {
                                                     marginBottom: '10px'
                                                 }
-                                            }, `FINAL: ${game.awayTeam} ${game.awayScore} - ${game.homeScore} ${game.homeTeam}${game.overtime ? ' (OT)' : ''}`),
-                                            
+                                            },
+                                                React.createElement('button', {
+                                                    onClick: async (e) => {
+                                                        e.stopPropagation();
+                                                        const url = await getHighlightUrl(game);
+                                                        window.open(url, '_blank', 'noopener,noreferrer');
+                                                    },
+                                                    style: {
+                                                        backgroundColor: '#ff4444',
+                                                        color: '#fff',
+                                                        padding: '8px 16px',
+                                                        fontSize: '12px',
+                                                        fontWeight: 'bold',
+                                                        textDecoration: 'none',
+                                                        borderRadius: '3px',
+                                                        border: '1px solid #000',
+                                                        display: 'inline-block',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }, '📺 Watch Highlights')
+                                            ),
+
                                             game.description && React.createElement('div', {
                                                 style: {
                                                     fontSize: '12px',
@@ -937,32 +1150,7 @@
                                                     marginBottom: '8px',
                                                     fontWeight: 'bold'
                                                 }
-                                            }, game.description),
-                                            
-                                            game.varianceAnalysis && React.createElement('div', {
-                                                style: {
-                                                    fontSize: '11px',
-                                                    color: '#666',
-                                                    marginBottom: '8px'
-                                                }
-                                            }, game.varianceAnalysis),
-                                            
-                                            game.keyMoments && game.keyMoments.length > 0 && React.createElement('div', {
-                                                style: {
-                                                    fontSize: '10px',
-                                                    color: '#888'
-                                                }
-                                            },
-                                                React.createElement('div', { 
-                                                    style: { fontWeight: 'bold', marginBottom: '4px' } 
-                                                }, 'KEY MOMENTS:'),
-                                                game.keyMoments.map((moment, index) => 
-                                                    React.createElement('div', { 
-                                                        key: index,
-                                                        style: { marginLeft: '8px' }
-                                                    }, `• ${moment}`)
-                                                )
-                                            )
+                                            }, game.description)
                                         )
                                     )
                                 )
