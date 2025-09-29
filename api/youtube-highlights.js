@@ -54,28 +54,35 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
 
   // Try multiple search strategies with improved queries
   const attempts = [
-    // Attempt 1: Search within NFL channel using full team names
+    // Attempt 1: Search within official NFL channel only - most reliable
     {
-      type: 'NFL_channel_full_names',
+      type: 'NFL_channel_only',
       url: `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&channelId=UCDVYQ4Zhbm3S2dlz7P1GBDg&type=video&order=date&maxResults=50&` +
-        `publishedAfter=${getRecentDate()}&key=${API_KEY}`
+        `videoDuration=medium&publishedAfter=${getRecentDate()}&key=${API_KEY}`
     },
-    // Attempt 2: General search with full team names
+    // Attempt 2: Search with full team names and "vs" to match NFL title format
+    {
+      type: 'search_full_names_vs',
+      url: `https://www.googleapis.com/youtube/v3/search?` +
+        `part=snippet&q=${encodeURIComponent(`"${fullAwayTeam}" vs "${fullHomeTeam}" highlights`)}&` +
+        `type=video&order=relevance&videoDuration=medium&maxResults=25&publishedAfter=${getRecentDate()}&key=${API_KEY}`
+    },
+    // Attempt 3: General search with full team names
     {
       type: 'search_full_names',
       url: `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&q=${encodeURIComponent(`"${fullAwayTeam}" "${fullHomeTeam}" highlights NFL`)}&` +
         `type=video&order=relevance&maxResults=25&publishedAfter=${getRecentDate()}&key=${API_KEY}`
     },
-    // Attempt 3: Search with team nicknames (e.g., "Vikings Steelers")
+    // Attempt 4: Search with team nicknames (e.g., "Vikings Steelers")
     {
       type: 'search_nicknames',
       url: `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&q=${encodeURIComponent(`${getTeamNickname(fullAwayTeam)} ${getTeamNickname(fullHomeTeam)} highlights NFL`)}&` +
         `type=video&order=relevance&maxResults=25&publishedAfter=${getRecentDate()}&key=${API_KEY}`
     },
-    // Attempt 4: Fallback to original team names
+    // Attempt 5: Fallback to original team names
     {
       type: 'search_original',
       url: `https://www.googleapis.com/youtube/v3/search?` +
@@ -137,10 +144,25 @@ function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, a
   let bestMatch = null;
   let bestScore = 0;
 
+  // Negative filters - avoid these types of videos
+  const negativeKeywords = [
+    'recap', 'reaction', 'preview', 'news', 'breaking',
+    'mic\'d up', 'micd up', 'mic up', 'film room', 'every td',
+    'every touchdown', 'top plays', 'analysis', 'fantasy',
+    'madden', 'live stream', 'postgame', 'post game'
+  ];
+
   for (const video of videos) {
     const title = video.snippet.title.toLowerCase();
     const description = video.snippet.description.toLowerCase();
+    const channelTitle = video.snippet.channelTitle.toLowerCase();
     let matchScore = 0;
+
+    // Skip videos with negative keywords in the title
+    if (negativeKeywords.some(keyword => title.includes(keyword))) {
+      console.log(`Skipping "${video.snippet.title}" - contains negative keyword`);
+      continue;
+    }
 
     // Check if both teams are mentioned in title or description
     const hasAwayTeam = allVariations.away.some(variant =>
@@ -151,9 +173,20 @@ function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, a
     if (hasAwayTeam && hasHomeTeam) {
       matchScore += 10; // Base score for having both teams
 
+      // HIGH PRIORITY: Official NFL channel
+      if (channelTitle === 'nfl') {
+        matchScore += 15;
+        console.log(`Bonus for official NFL channel: "${video.snippet.title}"`);
+      }
+
       // Bonus points if it's specifically labeled as highlights
       if (title.includes('highlights') || title.includes('highlight')) {
         matchScore += 5;
+      }
+
+      // Extra bonus for "Game Highlights" (NFL's standard format)
+      if (title.includes('game highlights')) {
+        matchScore += 3;
       }
 
       // Extra bonus if score matches (for games with final scores)
@@ -162,9 +195,18 @@ function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, a
         matchScore += 8;
       }
 
-      // Prefer videos with "vs" format
-      if (title.includes(' vs ') || title.includes(' vs. ') || title.includes(' @ ')) {
-        matchScore += 3;
+      // Prefer videos with "vs." format (NFL standard)
+      if (title.includes(' vs. ')) {
+        matchScore += 4;
+      } else if (title.includes(' vs ') || title.includes(' @ ')) {
+        matchScore += 2;
+      }
+
+      // Bonus for titles containing both full team names (not just nicknames)
+      const hasFullAwayName = title.includes(fullAwayTeam.toLowerCase());
+      const hasFullHomeName = title.includes(fullHomeTeam.toLowerCase());
+      if (hasFullAwayName && hasFullHomeName) {
+        matchScore += 5;
       }
 
       // Prefer more recent videos (published more recently gets higher score)
@@ -176,6 +218,7 @@ function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, a
       if (matchScore > bestScore) {
         bestScore = matchScore;
         bestMatch = video;
+        console.log(`New best match (score: ${bestScore}): "${video.snippet.title}"`);
       }
     }
   }

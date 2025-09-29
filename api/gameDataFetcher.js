@@ -80,8 +80,8 @@ export async function getGamesForSearch(searchParam, sport) {
 
       return {
         id: event.id,
-        homeTeam: homeTeam?.team.location || homeTeam?.team.displayName,
-        awayTeam: awayTeam?.team.location || awayTeam?.team.displayName,
+        homeTeam: homeTeam?.team.displayName || homeTeam?.team.location,
+        awayTeam: awayTeam?.team.displayName || awayTeam?.team.location,
         homeScore: parseInt(homeTeam?.score || 0),
         awayScore: parseInt(awayTeam?.score || 0),
         isCompleted: competition.status.type.completed,
@@ -130,8 +130,8 @@ async function parseGameFromCoreAPI(gameData) {
       fetch(competition.status.$ref).then(r => r.ok ? r.json() : null)
     ]);
 
-    const homeTeam = homeTeamData?.location || homeTeamData?.displayName || 'Unknown';
-    const awayTeam = awayTeamData?.location || awayTeamData?.displayName || 'Unknown';
+    const homeTeam = homeTeamData?.displayName || homeTeamData?.location || 'Unknown';
+    const awayTeam = awayTeamData?.displayName || awayTeamData?.location || 'Unknown';
 
     if (homeTeam === 'NFC' || homeTeam === 'AFC' || awayTeam === 'NFC' || awayTeam === 'AFC') {
       console.log(`Skipping Pro Bowl game with conference teams: ${awayTeam} @ ${homeTeam}`);
