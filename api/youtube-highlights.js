@@ -13,14 +13,22 @@ export default async function handler(req, res) {
     const videoUrl = await findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore);
 
     if (videoUrl) {
+      console.log(`✅ Found direct video for ${awayTeam} vs ${homeTeam}`);
       return res.json({ success: true, videoUrl });
     } else {
+      console.log(`❌ No direct video found for ${awayTeam} vs ${homeTeam}, using fallback`);
       // Fallback to search if no direct video found
       const searchUrl = generateSearchFallback(awayTeam, homeTeam, awayScore, homeScore);
       return res.json({ success: true, videoUrl: searchUrl, fallback: true });
     }
   } catch (error) {
     console.error('YouTube API error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      awayTeam,
+      homeTeam,
+      hasApiKey: !!process.env.YOUTUBE_API_KEY
+    });
 
     // Fallback to search on error
     const searchUrl = generateSearchFallback(awayTeam, homeTeam, awayScore, homeScore);
@@ -30,6 +38,9 @@ export default async function handler(req, res) {
 
 async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
   const API_KEY = process.env.YOUTUBE_API_KEY;
+
+  console.log('YouTube API Key present:', !!API_KEY);
+  console.log('Searching for:', `${awayTeam} vs ${homeTeam}`);
 
   if (!API_KEY) {
     console.log('No YouTube API key found, falling back to search');
@@ -55,23 +66,36 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
   ];
 
   for (const attempt of attempts) {
+    console.log(`Trying ${attempt.type} search...`);
     try {
       const response = await fetch(attempt.url);
 
       if (!response.ok) {
+        console.log(`${attempt.type} search failed: ${response.status}`);
         continue;
       }
 
       const data = await response.json();
+      console.log(`Found ${data.items?.length || 0} videos from ${attempt.type} search`);
+
+      if (data.items?.length > 0) {
+        console.log('Sample titles:');
+        data.items.slice(0, 3).forEach((video, i) => {
+          console.log(`${i + 1}: ${video.snippet.title}`);
+        });
+      }
 
       // Find video that matches our teams
       const matchingVideo = findBestMatch(data.items, awayTeam, homeTeam, awayScore, homeScore);
 
       if (matchingVideo) {
+        console.log(`✅ Found match: ${matchingVideo.snippet.title}`);
         return `https://www.youtube.com/watch?v=${matchingVideo.id.videoId}`;
+      } else {
+        console.log(`No match found in ${attempt.type} search`);
       }
     } catch (error) {
-      // Continue to next attempt on error
+      console.log(`${attempt.type} search error:`, error.message);
       continue;
     }
   }
@@ -81,6 +105,7 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
 
 function findBestMatch(videos, awayTeam, homeTeam, awayScore, homeScore) {
   const teamVariations = getTeamVariations(awayTeam, homeTeam);
+  console.log('Team variations:', teamVariations);
   let bestMatch = null;
   let bestScore = 0;
 
