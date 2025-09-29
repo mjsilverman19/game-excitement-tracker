@@ -1,6 +1,6 @@
-# Game Excitement Tracker
+# Game Entertainment Index
 
-A win probability variance analysis system that calculates entertainment scores for NFL and CFB games using ESPN's real-time data.
+Find the most entertaining games to watch with data. A win probability variance analysis system that calculates entertainment scores for NFL and CFB games using ESPN's real-time data.
 
 ## Architecture Overview
 
