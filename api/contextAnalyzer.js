@@ -204,22 +204,19 @@ function analyzeScoring(game) {
 
   let scoringFactor = 1.0;
 
-  if (totalScore > 60) {
-    scoringFactor = 1.3;
-  } else if (totalScore < 30) {
-    scoringFactor = margin <= 3 ? 1.2 : 0.8;
-  }
+  // Don't penalize or boost based on total score - let the game flow metrics do the work
+  // Just apply the margin penalty
+  const marginPenalty = Math.pow(margin / 10, 1.3);
 
-  const marginPenalty = Math.pow(margin / 10, 1.5);
-
-  return Math.max(0.2, scoringFactor - marginPenalty * 0.3);
+  return Math.max(0.7, scoringFactor - marginPenalty * 0.14);
 }
 
 function assessCompetitiveBalance(game) {
   const margin = Math.abs(game.homeScore - game.awayScore);
 
-  if (margin <= 3) return 1.3;
-  if (margin <= 7) return 1.15;
+  if (margin <= 3) return 1.15;
+  if (margin <= 7) return 1.08;
+  if (margin <= 10) return 1.02;
   if (margin <= 14) return 1.0;
-  return 0.8;
+  return 0.92;
 }

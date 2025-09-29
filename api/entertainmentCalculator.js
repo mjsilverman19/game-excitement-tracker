@@ -562,10 +562,14 @@ function combineEnhancedMetrics(metrics) {
 
   const contextScore = rawScore * scoringContext * competitiveBalance * stakesBoost * qualityBoost * expectationBoost * noisePenalty;
 
+  // Apply compression to reduce extremes - maps 0-10 to roughly 1-9.5
+  const compressedScore = 1.0 + (contextScore * 0.85);
+  const finalScore = Math.min(9.8, Math.max(0.5, compressedScore));
+
   const confidence = calculateConfidence(metrics);
 
   return {
-    score: Math.min(10.0, Math.max(0.0, contextScore)),
+    score: finalScore,
     confidence: confidence,
     breakdown: {
       uncertainty: Math.round(uncertaintyScore * 10) / 10,
@@ -621,31 +625,38 @@ function generateSpoilerFreeDescription(uncertaintyMetrics, game, context = {}) 
 
 function calculateAdaptiveWeights(metrics) {
   const baseWeights = {
-    uncertainty: 0.22,
+    uncertainty: 0.20,
     persistence: 0.13,
-    peaks: 0.18,
-    comeback: 0.13,
-    tension: 0.13,
-    narrative: 0.09,
-    dramaticFinish: 0.12
+    peaks: 0.16,
+    comeback: 0.12,
+    tension: 0.12,
+    narrative: 0.11,
+    dramaticFinish: 0.16
   };
 
+  // If there were many lead changes, reduce dramatic finish importance
+  if ((metrics.leadChanges || 0) >= 6) {
+    baseWeights.dramaticFinish -= 0.04;
+    baseWeights.persistence += 0.02;
+    baseWeights.peaks += 0.02;
+  }
+
   if (metrics.comebackFactor > 40) {
-    baseWeights.comeback += 0.1;
-    baseWeights.uncertainty -= 0.05;
-    baseWeights.persistence -= 0.05;
+    baseWeights.comeback += 0.08;
+    baseWeights.uncertainty -= 0.04;
+    baseWeights.persistence -= 0.04;
   }
 
   if (metrics.situationalTension > 24) {
-    baseWeights.tension += 0.1;
-    baseWeights.peaks -= 0.05;
-    baseWeights.narrative -= 0.05;
+    baseWeights.tension += 0.08;
+    baseWeights.peaks -= 0.04;
+    baseWeights.narrative -= 0.04;
   }
 
   if ((metrics.probabilityNoise || 0) > 18) {
-    baseWeights.peaks -= 0.05;
+    baseWeights.peaks -= 0.04;
     baseWeights.comeback -= 0.02;
-    baseWeights.narrative += 0.07;
+    baseWeights.narrative += 0.06;
   }
 
   return baseWeights;
