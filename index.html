@@ -60,8 +60,64 @@
             };
         };
 
+        // Helper function to estimate current CFB week based on current date
+        const getCurrentCFBWeek = () => {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const month = now.getMonth(); // 0-based (January = 0)
+            const day = now.getDate();
+            
+            // Determine which CFB season we're likely in
+            let seasonYear;
+            if (month >= 7) {
+                // August onwards = new season starting
+                seasonYear = currentYear;
+            } else if (month <= 1) {
+                // January-February = bowl/playoff season from previous year
+                seasonYear = currentYear - 1;
+            } else {
+                // March-July = off-season, default to next season
+                seasonYear = currentYear;
+            }
+            
+            // CFB season typically starts in late August/early September
+            // Let's use the last Saturday in August as a rough start date
+            const augustLast = new Date(seasonYear, 7, 31); // August 31st
+            const seasonStart = new Date(augustLast);
+            // Find the last Saturday of August
+            const dayOfWeek = augustLast.getDay();
+            const daysToSaturday = dayOfWeek === 6 ? 0 : (6 - dayOfWeek);
+            seasonStart.setDate(augustLast.getDate() - (dayOfWeek === 0 ? 1 : dayOfWeek) + 6);
+            
+            // Calculate weeks since season start
+            const timeDiff = now - seasonStart;
+            const weeksDiff = Math.floor(timeDiff / (7 * 24 * 60 * 60 * 1000)) + 1;
+            
+            let currentWeek;
+            if (month >= 7 && month <= 11) {
+                // During regular season: August-November
+                currentWeek = Math.max(1, Math.min(15, weeksDiff));
+            } else if (month === 0 && day <= 31) {
+                // January = bowl/playoff season
+                if (day <= 8) {
+                    currentWeek = 'playoff'; // CFP games usually early January
+                } else {
+                    currentWeek = 'bowl'; // Other bowl games
+                }
+            } else {
+                // Off-season: default to week 1 of upcoming season
+                currentWeek = 1;
+            }
+            
+            return { 
+                week: currentWeek, 
+                season: seasonYear 
+            };
+        };
+
         const GameExcitementTracker = () => {
             const currentNFLWeek = getCurrentNFLWeek();
+            const currentCFBWeek = getCurrentCFBWeek();
             
             const [selectedDate, setSelectedDate] = useState(() => {
                 const today = new Date();
@@ -69,8 +125,25 @@
                 yesterday.setDate(today.getDate() - 1);
                 return yesterday.toISOString().split('T')[0];
             });
-            const [selectedWeek, setSelectedWeek] = useState(`${currentNFLWeek.week}-2`);
-            const [selectedSeason, setSelectedSeason] = useState(currentNFLWeek.season.toString());
+            // Helper function to get initial week based on sport
+            const getInitialWeek = (sport) => {
+                if (sport === 'NFL') {
+                    return `${currentNFLWeek.week}-2`;
+                } else {
+                    const currentWeekValue = typeof currentCFBWeek.week === 'string' 
+                        ? currentCFBWeek.week 
+                        : currentCFBWeek.week.toString();
+                    return currentWeekValue;
+                }
+            };
+            
+            const [selectedWeek, setSelectedWeek] = useState(() => getInitialWeek('NFL'));
+            const [selectedSeason, setSelectedSeason] = useState(() => {
+                // Use NFL season by default since selectedSport starts as 'NFL'
+                console.log('Current NFL Week:', currentNFLWeek);
+                console.log('Current CFB Week:', currentCFBWeek);
+                return currentNFLWeek.season.toString();
+            });
             const [minRating, setMinRating] = useState(0);
             const [showScores, setShowScores] = useState({});
             const [showDetailedScores, setShowDetailedScores] = useState({});
@@ -743,11 +816,18 @@
                                     value: selectedSport,
                                     onChange: (e) => {
                                         setSelectedSport(e.target.value);
-                                        // Reset week when changing sports
+                                        // Reset week and season when changing sports to current values
                                         if (e.target.value === 'NFL') {
                                             setSelectedWeek(`${currentNFLWeek.week}-2`);
+                                            setSelectedSeason(currentNFLWeek.season.toString());
                                         } else if (e.target.value === 'CFB') {
-                                            setSelectedWeek('1');
+                                            // Use current CFB week (convert to string format)
+                                            const currentWeekValue = typeof currentCFBWeek.week === 'string' 
+                                                ? currentCFBWeek.week 
+                                                : currentCFBWeek.week.toString();
+                                            setSelectedWeek(currentWeekValue);
+                                            setSelectedSeason(currentCFBWeek.season.toString());
+                                            console.log(`Switched to CFB: Week ${currentWeekValue}, Season ${currentCFBWeek.season}`);
                                         }
                                     },
                                     style: {
