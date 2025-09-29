@@ -394,41 +394,6 @@
                                 }),
                                 React.createElement('div', { id: 'dbMinExcitementLabel', style: { fontSize: '10px', color: '#aaa', marginTop: '2px' } }, '0')
                             ),
-                            // Sort by
-                            React.createElement('select', {
-                                id: 'dbSortBy',
-                                defaultValue: 'excitement_score',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            },
-                                React.createElement('option', { value: 'excitement_score' }, 'Sort: Excitement'),
-                                React.createElement('option', { value: 'date' }, 'Sort: Date'),
-                                React.createElement('option', { value: 'score_diff' }, 'Sort: Score Diff')
-                            ),
-                            // Sort order
-                            React.createElement('select', {
-                                id: 'dbSortOrder',
-                                defaultValue: 'desc',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            },
-                                React.createElement('option', { value: 'desc' }, 'Desc'),
-                                React.createElement('option', { value: 'asc' }, 'Asc')
-                            ),
                             // Limit
                             React.createElement('input', {
                                 id: 'dbLimit',
@@ -962,8 +927,6 @@
                 const seasonSel = document.getElementById('dbSeason');
                 const weekInput = document.getElementById('dbWeek');
                 const minExcite = document.getElementById('dbMinExcitement');
-                const sortBySel = document.getElementById('dbSortBy');
-                const sortOrderSel = document.getElementById('dbSortOrder');
                 const limitInput = document.getElementById('dbLimit');
 
                 const usingStored = options.useLastQuery || typeof options.page !== 'undefined' || options.nextPage || options.prevPage;
@@ -975,8 +938,8 @@
                     const season = options.season ?? seasonSel?.value;
                     const week = options.week ?? weekInput?.value?.trim();
                     const minRating = options.minExcitement ?? (minExcite ? parseFloat(minExcite.value) : undefined);
-                    const sortBy = options.sortBy ?? (sortBySel?.value || 'excitement_score');
-                    const sortOrder = options.sortOrder ?? (sortOrderSel?.value || 'desc');
+                    const sortBy = 'excitement_score';
+                    const sortOrder = 'desc';
                     const limit = Number(options.limit ?? (limitInput?.value || window.searchState.limit || 10));
 
                     query = { team, sport, season, week, minRating, sortBy, sortOrder, limit };
@@ -1011,7 +974,7 @@
                 }
                 if (query.limit) params.append('limit', String(query.limit));
                 if (query.sortBy) params.append('sortBy', query.sortBy);
-                if (query.sortOrder) params.append('sortOrder', query.sortOrder);
+                params.append('sortOrder', 'desc');
 
                 const offset = (window.searchState.page || 0) * (window.searchState.limit || 10);
                 params.append('offset', String(offset));
