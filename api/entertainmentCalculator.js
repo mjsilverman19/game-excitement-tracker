@@ -532,7 +532,8 @@ function combineEnhancedMetrics(metrics) {
     expectationAdjustment,
     probabilityNoise,
     contextSummary,
-    narrative
+    narrative,
+    dramaticFinish
   } = metrics;
 
   const uncertaintyScore = sigmoidTransform(timeWeightedUncertainty, 28, 8.5);
@@ -541,6 +542,7 @@ function combineEnhancedMetrics(metrics) {
   const comebackScore = sigmoidTransform(comebackFactor, 30, 8.5);
   const tensionScore = sigmoidTransform(situationalTension, 18, 8.5);
   const narrativeScore = narrative;
+  const dramaticFinishScore = dramaticFinish ?? 0;
 
   const weights = calculateAdaptiveWeights(metrics);
   const noisePenalty = calculateNoisePenalty(probabilityNoise);
@@ -554,7 +556,8 @@ function combineEnhancedMetrics(metrics) {
     peakScore * weights.peaks +
     comebackScore * weights.comeback +
     tensionScore * weights.tension +
-    narrativeScore * weights.narrative
+    narrativeScore * weights.narrative +
+    dramaticFinishScore * weights.dramaticFinish
   );
 
   const contextScore = rawScore * scoringContext * competitiveBalance * stakesBoost * qualityBoost * expectationBoost * noisePenalty;
@@ -571,6 +574,7 @@ function combineEnhancedMetrics(metrics) {
       comeback: Math.round(comebackScore * 10) / 10,
       tension: Math.round(tensionScore * 10) / 10,
       narrative: Math.round(narrativeScore * 10) / 10,
+      dramaticFinish: Math.round(dramaticFinishScore * 10) / 10,
       context: Math.round((scoringContext * competitiveBalance) * 10) / 10,
       stakes: Math.round((stakesBoost) * 10) / 10,
       quality: Math.round((qualityBoost) * 10) / 10,
@@ -617,12 +621,13 @@ function generateSpoilerFreeDescription(uncertaintyMetrics, game, context = {}) 
 
 function calculateAdaptiveWeights(metrics) {
   const baseWeights = {
-    uncertainty: 0.25,
-    persistence: 0.15,
-    peaks: 0.2,
-    comeback: 0.15,
-    tension: 0.15,
-    narrative: 0.1
+    uncertainty: 0.22,
+    persistence: 0.13,
+    peaks: 0.18,
+    comeback: 0.13,
+    tension: 0.13,
+    narrative: 0.09,
+    dramaticFinish: 0.12
   };
 
   if (metrics.comebackFactor > 40) {
