@@ -558,48 +558,34 @@
                                         boxSizing: 'border-box'
                                     }
                                 })
+                            ),
+                            // Search button (positioned in the second row)
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: 'transparent'
+                                    }
+                                }, ' '),
+                                React.createElement('button', {
+                                    onClick: () => window.searchDatabase({ reset: true }),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 16px',
+                                        border: '1px solid #0066cc',
+                                        backgroundColor: '#0066cc',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
+                                    }
+                                }, 'Search')
                             )
-                        ),
-                        React.createElement('div', {
-                            style: {
-                                display: 'flex',
-                                gap: '10px',
-                                marginTop: '8px',
-                                maxWidth: '100%'
-                            }
-                        },
-                            // Search button
-                            React.createElement('button', {
-                                onClick: () => window.searchDatabase({ reset: true }),
-                                style: {
-                                    flex: '1',
-                                    padding: '10px 16px',
-                                    border: '1px solid #0066cc',
-                                    backgroundColor: '#0066cc',
-                                    color: '#fff',
-                                    fontSize: '13px',
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit',
-                                    borderRadius: '3px'
-                                }
-                            }, 'Search'),
-                            // Top games quick filter
-                            React.createElement('button', {
-                                onClick: () => window.searchDatabase({ minExcitement: 8, reset: true }),
-                                style: {
-                                    flex: '1',
-                                    padding: '10px 16px',
-                                    border: '1px solid #cc6600',
-                                    backgroundColor: '#cc6600',
-                                    color: '#fff',
-                                    fontSize: '13px',
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit',
-                                    borderRadius: '3px'
-                                }
-                            }, 'Top Games')
                         ),
                         React.createElement('div', {
                             id: 'searchResults',
