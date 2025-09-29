@@ -283,102 +283,161 @@
                     // Database Search Bar
                     React.createElement('div', {
                         style: {
-                            backgroundColor: '#000',
+                            backgroundColor: '#1a1a1a',
                             color: '#fff',
-                            padding: '15px',
+                            padding: '20px',
                             marginBottom: '20px',
-                            border: '2px solid #000'
+                            border: '1px solid #333',
+                            borderRadius: '4px'
                         }
                     },
                         React.createElement('div', {
                             style: {
-                                fontSize: '12px',
+                                fontSize: '14px',
                                 fontWeight: 'bold',
-                                marginBottom: '10px'
+                                marginBottom: '16px',
+                                color: '#fff'
                             }
-                        }, '🔍 SEARCH DATABASE'),
+                        }, '🔍 Search Database'),
                         React.createElement('div', {
                             style: {
                                 display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-                                gap: '10px',
-                                alignItems: 'end'
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                                gap: '12px',
+                                alignItems: 'end',
+                                marginBottom: '12px'
                             }
                         },
                             // Team input
-                            React.createElement('input', {
-                                id: 'dbTeam',
-                                type: 'text',
-                                placeholder: 'Team name (e.g., Steelers)',
-                                onKeyPress: (e) => {
-                                    if (e.key === 'Enter') {
-                                        window.searchDatabase({ reset: true });
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbTeam',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Team'),
+                                React.createElement('input', {
+                                    id: 'dbTeam',
+                                    type: 'text',
+                                    placeholder: 'e.g., Steelers',
+                                    onKeyPress: (e) => {
+                                        if (e.key === 'Enter') {
+                                            window.searchDatabase({ reset: true });
+                                        }
+                                    },
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
+                                    }
+                                })
+                            ),
+                            // Sport
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbSport',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Sport'),
+                                React.createElement('select', {
+                                    id: 'dbSport',
+                                    defaultValue: 'NFL',
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
                                     }
                                 },
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#222',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            }),
-                            // Sport
-                            React.createElement('select', {
-                                id: 'dbSport',
-                                defaultValue: 'NFL',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            },
-                                React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                React.createElement('option', { value: 'CFB' }, 'CFB'),
-                                React.createElement('option', { value: 'NBA' }, 'NBA')
+                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
+                                    React.createElement('option', { value: 'CFB' }, 'CFB'),
+                                    React.createElement('option', { value: 'NBA' }, 'NBA')
+                                )
                             ),
                             // Season
-                            React.createElement('select', {
-                                id: 'dbSeason',
-                                defaultValue: new Date().getFullYear().toString(),
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            },
-                                availableSeasons.map(year => (
-                                    React.createElement('option', { key: year, value: year }, year)
-                                ))
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbSeason',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Season'),
+                                React.createElement('select', {
+                                    id: 'dbSeason',
+                                    defaultValue: new Date().getFullYear().toString(),
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
+                                    }
+                                },
+                                    availableSeasons.map(year => (
+                                        React.createElement('option', { key: year, value: year }, year)
+                                    ))
+                                )
                             ),
                             // Week (free entry to support special values)
-                            React.createElement('input', {
-                                id: 'dbWeek',
-                                type: 'text',
-                                placeholder: 'Week (e.g., 7, bowl, playoff)',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            }),
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbWeek',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Week'),
+                                React.createElement('input', {
+                                    id: 'dbWeek',
+                                    type: 'text',
+                                    placeholder: 'e.g., 7, bowl, playoff',
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
+                                    }
+                                })
+                            ),
                             // Min excitement (0-10)
                             React.createElement('div', null,
-                                React.createElement('label', { htmlFor: 'dbMinExcitement', style: { display: 'block', fontSize: '11px', marginBottom: '4px' } }, 'Min Rating'),
+                                React.createElement('label', {
+                                    htmlFor: 'dbMinExcitement',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Min Rating'),
                                 React.createElement('input', {
                                     id: 'dbMinExcitement',
                                     type: 'range',
@@ -390,92 +449,145 @@
                                         const label = document.getElementById('dbMinExcitementLabel');
                                         if (label) label.textContent = `${e.target.value}`;
                                     },
-                                    style: { width: '100%' }
+                                    style: { width: '100%', marginBottom: '4px' }
                                 }),
-                                React.createElement('div', { id: 'dbMinExcitementLabel', style: { fontSize: '10px', color: '#aaa', marginTop: '2px' } }, '0')
+                                React.createElement('div', {
+                                    id: 'dbMinExcitementLabel',
+                                    style: {
+                                        fontSize: '11px',
+                                        color: '#999',
+                                        textAlign: 'center'
+                                    }
+                                }, '0')
                             ),
                             // Sort by
-                            React.createElement('select', {
-                                id: 'dbSortBy',
-                                defaultValue: 'excitement_score',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            },
-                                React.createElement('option', { value: 'excitement_score' }, 'Sort: Excitement'),
-                                React.createElement('option', { value: 'date' }, 'Sort: Date'),
-                                React.createElement('option', { value: 'score_diff' }, 'Sort: Score Diff')
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbSortBy',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Sort By'),
+                                React.createElement('select', {
+                                    id: 'dbSortBy',
+                                    defaultValue: 'excitement_score',
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
+                                    }
+                                },
+                                    React.createElement('option', { value: 'excitement_score' }, 'Excitement'),
+                                    React.createElement('option', { value: 'date' }, 'Date'),
+                                    React.createElement('option', { value: 'score_diff' }, 'Score Diff')
+                                )
                             ),
                             // Sort order
-                            React.createElement('select', {
-                                id: 'dbSortOrder',
-                                defaultValue: 'desc',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            },
-                                React.createElement('option', { value: 'desc' }, 'Desc'),
-                                React.createElement('option', { value: 'asc' }, 'Asc')
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbSortOrder',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Order'),
+                                React.createElement('select', {
+                                    id: 'dbSortOrder',
+                                    defaultValue: 'desc',
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
+                                    }
+                                },
+                                    React.createElement('option', { value: 'desc' }, 'Desc'),
+                                    React.createElement('option', { value: 'asc' }, 'Asc')
+                                )
                             ),
                             // Limit
-                            React.createElement('input', {
-                                id: 'dbLimit',
-                                type: 'number',
-                                min: '1',
-                                max: '200',
-                                defaultValue: '10',
-                                style: {
-                                    width: '100%',
-                                    padding: '8px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#111',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontFamily: 'inherit'
-                                }
-                            }),
+                            React.createElement('div', null,
+                                React.createElement('label', {
+                                    htmlFor: 'dbLimit',
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
+                                        marginBottom: '4px',
+                                        color: '#ccc'
+                                    }
+                                }, 'Per Page'),
+                                React.createElement('input', {
+                                    id: 'dbLimit',
+                                    type: 'number',
+                                    min: '1',
+                                    max: '200',
+                                    defaultValue: '10',
+                                    style: {
+                                        width: '100%',
+                                        padding: '8px 12px',
+                                        border: '1px solid #444',
+                                        backgroundColor: '#2a2a2a',
+                                        color: '#fff',
+                                        fontSize: '13px',
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
+                                    }
+                                })
+                            )
+                        ),
+                        React.createElement('div', {
+                            style: {
+                                display: 'flex',
+                                gap: '12px',
+                                marginTop: '8px'
+                            }
+                        },
                             // Search button
                             React.createElement('button', {
                                 onClick: () => window.searchDatabase({ reset: true }),
                                 style: {
-                                    width: '100%',
-                                    padding: '8px 16px',
-                                    border: '1px solid #fff',
-                                    backgroundColor: '#444',
+                                    flex: '1',
+                                    padding: '10px 16px',
+                                    border: '1px solid #0066cc',
+                                    backgroundColor: '#0066cc',
                                     color: '#fff',
-                                    fontSize: '12px',
+                                    fontSize: '13px',
                                     fontWeight: 'bold',
                                     cursor: 'pointer',
-                                    fontFamily: 'inherit'
+                                    fontFamily: 'inherit',
+                                    borderRadius: '3px'
                                 }
-                            }, 'SEARCH'),
+                            }, 'Search'),
                             // Top games quick filter
                             React.createElement('button', {
                                 onClick: () => window.searchDatabase({ minExcitement: 8, reset: true }),
                                 style: {
-                                    width: '100%',
-                                    padding: '8px 16px',
-                                    border: '1px solid #ff0000',
-                                    backgroundColor: '#440000',
-                                    color: '#ff0000',
-                                    fontSize: '12px',
+                                    flex: '1',
+                                    padding: '10px 16px',
+                                    border: '1px solid #cc6600',
+                                    backgroundColor: '#cc6600',
+                                    color: '#fff',
+                                    fontSize: '13px',
                                     fontWeight: 'bold',
                                     cursor: 'pointer',
-                                    fontFamily: 'inherit'
+                                    fontFamily: 'inherit',
+                                    borderRadius: '3px'
                                 }
-                            }, 'TOP GAMES')
+                            }, 'Top Games')
                         ),
                         React.createElement('div', {
                             id: 'searchResults',
@@ -490,31 +602,33 @@
                     
                     // Controls
                     React.createElement('div', {
-                        style: { 
+                        style: {
                             backgroundColor: '#fff',
-                            border: '2px solid #000',
-                            padding: '15px',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            padding: '20px',
                             marginBottom: '20px'
                         }
                     },
                         React.createElement('div', {
-                            style: { 
-                                display: 'grid', 
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-                                gap: '15px',
+                            style: {
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                                gap: '16px',
                                 alignItems: 'end'
                             }
                         },
                             // Sport selector
                             React.createElement('div', null,
                                 React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
                                         fontWeight: 'bold',
-                                        marginBottom: '5px'
+                                        marginBottom: '6px',
+                                        color: '#333'
                                     }
-                                }, 'SPORT:'),
+                                }, 'Sport'),
                                 React.createElement('select', {
                                     value: selectedSport,
                                     onChange: (e) => {
@@ -528,9 +642,10 @@
                                     },
                                     style: {
                                         width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #000',
-                                        fontSize: '12px',
+                                        padding: '8px 12px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '3px',
+                                        fontSize: '13px',
                                         fontFamily: 'inherit',
                                         backgroundColor: '#fff'
                                     }
@@ -544,21 +659,23 @@
                             // Season (show for NFL and CFB)
                             (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
                                 React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
                                         fontWeight: 'bold',
-                                        marginBottom: '5px'
+                                        marginBottom: '6px',
+                                        color: '#333'
                                     }
-                                }, 'SEASON:'),
+                                }, 'Season'),
                                 React.createElement('select', {
                                     value: selectedSeason,
                                     onChange: (e) => setSelectedSeason(e.target.value),
                                     style: {
                                         width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #000',
-                                        fontSize: '12px',
+                                        padding: '8px 12px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '3px',
+                                        fontSize: '13px',
                                         fontFamily: 'inherit',
                                         backgroundColor: '#fff'
                                     }
@@ -572,21 +689,23 @@
                             // Week selector (show for NFL and CFB)
                             (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
                                 React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
                                         fontWeight: 'bold',
-                                        marginBottom: '5px'
+                                        marginBottom: '6px',
+                                        color: '#333'
                                     }
-                                }, 'WEEK:'),
+                                }, 'Week'),
                                 React.createElement('select', {
                                     value: selectedWeek,
                                     onChange: (e) => setSelectedWeek(e.target.value),
                                     style: {
                                         width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #000',
-                                        fontSize: '12px',
+                                        padding: '8px 12px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '3px',
+                                        fontSize: '13px',
                                         fontFamily: 'inherit',
                                         backgroundColor: '#fff'
                                     }
@@ -604,22 +723,24 @@
                             // Date picker (only show for NBA)
                             selectedSport === 'NBA' && React.createElement('div', null,
                                 React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
                                         fontWeight: 'bold',
-                                        marginBottom: '5px'
+                                        marginBottom: '6px',
+                                        color: '#333'
                                     }
-                                }, 'DATE:'),
+                                }, 'Date'),
                                 React.createElement('input', {
                                     type: 'date',
                                     value: selectedDate,
                                     onChange: (e) => setSelectedDate(e.target.value),
                                     style: {
                                         width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #000',
-                                        fontSize: '12px',
+                                        padding: '8px 12px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '3px',
+                                        fontSize: '13px',
                                         fontFamily: 'inherit'
                                     }
                                 })
@@ -628,13 +749,14 @@
                             // Min rating slider
                             React.createElement('div', null,
                                 React.createElement('label', {
-                                    style: { 
-                                        display: 'block', 
-                                        fontSize: '12px', 
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '12px',
                                         fontWeight: 'bold',
-                                        marginBottom: '5px'
+                                        marginBottom: '6px',
+                                        color: '#333'
                                     }
-                                }, `MIN RATING: ${minRating}`),
+                                }, `Min Rating: ${minRating}`),
                                 React.createElement('input', {
                                     type: 'range',
                                     min: '0',
@@ -653,15 +775,17 @@
                                     disabled: loading,
                                     style: {
                                         width: '100%',
-                                        padding: '8px',
-                                        border: '2px solid #000',
-                                        backgroundColor: loading ? '#ccc' : '#fff',
-                                        fontSize: '12px',
+                                        padding: '10px 16px',
+                                        border: '1px solid #0066cc',
+                                        backgroundColor: loading ? '#ccc' : '#0066cc',
+                                        color: loading ? '#666' : '#fff',
+                                        fontSize: '13px',
                                         fontWeight: 'bold',
                                         cursor: loading ? 'not-allowed' : 'pointer',
-                                        fontFamily: 'inherit'
+                                        fontFamily: 'inherit',
+                                        borderRadius: '3px'
                                     }
-                                }, loading ? 'ANALYZING...' : 'ANALYZE')
+                                }, loading ? 'Analyzing...' : 'Analyze')
                             )
                         ),
                         
@@ -1106,19 +1230,19 @@
             const showingTo = page * limit + games.length;
 
             let html = `
-                <div style="background:#0b0b0b; border:1px solid #333; padding: 12px; color:#ddd;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
-                        <div style="font-weight:bold; color:#0f0;">Database Results</div>
-                        <div style="font-size:12px; color:#aaa;">
-                            Page ${page + 1} • Showing ${showingFrom}-${showingTo} • Avg: ${(stats.avgExcitement || 0).toFixed(1)} • High: ${(stats.highestExcitement || 0).toFixed(1)}
+                <div style="background:#1a1a1a; border:1px solid #333; border-radius:4px; padding: 16px; color:#fff;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
+                        <div style="font-weight:bold; color:#0099ff; font-size:14px;">Search Results</div>
+                        <div style="font-size:12px; color:#999;">
+                            Page ${page + 1} • ${showingFrom}-${showingTo} • Avg: ${(stats.avgExcitement || 0).toFixed(1)} • High: ${(stats.highestExcitement || 0).toFixed(1)}
                         </div>
                         <div style="margin-left:auto; display:flex; gap:8px;">
-                            <button onclick="window.searchDatabase({ useLastQuery: true, prevPage: true })" style="border:1px solid #555; background:#111; color:#ccc; padding:6px 10px; cursor:${page === 0 ? 'not-allowed' : 'pointer'}; font-size:12px; opacity:${page === 0 ? 0.4 : 1}; pointer-events:${page === 0 ? 'none' : 'auto'};">Prev</button>
-                            <button onclick="window.searchDatabase({ useLastQuery: true, nextPage: true })" style="border:1px solid #555; background:#111; color:#ccc; padding:6px 10px; cursor:${state.hasMore ? 'pointer' : 'not-allowed'}; font-size:12px; opacity:${state.hasMore ? 1 : 0.4}; pointer-events:${state.hasMore ? 'auto' : 'none'};">Next</button>
-                            <button onclick="document.getElementById('searchResults').innerHTML='';" style="border:1px solid #555; background:#111; color:#ccc; padding:6px 10px; cursor:pointer; font-size:12px;">Clear</button>
+                            <button onclick="window.searchDatabase({ useLastQuery: true, prevPage: true })" style="border:1px solid #444; background:#2a2a2a; color:#ccc; padding:6px 12px; cursor:${page === 0 ? 'not-allowed' : 'pointer'}; font-size:12px; opacity:${page === 0 ? 0.5 : 1}; pointer-events:${page === 0 ? 'none' : 'auto'}; border-radius:3px;">Prev</button>
+                            <button onclick="window.searchDatabase({ useLastQuery: true, nextPage: true })" style="border:1px solid #444; background:#2a2a2a; color:#ccc; padding:6px 12px; cursor:${state.hasMore ? 'pointer' : 'not-allowed'}; font-size:12px; opacity:${state.hasMore ? 1 : 0.5}; pointer-events:${state.hasMore ? 'auto' : 'none'}; border-radius:3px;">Next</button>
+                            <button onclick="document.getElementById('searchResults').innerHTML='';" style="border:1px solid #444; background:#2a2a2a; color:#ccc; padding:6px 12px; cursor:pointer; font-size:12px; border-radius:3px;">Clear</button>
                         </div>
                     </div>
-                    <div style="display:grid; gap:10px;">
+                    <div style="display:grid; gap:8px;">
             `;
 
             games.forEach(game => {
@@ -1129,22 +1253,22 @@
                 const label = getRatingLabel(excitement10);
 
                 html += `
-                    <div style="background:#111; border:1px solid #2a2a2a; padding:12px; display:grid; grid-template-columns: 1fr auto; gap:16px; align-items:center;">
+                    <div style="background:#2a2a2a; border:1px solid #444; border-radius:4px; padding:14px; display:grid; grid-template-columns: 1fr auto; gap:16px; align-items:center;">
                         <div>
-                            <div style="font-size:14px; font-weight:bold; color:#fff;">${game.awayTeam} @ ${game.homeTeam}${isOT}</div>
-                            <div style="color:#999; font-size:12px; margin-top:4px;">${dateStr} • Week ${game.week || 'N/A'} • ${game.season}</div>
-                            ${game.description ? `<div style=\"color:#ccc; font-size:12px; margin-top:6px;\">${game.description}</div>` : ''}
+                            <div style="font-size:15px; font-weight:bold; color:#fff;">${game.awayTeam} @ ${game.homeTeam}${isOT}</div>
+                            <div style="color:#aaa; font-size:12px; margin-top:4px;">${dateStr} • Week ${game.week || 'N/A'} • ${game.season}</div>
+                            ${game.description ? `<div style=\"color:#ddd; font-size:12px; margin-top:6px;\">${game.description}</div>` : ''}
                             ${Array.isArray(game.keyFactors) && game.keyFactors.length ? `
-                                <div style=\"margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;\">
-                                    ${game.keyFactors.slice(0,5).map(f => `<span style=\"font-size:10px; color:#aac; background:#17191f; border:1px solid #243047; padding:2px 6px;\">${String(f).replace(/"/g,'')}</span>`).join('')}
+                                <div style=\"margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;\">
+                                    ${game.keyFactors.slice(0,5).map(f => `<span style=\"font-size:10px; color:#99ccff; background:#1a1a2e; border:1px solid #16213e; padding:3px 8px; border-radius:2px;\">${String(f).replace(/"/g,'')}</span>`).join('')}
                                 </div>
                             ` : ''}
                         </div>
                         <div style="text-align:right;">
-                            <div style="font-size:18px; font-weight:bold; color:#fff;">${game.awayScore} - ${game.homeScore}</div>
-                            <div style="margin-top:6px;">
-                                <span style="background:${color}; color:#fff; padding:3px 6px; font-weight:bold; border:1px solid #000;">${excitement10.toFixed(1)}/10</span>
-                                <div style="font-size:10px; color:#888; margin-top:2px;">${label}</div>
+                            <div style="font-size:18px; font-weight:bold; color:#fff; margin-bottom:8px;">${game.awayScore} - ${game.homeScore}</div>
+                            <div>
+                                <span style="background:${color}; color:#fff; padding:4px 8px; font-weight:bold; border:1px solid #000; border-radius:3px; font-size:13px;">${excitement10.toFixed(1)}/10</span>
+                                <div style="font-size:10px; color:#888; margin-top:3px; font-weight:bold;">${label}</div>
                             </div>
                         </div>
                     </div>
