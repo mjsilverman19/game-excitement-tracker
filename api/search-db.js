@@ -30,6 +30,7 @@ export default async function handler(req, res) {
     season,
     week,
     limit = 50,
+    offset = 0,
     sortBy = 'excitement_score',
     sortOrder = 'desc'
   } = req.query;
@@ -88,8 +89,14 @@ export default async function handler(req, res) {
       query = query.order('excitement_score', { ascending: orderAscending });
     }
 
-    // Apply limit
-    query = query.limit(parseInt(limit));
+    // Apply pagination (offset + limit)
+    const lim = parseInt(limit);
+    const off = parseInt(offset);
+    if (!Number.isNaN(lim) && !Number.isNaN(off)) {
+      query = query.range(off, off + lim - 1);
+    } else if (!Number.isNaN(lim)) {
+      query = query.limit(lim);
+    }
 
     // Execute query
     const { data: games, error } = await query;
@@ -145,10 +152,18 @@ export default async function handler(req, res) {
         : null
     };
 
+    const hasMore = formattedGames.length === (Number.isNaN(lim) ? formattedGames.length : lim);
+
     return res.status(200).json({
       success: true,
       games: formattedGames,
       stats,
+      pagination: {
+        limit: Number.isNaN(lim) ? null : lim,
+        offset: Number.isNaN(off) ? null : off,
+        returned: formattedGames.length,
+        hasMore
+      },
       query: {
         team,
         sport,
@@ -157,6 +172,7 @@ export default async function handler(req, res) {
         minExcitement,
         maxExcitement,
         limit,
+        offset,
         sortBy,
         sortOrder
       }
