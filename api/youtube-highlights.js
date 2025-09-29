@@ -97,7 +97,9 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
       const response = await fetch(attempt.url);
 
       if (!response.ok) {
-        console.log(`${attempt.type} search failed: ${response.status}`);
+        const errorText = await response.text();
+        console.log(`${attempt.type} search failed: ${response.status} - ${response.statusText}`);
+        console.log(`Error response: ${errorText.substring(0, 200)}`);
         continue;
       }
 
@@ -116,9 +118,11 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
 
       if (matchingVideo) {
         console.log(`✅ Found match: ${matchingVideo.snippet.title}`);
+        console.log(`   Video URL: https://www.youtube.com/watch?v=${matchingVideo.id.videoId}`);
         return `https://www.youtube.com/watch?v=${matchingVideo.id.videoId}`;
       } else {
-        console.log(`No match found in ${attempt.type} search`);
+        console.log(`❌ No match found in ${attempt.type} search`);
+        console.log(`   Searched for: ${fullAwayTeam} vs ${fullHomeTeam}`);
       }
     } catch (error) {
       console.log(`${attempt.type} search error:`, error.message);
@@ -143,6 +147,7 @@ function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, a
   console.log('All team variations:', allVariations);
   let bestMatch = null;
   let bestScore = 0;
+  const consideredVideos = [];
 
   // Negative filters - avoid these types of videos
   const negativeKeywords = [
@@ -220,7 +225,21 @@ function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, a
         bestMatch = video;
         console.log(`New best match (score: ${bestScore}): "${video.snippet.title}"`);
       }
+      
+      consideredVideos.push({
+        title: video.snippet.title,
+        hasAway: hasAwayTeam,
+        hasHome: hasHomeTeam,
+        score: matchScore
+      });
     }
+  }
+
+  if (!bestMatch && consideredVideos.length > 0) {
+    console.log('\nConsidered videos but none matched well enough:');
+    consideredVideos.slice(0, 5).forEach(v => {
+      console.log(`  - "${v.title}" (score: ${v.score}, away: ${v.hasAway}, home: ${v.hasHome})`);
+    });
   }
 
   return bestMatch;
