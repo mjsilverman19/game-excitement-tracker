@@ -40,25 +40,44 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
   const API_KEY = process.env.YOUTUBE_API_KEY;
 
   console.log('YouTube API Key present:', !!API_KEY);
-  console.log('Searching for:', `${awayTeam} vs ${homeTeam}`);
+  console.log('Original team names:', `${awayTeam} vs ${homeTeam}`);
+  
+  // Convert to full team names if needed
+  const fullAwayTeam = getFullTeamName(awayTeam);
+  const fullHomeTeam = getFullTeamName(homeTeam);
+  console.log('Full team names:', `${fullAwayTeam} vs ${fullHomeTeam}`);
 
   if (!API_KEY) {
     console.log('No YouTube API key found, falling back to search');
     return null;
   }
 
-  // Try both the official NFL channel and a search query
+  // Try multiple search strategies with improved queries
   const attempts = [
-    // Attempt 1: Search within NFL channel
+    // Attempt 1: Search within NFL channel using full team names
     {
-      type: 'channel',
+      type: 'NFL_channel_full_names',
       url: `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&channelId=UCDVYQ4Zhbm3S2dlz7P1GBDg&type=video&order=date&maxResults=50&` +
         `publishedAfter=${getRecentDate()}&key=${API_KEY}`
     },
-    // Attempt 2: General search with team names and "highlights"
+    // Attempt 2: General search with full team names
     {
-      type: 'search',
+      type: 'search_full_names',
+      url: `https://www.googleapis.com/youtube/v3/search?` +
+        `part=snippet&q=${encodeURIComponent(`"${fullAwayTeam}" "${fullHomeTeam}" highlights NFL`)}&` +
+        `type=video&order=relevance&maxResults=25&publishedAfter=${getRecentDate()}&key=${API_KEY}`
+    },
+    // Attempt 3: Search with team nicknames (e.g., "Vikings Steelers")
+    {
+      type: 'search_nicknames',
+      url: `https://www.googleapis.com/youtube/v3/search?` +
+        `part=snippet&q=${encodeURIComponent(`${getTeamNickname(fullAwayTeam)} ${getTeamNickname(fullHomeTeam)} highlights NFL`)}&` +
+        `type=video&order=relevance&maxResults=25&publishedAfter=${getRecentDate()}&key=${API_KEY}`
+    },
+    // Attempt 4: Fallback to original team names
+    {
+      type: 'search_original',
       url: `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&q=${encodeURIComponent(`${awayTeam} ${homeTeam} highlights NFL`)}&` +
         `type=video&order=relevance&maxResults=25&publishedAfter=${getRecentDate()}&key=${API_KEY}`
@@ -85,8 +104,8 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
         });
       }
 
-      // Find video that matches our teams
-      const matchingVideo = findBestMatch(data.items, awayTeam, homeTeam, awayScore, homeScore);
+      // Find video that matches our teams (use both original and full team names)
+      const matchingVideo = findBestMatch(data.items, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, awayScore, homeScore);
 
       if (matchingVideo) {
         console.log(`✅ Found match: ${matchingVideo.snippet.title}`);
@@ -103,9 +122,18 @@ async function findNFLHighlights(awayTeam, homeTeam, awayScore, homeScore) {
   return null;
 }
 
-function findBestMatch(videos, awayTeam, homeTeam, awayScore, homeScore) {
-  const teamVariations = getTeamVariations(awayTeam, homeTeam);
-  console.log('Team variations:', teamVariations);
+function findBestMatch(videos, awayTeam, homeTeam, fullAwayTeam, fullHomeTeam, awayScore, homeScore) {
+  // Get variations for both original and full team names
+  const originalVariations = getTeamVariations(awayTeam, homeTeam);
+  const fullVariations = getTeamVariations(fullAwayTeam, fullHomeTeam);
+  
+  // Combine all variations
+  const allVariations = {
+    away: [...new Set([...originalVariations.away, ...fullVariations.away])],
+    home: [...new Set([...originalVariations.home, ...fullVariations.home])]
+  };
+  
+  console.log('All team variations:', allVariations);
   let bestMatch = null;
   let bestScore = 0;
 
@@ -115,9 +143,9 @@ function findBestMatch(videos, awayTeam, homeTeam, awayScore, homeScore) {
     let matchScore = 0;
 
     // Check if both teams are mentioned in title or description
-    const hasAwayTeam = teamVariations.away.some(variant =>
+    const hasAwayTeam = allVariations.away.some(variant =>
       title.includes(variant) || description.includes(variant));
-    const hasHomeTeam = teamVariations.home.some(variant =>
+    const hasHomeTeam = allVariations.home.some(variant =>
       title.includes(variant) || description.includes(variant));
 
     if (hasAwayTeam && hasHomeTeam) {
@@ -233,6 +261,69 @@ function getTeamAbbreviation(fullTeamName) {
   return abbreviations[fullTeamName.toLowerCase()] || null;
 }
 
+// New function to convert ESPN city names to full team names
+function getFullTeamName(cityOrTeamName) {
+  const cityToTeamMap = {
+    // City name -> Full team name mapping
+    'arizona': 'Arizona Cardinals',
+    'atlanta': 'Atlanta Falcons',
+    'baltimore': 'Baltimore Ravens',
+    'buffalo': 'Buffalo Bills',
+    'carolina': 'Carolina Panthers',
+    'chicago': 'Chicago Bears',
+    'cincinnati': 'Cincinnati Bengals',
+    'cleveland': 'Cleveland Browns',
+    'dallas': 'Dallas Cowboys',
+    'denver': 'Denver Broncos',
+    'detroit': 'Detroit Lions',
+    'green bay': 'Green Bay Packers',
+    'houston': 'Houston Texans',
+    'indianapolis': 'Indianapolis Colts',
+    'jacksonville': 'Jacksonville Jaguars',
+    'kansas city': 'Kansas City Chiefs',
+    'las vegas': 'Las Vegas Raiders',
+    'los angeles': 'Los Angeles Rams', // Default to Rams, will handle Chargers separately
+    'miami': 'Miami Dolphins',
+    'minnesota': 'Minnesota Vikings',
+    'new england': 'New England Patriots',
+    'new orleans': 'New Orleans Saints',
+    'new york': 'New York Giants', // Default to Giants, will handle Jets separately
+    'philadelphia': 'Philadelphia Eagles',
+    'pittsburgh': 'Pittsburgh Steelers',
+    'san francisco': 'San Francisco 49ers',
+    'seattle': 'Seattle Seahawks',
+    'tampa bay': 'Tampa Bay Buccaneers',
+    'tennessee': 'Tennessee Titans',
+    'washington': 'Washington Commanders'
+  };
+
+  const input = cityOrTeamName.toLowerCase().trim();
+  
+  // If it's already a full team name, return it
+  if (input.includes('cardinals') || input.includes('falcons') || input.includes('ravens') ||
+      input.includes('bills') || input.includes('panthers') || input.includes('bears') ||
+      input.includes('bengals') || input.includes('browns') || input.includes('cowboys') ||
+      input.includes('broncos') || input.includes('lions') || input.includes('packers') ||
+      input.includes('texans') || input.includes('colts') || input.includes('jaguars') ||
+      input.includes('chiefs') || input.includes('raiders') || input.includes('chargers') ||
+      input.includes('rams') || input.includes('dolphins') || input.includes('vikings') ||
+      input.includes('patriots') || input.includes('saints') || input.includes('giants') ||
+      input.includes('jets') || input.includes('eagles') || input.includes('steelers') ||
+      input.includes('49ers') || input.includes('seahawks') || input.includes('buccaneers') ||
+      input.includes('titans') || input.includes('commanders')) {
+    return cityOrTeamName;
+  }
+
+  // Handle special cases
+  if (input === 'la rams' || input === 'l.a. rams') return 'Los Angeles Rams';
+  if (input === 'la chargers' || input === 'l.a. chargers') return 'Los Angeles Chargers';
+  if (input === 'ny giants' || input === 'n.y. giants') return 'New York Giants';
+  if (input === 'ny jets' || input === 'n.y. jets') return 'New York Jets';
+  
+  // Look up in city mapping
+  return cityToTeamMap[input] || cityOrTeamName;
+}
+
 function getRecentDate() {
   // Get date from 14 days ago for recent videos (extended range)
   const date = new Date();
@@ -242,12 +333,16 @@ function getRecentDate() {
 
 function generateSearchFallback(awayTeam, homeTeam, awayScore, homeScore) {
   const year = new Date().getFullYear();
+  
+  // Try to use full team names for better search results
+  const fullAwayTeam = getFullTeamName(awayTeam);
+  const fullHomeTeam = getFullTeamName(homeTeam);
 
   let searchQuery;
   if (awayScore && homeScore) {
-    searchQuery = `"${awayTeam} vs. ${homeTeam}" NFL highlights ${year}`;
+    searchQuery = `"${fullAwayTeam} vs. ${fullHomeTeam}" NFL highlights ${year}`;
   } else {
-    searchQuery = `"${awayTeam} vs ${homeTeam}" "NFL highlights" ${year}`;
+    searchQuery = `"${fullAwayTeam} vs ${fullHomeTeam}" "NFL highlights" ${year}`;
   }
 
   searchQuery += ` -recap -news -reaction -fantasy -breaking -analysis -preview`;
