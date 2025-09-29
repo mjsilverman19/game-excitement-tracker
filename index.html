@@ -350,6 +350,36 @@
                 };
             };
 
+            const getHighlightUrl = async (game) => {
+                // Try to get direct NFL highlight video from YouTube API
+                try {
+                    const response = await fetch('/api/youtube-highlights', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            awayTeam: game.awayTeam,
+                            homeTeam: game.homeTeam,
+                            awayScore: game.awayScore,
+                            homeScore: game.homeScore
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.videoUrl) {
+                            return data.videoUrl;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch YouTube highlights:', error);
+                }
+
+                // Fallback to search if API fails
+                return getHighlightSearchFallback(game);
+            };
+
             const getHighlightSearchFallback = (game) => {
                 const year = new Date().getFullYear();
                 let searchQuery;
@@ -364,11 +394,17 @@
                 return `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
             };
 
-            // Simple highlight link handler - goes directly to YouTube search to save API quota
+            // Simple highlight link handler - calls API only when user clicks
             const openHighlights = async (game) => {
-                // Skip API call and go directly to search to avoid quota issues
-                const searchUrl = getHighlightSearchFallback(game);
-                window.open(searchUrl, '_blank', 'noopener,noreferrer');
+                try {
+                    const url = await getHighlightUrl(game);
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                } catch (error) {
+                    console.error('Failed to load highlights:', error);
+                    // Fallback to search
+                    const fallbackUrl = getHighlightSearchFallback(game);
+                    window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+                }
             };
 
             const formatDate = (dateStr) => {
