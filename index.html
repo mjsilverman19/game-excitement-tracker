@@ -300,171 +300,147 @@
                         React.createElement('div', {
                             style: {
                                 display: 'grid',
-                                gap: '10px'
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                                gap: '10px',
+                                alignItems: 'end'
                             }
                         },
-                            // Row 1: primary inputs
-                            React.createElement('div', {
+                            // Team input
+                            React.createElement('input', {
+                                id: 'dbTeam',
+                                type: 'text',
+                                placeholder: 'Team name (e.g., Steelers)',
+                                onKeyPress: (e) => {
+                                    if (e.key === 'Enter') {
+                                        window.searchDatabase({ reset: true });
+                                    }
+                                },
                                 style: {
-                                    display: 'grid',
-                                    gridTemplateColumns: '2fr 1fr 1fr 1fr',
-                                    gap: '10px',
-                                    alignItems: 'end'
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #fff',
+                                    backgroundColor: '#222',
+                                    color: '#fff',
+                                    fontSize: '12px',
+                                    fontFamily: 'inherit'
+                                }
+                            }),
+                            // Sport
+                            React.createElement('select', {
+                                id: 'dbSport',
+                                defaultValue: 'NFL',
+                                style: {
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #fff',
+                                    backgroundColor: '#111',
+                                    color: '#fff',
+                                    fontSize: '12px',
+                                    fontFamily: 'inherit'
                                 }
                             },
-                                // Team input
-                                React.createElement('input', {
-                                    id: 'dbTeam',
-                                    type: 'text',
-                                    placeholder: 'Team name (e.g., Steelers)',
-                                    onKeyPress: (e) => {
-                                        if (e.key === 'Enter') {
-                                            window.searchDatabase({ reset: true });
-                                        }
-                                    },
-                                    style: {
-                                        width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #fff',
-                                        backgroundColor: '#222',
-                                        color: '#fff',
-                                        fontSize: '12px',
-                                        fontFamily: 'inherit'
-                                    }
-                                }),
-                                // Sport
-                                React.createElement('select', {
-                                    id: 'dbSport',
-                                    defaultValue: 'NFL',
-                                    style: {
-                                        width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #fff',
-                                        backgroundColor: '#111',
-                                        color: '#fff',
-                                        fontSize: '12px',
-                                        fontFamily: 'inherit'
-                                    }
-                                },
-                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                    React.createElement('option', { value: 'CFB' }, 'CFB'),
-                                    React.createElement('option', { value: 'NBA' }, 'NBA')
-                                ),
-                                // Season
-                                React.createElement('select', {
-                                    id: 'dbSeason',
-                                    defaultValue: new Date().getFullYear().toString(),
-                                    style: {
-                                        width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #fff',
-                                        backgroundColor: '#111',
-                                        color: '#fff',
-                                        fontSize: '12px',
-                                        fontFamily: 'inherit'
-                                    }
-                                },
-                                    availableSeasons.map(year => (
-                                        React.createElement('option', { key: year, value: year }, year)
-                                    ))
-                                ),
-                                // Week (free entry to support special values)
-                                React.createElement('input', {
-                                    id: 'dbWeek',
-                                    type: 'text',
-                                    placeholder: 'Week (e.g., 7, bowl, playoff)',
-                                    style: {
-                                        width: '100%',
-                                        padding: '8px',
-                                        border: '1px solid #fff',
-                                        backgroundColor: '#111',
-                                        color: '#fff',
-                                        fontSize: '12px',
-                                        fontFamily: 'inherit'
-                                    }
-                                })
+                                React.createElement('option', { value: 'NFL' }, 'NFL'),
+                                React.createElement('option', { value: 'CFB' }, 'CFB'),
+                                React.createElement('option', { value: 'NBA' }, 'NBA')
                             ),
-                            // Row 2: slider, per-page, actions
-                            React.createElement('div', {
+                            // Season
+                            React.createElement('select', {
+                                id: 'dbSeason',
+                                defaultValue: new Date().getFullYear().toString(),
                                 style: {
-                                    display: 'grid',
-                                    gridTemplateColumns: '2fr 0.6fr 1fr',
-                                    gap: '10px',
-                                    alignItems: 'center'
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #fff',
+                                    backgroundColor: '#111',
+                                    color: '#fff',
+                                    fontSize: '12px',
+                                    fontFamily: 'inherit'
                                 }
                             },
-                                // Min excitement (0-10)
-                                React.createElement('div', { style: { gridColumn: '1 / span 2' } },
-                                    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '4px' } },
-                                        React.createElement('span', null, 'Min Rating'),
-                                        React.createElement('span', { id: 'dbMinExcitementValue', style: { color: '#0f0', fontWeight: 'bold' } }, '0')
-                                    ),
-                                    React.createElement('input', {
-                                        id: 'dbMinExcitement',
-                                        type: 'range',
-                                        min: '0',
-                                        max: '10',
-                                        step: '0.5',
-                                        defaultValue: '0',
-                                        onInput: (e) => {
-                                            const label = document.getElementById('dbMinExcitementValue');
-                                            if (label) label.textContent = `${e.target.value}`;
-                                        },
-                                        style: { width: '100%' }
-                                    })
-                                ),
-                                // Per page (limit)
-                                React.createElement('div', null,
-                                    React.createElement('label', { htmlFor: 'dbLimit', style: { display: 'block', fontSize: '11px', marginBottom: '4px' } }, 'Per Page'),
-                                    React.createElement('input', {
-                                        id: 'dbLimit',
-                                        type: 'number',
-                                        min: '1',
-                                        max: '200',
-                                        defaultValue: '10',
-                                        style: {
-                                            width: '100%',
-                                            padding: '8px',
-                                            border: '1px solid #fff',
-                                            backgroundColor: '#111',
-                                            color: '#fff',
-                                            fontSize: '12px',
-                                            fontFamily: 'inherit'
-                                        }
-                                    })
-                                ),
-                                // Actions
-                                React.createElement('div', { style: { display: 'flex', gap: '10px' } },
-                                    React.createElement('button', {
-                                        onClick: () => window.searchDatabase({ reset: true }),
-                                        style: {
-                                            flex: '1',
-                                            padding: '8px 16px',
-                                            border: '1px solid #fff',
-                                            backgroundColor: '#444',
-                                            color: '#fff',
-                                            fontSize: '12px',
-                                            fontWeight: 'bold',
-                                            cursor: 'pointer',
-                                            fontFamily: 'inherit'
-                                        }
-                                    }, 'SEARCH'),
-                                    React.createElement('button', {
-                                        onClick: () => window.searchDatabase({ minExcitement: 8, reset: true }),
-                                        style: {
-                                            flex: '1',
-                                            padding: '8px 16px',
-                                            border: '1px solid #ff0000',
-                                            backgroundColor: '#440000',
-                                            color: '#ff0000',
-                                            fontSize: '12px',
-                                            fontWeight: 'bold',
-                                            cursor: 'pointer',
-                                            fontFamily: 'inherit'
-                                        }
-                                    }, 'TOP GAMES')
-                                )
-                            )
+                                availableSeasons.map(year => (
+                                    React.createElement('option', { key: year, value: year }, year)
+                                ))
+                            ),
+                            // Week (free entry to support special values)
+                            React.createElement('input', {
+                                id: 'dbWeek',
+                                type: 'text',
+                                placeholder: 'Week (e.g., 7, bowl, playoff)',
+                                style: {
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #fff',
+                                    backgroundColor: '#111',
+                                    color: '#fff',
+                                    fontSize: '12px',
+                                    fontFamily: 'inherit'
+                                }
+                            }),
+                            // Min excitement (0-10)
+                            React.createElement('div', null,
+                                React.createElement('label', { htmlFor: 'dbMinExcitement', style: { display: 'block', fontSize: '11px', marginBottom: '4px' } }, 'Min Rating'),
+                                React.createElement('input', {
+                                    id: 'dbMinExcitement',
+                                    type: 'range',
+                                    min: '0',
+                                    max: '10',
+                                    step: '0.5',
+                                    defaultValue: '0',
+                                    onInput: (e) => {
+                                        const label = document.getElementById('dbMinExcitementLabel');
+                                        if (label) label.textContent = `${e.target.value}`;
+                                    },
+                                    style: { width: '100%' }
+                                }),
+                                React.createElement('div', { id: 'dbMinExcitementLabel', style: { fontSize: '10px', color: '#aaa', marginTop: '2px' } }, '0')
+                            ),
+                            // Limit
+                            React.createElement('input', {
+                                id: 'dbLimit',
+                                type: 'number',
+                                min: '1',
+                                max: '200',
+                                defaultValue: '10',
+                                style: {
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #fff',
+                                    backgroundColor: '#111',
+                                    color: '#fff',
+                                    fontSize: '12px',
+                                    fontFamily: 'inherit'
+                                }
+                            }),
+                            // Search button
+                            React.createElement('button', {
+                                onClick: () => window.searchDatabase({ reset: true }),
+                                style: {
+                                    width: '100%',
+                                    padding: '8px 16px',
+                                    border: '1px solid #fff',
+                                    backgroundColor: '#444',
+                                    color: '#fff',
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    cursor: 'pointer',
+                                    fontFamily: 'inherit'
+                                }
+                            }, 'SEARCH'),
+                            // Top games quick filter
+                            React.createElement('button', {
+                                onClick: () => window.searchDatabase({ minExcitement: 8, reset: true }),
+                                style: {
+                                    width: '100%',
+                                    padding: '8px 16px',
+                                    border: '1px solid #ff0000',
+                                    backgroundColor: '#440000',
+                                    color: '#ff0000',
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    cursor: 'pointer',
+                                    fontFamily: 'inherit'
+                                }
+                            }, 'TOP GAMES')
                         ),
                         React.createElement('div', {
                             id: 'searchResults',
