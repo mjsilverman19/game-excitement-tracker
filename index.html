@@ -861,6 +861,20 @@
                 }
 
                 const response = await fetch(`/api/search-db?${params}`);
+
+                // Check if response is ok and is JSON
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    // If we get HTML back, it means the API endpoint isn't configured
+                    console.warn('Database search not available - API endpoint not configured on Vercel');
+                    alert('Database search is not available yet. Please ensure environment variables are configured on Vercel.');
+                    return;
+                }
+
                 const data = await response.json();
 
                 if (!data.success) {
@@ -878,7 +892,14 @@
 
             } catch (error) {
                 console.error('Search error:', error);
-                alert(`Error searching database: ${error.message}`);
+                // More user-friendly error messages
+                if (error.message.includes('Failed to fetch')) {
+                    alert('Database search is currently unavailable. Please check your internet connection.');
+                } else if (error.message.includes('Server error')) {
+                    alert('Database search is not configured. Please set up Supabase environment variables on Vercel.');
+                } else {
+                    alert(`Error searching database: ${error.message}`);
+                }
             }
         };
 
