@@ -80,14 +80,9 @@
                 seasonYear = currentYear;
             }
             
-            // CFB season typically starts in late August/early September
-            // Let's use the last Saturday in August as a rough start date
-            const augustLast = new Date(seasonYear, 7, 31); // August 31st
-            const seasonStart = new Date(augustLast);
-            // Find the last Saturday of August
-            const dayOfWeek = augustLast.getDay();
-            const daysToSaturday = dayOfWeek === 6 ? 0 : (6 - dayOfWeek);
-            seasonStart.setDate(augustLast.getDate() - (dayOfWeek === 0 ? 1 : dayOfWeek) + 6);
+            // CFB season typically starts in late August
+            // Use August 29th as baseline - this gives us the right week alignment
+            const seasonStart = new Date(seasonYear, 7, 29); // August 29th as baseline
             
             // Calculate weeks since season start
             const timeDiff = now - seasonStart;
