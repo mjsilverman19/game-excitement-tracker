@@ -237,14 +237,33 @@
                 const baseExcitement = game.excitement || 5;
 
                 // IMPORTANCE: Based on stakes, context, quality, and expectations
-                // These are multipliers (1.0 = baseline), so we scale them appropriately
-                const stakesScore = Math.min(10, (breakdown.stakes || 1) * 5); // Stakes multiplier -> 0-10 scale
+                // These are multipliers (1.0 = baseline), but we need to boost high-stakes games
+                const rawStakes = breakdown.stakes || 1;
+
+                // Enhanced scaling for major games with proper playoff hierarchy
+                let stakesScore;
+                if (rawStakes >= 1.25) { // Championship games (Super Bowl, CFP National Championship)
+                    stakesScore = Math.min(10, 8.5 + ((rawStakes - 1.25) * 4)); // Maps 1.25-1.6 to 8.5-9.9
+                } else if (rawStakes >= 1.22) { // Conference Championships, CFP Semifinals
+                    stakesScore = Math.min(10, 7.5 + ((rawStakes - 1.22) * 10)); // Maps 1.22-1.25 to 7.5-8.2
+                } else if (rawStakes >= 1.18) { // Divisional/Conference playoffs
+                    stakesScore = Math.min(10, 6 + ((rawStakes - 1.18) * 12.5)); // Maps 1.18-1.22 to 6-6.5
+                } else if (rawStakes >= 1.15) { // Wild Card, First Round playoffs
+                    stakesScore = Math.min(10, 4.5 + ((rawStakes - 1.15) * 16.7)); // Maps 1.15-1.18 to 4.5-5.0
+                } else if (rawStakes >= 1.12) { // Major bowl games, important bowls
+                    stakesScore = Math.min(10, 3.5 + ((rawStakes - 1.12) * 10)); // Maps 1.12-1.15 to 3.5-3.8
+                } else if (rawStakes >= 1.08) { // Regular bowl games
+                    stakesScore = Math.min(10, 2.5 + ((rawStakes - 1.08) * 12.5)); // Maps 1.08-1.12 to 2.5-3.0
+                } else {
+                    stakesScore = Math.min(10, rawStakes * 3.5); // Regular season: 1.0-1.08 to 3.5-3.8
+                }
+
                 const contextScore = Math.min(10, (breakdown.context || 0) + 3); // Context score + baseline
-                const qualityScore = Math.min(10, (breakdown.quality || 1) * 5); // Quality multiplier -> 0-10 scale
-                const expectationScore = Math.min(10, (breakdown.expectation || 1) * 5); // Expectation multiplier -> 0-10 scale
+                const qualityScore = Math.min(10, (breakdown.quality || 1) * 4); // Quality multiplier -> 0-10 scale
+                const expectationScore = Math.min(10, (breakdown.expectation || 1) * 4); // Expectation multiplier -> 0-10 scale
 
                 const importance = Math.min(10, Math.max(1,
-                    (stakesScore * 0.4) + (contextScore * 0.3) + (qualityScore * 0.2) + (expectationScore * 0.1)
+                    (stakesScore * 0.5) + (contextScore * 0.25) + (qualityScore * 0.15) + (expectationScore * 0.1)
                 ));
 
                 // DRAMA: Based on tension, peaks, comeback, and narrative (0-10 scale values)
