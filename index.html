@@ -288,7 +288,9 @@
                             padding: '20px',
                             marginBottom: '20px',
                             border: '1px solid #333',
-                            borderRadius: '4px'
+                            borderRadius: '4px',
+                            maxWidth: '100%',
+                            boxSizing: 'border-box'
                         }
                     },
                         React.createElement('div', {
@@ -302,10 +304,12 @@
                         React.createElement('div', {
                             style: {
                                 display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-                                gap: '12px',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                                gap: '10px',
                                 alignItems: 'end',
-                                marginBottom: '12px'
+                                marginBottom: '12px',
+                                maxWidth: '100%',
+                                overflow: 'hidden'
                             }
                         },
                             // Team input
@@ -336,7 +340,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 })
                             ),
@@ -362,7 +367,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 },
                                     React.createElement('option', { value: 'NFL' }, 'NFL'),
@@ -392,7 +398,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 },
                                     availableSeasons.map(year => (
@@ -423,7 +430,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 })
                             ),
@@ -482,7 +490,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 },
                                     React.createElement('option', { value: 'excitement_score' }, 'Excitement'),
@@ -512,7 +521,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 },
                                     React.createElement('option', { value: 'desc' }, 'Desc'),
@@ -544,7 +554,8 @@
                                         color: '#fff',
                                         fontSize: '13px',
                                         fontFamily: 'inherit',
-                                        borderRadius: '3px'
+                                        borderRadius: '3px',
+                                        boxSizing: 'border-box'
                                     }
                                 })
                             )
@@ -552,8 +563,9 @@
                         React.createElement('div', {
                             style: {
                                 display: 'flex',
-                                gap: '12px',
-                                marginTop: '8px'
+                                gap: '10px',
+                                marginTop: '8px',
+                                maxWidth: '100%'
                             }
                         },
                             // Search button
