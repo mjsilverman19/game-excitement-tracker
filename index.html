@@ -234,29 +234,35 @@
 
             const generateMultipleRatings = (game) => {
                 const breakdown = game.breakdown || {};
+                const baseExcitement = game.excitement || 5;
 
-                // IMPORTANCE: Based on stakes, context, and game quality
+                // IMPORTANCE: Based on stakes, context, quality, and expectations
+                // These are multipliers (1.0 = baseline), so we scale them appropriately
+                const stakesScore = Math.min(10, (breakdown.stakes || 1) * 5); // Stakes multiplier -> 0-10 scale
+                const contextScore = Math.min(10, (breakdown.context || 0) + 3); // Context score + baseline
+                const qualityScore = Math.min(10, (breakdown.quality || 1) * 5); // Quality multiplier -> 0-10 scale
+                const expectationScore = Math.min(10, (breakdown.expectation || 1) * 5); // Expectation multiplier -> 0-10 scale
+
                 const importance = Math.min(10, Math.max(1,
-                    ((breakdown.stakes || 0) * 2) +
-                    ((breakdown.context || 0) * 1.5) +
-                    ((breakdown.quality || 0) * 1.2) +
-                    ((breakdown.expectation || 0) * 0.8)
+                    (stakesScore * 0.4) + (contextScore * 0.3) + (qualityScore * 0.2) + (expectationScore * 0.1)
                 ));
 
-                // DRAMA: Based on tension, peaks, and comeback factor
+                // DRAMA: Based on tension, peaks, comeback, and narrative (0-10 scale values)
                 const drama = Math.min(10, Math.max(1,
-                    ((breakdown.tension || 0) * 1.8) +
-                    ((breakdown.peaks || 0) * 1.5) +
-                    ((breakdown.comeback || 0) * 1.2) +
-                    ((breakdown.narrative || 0) * 0.8)
+                    ((breakdown.tension || 0) * 0.3) +
+                    ((breakdown.peaks || 0) * 0.3) +
+                    ((breakdown.comeback || 0) * 0.25) +
+                    ((breakdown.narrative || 0) * 0.15) +
+                    1.5 // baseline
                 ));
 
-                // COMPETITIVENESS: Based on uncertainty, lead changes, and persistence
+                // COMPETITIVENESS: Based on uncertainty, persistence, lead changes, and overall excitement
+                const leadChangesScore = Math.min(10, (breakdown.leadChanges || 0) * 1.5 + 3); // Lead changes to 0-10 scale
                 const competitiveness = Math.min(10, Math.max(1,
-                    ((breakdown.uncertainty || 0) * 1.5) +
-                    ((breakdown.persistence || 0) * 1.3) +
-                    ((breakdown.leadChanges || 0) * 0.8) +
-                    (((game.excitement || 5) / 10) * 2.5)
+                    ((breakdown.uncertainty || 0) * 0.35) +
+                    ((breakdown.persistence || 0) * 0.25) +
+                    (leadChangesScore * 0.2) +
+                    (baseExcitement * 0.2)
                 ));
 
                 return {
@@ -267,8 +273,24 @@
             };
 
             const getHighlightUrl = (game) => {
-                const teamQuery = `${game.awayTeam} vs ${game.homeTeam} highlights ${game.awayScore ? game.awayScore + '-' + game.homeScore : ''} NFL`;
-                return `https://www.youtube.com/results?search_query=${encodeURIComponent(teamQuery)}`;
+                const year = new Date().getFullYear();
+                const teamNames = `${game.awayTeam} ${game.homeTeam}`;
+
+                // Strategy: Use quotes for exact team pairing, add NFL year context, filter out unwanted content
+                let searchQuery;
+
+                if (game.awayScore && game.homeScore) {
+                    // If we have final scores, include them for more specific results
+                    searchQuery = `"${game.awayTeam} vs ${game.homeTeam}" ${game.awayScore}-${game.homeScore} highlights NFL ${year}`;
+                } else {
+                    // Generic team search with filters
+                    searchQuery = `"${game.awayTeam} vs ${game.homeTeam}" highlights NFL ${year}`;
+                }
+
+                // Add negative filters to exclude unwanted content
+                searchQuery += ` -fantasy -reaction -preview -prediction -betting`;
+
+                return `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
             };
 
             const formatDate = (dateStr) => {
@@ -1084,32 +1106,7 @@
                                                     marginBottom: '8px',
                                                     fontWeight: 'bold'
                                                 }
-                                            }, game.description),
-
-                                            showDetailedScores[game.id] && game.varianceAnalysis && React.createElement('div', {
-                                                style: {
-                                                    fontSize: '11px',
-                                                    color: '#666',
-                                                    marginBottom: '8px'
-                                                }
-                                            }, game.varianceAnalysis),
-
-                                            showDetailedScores[game.id] && game.keyMoments && game.keyMoments.length > 0 && React.createElement('div', {
-                                                style: {
-                                                    fontSize: '10px',
-                                                    color: '#888'
-                                                }
-                                            },
-                                                React.createElement('div', {
-                                                    style: { fontWeight: 'bold', marginBottom: '4px' }
-                                                }, 'KEY MOMENTS:'),
-                                                game.keyMoments.map((moment, index) =>
-                                                    React.createElement('div', {
-                                                        key: index,
-                                                        style: { marginLeft: '8px' }
-                                                    }, `• ${moment}`)
-                                                )
-                                            )
+                                            }, game.description)
                                         )
                                     )
                                 )
