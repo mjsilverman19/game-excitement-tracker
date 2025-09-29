@@ -291,24 +291,47 @@
                 };
             };
 
-            const getHighlightUrl = (game) => {
-                const year = new Date().getFullYear();
-                const teamNames = `${game.awayTeam} ${game.homeTeam}`;
+            const getHighlightUrl = async (game) => {
+                // Try to get direct NFL highlight video first
+                try {
+                    const response = await fetch('/api/youtube-highlights', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            awayTeam: game.awayTeam,
+                            homeTeam: game.homeTeam,
+                            awayScore: game.awayScore,
+                            homeScore: game.homeScore
+                        })
+                    });
 
-                // Strategy: Use quotes for exact team pairing, add NFL year context, filter out unwanted content
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.videoUrl) {
+                            return data.videoUrl;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch YouTube highlights:', error);
+                }
+
+                // Fallback to search if API fails
+                return getHighlightSearchFallback(game);
+            };
+
+            const getHighlightSearchFallback = (game) => {
+                const year = new Date().getFullYear();
                 let searchQuery;
 
                 if (game.awayScore && game.homeScore) {
-                    // If we have final scores, include them for more specific results
-                    searchQuery = `"${game.awayTeam} vs ${game.homeTeam}" ${game.awayScore}-${game.homeScore} highlights NFL ${year}`;
+                    searchQuery = `"${game.awayTeam} vs. ${game.homeTeam}" NFL highlights ${year}`;
                 } else {
-                    // Generic team search with filters
-                    searchQuery = `"${game.awayTeam} vs ${game.homeTeam}" highlights NFL ${year}`;
+                    searchQuery = `"${game.awayTeam} vs ${game.homeTeam}" "NFL highlights" ${year}`;
                 }
 
-                // Add negative filters to exclude unwanted content
-                searchQuery += ` -fantasy -reaction -preview -prediction -betting`;
-
+                searchQuery += ` -recap -news -reaction -fantasy -breaking -analysis -preview`;
                 return `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
             };
 
@@ -1099,11 +1122,12 @@
                                                     marginBottom: '10px'
                                                 }
                                             },
-                                                React.createElement('a', {
-                                                    href: getHighlightUrl(game),
-                                                    target: '_blank',
-                                                    rel: 'noopener noreferrer',
-                                                    onClick: (e) => e.stopPropagation(),
+                                                React.createElement('button', {
+                                                    onClick: async (e) => {
+                                                        e.stopPropagation();
+                                                        const url = await getHighlightUrl(game);
+                                                        window.open(url, '_blank', 'noopener,noreferrer');
+                                                    },
                                                     style: {
                                                         backgroundColor: '#ff4444',
                                                         color: '#fff',
@@ -1113,7 +1137,8 @@
                                                         textDecoration: 'none',
                                                         borderRadius: '3px',
                                                         border: '1px solid #000',
-                                                        display: 'inline-block'
+                                                        display: 'inline-block',
+                                                        cursor: 'pointer'
                                                     }
                                                 }, '📺 Watch Highlights')
                                             ),
