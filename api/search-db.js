@@ -14,6 +14,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Check if supabase is configured
+  if (!supabase) {
+    return res.status(500).json({
+      success: false,
+      error: 'Database search is not configured. Please set up Supabase environment variables on Vercel.'
+    });
+  }
+
   const {
     team,
     minExcitement,
