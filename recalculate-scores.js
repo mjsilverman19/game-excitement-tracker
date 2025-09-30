@@ -4,6 +4,7 @@
 //        node recalculate-scores.js --sport NFL --season 2024
 //        node recalculate-scores.js --game-id 401671681
 
+import 'dotenv/config';
 import { supabaseAdmin } from './lib/supabase.js';
 import { calculateEnhancedEntertainment } from './api/entertainmentCalculator.js';
 

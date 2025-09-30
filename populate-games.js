@@ -4,6 +4,7 @@
 //        node populate-games.js --sport NFL --season 2024 --weeks 1-5
 //        node populate-games.js --sport CFB --season 2024 --week playoff
 
+import 'dotenv/config';
 import { getGamesForSearch } from './api/gameDataFetcher.js';
 import { buildGameContext } from './api/contextAnalyzer.js';
 import { insertGame, insertGameMetrics } from './lib/supabase.js';
