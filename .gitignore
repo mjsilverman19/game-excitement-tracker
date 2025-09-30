@@ -36,5 +36,8 @@ Thumbs.db
 # Sync progress
 nfl-sync-progress.json
 
+# Backup files
+backup/
+
 # Vercel
 .vercel

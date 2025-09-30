@@ -1,5 +1,5 @@
-import { analyzeGameEntertainment } from './api/entertainmentCalculator.js';
-import { getGamesForSearch } from './api/gameDataFetcher.js';
+import { analyzeGameEntertainment } from '../api/entertainmentCalculator.js';
+import { getGamesForSearch } from '../api/gameDataFetcher.js';
 
 async function analyzeSpecificGame(weekNum, teamName1, teamName2) {
   console.log(`\n=== Searching for ${teamName1} vs ${teamName2} in Week ${weekNum} ===\n`);
