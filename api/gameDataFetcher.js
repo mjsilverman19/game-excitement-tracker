@@ -152,6 +152,16 @@ async function parseGameFromCoreAPI(gameData) {
       : [];
     const seasonInfo = gameData.season?.type || {};
 
+    // Extract week number from week.$ref URL or competition
+    let weekNumber = null;
+    if (gameData.week?.$ref) {
+      // Extract week number from URL like: .../weeks/1?lang=en&region=us
+      const weekMatch = gameData.week.$ref.match(/\/weeks\/(\d+)/);
+      if (weekMatch) {
+        weekNumber = parseInt(weekMatch[1]);
+      }
+    }
+
     return {
       id: gameData.id,
       homeTeam: homeTeam,
@@ -163,6 +173,7 @@ async function parseGameFromCoreAPI(gameData) {
       status: status,
       venue: competition.venue?.fullName || '',
       weather: null,
+      week: weekNumber,
       seasonType: normalizeNumericValue(seasonInfo.type ?? seasonInfo.id ?? seasonInfo),
       seasonLabel: seasonInfo.name || null,
       eventImportance: normalizeNumericValue(gameData.importance ?? gameData.eventImportance),
