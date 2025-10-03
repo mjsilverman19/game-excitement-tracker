@@ -1,4 +1,6 @@
 import { supabase } from '../lib/supabase.js';
+import { calculateEnhancedEntertainment } from './entertainmentCalculator.js';
+import { buildGameContext } from './contextAnalyzer.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -44,20 +46,24 @@ export default async function handler(req, res) {
       });
     }
 
-    // Build the query
+    // Build the query - fetch raw data for on-demand calculation
     let query = supabase
       .from('games')
       .select(`
-        *,
-        game_entertainment_metrics (
-          volatility,
-          balance,
-          late_game_factor,
-          momentum_shifts,
-          confidence,
-          narrative,
-          key_factors
-        )
+        id,
+        sport,
+        home_team,
+        away_team,
+        home_score,
+        away_score,
+        game_date,
+        season,
+        week,
+        season_type,
+        overtime,
+        probability_data,
+        game_context,
+        excitement_score
       `);
 
     // Apply filters
@@ -78,23 +84,16 @@ export default async function handler(req, res) {
       query = query.eq('week', parseInt(week));
     }
 
-    if (minExcitement) {
-      query = query.gte('excitement_score', parseFloat(minExcitement));
-    }
+    // Note: excitement filtering will be done post-calculation
+    // since we're calculating scores on-demand
 
-    if (maxExcitement) {
-      query = query.lte('excitement_score', parseFloat(maxExcitement));
-    }
-
-    // Apply sorting
+    // Apply basic sorting (excitement sorting will be done post-calculation)
     const orderAscending = sortOrder === 'asc';
     if (sortBy === 'date') {
       query = query.order('game_date', { ascending: orderAscending });
-    } else if (sortBy === 'score_diff') {
-      // Can't directly sort by score difference in Supabase, will handle client-side
-      query = query.order('game_date', { ascending: false });
     } else {
-      query = query.order('excitement_score', { ascending: orderAscending });
+      // For excitement and score_diff sorting, we'll handle post-calculation
+      query = query.order('game_date', { ascending: false });
     }
 
     // Apply pagination (offset + limit)
@@ -113,9 +112,78 @@ export default async function handler(req, res) {
       throw error;
     }
 
-    // Post-process for score difference sorting if needed
-    let processedGames = games || [];
-    if (sortBy === 'score_diff') {
+    // Calculate entertainment scores on-demand for each game
+    let processedGames = (games || []).map(game => {
+      let entertainmentScore = null;
+      let confidence = 0;
+      let narrative = null;
+      let keyFactors = [];
+
+      // Calculate score on-demand if we have probability data
+      if (game.probability_data && Array.isArray(game.probability_data)) {
+        try {
+          const gameObj = {
+            id: game.id,
+            homeTeam: game.home_team,
+            awayTeam: game.away_team,
+            homeScore: game.home_score,
+            awayScore: game.away_score,
+            overtime: game.overtime,
+            startDate: game.game_date,
+            week: game.week,
+            seasonType: game.season_type,
+            sport: game.sport,
+            ...(game.game_context || {})
+          };
+
+          const gameContext = game.game_context || buildGameContext(gameObj, game.sport);
+          const result = calculateEnhancedEntertainment(game.probability_data, gameObj, gameContext);
+          entertainmentScore = result.entertainmentScore;
+          confidence = result.confidence;
+          narrative = result.narrative;
+          keyFactors = result.keyFactors || [];
+        } catch (error) {
+          console.error(`Error calculating entertainment for game ${game.id}:`, error.message);
+          // Fall back to pre-calculated score if available
+          entertainmentScore = game.excitement_score;
+        }
+      } else {
+        // Use pre-calculated score if no probability data
+        entertainmentScore = game.excitement_score;
+      }
+
+      return {
+        ...game,
+        calculated_excitement: entertainmentScore,
+        confidence,
+        narrative,
+        keyFactors
+      };
+    });
+
+    // Apply excitement score filtering post-calculation
+    if (minExcitement) {
+      const minScore = parseFloat(minExcitement);
+      processedGames = processedGames.filter(game =>
+        game.calculated_excitement !== null && game.calculated_excitement >= minScore
+      );
+    }
+
+    if (maxExcitement) {
+      const maxScore = parseFloat(maxExcitement);
+      processedGames = processedGames.filter(game =>
+        game.calculated_excitement !== null && game.calculated_excitement <= maxScore
+      );
+    }
+
+    // Apply sorting post-calculation
+    if (sortBy === 'excitement_score') {
+      processedGames.sort((a, b) => {
+        const scoreA = a.calculated_excitement || 0;
+        const scoreB = b.calculated_excitement || 0;
+        return orderAscending ? scoreA - scoreB : scoreB - scoreA;
+      });
+    } else if (sortBy === 'score_diff') {
       processedGames.sort((a, b) => {
         const diffA = Math.abs(a.home_score - a.away_score);
         const diffB = Math.abs(b.home_score - b.away_score);
@@ -123,7 +191,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // Format response
+    // Format response with on-demand calculated scores
     const formattedGames = processedGames.map(game => ({
       id: game.id,
       sport: game.sport,
@@ -131,15 +199,17 @@ export default async function handler(req, res) {
       awayTeam: game.away_team,
       homeScore: game.home_score,
       awayScore: game.away_score,
-      excitement: game.excitement_score,
+      excitement: game.calculated_excitement,
       date: game.game_date,
       season: game.season,
       week: game.week,
       overtime: game.overtime,
-      metrics: game.game_entertainment_metrics?.[0] || null,
-      description: game.game_entertainment_metrics?.[0]?.narrative ||
-                   generateDescription(game),
-      keyFactors: game.game_entertainment_metrics?.[0]?.key_factors || []
+      metrics: {
+        confidence: game.confidence,
+        calculationSource: game.probability_data ? 'live_calculation' : 'pre_calculated'
+      },
+      description: game.narrative || generateDescription(game),
+      keyFactors: game.keyFactors || []
     }));
 
     // Calculate summary statistics

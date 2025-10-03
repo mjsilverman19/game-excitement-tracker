@@ -202,7 +202,132 @@ Without YouTube API key, system falls back to YouTube search URLs.
 
 ## Common Development Tasks
 
+### Quick Reference: Season Population
+```bash
+# Complete NFL season (replace 2024 with desired year)
+node populate-games.js --sport NFL --season 2024 --weeks 1-18
+node populate-games.js --sport NFL --season 2024 --week 1 --season-type 3  # Wild Card
+node populate-games.js --sport NFL --season 2024 --week 2 --season-type 3  # Divisional
+node populate-games.js --sport NFL --season 2024 --week 3 --season-type 3  # Conference Championships
+node populate-games.js --sport NFL --season 2024 --week 5 --season-type 3  # Super Bowl
+node recalculate-scores.js --sport NFL --season 2024
+```
+
 ### Data Population and Recalculation
+
+#### Quick Start: Populate a Complete Season
+```bash
+# 1. Run database migration first (if not done)
+# Go to Supabase Dashboard > SQL Editor and run: migrations/add_probability_data.sql
+
+# 2. Populate complete NFL regular season
+node populate-games.js --sport NFL --season 2024 --weeks 1-18
+
+# 3. Populate all playoff games (ESPN uses season-type 3 for playoffs)
+node populate-games.js --sport NFL --season 2024 --week 1 --season-type 3  # Wild Card
+node populate-games.js --sport NFL --season 2024 --week 2 --season-type 3  # Divisional
+node populate-games.js --sport NFL --season 2024 --week 3 --season-type 3  # Conference Championships
+node populate-games.js --sport NFL --season 2024 --week 5 --season-type 3  # Super Bowl
+
+# 4. Calculate entertainment scores from raw data
+node recalculate-scores.js --sport NFL --season 2024
+```
+
+#### CFB Season Structure
+```bash
+# Regular season (weeks 1-15)
+node populate-games.js --sport CFB --season 2024 --weeks 1-15
+
+# Bowl games
+node populate-games.js --sport CFB --season 2024 --week 1 --season-type 3
+
+# CFB Playoff
+node populate-games.js --sport CFB --season 2024 --week 1 --season-type 4
+```
+
+#### Key Notes for Season Population
+- **ESPN API structure**: Playoffs use `season-type 3`, CFB playoffs use `season-type 4`
+- **Week numbering**: Playoff weeks restart at 1 (not 19-22)
+- **Super Bowl location**: May be in week 4 or 5 of playoffs depending on year
+- **Raw data first**: Scripts store probability data without calculating scores by default
+- **Recalculation**: Use `recalculate-scores.js` to generate scores from stored raw data
+
+#### Example: Complete 2024 NFL Season (285 games)
+```bash
+# Regular season (272 games, weeks 1-18)
+node populate-games.js --sport NFL --season 2024 --weeks 1-18
+
+# Playoffs (13 games total)
+node populate-games.js --sport NFL --season 2024 --week 1 --season-type 3  # 6 Wild Card games
+node populate-games.js --sport NFL --season 2024 --week 2 --season-type 3  # 4 Divisional games
+node populate-games.js --sport NFL --season 2024 --week 3 --season-type 3  # 2 Conference Championships
+node populate-games.js --sport NFL --season 2024 --week 5 --season-type 3  # 1 Super Bowl
+
+# Result: 285 total games with raw probability data stored
+# Generate entertainment scores:
+node recalculate-scores.js --sport NFL --season 2024
+```
+
+#### Verification Commands
+```bash
+# Check what's in your database
+node -e "
+import { supabaseAdmin } from './lib/supabase.js';
+const { data } = await supabaseAdmin.from('games').select('season, sport, week, season_type').eq('season', 2024);
+console.log(\`Total 2024 games: \${data.length}\`);
+"
+
+# Test score recalculation (dry run)
+node recalculate-scores.js --sport NFL --season 2024 --dry-run
+```
+
+#### Troubleshooting Season Population
+
+**No games found for playoff weeks:**
+- Try different week numbers (1, 2, 3, 4, 5) with `--season-type 3`
+- Super Bowl may be in week 4 or 5 depending on calendar year
+- Use `--season-type 4` for CFB playoffs
+
+**Games stored with `week: null`:**
+- This is normal for playoff games where ESPN doesn't provide week numbers
+- Games are still properly categorized by `season_type`
+- Use season_type to distinguish: 2=regular, 3=postseason, 4=CFB playoff
+
+**Missing probability data:**
+- Some games (especially older seasons) may not have ESPN probability data
+- The system gracefully handles this and stores game metadata
+- Use `recalculate-scores.js` to see which games have usable probability data
+
+**Duplicate games:**
+- Scripts use `upsert` to safely re-run commands
+- Re-running population commands will update existing records, not create duplicates
+
+#### Production Workflow: On-Demand Calculation
+
+**Recommended Strategy:**
+```bash
+# 1. Populate raw data (done for 2015-2024)
+node populate-games.js --sport NFL --season 2024 --weeks 1-18
+
+# 2. DON'T pre-calculate scores - let search interface calculate on-demand
+# This ensures users always get latest algorithm results
+
+# 3. Optional: Bulk recalculation for analysis
+node recalculate-scores.js --sport NFL --season 2024 --dry-run
+```
+
+**Why On-Demand Calculation?**
+- ✅ **Always latest algorithm** - no database migrations needed
+- ✅ **Storage efficient** - only store raw ESPN data
+- ✅ **Development friendly** - algorithm changes immediately reflected
+- ✅ **User-focused** - calculations happen when/where needed
+
+**When to Use Bulk Recalculation:**
+- Large-scale analysis across multiple seasons
+- Performance testing of algorithm changes
+- Generating reports or exports
+
+#### Detailed Documentation
 - See HOW_IT_WORKS.md for a concise overview
 - See DATA_POPULATION_GUIDE.md for step-by-step usage, examples, and troubleshooting
 
@@ -213,10 +338,50 @@ Without YouTube API key, system falls back to YouTube search URLs.
 4. Add week structure for new sport (if different from NFL/CFB)
 
 ### Modifying Entertainment Algorithm
+
+#### Current Architecture (Uses Pre-Calculated Scores)
 1. Core logic: `api/entertainmentCalculator.js` → `calculateEnhancedEntertainment()`
 2. Context factors: `api/contextAnalyzer.js` → `calculateContextualFactors()`
 3. Utilities: `api/utils.js` for mathematical transforms
 4. Test changes: `node api/debug-game.js` (uses mock data)
+
+#### For On-Demand Calculation (Recommended)
+To implement the optimal on-demand strategy:
+
+1. **Update `api/search-db.js`** to calculate scores dynamically:
+   ```javascript
+   // Instead of returning pre-calculated excitement_score
+   // Fetch probability_data and calculate on-demand:
+   import { analyzeGameEntertainment } from './entertainmentCalculator.js';
+
+   const enhancedResults = results.map(game => ({
+     ...game,
+     excitement_score: game.probability_data
+       ? analyzeGameEntertainment(game, game.sport).entertainmentScore
+       : null
+   }));
+   ```
+
+2. **Update `api/games.js`** to calculate scores live for weekly analysis
+
+3. **Remove dependency** on pre-calculated `excitement_score` column
+
+#### Algorithm Update Workflow
+```bash
+# 1. Modify algorithm files
+vim api/entertainmentCalculator.js
+
+# 2. Test with sample data
+node api/debug-game.js
+
+# 3. Test with real game
+node recalculate-scores.js --game-id 401671556 --dry-run
+
+# 4. Deploy - changes immediately reflected in search results
+git push origin main
+
+# No database migration needed! 🎉
+```
 
 ### Adding New Search Filters
 1. Add UI controls in `index.html` database search section
