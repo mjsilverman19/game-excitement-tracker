@@ -60,59 +60,9 @@
             };
         };
 
-        // Helper function to estimate current CFB week based on current date
-        const getCurrentCFBWeek = () => {
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            const month = now.getMonth(); // 0-based (January = 0)
-            const day = now.getDate();
-            
-            // Determine which CFB season we're likely in
-            let seasonYear;
-            if (month >= 7) {
-                // August onwards = new season starting
-                seasonYear = currentYear;
-            } else if (month <= 1) {
-                // January-February = bowl/playoff season from previous year
-                seasonYear = currentYear - 1;
-            } else {
-                // March-July = off-season, default to next season
-                seasonYear = currentYear;
-            }
-            
-            // CFB season typically starts in late August
-            // Use August 29th as baseline - this gives us the right week alignment
-            const seasonStart = new Date(seasonYear, 7, 29); // August 29th as baseline
-            
-            // Calculate weeks since season start
-            const timeDiff = now - seasonStart;
-            const weeksDiff = Math.floor(timeDiff / (7 * 24 * 60 * 60 * 1000)) + 1;
-            
-            let currentWeek;
-            if (month >= 7 && month <= 11) {
-                // During regular season: August-November
-                currentWeek = Math.max(1, Math.min(15, weeksDiff));
-            } else if (month === 0 && day <= 31) {
-                // January = bowl/playoff season
-                if (day <= 8) {
-                    currentWeek = 'playoff'; // CFP games usually early January
-                } else {
-                    currentWeek = 'bowl'; // Other bowl games
-                }
-            } else {
-                // Off-season: default to week 1 of upcoming season
-                currentWeek = 1;
-            }
-            
-            return { 
-                week: currentWeek, 
-                season: seasonYear 
-            };
-        };
 
         const GameExcitementTracker = () => {
             const currentNFLWeek = getCurrentNFLWeek();
-            const currentCFBWeek = getCurrentCFBWeek();
             
             const [selectedDate, setSelectedDate] = useState(() => {
                 const today = new Date();
@@ -125,9 +75,7 @@
                 if (sport === 'NFL') {
                     return `${currentNFLWeek.week}-2`;
                 } else {
-                    const currentWeekValue = typeof currentCFBWeek.week === 'string' 
-                        ? currentCFBWeek.week 
-                        : currentCFBWeek.week.toString();
+                    const currentWeekValue = '1';
                     return currentWeekValue;
                 }
             };
@@ -136,7 +84,6 @@
             const [selectedSeason, setSelectedSeason] = useState(() => {
                 // Use NFL season by default since selectedSport starts as 'NFL'
                 console.log('Current NFL Week:', currentNFLWeek);
-                console.log('Current CFB Week:', currentCFBWeek);
                 return currentNFLWeek.season.toString();
             });
             const [minRating, setMinRating] = useState(0);
@@ -149,7 +96,7 @@
             const [analysisSource, setAnalysisSource] = useState('');
 
             const currentYear = new Date().getFullYear();
-            const startYear = 2015;
+            const startYear = 2016;
             const availableSeasons = Array.from({length: currentYear - startYear + 1}, (_, i) => currentYear - i);
             
             // NFL week options for regular season and playoffs
@@ -168,16 +115,6 @@
                 { value: '5-3', label: 'Super Bowl', week: 5, seasonType: '3' }
             ];
 
-            // CFB week options - back to separate bowl/playoff options
-            const cfbWeekOptions = [
-                ...Array.from({length: 15}, (_, i) => ({
-                    value: `${i + 1}`,
-                    label: `Week ${i + 1}`,
-                    week: i + 1
-                })),
-                { value: 'bowl', label: 'Bowl Games', week: 'bowl' },
-                { value: 'playoff', label: 'Playoff Games', week: 'playoff' }
-            ];
 
             // Fetch game data using ESPN win probability analysis
             const fetchGameData = async (params) => {
@@ -234,24 +171,14 @@
                 setShowScores({});
                 setError(null);
                 
-                if (selectedSport === 'NFL') {
-                    const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
-                    fetchGameData({
-                        sport: selectedSport,
-                        week: selectedWeekOption.week,
-                        season: parseInt(selectedSeason),
-                        seasonType: selectedWeekOption.seasonType,
-                        weekLabel: selectedWeekOption.label
-                    });
-                } else if (selectedSport === 'CFB') {
-                    const selectedWeekOption = cfbWeekOptions.find(w => w.value === selectedWeek);
-                    fetchGameData({
-                        sport: selectedSport,
-                        week: selectedWeekOption.week,
-                        season: parseInt(selectedSeason),
-                        weekLabel: selectedWeekOption.label
-                    });
-                }
+                const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
+                fetchGameData({
+                    sport: selectedSport,
+                    week: selectedWeekOption.week,
+                    season: parseInt(selectedSeason),
+                    seasonType: selectedWeekOption.seasonType,
+                    weekLabel: selectedWeekOption.label
+                });
             };
 
             // Auto-fetch on load
@@ -417,13 +344,8 @@
             };
 
             const getDisplayTitle = () => {
-                if (selectedSport === 'NFL') {
-                    const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
-                    return `NFL ${selectedWeekOption?.label} (${selectedSeason})`;
-                } else if (selectedSport === 'CFB') {
-                    const selectedWeekOption = cfbWeekOptions.find(w => w.value === selectedWeek);
-                    return `CFB ${selectedWeekOption?.label} (${selectedSeason})`;
-                }
+                const selectedWeekOption = weekOptions.find(w => w.value === selectedWeek);
+                return `NFL ${selectedWeekOption?.label} (${selectedSeason})`;
             };
 
             return React.createElement('div', {
@@ -545,8 +467,7 @@
                                         boxSizing: 'border-box'
                                     }
                                 },
-                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                    React.createElement('option', { value: 'CFB' }, 'CFB')
+                                    React.createElement('option', { value: 'NFL' }, 'NFL')
                                 )
                             ),
                             // Season
@@ -808,14 +729,6 @@
                                         if (e.target.value === 'NFL') {
                                             setSelectedWeek(`${currentNFLWeek.week}-2`);
                                             setSelectedSeason(currentNFLWeek.season.toString());
-                                        } else if (e.target.value === 'CFB') {
-                                            // Use current CFB week (convert to string format)
-                                            const currentWeekValue = typeof currentCFBWeek.week === 'string' 
-                                                ? currentCFBWeek.week 
-                                                : currentCFBWeek.week.toString();
-                                            setSelectedWeek(currentWeekValue);
-                                            setSelectedSeason(currentCFBWeek.season.toString());
-                                            console.log(`Switched to CFB: Week ${currentWeekValue}, Season ${currentCFBWeek.season}`);
                                         }
                                     },
                                     style: {
@@ -828,13 +741,12 @@
                                         backgroundColor: '#fff'
                                     }
                                 },
-                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
-                                    React.createElement('option', { value: 'CFB' }, 'CFB')
+                                    React.createElement('option', { value: 'NFL' }, 'NFL')
                                 )
                             ),
                             
-                            // Season (show for NFL and CFB)
-                            (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
+                            // Season (show for NFL)
+                            selectedSport === 'NFL' && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: {
                                         display: 'block',
@@ -863,8 +775,8 @@
                                 )
                             ),
                             
-                            // Week selector (show for NFL and CFB)
-                            (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
+                            // Week selector (show for NFL)
+                            selectedSport === 'NFL' && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: {
                                         display: 'block',
@@ -887,13 +799,9 @@
                                         backgroundColor: '#fff'
                                     }
                                 },
-                                    selectedSport === 'NFL' 
-                                        ? weekOptions.map(option => (
-                                            React.createElement('option', { key: option.value, value: option.value }, option.label)
-                                        ))
-                                        : cfbWeekOptions.map(option => (
-                                            React.createElement('option', { key: option.value, value: option.value }, option.label)
-                                        ))
+                                    weekOptions.map(option => (
+                                        React.createElement('option', { key: option.value, value: option.value }, option.label)
+                                    ))
                                 )
                             ),
                             
