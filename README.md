@@ -202,6 +202,10 @@ Without YouTube API key, system falls back to YouTube search URLs.
 
 ## Common Development Tasks
 
+### Data Population and Recalculation
+- See HOW_IT_WORKS.md for a concise overview
+- See DATA_POPULATION_GUIDE.md for step-by-step usage, examples, and troubleshooting
+
 ### Adding a New Sport
 1. Update `api/games.js` validation to accept new sport code
 2. Add ESPN endpoint logic in `api/gameDataFetcher.js`
