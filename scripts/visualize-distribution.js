@@ -1,5 +1,5 @@
-import { analyzeGameEntertainment } from './api/entertainmentCalculator.js';
-import { getGamesForSearch } from './api/gameDataFetcher.js';
+import { analyzeGameEntertainment } from '../api/entertainmentCalculator.js';
+import { getGamesForSearch } from '../api/gameDataFetcher.js';
 
 async function visualizeDistribution() {
   const week = 3;

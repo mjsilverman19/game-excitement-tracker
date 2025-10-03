@@ -30,7 +30,7 @@ const testCases = [
 ];
 
 // Load and evaluate the youtube-highlights.js functions
-const youtubeCode = readFileSync('./api/youtube-highlights.js', 'utf8');
+const youtubeCode = readFileSync('../api/youtube-highlights.js', 'utf8');
 
 async function testYouTubeAPI() {
   console.log('='.repeat(80));
