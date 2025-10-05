@@ -100,7 +100,7 @@
             const availableSeasons = Array.from({length: currentYear - startYear + 1}, (_, i) => currentYear - i);
             
             // NFL week options for regular season and playoffs
-            const weekOptions = [
+            const nflWeekOptions = [
                 // Regular season weeks
                 ...Array.from({length: 18}, (_, i) => ({
                     value: `${i + 1}-2`,
@@ -114,6 +114,23 @@
                 { value: '3-3', label: 'Conference Championships', week: 3, seasonType: '3' },
                 { value: '5-3', label: 'Super Bowl', week: 5, seasonType: '3' }
             ];
+
+            // CFB week options for regular season, bowl games, and playoff
+            const cfbWeekOptions = [
+                // Regular season weeks
+                ...Array.from({length: 15}, (_, i) => ({
+                    value: `${i + 1}-2`,
+                    label: `Week ${i + 1} (Regular Season)`,
+                    week: i + 1,
+                    seasonType: '2'
+                })),
+                // Bowl games and playoff
+                { value: 'bowl-3', label: 'Bowl Games', week: 'bowl', seasonType: '3' },
+                { value: 'playoff-4', label: 'CFB Playoff', week: 'playoff', seasonType: '4' }
+            ];
+
+            // Get appropriate week options based on selected sport
+            const weekOptions = selectedSport === 'CFB' ? cfbWeekOptions : nflWeekOptions;
 
 
             // Fetch game data using ESPN win probability analysis
@@ -729,6 +746,9 @@
                                         if (e.target.value === 'NFL') {
                                             setSelectedWeek(`${currentNFLWeek.week}-2`);
                                             setSelectedSeason(currentNFLWeek.season.toString());
+                                        } else if (e.target.value === 'CFB') {
+                                            setSelectedWeek('1-2');
+                                            setSelectedSeason(currentNFLWeek.season.toString());
                                         }
                                     },
                                     style: {
@@ -741,12 +761,13 @@
                                         backgroundColor: '#fff'
                                     }
                                 },
-                                    React.createElement('option', { value: 'NFL' }, 'NFL')
+                                    React.createElement('option', { value: 'NFL' }, 'NFL'),
+                                    React.createElement('option', { value: 'CFB' }, 'CFB')
                                 )
                             ),
                             
-                            // Season (show for NFL)
-                            selectedSport === 'NFL' && React.createElement('div', null,
+                            // Season (show for NFL and CFB)
+                            (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: {
                                         display: 'block',
@@ -775,8 +796,8 @@
                                 )
                             ),
                             
-                            // Week selector (show for NFL)
-                            selectedSport === 'NFL' && React.createElement('div', null,
+                            // Week selector (show for NFL and CFB)
+                            (selectedSport === 'NFL' || selectedSport === 'CFB') && React.createElement('div', null,
                                 React.createElement('label', {
                                     style: {
                                         display: 'block',
