@@ -562,9 +562,12 @@ function combineEnhancedMetrics(metrics) {
 
   const contextScore = rawScore * scoringContext * competitiveBalance * stakesBoost * qualityBoost * expectationBoost * noisePenalty;
 
-  // Apply compression to reduce extremes - maps 0-10 to roughly 1-9.5
-  const compressedScore = 1.0 + (contextScore * 0.85);
-  const finalScore = Math.min(9.8, Math.max(0.5, compressedScore));
+  // Add logging to see what's happening
+  console.log('Raw score:', rawScore);
+  console.log('Context multiplier:', scoringContext * competitiveBalance * stakesBoost * qualityBoost * expectationBoost * noisePenalty);
+  console.log('Final:', contextScore);
+
+  const finalScore = Math.min(10, Math.max(0, contextScore));
 
   const confidence = calculateConfidence(metrics);
 
