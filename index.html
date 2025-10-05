@@ -1046,6 +1046,68 @@
                                                 }, showDetailedScores[game.id] ? 'HIDE SCORE' : 'REVEAL SCORE')
                                             ),
 
+                                            // Key stats row
+                                            React.createElement('div', {
+                                                style: {
+                                                    display: 'flex',
+                                                    gap: '12px',
+                                                    marginBottom: '12px',
+                                                    flexWrap: 'wrap'
+                                                }
+                                            },
+                                                // Lead changes badge
+                                                game.breakdown && game.breakdown.leadChanges > 0 && React.createElement('div', {
+                                                    style: {
+                                                        backgroundColor: game.breakdown.leadChanges >= 5 ? '#ff0000' : game.breakdown.leadChanges >= 3 ? '#ff8800' : '#ffcc00',
+                                                        color: game.breakdown.leadChanges >= 3 ? '#fff' : '#000',
+                                                        padding: '4px 10px',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold',
+                                                        borderRadius: '3px',
+                                                        border: '1px solid rgba(0,0,0,0.2)'
+                                                    }
+                                                }, `${game.breakdown.leadChanges} Lead Change${game.breakdown.leadChanges > 1 ? 's' : ''}`),
+                                                
+                                                // Overtime badge
+                                                game.overtime && React.createElement('div', {
+                                                    style: {
+                                                        backgroundColor: '#9b59b6',
+                                                        color: '#fff',
+                                                        padding: '4px 10px',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold',
+                                                        borderRadius: '3px',
+                                                        border: '1px solid rgba(0,0,0,0.2)'
+                                                    }
+                                                }, 'OVERTIME'),
+                                                
+                                                // Comeback indicator
+                                                game.breakdown && game.breakdown.comeback >= 7 && React.createElement('div', {
+                                                    style: {
+                                                        backgroundColor: '#2ecc71',
+                                                        color: '#fff',
+                                                        padding: '4px 10px',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold',
+                                                        borderRadius: '3px',
+                                                        border: '1px solid rgba(0,0,0,0.2)'
+                                                    }
+                                                }, 'Comeback'),
+                                                
+                                                // High tension indicator
+                                                game.breakdown && game.breakdown.tension >= 8 && React.createElement('div', {
+                                                    style: {
+                                                        backgroundColor: '#e74c3c',
+                                                        color: '#fff',
+                                                        padding: '4px 10px',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold',
+                                                        borderRadius: '3px',
+                                                        border: '1px solid rgba(0,0,0,0.2)'
+                                                    }
+                                                }, 'High Tension')
+                                            ),
+
                                             // Multiple ratings grid
                                             React.createElement('div', {
                                                 style: {
@@ -1113,14 +1175,40 @@
                                                 }, '📺 Watch Highlights')
                                             ),
 
+                                            // Game narrative/description
                                             game.description && React.createElement('div', {
                                                 style: {
                                                     fontSize: '12px',
                                                     color: '#333',
-                                                    marginBottom: '8px',
-                                                    fontWeight: 'bold'
+                                                    marginBottom: '10px',
+                                                    padding: '10px',
+                                                    backgroundColor: '#f0f8ff',
+                                                    border: '1px solid #d0e8ff',
+                                                    borderRadius: '3px',
+                                                    fontStyle: 'italic'
                                                 }
-                                            }, game.description)
+                                            }, game.description),
+                                            
+                                            // Key moments (if available)
+                                            game.keyMoments && game.keyMoments.length > 0 && React.createElement('div', {
+                                                style: {
+                                                    marginTop: '10px',
+                                                    fontSize: '11px',
+                                                    color: '#666'
+                                                }
+                                            },
+                                                React.createElement('div', {
+                                                    style: {
+                                                        fontWeight: 'bold',
+                                                        marginBottom: '4px',
+                                                        textTransform: 'uppercase',
+                                                        fontSize: '10px'
+                                                    }
+                                                }, 'Why Watch:'),
+                                                React.createElement('div', { style: { lineHeight: '1.4' } },
+                                                    game.keyMoments.slice(0, 3).join(' • ')
+                                                )
+                                            )
                                         )
                                     )
                                 )
