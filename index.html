@@ -95,6 +95,14 @@
             const [error, setError] = useState(null);
             const [analysisSource, setAnalysisSource] = useState('');
 
+            // Live GVI state
+            const [liveGames, setLiveGames] = useState([]);
+            const [liveGviLoading, setLiveGviLoading] = useState(false);
+            const [liveGviError, setLiveGviError] = useState(null);
+            const [lastLiveUpdate, setLastLiveUpdate] = useState(null);
+            const [selectedLiveSport, setSelectedLiveSport] = useState('ALL');
+            const [autoRefresh, setAutoRefresh] = useState(true);
+
             const currentYear = new Date().getFullYear();
             const startYear = 2016;
             const availableSeasons = Array.from({length: currentYear - startYear + 1}, (_, i) => currentYear - i);
@@ -198,10 +206,72 @@
                 });
             };
 
+            // Live GVI fetch function
+            const fetchLiveGVI = async () => {
+                setLiveGviLoading(true);
+                setLiveGviError(null);
+
+                try {
+                    console.log(`🔥 Fetching live GVI data for ${selectedLiveSport}...`);
+
+                    const sportParam = selectedLiveSport !== 'ALL' ? `?sport=${selectedLiveSport}` : '';
+                    const response = await fetch(`/api/gvi-live${sportParam}`);
+
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Live GVI Response:', data);
+
+                    if (!data.success) {
+                        throw new Error(data.message || 'Failed to fetch live GVI data');
+                    }
+
+                    // Combine all categories into a single sorted array
+                    const allGames = [
+                        ...(data.recommendations?.categories?.mustWatch || []),
+                        ...(data.recommendations?.categories?.recommended || []),
+                        ...(data.recommendations?.categories?.worthWatching || [])
+                    ];
+
+                    setLiveGames(allGames);
+                    setLastLiveUpdate(new Date());
+
+                    if (allGames.length === 0) {
+                        setLiveGviError(`No live ${selectedLiveSport === 'ALL' ? '' : selectedLiveSport} games found right now`);
+                    }
+
+                } catch (error) {
+                    console.error('❌ Error fetching live GVI:', error);
+                    setLiveGviError(`Failed to fetch live games: ${error.message}`);
+                    setLiveGames([]);
+                } finally {
+                    setLiveGviLoading(false);
+                }
+            };
+
             // Auto-fetch on load
             useEffect(() => {
                 handleAnalyze();
+                fetchLiveGVI(); // Also fetch live GVI data
             }, []); // Only run once on mount
+
+            // Auto-refresh live GVI every 2 minutes if enabled
+            useEffect(() => {
+                if (!autoRefresh) return;
+
+                const interval = setInterval(() => {
+                    fetchLiveGVI();
+                }, 2 * 60 * 1000); // 2 minutes
+
+                return () => clearInterval(interval);
+            }, [autoRefresh, selectedLiveSport]);
+
+            // Fetch live GVI when sport selection changes
+            useEffect(() => {
+                fetchLiveGVI();
+            }, [selectedLiveSport]);
 
             const getRatingColor = (rating) => {
                 if (rating >= 8.5) return '#ff0000';
@@ -404,31 +474,226 @@
                             borderRadius: '6px'
                         }
                     },
-                        React.createElement('h2', {
-                            style: {
-                                fontSize: '18px',
-                                fontWeight: 'bold',
-                                margin: '0 0 10px 0',
-                                color: '#fff'
-                            }
-                        }, '🔥 LIVE GAMES - What to Watch Right Now'),
+                        // Header with controls
                         React.createElement('div', {
                             style: {
-                                fontSize: '12px',
-                                color: '#90ee90',
-                                marginBottom: '15px'
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-start',
+                                marginBottom: '16px',
+                                flexWrap: 'wrap',
+                                gap: '10px'
                             }
-                        }, 'Game Volatility Index (GVI) • Real-time market uncertainty'),
+                        },
+                            React.createElement('div', null,
+                                React.createElement('h2', {
+                                    style: {
+                                        fontSize: '18px',
+                                        fontWeight: 'bold',
+                                        margin: '0 0 4px 0',
+                                        color: '#fff'
+                                    }
+                                }, '🔥 LIVE GAMES - What to Watch Right Now'),
+                                React.createElement('div', {
+                                    style: {
+                                        fontSize: '12px',
+                                        color: '#90ee90',
+                                        margin: '0'
+                                    }
+                                },
+                                    'Game Volatility Index (GVI) • Real-time market uncertainty',
+                                    lastLiveUpdate && ` • Last updated: ${lastLiveUpdate.toLocaleTimeString()}`
+                                )
+                            ),
+                            React.createElement('div', {
+                                style: {
+                                    display: 'flex',
+                                    gap: '8px',
+                                    alignItems: 'center',
+                                    flexWrap: 'wrap'
+                                }
+                            },
+                                // Sport selector
+                                React.createElement('select', {
+                                    value: selectedLiveSport,
+                                    onChange: (e) => setSelectedLiveSport(e.target.value),
+                                    style: {
+                                        padding: '4px 8px',
+                                        border: '1px solid #90ee90',
+                                        backgroundColor: '#2d2d2d',
+                                        color: '#90ee90',
+                                        fontSize: '12px',
+                                        borderRadius: '3px',
+                                        fontFamily: 'inherit'
+                                    }
+                                },
+                                    React.createElement('option', { value: 'ALL' }, 'All Sports'),
+                                    React.createElement('option', { value: 'NFL' }, 'NFL Only'),
+                                    React.createElement('option', { value: 'CFB' }, 'CFB Only')
+                                ),
+                                // Refresh button
+                                React.createElement('button', {
+                                    onClick: fetchLiveGVI,
+                                    disabled: liveGviLoading,
+                                    style: {
+                                        padding: '6px 12px',
+                                        border: '1px solid #90ee90',
+                                        backgroundColor: liveGviLoading ? '#333' : 'transparent',
+                                        color: liveGviLoading ? '#666' : '#90ee90',
+                                        fontSize: '12px',
+                                        cursor: liveGviLoading ? 'not-allowed' : 'pointer',
+                                        borderRadius: '3px',
+                                        fontFamily: 'inherit'
+                                    }
+                                }, liveGviLoading ? 'Updating...' : '🔄 Refresh'),
+                                // Auto-refresh toggle
+                                React.createElement('label', {
+                                    style: {
+                                        fontSize: '12px',
+                                        color: '#90ee90',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        cursor: 'pointer'
+                                    }
+                                },
+                                    React.createElement('input', {
+                                        type: 'checkbox',
+                                        checked: autoRefresh,
+                                        onChange: (e) => setAutoRefresh(e.target.checked),
+                                        style: { marginRight: '4px' }
+                                    }),
+                                    'Auto (2min)'
+                                )
+                            )
+                        ),
+
+                        // Live games display
+                        liveGviError ?
+                            React.createElement('div', {
+                                style: {
+                                    padding: '16px',
+                                    backgroundColor: '#2d2d2d',
+                                    border: '1px solid #555',
+                                    borderRadius: '4px',
+                                    textAlign: 'center',
+                                    color: '#ffa500'
+                                }
+                            }, `⚠️ ${liveGviError}`) :
+                        liveGames.length === 0 && !liveGviLoading ?
+                            React.createElement('div', {
+                                style: {
+                                    padding: '16px',
+                                    backgroundColor: '#2d2d2d',
+                                    border: '1px solid #555',
+                                    borderRadius: '4px',
+                                    textAlign: 'center',
+                                    color: '#ccc'
+                                }
+                            }, '😴 No live games right now. Check back during game days!') :
                         React.createElement('div', {
                             style: {
-                                padding: '16px',
-                                backgroundColor: '#2d2d2d',
-                                border: '1px solid #555',
-                                borderRadius: '4px',
-                                textAlign: 'center',
-                                color: '#ccc'
+                                display: 'grid',
+                                gap: '12px'
                             }
-                        }, '😴 No live NFL games right now. Check back during game days!')
+                        },
+                            liveGames.map((game, index) => {
+                                const gvi = game.gvi;
+                                const status = game.status;
+
+                                return React.createElement('div', {
+                                    key: game.id,
+                                    style: {
+                                        padding: '16px',
+                                        backgroundColor: '#2d2d2d',
+                                        border: `1px solid ${gvi?.score >= 85 ? '#ff4444' :
+                                                              gvi?.score >= 70 ? '#ff8800' :
+                                                              gvi?.score >= 50 ? '#ffdd00' : '#666'}`,
+                                        borderRadius: '6px'
+                                    }
+                                },
+                                    // Game header
+                                    React.createElement('div', {
+                                        style: {
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            marginBottom: '8px'
+                                        }
+                                    },
+                                        React.createElement('div', null,
+                                            React.createElement('div', {
+                                                style: {
+                                                    fontSize: '16px',
+                                                    fontWeight: 'bold',
+                                                    color: '#fff',
+                                                    marginBottom: '4px'
+                                                }
+                                            }, `${game.awayTeamAbbrev || game.awayTeam} @ ${game.homeTeamAbbrev || game.homeTeam}`),
+                                            React.createElement('div', {
+                                                style: {
+                                                    fontSize: '14px',
+                                                    color: '#90ee90'
+                                                }
+                                            }, `${game.awayScore} - ${game.homeScore} • Q${status?.quarter || status?.period} ${status?.timeRemaining || status?.displayClock || ''}`)
+                                        ),
+                                        React.createElement('div', {
+                                            style: {
+                                                textAlign: 'right'
+                                            }
+                                        },
+                                            React.createElement('div', {
+                                                style: {
+                                                    fontSize: '24px',
+                                                    fontWeight: 'bold',
+                                                    color: gvi?.score >= 85 ? '#ff4444' :
+                                                           gvi?.score >= 70 ? '#ff8800' :
+                                                           gvi?.score >= 50 ? '#ffdd00' : '#ccc',
+                                                    marginBottom: '2px'
+                                                }
+                                            }, gvi?.score || 'N/A'),
+                                            React.createElement('div', {
+                                                style: {
+                                                    fontSize: '10px',
+                                                    color: '#aaa'
+                                                }
+                                            }, 'GVI')
+                                        )
+                                    ),
+
+                                    // Recommendation
+                                    React.createElement('div', {
+                                        style: {
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                            color: gvi?.score >= 85 ? '#ff6666' :
+                                                   gvi?.score >= 70 ? '#ffaa33' :
+                                                   gvi?.score >= 50 ? '#ffff66' : '#ccc',
+                                            marginBottom: '4px'
+                                        }
+                                    }, gvi?.recommendation || 'Loading...'),
+
+                                    // Reason
+                                    gvi?.reason && React.createElement('div', {
+                                        style: {
+                                            fontSize: '12px',
+                                            color: '#ccc',
+                                            fontStyle: 'italic'
+                                        }
+                                    }, gvi.reason),
+
+                                    // Sport badge
+                                    game.sport && React.createElement('div', {
+                                        style: {
+                                            fontSize: '10px',
+                                            color: '#90ee90',
+                                            marginTop: '8px',
+                                            textAlign: 'right'
+                                        }
+                                    }, game.sport)
+                                );
+                            })
+                        )
                     ),
 
                     // Database Search Bar
