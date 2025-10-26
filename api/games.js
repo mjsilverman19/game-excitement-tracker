@@ -1,7 +1,7 @@
 // File: /api/games.js - Enhanced Entertainment Analysis with CFB Support
 
-import { getGamesForSearch } from './gameDataFetcher.js';
-import { analyzeGameEntertainment } from './entertainmentCalculator.js';
+import { getGamesForSearch } from '../src/api/gameDataFetcher.js';
+import { analyzeGameEntertainment } from '../src/api/entertainmentCalculator.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

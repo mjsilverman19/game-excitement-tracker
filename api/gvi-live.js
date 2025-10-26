@@ -3,8 +3,8 @@
  * Provides real-time Game Volatility Index for live NFL and CFB games
  */
 
-import { calculateLiveGVI, calculateLiveGamesGVI, getLiveRecommendations } from './liveGviCalculator.js';
-import { getLiveNFLGames, getLiveCFBGames, getAllLiveGames, getLiveGameById, getLiveGamesSummary, getGameStatus } from '../lib/liveGameDetector.js';
+import { calculateLiveGVI, calculateLiveGamesGVI, getLiveRecommendations } from '../src/api/liveGviCalculator.js';
+import { getLiveNFLGames, getLiveCFBGames, getAllLiveGames, getLiveGameById, getLiveGamesSummary, getGameStatus } from '../src/lib/liveGameDetector.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
