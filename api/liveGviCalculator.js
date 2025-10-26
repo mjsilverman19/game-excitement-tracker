@@ -48,12 +48,8 @@ export async function calculateLiveGVI(gameData, marketData = null, options = {}
     }
 
     if (!market || !isMarketSuitable(market)) {
-      return {
-        success: false,
-        gviScore: null,
-        reason: 'No suitable market found',
-        confidence: 0
-      };
+      console.log(`⚠️  No market data for ${gameData.shortName}, using fallback calculation`);
+      return calculateFallbackGVI(gameData, options);
     }
 
     // Calculate individual components
@@ -456,5 +452,109 @@ export function getLiveRecommendations(gviGames) {
       recommended,
       worthWatching
     }
+  };
+}
+
+/**
+ * Fallback GVI calculation when no market data is available
+ * Uses only game situation factors
+ */
+function calculateFallbackGVI(gameData, options = {}) {
+  console.log(`🔄 Using fallback GVI calculation for ${gameData.shortName}`);
+
+  const { homeScore, awayScore, status } = gameData;
+  const scoreDiff = Math.abs(homeScore - awayScore);
+  const totalScore = homeScore + awayScore;
+  const quarter = status.period || status.quarter || 1;
+
+  // Enhanced game situation analysis (becomes primary factor)
+  let situationScore = 0;
+
+  // Score differential impact (most important)
+  if (scoreDiff <= 3) situationScore += 0.5;      // Very close
+  else if (scoreDiff <= 7) situationScore += 0.4;  // Close
+  else if (scoreDiff <= 14) situationScore += 0.3; // Competitive
+  else if (scoreDiff <= 21) situationScore += 0.2; // Manageable
+  else situationScore += 0.1;                       // Large deficit
+
+  // Game timing impact
+  if (quarter >= 4) {
+    situationScore += 0.35; // 4th quarter = high drama
+  } else if (quarter === 3) {
+    situationScore += 0.2;  // 3rd quarter = building tension
+  } else if (quarter === 2) {
+    situationScore += 0.1;  // 2nd quarter = some interest
+  }
+
+  // Scoring pace bonus
+  if (totalScore > 50) situationScore += 0.1;      // High scoring
+  else if (totalScore > 35) situationScore += 0.05; // Good scoring
+
+  // Special status adjustments
+  if (status.type?.name === 'STATUS_HALFTIME') {
+    situationScore *= 0.7; // Halftime = less immediate excitement
+  } else if (status.type?.name === 'STATUS_END_PERIOD') {
+    situationScore += 0.1; // End of period = tension
+  }
+
+  // Cap the situation score
+  const finalSituationScore = Math.min(situationScore, 1.0);
+  const gviScore = Math.round(finalSituationScore * 100);
+
+  // Generate recommendation based on fallback score
+  let recommendation, priority, reason;
+
+  if (gviScore >= 70) {
+    recommendation = "🔥 MUST WATCH";
+    priority = "high";
+    reason = `Exciting ${scoreDiff <= 3 ? 'nail-biter' : scoreDiff <= 7 ? 'close game' : 'competitive contest'} in Q${quarter}`;
+  } else if (gviScore >= 50) {
+    recommendation = "📈 RECOMMENDED";
+    priority = "medium-high";
+    reason = `${scoreDiff <= 7 ? 'Close' : 'Competitive'} game with ${quarter >= 3 ? 'late-game' : 'building'} tension`;
+  } else if (gviScore >= 30) {
+    recommendation = "👀 WORTH WATCHING";
+    priority = "medium";
+    reason = `Some excitement potential in Q${quarter}${totalScore > 35 ? ' with good scoring' : ''}`;
+  } else {
+    recommendation = "⚡ SOME INTEREST";
+    priority = "low";
+    reason = `Limited immediate excitement (${scoreDiff}-point differential in Q${quarter})`;
+  }
+
+  return {
+    success: true,
+    gviScore,
+    recommendation: recommendation,
+    priority,
+    reason: reason + " (live analysis - no market data)",
+    confidence: 0.6, // Lower confidence without market data
+    breakdown: {
+      currentSpread: {
+        score: 0,
+        value: 'N/A',
+        weight: 0,
+        note: 'No market data available'
+      },
+      marketMovement: {
+        score: 0,
+        value: 'N/A',
+        weight: 0,
+        note: 'No market data available'
+      },
+      gameSituation: {
+        score: finalSituationScore,
+        value: `${scoreDiff}pt diff, Q${quarter}`,
+        weight: 1.0,
+        note: 'Primary analysis factor'
+      },
+      volumeActivity: {
+        score: 0,
+        value: 'N/A',
+        weight: 0,
+        note: 'No market data available'
+      }
+    },
+    fallbackMode: true
   };
 }
