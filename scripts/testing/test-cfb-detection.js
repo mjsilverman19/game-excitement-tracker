@@ -3,7 +3,7 @@
  * Test CFB Live Game Detection
  */
 
-import { getLiveCFBGames, getAllLiveGames } from './lib/liveGameDetector.js';
+import { getLiveCFBGames, getAllLiveGames } from '../../src/lib/liveGameDetector.js';
 
 async function testCFBDetection() {
   console.log('🏈 Testing CFB Live Game Detection\n');

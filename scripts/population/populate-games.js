@@ -5,9 +5,9 @@
 //        node populate-games.js --sport CFB --season 2024 --week playoff
 
 import 'dotenv/config';
-import { getGamesForSearch } from './api/gameDataFetcher.js';
-import { buildGameContext } from './api/contextAnalyzer.js';
-import { insertGame, insertGameMetrics } from './lib/supabase.js';
+import { getGamesForSearch } from '../../src/api/gameDataFetcher.js';
+import { buildGameContext } from '../../src/api/contextAnalyzer.js';
+import { insertGame, insertGameMetrics } from '../../src/lib/supabase.js';
 
 // Parse command line arguments
 function parseArgs() {
