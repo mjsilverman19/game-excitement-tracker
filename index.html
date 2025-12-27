@@ -886,7 +886,7 @@
 
             return `
                 <div class="game-card">
-                    <div class="game-score">${score.toFixed(1)}</div>
+                    <div class="game-score">${score % 1 === 0 ? score : score.toFixed(1)}</div>
                     <div class="score-bar-container">
                         <div class="score-bar-bg">
                             <div class="score-bar-fill" style="width: ${percentage}%"></div>
