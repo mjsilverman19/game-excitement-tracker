@@ -49,6 +49,92 @@
             margin-top: 24px;
         }
 
+        /* Navigation */
+        .main-nav {
+            text-align: center;
+            margin: 40px auto;
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #666;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #2563EB;
+        }
+
+        .nav-link.active {
+            color: #2563EB;
+            border-bottom-color: #2563EB;
+        }
+
+        /* About Page */
+        .about-card {
+            background: #FFFFFF;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            border-radius: 2px;
+        }
+
+        .about-card h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #1A1A1A;
+        }
+
+        .about-section {
+            margin-bottom: 32px;
+        }
+
+        .about-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #2563EB;
+        }
+
+        .about-section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4B5563;
+            margin-bottom: 12px;
+        }
+
+        .about-section ul,
+        .about-section ol {
+            margin-left: 24px;
+            margin-bottom: 12px;
+        }
+
+        .about-section li {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4B5563;
+            margin-bottom: 8px;
+        }
+
+        .about-section li strong {
+            color: #1A1A1A;
+        }
+
         /* Selection Card */
         .selection-card {
             background: #FFFFFF;
@@ -519,11 +605,17 @@
 <body>
     <div class="container">
         <header>
-            <h1>GAME INDEX</h1>
+            <h1>GAME ENTERTAINMENT INDEX</h1>
             <p class="tagline">Find the most entertaining games to watch</p>
             <div class="accent-line"></div>
         </header>
 
+        <nav class="main-nav">
+            <a href="#" class="nav-link active" id="homeLink">Home</a>
+            <a href="#" class="nav-link" id="aboutLink">About</a>
+        </nav>
+
+        <div class="main-content" id="mainContent">
         <div class="selection-card" id="selectionCard">
             <div class="form-group">
                 <label>Sport</label>
@@ -577,6 +669,45 @@
             </div>
             <div id="gamesContainer">
                 <!-- Games populated by JavaScript -->
+            </div>
+        </div>
+        </div>
+
+        <div class="about-content" id="aboutContent" style="display: none;">
+            <div class="about-card">
+                <h2>About the Game Entertainment Index</h2>
+
+                <section class="about-section">
+                    <h3>What is this?</h3>
+                    <p>The Game Entertainment Index is a tool designed to help you find the most exciting and entertaining games to watch. Instead of watching every game, let our index guide you to the most thrilling matchups.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>How does it work?</h3>
+                    <p>Our scoring algorithm analyzes various factors including:</p>
+                    <ul>
+                        <li><strong>Score Proximity:</strong> Close games are more exciting than blowouts</li>
+                        <li><strong>Lead Changes:</strong> Games with momentum swings keep you on the edge of your seat</li>
+                        <li><strong>Overtime:</strong> Extra time means extra drama</li>
+                        <li><strong>Final Score:</strong> Higher-scoring games often provide more action</li>
+                    </ul>
+                    <p>Each game receives a score from 0-10, with 10 being the most entertaining possible game.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>How to use</h3>
+                    <ol>
+                        <li>Select your sport (NFL or CFB)</li>
+                        <li>Choose the season and week you're interested in</li>
+                        <li>Browse games ranked by entertainment value</li>
+                        <li>Click on spoiler-protected scores if you haven't watched yet</li>
+                    </ol>
+                </section>
+
+                <section class="about-section">
+                    <h3>Tips</h3>
+                    <p>Use the spoiler toggle if you're browsing for games to watch but don't want to know the final scores. This way you can find the most entertaining games without spoiling the outcome!</p>
+                </section>
             </div>
         </div>
     </div>
@@ -886,7 +1017,7 @@
 
             return `
                 <div class="game-card">
-                    <div class="game-score">${score.toFixed(1)}</div>
+                    <div class="game-score">${score % 1 === 0 ? score : score.toFixed(1)}</div>
                     <div class="score-bar-container">
                         <div class="score-bar-bg">
                             <div class="score-bar-fill" style="width: ${percentage}%"></div>
@@ -908,6 +1039,28 @@
                 </div>
             `;
         }
+
+        // Navigation handling
+        const homeLink = document.getElementById('homeLink');
+        const aboutLink = document.getElementById('aboutLink');
+        const mainContent = document.getElementById('mainContent');
+        const aboutContent = document.getElementById('aboutContent');
+
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainContent.style.display = 'block';
+            aboutContent.style.display = 'none';
+            homeLink.classList.add('active');
+            aboutLink.classList.remove('active');
+        });
+
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainContent.style.display = 'none';
+            aboutContent.style.display = 'block';
+            aboutLink.classList.add('active');
+            homeLink.classList.remove('active');
+        });
 
         // Start the app
         init();
