@@ -1,108 +1,74 @@
-// File: /api/games.js - Enhanced Entertainment Analysis with CFB Support
-
-import { getGamesForSearch } from './gameDataFetcher.js';
-import { analyzeGameEntertainment } from './entertainmentCalculator.js';
+// Streamlined Games API Endpoint
+import { fetchGames } from './fetcher.js';
+import { analyzeGameEntertainment } from './calculator.js';
 
 export default async function handler(req, res) {
+  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { date, sport, week, season, seasonType } = req.body;
-
-  console.log('What we received:', req.body);
-  console.log('Season is:', season, 'and its type is:', typeof season);
-
-  if (!sport || !['NFL', 'CFB'].includes(sport) || !week) {
-    return res.status(400).json({
-      error: 'Week and sport (NFL or CFB) are required'
+    return res.status(405).json({
+      success: false,
+      error: 'Method not allowed'
     });
   }
 
   try {
-    let searchParam;
-    if (sport === 'NFL' && week) {
-      const weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
-      const typeNumber = seasonType || 2;
-      searchParam = { week: weekNumber, season: season ? parseInt(season) : new Date().getFullYear(), seasonType: typeNumber };
-      console.log(`Analyzing NFL Week ${weekNumber} (${searchParam.season}) ${typeNumber === 3 ? 'Playoffs' : 'Regular Season'} games...`);
-    } else if (sport === 'CFB' && week) {
-      let weekNumber;
-      let seasonTypeNumber;
+    const { sport = 'NFL', season, week, seasonType = '2' } = req.body;
 
-      if (week === 'playoff') {
-        weekNumber = '1';
-        seasonTypeNumber = 4;
-      } else if (week === 'bowl') {
-        weekNumber = '1';
-        seasonTypeNumber = 3;
-      } else {
-        weekNumber = typeof week === 'number' ? week.toString() : week.toString().replace(/^Week\s*/i, '');
-        seasonTypeNumber = 2;
-      }
+    console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${seasonType})`);
 
-      searchParam = {
-        week: weekNumber,
-        season: season ? parseInt(season) : new Date().getFullYear(),
-        seasonType: seasonTypeNumber
-      };
-
-      const gameTypeLabel = week === 'playoff' ? 'Playoff' : week === 'bowl' ? 'Bowl' : `Week ${weekNumber}`;
-      console.log(`Analyzing CFB ${gameTypeLabel} (${searchParam.season}) games...`);
-    }
-
-    const games = await getGamesForSearch(searchParam, sport);
+    // Fetch games from ESPN
+    const games = await fetchGames(sport, season, week, seasonType);
 
     if (!games || games.length === 0) {
       return res.status(200).json({
         success: true,
         games: [],
         metadata: {
-          date: `Week ${week} (${searchParam.season})`,
-          sport: sport,
-          source: 'ESPN Win Probability API',
-          analysisType: 'Enhanced Entertainment Analysis',
-          gameCount: 0
+          sport,
+          season,
+          week,
+          count: 0
         }
       });
     }
 
+    console.log(`Found ${games.length} completed games, analyzing...`);
+
+    // Analyze each game in parallel
     const analyzedGames = await Promise.all(
-      games.map(async (game) => await analyzeGameEntertainment(game, sport))
+      games.map(game => analyzeGameEntertainment(game, sport))
     );
 
-    const validGames = analyzedGames.filter(game => game !== null);
-
-    console.log(`Successfully analyzed ${validGames.length} ${sport} games with enhanced metrics`);
+    // Sort by excitement score
+    analyzedGames.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
 
     return res.status(200).json({
       success: true,
-      games: validGames,
+      games: analyzedGames,
       metadata: {
-        date: `Week ${week} (${searchParam.season})`,
-        sport: sport,
-        source: 'ESPN Win Probability API',
-        analysisType: 'Enhanced Entertainment Analysis',
-        gameCount: validGames.length
+        sport,
+        season,
+        week,
+        count: analyzedGames.length,
+        source: 'ESPN Win Probability Analysis'
       }
     });
-  } catch (error) {
-    console.error('Error in enhanced analysis:', error);
 
-    res.status(500).json({
+  } catch (error) {
+    console.error('API Error:', error);
+
+    return res.status(500).json({
       success: false,
-      error: 'Failed to analyze game entertainment',
-      details: error.message,
-      games: []
+      error: 'Failed to analyze games',
+      details: error.message
     });
   }
 }
