@@ -218,6 +218,18 @@
             justify-content: space-between;
             align-items: baseline;
             margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 24px;
         }
 
         .results-title {
@@ -245,6 +257,66 @@
             text-decoration: underline;
         }
 
+        /* Spoiler Toggle */
+        .spoiler-toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .spoiler-toggle-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E5E7EB;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #2563EB;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
         /* Game Cards */
         .game-card {
             background: #FFFFFF;
@@ -253,7 +325,7 @@
             padding: 20px 32px;
             display: grid;
             grid-template-columns: 80px 120px 1fr auto;
-            gap: 24px;
+            gap: 32px;
             align-items: center;
             transition: all 0.2s;
             cursor: pointer;
@@ -319,6 +391,18 @@
         .final-score {
             font-size: 14px;
             color: #666;
+        }
+
+        .final-score.spoiler-hidden {
+            font-style: italic;
+            color: #2563EB;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .final-score.spoiler-hidden:hover {
+            color: #1D4ED8;
+            text-decoration: underline;
         }
 
         .watch-link {
@@ -476,11 +560,20 @@
 
         <div class="results-section" id="resultsSection">
             <div class="results-header">
-                <div>
+                <div class="header-left">
                     <h2 class="results-title" id="resultsTitle"></h2>
                     <p class="results-subtitle" id="resultsSubtitle"></p>
                 </div>
-                <a class="change-week" id="changeWeek">← Change Week</a>
+                <div class="header-controls">
+                    <div class="spoiler-toggle-container">
+                        <span class="spoiler-toggle-label">Hide Scores</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="spoilerToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <a class="change-week" id="changeWeek">← Change Week</a>
+                </div>
             </div>
             <div id="gamesContainer">
                 <!-- Games populated by JavaScript -->
@@ -489,16 +582,78 @@
     </div>
 
     <script>
+        // Get current NFL week based on date
+        function getCurrentNFLWeek() {
+            const now = new Date();
+            const year = now.getFullYear();
+
+            // NFL season typically starts first Thursday in September
+            // Week 1 is around Sept 5-12
+            const seasonStart = new Date(year, 8, 5); // Sept 5
+
+            // Adjust to first Thursday
+            const dayOfWeek = seasonStart.getDay();
+            const daysUntilThursday = (4 - dayOfWeek + 7) % 7;
+            seasonStart.setDate(seasonStart.getDate() + daysUntilThursday);
+
+            // If we're before the season start, use last year
+            if (now < seasonStart) {
+                const lastYearStart = new Date(year - 1, 8, 5);
+                const lastYearDay = lastYearStart.getDay();
+                const lastYearDaysUntilThursday = (4 - lastYearDay + 7) % 7;
+                lastYearStart.setDate(lastYearStart.getDate() + lastYearDaysUntilThursday);
+
+                const weeksSinceStart = Math.floor((now - lastYearStart) / (7 * 24 * 60 * 60 * 1000));
+                const week = Math.min(18, Math.max(1, weeksSinceStart + 1));
+
+                return { season: year - 1, week: week };
+            }
+
+            // Calculate weeks since season start
+            const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+            let week = weeksSinceStart + 1;
+
+            // If current week hasn't had games yet (it's before Thursday), use previous week
+            const currentDayOfWeek = now.getDay();
+            if (currentDayOfWeek < 4) { // Before Thursday
+                week = Math.max(1, week - 1);
+            }
+
+            // Cap at week 18
+            week = Math.min(18, Math.max(1, week));
+
+            return { season: year, week: week };
+        }
+
+        // Initialize with current NFL week
+        const currentNFLWeek = getCurrentNFLWeek();
+
         // State
         let selectedSport = 'NFL';
-        let selectedSeason = new Date().getFullYear();
-        let selectedWeek = 1;
+        let selectedSeason = currentNFLWeek.season;
+        let selectedWeek = currentNFLWeek.week;
+        let spoilerFree = localStorage.getItem('spoilerFree') !== 'false'; // Default true
+        let revealedGames = new Set();
 
         // Initialize
         function init() {
             populateSeasons();
             populateWeeks();
             attachEventListeners();
+            initializeSpoilerToggle();
+
+            // Auto-load the current week's games
+            setTimeout(() => {
+                analyzeGames();
+            }, 500);
+        }
+
+        // Initialize spoiler toggle from localStorage
+        function initializeSpoilerToggle() {
+            const toggle = document.getElementById('spoilerToggle');
+            if (toggle) {
+                toggle.checked = spoilerFree;
+            }
         }
 
         // Populate season dropdown
@@ -511,7 +666,7 @@
                 const option = document.createElement('option');
                 option.value = year;
                 option.textContent = year;
-                if (year === currentYear) option.selected = true;
+                if (year === selectedSeason) option.selected = true;
                 seasonSelect.appendChild(option);
             }
         }
@@ -569,6 +724,19 @@
             document.getElementById('changeWeek').addEventListener('click', () => {
                 document.getElementById('resultsSection').classList.remove('visible');
                 document.getElementById('selectionCard').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Spoiler toggle
+            document.getElementById('spoilerToggle').addEventListener('change', (e) => {
+                spoilerFree = e.target.checked;
+                localStorage.setItem('spoilerFree', spoilerFree);
+                revealedGames.clear(); // Reset revealed games when toggling
+
+                // Re-render games if results are visible
+                const resultsSection = document.getElementById('resultsSection');
+                if (resultsSection.classList.contains('visible') && window.currentGames) {
+                    displayResults(window.currentGames);
+                }
             });
         }
 
@@ -646,6 +814,9 @@
 
         // Display results
         function displayResults(games) {
+            // Store current games for re-rendering
+            window.currentGames = games;
+
             // Sort by excitement score
             games.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
 
@@ -657,11 +828,32 @@
 
             // Generate game cards
             const gamesContainer = document.getElementById('gamesContainer');
-            gamesContainer.innerHTML = games.map(game => createGameCard(game)).join('');
+            gamesContainer.innerHTML = games.map((game, index) => createGameCard(game, index)).join('');
+
+            // Attach click listeners for spoiler reveals
+            attachGameClickListeners();
+        }
+
+        // Attach click listeners to game cards for spoiler reveal
+        function attachGameClickListeners() {
+            if (!spoilerFree) return;
+
+            document.querySelectorAll('.final-score.spoiler-hidden').forEach(scoreEl => {
+                scoreEl.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const gameIndex = parseInt(scoreEl.dataset.gameIndex);
+                    revealedGames.add(gameIndex);
+
+                    // Re-render to show the revealed score
+                    if (window.currentGames) {
+                        displayResults(window.currentGames);
+                    }
+                });
+            });
         }
 
         // Create game card HTML
-        function createGameCard(game) {
+        function createGameCard(game, index) {
             const score = game.excitement || 0;
             const percentage = Math.min(100, (score / 10) * 100);
 
@@ -681,6 +873,17 @@
                 `${game.awayTeam} vs ${game.homeTeam} ${selectedSport} highlights ${selectedSeason}`
             )}`;
 
+            // Determine if this game's score should be hidden
+            const isGameRevealed = revealedGames.has(index);
+            const shouldHideScore = spoilerFree && !isGameRevealed;
+
+            let scoreDisplay;
+            if (shouldHideScore) {
+                scoreDisplay = `<div class="final-score spoiler-hidden" data-game-index="${index}">Click to reveal score</div>`;
+            } else {
+                scoreDisplay = `<div class="final-score">Final: ${game.awayScore || 0} - ${game.homeScore || 0}${game.overtime ? ' (OT)' : ''}</div>`;
+            }
+
             return `
                 <div class="game-card">
                     <div class="game-score">${score.toFixed(1)}</div>
@@ -697,9 +900,7 @@
                             <span class="team-dot" style="background: ${homeColor}"></span>
                             ${game.homeTeam}
                         </div>
-                        <div class="final-score">
-                            Final: ${game.awayScore || 0} - ${game.homeScore || 0}${game.overtime ? ' (OT)' : ''}
-                        </div>
+                        ${scoreDisplay}
                     </div>
                     <a href="${highlightUrl}" target="_blank" class="watch-link">
                         Watch →
