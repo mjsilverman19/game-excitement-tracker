@@ -3,29 +3,22 @@
 
 const SCORING_CONFIG = {
   weights: {
-    leadChanges: 0.25,
-    lateGame: 0.30,
-    totalMovement: 0.20,
-    dramaticFinish: 0.15,
-    persistence: 0.10
+    leadChanges: 0.20,       // reduced from 0.25
+    lateGame: 0.30,          // unchanged
+    totalMovement: 0.15,     // reduced from 0.20
+    dramaticFinish: 0.20,    // increased from 0.15
+    persistence: 0.15        // increased from 0.10
   },
   thresholds: {
-    minDataPoints: 10,          // fewer than this = return null
-    significantSwing: 0.10,     // 10% win prob change = notable
-    blowoutThreshold: 0.95,     // above this in Q4 = garbage time
-    closeGameBand: [0.35, 0.65], // final win prob in this range = close finish
-    dramaticSwingThreshold: 0.20 // 20% swing in final 5 points = dramatic
+    minDataPoints: 10,
+    blowoutThreshold: 0.88,      // lowered from 0.95
+    closeGameBand: [0.35, 0.65],
+    dramaticSwingThreshold: 0.12 // lowered from 0.20
   },
   bonuses: {
-    overtime: 0.5,
-    dramaticFinish: 1.0
-  },
-  // Scaling factors for normalizing to 1-10 range
-  scaling: {
-    leadChanges: 1.5,      // multiply lead change count by this
-    totalMovement: 12,     // scale total movement to 0-10
-    persistence: 12        // scale persistence ratio to 0-10
+    overtime: 1.0  // increased from 0.5
   }
+  // Remove the 'scaling' object entirely - each function handles its own scaling
 };
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
@@ -122,13 +115,14 @@ function calculateLeadChanges(probs) {
   for (let i = 1; i < probs.length; i++) {
     const prevLeader = probs[i - 1].value >= 0.5 ? 'home' : 'away';
     const currLeader = probs[i].value >= 0.5 ? 'home' : 'away';
-
     if (prevLeader !== currLeader) {
       leadChanges++;
     }
   }
 
-  return Math.min(10, leadChanges * SCORING_CONFIG.scaling.leadChanges);
+  // Diminishing returns: 2 changes = 5, 5 = 7.5, 10 = 9.2, 20 = 9.9
+  const score = 10 * (1 - Math.exp(-leadChanges / 4));
+  return Math.min(10, score);
 }
 
 /**
@@ -145,7 +139,9 @@ function calculateTotalMovement(probs) {
     totalMovement += Math.abs(probs[i].value - probs[i - 1].value);
   }
 
-  return Math.min(10, totalMovement * SCORING_CONFIG.scaling.totalMovement);
+  // Log scale: movement of 1 = 4.3, 2 = 6.1, 4 = 7.7, 8 = 9.2
+  const normalized = Math.log(1 + totalMovement) / Math.log(10);
+  return Math.min(10, normalized * 10);
 }
 
 /**
@@ -155,57 +151,44 @@ function calculateTotalMovement(probs) {
  * @returns {number} Score from 0-10 based on late-game action
  */
 function calculateLateGameExcitement(probs) {
-  if (probs.length < 4) return 5;
-
-  // Filter to 4th quarter and overtime
   const fourthQuarter = probs.filter(p => p.period >= 4);
+  const segment = fourthQuarter.length > 0
+    ? fourthQuarter
+    : probs.slice(Math.floor(probs.length * 0.75));
 
-  if (fourthQuarter.length === 0) {
-    // Fallback to last 25% of data points if period info missing
-    const lastQuarter = probs.slice(Math.floor(probs.length * 0.75));
-    return calculateQuarterExcitement(lastQuarter);
-  }
-
-  // Check for garbage time (win prob > 95% throughout Q4)
-  const isGarbageTime = fourthQuarter.every(p =>
-    p.value > SCORING_CONFIG.thresholds.blowoutThreshold ||
-    p.value < (1 - SCORING_CONFIG.thresholds.blowoutThreshold)
-  );
-
-  if (isGarbageTime) {
-    return 2; // Penalize heavily
-  }
-
-  // Calculate base Q4 excitement
-  let score = calculateQuarterExcitement(fourthQuarter);
-
-  // TODO: Add extra weight for final 2 minutes when clock data is available
-  // This would require parsing clock strings like "2:00" to check if < 2 min remain
-
-  return score;
-}
-
-/**
- * Helper function to calculate excitement for a quarter segment
- * @param {Array} segment - Array of probability objects
- * @returns {number} Score from 0-10
- */
-function calculateQuarterExcitement(segment) {
   if (segment.length === 0) return 5;
 
-  // Convert to balance scores (1 = perfectly balanced, 0 = blowout)
-  const balances = segment.map(p => 1 - Math.abs(p.value - 0.5) * 2);
+  // Detect garbage time
+  const blowoutPoints = segment.filter(p =>
+    p.value > SCORING_CONFIG.thresholds.blowoutThreshold ||
+    p.value < (1 - SCORING_CONFIG.thresholds.blowoutThreshold)
+  ).length;
+  const garbageTimeRatio = blowoutPoints / segment.length;
 
-  // Average closeness in the quarter
+  // Heavy penalty for garbage time
+  if (garbageTimeRatio > 0.8) {
+    return 1.5;
+  }
+
+  // Calculate balance (how close to 50/50)
+  const balances = segment.map(p => 1 - Math.abs(p.value - 0.5) * 2);
   const avgBalance = balances.reduce((sum, b) => sum + b, 0) / balances.length;
 
-  // Movement within the quarter
+  // Calculate Q4 movement
   let movement = 0;
   for (let i = 1; i < segment.length; i++) {
     movement += Math.abs(segment[i].value - segment[i - 1].value);
   }
 
-  return Math.min(10, (avgBalance * 5) + (movement * 25));
+  // More conservative formula with capped movement contribution
+  let score = (avgBalance * 6) + Math.min(4, movement * 4);
+
+  // Partial garbage time penalty
+  if (garbageTimeRatio > 0.3) {
+    score *= (1 - garbageTimeRatio * 0.5);
+  }
+
+  return Math.min(10, score);
 }
 
 /**
@@ -214,33 +197,46 @@ function calculateQuarterExcitement(segment) {
  * @returns {number} Score from 0-10, with bonus for walk-offs and last-second wins
  */
 function calculateDramaticFinish(probs) {
-  if (probs.length < 5) return 0;
+  if (probs.length < 10) return 0;
 
-  const finalPoints = probs.slice(-5);
+  const final10 = probs.slice(-10);
+  const final5 = probs.slice(-5);
   const finalProb = probs[probs.length - 1].value;
 
-  // Check for big swings in final 5 data points
+  // Find maximum swing in final 10 data points
   let maxSwing = 0;
-  for (let i = 1; i < finalPoints.length; i++) {
-    const swing = Math.abs(finalPoints[i].value - finalPoints[i - 1].value);
+  for (let i = 1; i < final10.length; i++) {
+    const swing = Math.abs(final10[i].value - final10[i - 1].value);
     maxSwing = Math.max(maxSwing, swing);
   }
 
-  // Check if final win probability was in close game band
+  // Calculate volatility in final 5 points
+  let finalVolatility = 0;
+  for (let i = 1; i < final5.length; i++) {
+    finalVolatility += Math.abs(final5[i].value - final5[i - 1].value);
+  }
+
   const [minClose, maxClose] = SCORING_CONFIG.thresholds.closeGameBand;
   const wasCloseFinish = finalProb >= minClose && finalProb <= maxClose;
 
   let score = 0;
 
+  // Big swing in final moments
   if (maxSwing > SCORING_CONFIG.thresholds.dramaticSwingThreshold) {
-    score += SCORING_CONFIG.bonuses.dramaticFinish;
+    score += 4 + Math.min(4, (maxSwing - 0.12) * 30);
   }
 
+  // Close finish bonus
   if (wasCloseFinish) {
-    score += SCORING_CONFIG.bonuses.dramaticFinish * 0.5;
+    score += 3;
   }
 
-  return Math.min(10, score * 5); // Scale to 0-10 range
+  // Extra volatility bonus
+  if (finalVolatility > 0.2) {
+    score += Math.min(2, finalVolatility * 4);
+  }
+
+  return Math.min(10, score);
 }
 
 /**
@@ -251,15 +247,14 @@ function calculateDramaticFinish(probs) {
 function calculatePersistence(probs) {
   if (probs.length === 0) return 5;
 
-  // Count how many points the game was close (within 40-60% win probability)
-  const closePoints = probs.filter(p => {
-    const balance = 1 - Math.abs(p.value - 0.5) * 2;
-    return balance > 0.5; // balance > 0.5 means win prob between 40-60%
-  }).length;
-
+  // Count points where game was actually close (35-65% win probability)
+  const closePoints = probs.filter(p => p.value >= 0.35 && p.value <= 0.65).length;
   const closenessRatio = closePoints / probs.length;
 
-  return Math.min(10, closenessRatio * SCORING_CONFIG.scaling.persistence);
+  // Slightly exponential: 30% = 2.5, 50% = 5.5, 70% = 8.5, 90% = 10
+  const score = Math.pow(closenessRatio, 1.3) * 12;
+
+  return Math.min(10, score);
 }
 
 /**
@@ -269,9 +264,10 @@ function calculatePersistence(probs) {
  * @returns {number} Normalized score between 1-10
  */
 function normalizeScore(rawScore) {
-  // Apply square root transformation to spread lower scores
-  // This helps boring games score 2-3 instead of clustering at 5-6
-  const transformed = Math.sqrt(Math.max(0, rawScore)) * 3.2;
+  // Sigmoid centered at 5 to spread scores across 1-10
+  const centered = (rawScore - 5) / 2.2;
+  const sigmoid = 1 / (1 + Math.exp(-centered * 1.2));
 
-  return Math.max(1, Math.min(10, transformed));
+  // Map sigmoid output (0-1) to final score (1-10)
+  return Math.max(1, Math.min(10, 1 + sigmoid * 9));
 }
