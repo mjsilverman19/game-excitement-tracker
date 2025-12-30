@@ -877,11 +877,17 @@
             const currentYear = new Date().getFullYear();
             const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
 
-            // Populate season buttons (current year and previous 2 years)
+            // Determine current season for the selected sport
+            const currentSeasonInfo = getCurrentWeek(selectedSport);
+            const currentSeasonYear = currentSeasonInfo.season;
+
+            // Populate season buttons
+            // Show current season and previous season only (ESPN historical data is limited)
             const seasonButtons = document.getElementById('seasonButtons');
             seasonButtons.innerHTML = '';
 
-            for (let year = currentYear; year >= currentYear - 2; year--) {
+            // Only show current season and one year back
+            for (let year = currentSeasonYear; year >= currentSeasonYear - 1; year--) {
                 const btn = document.createElement('div');
                 btn.className = 'season-btn';
                 if (year === selectedSeason) {
