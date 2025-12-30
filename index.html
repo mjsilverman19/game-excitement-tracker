@@ -12,109 +12,96 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(to bottom, #FAFAF9 0%, #F5F5F4 100%);
+            font-family: 'Söhne', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #1c1a19;
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
             min-height: 100vh;
-            color: #1A1A1A;
+            color: #ede9e3;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 80px;
         }
 
-        /* Header */
+        /* Content positioning - left-aligned, 55-60% width */
+        .content-wrapper {
+            max-width: 60%;
+        }
+
+        /* Header - GEI Masthead */
         header {
-            text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 64px;
         }
 
-        h1 {
-            font-size: 40px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
+        .masthead {
+            font-size: 200px;
+            font-weight: 300;
+            color: #6b6560;
+            line-height: 0.9;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
-        .tagline {
-            font-size: 14px;
-            color: #666;
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .site-title {
+            font-size: 13px;
+            color: #ede9e3;
             font-weight: 400;
         }
 
-        .accent-line {
-            height: 2px;
-            background: linear-gradient(to right, transparent, #2563EB, transparent);
-            margin-top: 24px;
+        .week-info {
+            font-size: 13px;
+            color: #9a958e;
+            font-weight: 400;
         }
 
-        /* Navigation */
+        /* Navigation - subtle footer link */
         .main-nav {
-            text-align: center;
-            margin: 40px auto;
-            display: flex;
-            gap: 24px;
-            justify-content: center;
+            position: fixed;
+            bottom: 80px;
+            left: 80px;
         }
 
         .nav-link {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: #666;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
+            font-size: 11px;
+            color: #6b6560;
+            text-decoration: underline;
+            font-weight: 400;
+            transition: color 150ms ease;
         }
 
         .nav-link:hover {
-            color: #2563EB;
-        }
-
-        .nav-link.active {
-            color: #2563EB;
-            border-bottom-color: #2563EB;
+            color: #9a958e;
         }
 
         /* About Page */
-        .about-card {
-            background: #FFFFFF;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 48px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-            border-radius: 2px;
-        }
-
-        .about-card h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 32px;
-            color: #1A1A1A;
+        .about-content {
+            max-width: 60%;
         }
 
         .about-section {
             margin-bottom: 32px;
         }
 
-        .about-section:last-child {
-            margin-bottom: 0;
-        }
-
         .about-section h3 {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 500;
             margin-bottom: 12px;
-            color: #2563EB;
+            color: #ede9e3;
         }
 
         .about-section p {
-            font-size: 15px;
+            font-size: 13px;
             line-height: 1.6;
-            color: #4B5563;
+            color: #9a958e;
             margin-bottom: 12px;
         }
 
@@ -125,426 +112,169 @@
         }
 
         .about-section li {
-            font-size: 15px;
+            font-size: 13px;
             line-height: 1.6;
-            color: #4B5563;
+            color: #9a958e;
             margin-bottom: 8px;
         }
 
-        .about-section li strong {
-            color: #1A1A1A;
-        }
-
-        /* Selection Card */
-        .selection-card {
-            background: #FFFFFF;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 48px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-            border-radius: 2px;
-        }
-
-        .form-group {
-            margin-bottom: 32px;
-        }
-
-        .form-group:last-of-type {
-            margin-bottom: 40px;
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 12px;
-        }
-
-        /* Sport Selector (Radio Pills) */
-        .radio-group {
+        /* Selection Interface - Minimal */
+        .selection-interface {
+            margin-bottom: 48px;
             display: flex;
-            gap: 12px;
-        }
-
-        .radio-pill {
-            flex: 1;
-        }
-
-        .radio-pill input[type="radio"] {
-            display: none;
-        }
-
-        .radio-pill label {
-            display: block;
-            text-align: center;
-            padding: 12px 24px;
-            border: 1px solid #E5E7EB;
-            background: #FFFFFF;
-            color: #1A1A1A;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-            font-weight: 500;
-            text-transform: none;
-            letter-spacing: 0;
-            margin: 0;
-        }
-
-        .radio-pill input[type="radio"]:checked + label {
-            background: #2563EB;
-            color: #FFFFFF;
-            border-color: #2563EB;
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-        }
-
-        .radio-pill label:hover {
-            border-color: #2563EB;
-        }
-
-        /* Season Dropdown */
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #E5E7EB;
-            background: #FFFFFF;
-            font-size: 14px;
-            font-family: inherit;
-            color: #1A1A1A;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%231A1A1A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 48px;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #2563EB;
-        }
-
-        /* Week Grid */
-        .week-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-        }
-
-        .week-button {
-            padding: 12px;
-            border: 1px solid #E5E7EB;
-            background: #FAFAF9;
-            color: #1A1A1A;
-            font-size: 14px;
-            font-weight: 500;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .week-button:hover {
-            border-color: #2563EB;
-            background: #FFFFFF;
-        }
-
-        .week-button.selected {
-            background: #2563EB;
-            color: #FFFFFF;
-            border-color: #2563EB;
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
-        }
-
-        /* Analyze Button */
-        .analyze-button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(to bottom, #2563EB, #1D4ED8);
-            color: #FFFFFF;
-            border: none;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .analyze-button:hover:not(:disabled) {
-            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
-            transform: translateY(-1px);
-        }
-
-        .analyze-button:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .analyze-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Results Section */
-        .results-section {
-            max-width: 1100px;
-            margin: 60px auto 0;
-            display: none;
-        }
-
-        .results-section.visible {
-            display: block;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 16px;
         }
 
-        .header-left {
-            flex: 1;
+        .sport-selector {
+            font-size: 13px;
+            letter-spacing: 0.05em;
         }
 
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .results-title {
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .results-subtitle {
-            font-size: 14px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-top: 8px;
-        }
-
-        .change-week {
-            font-size: 14px;
-            color: #2563EB;
+        .sport-option {
+            color: #6b6560;
             text-decoration: none;
             cursor: pointer;
+            transition: color 150ms ease;
+            margin-right: 12px;
         }
 
-        .change-week:hover {
+        .sport-option:hover {
+            color: #9a958e;
+        }
+
+        .sport-option.active {
+            color: #ede9e3;
+        }
+
+        .separator {
+            color: #6b6560;
+            margin: 0 8px;
+        }
+
+        .season-week-selector {
+            font-size: 13px;
+            color: #9a958e;
+        }
+
+        .week-nav-link {
+            color: #9a958e;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 150ms ease;
+        }
+
+        .week-nav-link:hover {
+            color: #ede9e3;
             text-decoration: underline;
         }
 
-        /* Spoiler Toggle */
-        .spoiler-toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .current-selection {
+            color: #ede9e3;
         }
 
-        .spoiler-toggle-label {
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
+        /* Statistics Line */
+        .statistics-line {
+            font-size: 13px;
+            color: #6b6560;
+            margin-bottom: 64px;
+            line-height: 1.5;
+        }
+
+        .stat-number {
+            color: #9a958e;
+        }
+
+        /* Spoiler Control */
+        .reveal-all-link {
+            font-size: 11px;
+            color: #6b6560;
+            text-decoration: underline;
             cursor: pointer;
-            user-select: none;
-        }
-
-        .toggle-switch {
-            position: relative;
+            transition: color 150ms ease;
             display: inline-block;
-            width: 48px;
-            height: 24px;
+            margin-bottom: 32px;
         }
 
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+        .reveal-all-link:hover {
+            color: #9a958e;
         }
 
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #E5E7EB;
-            transition: 0.3s;
-            border-radius: 24px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
-        }
-
-        .toggle-switch input:checked + .toggle-slider {
-            background-color: #2563EB;
-        }
-
-        .toggle-switch input:checked + .toggle-slider:before {
-            transform: translateX(24px);
-        }
-
-        /* Game Cards */
-        .game-card {
-            background: #FFFFFF;
-            border: 1px solid #E5E7EB;
-            margin-bottom: 12px;
-            padding: 20px 32px;
-            display: grid;
-            grid-template-columns: 80px 120px 1fr auto;
-            gap: 32px;
-            align-items: center;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .game-card:hover {
-            border-color: #2563EB;
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
-        }
-
-        .game-score {
-            font-size: 56px;
-            font-weight: 600;
-            color: #2563EB;
-            font-variant-numeric: tabular-nums;
-            line-height: 1;
-        }
-
-        .score-bar-container {
-            width: 120px;
-        }
-
-        .score-bar-bg {
-            width: 100%;
-            height: 8px;
-            background: #E5E7EB;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .score-bar-fill {
-            height: 100%;
-            background: linear-gradient(to right, #2563EB, #3B82F6);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .game-info {
-            min-width: 0;
-        }
-
-        .team-matchup {
-            font-size: 17px;
-            font-weight: 500;
-            margin-bottom: 4px;
+        /* Game List - Card-free */
+        .games-list {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 48px;
         }
 
-        .team-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            display: inline-block;
+        .game-row {
+            cursor: pointer;
+            transition: color 150ms ease;
         }
 
-        .vs {
+        .matchup {
+            font-size: 52px;
             font-weight: 400;
-            color: #666;
+            color: #ede9e3;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+            transition: color 150ms ease;
         }
 
-        .final-score {
-            font-size: 14px;
-            color: #666;
+        .game-row:hover .matchup {
+            color: #ffffff;
         }
 
-        .final-score.spoiler-hidden {
-            font-style: italic;
-            color: #2563EB;
-            cursor: pointer;
-            user-select: none;
+        .vs-separator {
+            font-weight: 400;
         }
 
-        .final-score.spoiler-hidden:hover {
-            color: #1D4ED8;
-            text-decoration: underline;
+        .rating {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: lowercase;
+            margin-bottom: 8px;
         }
 
-        .watch-link {
-            font-size: 14px;
-            color: #2563EB;
-            text-decoration: none;
-            white-space: nowrap;
+        .rating.must-watch {
+            color: #8a9680;
         }
 
-        .watch-link:hover {
-            text-decoration: underline;
+        .rating.recommended {
+            color: #a09a92;
+        }
+
+        .rating.skip {
+            color: #a08078;
+        }
+
+        .score-reveal {
+            font-size: 11px;
+            color: #6b6560;
+            opacity: 0;
+            transition: opacity 200ms ease;
+        }
+
+        .score-reveal.visible {
+            opacity: 1;
         }
 
         /* Loading State */
         .loading {
-            text-align: center;
-            padding: 60px 20px;
+            padding: 60px 0;
         }
 
         .loading-text {
-            font-size: 18px;
-            font-weight: 500;
-            color: #1A1A1A;
-            margin-bottom: 8px;
+            font-size: 13px;
+            color: #6b6560;
+            animation: pulse-opacity 1.4s ease-in-out infinite;
         }
 
-        .loading-subtext {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .loading-dots {
-            display: inline-flex;
-            gap: 8px;
-            margin-top: 24px;
-        }
-
-        .loading-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #2563EB;
-            animation: pulse 1.4s ease-in-out infinite;
-        }
-
-        .loading-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .loading-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes pulse {
+        @keyframes pulse-opacity {
             0%, 100% {
-                opacity: 0.3;
+                opacity: 0.5;
             }
             50% {
                 opacity: 1;
@@ -553,129 +283,124 @@
 
         /* Empty State */
         .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        .empty-icon {
-            font-size: 80px;
-            font-weight: 200;
-            color: #D1D5DB;
-            margin-bottom: 16px;
-        }
-
-        .empty-title {
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 8px;
+            padding: 60px 0;
         }
 
         .empty-message {
-            font-size: 16px;
-            color: #666;
+            font-size: 13px;
+            color: #6b6560;
         }
 
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding-top: 80px;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            color: #6b6560;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .footer-link {
+            color: #6b6560;
+            text-decoration: underline;
+            transition: color 150ms ease;
+        }
+
+        .footer-link:hover {
+            color: #9a958e;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .game-card {
-                grid-template-columns: 1fr;
-                gap: 16px;
-                padding: 16px;
+            .container {
+                padding: 24px;
             }
 
-            .game-score {
-                font-size: 48px;
+            .content-wrapper,
+            .about-content {
+                max-width: 100%;
             }
 
-            .score-bar-container {
-                width: 100%;
+            .masthead {
+                font-size: 120px;
             }
 
-            .results-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
+            .matchup {
+                font-size: 36px;
             }
 
-            .results-title {
-                font-size: 28px;
+            .games-list {
+                gap: 40px;
             }
+
+            .main-nav {
+                position: static;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+        }
+
+        /* Hidden utility */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>GAME ENTERTAINMENT INDEX</h1>
-            <p class="tagline">Find the most entertaining games to watch</p>
-            <div class="accent-line"></div>
-        </header>
-
         <nav class="main-nav">
-            <a href="#" class="nav-link active" id="homeLink">Home</a>
-            <a href="#" class="nav-link" id="aboutLink">About</a>
+            <a href="#" class="nav-link" id="aboutLink">about</a>
         </nav>
 
         <div class="main-content" id="mainContent">
-        <div class="selection-card" id="selectionCard">
-            <div class="form-group">
-                <label>Sport</label>
-                <div class="radio-group">
-                    <div class="radio-pill">
-                        <input type="radio" id="nfl" name="sport" value="NFL" checked>
-                        <label for="nfl">NFL</label>
+            <div class="content-wrapper">
+                <header>
+                    <div class="masthead">GEI</div>
+                    <div class="header-info">
+                        <div class="site-title">Game Entertainment Index</div>
+                        <div class="week-info" id="headerWeekInfo">Week 16 · December 28, 2025</div>
                     </div>
-                    <div class="radio-pill">
-                        <input type="radio" id="cfb" name="sport" value="CFB">
-                        <label for="cfb">CFB</label>
+                </header>
+
+                <div class="selection-interface">
+                    <div class="sport-selector">
+                        <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
+                        <span class="separator">·</span>
+                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb</span>
+                    </div>
+                    <div class="season-week-selector">
+                        <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
+                        <span class="separator">·</span>
+                        <span class="current-selection" id="currentWeekDisplay">2024 · week 16</span>
+                        <span class="separator">·</span>
+                        <a href="#" class="week-nav-link" id="nextWeek">week <span id="nextWeekNum"></span> →</a>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="season">Season</label>
-                <select id="season">
-                    <!-- Populated by JavaScript -->
-                </select>
-            </div>
+                <div id="resultsArea">
+                    <!-- Results populated by JavaScript -->
+                </div>
 
-            <div class="form-group">
-                <label>Week</label>
-                <div class="week-grid" id="weekGrid">
-                    <!-- Populated by JavaScript -->
+                <div class="footer">
+                    <p class="footer-text">
+                        Entertainment scores reflect game dynamics including score margin, lead changes, and overtime.
+                    </p>
                 </div>
             </div>
-
-            <button class="analyze-button" id="analyzeButton">
-                Analyze Games
-            </button>
         </div>
 
-        <div class="results-section" id="resultsSection">
-            <div class="results-header">
-                <div class="header-left">
-                    <h2 class="results-title" id="resultsTitle"></h2>
-                    <p class="results-subtitle" id="resultsSubtitle"></p>
-                </div>
-                <div class="header-controls">
-                    <div class="spoiler-toggle-container">
-                        <span class="spoiler-toggle-label">Hide Scores</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="spoilerToggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
+        <div class="about-content hidden" id="aboutContent">
+            <div class="content-wrapper">
+                <header>
+                    <div class="masthead">GEI</div>
+                    <div class="header-info">
+                        <div class="site-title">Game Entertainment Index</div>
                     </div>
-                    <a class="change-week" id="changeWeek">← Change Week</a>
-                </div>
-            </div>
-            <div id="gamesContainer">
-                <!-- Games populated by JavaScript -->
-            </div>
-        </div>
-        </div>
-
-        <div class="about-content" id="aboutContent" style="display: none;">
-            <div class="about-card">
-                <h2>About the Game Entertainment Index</h2>
+                </header>
 
                 <section class="about-section">
                     <h3>What is this?</h3>
@@ -686,27 +411,17 @@
                     <h3>How does it work?</h3>
                     <p>Our scoring algorithm analyzes various factors including:</p>
                     <ul>
-                        <li><strong>Score Proximity:</strong> Close games are more exciting than blowouts</li>
-                        <li><strong>Lead Changes:</strong> Games with momentum swings keep you on the edge of your seat</li>
-                        <li><strong>Overtime:</strong> Extra time means extra drama</li>
-                        <li><strong>Final Score:</strong> Higher-scoring games often provide more action</li>
+                        <li>Score Proximity — Close games are more exciting than blowouts</li>
+                        <li>Lead Changes — Games with momentum swings keep you on the edge of your seat</li>
+                        <li>Overtime — Extra time means extra drama</li>
+                        <li>Final Score — Higher-scoring games often provide more action</li>
                     </ul>
                     <p>Each game receives a score from 0-10, with 10 being the most entertaining possible game.</p>
                 </section>
 
                 <section class="about-section">
                     <h3>How to use</h3>
-                    <ol>
-                        <li>Select your sport (NFL or CFB)</li>
-                        <li>Choose the season and week you're interested in</li>
-                        <li>Browse games ranked by entertainment value</li>
-                        <li>Click on spoiler-protected scores if you haven't watched yet</li>
-                    </ol>
-                </section>
-
-                <section class="about-section">
-                    <h3>Tips</h3>
-                    <p>Use the spoiler toggle if you're browsing for games to watch but don't want to know the final scores. This way you can find the most entertaining games without spoiling the outcome!</p>
+                    <p>Select your sport (NFL or CFB) and navigate between weeks. Games are automatically ranked by entertainment value. Click any game row to reveal its score if you're browsing spoiler-free.</p>
                 </section>
             </div>
         </div>
@@ -717,187 +432,172 @@
         function getCurrentNFLWeek() {
             const now = new Date();
             const year = now.getFullYear();
-
-            // NFL season typically starts first Thursday in September
-            // Week 1 is around Sept 5-12
             const seasonStart = new Date(year, 8, 5); // Sept 5
-
-            // Adjust to first Thursday
             const dayOfWeek = seasonStart.getDay();
             const daysUntilThursday = (4 - dayOfWeek + 7) % 7;
             seasonStart.setDate(seasonStart.getDate() + daysUntilThursday);
 
-            // If we're before the season start, use last year
             if (now < seasonStart) {
                 const lastYearStart = new Date(year - 1, 8, 5);
                 const lastYearDay = lastYearStart.getDay();
                 const lastYearDaysUntilThursday = (4 - lastYearDay + 7) % 7;
                 lastYearStart.setDate(lastYearStart.getDate() + lastYearDaysUntilThursday);
-
                 const weeksSinceStart = Math.floor((now - lastYearStart) / (7 * 24 * 60 * 60 * 1000));
                 const week = Math.min(18, Math.max(1, weeksSinceStart + 1));
-
                 return { season: year - 1, week: week };
             }
 
-            // Calculate weeks since season start
             const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
             let week = weeksSinceStart + 1;
-
-            // If current week hasn't had games yet (it's before Thursday), use previous week
             const currentDayOfWeek = now.getDay();
-            if (currentDayOfWeek < 4) { // Before Thursday
-                week = Math.max(1, week - 1);
-            }
-
-            // Cap at week 18
+            if (currentDayOfWeek < 4) week = Math.max(1, week - 1);
             week = Math.min(18, Math.max(1, week));
-
             return { season: year, week: week };
         }
 
-        // Initialize with current NFL week
-        const currentNFLWeek = getCurrentNFLWeek();
-
         // State
+        const currentNFLWeek = getCurrentNFLWeek();
         let selectedSport = 'NFL';
         let selectedSeason = currentNFLWeek.season;
         let selectedWeek = currentNFLWeek.week;
-        let spoilerFree = localStorage.getItem('spoilerFree') !== 'false'; // Default true
+        let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         let revealedGames = new Set();
+        let currentGames = null;
+        let isLoading = false;
 
         // Initialize
         function init() {
-            populateSeasons();
-            populateWeeks();
             attachEventListeners();
-            initializeSpoilerToggle();
-
-            // Auto-load the current week's games
-            setTimeout(() => {
-                analyzeGames();
-            }, 500);
+            updateUI();
+            loadGames();
         }
 
-        // Initialize spoiler toggle from localStorage
-        function initializeSpoilerToggle() {
-            const toggle = document.getElementById('spoilerToggle');
-            if (toggle) {
-                toggle.checked = spoilerFree;
-            }
-        }
+        // Update UI elements
+        function updateUI() {
+            // Update header week info
+            const now = new Date();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('headerWeekInfo').textContent =
+                `Week ${selectedWeek} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
 
-        // Populate season dropdown
-        function populateSeasons() {
-            const seasonSelect = document.getElementById('season');
-            const currentYear = new Date().getFullYear();
-            const startYear = 2016;
+            // Update sport selector
+            document.getElementById('nflOption').classList.toggle('active', selectedSport === 'NFL');
+            document.getElementById('cfbOption').classList.toggle('active', selectedSport === 'CFB');
 
-            for (let year = currentYear; year >= startYear; year--) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                if (year === selectedSeason) option.selected = true;
-                seasonSelect.appendChild(option);
-            }
-        }
+            // Update week display
+            document.getElementById('currentWeekDisplay').textContent =
+                `${selectedSeason} · week ${selectedWeek}`;
 
-        // Populate week grid
-        function populateWeeks() {
-            const weekGrid = document.getElementById('weekGrid');
-            weekGrid.innerHTML = '';
-
+            // Update prev/next week numbers
             const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+            const prevWeekNum = selectedWeek > 1 ? selectedWeek - 1 : null;
+            const nextWeekNum = selectedWeek < maxWeeks ? selectedWeek + 1 : null;
 
-            for (let i = 1; i <= maxWeeks; i++) {
-                const button = document.createElement('button');
-                button.className = 'week-button';
-                button.textContent = i;
-                button.dataset.week = i;
+            const prevWeekLink = document.getElementById('prevWeek');
+            const nextWeekLink = document.getElementById('nextWeek');
 
-                if (i === selectedWeek) {
-                    button.classList.add('selected');
-                }
-
-                button.addEventListener('click', () => selectWeek(i));
-                weekGrid.appendChild(button);
+            if (prevWeekNum) {
+                document.getElementById('prevWeekNum').textContent = prevWeekNum;
+                prevWeekLink.style.display = 'inline';
+            } else {
+                prevWeekLink.style.display = 'none';
             }
-        }
 
-        // Select week
-        function selectWeek(week) {
-            selectedWeek = week;
-            document.querySelectorAll('.week-button').forEach(btn => {
-                btn.classList.toggle('selected', parseInt(btn.dataset.week) === week);
-            });
+            if (nextWeekNum) {
+                document.getElementById('nextWeekNum').textContent = nextWeekNum;
+                nextWeekLink.style.display = 'inline';
+            } else {
+                nextWeekLink.style.display = 'none';
+            }
         }
 
         // Attach event listeners
         function attachEventListeners() {
-            // Sport radio buttons
-            document.querySelectorAll('input[name="sport"]').forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    selectedSport = e.target.value;
+            // Sport selector
+            document.getElementById('nflOption').addEventListener('click', () => {
+                if (selectedSport !== 'NFL') {
+                    selectedSport = 'NFL';
                     selectedWeek = 1;
-                    populateWeeks();
-                });
+                    revealedGames.clear();
+                    updateUI();
+                    loadGames();
+                }
             });
 
-            // Season dropdown
-            document.getElementById('season').addEventListener('change', (e) => {
-                selectedSeason = parseInt(e.target.value);
+            document.getElementById('cfbOption').addEventListener('click', () => {
+                if (selectedSport !== 'CFB') {
+                    selectedSport = 'CFB';
+                    selectedWeek = 1;
+                    revealedGames.clear();
+                    updateUI();
+                    loadGames();
+                }
             });
 
-            // Analyze button
-            document.getElementById('analyzeButton').addEventListener('click', analyzeGames);
-
-            // Change week link
-            document.getElementById('changeWeek').addEventListener('click', () => {
-                document.getElementById('resultsSection').classList.remove('visible');
-                document.getElementById('selectionCard').scrollIntoView({ behavior: 'smooth' });
+            // Week navigation
+            document.getElementById('prevWeek').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (selectedWeek > 1) {
+                    selectedWeek--;
+                    revealedGames.clear();
+                    updateUI();
+                    loadGames();
+                }
             });
 
-            // Spoiler toggle
-            document.getElementById('spoilerToggle').addEventListener('change', (e) => {
-                spoilerFree = e.target.checked;
-                localStorage.setItem('spoilerFree', spoilerFree);
-                revealedGames.clear(); // Reset revealed games when toggling
+            document.getElementById('nextWeek').addEventListener('click', (e) => {
+                e.preventDefault();
+                const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+                if (selectedWeek < maxWeeks) {
+                    selectedWeek++;
+                    revealedGames.clear();
+                    updateUI();
+                    loadGames();
+                }
+            });
 
-                // Re-render games if results are visible
-                const resultsSection = document.getElementById('resultsSection');
-                if (resultsSection.classList.contains('visible') && window.currentGames) {
-                    displayResults(window.currentGames);
+            // About link
+            document.getElementById('aboutLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                const mainContent = document.getElementById('mainContent');
+                const aboutContent = document.getElementById('aboutContent');
+
+                if (aboutContent.classList.contains('hidden')) {
+                    mainContent.classList.add('hidden');
+                    aboutContent.classList.remove('hidden');
+                    e.target.textContent = 'home';
+                } else {
+                    aboutContent.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    e.target.textContent = 'about';
                 }
             });
         }
 
-        // Analyze games
-        async function analyzeGames() {
-            const button = document.getElementById('analyzeButton');
-            button.disabled = true;
-            button.textContent = 'Analyzing...';
-
-            // Show loading state
+        // Load games
+        async function loadGames() {
+            if (isLoading) return;
+            isLoading = true;
             showLoading();
 
             try {
                 const response = await fetch('/api/games', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         sport: selectedSport,
                         season: selectedSeason,
                         week: selectedWeek,
-                        seasonType: '2' // Regular season
+                        seasonType: '2'
                     })
                 });
 
                 const data = await response.json();
 
                 if (data.success && data.games && data.games.length > 0) {
-                    displayResults(data.games);
+                    currentGames = data.games;
+                    displayResults();
                 } else {
                     showEmpty();
                 }
@@ -905,162 +605,129 @@
                 console.error('Error:', error);
                 showEmpty('Could not load games. Please try again.');
             } finally {
-                button.disabled = false;
-                button.textContent = 'Analyze Games';
+                isLoading = false;
             }
         }
 
         // Show loading state
         function showLoading() {
-            const resultsSection = document.getElementById('resultsSection');
-            const gamesContainer = document.getElementById('gamesContainer');
-
-            gamesContainer.innerHTML = `
+            const resultsArea = document.getElementById('resultsArea');
+            resultsArea.innerHTML = `
                 <div class="loading">
-                    <div class="loading-text">Analyzing games...</div>
-                    <div class="loading-subtext">Fetching data from ESPN</div>
-                    <div class="loading-dots">
-                        <div class="loading-dot"></div>
-                        <div class="loading-dot"></div>
-                        <div class="loading-dot"></div>
-                    </div>
+                    <div class="loading-text">loading week ${selectedWeek}...</div>
                 </div>
             `;
-
-            resultsSection.classList.add('visible');
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
         }
 
         // Show empty state
-        function showEmpty(message = 'No games found for this week') {
-            const gamesContainer = document.getElementById('gamesContainer');
-            gamesContainer.innerHTML = `
+        function showEmpty(message = `No games found for Week ${selectedWeek}, ${selectedSeason}.`) {
+            const resultsArea = document.getElementById('resultsArea');
+            resultsArea.innerHTML = `
                 <div class="empty-state">
-                    <div class="empty-icon">0</div>
-                    <div class="empty-title">No games found</div>
                     <div class="empty-message">${message}</div>
                 </div>
             `;
         }
 
         // Display results
-        function displayResults(games) {
-            // Store current games for re-rendering
-            window.currentGames = games;
+        function displayResults() {
+            if (!currentGames) return;
 
             // Sort by excitement score
-            games.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
+            const sortedGames = [...currentGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
 
-            // Update header
-            document.getElementById('resultsTitle').textContent =
-                `Week ${selectedWeek}, ${selectedSeason} ${selectedSport}`;
-            document.getElementById('resultsSubtitle').textContent =
-                `${games.length} games analyzed • Ranked by entertainment`;
+            // Calculate statistics
+            const stats = {
+                mustWatch: sortedGames.filter(g => (g.excitement || 0) >= 8).length,
+                recommended: sortedGames.filter(g => (g.excitement || 0) >= 6 && (g.excitement || 0) < 8).length,
+                skip: sortedGames.filter(g => (g.excitement || 0) < 6).length
+            };
 
-            // Generate game cards
-            const gamesContainer = document.getElementById('gamesContainer');
-            gamesContainer.innerHTML = games.map((game, index) => createGameCard(game, index)).join('');
+            // Build HTML
+            let html = '';
 
-            // Attach click listeners for spoiler reveals
-            attachGameClickListeners();
+            // Statistics line
+            html += `<div class="statistics-line">
+                <span class="stat-number">${stats.mustWatch}</span> must watch ·
+                <span class="stat-number">${stats.recommended}</span> recommended ·
+                <span class="stat-number">${stats.skip}</span> skip
+            </div>`;
+
+            // Reveal all link
+            html += `<a href="#" class="reveal-all-link" id="revealAllLink">${spoilerFree ? 'reveal all' : 'hide all'}</a>`;
+
+            // Games list
+            html += '<div class="games-list">';
+            sortedGames.forEach((game, index) => {
+                html += createGameRow(game, index);
+            });
+            html += '</div>';
+
+            document.getElementById('resultsArea').innerHTML = html;
+
+            // Attach event listeners
+            attachGameRowListeners();
+            attachRevealAllListener();
         }
 
-        // Attach click listeners to game cards for spoiler reveal
-        function attachGameClickListeners() {
-            if (!spoilerFree) return;
+        // Create game row HTML
+        function createGameRow(game, index) {
+            const score = game.excitement || 0;
+            let ratingClass, ratingText;
 
-            document.querySelectorAll('.final-score.spoiler-hidden').forEach(scoreEl => {
-                scoreEl.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const gameIndex = parseInt(scoreEl.dataset.gameIndex);
-                    revealedGames.add(gameIndex);
+            if (score >= 8) {
+                ratingClass = 'must-watch';
+                ratingText = 'must watch';
+            } else if (score >= 6) {
+                ratingClass = 'recommended';
+                ratingText = 'recommended';
+            } else {
+                ratingClass = 'skip';
+                ratingText = 'skip';
+            }
 
-                    // Re-render to show the revealed score
-                    if (window.currentGames) {
-                        displayResults(window.currentGames);
+            const isGameRevealed = revealedGames.has(index);
+            const shouldShowScore = !spoilerFree || isGameRevealed;
+
+            const scoreText = `${score % 1 === 0 ? score : score.toFixed(1)} · ${game.awayScore || 0}-${game.homeScore || 0}${game.overtime ? ' OT' : ''}`;
+
+            return `
+                <div class="game-row" data-game-index="${index}">
+                    <div class="matchup">
+                        ${game.awayTeam} <span class="vs-separator">v</span> ${game.homeTeam}
+                    </div>
+                    <div class="rating ${ratingClass}">${ratingText}</div>
+                    <div class="score-reveal ${shouldShowScore ? 'visible' : ''}">${scoreText}</div>
+                </div>
+            `;
+        }
+
+        // Attach game row click listeners
+        function attachGameRowListeners() {
+            document.querySelectorAll('.game-row').forEach(row => {
+                row.addEventListener('click', () => {
+                    const gameIndex = parseInt(row.dataset.gameIndex);
+                    if (spoilerFree) {
+                        revealedGames.add(gameIndex);
+                        displayResults();
                     }
                 });
             });
         }
 
-        // Create game card HTML
-        function createGameCard(game, index) {
-            const score = game.excitement || 0;
-            const percentage = Math.min(100, (score / 10) * 100);
-
-            // Team colors (simplified - you can expand this)
-            const teamColors = {
-                'Chiefs': '#E31837',
-                'Bills': '#00338D',
-                'Eagles': '#004C54',
-                'Cowboys': '#041E42',
-                // Add more as needed
-            };
-
-            const awayColor = teamColors[game.awayTeam] || '#666';
-            const homeColor = teamColors[game.homeTeam] || '#666';
-
-            const highlightUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                `${game.awayTeam} vs ${game.homeTeam} ${selectedSport} highlights ${selectedSeason}`
-            )}`;
-
-            // Determine if this game's score should be hidden
-            const isGameRevealed = revealedGames.has(index);
-            const shouldHideScore = spoilerFree && !isGameRevealed;
-
-            let scoreDisplay;
-            if (shouldHideScore) {
-                scoreDisplay = `<div class="final-score spoiler-hidden" data-game-index="${index}">Click to reveal score</div>`;
-            } else {
-                scoreDisplay = `<div class="final-score">Final: ${game.awayScore || 0} - ${game.homeScore || 0}${game.overtime ? ' (OT)' : ''}</div>`;
+        // Attach reveal all listener
+        function attachRevealAllListener() {
+            const link = document.getElementById('revealAllLink');
+            if (link) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    spoilerFree = !spoilerFree;
+                    localStorage.setItem('spoilerFree', spoilerFree);
+                    revealedGames.clear();
+                    displayResults();
+                });
             }
-
-            return `
-                <div class="game-card">
-                    <div class="game-score">${score % 1 === 0 ? score : score.toFixed(1)}</div>
-                    <div class="score-bar-container">
-                        <div class="score-bar-bg">
-                            <div class="score-bar-fill" style="width: ${percentage}%"></div>
-                        </div>
-                    </div>
-                    <div class="game-info">
-                        <div class="team-matchup">
-                            <span class="team-dot" style="background: ${awayColor}"></span>
-                            ${game.awayTeam}
-                            <span class="vs">vs</span>
-                            <span class="team-dot" style="background: ${homeColor}"></span>
-                            ${game.homeTeam}
-                        </div>
-                        ${scoreDisplay}
-                    </div>
-                    <a href="${highlightUrl}" target="_blank" class="watch-link">
-                        Watch →
-                    </a>
-                </div>
-            `;
         }
-
-        // Navigation handling
-        const homeLink = document.getElementById('homeLink');
-        const aboutLink = document.getElementById('aboutLink');
-        const mainContent = document.getElementById('mainContent');
-        const aboutContent = document.getElementById('aboutContent');
-
-        homeLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            mainContent.style.display = 'block';
-            aboutContent.style.display = 'none';
-            homeLink.classList.add('active');
-            aboutLink.classList.remove('active');
-        });
-
-        aboutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            mainContent.style.display = 'none';
-            aboutContent.style.display = 'block';
-            aboutLink.classList.add('active');
-            homeLink.classList.remove('active');
-        });
 
         // Start the app
         init();
