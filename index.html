@@ -171,6 +171,113 @@
 
         .current-selection {
             color: #ede9e3;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-decoration-color: #6b6560;
+            transition: all 150ms ease;
+        }
+
+        .current-selection:hover {
+            text-decoration-color: #9a958e;
+        }
+
+        /* Week Picker Dropdown */
+        .week-picker {
+            position: absolute;
+            background: #1c1a19;
+            border: 1px solid #3a3836;
+            border-radius: 2px;
+            padding: 16px;
+            margin-top: 8px;
+            z-index: 1000;
+            display: none;
+            min-width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .week-picker.visible {
+            display: block;
+        }
+
+        .week-picker-header {
+            font-size: 11px;
+            color: #6b6560;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .week-item {
+            font-size: 11px;
+            color: #9a958e;
+            padding: 6px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #2a2826;
+            border-radius: 2px;
+            transition: all 150ms ease;
+        }
+
+        .week-item:hover {
+            background: #2a2826;
+            border-color: #3a3836;
+            color: #ede9e3;
+        }
+
+        .week-item.selected {
+            background: #3a3836;
+            border-color: #4a4540;
+            color: #ede9e3;
+        }
+
+        .season-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2a2826;
+        }
+
+        .season-selector-label {
+            font-size: 11px;
+            color: #6b6560;
+            letter-spacing: 0.05em;
+        }
+
+        .season-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .season-btn {
+            font-size: 11px;
+            color: #9a958e;
+            padding: 4px 8px;
+            cursor: pointer;
+            border: 1px solid #2a2826;
+            border-radius: 2px;
+            transition: all 150ms ease;
+        }
+
+        .season-btn:hover {
+            background: #2a2826;
+            border-color: #3a3836;
+            color: #ede9e3;
+        }
+
+        .season-btn.active {
+            background: #3a3836;
+            border-color: #4a4540;
+            color: #ede9e3;
         }
 
         /* Statistics Line */
@@ -471,12 +578,26 @@
                         <span class="separator">·</span>
                         <span class="sport-option" data-sport="CFB" id="cfbOption">cfb</span>
                     </div>
-                    <div class="season-week-selector">
+                    <div class="season-week-selector" style="position: relative;">
                         <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
                         <span class="separator">·</span>
                         <span class="current-selection" id="currentWeekDisplay">2024 · week 16</span>
                         <span class="separator">·</span>
                         <a href="#" class="week-nav-link" id="nextWeek">week <span id="nextWeekNum"></span> →</a>
+
+                        <!-- Week Picker Dropdown -->
+                        <div class="week-picker" id="weekPicker">
+                            <div class="season-selector">
+                                <span class="season-selector-label">season</span>
+                                <div class="season-buttons" id="seasonButtons">
+                                    <!-- Season buttons populated by JS -->
+                                </div>
+                            </div>
+                            <div class="week-picker-header">select week</div>
+                            <div class="week-grid" id="weekGrid">
+                                <!-- Week buttons populated by JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -527,31 +648,86 @@
     </div>
 
     <script>
-        // Get current NFL week based on date
-        function getCurrentNFLWeek() {
+        // Get current week for a sport based on date
+        function getCurrentWeek(sport) {
             const now = new Date();
             const year = now.getFullYear();
-            const seasonStart = new Date(year, 8, 5); // Sept 5
-            const dayOfWeek = seasonStart.getDay();
-            const daysUntilThursday = (4 - dayOfWeek + 7) % 7;
-            seasonStart.setDate(seasonStart.getDate() + daysUntilThursday);
+            const month = now.getMonth(); // 0-indexed
 
-            if (now < seasonStart) {
-                const lastYearStart = new Date(year - 1, 8, 5);
-                const lastYearDay = lastYearStart.getDay();
-                const lastYearDaysUntilThursday = (4 - lastYearDay + 7) % 7;
-                lastYearStart.setDate(lastYearStart.getDate() + lastYearDaysUntilThursday);
-                const weeksSinceStart = Math.floor((now - lastYearStart) / (7 * 24 * 60 * 60 * 1000));
-                const week = Math.min(18, Math.max(1, weeksSinceStart + 1));
-                return { season: year - 1, week: week };
+            if (sport === 'NFL') {
+                // NFL season runs September - February
+                // Week 1 typically starts first Thursday after Labor Day (around Sept 5-10)
+                // 2024 season: Started Sept 5, 2024
+                // 2025 season: Will start ~Sept 4, 2025
+
+                let season;
+                let seasonStart;
+
+                // If we're in Jan-July, we're in the previous season
+                if (month < 7) {
+                    season = year - 1;
+                    seasonStart = new Date(season, 8, 5); // Sept 5 of previous year
+                } else {
+                    season = year;
+                    seasonStart = new Date(year, 8, 5); // Sept 5 of current year
+                }
+
+                // Find first Thursday on or after Sept 5
+                const dayOfWeek = seasonStart.getDay();
+                const daysUntilThursday = (4 - dayOfWeek + 7) % 7;
+                seasonStart.setDate(seasonStart.getDate() + daysUntilThursday);
+
+                // Calculate weeks since season start
+                const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+                let week = weeksSinceStart + 1;
+
+                // If we're before the season starts, default to week 1 of current year
+                if (now < seasonStart) {
+                    return { season: season, week: 1 };
+                }
+
+                // Cap at week 18
+                week = Math.min(18, Math.max(1, week));
+                return { season: season, week: week };
+
+            } else if (sport === 'CFB') {
+                // CFB season runs late August - early January
+                // Week 0/1 typically starts last week of August
+                // 2024 season: Started Aug 24, 2024
+                // 2025 season: Will start ~Aug 30, 2025
+
+                let season;
+                let seasonStart;
+
+                // If we're in Jan-July, we're in the previous season
+                if (month < 7) {
+                    season = year - 1;
+                    seasonStart = new Date(season, 7, 24); // Aug 24 of previous year
+                } else {
+                    season = year;
+                    seasonStart = new Date(year, 7, 24); // Aug 24 of current year
+                }
+
+                // Calculate weeks since season start
+                const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+                let week = weeksSinceStart + 1;
+
+                // If we're before the season starts, default to week 1 of current year
+                if (now < seasonStart) {
+                    return { season: season, week: 1 };
+                }
+
+                // Cap at week 15 (regular season)
+                week = Math.min(15, Math.max(1, week));
+                return { season: season, week: week };
             }
 
-            const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
-            let week = weeksSinceStart + 1;
-            const currentDayOfWeek = now.getDay();
-            if (currentDayOfWeek < 4) week = Math.max(1, week - 1);
-            week = Math.min(18, Math.max(1, week));
-            return { season: year, week: week };
+            return { season: year, week: 1 };
+        }
+
+        // Legacy function for backwards compatibility
+        function getCurrentNFLWeek() {
+            return getCurrentWeek('NFL');
         }
 
         // State
@@ -616,7 +792,9 @@
             document.getElementById('nflOption').addEventListener('click', () => {
                 if (selectedSport !== 'NFL') {
                     selectedSport = 'NFL';
-                    selectedWeek = 1;
+                    const currentWeek = getCurrentWeek('NFL');
+                    selectedSeason = currentWeek.season;
+                    selectedWeek = currentWeek.week;
                     updateUI();
                     loadGames();
                 }
@@ -625,7 +803,9 @@
             document.getElementById('cfbOption').addEventListener('click', () => {
                 if (selectedSport !== 'CFB') {
                     selectedSport = 'CFB';
-                    selectedWeek = 1;
+                    const currentWeek = getCurrentWeek('CFB');
+                    selectedSeason = currentWeek.season;
+                    selectedWeek = currentWeek.week;
                     updateUI();
                     loadGames();
                 }
@@ -667,6 +847,77 @@
                     e.target.textContent = 'about';
                 }
             });
+
+            // Week picker toggle
+            document.getElementById('currentWeekDisplay').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const picker = document.getElementById('weekPicker');
+                const isVisible = picker.classList.contains('visible');
+
+                if (!isVisible) {
+                    populateWeekPicker();
+                    picker.classList.add('visible');
+                } else {
+                    picker.classList.remove('visible');
+                }
+            });
+
+            // Close week picker when clicking outside
+            document.addEventListener('click', (e) => {
+                const picker = document.getElementById('weekPicker');
+                const currentWeekDisplay = document.getElementById('currentWeekDisplay');
+
+                if (!picker.contains(e.target) && e.target !== currentWeekDisplay) {
+                    picker.classList.remove('visible');
+                }
+            });
+        }
+
+        // Populate week picker dropdown
+        function populateWeekPicker() {
+            const currentYear = new Date().getFullYear();
+            const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+
+            // Populate season buttons (current year and previous 2 years)
+            const seasonButtons = document.getElementById('seasonButtons');
+            seasonButtons.innerHTML = '';
+
+            for (let year = currentYear; year >= currentYear - 2; year--) {
+                const btn = document.createElement('div');
+                btn.className = 'season-btn';
+                if (year === selectedSeason) {
+                    btn.classList.add('active');
+                }
+                btn.textContent = year;
+                btn.addEventListener('click', () => {
+                    selectedSeason = year;
+                    selectedWeek = 1; // Reset to week 1 when changing season
+                    updateUI();
+                    loadGames();
+                    document.getElementById('weekPicker').classList.remove('visible');
+                });
+                seasonButtons.appendChild(btn);
+            }
+
+            // Populate week grid
+            const weekGrid = document.getElementById('weekGrid');
+            weekGrid.innerHTML = '';
+
+            for (let week = 1; week <= maxWeeks; week++) {
+                const weekItem = document.createElement('div');
+                weekItem.className = 'week-item';
+                if (week === selectedWeek) {
+                    weekItem.classList.add('selected');
+                }
+                weekItem.textContent = week;
+                weekItem.addEventListener('click', () => {
+                    selectedWeek = week;
+                    updateUI();
+                    loadGames();
+                    document.getElementById('weekPicker').classList.remove('visible');
+                });
+                weekGrid.appendChild(weekItem);
+            }
         }
 
         // Load games
