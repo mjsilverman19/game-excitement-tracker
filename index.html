@@ -576,7 +576,9 @@
                     <div class="sport-selector">
                         <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
                         <span class="separator">·</span>
-                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb</span>
+                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb <span style="font-size: 10px; color: #6b6560;">(beta)</span></span>
+                        <span class="separator">·</span>
+                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba</span>
                     </div>
                     <div class="season-week-selector" style="position: relative;">
                         <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
@@ -640,8 +642,19 @@
                 </section>
 
                 <section class="about-section">
+                    <h3>Supported Sports</h3>
+                    <p>The Game Entertainment Index currently supports:</p>
+                    <ul>
+                        <li><strong>NFL</strong> — Full support with reliable win probability data</li>
+                        <li><strong>CFB (beta)</strong> — College football support; ESPN's win probability data for CFB is less consistent than NFL</li>
+                        <li><strong>NBA</strong> — Basketball support with game-by-game analysis across the season</li>
+                    </ul>
+                </section>
+
+                <section class="about-section">
                     <h3>How to use</h3>
-                    <p>Select your sport (NFL or CFB) and navigate between weeks. Games are automatically ranked by entertainment value. Click any game row to reveal its score if you're browsing spoiler-free.</p>
+                    <p>Select your sport (NFL, CFB, or NBA) and navigate between weeks. Games are automatically ranked by entertainment value. The toggle at the top of the results lets you show or hide final scores if you're browsing spoiler-free.</p>
+                    <p>For NBA, "weeks" represent 7-day periods starting from opening night in late October. This keeps the interface consistent across all sports.</p>
                 </section>
             </div>
         </div>
@@ -654,7 +667,29 @@
             const year = now.getFullYear();
             const month = now.getMonth(); // 0-indexed
 
-            if (sport === 'NFL') {
+            if (sport === 'NBA') {
+                // NBA season runs late October through mid-April (regular season)
+                // Opening night is typically the last Tuesday in October
+
+                // Determine season year (NBA seasons span two calendar years)
+                // If we're in Oct-Dec, season is current year
+                // If we're in Jan-June, season is previous year
+                let season = month >= 9 ? year : year - 1;
+
+                // Opening night approximation: last Tuesday of October
+                let openingNight = new Date(season, 9, 31); // Oct 31
+                while (openingNight.getDay() !== 2) { // Find Tuesday (0=Sun, 2=Tue)
+                    openingNight.setDate(openingNight.getDate() - 1);
+                }
+
+                // Calculate week number from opening night
+                const daysSinceStart = Math.floor((now - openingNight) / (24 * 60 * 60 * 1000));
+                let week = Math.floor(daysSinceStart / 7) + 1;
+                week = Math.max(1, Math.min(26, week)); // Cap at 26 weeks
+
+                return { season, week };
+
+            } else if (sport === 'NFL') {
                 // NFL season runs September - February
                 // Week 1 starts the Thursday after Labor Day (first Monday in September)
                 // 2024 season: Started Sept 5, 2024
@@ -757,13 +792,14 @@
             // Update sport selector
             document.getElementById('nflOption').classList.toggle('active', selectedSport === 'NFL');
             document.getElementById('cfbOption').classList.toggle('active', selectedSport === 'CFB');
+            document.getElementById('nbaOption').classList.toggle('active', selectedSport === 'NBA');
 
             // Update week display
             document.getElementById('currentWeekDisplay').textContent =
                 `${selectedSeason} · week ${selectedWeek}`;
 
             // Update prev/next week numbers
-            const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+            const maxWeeks = selectedSport === 'NFL' ? 18 : (selectedSport === 'NBA' ? 26 : 15);
             const prevWeekNum = selectedWeek > 1 ? selectedWeek - 1 : null;
             const nextWeekNum = selectedWeek < maxWeeks ? selectedWeek + 1 : null;
 
@@ -810,6 +846,17 @@
                 }
             });
 
+            document.getElementById('nbaOption').addEventListener('click', () => {
+                if (selectedSport !== 'NBA') {
+                    selectedSport = 'NBA';
+                    const currentWeek = getCurrentWeek('NBA');
+                    selectedSeason = currentWeek.season;
+                    selectedWeek = currentWeek.week;
+                    updateUI();
+                    loadGames();
+                }
+            });
+
             // Week navigation
             document.getElementById('prevWeek').addEventListener('click', (e) => {
                 e.preventDefault();
@@ -822,7 +869,7 @@
 
             document.getElementById('nextWeek').addEventListener('click', (e) => {
                 e.preventDefault();
-                const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+                const maxWeeks = selectedSport === 'NFL' ? 18 : (selectedSport === 'NBA' ? 26 : 15);
                 if (selectedWeek < maxWeeks) {
                     selectedWeek++;
                     updateUI();
@@ -875,7 +922,7 @@
         // Populate week picker dropdown
         function populateWeekPicker() {
             const currentYear = new Date().getFullYear();
-            const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+            const maxWeeks = selectedSport === 'NFL' ? 18 : (selectedSport === 'NBA' ? 26 : 15);
 
             // Determine current season for the selected sport
             const currentSeasonInfo = getCurrentWeek(selectedSport);

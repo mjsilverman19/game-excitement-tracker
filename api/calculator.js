@@ -3,8 +3,17 @@
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
   try {
-    const league = sport === 'CFB' ? 'college-football' : 'nfl';
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
+    // Determine sport type and league
+    let sportType, league;
+    if (sport === 'NBA') {
+      sportType = 'basketball';
+      league = 'nba';
+    } else {
+      sportType = 'football';
+      league = sport === 'CFB' ? 'college-football' : 'nfl';
+    }
+
+    const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
 
     const response = await fetch(probUrl);
 

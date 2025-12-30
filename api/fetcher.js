@@ -2,6 +2,11 @@
 
 export async function fetchGames(sport, season, week, seasonType = '2') {
   try {
+    // Handle NBA differently
+    if (sport === 'NBA') {
+      return await fetchNBAGames(season, week, seasonType);
+    }
+
     const league = sport === 'CFB' ? 'college-football' : 'nfl';
     const usesSiteAPI = season >= 2025;
 
@@ -18,6 +23,58 @@ export async function fetchGames(sport, season, week, seasonType = '2') {
     console.error('Error fetching games:', error);
     throw error;
   }
+}
+
+async function fetchNBAGames(season, week, seasonType) {
+  // Calculate date range for this week
+  // NBA week 1 starts on opening night (last Tuesday of October)
+  let openingNight = new Date(season, 9, 31); // Oct 31
+  while (openingNight.getDay() !== 2) { // Find Tuesday (0=Sun, 2=Tue)
+    openingNight.setDate(openingNight.getDate() - 1);
+  }
+
+  // Calculate start of requested week (weeks are 7-day periods from opening night)
+  const weekStart = new Date(openingNight);
+  weekStart.setDate(weekStart.getDate() + (week - 1) * 7);
+
+  // Fetch games for the 7-day period
+  const games = [];
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(weekStart);
+    currentDate.setDate(currentDate.getDate() + i);
+
+    const dateStr = formatDate(currentDate);
+    const dayGames = await fetchNBAByDate(dateStr);
+    games.push(...dayGames);
+  }
+
+  return games.filter(game => game.completed);
+}
+
+async function fetchNBAByDate(dateStr) {
+  const baseUrl = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard';
+  const url = `${baseUrl}?dates=${dateStr}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`NBA API error for ${dateStr}: ${response.status}`);
+      return [];
+    }
+
+    const data = await response.json();
+    return (data.events || []).map(event => parseEvent(event));
+  } catch (error) {
+    console.error(`Error fetching NBA games for ${dateStr}:`, error);
+    return [];
+  }
+}
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}${month}${day}`;
 }
 
 async function fetchFromSiteAPI(league, week, seasonType) {
