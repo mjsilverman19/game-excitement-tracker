@@ -185,19 +185,49 @@
             color: #9a958e;
         }
 
-        /* Spoiler Control */
-        .reveal-all-link {
-            font-size: 11px;
-            color: #6b6560;
-            text-decoration: underline;
-            cursor: pointer;
-            transition: color 150ms ease;
-            display: inline-block;
+        /* Spoiler Control - Toggle Slider */
+        .spoiler-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             margin-bottom: 32px;
         }
 
-        .reveal-all-link:hover {
-            color: #9a958e;
+        .toggle-label {
+            font-size: 11px;
+            color: #6b6560;
+            letter-spacing: 0.05em;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 32px;
+            height: 16px;
+            background: #2a2826;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 200ms ease;
+            border: 1px solid #3a3836;
+        }
+
+        .toggle-switch.active {
+            background: #4a4540;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 10px;
+            height: 10px;
+            background: #6b6560;
+            border-radius: 50%;
+            transition: all 200ms ease;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            left: 18px;
+            background: #9a958e;
         }
 
         /* Game List - Card-free */
@@ -208,8 +238,14 @@
         }
 
         .game-row {
-            cursor: pointer;
             transition: color 150ms ease;
+        }
+
+        .matchup-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 8px;
         }
 
         .matchup {
@@ -218,7 +254,6 @@
             color: #ede9e3;
             line-height: 1.1;
             letter-spacing: -0.01em;
-            margin-bottom: 8px;
             transition: color 150ms ease;
         }
 
@@ -228,6 +263,54 @@
 
         .vs-separator {
             font-weight: 400;
+        }
+
+        /* Pie Chart Score Indicator */
+        .score-pie {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+
+        .score-pie svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-pie-bg {
+            fill: none;
+            stroke: #2a2826;
+            stroke-width: 3;
+        }
+
+        .score-pie-fill {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 400ms ease;
+        }
+
+        .score-pie-fill.must-watch {
+            stroke: #8a9680;
+        }
+
+        .score-pie-fill.recommended {
+            stroke: #a09a92;
+        }
+
+        .score-pie-fill.skip {
+            stroke: #a08078;
+        }
+
+        .score-pie-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            font-weight: 500;
+            color: #ede9e3;
+            line-height: 1;
         }
 
         .rating {
@@ -250,15 +333,18 @@
             color: #a08078;
         }
 
-        .score-reveal {
+        .game-score {
             font-size: 11px;
             color: #6b6560;
             opacity: 0;
-            transition: opacity 200ms ease;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 200ms ease, max-height 200ms ease;
         }
 
-        .score-reveal.visible {
+        .game-score.visible {
             opacity: 1;
+            max-height: 20px;
         }
 
         /* Loading State */
@@ -331,6 +417,19 @@
 
             .matchup {
                 font-size: 36px;
+            }
+
+            .matchup-wrapper {
+                gap: 12px;
+            }
+
+            .score-pie {
+                width: 36px;
+                height: 36px;
+            }
+
+            .score-pie-value {
+                font-size: 11px;
             }
 
             .games-list {
@@ -461,7 +560,6 @@
         let selectedSeason = currentNFLWeek.season;
         let selectedWeek = currentNFLWeek.week;
         let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
-        let revealedGames = new Set();
         let currentGames = null;
         let isLoading = false;
 
@@ -519,7 +617,6 @@
                 if (selectedSport !== 'NFL') {
                     selectedSport = 'NFL';
                     selectedWeek = 1;
-                    revealedGames.clear();
                     updateUI();
                     loadGames();
                 }
@@ -529,7 +626,6 @@
                 if (selectedSport !== 'CFB') {
                     selectedSport = 'CFB';
                     selectedWeek = 1;
-                    revealedGames.clear();
                     updateUI();
                     loadGames();
                 }
@@ -540,7 +636,6 @@
                 e.preventDefault();
                 if (selectedWeek > 1) {
                     selectedWeek--;
-                    revealedGames.clear();
                     updateUI();
                     loadGames();
                 }
@@ -551,7 +646,6 @@
                 const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
                 if (selectedWeek < maxWeeks) {
                     selectedWeek++;
-                    revealedGames.clear();
                     updateUI();
                     loadGames();
                 }
@@ -653,8 +747,15 @@
                 <span class="stat-number">${stats.skip}</span> skip
             </div>`;
 
-            // Reveal all link
-            html += `<a href="#" class="reveal-all-link" id="revealAllLink">${spoilerFree ? 'reveal all' : 'hide all'}</a>`;
+            // Toggle slider for scores
+            html += `
+                <div class="spoiler-toggle-wrapper">
+                    <span class="toggle-label">show scores</span>
+                    <div class="toggle-switch ${!spoilerFree ? 'active' : ''}" id="scoreToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            `;
 
             // Games list
             html += '<div class="games-list">';
@@ -666,8 +767,7 @@
             document.getElementById('resultsArea').innerHTML = html;
 
             // Attach event listeners
-            attachGameRowListeners();
-            attachRevealAllListener();
+            attachScoreToggleListener();
         }
 
         // Create game row HTML
@@ -686,44 +786,47 @@
                 ratingText = 'skip';
             }
 
-            const isGameRevealed = revealedGames.has(index);
-            const shouldShowScore = !spoilerFree || isGameRevealed;
+            const shouldShowGameScore = !spoilerFree;
 
-            const scoreText = `${score % 1 === 0 ? score : score.toFixed(1)} · ${game.awayScore || 0}-${game.homeScore || 0}${game.overtime ? ' OT' : ''}`;
+            // Format scores
+            const displayScore = score % 1 === 0 ? score : score.toFixed(1);
+            const gameScoreText = `${game.awayScore || 0}-${game.homeScore || 0}${game.overtime ? ' OT' : ''}`;
+
+            // Calculate pie chart values
+            const radius = 21;
+            const circumference = 2 * Math.PI * radius;
+            const progress = (score / 10) * circumference;
+            const remaining = circumference - progress;
 
             return `
                 <div class="game-row" data-game-index="${index}">
-                    <div class="matchup">
-                        ${game.awayTeam} <span class="vs-separator">v</span> ${game.homeTeam}
+                    <div class="matchup-wrapper">
+                        <div class="score-pie">
+                            <svg width="48" height="48" viewBox="0 0 48 48">
+                                <circle class="score-pie-bg" cx="24" cy="24" r="${radius}"/>
+                                <circle class="score-pie-fill ${ratingClass}"
+                                        cx="24" cy="24" r="${radius}"
+                                        stroke-dasharray="${progress} ${remaining}"/>
+                            </svg>
+                            <div class="score-pie-value">${displayScore}</div>
+                        </div>
+                        <div class="matchup">
+                            ${game.awayTeam} <span class="vs-separator">v</span> ${game.homeTeam}
+                        </div>
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
-                    <div class="score-reveal ${shouldShowScore ? 'visible' : ''}">${scoreText}</div>
+                    <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
                 </div>
             `;
         }
 
-        // Attach game row click listeners
-        function attachGameRowListeners() {
-            document.querySelectorAll('.game-row').forEach(row => {
-                row.addEventListener('click', () => {
-                    const gameIndex = parseInt(row.dataset.gameIndex);
-                    if (spoilerFree) {
-                        revealedGames.add(gameIndex);
-                        displayResults();
-                    }
-                });
-            });
-        }
-
-        // Attach reveal all listener
-        function attachRevealAllListener() {
-            const link = document.getElementById('revealAllLink');
-            if (link) {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
+        // Attach score toggle listener
+        function attachScoreToggleListener() {
+            const toggle = document.getElementById('scoreToggle');
+            if (toggle) {
+                toggle.addEventListener('click', () => {
                     spoilerFree = !spoilerFree;
                     localStorage.setItem('spoilerFree', spoilerFree);
-                    revealedGames.clear();
                     displayResults();
                 });
             }
