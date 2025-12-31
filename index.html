@@ -795,7 +795,7 @@
                                     <button class="date-picker-nav-btn" id="nextMonth">→</button>
                                 </div>
                             </div>
-                            <div class="date-grid">
+                            <div class="date-grid" id="dateGrid">
                                 <div class="date-grid-header">S</div>
                                 <div class="date-grid-header">M</div>
                                 <div class="date-grid-header">T</div>
@@ -803,8 +803,7 @@
                                 <div class="date-grid-header">T</div>
                                 <div class="date-grid-header">F</div>
                                 <div class="date-grid-header">S</div>
-                                <!-- Date cells populated by JS -->
-                                <div id="dateGridCells"></div>
+                                <!-- Date cells populated by JS as direct children -->
                             </div>
                         </div>
                     </div>
@@ -1282,8 +1281,12 @@
             const daysInMonth = lastDay.getDate();
             const daysInPrevMonth = prevMonthLastDay.getDate();
 
-            const dateGridCells = document.getElementById('dateGridCells');
-            dateGridCells.innerHTML = '';
+            const dateGrid = document.getElementById('dateGrid');
+
+            // Remove all existing date cells (keep headers)
+            const headers = Array.from(dateGrid.querySelectorAll('.date-grid-header'));
+            dateGrid.innerHTML = '';
+            headers.forEach(header => dateGrid.appendChild(header));
 
             // Add previous month's trailing days
             for (let i = startDayOfWeek - 1; i >= 0; i--) {
@@ -1291,7 +1294,7 @@
                 const cell = document.createElement('div');
                 cell.className = 'date-item other-month';
                 cell.textContent = day;
-                dateGridCells.appendChild(cell);
+                dateGrid.appendChild(cell);
             }
 
             // Add current month's days
@@ -1323,18 +1326,19 @@
                     });
                 }
 
-                dateGridCells.appendChild(cell);
+                dateGrid.appendChild(cell);
             }
 
             // Add next month's leading days to complete the grid
-            const totalCells = dateGridCells.children.length;
-            const remainingCells = (Math.ceil(totalCells / 7) * 7) - totalCells;
+            // Count only date-item cells (not headers)
+            const dateCells = dateGrid.querySelectorAll('.date-item').length;
+            const remainingCells = (Math.ceil(dateCells / 7) * 7) - dateCells;
 
             for (let day = 1; day <= remainingCells; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'date-item other-month';
                 cell.textContent = day;
-                dateGridCells.appendChild(cell);
+                dateGrid.appendChild(cell);
             }
         }
 
