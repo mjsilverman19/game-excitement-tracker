@@ -137,6 +137,7 @@
             cursor: pointer;
             transition: color 150ms ease;
             margin-right: 12px;
+            position: relative;
         }
 
         .sport-option:hover {
@@ -145,6 +146,15 @@
 
         .sport-option.active {
             color: #ede9e3;
+        }
+
+        .beta-label {
+            font-size: 9px;
+            color: #6b6560;
+            vertical-align: super;
+            margin-left: 2px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
         }
 
         .separator {
@@ -454,6 +464,121 @@
             max-height: 20px;
         }
 
+        .game-recap-link {
+            font-size: 11px;
+            color: #6b6560;
+            text-decoration: underline;
+            margin-top: 8px;
+            display: inline-block;
+            transition: color 150ms ease;
+        }
+
+        .game-recap-link:hover {
+            color: #9a958e;
+        }
+
+        /* Date Picker - Custom Calendar */
+        .date-picker {
+            position: absolute;
+            background: #1c1a19;
+            border: 1px solid #3a3836;
+            border-radius: 2px;
+            padding: 16px;
+            margin-top: 8px;
+            z-index: 1000;
+            display: none;
+            min-width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .date-picker.visible {
+            display: block;
+        }
+
+        .date-picker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2a2826;
+        }
+
+        .date-picker-month {
+            font-size: 11px;
+            color: #ede9e3;
+            letter-spacing: 0.05em;
+        }
+
+        .date-picker-nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .date-picker-nav-btn {
+            font-size: 11px;
+            color: #9a958e;
+            cursor: pointer;
+            padding: 4px 8px;
+            border: 1px solid #2a2826;
+            border-radius: 2px;
+            transition: all 150ms ease;
+            background: transparent;
+        }
+
+        .date-picker-nav-btn:hover {
+            background: #2a2826;
+            border-color: #3a3836;
+            color: #ede9e3;
+        }
+
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .date-grid-header {
+            font-size: 9px;
+            color: #6b6560;
+            text-align: center;
+            padding: 6px 0;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .date-item {
+            font-size: 11px;
+            color: #9a958e;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            transition: all 150ms ease;
+        }
+
+        .date-item:hover:not(.disabled) {
+            background: #2a2826;
+            border-color: #3a3836;
+            color: #ede9e3;
+        }
+
+        .date-item.selected {
+            background: #3a3836;
+            border-color: #4a4540;
+            color: #ede9e3;
+        }
+
+        .date-item.disabled {
+            color: #3a3836;
+            cursor: not-allowed;
+        }
+
+        .date-item.other-month {
+            color: #3a3836;
+        }
+
         /* Mobile-only score-rating line */
         .score-rating-line {
             display: none;
@@ -629,9 +754,9 @@
                     <div class="sport-selector">
                         <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
                         <span class="separator">·</span>
-                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb</span>
+                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
-                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba</span>
+                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
                     </div>
                     <div class="season-week-selector" id="weekSelector" style="position: relative;">
                         <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
@@ -660,6 +785,27 @@
                         <span class="current-selection" id="currentDateDisplay">yesterday</span>
                         <span class="separator">·</span>
                         <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
+
+                        <!-- Custom Date Picker Dropdown -->
+                        <div class="date-picker" id="customDatePicker">
+                            <div class="date-picker-header">
+                                <span class="date-picker-month" id="pickerMonthYear">December 2025</span>
+                                <div class="date-picker-nav">
+                                    <button class="date-picker-nav-btn" id="prevMonth">←</button>
+                                    <button class="date-picker-nav-btn" id="nextMonth">→</button>
+                                </div>
+                            </div>
+                            <div class="date-grid" id="dateGrid">
+                                <div class="date-grid-header">S</div>
+                                <div class="date-grid-header">M</div>
+                                <div class="date-grid-header">T</div>
+                                <div class="date-grid-header">W</div>
+                                <div class="date-grid-header">T</div>
+                                <div class="date-grid-header">F</div>
+                                <div class="date-grid-header">S</div>
+                                <!-- Date cells populated by JS as direct children -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -877,26 +1023,23 @@
             const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
 
             // Format display date
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'];
             const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-            let displayText;
             const yesterday = new Date(today.getTime() - 24*60*60*1000);
             const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
 
+            // Update current date display
+            let currentDisplayText;
             if (currentDate.getTime() === today.getTime()) {
-                displayText = 'today';
+                currentDisplayText = 'today';
             } else if (currentDate.getTime() === yesterday.getTime()) {
-                displayText = 'yesterday';
+                currentDisplayText = 'yesterday';
             } else if (currentDate.getTime() === twoDaysAgo.getTime()) {
-                displayText = '2 days ago';
+                currentDisplayText = '2 days ago';
             } else {
-                displayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
+                currentDisplayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
             }
-
-            document.getElementById('currentDateDisplay').textContent = displayText;
+            document.getElementById('currentDateDisplay').textContent = currentDisplayText;
 
             // Calculate prev/next dates
             const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
@@ -913,7 +1056,7 @@
             }
             document.getElementById('prevDateDisplay').textContent = prevDisplayText;
 
-            // Update next date (only show if before today)
+            // Update next date (only show if before or equal to today)
             const prevDateLink = document.getElementById('prevDate');
             const nextDateLink = document.getElementById('nextDate');
 
@@ -965,6 +1108,9 @@
                     const yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
                     selectedDate = yesterday.toISOString().split('T')[0];
+                    // Reset date picker state
+                    pickerMonth = null;
+                    pickerYear = null;
                     updateUI();
                     loadGames();
                 }
@@ -1014,6 +1160,32 @@
                 }
             });
 
+            // Custom date picker toggle (NBA)
+            document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
+                if (selectedSport === 'NBA') {
+                    e.stopPropagation();
+                    const picker = document.getElementById('customDatePicker');
+                    const isVisible = picker.classList.contains('visible');
+
+                    if (!isVisible) {
+                        populateCustomDatePicker();
+                        picker.classList.add('visible');
+                    } else {
+                        picker.classList.remove('visible');
+                    }
+                }
+            });
+
+            // Close custom date picker when clicking outside
+            document.addEventListener('click', (e) => {
+                const picker = document.getElementById('customDatePicker');
+                const currentDateDisplay = document.getElementById('currentDateDisplay');
+
+                if (selectedSport === 'NBA' && !picker.contains(e.target) && e.target !== currentDateDisplay) {
+                    picker.classList.remove('visible');
+                }
+            });
+
             // About link
             document.getElementById('aboutLink').addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1054,6 +1226,120 @@
                     picker.classList.remove('visible');
                 }
             });
+        }
+
+        // Populate custom date picker
+        let pickerMonth, pickerYear;
+
+        function populateCustomDatePicker() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
+
+            // Initialize picker to current selected date's month
+            if (!pickerMonth && !pickerYear) {
+                pickerMonth = currentDate.getMonth();
+                pickerYear = currentDate.getFullYear();
+            }
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+
+            // Update month/year display
+            document.getElementById('pickerMonthYear').textContent = `${monthNames[pickerMonth]} ${pickerYear}`;
+
+            // Setup month navigation
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+
+            prevMonthBtn.onclick = (e) => {
+                e.stopPropagation();
+                pickerMonth--;
+                if (pickerMonth < 0) {
+                    pickerMonth = 11;
+                    pickerYear--;
+                }
+                populateCustomDatePicker();
+            };
+
+            nextMonthBtn.onclick = (e) => {
+                e.stopPropagation();
+                pickerMonth++;
+                if (pickerMonth > 11) {
+                    pickerMonth = 0;
+                    pickerYear++;
+                }
+                populateCustomDatePicker();
+            };
+
+            // Build calendar grid
+            const firstDay = new Date(pickerYear, pickerMonth, 1);
+            const lastDay = new Date(pickerYear, pickerMonth + 1, 0);
+            const prevMonthLastDay = new Date(pickerYear, pickerMonth, 0);
+
+            const startDayOfWeek = firstDay.getDay(); // 0 = Sunday
+            const daysInMonth = lastDay.getDate();
+            const daysInPrevMonth = prevMonthLastDay.getDate();
+
+            const dateGrid = document.getElementById('dateGrid');
+
+            // Remove all existing date cells (keep headers)
+            const headers = Array.from(dateGrid.querySelectorAll('.date-grid-header'));
+            dateGrid.innerHTML = '';
+            headers.forEach(header => dateGrid.appendChild(header));
+
+            // Add previous month's trailing days
+            for (let i = startDayOfWeek - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const cell = document.createElement('div');
+                cell.className = 'date-item other-month';
+                cell.textContent = day;
+                dateGrid.appendChild(cell);
+            }
+
+            // Add current month's days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'date-item';
+                cell.textContent = day;
+
+                const cellDate = new Date(pickerYear, pickerMonth, day);
+
+                // Disable future dates
+                if (cellDate > today) {
+                    cell.classList.add('disabled');
+                } else {
+                    // Check if this is the selected date
+                    const cellDateStr = cellDate.toISOString().split('T')[0];
+                    const selectedDateStr = selectedDate || new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0];
+
+                    if (cellDateStr === selectedDateStr) {
+                        cell.classList.add('selected');
+                    }
+
+                    cell.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectedDate = cellDateStr;
+                        document.getElementById('customDatePicker').classList.remove('visible');
+                        updateUI();
+                        loadGames();
+                    });
+                }
+
+                dateGrid.appendChild(cell);
+            }
+
+            // Add next month's leading days to complete the grid
+            // Count only date-item cells (not headers)
+            const dateCells = dateGrid.querySelectorAll('.date-item').length;
+            const remainingCells = (Math.ceil(dateCells / 7) * 7) - dateCells;
+
+            for (let day = 1; day <= remainingCells; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'date-item other-month';
+                cell.textContent = day;
+                dateGrid.appendChild(cell);
+            }
         }
 
         // Populate week picker dropdown
@@ -1266,6 +1552,17 @@
             const progress = (score / 10) * circumference;
             const remaining = circumference - progress;
 
+            // Generate ESPN recap URL
+            let sportPath;
+            if (selectedSport === 'NFL') {
+                sportPath = 'nfl';
+            } else if (selectedSport === 'CFB') {
+                sportPath = 'college-football';
+            } else if (selectedSport === 'NBA') {
+                sportPath = 'nba';
+            }
+            const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
+
             return `
                 <div class="game-row" data-game-index="${index}">
                     <div class="score-rating-line ${ratingClass}">
@@ -1289,6 +1586,7 @@
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
+                    <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
                 </div>
             `;
         }
