@@ -621,13 +621,22 @@
             text-anchor: middle;
         }
 
-        .score-pie {
+        .breakdown-toggle {
+            font-size: 11px;
+            color: #6b6560;
+            text-decoration: underline;
+            margin-top: 8px;
+            display: inline-block;
             cursor: pointer;
-            transition: opacity 150ms ease;
+            transition: color 150ms ease;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
         }
 
-        .score-pie:hover {
-            opacity: 0.8;
+        .breakdown-toggle:hover {
+            color: #9a958e;
         }
 
         /* Mobile-only score-rating line */
@@ -1695,7 +1704,7 @@
                         <span class="rating-text">${ratingText}</span>
                     </div>
                     <div class="matchup-wrapper">
-                        <div class="score-pie" data-breakdown='${JSON.stringify(game.breakdown || {})}'>
+                        <div class="score-pie">
                             <svg width="48" height="48" viewBox="0 0 48 48">
                                 <circle class="score-pie-bg" cx="24" cy="24" r="${radius}"/>
                                 <circle class="score-pie-fill ${ratingClass}"
@@ -1710,6 +1719,7 @@
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
+                    <button class="breakdown-toggle" data-game-id="${game.id}" data-breakdown='${JSON.stringify(game.breakdown || {})}'>View breakdown</button>
                     <div class="game-breakdown" id="breakdown-${game.id}"></div>
                     <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
                 </div>
@@ -1730,25 +1740,27 @@
 
         // Attach radar chart click listeners
         function attachRadarChartListeners() {
-            document.querySelectorAll('.score-pie').forEach(pie => {
-                pie.addEventListener('click', (e) => {
-                    console.log('Score pie clicked');
-                    console.log('Breakdown data:', pie.dataset.breakdown);
+            document.querySelectorAll('.breakdown-toggle').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    console.log('Breakdown button clicked');
+                    console.log('Breakdown data:', button.dataset.breakdown);
 
                     try {
-                        const breakdown = JSON.parse(pie.dataset.breakdown);
+                        const breakdown = JSON.parse(button.dataset.breakdown);
                         console.log('Parsed breakdown:', breakdown);
 
-                        const gameRow = pie.closest('.game-row');
-                        const container = gameRow.querySelector('.game-breakdown');
+                        const gameId = button.dataset.gameId;
+                        const container = document.getElementById(`breakdown-${gameId}`);
                         console.log('Container found:', container);
 
                         if (container.innerHTML) {
                             console.log('Collapsing chart');
                             container.innerHTML = '';
+                            button.textContent = 'View breakdown';
                         } else {
                             console.log('Rendering chart');
                             container.innerHTML = renderRadarChart(breakdown);
+                            button.textContent = 'Hide breakdown';
                         }
                     } catch (error) {
                         console.error('Error in radar chart click handler:', error);
