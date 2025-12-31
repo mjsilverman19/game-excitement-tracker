@@ -117,34 +117,33 @@ function parseEvent(event, sport = 'NFL') {
 
 export async function fetchSingleGame(sport, gameId) {
   try {
-    // Map sport to ESPN league path
-    let league;
+    // Map sport to ESPN API path
+    let apiPath;
     if (sport === 'NFL') {
-      league = 'nfl';
+      apiPath = 'football/nfl';
     } else if (sport === 'CFB') {
-      league = 'college-football';
+      apiPath = 'football/college-football';
     } else if (sport === 'NBA') {
-      league = 'nba';
+      apiPath = 'basketball/nba';
     } else {
       throw new Error('Invalid sport');
     }
 
-    // Use competitions endpoint which returns same structure as scoreboard
-    const sportType = sport === 'NBA' ? 'basketball' : 'football';
-    const url = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}`;
+    // Use scoreboard endpoint with event filter - returns same structure as bulk fetch
+    const url = `https://site.api.espn.com/apis/site/v2/sports/${apiPath}/scoreboard?event=${gameId}`;
 
     const response = await fetch(url);
     if (!response.ok) throw new Error(`ESPN API error: ${response.status}`);
 
-    const competition = await response.json();
+    const data = await response.json();
 
-    // Wrap in event structure for parseEvent
-    const event = {
-      id: gameId,
-      competitions: [competition]
-    };
+    // Scoreboard returns events array
+    const event = data.events?.[0];
+    if (!event) {
+      throw new Error('Game not found');
+    }
 
-    // Parse the game event
+    // Parse the game event using existing parser
     return parseEvent(event, sport);
   } catch (error) {
     console.error('Error fetching single game:', error);
