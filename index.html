@@ -284,7 +284,7 @@
         .statistics-line {
             font-size: 13px;
             color: #6b6560;
-            margin-bottom: 64px;
+            margin-bottom: 24px;
             line-height: 1.5;
         }
 
@@ -297,7 +297,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 32px;
+            margin-bottom: 48px;
         }
 
         .toggle-label {
@@ -454,6 +454,11 @@
             max-height: 20px;
         }
 
+        /* Mobile-only score-rating line */
+        .score-rating-line {
+            display: none;
+        }
+
         /* Loading State */
         .loading {
             padding: 60px 0;
@@ -510,7 +515,8 @@
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 24px;
+                padding: 24px 16px;
+                overflow-x: hidden;
             }
 
             .content-wrapper,
@@ -522,33 +528,72 @@
                 font-size: 120px;
             }
 
+            /* Show stacked layout elements */
+            .score-rating-line {
+                display: block;
+                font-size: 13px;
+                margin-bottom: 4px;
+            }
+
+            .score-rating-line .score-value {
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .score-rating-line .score-separator {
+                color: #6b6560;
+            }
+
+            /* Color rating text by tier */
+            .score-rating-line.must-watch .rating-text {
+                color: #8a9680;
+            }
+
+            .score-rating-line.recommended .rating-text {
+                color: #a09a92;
+            }
+
+            .score-rating-line.skip .rating-text {
+                color: #a08078;
+            }
+
+            /* Hide desktop-only elements */
+            .score-pie {
+                display: none;
+            }
+
+            .rating {
+                display: none;
+            }
+
+            /* Matchup takes full width */
             .matchup {
                 font-size: 32px;
                 line-height: 1.15;
             }
 
             .matchup-wrapper {
-                gap: 12px;
-                align-items: flex-start;
+                gap: 0;
+                margin-bottom: 6px;
             }
 
-            .score-pie {
-                width: 40px;
-                height: 40px;
-                margin-top: 4px;
-                flex-shrink: 0;
-            }
-
-            .score-pie-value {
-                font-size: 12px;
-            }
-
-            .rating {
-                margin-top: 4px;
-            }
-
+            /* Tighten game row spacing */
             .games-list {
-                gap: 36px;
+                gap: 32px;
+            }
+
+            /* Ensure no overflow */
+            .game-row {
+                max-width: 100%;
+            }
+
+            /* Mobile spacing adjustments */
+            .statistics-line {
+                margin-bottom: 16px;
+            }
+
+            .spoiler-toggle-wrapper {
+                margin-bottom: 32px;
             }
 
             .main-nav {
@@ -1064,6 +1109,11 @@
 
             return `
                 <div class="game-row" data-game-index="${index}">
+                    <div class="score-rating-line ${ratingClass}">
+                        <span class="score-value">${displayScore}</span>
+                        <span class="score-separator"> · </span>
+                        <span class="rating-text">${ratingText}</span>
+                    </div>
                     <div class="matchup-wrapper">
                         <div class="score-pie">
                             <svg width="48" height="48" viewBox="0 0 48 48">
