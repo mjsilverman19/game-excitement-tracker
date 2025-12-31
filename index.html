@@ -623,6 +623,32 @@
             font-weight: 600;
         }
 
+        .radar-label-group {
+            cursor: help;
+        }
+
+        .radar-label-group:hover .radar-label {
+            fill: #ede9e3;
+        }
+
+        .radar-label-group:hover .radar-value {
+            fill: #8a9680;
+        }
+
+        .metric-tooltip {
+            position: absolute;
+            background: #2a2826;
+            border: 1px solid #4a4540;
+            padding: 8px 12px;
+            border-radius: 2px;
+            font-size: 11px;
+            color: #ede9e3;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 200px;
+            display: none;
+        }
+
         .breakdown-toggle {
             font-size: 11px;
             color: #6b6560;
@@ -1595,11 +1621,11 @@
             }
 
             const metrics = [
-                { key: 'lateGame', label: '4th Quarter' },
-                { key: 'dramaticFinish', label: 'Final Minutes' },
-                { key: 'persistence', label: 'Close All Game' },
-                { key: 'movement', label: 'Big Swings' },
-                { key: 'leadChanges', label: 'Lead Changes' }
+                { key: 'lateGame', label: '4th Quarter', desc: 'How exciting was the final period? Penalizes garbage time blowouts.' },
+                { key: 'dramaticFinish', label: 'Final Minutes', desc: 'Big swings or close score in the last ~2 minutes of the game.' },
+                { key: 'persistence', label: 'Close All Game', desc: 'How long the game stayed competitive (within 35-65% win probability).' },
+                { key: 'movement', label: 'Big Swings', desc: 'Total magnitude of momentum shifts throughout the entire game.' },
+                { key: 'leadChanges', label: 'Lead Changes', desc: 'Number of times the lead changed (win probability crossed 50%).' }
             ];
 
             const size = 320;
@@ -1643,20 +1669,27 @@
                 axisLines += `<line x1="${center}" y1="${center}" x2="${endX}" y2="${endY}" class="radar-axis"/>`;
             });
 
-            // Labels
+            // Labels with hover tooltips
             let labels = '';
-            points.forEach(p => {
-                labels += `<text x="${p.labelX}" y="${p.labelY}" class="radar-label">${p.label}</text>`;
-                labels += `<text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(1)}</text>`;
+            points.forEach((p, i) => {
+                labels += `
+                    <g class="radar-label-group" data-metric="${metrics[i].key}" data-desc="${metrics[i].desc}">
+                        <text x="${p.labelX}" y="${p.labelY}" class="radar-label">${p.label}</text>
+                        <text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(1)}</text>
+                    </g>
+                `;
             });
 
             return `
-                <svg width="${size}" height="${size}" class="radar-chart" viewBox="0 0 ${size} ${size}">
-                    ${gridLines}
-                    ${axisLines}
-                    <polygon points="${polygonPoints}" class="radar-fill"/>
-                    ${labels}
-                </svg>
+                <div style="position: relative;">
+                    <svg width="${size}" height="${size}" class="radar-chart" viewBox="0 0 ${size} ${size}">
+                        ${gridLines}
+                        ${axisLines}
+                        <polygon points="${polygonPoints}" class="radar-fill"/>
+                        ${labels}
+                    </svg>
+                    <div class="metric-tooltip" id="metric-tooltip"></div>
+                </div>
             `;
         }
 
@@ -1764,10 +1797,41 @@
                             console.log('Rendering chart');
                             container.innerHTML = renderRadarChart(breakdown);
                             button.textContent = 'Hide breakdown';
+
+                            // Attach hover listeners to metric labels
+                            setTimeout(() => {
+                                attachMetricHoverListeners(container);
+                            }, 0);
                         }
                     } catch (error) {
                         console.error('Error in radar chart click handler:', error);
                     }
+                });
+            });
+        }
+
+        // Attach hover listeners to radar chart metric labels
+        function attachMetricHoverListeners(container) {
+            const labelGroups = container.querySelectorAll('.radar-label-group');
+            const tooltip = container.querySelector('.metric-tooltip');
+
+            if (!tooltip) return;
+
+            labelGroups.forEach(group => {
+                group.addEventListener('mouseenter', (e) => {
+                    const desc = group.dataset.desc;
+                    tooltip.textContent = desc;
+                    tooltip.style.display = 'block';
+                });
+
+                group.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    tooltip.style.left = (e.clientX - rect.left + 10) + 'px';
+                    tooltip.style.top = (e.clientY - rect.top + 10) + 'px';
+                });
+
+                group.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
                 });
             });
         }
