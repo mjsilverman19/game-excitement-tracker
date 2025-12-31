@@ -54,14 +54,23 @@ export default async function handler(req, res) {
     }
 
     // Handle week/date-based request
+    let actualSeasonType = seasonType;
+
+    // For CFB bowls, set seasonType to 3 (postseason)
+    if (sport === 'CFB' && week === 'bowls') {
+      actualSeasonType = '3';
+    }
+
     if (sport === 'NBA') {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
+    } else if (week === 'bowls') {
+      console.log(`Fetching ${sport} bowl games for ${season} season`);
     } else {
-      console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${seasonType})`);
+      console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${actualSeasonType})`);
     }
 
     // Fetch games from ESPN
-    const games = await fetchGames(sport, season, week, seasonType, date);
+    const games = await fetchGames(sport, season, week, actualSeasonType, date);
 
     if (!games || games.length === 0) {
       return res.status(200).json({
@@ -91,19 +100,32 @@ export default async function handler(req, res) {
     // Sort by excitement score
     validGames.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
 
+    // Calculate bowl/playoff metadata for CFB postseason
+    const metadata = {
+      sport,
+      season,
+      week,
+      date,
+      count: validGames.length,
+      totalGames: analyzedGames.length,
+      insufficientData: insufficientDataCount,
+      source: 'ESPN Win Probability Analysis'
+    };
+
+    // Add bowl-specific metadata if this is CFB postseason
+    if (sport === 'CFB' && (week === 'bowls' || actualSeasonType === '3')) {
+      const playoffGames = validGames.filter(g => g.playoffRound !== null).length;
+      const bowlGames = validGames.filter(g => g.bowlName !== null && g.playoffRound === null).length;
+
+      metadata.playoffGames = playoffGames;
+      metadata.bowlGames = bowlGames;
+      metadata.seasonType = '3';
+    }
+
     return res.status(200).json({
       success: true,
       games: validGames,
-      metadata: {
-        sport,
-        season,
-        week,
-        date,
-        count: validGames.length,
-        totalGames: analyzedGames.length,
-        insufficientData: insufficientDataCount,
-        source: 'ESPN Win Probability Analysis'
-      }
+      metadata
     });
 
   } catch (error) {
