@@ -477,35 +477,106 @@
             color: #9a958e;
         }
 
-        /* Date Picker Input */
-        .date-picker-input {
-            font-size: 13px;
+        /* Date Picker - Custom Calendar */
+        .date-picker {
+            position: absolute;
+            background: #1c1a19;
+            border: 1px solid #3a3836;
+            border-radius: 2px;
+            padding: 16px;
+            margin-top: 8px;
+            z-index: 1000;
+            display: none;
+            min-width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .date-picker.visible {
+            display: block;
+        }
+
+        .date-picker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2a2826;
+        }
+
+        .date-picker-month {
+            font-size: 11px;
             color: #ede9e3;
-            background: transparent;
-            border: none;
+            letter-spacing: 0.05em;
+        }
+
+        .date-picker-nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .date-picker-nav-btn {
+            font-size: 11px;
+            color: #9a958e;
+            cursor: pointer;
             padding: 4px 8px;
-            font-family: 'Söhne', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-            cursor: pointer;
+            border: 1px solid #2a2826;
+            border-radius: 2px;
             transition: all 150ms ease;
-            letter-spacing: 0.02em;
-            text-decoration: underline;
-            text-decoration-style: dotted;
-            text-decoration-color: #6b6560;
+            background: transparent;
         }
 
-        .date-picker-input:hover {
-            text-decoration-color: #9a958e;
+        .date-picker-nav-btn:hover {
+            background: #2a2826;
+            border-color: #3a3836;
+            color: #ede9e3;
         }
 
-        .date-picker-input::-webkit-calendar-picker-indicator {
-            filter: invert(0.6);
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .date-grid-header {
+            font-size: 9px;
+            color: #6b6560;
+            text-align: center;
+            padding: 6px 0;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .date-item {
+            font-size: 11px;
+            color: #9a958e;
+            padding: 8px;
+            text-align: center;
             cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 150ms ease;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            transition: all 150ms ease;
         }
 
-        .date-picker-input::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
+        .date-item:hover:not(.disabled) {
+            background: #2a2826;
+            border-color: #3a3836;
+            color: #ede9e3;
+        }
+
+        .date-item.selected {
+            background: #3a3836;
+            border-color: #4a4540;
+            color: #ede9e3;
+        }
+
+        .date-item.disabled {
+            color: #3a3836;
+            cursor: not-allowed;
+        }
+
+        .date-item.other-month {
+            color: #3a3836;
         }
 
         /* Mobile-only score-rating line */
@@ -711,9 +782,31 @@
                     <div class="season-week-selector" id="dateSelector" style="position: relative; display: none;">
                         <a href="#" class="week-nav-link" id="prevDate">← <span id="prevDateDisplay"></span></a>
                         <span class="separator">·</span>
-                        <input type="date" class="date-picker-input" id="datePicker" />
+                        <span class="current-selection" id="currentDateDisplay">yesterday</span>
                         <span class="separator">·</span>
                         <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
+
+                        <!-- Custom Date Picker Dropdown -->
+                        <div class="date-picker" id="customDatePicker">
+                            <div class="date-picker-header">
+                                <span class="date-picker-month" id="pickerMonthYear">December 2025</span>
+                                <div class="date-picker-nav">
+                                    <button class="date-picker-nav-btn" id="prevMonth">←</button>
+                                    <button class="date-picker-nav-btn" id="nextMonth">→</button>
+                                </div>
+                            </div>
+                            <div class="date-grid">
+                                <div class="date-grid-header">S</div>
+                                <div class="date-grid-header">M</div>
+                                <div class="date-grid-header">T</div>
+                                <div class="date-grid-header">W</div>
+                                <div class="date-grid-header">T</div>
+                                <div class="date-grid-header">F</div>
+                                <div class="date-grid-header">S</div>
+                                <!-- Date cells populated by JS -->
+                                <div id="dateGridCells"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -930,24 +1023,31 @@
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
 
-            // Update date picker value
-            const datePicker = document.getElementById('datePicker');
-            datePicker.value = selectedDate || new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0];
-            datePicker.max = today.toISOString().split('T')[0];
+            // Format display date
+            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const yesterday = new Date(today.getTime() - 24*60*60*1000);
+            const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
+
+            // Update current date display
+            let currentDisplayText;
+            if (currentDate.getTime() === today.getTime()) {
+                currentDisplayText = 'today';
+            } else if (currentDate.getTime() === yesterday.getTime()) {
+                currentDisplayText = 'yesterday';
+            } else if (currentDate.getTime() === twoDaysAgo.getTime()) {
+                currentDisplayText = '2 days ago';
+            } else {
+                currentDisplayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
+            }
+            document.getElementById('currentDateDisplay').textContent = currentDisplayText;
 
             // Calculate prev/next dates
             const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
             const nextDate = new Date(currentDate.getTime() + 24*60*60*1000);
 
-            // Format display date
-            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
             // Update prev date
             let prevDisplayText;
-            const yesterday = new Date(today.getTime() - 24*60*60*1000);
-            const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
-
             if (prevDate.getTime() === yesterday.getTime()) {
                 prevDisplayText = 'yesterday';
             } else if (prevDate.getTime() === twoDaysAgo.getTime()) {
@@ -1009,6 +1109,9 @@
                     const yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
                     selectedDate = yesterday.toISOString().split('T')[0];
+                    // Reset date picker state
+                    pickerMonth = null;
+                    pickerYear = null;
                     updateUI();
                     loadGames();
                 }
@@ -1058,11 +1161,30 @@
                 }
             });
 
-            // Date picker (NBA)
-            document.getElementById('datePicker').addEventListener('change', (e) => {
-                selectedDate = e.target.value;
-                updateUI();
-                loadGames();
+            // Custom date picker toggle (NBA)
+            document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
+                if (selectedSport === 'NBA') {
+                    e.stopPropagation();
+                    const picker = document.getElementById('customDatePicker');
+                    const isVisible = picker.classList.contains('visible');
+
+                    if (!isVisible) {
+                        populateCustomDatePicker();
+                        picker.classList.add('visible');
+                    } else {
+                        picker.classList.remove('visible');
+                    }
+                }
+            });
+
+            // Close custom date picker when clicking outside
+            document.addEventListener('click', (e) => {
+                const picker = document.getElementById('customDatePicker');
+                const currentDateDisplay = document.getElementById('currentDateDisplay');
+
+                if (selectedSport === 'NBA' && !picker.contains(e.target) && e.target !== currentDateDisplay) {
+                    picker.classList.remove('visible');
+                }
             });
 
             // About link
@@ -1105,6 +1227,115 @@
                     picker.classList.remove('visible');
                 }
             });
+        }
+
+        // Populate custom date picker
+        let pickerMonth, pickerYear;
+
+        function populateCustomDatePicker() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
+
+            // Initialize picker to current selected date's month
+            if (!pickerMonth && !pickerYear) {
+                pickerMonth = currentDate.getMonth();
+                pickerYear = currentDate.getFullYear();
+            }
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+
+            // Update month/year display
+            document.getElementById('pickerMonthYear').textContent = `${monthNames[pickerMonth]} ${pickerYear}`;
+
+            // Setup month navigation
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+
+            prevMonthBtn.onclick = (e) => {
+                e.stopPropagation();
+                pickerMonth--;
+                if (pickerMonth < 0) {
+                    pickerMonth = 11;
+                    pickerYear--;
+                }
+                populateCustomDatePicker();
+            };
+
+            nextMonthBtn.onclick = (e) => {
+                e.stopPropagation();
+                pickerMonth++;
+                if (pickerMonth > 11) {
+                    pickerMonth = 0;
+                    pickerYear++;
+                }
+                populateCustomDatePicker();
+            };
+
+            // Build calendar grid
+            const firstDay = new Date(pickerYear, pickerMonth, 1);
+            const lastDay = new Date(pickerYear, pickerMonth + 1, 0);
+            const prevMonthLastDay = new Date(pickerYear, pickerMonth, 0);
+
+            const startDayOfWeek = firstDay.getDay(); // 0 = Sunday
+            const daysInMonth = lastDay.getDate();
+            const daysInPrevMonth = prevMonthLastDay.getDate();
+
+            const dateGridCells = document.getElementById('dateGridCells');
+            dateGridCells.innerHTML = '';
+
+            // Add previous month's trailing days
+            for (let i = startDayOfWeek - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const cell = document.createElement('div');
+                cell.className = 'date-item other-month';
+                cell.textContent = day;
+                dateGridCells.appendChild(cell);
+            }
+
+            // Add current month's days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'date-item';
+                cell.textContent = day;
+
+                const cellDate = new Date(pickerYear, pickerMonth, day);
+
+                // Disable future dates
+                if (cellDate > today) {
+                    cell.classList.add('disabled');
+                } else {
+                    // Check if this is the selected date
+                    const cellDateStr = cellDate.toISOString().split('T')[0];
+                    const selectedDateStr = selectedDate || new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0];
+
+                    if (cellDateStr === selectedDateStr) {
+                        cell.classList.add('selected');
+                    }
+
+                    cell.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectedDate = cellDateStr;
+                        document.getElementById('customDatePicker').classList.remove('visible');
+                        updateUI();
+                        loadGames();
+                    });
+                }
+
+                dateGridCells.appendChild(cell);
+            }
+
+            // Add next month's leading days to complete the grid
+            const totalCells = dateGridCells.children.length;
+            const remainingCells = (Math.ceil(totalCells / 7) * 7) - totalCells;
+
+            for (let day = 1; day <= remainingCells; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'date-item other-month';
+                cell.textContent = day;
+                dateGridCells.appendChild(cell);
+            }
         }
 
         // Populate week picker dropdown
