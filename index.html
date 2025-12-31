@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Entertainment Index</title>
+    <script>
+        // Prevent flash of wrong theme by setting theme before CSS loads
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -11,13 +18,63 @@
             box-sizing: border-box;
         }
 
+        /* Theme Variables - Dark Mode (Default) */
+        :root {
+            --bg-primary: #1c1a19;
+            --text-primary: #ede9e3;
+            --text-secondary: #9a958e;
+            --text-muted: #6b6560;
+            --border-primary: #3a3836;
+            --border-secondary: #2a2826;
+            --bg-hover: #2a2826;
+            --bg-active: #3a3836;
+            --bg-active-alt: #4a4540;
+            --accent-must-watch: #8a9680;
+            --accent-recommended: #a09a92;
+            --accent-skip: #a08078;
+            --noise-opacity: 0.025;
+        }
+
+        /* Theme Variables - Light Mode */
+        [data-theme="light"] {
+            --bg-primary: #f5f3f0;
+            --text-primary: #2c2a28;
+            --text-secondary: #6b6560;
+            --text-muted: #9a958e;
+            --border-primary: #d8d4ce;
+            --border-secondary: #e8e4de;
+            --bg-hover: #e8e4de;
+            --bg-active: #d8d4ce;
+            --bg-active-alt: #ccc8c2;
+            --accent-must-watch: #5a6b50;
+            --accent-recommended: #7a756e;
+            --accent-skip: #8a6a60;
+            --noise-opacity: 0.015;
+        }
+
         body {
             font-family: 'Söhne', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #1c1a19;
+            background-color: var(--bg-primary);
             background-image:
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-blend-mode: multiply;
             min-height: 100vh;
-            color: #ede9e3;
+            color: var(--text-primary);
+        }
+
+        /* Dynamic noise opacity */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: var(--noise-opacity);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
@@ -39,7 +96,7 @@
         .masthead {
             font-size: 200px;
             font-weight: 300;
-            color: #6b6560;
+            color: var(--text-muted);
             line-height: 0.9;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
@@ -53,13 +110,13 @@
 
         .site-title {
             font-size: 13px;
-            color: #ede9e3;
+            color: var(--text-primary);
             font-weight: 400;
         }
 
         .week-info {
             font-size: 13px;
-            color: #9a958e;
+            color: var(--text-secondary);
             font-weight: 400;
         }
 
@@ -72,14 +129,14 @@
 
         .nav-link {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: underline;
             font-weight: 400;
             transition: color 150ms ease;
         }
 
         .nav-link:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         /* About Page */
@@ -95,13 +152,13 @@
             font-size: 13px;
             font-weight: 500;
             margin-bottom: 12px;
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         .about-section p {
             font-size: 13px;
             line-height: 1.6;
-            color: #9a958e;
+            color: var(--text-secondary);
             margin-bottom: 12px;
         }
 
@@ -114,18 +171,18 @@
         .about-section li {
             font-size: 13px;
             line-height: 1.6;
-            color: #9a958e;
+            color: var(--text-secondary);
             margin-bottom: 8px;
         }
 
         .about-section a {
-            color: #9a958e;
+            color: var(--text-secondary);
             text-decoration: underline;
             transition: color 150ms ease;
         }
 
         .about-section a:hover {
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         .about-table {
@@ -137,22 +194,22 @@
 
         .about-table th {
             text-align: left;
-            color: #ede9e3;
+            color: var(--text-primary);
             font-weight: 500;
             padding: 8px 12px 8px 0;
-            border-bottom: 1px solid #3a3836;
+            border-bottom: 1px solid var(--border-primary);
         }
 
         .about-table td {
-            color: #9a958e;
+            color: var(--text-secondary);
             padding: 12px 12px 12px 0;
-            border-bottom: 1px solid #2a2826;
+            border-bottom: 1px solid var(--border-secondary);
             vertical-align: top;
             line-height: 1.5;
         }
 
         .about-table td:first-child {
-            color: #ede9e3;
+            color: var(--text-primary);
             font-weight: 500;
             white-space: nowrap;
         }
@@ -160,10 +217,10 @@
         .about-table code {
             font-family: 'SF Mono', Monaco, 'Courier New', monospace;
             font-size: 11px;
-            background: #2a2826;
+            background: var(--bg-hover);
             padding: 2px 5px;
             border-radius: 2px;
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         /* Selection Interface - Minimal */
@@ -180,7 +237,7 @@
         }
 
         .sport-option {
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: none;
             cursor: pointer;
             transition: color 150ms ease;
@@ -189,16 +246,16 @@
         }
 
         .sport-option:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         .sport-option.active {
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         .beta-label {
             font-size: 9px;
-            color: #6b6560;
+            color: var(--text-muted);
             vertical-align: super;
             margin-left: 2px;
             font-weight: 400;
@@ -206,45 +263,45 @@
         }
 
         .separator {
-            color: #6b6560;
+            color: var(--text-muted);
             margin: 0 8px;
         }
 
         .season-week-selector {
             font-size: 13px;
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         .week-nav-link {
-            color: #9a958e;
+            color: var(--text-secondary);
             text-decoration: none;
             cursor: pointer;
             transition: color 150ms ease;
         }
 
         .week-nav-link:hover {
-            color: #ede9e3;
+            color: var(--text-primary);
             text-decoration: underline;
         }
 
         .current-selection {
-            color: #ede9e3;
+            color: var(--text-primary);
             cursor: pointer;
             text-decoration: underline;
             text-decoration-style: dotted;
-            text-decoration-color: #6b6560;
+            text-decoration-color: var(--text-muted);
             transition: all 150ms ease;
         }
 
         .current-selection:hover {
-            text-decoration-color: #9a958e;
+            text-decoration-color: var(--text-secondary);
         }
 
         /* Week Picker Dropdown */
         .week-picker {
             position: absolute;
-            background: #1c1a19;
-            border: 1px solid #3a3836;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
             border-radius: 2px;
             padding: 16px;
             margin-top: 8px;
@@ -260,7 +317,7 @@
 
         .week-picker-header {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             margin-bottom: 12px;
             letter-spacing: 0.05em;
             text-transform: uppercase;
@@ -275,25 +332,25 @@
 
         .week-item {
             font-size: 11px;
-            color: #9a958e;
+            color: var(--text-secondary);
             padding: 6px;
             text-align: center;
             cursor: pointer;
-            border: 1px solid #2a2826;
+            border: 1px solid var(--border-secondary);
             border-radius: 2px;
             transition: all 150ms ease;
         }
 
         .week-item:hover {
-            background: #2a2826;
-            border-color: #3a3836;
-            color: #ede9e3;
+            background: var(--bg-hover);
+            border-color: var(--border-primary);
+            color: var(--text-primary);
         }
 
         .week-item.selected {
-            background: #3a3836;
-            border-color: #4a4540;
-            color: #ede9e3;
+            background: var(--bg-active);
+            border-color: var(--bg-active-alt);
+            color: var(--text-primary);
         }
 
         .season-selector {
@@ -302,12 +359,12 @@
             justify-content: space-between;
             margin-bottom: 12px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #2a2826;
+            border-bottom: 1px solid var(--border-secondary);
         }
 
         .season-selector-label {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             letter-spacing: 0.05em;
         }
 
@@ -318,36 +375,36 @@
 
         .season-btn {
             font-size: 11px;
-            color: #9a958e;
+            color: var(--text-secondary);
             padding: 4px 8px;
             cursor: pointer;
-            border: 1px solid #2a2826;
+            border: 1px solid var(--border-secondary);
             border-radius: 2px;
             transition: all 150ms ease;
         }
 
         .season-btn:hover {
-            background: #2a2826;
-            border-color: #3a3836;
-            color: #ede9e3;
+            background: var(--bg-hover);
+            border-color: var(--border-primary);
+            color: var(--text-primary);
         }
 
         .season-btn.active {
-            background: #3a3836;
-            border-color: #4a4540;
-            color: #ede9e3;
+            background: var(--bg-active);
+            border-color: var(--bg-active-alt);
+            color: var(--text-primary);
         }
 
         /* Statistics Line */
         .statistics-line {
             font-size: 13px;
-            color: #6b6560;
+            color: var(--text-muted);
             margin-bottom: 24px;
             line-height: 1.5;
         }
 
         .stat-number {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         /* Spoiler Control - Toggle Slider */
@@ -360,7 +417,7 @@
 
         .toggle-label {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             letter-spacing: 0.05em;
         }
 
@@ -368,15 +425,15 @@
             position: relative;
             width: 32px;
             height: 16px;
-            background: #2a2826;
+            background: var(--bg-hover);
             border-radius: 8px;
             cursor: pointer;
             transition: background 200ms ease;
-            border: 1px solid #3a3836;
+            border: 1px solid var(--border-primary);
         }
 
         .toggle-switch.active {
-            background: #4a4540;
+            background: var(--bg-active-alt);
         }
 
         .toggle-slider {
@@ -385,14 +442,14 @@
             left: 2px;
             width: 10px;
             height: 10px;
-            background: #6b6560;
+            background: var(--text-muted);
             border-radius: 50%;
             transition: all 200ms ease;
         }
 
         .toggle-switch.active .toggle-slider {
             left: 18px;
-            background: #9a958e;
+            background: var(--text-secondary);
         }
 
         /* Game List - Card-free */
@@ -416,14 +473,15 @@
         .matchup {
             font-size: 52px;
             font-weight: 400;
-            color: #ede9e3;
+            color: var(--text-primary);
             line-height: 1.1;
             letter-spacing: -0.01em;
             transition: color 150ms ease;
         }
 
         .game-row:hover .matchup {
-            color: #ffffff;
+            color: var(--text-primary);
+            filter: brightness(1.1);
         }
 
         .vs-separator {
@@ -444,7 +502,7 @@
 
         .score-pie-bg {
             fill: none;
-            stroke: #2a2826;
+            stroke: var(--border-secondary);
             stroke-width: 3;
         }
 
@@ -456,15 +514,15 @@
         }
 
         .score-pie-fill.must-watch {
-            stroke: #8a9680;
+            stroke: var(--accent-must-watch);
         }
 
         .score-pie-fill.recommended {
-            stroke: #a09a92;
+            stroke: var(--accent-recommended);
         }
 
         .score-pie-fill.skip {
-            stroke: #a08078;
+            stroke: var(--accent-skip);
         }
 
         .score-pie-value {
@@ -474,7 +532,7 @@
             transform: translate(-50%, -50%);
             font-size: 13px;
             font-weight: 500;
-            color: #ede9e3;
+            color: var(--text-primary);
             line-height: 1;
         }
 
@@ -487,20 +545,20 @@
         }
 
         .rating.must-watch {
-            color: #8a9680;
+            color: var(--accent-must-watch);
         }
 
         .rating.recommended {
-            color: #a09a92;
+            color: var(--accent-recommended);
         }
 
         .rating.skip {
-            color: #a08078;
+            color: var(--accent-skip);
         }
 
         .game-score {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             opacity: 0;
             max-height: 0;
             overflow: hidden;
@@ -514,7 +572,7 @@
 
         .game-recap-link {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: underline;
             margin-top: 8px;
             display: inline-block;
@@ -522,14 +580,14 @@
         }
 
         .game-recap-link:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         /* Date Picker - Custom Calendar */
         .date-picker {
             position: absolute;
-            background: #1c1a19;
-            border: 1px solid #3a3836;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
             border-radius: 2px;
             padding: 16px;
             margin-top: 8px;
@@ -549,12 +607,12 @@
             justify-content: space-between;
             margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #2a2826;
+            border-bottom: 1px solid var(--border-secondary);
         }
 
         .date-picker-month {
             font-size: 11px;
-            color: #ede9e3;
+            color: var(--text-primary);
             letter-spacing: 0.05em;
         }
 
@@ -565,19 +623,19 @@
 
         .date-picker-nav-btn {
             font-size: 11px;
-            color: #9a958e;
+            color: var(--text-secondary);
             cursor: pointer;
             padding: 4px 8px;
-            border: 1px solid #2a2826;
+            border: 1px solid var(--border-secondary);
             border-radius: 2px;
             transition: all 150ms ease;
             background: transparent;
         }
 
         .date-picker-nav-btn:hover {
-            background: #2a2826;
-            border-color: #3a3836;
-            color: #ede9e3;
+            background: var(--bg-hover);
+            border-color: var(--border-primary);
+            color: var(--text-primary);
         }
 
         .date-grid {
@@ -588,7 +646,7 @@
 
         .date-grid-header {
             font-size: 9px;
-            color: #6b6560;
+            color: var(--text-muted);
             text-align: center;
             padding: 6px 0;
             letter-spacing: 0.05em;
@@ -597,7 +655,7 @@
 
         .date-item {
             font-size: 11px;
-            color: #9a958e;
+            color: var(--text-secondary);
             padding: 8px;
             text-align: center;
             cursor: pointer;
@@ -607,24 +665,24 @@
         }
 
         .date-item:hover:not(.disabled) {
-            background: #2a2826;
-            border-color: #3a3836;
-            color: #ede9e3;
+            background: var(--bg-hover);
+            border-color: var(--border-primary);
+            color: var(--text-primary);
         }
 
         .date-item.selected {
-            background: #3a3836;
-            border-color: #4a4540;
-            color: #ede9e3;
+            background: var(--bg-active);
+            border-color: var(--bg-active-alt);
+            color: var(--text-primary);
         }
 
         .date-item.disabled {
-            color: #3a3836;
+            color: var(--border-primary);
             cursor: not-allowed;
         }
 
         .date-item.other-month {
-            color: #3a3836;
+            color: var(--border-primary);
         }
 
         /* Radar Chart */
@@ -640,25 +698,26 @@
 
         .radar-grid {
             fill: none;
-            stroke: #4a4540;
+            stroke: var(--bg-active-alt);
             stroke-width: 1;
         }
 
         .radar-axis {
-            stroke: #6b6560;
+            stroke: var(--text-muted);
             stroke-width: 1.5;
         }
 
         .radar-fill {
-            fill: rgba(138, 150, 128, 0.4);
-            stroke: #8a9680;
+            fill: var(--accent-must-watch);
+            fill-opacity: 0.4;
+            stroke: var(--accent-must-watch);
             stroke-width: 2;
         }
 
         .radar-label {
             font-family: monospace;
             font-size: 11px;
-            fill: #9a958e;
+            fill: var(--text-secondary);
             text-anchor: middle;
             font-weight: 500;
         }
@@ -666,7 +725,7 @@
         .radar-value {
             font-family: monospace;
             font-size: 12px;
-            fill: #ede9e3;
+            fill: var(--text-primary);
             text-anchor: middle;
             font-weight: 600;
         }
@@ -676,21 +735,21 @@
         }
 
         .radar-label-group:hover .radar-label {
-            fill: #ede9e3;
+            fill: var(--text-primary);
         }
 
         .radar-label-group:hover .radar-value {
-            fill: #8a9680;
+            fill: var(--accent-must-watch);
         }
 
         .metric-tooltip {
             position: absolute;
-            background: #2a2826;
-            border: 1px solid #4a4540;
+            background: var(--bg-hover);
+            border: 1px solid var(--bg-active-alt);
             padding: 8px 12px;
             border-radius: 2px;
             font-size: 11px;
-            color: #ede9e3;
+            color: var(--text-primary);
             pointer-events: none;
             z-index: 1000;
             max-width: 200px;
@@ -699,7 +758,7 @@
 
         .breakdown-toggle {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: underline;
             margin-top: 8px;
             display: inline-block;
@@ -712,7 +771,7 @@
         }
 
         .breakdown-toggle:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         /* Mobile-only score-rating line */
@@ -727,7 +786,7 @@
 
         .loading-text {
             font-size: 13px;
-            color: #6b6560;
+            color: var(--text-muted);
             animation: pulse-opacity 1.4s ease-in-out infinite;
         }
 
@@ -747,7 +806,7 @@
 
         .empty-message {
             font-size: 13px;
-            color: #6b6560;
+            color: var(--text-muted);
         }
 
         /* Footer */
@@ -758,19 +817,19 @@
 
         .footer-text {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             line-height: 1.6;
             max-width: 500px;
         }
 
         .footer-link {
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: underline;
             transition: color 150ms ease;
         }
 
         .footer-link:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         /* Mobile Responsive */
@@ -802,20 +861,20 @@
             }
 
             .score-rating-line .score-separator {
-                color: #6b6560;
+                color: var(--text-muted);
             }
 
             /* Color rating text by tier */
             .score-rating-line.must-watch .rating-text {
-                color: #8a9680;
+                color: var(--accent-must-watch);
             }
 
             .score-rating-line.recommended .rating-text {
-                color: #a09a92;
+                color: var(--accent-recommended);
             }
 
             .score-rating-line.skip .rating-text {
-                color: #a08078;
+                color: var(--accent-skip);
             }
 
             /* Hide desktop-only elements */
@@ -866,20 +925,20 @@
 
         /* Team Lookup Feature */
         .find-game-link {
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: underline;
             cursor: pointer;
             transition: color 150ms ease;
         }
 
         .find-game-link:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         .team-picker {
             position: absolute;
-            background: #1c1a19;
-            border: 1px solid #3a3836;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
             border-radius: 2px;
             padding: 16px;
             margin-top: 8px;
@@ -896,22 +955,22 @@
 
         .team-search-input {
             width: 100%;
-            background: #2a2826;
-            border: 1px solid #3a3836;
+            background: var(--bg-hover);
+            border: 1px solid var(--border-primary);
             border-radius: 2px;
             padding: 8px 12px;
             font-size: 13px;
-            color: #ede9e3;
+            color: var(--text-primary);
             margin-bottom: 12px;
             outline: none;
         }
 
         .team-search-input::placeholder {
-            color: #6b6560;
+            color: var(--text-muted);
         }
 
         .team-search-input:focus {
-            border-color: #4a4540;
+            border-color: var(--bg-active-alt);
         }
 
         .team-list {
@@ -921,15 +980,15 @@
 
         .team-item {
             font-size: 13px;
-            color: #9a958e;
+            color: var(--text-secondary);
             padding: 8px 0;
             cursor: pointer;
             transition: color 150ms ease;
-            border-bottom: 1px solid #2a2826;
+            border-bottom: 1px solid var(--border-secondary);
         }
 
         .team-item:hover {
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         .team-item:last-child {
@@ -938,17 +997,17 @@
 
         .schedule-header {
             font-size: 13px;
-            color: #ede9e3;
+            color: var(--text-primary);
             margin-bottom: 8px;
         }
 
         .schedule-season {
-            color: #9a958e;
+            color: var(--text-secondary);
         }
 
         .back-link {
             font-size: 11px;
-            color: #6b6560;
+            color: var(--text-muted);
             text-decoration: none;
             display: inline-block;
             margin-bottom: 32px;
@@ -957,7 +1016,7 @@
         }
 
         .back-link:hover {
-            color: #9a958e;
+            color: var(--text-secondary);
             text-decoration: underline;
         }
 
@@ -969,21 +1028,21 @@
 
         .schedule-row {
             font-size: 13px;
-            color: #9a958e;
+            color: var(--text-secondary);
             cursor: pointer;
             transition: color 150ms ease;
         }
 
         .schedule-row:hover {
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         .schedule-week {
-            color: #6b6560;
+            color: var(--text-muted);
         }
 
         .schedule-result {
-            color: #ede9e3;
+            color: var(--text-primary);
         }
 
         /* Hidden utility */
@@ -996,6 +1055,8 @@
     <div class="container">
         <nav class="main-nav">
             <a href="#" class="nav-link" id="aboutLink">about</a>
+            <span class="separator">·</span>
+            <a href="#" class="nav-link" id="themeToggle">light</a>
         </nav>
 
         <div class="main-content" id="mainContent">
@@ -1254,6 +1315,9 @@
         let currentGames = null;
         let isLoading = false;
 
+        // Theme state
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
         // Team lookup state
         let viewMode = 'week'; // 'week' | 'schedule' | 'single-game'
         let selectedTeam = null;
@@ -1263,9 +1327,25 @@
 
         // Initialize
         function init() {
+            updateThemeToggleText();
             attachEventListeners();
             updateUI();
             loadGames();
+        }
+
+        // Theme Toggle Functions
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            updateThemeToggleText();
+        }
+
+        function updateThemeToggleText() {
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.textContent = currentTheme === 'dark' ? 'light' : 'dark';
+            }
         }
 
         // Update UI elements
@@ -1527,6 +1607,12 @@
                     mainContent.classList.remove('hidden');
                     e.target.textContent = 'about';
                 }
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleTheme();
             });
 
             // Week picker toggle
