@@ -2117,12 +2117,26 @@
                     </div>
                     <a href="#" class="back-link" id="backToWeek">← back to week ${selectedWeek}</a>
 
+                    <div class="spoiler-toggle-wrapper">
+                        <span class="toggle-label">show results</span>
+                        <div class="toggle-switch ${!spoilerFree ? 'active' : ''}" id="scheduleScoreToggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+
                     <div class="schedule-list">
             `;
 
             games.forEach(game => {
-                const weekText = game.week ? `week ${game.week}` : game.displayDate;
+                // Handle postseason/bowl game labeling
+                const weekText = game.isPostseason
+                    ? (game.bowlName || 'bowl game')
+                    : (game.week ? `week ${game.week}` : game.displayDate);
+
                 const locationPrefix = game.homeAway === 'home' ? 'vs' : '@';
+
+                // Show results based on spoiler state
+                const resultText = spoilerFree ? 'final' : game.result;
 
                 html += `
                     <div class="schedule-row" data-game-id="${game.id}">
@@ -2132,7 +2146,7 @@
                         <span class="separator">·</span>
                         <span class="schedule-opponent">${locationPrefix} ${game.opponent}</span>
                         <span class="separator">·</span>
-                        <span class="schedule-result">${game.result}</span>
+                        <span class="schedule-result">${resultText}</span>
                     </div>
                 `;
             });
@@ -2149,6 +2163,16 @@
                 e.preventDefault();
                 backToWeek();
             });
+
+            // Toggle listener
+            const toggle = document.getElementById('scheduleScoreToggle');
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    spoilerFree = !spoilerFree;
+                    localStorage.setItem('spoilerFree', spoilerFree);
+                    displaySchedule(team, games);  // Re-render with new spoiler state
+                });
+            }
 
             document.querySelectorAll('.schedule-row').forEach(row => {
                 row.addEventListener('click', () => {

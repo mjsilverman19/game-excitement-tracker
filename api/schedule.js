@@ -132,6 +132,10 @@ export default async function handler(req, res) {
         // Get week number
         const week = event.week?.number || event.seasonType?.week || null;
 
+        // Detect postseason and bowl name
+        const isPostseason = event.seasonType?.type === 3 || event.seasonType?.id === '3';
+        const bowlName = event.competitions?.[0]?.notes?.[0]?.headline || null;
+
         return {
           id: event.id,
           week: week,
@@ -140,7 +144,9 @@ export default async function handler(req, res) {
           opponent: opponent,
           homeAway: isHome ? 'home' : 'away',
           result: resultText,
-          completed: true
+          completed: true,
+          isPostseason: isPostseason,
+          bowlName: bowlName
         };
       })
       .filter(game => game !== null);
