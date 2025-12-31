@@ -1213,6 +1213,90 @@
             margin-top: 16px;
             line-height: 1.5;
         }
+
+        .export-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .export-preset-btn {
+            font-size: 11px;
+            color: var(--text-primary);
+            background: var(--bg-hover);
+            border: 1px solid var(--border-primary);
+            border-radius: 2px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            letter-spacing: 0.05em;
+        }
+
+        .export-preset-btn:hover {
+            background: var(--bg-active);
+            border-color: var(--bg-active-alt);
+        }
+
+        .export-preset-btn.active {
+            background: var(--bg-active-alt);
+            border-color: var(--bg-active-alt);
+            color: var(--text-primary);
+        }
+
+        .export-custom-range {
+            margin-top: 12px;
+        }
+
+        .export-range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .export-range-select {
+            flex: 1;
+            background: var(--bg-hover);
+            border: 1px solid var(--border-primary);
+            border-radius: 2px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: var(--text-primary);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .export-range-select:focus {
+            border-color: var(--bg-active-alt);
+        }
+
+        .export-date-input {
+            flex: 1;
+            background: var(--bg-hover);
+            border: 1px solid var(--border-primary);
+            border-radius: 2px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .export-date-input:focus {
+            border-color: var(--bg-active-alt);
+        }
+
+        .export-range-separator {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .export-validation-message {
+            font-size: 11px;
+            color: #ef4444;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -1408,6 +1492,40 @@
                     <!-- Options populated by JavaScript -->
                 </select>
             </div>
+
+            <div class="export-form-group" id="weekRangeGroup">
+                <label class="export-label">Weeks</label>
+                <div class="export-presets" id="exportPresets">
+                    <!-- Preset buttons populated by JavaScript -->
+                </div>
+                <div class="export-custom-range" id="exportCustomRange" style="display: none;">
+                    <div class="export-range-inputs">
+                        <select class="export-range-select" id="exportStartWeek">
+                            <!-- Options populated by JavaScript -->
+                        </select>
+                        <span class="export-range-separator">to</span>
+                        <select class="export-range-select" id="exportEndWeek">
+                            <!-- Options populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-form-group" id="dateRangeGroup" style="display: none;">
+                <label class="export-label">Dates</label>
+                <div class="export-presets" id="exportDatePresets">
+                    <!-- Preset buttons populated by JavaScript -->
+                </div>
+                <div class="export-custom-range" id="exportCustomDateRange" style="display: none;">
+                    <div class="export-range-inputs">
+                        <input type="date" class="export-date-input" id="exportStartDate">
+                        <span class="export-range-separator">to</span>
+                        <input type="date" class="export-date-input" id="exportEndDate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-validation-message" id="exportValidationMessage" style="display: none;"></div>
 
             <div class="export-progress" id="exportProgress">
                 <div class="export-progress-text" id="exportProgressText">Fetching week 1 of 18...</div>
@@ -2706,6 +2824,199 @@
 
         let exportCancelled = false;
 
+        // Get week range presets for a sport
+        function getWeekRangePresets(sport) {
+            if (sport === 'NFL') {
+                return [
+                    { label: 'All', value: 'all', start: 1, end: 18 },
+                    { label: 'First Half', value: 'first-half', start: 1, end: 9 },
+                    { label: 'Second Half', value: 'second-half', start: 10, end: 18 },
+                    { label: 'Custom', value: 'custom', start: null, end: null }
+                ];
+            } else if (sport === 'CFB') {
+                return [
+                    { label: 'All', value: 'all', start: 1, end: 'bowls' },
+                    { label: 'Regular Season', value: 'regular', start: 1, end: 15 },
+                    { label: 'Bowls Only', value: 'bowls', start: 'bowls', end: 'bowls' },
+                    { label: 'Custom', value: 'custom', start: null, end: null }
+                ];
+            } else if (sport === 'NBA') {
+                // NBA uses date ranges
+                const currentSeasonInfo = getCurrentWeek('NBA');
+                const season = currentSeasonInfo.season;
+                return [
+                    { label: 'All', value: 'all', start: `${season}-10-01`, end: `${season + 1}-04-30` },
+                    { label: 'Pre-All-Star', value: 'pre-allstar', start: `${season}-10-01`, end: `${season + 1}-02-15` },
+                    { label: 'Post-All-Star', value: 'post-allstar', start: `${season + 1}-02-16`, end: `${season + 1}-04-30` },
+                    { label: 'Custom', value: 'custom', start: null, end: null }
+                ];
+            }
+            return [];
+        }
+
+        // Populate week range UI
+        function populateWeekRangeUI(sport) {
+            const weekRangeGroup = document.getElementById('weekRangeGroup');
+            const dateRangeGroup = document.getElementById('dateRangeGroup');
+            const exportPresets = document.getElementById('exportPresets');
+            const exportDatePresets = document.getElementById('exportDatePresets');
+            const exportStartWeek = document.getElementById('exportStartWeek');
+            const exportEndWeek = document.getElementById('exportEndWeek');
+            const validationMessage = document.getElementById('exportValidationMessage');
+
+            // Clear validation message
+            validationMessage.style.display = 'none';
+            validationMessage.textContent = '';
+
+            // Show/hide appropriate range UI
+            if (sport === 'NBA') {
+                weekRangeGroup.style.display = 'none';
+                dateRangeGroup.style.display = 'block';
+            } else {
+                weekRangeGroup.style.display = 'block';
+                dateRangeGroup.style.display = 'none';
+            }
+
+            // Get presets for the sport
+            const presets = getWeekRangePresets(sport);
+
+            // Populate preset buttons
+            const presetsContainer = sport === 'NBA' ? exportDatePresets : exportPresets;
+            presetsContainer.innerHTML = '';
+
+            presets.forEach(preset => {
+                const btn = document.createElement('button');
+                btn.className = 'export-preset-btn';
+                btn.textContent = preset.label;
+                btn.dataset.value = preset.value;
+                btn.dataset.start = preset.start;
+                btn.dataset.end = preset.end;
+
+                // Set "All" as default active
+                if (preset.value === 'all') {
+                    btn.classList.add('active');
+                }
+
+                presetsContainer.appendChild(btn);
+            });
+
+            // Populate week dropdowns for NFL/CFB
+            if (sport !== 'NBA') {
+                let weekOptions = [];
+                if (sport === 'NFL') {
+                    weekOptions = Array.from({ length: 18 }, (_, i) => ({ value: i + 1, label: `Week ${i + 1}` }));
+                } else if (sport === 'CFB') {
+                    weekOptions = Array.from({ length: 15 }, (_, i) => ({ value: i + 1, label: `Week ${i + 1}` }));
+                    weekOptions.push({ value: 'bowls', label: 'Bowls' });
+                }
+
+                exportStartWeek.innerHTML = weekOptions.map(opt =>
+                    `<option value="${opt.value}">${opt.label}</option>`
+                ).join('');
+                exportEndWeek.innerHTML = weekOptions.map(opt =>
+                    `<option value="${opt.value}">${opt.label}</option>`
+                ).join('');
+
+                // Set default to full range
+                exportStartWeek.value = weekOptions[0].value;
+                exportEndWeek.value = weekOptions[weekOptions.length - 1].value;
+            }
+        }
+
+        // Handle preset selection
+        function handlePresetSelection(sport, preset) {
+            const exportCustomRange = document.getElementById('exportCustomRange');
+            const exportCustomDateRange = document.getElementById('exportCustomDateRange');
+            const exportStartWeek = document.getElementById('exportStartWeek');
+            const exportEndWeek = document.getElementById('exportEndWeek');
+            const exportStartDate = document.getElementById('exportStartDate');
+            const exportEndDate = document.getElementById('exportEndDate');
+            const validationMessage = document.getElementById('exportValidationMessage');
+
+            // Clear validation
+            validationMessage.style.display = 'none';
+            validationMessage.textContent = '';
+
+            if (preset.value === 'custom') {
+                // Show custom range inputs
+                if (sport === 'NBA') {
+                    exportCustomDateRange.style.display = 'block';
+                    const currentSeasonInfo = getCurrentWeek('NBA');
+                    const season = currentSeasonInfo.season;
+                    exportStartDate.value = `${season}-10-01`;
+                    exportEndDate.value = `${season + 1}-04-30`;
+                } else {
+                    exportCustomRange.style.display = 'block';
+                }
+            } else {
+                // Hide custom range inputs
+                exportCustomRange.style.display = 'none';
+                exportCustomDateRange.style.display = 'none';
+
+                // Set values from preset
+                if (sport === 'NBA') {
+                    exportStartDate.value = preset.start;
+                    exportEndDate.value = preset.end;
+                } else {
+                    exportStartWeek.value = preset.start;
+                    exportEndWeek.value = preset.end;
+                }
+            }
+
+            // Validate the selection
+            validateRangeSelection(sport);
+        }
+
+        // Validate range selection
+        function validateRangeSelection(sport) {
+            const validationMessage = document.getElementById('exportValidationMessage');
+            const downloadBtn = document.getElementById('exportDownloadBtn');
+
+            if (sport === 'NBA') {
+                const startDate = document.getElementById('exportStartDate').value;
+                const endDate = document.getElementById('exportEndDate').value;
+
+                if (!startDate || !endDate) {
+                    validationMessage.textContent = 'Please select both start and end dates.';
+                    validationMessage.style.display = 'block';
+                    downloadBtn.disabled = true;
+                    return false;
+                }
+
+                if (new Date(startDate) > new Date(endDate)) {
+                    validationMessage.textContent = 'End date must be after start date.';
+                    validationMessage.style.display = 'block';
+                    downloadBtn.disabled = true;
+                    return false;
+                }
+            } else {
+                const startWeek = document.getElementById('exportStartWeek').value;
+                const endWeek = document.getElementById('exportEndWeek').value;
+
+                // Handle bowls special case
+                if (startWeek === 'bowls' && endWeek !== 'bowls') {
+                    validationMessage.textContent = 'Invalid range: Bowls must be the end of the range.';
+                    validationMessage.style.display = 'block';
+                    downloadBtn.disabled = true;
+                    return false;
+                }
+
+                // Compare numeric weeks
+                if (startWeek !== 'bowls' && endWeek !== 'bowls' && parseInt(startWeek) > parseInt(endWeek)) {
+                    validationMessage.textContent = 'Start week must be before or equal to end week.';
+                    validationMessage.style.display = 'block';
+                    downloadBtn.disabled = true;
+                    return false;
+                }
+            }
+
+            // Valid selection
+            validationMessage.style.display = 'none';
+            validationMessage.textContent = '';
+            downloadBtn.disabled = false;
+            return true;
+        }
+
         // Open export modal
         function openExportModal() {
             const modal = document.getElementById('exportModal');
@@ -2727,6 +3038,9 @@
             } else {
                 warningDiv.style.display = 'none';
             }
+
+            // Populate week range UI
+            populateWeekRangeUI(selectedSport);
 
             // Show modal
             modal.classList.add('visible');
@@ -2775,25 +3089,97 @@
             downloadBtn.disabled = false;
         }
 
+        // Get range information for display and filename
+        function getRangeInfo(sport, rangeStart, rangeEnd) {
+            let isPartial = false;
+            let label = '';
+            let filenameSuffix = 'full-season';
+
+            if (sport === 'NFL') {
+                const defaultStart = 1;
+                const defaultEnd = 18;
+                isPartial = rangeStart !== defaultStart || rangeEnd !== defaultEnd;
+                if (isPartial) {
+                    label = `weeks ${rangeStart}-${rangeEnd}`;
+                    filenameSuffix = `weeks-${rangeStart}-${rangeEnd}`;
+                }
+            } else if (sport === 'CFB') {
+                const isBowlsOnly = rangeStart === 'bowls' && rangeEnd === 'bowls';
+                const isFullSeason = rangeStart === 1 && rangeEnd === 'bowls';
+
+                if (isBowlsOnly) {
+                    isPartial = true;
+                    label = 'bowls only';
+                    filenameSuffix = 'bowls';
+                } else if (!isFullSeason) {
+                    isPartial = true;
+                    if (rangeEnd === 'bowls') {
+                        label = `weeks ${rangeStart}-15 + bowls`;
+                        filenameSuffix = `weeks-${rangeStart}-bowls`;
+                    } else {
+                        label = `weeks ${rangeStart}-${rangeEnd}`;
+                        filenameSuffix = `weeks-${rangeStart}-${rangeEnd}`;
+                    }
+                }
+            } else if (sport === 'NBA') {
+                // Check if it's a partial season by comparing dates
+                const currentSeasonInfo = getCurrentWeek('NBA');
+                const season = currentSeasonInfo.season;
+                const defaultStart = `${season}-10-01`;
+                const defaultEnd = `${season + 1}-04-30`;
+
+                if (rangeStart && rangeEnd && (rangeStart !== defaultStart || rangeEnd !== defaultEnd)) {
+                    isPartial = true;
+                    // Format dates for display (e.g., "Oct-Dec")
+                    const startDate = new Date(rangeStart);
+                    const endDate = new Date(rangeEnd);
+                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const startMonth = monthNames[startDate.getMonth()];
+                    const endMonth = monthNames[endDate.getMonth()];
+                    label = `${startMonth}-${endMonth}`;
+                    filenameSuffix = `${startMonth.toLowerCase()}-${endMonth.toLowerCase()}`;
+                }
+            }
+
+            return { isPartial, label, filenameSuffix };
+        }
+
         // Fetch all weeks for a season
-        async function fetchAllWeeks(sport, season) {
+        async function fetchAllWeeks(sport, season, rangeStart = null, rangeEnd = null) {
             const allGames = [];
             let weeks = [];
             let useDateBasedFetch = false;
 
             // Determine weeks to fetch based on sport
             if (sport === 'NFL') {
-                weeks = Array.from({ length: 18 }, (_, i) => i + 1);
+                const start = rangeStart || 1;
+                const end = rangeEnd || 18;
+                weeks = Array.from({ length: end - start + 1 }, (_, i) => start + i);
             } else if (sport === 'CFB') {
-                weeks = Array.from({ length: 15 }, (_, i) => i + 1);
-                // Add bowls
-                weeks.push('bowls');
+                const start = (rangeStart === 'bowls') ? 'bowls' : (rangeStart || 1);
+                const end = (rangeEnd === 'bowls') ? 'bowls' : (rangeEnd || 15);
+
+                if (start === 'bowls' && end === 'bowls') {
+                    // Bowls only
+                    weeks = ['bowls'];
+                } else if (start === 'bowls') {
+                    // Invalid: can't start with bowls
+                    weeks = ['bowls'];
+                } else {
+                    // Regular weeks
+                    weeks = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+                    // Add bowls if end is 'bowls'
+                    if (rangeEnd === 'bowls') {
+                        weeks.push('bowls');
+                    }
+                }
             } else if (sport === 'NBA') {
                 // NBA uses date-based fetching
                 useDateBasedFetch = true;
-                // For NBA, we'll fetch from Oct 1 to current date
-                const startDate = new Date(season, 9, 1); // Oct 1
-                const endDate = new Date(); // Today
+                // Use provided date range or default to Oct 1 - Today
+                const startDate = rangeStart ? new Date(rangeStart) : new Date(season, 9, 1);
+                const endDate = rangeEnd ? new Date(rangeEnd) : new Date();
                 const daysDiff = Math.floor((endDate - startDate) / (24 * 60 * 60 * 1000));
 
                 weeks = Array.from({ length: daysDiff + 1 }, (_, i) => {
@@ -2804,6 +3190,7 @@
             }
 
             const totalWeeks = weeks.length;
+            const rangeInfo = getRangeInfo(sport, rangeStart, rangeEnd);
 
             for (let i = 0; i < weeks.length; i++) {
                 if (exportCancelled) {
@@ -2814,11 +3201,19 @@
                 let progressMessage;
 
                 if (useDateBasedFetch) {
-                    progressMessage = `Fetching date ${i + 1} of ${totalWeeks}...`;
+                    if (rangeInfo.isPartial) {
+                        progressMessage = `Fetching date ${i + 1} of ${totalWeeks} (${rangeInfo.label})...`;
+                    } else {
+                        progressMessage = `Fetching date ${i + 1} of ${totalWeeks}...`;
+                    }
                 } else if (week === 'bowls') {
                     progressMessage = `Fetching bowl games...`;
                 } else {
-                    progressMessage = `Fetching week ${week} of ${totalWeeks}...`;
+                    if (rangeInfo.isPartial) {
+                        progressMessage = `Fetching week ${week} (${rangeInfo.label})...`;
+                    } else {
+                        progressMessage = `Fetching week ${week} of ${totalWeeks}...`;
+                    }
                 }
 
                 showExportProgress(i + 1, totalWeeks, progressMessage);
@@ -2874,14 +3269,34 @@
             const sport = sportSelect.value;
             const season = parseInt(seasonSelect.value);
 
+            // Get selected range
+            let rangeStart, rangeEnd;
+            if (sport === 'NBA') {
+                rangeStart = document.getElementById('exportStartDate').value;
+                rangeEnd = document.getElementById('exportEndDate').value;
+            } else {
+                rangeStart = document.getElementById('exportStartWeek').value;
+                rangeEnd = document.getElementById('exportEndWeek').value;
+                // Convert to numbers if not 'bowls'
+                if (rangeStart !== 'bowls') rangeStart = parseInt(rangeStart);
+                if (rangeEnd !== 'bowls') rangeEnd = parseInt(rangeEnd);
+            }
+
+            // Validate range before proceeding
+            if (!validateRangeSelection(sport)) {
+                return;
+            }
+
             try {
                 showExportProgress(0, 100, 'Starting export...');
 
-                // Fetch all games for the season
-                const allGames = await fetchAllWeeks(sport, season);
+                // Fetch all games for the selected range
+                const allGames = await fetchAllWeeks(sport, season, rangeStart, rangeEnd);
 
                 if (allGames.length === 0) {
-                    alert('No games found for this season.');
+                    const validationMessage = document.getElementById('exportValidationMessage');
+                    validationMessage.textContent = 'No completed games in selected range.';
+                    validationMessage.style.display = 'block';
                     hideExportProgress();
                     return;
                 }
@@ -2957,12 +3372,13 @@
                 // Add worksheet to workbook
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Games');
 
-                // Generate filename
+                // Generate filename with range info
+                const rangeInfo = getRangeInfo(sport, rangeStart, rangeEnd);
                 let filename;
                 if (sport === 'NBA') {
-                    filename = `gei-nba-${season}-${season + 1}-full-season.xlsx`;
+                    filename = `gei-nba-${season}-${season + 1}-${rangeInfo.filenameSuffix}.xlsx`;
                 } else {
-                    filename = `gei-${sport.toLowerCase()}-${season}-full-season.xlsx`;
+                    filename = `gei-${sport.toLowerCase()}-${season}-${rangeInfo.filenameSuffix}.xlsx`;
                 }
 
                 // Download file
@@ -3023,6 +3439,84 @@
                 // Update season options
                 const currentSeasonInfo = getCurrentWeek(sport);
                 seasonSelect.innerHTML = `<option value="${currentSeasonInfo.season}">${currentSeasonInfo.season}</option>`;
+
+                // Repopulate week range UI
+                populateWeekRangeUI(sport);
+            });
+
+            // Event delegation for preset buttons (since they're dynamically created)
+            document.getElementById('exportPresets').addEventListener('click', (e) => {
+                if (e.target.classList.contains('export-preset-btn')) {
+                    const sport = document.getElementById('exportSportSelect').value;
+
+                    // Remove active class from all buttons
+                    document.querySelectorAll('#exportPresets .export-preset-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button
+                    e.target.classList.add('active');
+
+                    // Handle preset selection
+                    const preset = {
+                        value: e.target.dataset.value,
+                        start: e.target.dataset.start === 'null' ? null : e.target.dataset.start,
+                        end: e.target.dataset.end === 'null' ? null : e.target.dataset.end
+                    };
+
+                    // Convert to numbers if applicable
+                    if (preset.start && preset.start !== 'bowls') {
+                        preset.start = parseInt(preset.start);
+                    }
+                    if (preset.end && preset.end !== 'bowls') {
+                        preset.end = parseInt(preset.end);
+                    }
+
+                    handlePresetSelection(sport, preset);
+                }
+            });
+
+            // Event delegation for NBA date preset buttons
+            document.getElementById('exportDatePresets').addEventListener('click', (e) => {
+                if (e.target.classList.contains('export-preset-btn')) {
+                    const sport = document.getElementById('exportSportSelect').value;
+
+                    // Remove active class from all buttons
+                    document.querySelectorAll('#exportDatePresets .export-preset-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button
+                    e.target.classList.add('active');
+
+                    // Handle preset selection
+                    const preset = {
+                        value: e.target.dataset.value,
+                        start: e.target.dataset.start === 'null' ? null : e.target.dataset.start,
+                        end: e.target.dataset.end === 'null' ? null : e.target.dataset.end
+                    };
+
+                    handlePresetSelection(sport, preset);
+                }
+            });
+
+            // Custom range inputs validation
+            document.getElementById('exportStartWeek').addEventListener('change', () => {
+                const sport = document.getElementById('exportSportSelect').value;
+                validateRangeSelection(sport);
+            });
+
+            document.getElementById('exportEndWeek').addEventListener('change', () => {
+                const sport = document.getElementById('exportSportSelect').value;
+                validateRangeSelection(sport);
+            });
+
+            document.getElementById('exportStartDate').addEventListener('change', () => {
+                validateRangeSelection('NBA');
+            });
+
+            document.getElementById('exportEndDate').addEventListener('change', () => {
+                validateRangeSelection('NBA');
             });
         }
 
