@@ -1578,6 +1578,11 @@
 
         // Render radar chart for metric breakdown
         function renderRadarChart(breakdown) {
+            // Handle missing or empty breakdown data
+            if (!breakdown || Object.keys(breakdown).length === 0) {
+                return '<div style="color: #6b6560; font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
+            }
+
             const metrics = [
                 { key: 'lateGame', label: 'late_game' },
                 { key: 'dramaticFinish', label: 'dramatic_finish' },
@@ -1727,14 +1732,26 @@
         function attachRadarChartListeners() {
             document.querySelectorAll('.score-pie').forEach(pie => {
                 pie.addEventListener('click', (e) => {
-                    const breakdown = JSON.parse(pie.dataset.breakdown);
-                    const gameRow = pie.closest('.game-row');
-                    const container = gameRow.querySelector('.game-breakdown');
+                    console.log('Score pie clicked');
+                    console.log('Breakdown data:', pie.dataset.breakdown);
 
-                    if (container.innerHTML) {
-                        container.innerHTML = '';
-                    } else {
-                        container.innerHTML = renderRadarChart(breakdown);
+                    try {
+                        const breakdown = JSON.parse(pie.dataset.breakdown);
+                        console.log('Parsed breakdown:', breakdown);
+
+                        const gameRow = pie.closest('.game-row');
+                        const container = gameRow.querySelector('.game-breakdown');
+                        console.log('Container found:', container);
+
+                        if (container.innerHTML) {
+                            console.log('Collapsing chart');
+                            container.innerHTML = '';
+                        } else {
+                            console.log('Rendering chart');
+                            container.innerHTML = renderRadarChart(breakdown);
+                        }
+                    } catch (error) {
+                        console.error('Error in radar chart click handler:', error);
                     }
                 });
             });
