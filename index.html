@@ -630,8 +630,10 @@
                         <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
                         <span class="separator">·</span>
                         <span class="sport-option" data-sport="CFB" id="cfbOption">cfb</span>
+                        <span class="separator">·</span>
+                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba</span>
                     </div>
-                    <div class="season-week-selector" style="position: relative;">
+                    <div class="season-week-selector" id="weekSelector" style="position: relative;">
                         <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
                         <span class="separator">·</span>
                         <span class="current-selection" id="currentWeekDisplay">2024 · week 16</span>
@@ -651,6 +653,13 @@
                                 <!-- Week buttons populated by JS -->
                             </div>
                         </div>
+                    </div>
+                    <div class="season-week-selector" id="dateSelector" style="position: relative; display: none;">
+                        <a href="#" class="week-nav-link" id="prevDate">← <span id="prevDateDisplay"></span></a>
+                        <span class="separator">·</span>
+                        <span class="current-selection" id="currentDateDisplay">yesterday</span>
+                        <span class="separator">·</span>
+                        <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
                     </div>
                 </div>
 
@@ -694,7 +703,7 @@
 
                 <section class="about-section">
                     <h3>How to use</h3>
-                    <p>Select your sport (NFL or CFB) and navigate between weeks. Games are automatically ranked by entertainment value. Click any game row to reveal its score if you're browsing spoiler-free.</p>
+                    <p>Select your sport (NFL, CFB, or NBA) and navigate between weeks (for football) or dates (for basketball). Games are automatically ranked by entertainment value. Use the "show scores" toggle to reveal final scores if you're browsing spoiler-free.</p>
                 </section>
             </div>
         </div>
@@ -787,6 +796,7 @@
         let selectedSport = 'NFL';
         let selectedSeason = currentNFLWeek.season;
         let selectedWeek = currentNFLWeek.week;
+        let selectedDate = null; // For NBA date-based navigation
         let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         let currentGames = null;
         let isLoading = false;
@@ -804,13 +814,35 @@
             const now = new Date();
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
-            document.getElementById('headerWeekInfo').textContent =
-                `Week ${selectedWeek} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+            if (selectedSport === 'NBA') {
+                const dateObj = selectedDate ? new Date(selectedDate) : new Date(now.getTime() - 24*60*60*1000);
+                document.getElementById('headerWeekInfo').textContent =
+                    `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+            } else {
+                document.getElementById('headerWeekInfo').textContent =
+                    `Week ${selectedWeek} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+            }
 
             // Update sport selector
             document.getElementById('nflOption').classList.toggle('active', selectedSport === 'NFL');
             document.getElementById('cfbOption').classList.toggle('active', selectedSport === 'CFB');
+            document.getElementById('nbaOption').classList.toggle('active', selectedSport === 'NBA');
 
+            // Show/hide appropriate navigation
+            if (selectedSport === 'NBA') {
+                document.getElementById('weekSelector').style.display = 'none';
+                document.getElementById('dateSelector').style.display = 'block';
+                updateDateNavigation();
+            } else {
+                document.getElementById('weekSelector').style.display = 'block';
+                document.getElementById('dateSelector').style.display = 'none';
+                updateWeekNavigation();
+            }
+        }
+
+        // Update week-based navigation (NFL/CFB)
+        function updateWeekNavigation() {
             // Update week display
             document.getElementById('currentWeekDisplay').textContent =
                 `${selectedSeason} · week ${selectedWeek}`;
@@ -835,6 +867,69 @@
                 nextWeekLink.style.display = 'inline';
             } else {
                 nextWeekLink.style.display = 'none';
+            }
+        }
+
+        // Update date-based navigation (NBA)
+        function updateDateNavigation() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
+
+            // Format display date
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            let displayText;
+            const yesterday = new Date(today.getTime() - 24*60*60*1000);
+            const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
+
+            if (currentDate.getTime() === today.getTime()) {
+                displayText = 'today';
+            } else if (currentDate.getTime() === yesterday.getTime()) {
+                displayText = 'yesterday';
+            } else if (currentDate.getTime() === twoDaysAgo.getTime()) {
+                displayText = '2 days ago';
+            } else {
+                displayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
+            }
+
+            document.getElementById('currentDateDisplay').textContent = displayText;
+
+            // Calculate prev/next dates
+            const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
+            const nextDate = new Date(currentDate.getTime() + 24*60*60*1000);
+
+            // Update prev date
+            let prevDisplayText;
+            if (prevDate.getTime() === yesterday.getTime()) {
+                prevDisplayText = 'yesterday';
+            } else if (prevDate.getTime() === twoDaysAgo.getTime()) {
+                prevDisplayText = '2 days ago';
+            } else {
+                prevDisplayText = `${monthShort[prevDate.getMonth()]} ${prevDate.getDate()}`;
+            }
+            document.getElementById('prevDateDisplay').textContent = prevDisplayText;
+
+            // Update next date (only show if before today)
+            const prevDateLink = document.getElementById('prevDate');
+            const nextDateLink = document.getElementById('nextDate');
+
+            if (nextDate <= today) {
+                let nextDisplayText;
+                if (nextDate.getTime() === today.getTime()) {
+                    nextDisplayText = 'today';
+                } else if (nextDate.getTime() === yesterday.getTime()) {
+                    nextDisplayText = 'yesterday';
+                } else {
+                    nextDisplayText = `${monthShort[nextDate.getMonth()]} ${nextDate.getDate()}`;
+                }
+                document.getElementById('nextDateDisplay').textContent = nextDisplayText;
+                nextDateLink.style.display = 'inline';
+            } else {
+                nextDateLink.style.display = 'none';
             }
         }
 
@@ -863,7 +958,19 @@
                 }
             });
 
-            // Week navigation
+            document.getElementById('nbaOption').addEventListener('click', () => {
+                if (selectedSport !== 'NBA') {
+                    selectedSport = 'NBA';
+                    // Default to yesterday for NBA (most recent completed games)
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    selectedDate = yesterday.toISOString().split('T')[0];
+                    updateUI();
+                    loadGames();
+                }
+            });
+
+            // Week navigation (NFL/CFB)
             document.getElementById('prevWeek').addEventListener('click', (e) => {
                 e.preventDefault();
                 if (selectedWeek > 1) {
@@ -878,6 +985,30 @@
                 const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
                 if (selectedWeek < maxWeeks) {
                     selectedWeek++;
+                    updateUI();
+                    loadGames();
+                }
+            });
+
+            // Date navigation (NBA)
+            document.getElementById('prevDate').addEventListener('click', (e) => {
+                e.preventDefault();
+                const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
+                selectedDate = prevDate.toISOString().split('T')[0];
+                updateUI();
+                loadGames();
+            });
+
+            document.getElementById('nextDate').addEventListener('click', (e) => {
+                e.preventDefault();
+                const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                const nextDate = new Date(currentDate.getTime() + 24*60*60*1000);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (nextDate <= today) {
+                    selectedDate = nextDate.toISOString().split('T')[0];
                     updateUI();
                     loadGames();
                 }
@@ -985,15 +1116,25 @@
             showLoading();
 
             try {
-                const response = await fetch('/api/games', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
+                let requestBody;
+                if (selectedSport === 'NBA') {
+                    requestBody = {
+                        sport: selectedSport,
+                        date: selectedDate
+                    };
+                } else {
+                    requestBody = {
                         sport: selectedSport,
                         season: selectedSeason,
                         week: selectedWeek,
                         seasonType: '2'
-                    })
+                    };
+                }
+
+                const response = await fetch('/api/games', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
                 });
 
                 const data = await response.json();
@@ -1015,15 +1156,33 @@
         // Show loading state
         function showLoading() {
             const resultsArea = document.getElementById('resultsArea');
+            let loadingMessage;
+            if (selectedSport === 'NBA') {
+                const dateObj = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
+            } else {
+                loadingMessage = `loading week ${selectedWeek}...`;
+            }
             resultsArea.innerHTML = `
                 <div class="loading">
-                    <div class="loading-text">loading week ${selectedWeek}...</div>
+                    <div class="loading-text">${loadingMessage}</div>
                 </div>
             `;
         }
 
         // Show empty state
-        function showEmpty(message = `No games found for Week ${selectedWeek}, ${selectedSeason}.`) {
+        function showEmpty(message = null) {
+            if (!message) {
+                if (selectedSport === 'NBA') {
+                    const dateObj = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                        'July', 'August', 'September', 'October', 'November', 'December'];
+                    message = `No games found for ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}.`;
+                } else {
+                    message = `No games found for Week ${selectedWeek}, ${selectedSeason}.`;
+                }
+            }
             const resultsArea = document.getElementById('resultsArea');
             resultsArea.innerHTML = `
                 <div class="empty-state">

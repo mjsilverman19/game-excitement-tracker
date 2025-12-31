@@ -1,7 +1,13 @@
 // Simplified ESPN Data Fetcher
 
-export async function fetchGames(sport, season, week, seasonType = '2') {
+export async function fetchGames(sport, season, week, seasonType = '2', date = null) {
   try {
+    // Handle NBA date-based fetching
+    if (sport === 'NBA') {
+      return await fetchNBAGames(date);
+    }
+
+    // Handle NFL/CFB week-based fetching
     const league = sport === 'CFB' ? 'college-football' : 'nfl';
     const usesSiteAPI = season >= 2025;
 
@@ -61,7 +67,30 @@ async function fetchFromCoreAPI(league, season, week, seasonType) {
   return games.filter(game => game !== null);
 }
 
-function parseEvent(event) {
+async function fetchNBAGames(date) {
+  // Default to yesterday if no date provided (most recent completed games)
+  let targetDate = date;
+  if (!targetDate) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    targetDate = yesterday.toISOString().split('T')[0].replace(/-/g, '');
+  } else if (targetDate.includes('-')) {
+    // Convert YYYY-MM-DD to YYYYMMDD
+    targetDate = targetDate.replace(/-/g, '');
+  }
+
+  const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${targetDate}`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`NBA API error: ${response.status}`);
+
+  const data = await response.json();
+
+  const games = (data.events || []).map(event => parseEvent(event, 'NBA'));
+  return games.filter(game => game.completed);
+}
+
+function parseEvent(event, sport = 'NFL') {
   const competition = event.competitions?.[0] || event;
   const competitors = competition.competitors || [];
 
@@ -69,6 +98,9 @@ function parseEvent(event) {
   const awayTeam = competitors.find(c => c.homeAway === 'away');
 
   const completed = competition.status?.type?.completed || false;
+
+  // Determine overtime based on sport
+  // Football: period > 4, Basketball: period > 4 (regulation is 4 quarters)
   const overtime = competition.status?.period > 4;
 
   return {

@@ -20,12 +20,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { sport = 'NFL', season, week, seasonType = '2' } = req.body;
+    const { sport = 'NFL', season, week, seasonType = '2', date } = req.body;
 
-    console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${seasonType})`);
+    if (sport === 'NBA') {
+      console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
+    } else {
+      console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${seasonType})`);
+    }
 
     // Fetch games from ESPN
-    const games = await fetchGames(sport, season, week, seasonType);
+    const games = await fetchGames(sport, season, week, seasonType, date);
 
     if (!games || games.length === 0) {
       return res.status(200).json({
@@ -35,6 +39,7 @@ export default async function handler(req, res) {
           sport,
           season,
           week,
+          date,
           count: 0
         }
       });
@@ -61,6 +66,7 @@ export default async function handler(req, res) {
         sport,
         season,
         week,
+        date,
         count: validGames.length,
         totalGames: analyzedGames.length,
         insufficientData: insufficientDataCount,
