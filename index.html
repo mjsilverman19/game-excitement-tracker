@@ -1621,18 +1621,16 @@
             }
 
             const metrics = [
-                { key: 'lateGame', label: '4th Quarter', desc: 'How exciting was the final period? Penalizes garbage time blowouts.' },
-                { key: 'dramaticFinish', label: 'Final Minutes', desc: 'Big swings or close score in the last ~2 minutes of the game.' },
-                { key: 'persistence', label: 'Close All Game', desc: 'How long the game stayed competitive (within 35-65% win probability).' },
-                { key: 'movement', label: 'Big Swings', desc: 'Total magnitude of momentum shifts throughout the entire game.' },
-                { key: 'leadChanges', label: 'Lead Changes', desc: 'Number of times the lead changed (win probability crossed 50%).' }
+                { key: 'uncertainty', label: 'Uncertainty', desc: 'How long was the outcome in doubt? Games that stayed close to 50/50 score highest.' },
+                { key: 'drama', label: 'Drama', desc: 'Magnitude of momentum swings when the game was close. Leverage-weighted for maximum impact.' },
+                { key: 'finish', label: 'Finish', desc: 'How exciting were the final minutes? Combines late-game volatility, closeness, and walk-off moments.' }
             ];
 
-            const size = 360;
+            const size = 400;
             const center = size / 2;
-            const radius = 80;
-            const labelDistance = 145;
-            const angleStep = (2 * Math.PI) / 5;
+            const radius = 100;
+            const labelDistance = 160;
+            const angleStep = (2 * Math.PI) / 3;
             const startAngle = -Math.PI / 2; // Start at top
 
             // Calculate vertex positions for max (10) and actual values
