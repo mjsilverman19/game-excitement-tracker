@@ -3,22 +3,19 @@
 
 const SCORING_CONFIG = {
   weights: {
-    leadChanges: 0.20,       // reduced from 0.25
-    lateGame: 0.30,          // unchanged
-    totalMovement: 0.15,     // reduced from 0.20
-    dramaticFinish: 0.20,    // increased from 0.15
-    persistence: 0.15        // increased from 0.10
+    outcomeUncertainty: 0.30,
+    momentumDrama: 0.30,
+    finishQuality: 0.40
   },
   thresholds: {
     minDataPoints: 10,
-    blowoutThreshold: 0.88,      // lowered from 0.95
-    closeGameBand: [0.35, 0.65],
-    dramaticSwingThreshold: 0.12 // lowered from 0.20
+    finalPeriodStart: 4,           // Q4 for both football and basketball
+    finalMomentPoints: 10,         // Last N data points for finish analysis
+    walkoffSwingThreshold: 0.15    // Minimum swing to qualify as "walk-off"
   },
   bonuses: {
-    overtime: 1.0  // increased from 0.5
+    overtime: 0.8  // Applied after normalization
   }
-  // Remove the 'scaling' object entirely - each function handles its own scaling
 };
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
@@ -78,40 +75,30 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     return null;
   }
 
-  // METRIC 1: Lead Changes (how many times the favorite flipped)
-  const leadChangeScore = calculateLeadChanges(probs, sport);
+  // METRIC 1: Outcome Uncertainty (how long was the result in doubt?)
+  const uncertaintyScore = calculateOutcomeUncertainty(probs);
 
-  // METRIC 2: Late-Game Excitement (4th quarter action, penalize garbage time)
-  const lateGameScore = calculateLateGameExcitement(probs);
+  // METRIC 2: Momentum Drama (leverage-weighted swings)
+  const dramaScore = calculateMomentumDrama(probs);
 
-  // METRIC 3: Total Movement (sum of absolute changes in win probability)
-  const totalMovementScore = calculateTotalMovement(probs);
-
-  // METRIC 4: Dramatic Finish (big swings or close finish in final moments)
-  const dramaticFinishScore = calculateDramaticFinish(probs);
-
-  // METRIC 5: Persistence (how long the game stayed close)
-  const persistenceScore = calculatePersistence(probs);
+  // METRIC 3: Finish Quality (did it come down to the wire?)
+  const finishScore = calculateFinishQuality(probs, sport);
 
   // Capture breakdown before weighting
   const breakdown = {
-    leadChanges: leadChangeScore,
-    lateGame: lateGameScore,
-    movement: totalMovementScore,
-    dramaticFinish: dramaticFinishScore,
-    persistence: persistenceScore
+    uncertainty: uncertaintyScore,
+    drama: dramaScore,
+    finish: finishScore
   };
 
   // Weighted combination
   const weights = SCORING_CONFIG.weights;
   let rawScore =
-    leadChangeScore * weights.leadChanges +
-    lateGameScore * weights.lateGame +
-    totalMovementScore * weights.totalMovement +
-    dramaticFinishScore * weights.dramaticFinish +
-    persistenceScore * weights.persistence;
+    uncertaintyScore * weights.outcomeUncertainty +
+    dramaScore * weights.momentumDrama +
+    finishScore * weights.finishQuality;
 
-  // Add overtime bonus (NBA OT is 5 minutes, so slightly lower bonus)
+  // Add overtime bonus (applied after weighted combination)
   const overtimeBonus = sport === 'NBA' ? 0.8 : SCORING_CONFIG.bonuses.overtime;
   if (game.overtime) {
     rawScore += overtimeBonus;
@@ -127,161 +114,109 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
 }
 
 /**
- * Counts how many times the lead changed (win probability crossed 0.5)
- * NBA games typically have more lead changes than football
+ * METRIC 1: Outcome Uncertainty
+ * Measures how long the result was in doubt by integrating closeness to 50/50 over time
+ * A game at 50/50 the entire time scores 10; a wire-to-wire blowout scores near 0
  * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Score from 0-10 based on outcome uncertainty
+ */
+function calculateOutcomeUncertainty(probs) {
+  if (probs.length === 0) return 0;
+
+  // For each probability point, calculate how close to 0.5
+  // Weight slightly more towards later in the game
+  let totalCloseness = 0;
+  for (let i = 0; i < probs.length; i++) {
+    const closeness = 1 - Math.abs(probs[i].value - 0.5) * 2; // 0 at extremes, 1 at 0.5
+    const timeWeight = 1 + (i / probs.length) * 0.3; // Slight increase for later moments
+    totalCloseness += closeness * timeWeight;
+  }
+
+  // Calculate average weighted closeness
+  const avgWeight = 1 + 0.15; // Average of time weights
+  const avgCloseness = totalCloseness / (probs.length * avgWeight);
+
+  // Scale to 0-10 with some exponential emphasis on very close games
+  const score = Math.pow(avgCloseness, 0.8) * 10;
+
+  return Math.min(10, Math.max(0, score));
+}
+
+/**
+ * METRIC 2: Momentum Drama
+ * Measures leverage-weighted swings - big swings matter more when the game is close
+ * Swings near 50/50 count more than swings when the game is already decided
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Score from 0-10 based on momentum drama
+ */
+function calculateMomentumDrama(probs) {
+  if (probs.length < 2) return 0;
+
+  let totalWeightedSwing = 0;
+
+  for (let i = 1; i < probs.length; i++) {
+    const swing = Math.abs(probs[i].value - probs[i - 1].value);
+    const leverage = probs[i - 1].value * (1 - probs[i - 1].value); // Max at 0.5, zero at 0 or 1
+    const weightedSwing = swing * leverage * 4; // Scale factor since max leverage is 0.25
+    totalWeightedSwing += weightedSwing;
+  }
+
+  // Apply diminishing returns to prevent single massive swings from dominating
+  // Adjusted scaling to better differentiate between game types
+  // Typical cumulative values: blowout ~1.0-1.5, close game ~2.5-3.5, thriller ~3.5-5.0
+  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 6)) * 10);
+
+  return Math.max(0, score);
+}
+
+/**
+ * METRIC 3: Finish Quality
+ * Combines final probability closeness, final period volatility, and walk-off detection
+ * Games that come down to the wire score highest
+ * @param {Array} probs - Array of probability objects with value, period, clock
  * @param {string} sport - Sport type (NFL, CFB, NBA)
- * @returns {number} Score from 0-10 based on lead change count
+ * @returns {number} Score from 0-10 based on finish quality
  */
-function calculateLeadChanges(probs, sport = 'NFL') {
-  if (probs.length < 2) return 0;
+function calculateFinishQuality(probs, sport = 'NFL') {
+  if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
 
-  let leadChanges = 0;
-  for (let i = 1; i < probs.length; i++) {
-    const prevLeader = probs[i - 1].value >= 0.5 ? 'home' : 'away';
-    const currLeader = probs[i].value >= 0.5 ? 'home' : 'away';
-    if (prevLeader !== currLeader) {
-      leadChanges++;
-    }
+  const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, probs.length);
+  const finalProbs = probs.slice(-finalMoments);
+  const lastProb = probs[probs.length - 1].value;
+
+  // Component 1: Final probability closeness (how close to 0.5 at game end)
+  const finalCloseness = 1 - Math.abs(lastProb - 0.5) * 2; // 0 to 1
+  const closenessScore = Math.pow(finalCloseness, 0.7) * 4; // Up to 4 points
+
+  // Component 2: Final period volatility
+  // Get final 25% of data points as "final period"
+  const finalPeriodSize = Math.floor(probs.length * 0.25);
+  const finalPeriod = probs.slice(-finalPeriodSize);
+
+  let finalPeriodMovement = 0;
+  for (let i = 1; i < finalPeriod.length; i++) {
+    finalPeriodMovement += Math.abs(finalPeriod[i].value - finalPeriod[i - 1].value);
   }
 
-  // NBA games typically have more lead changes, so adjust the scaling
-  const divisor = sport === 'NBA' ? 6 : 4;
-  // Diminishing returns: 2 changes = 5, 5 = 7.5, 10 = 9.2, 20 = 9.9
-  const score = 10 * (1 - Math.exp(-leadChanges / divisor));
-  return Math.min(10, score);
-}
+  // More movement in final period = more exciting
+  const volatilityScore = Math.min(4, finalPeriodMovement * 8); // Up to 4 points
 
-/**
- * Measures total movement in win probability (sum of absolute changes)
- * Higher movement = more swings and excitement
- * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Score from 0-10 based on total movement
- */
-function calculateTotalMovement(probs) {
-  if (probs.length < 2) return 0;
-
-  let totalMovement = 0;
-  for (let i = 1; i < probs.length; i++) {
-    totalMovement += Math.abs(probs[i].value - probs[i - 1].value);
+  // Component 3: Walk-off detection (large swing in final moments)
+  let maxFinalSwing = 0;
+  for (let i = 1; i < finalProbs.length; i++) {
+    const swing = Math.abs(finalProbs[i].value - finalProbs[i - 1].value);
+    maxFinalSwing = Math.max(maxFinalSwing, swing);
   }
 
-  // Log scale: movement of 1 = 4.3, 2 = 6.1, 4 = 7.7, 8 = 9.2
-  const normalized = Math.log(1 + totalMovement) / Math.log(10);
-  return Math.min(10, normalized * 10);
-}
-
-/**
- * Analyzes 4th quarter excitement, with extra weight for final 2 minutes
- * Penalizes garbage time (blowouts that stay blown out in Q4)
- * @param {Array} probs - Array of probability objects with value, period, and clock
- * @returns {number} Score from 0-10 based on late-game action
- */
-function calculateLateGameExcitement(probs) {
-  const fourthQuarter = probs.filter(p => p.period >= 4);
-  const segment = fourthQuarter.length > 0
-    ? fourthQuarter
-    : probs.slice(Math.floor(probs.length * 0.75));
-
-  if (segment.length === 0) return 5;
-
-  // Detect garbage time
-  const blowoutPoints = segment.filter(p =>
-    p.value > SCORING_CONFIG.thresholds.blowoutThreshold ||
-    p.value < (1 - SCORING_CONFIG.thresholds.blowoutThreshold)
-  ).length;
-  const garbageTimeRatio = blowoutPoints / segment.length;
-
-  // Heavy penalty for garbage time
-  if (garbageTimeRatio > 0.8) {
-    return 1.5;
+  let walkoffScore = 0;
+  if (maxFinalSwing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
+    walkoffScore = 2 + Math.min(2, (maxFinalSwing - 0.15) * 10); // Up to 4 points
   }
 
-  // Calculate balance (how close to 50/50)
-  const balances = segment.map(p => 1 - Math.abs(p.value - 0.5) * 2);
-  const avgBalance = balances.reduce((sum, b) => sum + b, 0) / balances.length;
+  // Combine components (max 12, scaled to 10)
+  const totalScore = (closenessScore + volatilityScore + walkoffScore) * (10 / 12);
 
-  // Calculate Q4 movement
-  let movement = 0;
-  for (let i = 1; i < segment.length; i++) {
-    movement += Math.abs(segment[i].value - segment[i - 1].value);
-  }
-
-  // More conservative formula with capped movement contribution
-  let score = (avgBalance * 6) + Math.min(4, movement * 4);
-
-  // Partial garbage time penalty
-  if (garbageTimeRatio > 0.3) {
-    score *= (1 - garbageTimeRatio * 0.5);
-  }
-
-  return Math.min(10, score);
-}
-
-/**
- * Detects dramatic finishes (big swings in final moments or close final score)
- * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Score from 0-10, with bonus for walk-offs and last-second wins
- */
-function calculateDramaticFinish(probs) {
-  if (probs.length < 10) return 0;
-
-  const final10 = probs.slice(-10);
-  const final5 = probs.slice(-5);
-  const finalProb = probs[probs.length - 1].value;
-
-  // Find maximum swing in final 10 data points
-  let maxSwing = 0;
-  for (let i = 1; i < final10.length; i++) {
-    const swing = Math.abs(final10[i].value - final10[i - 1].value);
-    maxSwing = Math.max(maxSwing, swing);
-  }
-
-  // Calculate volatility in final 5 points
-  let finalVolatility = 0;
-  for (let i = 1; i < final5.length; i++) {
-    finalVolatility += Math.abs(final5[i].value - final5[i - 1].value);
-  }
-
-  const [minClose, maxClose] = SCORING_CONFIG.thresholds.closeGameBand;
-  const wasCloseFinish = finalProb >= minClose && finalProb <= maxClose;
-
-  let score = 0;
-
-  // Big swing in final moments
-  if (maxSwing > SCORING_CONFIG.thresholds.dramaticSwingThreshold) {
-    score += 4 + Math.min(4, (maxSwing - 0.12) * 30);
-  }
-
-  // Close finish bonus
-  if (wasCloseFinish) {
-    score += 3;
-  }
-
-  // Extra volatility bonus
-  if (finalVolatility > 0.2) {
-    score += Math.min(2, finalVolatility * 4);
-  }
-
-  return Math.min(10, score);
-}
-
-/**
- * Measures how long the game stayed close (win prob between 40-60%)
- * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Score from 0-10 based on closeness persistence
- */
-function calculatePersistence(probs) {
-  if (probs.length === 0) return 5;
-
-  // Count points where game was actually close (35-65% win probability)
-  const closePoints = probs.filter(p => p.value >= 0.35 && p.value <= 0.65).length;
-  const closenessRatio = closePoints / probs.length;
-
-  // Slightly exponential: 30% = 2.5, 50% = 5.5, 70% = 8.5, 90% = 10
-  const score = Math.pow(closenessRatio, 1.3) * 12;
-
-  return Math.min(10, score);
+  return Math.min(10, Math.max(0, totalScore));
 }
 
 /**
