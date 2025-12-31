@@ -137,6 +137,7 @@
             cursor: pointer;
             transition: color 150ms ease;
             margin-right: 12px;
+            position: relative;
         }
 
         .sport-option:hover {
@@ -145,6 +146,15 @@
 
         .sport-option.active {
             color: #ede9e3;
+        }
+
+        .beta-label {
+            font-size: 9px;
+            color: #6b6560;
+            vertical-align: super;
+            margin-left: 2px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
         }
 
         .separator {
@@ -454,6 +464,41 @@
             max-height: 20px;
         }
 
+        .game-recap-link {
+            font-size: 11px;
+            color: #6b6560;
+            text-decoration: underline;
+            margin-top: 8px;
+            display: inline-block;
+            transition: color 150ms ease;
+        }
+
+        .game-recap-link:hover {
+            color: #9a958e;
+        }
+
+        /* Date Picker Input */
+        .date-picker-input {
+            font-size: 13px;
+            color: #ede9e3;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #3a3836;
+            padding: 4px 0;
+            font-family: 'Söhne', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: border-color 150ms ease;
+        }
+
+        .date-picker-input:hover {
+            border-color: #4a4540;
+        }
+
+        .date-picker-input::-webkit-calendar-picker-indicator {
+            filter: invert(0.5);
+            cursor: pointer;
+        }
+
         /* Mobile-only score-rating line */
         .score-rating-line {
             display: none;
@@ -629,9 +674,9 @@
                     <div class="sport-selector">
                         <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
                         <span class="separator">·</span>
-                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb</span>
+                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
-                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba</span>
+                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
                     </div>
                     <div class="season-week-selector" id="weekSelector" style="position: relative;">
                         <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
@@ -657,7 +702,7 @@
                     <div class="season-week-selector" id="dateSelector" style="position: relative; display: none;">
                         <a href="#" class="week-nav-link" id="prevDate">← <span id="prevDateDisplay"></span></a>
                         <span class="separator">·</span>
-                        <span class="current-selection" id="currentDateDisplay">yesterday</span>
+                        <input type="date" class="date-picker-input" id="datePicker" />
                         <span class="separator">·</span>
                         <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
                     </div>
@@ -876,34 +921,24 @@
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
 
-            // Format display date
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'];
-            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-            let displayText;
-            const yesterday = new Date(today.getTime() - 24*60*60*1000);
-            const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
-
-            if (currentDate.getTime() === today.getTime()) {
-                displayText = 'today';
-            } else if (currentDate.getTime() === yesterday.getTime()) {
-                displayText = 'yesterday';
-            } else if (currentDate.getTime() === twoDaysAgo.getTime()) {
-                displayText = '2 days ago';
-            } else {
-                displayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
-            }
-
-            document.getElementById('currentDateDisplay').textContent = displayText;
+            // Update date picker value
+            const datePicker = document.getElementById('datePicker');
+            datePicker.value = selectedDate || new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0];
+            datePicker.max = today.toISOString().split('T')[0];
 
             // Calculate prev/next dates
             const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
             const nextDate = new Date(currentDate.getTime() + 24*60*60*1000);
 
+            // Format display date
+            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
             // Update prev date
             let prevDisplayText;
+            const yesterday = new Date(today.getTime() - 24*60*60*1000);
+            const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
+
             if (prevDate.getTime() === yesterday.getTime()) {
                 prevDisplayText = 'yesterday';
             } else if (prevDate.getTime() === twoDaysAgo.getTime()) {
@@ -913,7 +948,7 @@
             }
             document.getElementById('prevDateDisplay').textContent = prevDisplayText;
 
-            // Update next date (only show if before today)
+            // Update next date (only show if before or equal to today)
             const prevDateLink = document.getElementById('prevDate');
             const nextDateLink = document.getElementById('nextDate');
 
@@ -1012,6 +1047,13 @@
                     updateUI();
                     loadGames();
                 }
+            });
+
+            // Date picker (NBA)
+            document.getElementById('datePicker').addEventListener('change', (e) => {
+                selectedDate = e.target.value;
+                updateUI();
+                loadGames();
             });
 
             // About link
@@ -1266,6 +1308,17 @@
             const progress = (score / 10) * circumference;
             const remaining = circumference - progress;
 
+            // Generate ESPN recap URL
+            let sportPath;
+            if (selectedSport === 'NFL') {
+                sportPath = 'nfl';
+            } else if (selectedSport === 'CFB') {
+                sportPath = 'college-football';
+            } else if (selectedSport === 'NBA') {
+                sportPath = 'nba';
+            }
+            const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
+
             return `
                 <div class="game-row" data-game-index="${index}">
                     <div class="score-rating-line ${ratingClass}">
@@ -1289,6 +1342,7 @@
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
+                    <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">see recap →</a>
                 </div>
             `;
         }
