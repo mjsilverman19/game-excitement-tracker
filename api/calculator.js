@@ -55,7 +55,8 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       awayTeam: game.awayTeam,
       homeScore: game.homeScore,
       awayScore: game.awayScore,
-      excitement: excitement,
+      excitement: excitement.score,
+      breakdown: excitement.breakdown,
       overtime: game.overtime
     };
   } catch (error) {
@@ -92,6 +93,15 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // METRIC 5: Persistence (how long the game stayed close)
   const persistenceScore = calculatePersistence(probs);
 
+  // Capture breakdown before weighting
+  const breakdown = {
+    leadChanges: leadChangeScore,
+    lateGame: lateGameScore,
+    movement: totalMovementScore,
+    dramaticFinish: dramaticFinishScore,
+    persistence: persistenceScore
+  };
+
   // Weighted combination
   const weights = SCORING_CONFIG.weights;
   let rawScore =
@@ -110,7 +120,10 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
 
-  return Math.max(1, Math.min(10, Math.round(finalScore * 10) / 10));
+  return {
+    score: Math.max(1, Math.min(10, Math.round(finalScore * 10) / 10)),
+    breakdown
+  };
 }
 
 /**

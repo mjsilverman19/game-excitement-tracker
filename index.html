@@ -579,6 +579,57 @@
             color: #3a3836;
         }
 
+        /* Radar Chart */
+        .game-breakdown {
+            margin-top: 16px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .radar-chart {
+            margin: 16px 0;
+        }
+
+        .radar-grid {
+            fill: none;
+            stroke: #2a2826;
+            stroke-width: 1;
+        }
+
+        .radar-axis {
+            stroke: #3a3836;
+            stroke-width: 1;
+        }
+
+        .radar-fill {
+            fill: rgba(138, 150, 128, 0.3);
+            stroke: #8a9680;
+            stroke-width: 1.5;
+        }
+
+        .radar-label {
+            font-family: monospace;
+            font-size: 9px;
+            fill: #6b6560;
+            text-anchor: middle;
+        }
+
+        .radar-value {
+            font-family: monospace;
+            font-size: 9px;
+            fill: #9a958e;
+            text-anchor: middle;
+        }
+
+        .score-pie {
+            cursor: pointer;
+            transition: opacity 150ms ease;
+        }
+
+        .score-pie:hover {
+            opacity: 0.8;
+        }
+
         /* Mobile-only score-rating line */
         .score-rating-line {
             display: none;
@@ -1522,6 +1573,74 @@
 
             // Attach event listeners
             attachScoreToggleListener();
+            attachRadarChartListeners();
+        }
+
+        // Render radar chart for metric breakdown
+        function renderRadarChart(breakdown) {
+            const metrics = [
+                { key: 'lateGame', label: 'late_game' },
+                { key: 'dramaticFinish', label: 'dramatic_finish' },
+                { key: 'persistence', label: 'persistence' },
+                { key: 'movement', label: 'movement' },
+                { key: 'leadChanges', label: 'lead_changes' }
+            ];
+
+            const size = 160;
+            const center = size / 2;
+            const radius = 60;
+            const angleStep = (2 * Math.PI) / 5;
+            const startAngle = -Math.PI / 2; // Start at top
+
+            // Calculate vertex positions for max (10) and actual values
+            const points = metrics.map((m, i) => {
+                const angle = startAngle + (i * angleStep);
+                const value = breakdown[m.key] || 0;
+                const r = (value / 10) * radius;
+                return {
+                    x: center + r * Math.cos(angle),
+                    y: center + r * Math.sin(angle),
+                    labelX: center + (radius + 20) * Math.cos(angle),
+                    labelY: center + (radius + 20) * Math.sin(angle),
+                    label: m.label,
+                    value: value
+                };
+            });
+
+            // Build SVG
+            const polygonPoints = points.map(p => `${p.x},${p.y}`).join(' ');
+
+            // Grid lines (circles at 2, 4, 6, 8, 10)
+            let gridLines = '';
+            for (let level = 2; level <= 10; level += 2) {
+                const r = (level / 10) * radius;
+                gridLines += `<circle cx="${center}" cy="${center}" r="${r}" class="radar-grid"/>`;
+            }
+
+            // Axis lines
+            let axisLines = '';
+            points.forEach((p, i) => {
+                const angle = startAngle + (i * angleStep);
+                const endX = center + radius * Math.cos(angle);
+                const endY = center + radius * Math.sin(angle);
+                axisLines += `<line x1="${center}" y1="${center}" x2="${endX}" y2="${endY}" class="radar-axis"/>`;
+            });
+
+            // Labels
+            let labels = '';
+            points.forEach(p => {
+                labels += `<text x="${p.labelX}" y="${p.labelY}" class="radar-label">${p.label}</text>`;
+                labels += `<text x="${p.labelX}" y="${p.labelY + 10}" class="radar-value">${p.value.toFixed(1)}</text>`;
+            });
+
+            return `
+                <svg width="${size}" height="${size}" class="radar-chart" viewBox="0 0 ${size} ${size}">
+                    ${gridLines}
+                    ${axisLines}
+                    <polygon points="${polygonPoints}" class="radar-fill"/>
+                    ${labels}
+                </svg>
+            `;
         }
 
         // Create game row HTML
@@ -1571,7 +1690,7 @@
                         <span class="rating-text">${ratingText}</span>
                     </div>
                     <div class="matchup-wrapper">
-                        <div class="score-pie">
+                        <div class="score-pie" data-breakdown='${JSON.stringify(game.breakdown || {})}'>
                             <svg width="48" height="48" viewBox="0 0 48 48">
                                 <circle class="score-pie-bg" cx="24" cy="24" r="${radius}"/>
                                 <circle class="score-pie-fill ${ratingClass}"
@@ -1586,6 +1705,7 @@
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
+                    <div class="game-breakdown" id="breakdown-${game.id}"></div>
                     <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
                 </div>
             `;
@@ -1601,6 +1721,23 @@
                     displayResults();
                 });
             }
+        }
+
+        // Attach radar chart click listeners
+        function attachRadarChartListeners() {
+            document.querySelectorAll('.score-pie').forEach(pie => {
+                pie.addEventListener('click', (e) => {
+                    const breakdown = JSON.parse(pie.dataset.breakdown);
+                    const gameRow = pie.closest('.game-row');
+                    const container = gameRow.querySelector('.game-breakdown');
+
+                    if (container.innerHTML) {
+                        container.innerHTML = '';
+                    } else {
+                        container.innerHTML = renderRadarChart(breakdown);
+                    }
+                });
+            });
         }
 
         // Start the app
