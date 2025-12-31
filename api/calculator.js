@@ -23,8 +23,17 @@ const SCORING_CONFIG = {
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
   try {
-    const league = sport === 'CFB' ? 'college-football' : 'nfl';
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
+    // Determine the correct sport type and league for ESPN API
+    let sportType, league;
+    if (sport === 'NBA') {
+      sportType = 'basketball';
+      league = 'nba';
+    } else {
+      sportType = 'football';
+      league = sport === 'CFB' ? 'college-football' : 'nfl';
+    }
+
+    const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
 
     const response = await fetch(probUrl);
 
@@ -38,7 +47,7 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       return null;
     }
 
-    const excitement = calculateExcitement(probData.items, game);
+    const excitement = calculateExcitement(probData.items, game, sport);
 
     return {
       id: game.id,
@@ -55,7 +64,7 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
   }
 }
 
-function calculateExcitement(probabilities, game) {
+function calculateExcitement(probabilities, game, sport = 'NFL') {
   const probs = probabilities
     .map(p => ({
       value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
@@ -69,7 +78,7 @@ function calculateExcitement(probabilities, game) {
   }
 
   // METRIC 1: Lead Changes (how many times the favorite flipped)
-  const leadChangeScore = calculateLeadChanges(probs);
+  const leadChangeScore = calculateLeadChanges(probs, sport);
 
   // METRIC 2: Late-Game Excitement (4th quarter action, penalize garbage time)
   const lateGameScore = calculateLateGameExcitement(probs);
@@ -92,9 +101,10 @@ function calculateExcitement(probabilities, game) {
     dramaticFinishScore * weights.dramaticFinish +
     persistenceScore * weights.persistence;
 
-  // Add overtime bonus
+  // Add overtime bonus (NBA OT is 5 minutes, so slightly lower bonus)
+  const overtimeBonus = sport === 'NBA' ? 0.8 : SCORING_CONFIG.bonuses.overtime;
   if (game.overtime) {
-    rawScore += SCORING_CONFIG.bonuses.overtime;
+    rawScore += overtimeBonus;
   }
 
   // Normalize to 1-10 range with better distribution
@@ -105,10 +115,12 @@ function calculateExcitement(probabilities, game) {
 
 /**
  * Counts how many times the lead changed (win probability crossed 0.5)
+ * NBA games typically have more lead changes than football
  * @param {Array} probs - Array of probability objects with value property
+ * @param {string} sport - Sport type (NFL, CFB, NBA)
  * @returns {number} Score from 0-10 based on lead change count
  */
-function calculateLeadChanges(probs) {
+function calculateLeadChanges(probs, sport = 'NFL') {
   if (probs.length < 2) return 0;
 
   let leadChanges = 0;
@@ -120,8 +132,10 @@ function calculateLeadChanges(probs) {
     }
   }
 
+  // NBA games typically have more lead changes, so adjust the scaling
+  const divisor = sport === 'NBA' ? 6 : 4;
   // Diminishing returns: 2 changes = 5, 5 = 7.5, 10 = 9.2, 20 = 9.9
-  const score = 10 * (1 - Math.exp(-leadChanges / 4));
+  const score = 10 * (1 - Math.exp(-leadChanges / divisor));
   return Math.min(10, score);
 }
 
