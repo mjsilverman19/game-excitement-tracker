@@ -483,20 +483,29 @@
             color: #ede9e3;
             background: transparent;
             border: none;
-            border-bottom: 1px solid #3a3836;
-            padding: 4px 0;
+            padding: 4px 8px;
             font-family: 'Söhne', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
             cursor: pointer;
-            transition: border-color 150ms ease;
+            transition: all 150ms ease;
+            letter-spacing: 0.02em;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-decoration-color: #6b6560;
         }
 
         .date-picker-input:hover {
-            border-color: #4a4540;
+            text-decoration-color: #9a958e;
         }
 
         .date-picker-input::-webkit-calendar-picker-indicator {
-            filter: invert(0.5);
+            filter: invert(0.6);
             cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 150ms ease;
+        }
+
+        .date-picker-input::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
         }
 
         /* Mobile-only score-rating line */
@@ -1342,7 +1351,7 @@
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
-                    <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">see recap →</a>
+                    <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
                 </div>
             `;
         }
