@@ -114,3 +114,54 @@ function parseEvent(event, sport = 'NFL') {
     date: event.date || competition.date
   };
 }
+
+export async function fetchSingleGame(sport, gameId) {
+  try {
+    // Map sport to ESPN API path
+    let apiPath;
+    if (sport === 'NFL') {
+      apiPath = 'football/nfl';
+    } else if (sport === 'CFB') {
+      apiPath = 'football/college-football';
+    } else if (sport === 'NBA') {
+      apiPath = 'basketball/nba';
+    } else {
+      throw new Error('Invalid sport');
+    }
+
+    // Use summary endpoint which has full game details
+    const url = `https://site.api.espn.com/apis/site/v2/sports/${apiPath}/summary?event=${gameId}`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`ESPN API error: ${response.status}`);
+
+    const data = await response.json();
+
+    // Summary endpoint structure: header.competitions[0].competitors[]
+    const competition = data.header?.competitions?.[0];
+    if (!competition) {
+      throw new Error('Game not found');
+    }
+
+    const competitors = competition.competitors || [];
+    const homeTeam = competitors.find(c => c.homeAway === 'home');
+    const awayTeam = competitors.find(c => c.homeAway === 'away');
+
+    const completed = competition.status?.type?.completed || false;
+    const overtime = competition.status?.period > 4;
+
+    return {
+      id: gameId,
+      homeTeam: homeTeam?.team?.shortDisplayName || homeTeam?.team?.displayName || 'Unknown',
+      awayTeam: awayTeam?.team?.shortDisplayName || awayTeam?.team?.displayName || 'Unknown',
+      homeScore: parseInt(homeTeam?.score || 0),
+      awayScore: parseInt(awayTeam?.score || 0),
+      completed: completed,
+      overtime: overtime,
+      date: data.header?.competitions?.[0]?.date
+    };
+  } catch (error) {
+    console.error('Error fetching single game:', error);
+    throw error;
+  }
+}

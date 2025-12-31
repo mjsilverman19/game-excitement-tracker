@@ -1,5 +1,5 @@
 // Streamlined Games API Endpoint
-import { fetchGames } from './fetcher.js';
+import { fetchGames, fetchSingleGame } from './fetcher.js';
 import { analyzeGameEntertainment } from './calculator.js';
 
 export default async function handler(req, res) {
@@ -20,8 +20,40 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { sport = 'NFL', season, week, seasonType = '2', date } = req.body;
+    const { sport = 'NFL', season, week, seasonType = '2', date, gameId } = req.body;
 
+    // Handle single game request
+    if (gameId) {
+      console.log(`Fetching single ${sport} game: ${gameId}`);
+
+      const game = await fetchSingleGame(sport, gameId);
+      const analyzed = await analyzeGameEntertainment(game, sport);
+
+      if (!analyzed) {
+        return res.status(200).json({
+          success: true,
+          games: [],
+          metadata: {
+            sport,
+            gameId,
+            count: 0,
+            insufficientData: 1
+          }
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        games: [analyzed],
+        metadata: {
+          sport,
+          gameId,
+          count: 1
+        }
+      });
+    }
+
+    // Handle week/date-based request
     if (sport === 'NBA') {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
     } else {

@@ -816,6 +816,128 @@
             }
         }
 
+        /* Team Lookup Feature */
+        .find-game-link {
+            color: #6b6560;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 150ms ease;
+        }
+
+        .find-game-link:hover {
+            color: #9a958e;
+        }
+
+        .team-picker {
+            position: absolute;
+            background: #1c1a19;
+            border: 1px solid #3a3836;
+            border-radius: 2px;
+            padding: 16px;
+            margin-top: 8px;
+            z-index: 1000;
+            display: none;
+            min-width: 280px;
+            max-height: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .team-picker.visible {
+            display: block;
+        }
+
+        .team-search-input {
+            width: 100%;
+            background: #2a2826;
+            border: 1px solid #3a3836;
+            border-radius: 2px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #ede9e3;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .team-search-input::placeholder {
+            color: #6b6560;
+        }
+
+        .team-search-input:focus {
+            border-color: #4a4540;
+        }
+
+        .team-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .team-item {
+            font-size: 13px;
+            color: #9a958e;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: color 150ms ease;
+            border-bottom: 1px solid #2a2826;
+        }
+
+        .team-item:hover {
+            color: #ede9e3;
+        }
+
+        .team-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-header {
+            font-size: 13px;
+            color: #ede9e3;
+            margin-bottom: 8px;
+        }
+
+        .schedule-season {
+            color: #9a958e;
+        }
+
+        .back-link {
+            font-size: 11px;
+            color: #6b6560;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 32px;
+            transition: color 150ms ease;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: #9a958e;
+            text-decoration: underline;
+        }
+
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-row {
+            font-size: 13px;
+            color: #9a958e;
+            cursor: pointer;
+            transition: color 150ms ease;
+        }
+
+        .schedule-row:hover {
+            color: #ede9e3;
+        }
+
+        .schedule-week {
+            color: #6b6560;
+        }
+
+        .schedule-result {
+            color: #ede9e3;
+        }
+
         /* Hidden utility */
         .hidden {
             display: none;
@@ -839,12 +961,22 @@
                 </header>
 
                 <div class="selection-interface">
-                    <div class="sport-selector">
+                    <div class="sport-selector" style="position: relative;">
                         <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
                         <span class="separator">·</span>
                         <span class="sport-option" data-sport="CFB" id="cfbOption">cfb<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
                         <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
+                        <span class="separator">·</span>
+                        <span class="find-game-link" id="findGameLink">find a game</span>
+
+                        <!-- Team Picker Dropdown -->
+                        <div class="team-picker" id="teamPicker">
+                            <input type="text" class="team-search-input" placeholder="search teams..." id="teamSearchInput">
+                            <div class="team-list" id="teamList">
+                                <!-- Filtered teams appear here -->
+                            </div>
+                        </div>
                     </div>
                     <div class="season-week-selector" id="weekSelector" style="position: relative;">
                         <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
@@ -1035,6 +1167,13 @@
         let currentGames = null;
         let isLoading = false;
 
+        // Team lookup state
+        let viewMode = 'week'; // 'week' | 'schedule' | 'single-game'
+        let selectedTeam = null;
+        let selectedGameFromSchedule = null;
+        let allTeams = [];
+        let currentSchedule = null;
+
         // Initialize
         function init() {
             attachEventListeners();
@@ -1173,6 +1312,10 @@
                     const currentWeek = getCurrentWeek('NFL');
                     selectedSeason = currentWeek.season;
                     selectedWeek = currentWeek.week;
+                    // Reset team lookup state
+                    allTeams = [];
+                    viewMode = 'week';
+                    selectedTeam = null;
                     updateUI();
                     loadGames();
                 }
@@ -1184,6 +1327,10 @@
                     const currentWeek = getCurrentWeek('CFB');
                     selectedSeason = currentWeek.season;
                     selectedWeek = currentWeek.week;
+                    // Reset team lookup state
+                    allTeams = [];
+                    viewMode = 'week';
+                    selectedTeam = null;
                     updateUI();
                     loadGames();
                 }
@@ -1199,6 +1346,10 @@
                     // Reset date picker state
                     pickerMonth = null;
                     pickerYear = null;
+                    // Reset team lookup state
+                    allTeams = [];
+                    viewMode = 'week';
+                    selectedTeam = null;
                     updateUI();
                     loadGames();
                 }
@@ -1311,6 +1462,36 @@
                 const currentWeekDisplay = document.getElementById('currentWeekDisplay');
 
                 if (!picker.contains(e.target) && e.target !== currentWeekDisplay) {
+                    picker.classList.remove('visible');
+                }
+            });
+
+            // Team lookup - Find a game link
+            document.getElementById('findGameLink').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const picker = document.getElementById('teamPicker');
+                const isVisible = picker.classList.contains('visible');
+
+                if (!isVisible) {
+                    loadTeams();
+                    picker.classList.add('visible');
+                    document.getElementById('teamSearchInput').focus();
+                } else {
+                    picker.classList.remove('visible');
+                }
+            });
+
+            // Team search input
+            document.getElementById('teamSearchInput').addEventListener('input', (e) => {
+                filterTeams(e.target.value);
+            });
+
+            // Close team picker when clicking outside
+            document.addEventListener('click', (e) => {
+                const picker = document.getElementById('teamPicker');
+                const findGameLink = document.getElementById('findGameLink');
+
+                if (!picker.contains(e.target) && e.target !== findGameLink) {
                     picker.classList.remove('visible');
                 }
             });
@@ -1528,16 +1709,20 @@
         }
 
         // Show loading state
-        function showLoading() {
+        function showLoading(customMessage = null) {
             const resultsArea = document.getElementById('resultsArea');
-            let loadingMessage;
-            if (selectedSport === 'NBA') {
-                const dateObj = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
-            } else {
-                loadingMessage = `loading week ${selectedWeek}...`;
+            let loadingMessage = customMessage;
+
+            if (!loadingMessage) {
+                if (selectedSport === 'NBA') {
+                    const dateObj = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                    const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
+                } else {
+                    loadingMessage = `loading week ${selectedWeek}...`;
+                }
             }
+
             resultsArea.innerHTML = `
                 <div class="loading">
                     <div class="loading-text">${loadingMessage}</div>
@@ -1832,6 +2017,235 @@
                     tooltip.style.display = 'none';
                 });
             });
+        }
+
+        // Team Lookup Functions
+        async function loadTeams() {
+            if (allTeams.length > 0) {
+                displayTeams(allTeams);
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/teams?sport=${selectedSport}`);
+                const data = await response.json();
+
+                if (data.success && data.teams) {
+                    allTeams = data.teams;
+                    displayTeams(allTeams);
+                }
+            } catch (error) {
+                console.error('Error loading teams:', error);
+                document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Failed to load teams</div>';
+            }
+        }
+
+        function displayTeams(teams) {
+            const teamList = document.getElementById('teamList');
+            teamList.innerHTML = '';
+
+            if (teams.length === 0) {
+                teamList.innerHTML = '<div style="color: #6b6560; padding: 8px;">No teams found</div>';
+                return;
+            }
+
+            teams.forEach(team => {
+                const teamItem = document.createElement('div');
+                teamItem.className = 'team-item';
+                teamItem.textContent = team.displayName;
+                teamItem.addEventListener('click', () => {
+                    selectTeam(team);
+                });
+                teamList.appendChild(teamItem);
+            });
+        }
+
+        function filterTeams(query) {
+            if (!query) {
+                displayTeams(allTeams);
+                return;
+            }
+
+            const filtered = allTeams.filter(team =>
+                team.displayName.toLowerCase().includes(query.toLowerCase()) ||
+                team.name.toLowerCase().includes(query.toLowerCase()) ||
+                team.abbreviation.toLowerCase().includes(query.toLowerCase())
+            );
+
+            displayTeams(filtered);
+        }
+
+        function selectTeam(team) {
+            selectedTeam = team;
+            document.getElementById('teamPicker').classList.remove('visible');
+            document.getElementById('teamSearchInput').value = '';
+            loadSchedule(team);
+        }
+
+        async function loadSchedule(team) {
+            viewMode = 'schedule';
+            isLoading = true;
+            showLoading(`loading ${team.displayName} schedule...`);
+
+            try {
+                const response = await fetch(`/api/schedule?sport=${selectedSport}&teamId=${team.id}&season=${selectedSeason}`);
+                const data = await response.json();
+
+                if (data.success && data.games) {
+                    currentSchedule = data.games;
+                    displaySchedule(data.team, data.games);
+                } else {
+                    showEmpty(`No completed games found for ${team.displayName} in ${selectedSeason}.`);
+                }
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+                showEmpty('Failed to load schedule. Please try again.');
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function displaySchedule(team, games) {
+            const resultsArea = document.getElementById('resultsArea');
+
+            let html = `
+                <div class="schedule-view">
+                    <div class="schedule-header">
+                        <span class="team-name">${team.displayName}</span>
+                        <span class="separator">·</span>
+                        <span class="schedule-season">${selectedSeason}</span>
+                    </div>
+                    <a href="#" class="back-link" id="backToWeek">← back to week ${selectedWeek}</a>
+
+                    <div class="spoiler-toggle-wrapper">
+                        <span class="toggle-label">show results</span>
+                        <div class="toggle-switch ${!spoilerFree ? 'active' : ''}" id="scheduleScoreToggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-list">
+            `;
+
+            games.forEach(game => {
+                // Handle postseason/bowl game labeling
+                const weekText = game.isPostseason
+                    ? (game.bowlName || 'bowl game')
+                    : (game.week ? `week ${game.week}` : game.displayDate);
+
+                const locationPrefix = game.homeAway === 'home' ? 'vs' : '@';
+
+                // Show results based on spoiler state
+                const resultText = spoilerFree ? 'final' : game.result;
+
+                html += `
+                    <div class="schedule-row" data-game-id="${game.id}">
+                        <span class="schedule-week">${weekText}</span>
+                        <span class="separator">·</span>
+                        <span class="schedule-date">${game.displayDate}</span>
+                        <span class="separator">·</span>
+                        <span class="schedule-opponent">${locationPrefix} ${game.opponent}</span>
+                        <span class="separator">·</span>
+                        <span class="schedule-result">${resultText}</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            resultsArea.innerHTML = html;
+
+            // Attach event listeners
+            document.getElementById('backToWeek').addEventListener('click', (e) => {
+                e.preventDefault();
+                backToWeek();
+            });
+
+            // Toggle listener
+            const toggle = document.getElementById('scheduleScoreToggle');
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    spoilerFree = !spoilerFree;
+                    localStorage.setItem('spoilerFree', spoilerFree);
+                    displaySchedule(team, games);  // Re-render with new spoiler state
+                });
+            }
+
+            document.querySelectorAll('.schedule-row').forEach(row => {
+                row.addEventListener('click', () => {
+                    const gameId = row.dataset.gameId;
+                    loadSingleGame(gameId);
+                });
+            });
+        }
+
+        async function loadSingleGame(gameId) {
+            viewMode = 'single-game';
+            selectedGameFromSchedule = gameId;
+            isLoading = true;
+            showLoading('analyzing game...');
+
+            try {
+                const response = await fetch('/api/games', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sport: selectedSport,
+                        gameId: gameId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.games && data.games.length > 0) {
+                    displaySingleGame(data.games[0]);
+                } else {
+                    showEmpty('Could not analyze this game. Please try another.');
+                }
+            } catch (error) {
+                console.error('Error loading single game:', error);
+                showEmpty('Failed to load game. Please try again.');
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function displaySingleGame(game) {
+            const resultsArea = document.getElementById('resultsArea');
+
+            let html = `
+                <a href="#" class="back-link" id="backToSchedule">← back to ${selectedTeam.displayName.toLowerCase()} schedule</a>
+                <div class="games-list">
+                    ${createGameRow(game, 0)}
+                </div>
+            `;
+
+            resultsArea.innerHTML = html;
+
+            // Attach event listeners
+            document.getElementById('backToSchedule').addEventListener('click', (e) => {
+                e.preventDefault();
+                backToSchedule();
+            });
+
+            attachRadarChartListeners();
+        }
+
+        function backToWeek() {
+            viewMode = 'week';
+            selectedTeam = null;
+            currentSchedule = null;
+            selectedGameFromSchedule = null;
+            loadGames();
+        }
+
+        function backToSchedule() {
+            viewMode = 'schedule';
+            selectedGameFromSchedule = null;
+            displaySchedule({ displayName: selectedTeam.displayName }, currentSchedule);
         }
 
         // Start the app
