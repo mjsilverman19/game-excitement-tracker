@@ -50,12 +50,42 @@ export default async function handler(req, res) {
       });
     }
 
-    const url = `https://site.api.espn.com/apis/site/v2/sports/${apiPath}/teams/${teamId}/schedule?season=${season}`;
+    const baseUrl = `https://site.api.espn.com/apis/site/v2/sports/${apiPath}/teams/${teamId}/schedule`;
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`ESPN API error: ${response.status}`);
+    let data;
 
-    const data = await response.json();
+    // For CFB, fetch both regular season and postseason
+    if (sport === 'CFB') {
+      const regularSeasonUrl = `${baseUrl}?season=${season}&seasontype=2`;
+      const postseasonUrl = `${baseUrl}?season=${season}&seasontype=3`;
+
+      const [regularRes, postRes] = await Promise.all([
+        fetch(regularSeasonUrl),
+        fetch(postseasonUrl)
+      ]);
+
+      if (!regularRes.ok && !postRes.ok) {
+        throw new Error(`ESPN API error: ${regularRes.status}`);
+      }
+
+      const regularData = regularRes.ok ? await regularRes.json() : { events: [] };
+      const postData = postRes.ok ? await postRes.json() : { events: [] };
+
+      // Merge events from both season types
+      data = {
+        team: regularData.team || postData.team,
+        events: [
+          ...(regularData.events || []),
+          ...(postData.events || [])
+        ]
+      };
+    } else {
+      // For NFL and NBA, single fetch is sufficient
+      const url = `${baseUrl}?season=${season}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`ESPN API error: ${response.status}`);
+      data = await response.json();
+    }
 
     // Get team info
     const team = {
