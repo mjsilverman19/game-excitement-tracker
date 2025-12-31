@@ -118,6 +118,54 @@
             margin-bottom: 8px;
         }
 
+        .about-section a {
+            color: #9a958e;
+            text-decoration: underline;
+            transition: color 150ms ease;
+        }
+
+        .about-section a:hover {
+            color: #ede9e3;
+        }
+
+        .about-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 13px;
+        }
+
+        .about-table th {
+            text-align: left;
+            color: #ede9e3;
+            font-weight: 500;
+            padding: 8px 12px 8px 0;
+            border-bottom: 1px solid #3a3836;
+        }
+
+        .about-table td {
+            color: #9a958e;
+            padding: 12px 12px 12px 0;
+            border-bottom: 1px solid #2a2826;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .about-table td:first-child {
+            color: #ede9e3;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .about-table code {
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 11px;
+            background: #2a2826;
+            padding: 2px 5px;
+            border-radius: 2px;
+            color: #ede9e3;
+        }
+
         /* Selection Interface - Minimal */
         .selection-interface {
             margin-bottom: 48px;
@@ -1051,25 +1099,64 @@
                 </header>
 
                 <section class="about-section">
+                    <h3>Who am I?</h3>
+                    <p>I'm Matthew Silverman. I work in financial communications in New York.</p>
+                </section>
+
+                <section class="about-section">
                     <h3>What is this?</h3>
-                    <p>The Game Entertainment Index is a tool designed to help you find the most exciting and entertaining games to watch. Instead of watching every game, let our index guide you to the most thrilling matchups.</p>
+                    <p>I built this site to solve a problem I kept running into as a sports fan: how do you know which past games are worth watching without seeing the score?</p>
+                    <p>The site pulls win probability data from ESPN and runs it through an algorithm. Win probability graphs contain information that final scores don't. A 24-21 game could be a back-and-forth thriller or a blowout that got close in garbage time. The model tries to tell the difference.</p>
                 </section>
 
                 <section class="about-section">
-                    <h3>How does it work?</h3>
-                    <p>Our scoring algorithm analyzes various factors including:</p>
-                    <ul>
-                        <li>Score Proximity — Close games are more exciting than blowouts</li>
-                        <li>Lead Changes — Games with momentum swings keep you on the edge of your seat</li>
-                        <li>Overtime — Extra time means extra drama</li>
-                        <li>Final Score — Higher-scoring games often provide more action</li>
-                    </ul>
-                    <p>Each game receives a score from 0-10, with 10 being the most entertaining possible game.</p>
+                    <h3>How it works</h3>
+                    <p>The algorithm analyzes win probability data across three independent dimensions:</p>
+
+                    <table class="about-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Description</th>
+                                <th>Calculation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Outcome Uncertainty</td>
+                                <td>How long was the result in doubt?</td>
+                                <td>Time-weighted integral of <code>1 - |prob - 0.5|</code> across all data points. A game at 50/50 the entire time scores 10; a wire-to-wire blowout scores near 0.</td>
+                            </tr>
+                            <tr>
+                                <td>Momentum Drama</td>
+                                <td>How big were the swings, when they mattered?</td>
+                                <td>Leverage-weighted movement: <code>Σ(|Δprob| × p × (1-p))</code>. Swings near 50/50 count fully; swings when the game is decided contribute almost nothing.</td>
+                            </tr>
+                            <tr>
+                                <td>Finish Quality</td>
+                                <td>Did it come down to the wire?</td>
+                                <td>Final-period volatility plus proximity to 0.5 at game end, with a bonus for walk-off moments (swing > 0.15 in final data points).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Of these metrics, finish quality carries the most weight (40%). This is a judgement call on my part but I think a boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
                 </section>
 
                 <section class="about-section">
-                    <h3>How to use</h3>
-                    <p>Select your sport (NFL, CFB, or NBA) and navigate between weeks (for football) or dates (for basketball). Games are automatically ranked by entertainment value. Use the "show scores" toggle to reveal final scores if you're browsing spoiler-free.</p>
+                    <h3>Flaws in this approach</h3>
+                    <p>This model reflects one definition of entertaining: competitive games with meaningful swings and late drama. It won't flag a defensive masterpiece, a historic individual performance, or a rivalry game that matters for reasons the data can't see.</p>
+                    <p>Which raises interesting questions on its own. What makes something worth watching? Can you quantify it? Where does the model fail, and what does that reveal about what we actually value? I don't have great answers but am open to any thoughts.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>Feedback & contact</h3>
+                    <p>This is a hobby project and a work in progress. If you have suggestions, see something broken, or want to discuss the methodology, I'd love to hear from you.</p>
+                    <p>
+                        <a href="mailto:mjsilverman19@gmail.com">mjsilverman19@gmail.com</a> ·
+                        <a href="https://www.linkedin.com/in/matthew-silverman-a84382105/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+                        <a href="https://buymeacoffee.com/msilverman" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+                    </p>
                 </section>
             </div>
         </div>
