@@ -609,7 +609,7 @@
 
         .radar-label {
             font-family: monospace;
-            font-size: 10px;
+            font-size: 11px;
             fill: #9a958e;
             text-anchor: middle;
             font-weight: 500;
@@ -617,7 +617,7 @@
 
         .radar-value {
             font-family: monospace;
-            font-size: 10px;
+            font-size: 12px;
             fill: #ede9e3;
             text-anchor: middle;
             font-weight: 600;
@@ -1602,9 +1602,10 @@
                 { key: 'leadChanges', label: 'lead_changes' }
             ];
 
-            const size = 160;
+            const size = 280;
             const center = size / 2;
-            const radius = 60;
+            const radius = 80;
+            const labelDistance = 115;
             const angleStep = (2 * Math.PI) / 5;
             const startAngle = -Math.PI / 2; // Start at top
 
@@ -1616,8 +1617,8 @@
                 return {
                     x: center + r * Math.cos(angle),
                     y: center + r * Math.sin(angle),
-                    labelX: center + (radius + 20) * Math.cos(angle),
-                    labelY: center + (radius + 20) * Math.sin(angle),
+                    labelX: center + labelDistance * Math.cos(angle),
+                    labelY: center + labelDistance * Math.sin(angle),
                     label: m.label,
                     value: value
                 };
@@ -1646,7 +1647,7 @@
             let labels = '';
             points.forEach(p => {
                 labels += `<text x="${p.labelX}" y="${p.labelY}" class="radar-label">${p.label}</text>`;
-                labels += `<text x="${p.labelX}" y="${p.labelY + 10}" class="radar-value">${p.value.toFixed(1)}</text>`;
+                labels += `<text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(1)}</text>`;
             });
 
             return `
