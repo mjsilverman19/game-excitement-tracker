@@ -1621,12 +1621,13 @@
             const currentSeasonYear = currentSeasonInfo.season;
 
             // Populate season buttons
-            // Show current season and previous season only (ESPN historical data is limited)
+            // Only show current season (historical data not available)
             const seasonButtons = document.getElementById('seasonButtons');
             seasonButtons.innerHTML = '';
 
-            // Only show current season and one year back
-            for (let year = currentSeasonYear; year >= currentSeasonYear - 1; year--) {
+            const seasonsToShow = [currentSeasonYear];
+
+            seasonsToShow.forEach(year => {
                 const btn = document.createElement('div');
                 btn.className = 'season-btn';
                 if (year === selectedSeason) {
@@ -1641,7 +1642,7 @@
                     document.getElementById('weekPicker').classList.remove('visible');
                 });
                 seasonButtons.appendChild(btn);
-            }
+            });
 
             // Populate week grid
             const weekGrid = document.getElementById('weekGrid');
