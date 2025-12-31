@@ -86,9 +86,12 @@ export default async function handler(req, res) {
           ? (awayTeam?.team?.shortDisplayName || awayTeam?.team?.displayName || 'Unknown')
           : (homeTeam?.team?.shortDisplayName || homeTeam?.team?.displayName || 'Unknown');
 
-        // Determine result
-        const teamScore = isHome ? parseInt(homeTeam?.score || 0) : parseInt(awayTeam?.score || 0);
-        const opponentScore = isHome ? parseInt(awayTeam?.score || 0) : parseInt(homeTeam?.score || 0);
+        // Determine result - handle nested score object
+        const homeScore = parseInt(homeTeam?.score?.displayValue || homeTeam?.score?.value || homeTeam?.score || 0);
+        const awayScore = parseInt(awayTeam?.score?.displayValue || awayTeam?.score?.value || awayTeam?.score || 0);
+
+        const teamScore = isHome ? homeScore : awayScore;
+        const opponentScore = isHome ? awayScore : homeScore;
         const won = teamScore > opponentScore;
         const resultText = `${won ? 'W' : 'L'} ${teamScore}-${opponentScore}`;
 
