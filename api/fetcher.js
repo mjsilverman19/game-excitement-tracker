@@ -114,3 +114,32 @@ function parseEvent(event, sport = 'NFL') {
     date: event.date || competition.date
   };
 }
+
+export async function fetchSingleGame(sport, gameId) {
+  try {
+    // Map sport to ESPN API path
+    let apiPath;
+    if (sport === 'NFL') {
+      apiPath = 'football/nfl';
+    } else if (sport === 'CFB') {
+      apiPath = 'football/college-football';
+    } else if (sport === 'NBA') {
+      apiPath = 'basketball/nba';
+    } else {
+      throw new Error('Invalid sport');
+    }
+
+    const url = `https://site.api.espn.com/apis/site/v2/sports/${apiPath}/summary?event=${gameId}`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`ESPN API error: ${response.status}`);
+
+    const data = await response.json();
+
+    // Parse the game event
+    return parseEvent(data, sport);
+  } catch (error) {
+    console.error('Error fetching single game:', error);
+    throw error;
+  }
+}
