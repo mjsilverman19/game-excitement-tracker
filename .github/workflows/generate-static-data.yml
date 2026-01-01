@@ -1,0 +1,114 @@
+name: Generate Static Game Data
+
+on:
+  schedule:
+    # NFL: Tuesday 10 AM UTC (5 AM EST, after Monday Night Football)
+    - cron: '0 10 * 9-12,1-2 2'
+    # CFB: Sunday 8 AM UTC (3 AM EST, after Saturday games)
+    - cron: '0 8 * 8-12,1 0'
+    # NBA: Daily 10 AM UTC (5 AM EST, after West Coast games)
+    - cron: '0 10 * 10-12,1-6 *'
+  workflow_dispatch:
+    inputs:
+      sport:
+        description: 'Sport to generate (NFL, CFB, NBA, or all)'
+        required: false
+        default: 'all'
+      force:
+        description: 'Force regenerate existing files'
+        required: false
+        default: 'false'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Determine what to generate
+        id: determine
+        run: |
+          DAY_OF_WEEK=$(date +%u)
+          MONTH=$(date +%-m)
+
+          # Manual trigger
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "sport=${{ github.event.inputs.sport }}" >> $GITHUB_OUTPUT
+            echo "force=${{ github.event.inputs.force }}" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Tuesday = NFL (day 2)
+          if [ "$DAY_OF_WEEK" = "2" ] && [ "$MONTH" -ge 9 -o "$MONTH" -le 2 ]; then
+            echo "sport=NFL" >> $GITHUB_OUTPUT
+          # Sunday = CFB (day 7)
+          elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 -o "$MONTH" -le 1 ]; then
+            echo "sport=CFB" >> $GITHUB_OUTPUT
+          # Daily = NBA (October through June)
+          elif [ "$MONTH" -ge 10 -o "$MONTH" -le 6 ]; then
+            echo "sport=NBA" >> $GITHUB_OUTPUT
+          else
+            echo "sport=none" >> $GITHUB_OUTPUT
+          fi
+          echo "force=false" >> $GITHUB_OUTPUT
+
+      - name: Generate NFL data
+        if: steps.determine.outputs.sport == 'NFL' || steps.determine.outputs.sport == 'all'
+        run: |
+          CURRENT_WEEK=$(node -e "
+            const now = new Date();
+            const seasonStart = new Date(2025, 8, 4); // Sept 4, 2025
+            const weeks = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+            console.log(Math.min(18, Math.max(1, weeks)));
+          ")
+          echo "Generating NFL week $CURRENT_WEEK"
+          node scripts/generate-static.js --sport NFL --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+
+      - name: Generate CFB data
+        if: steps.determine.outputs.sport == 'CFB' || steps.determine.outputs.sport == 'all'
+        run: |
+          CURRENT_WEEK=$(node -e "
+            const now = new Date();
+            const seasonStart = new Date(2025, 7, 23); // Aug 23, 2025
+            const weeks = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+            console.log(Math.min(15, Math.max(1, weeks)));
+          ")
+          echo "Generating CFB week $CURRENT_WEEK"
+          node scripts/generate-static.js --sport CFB --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+
+          # Also generate bowls if in December/January
+          MONTH=$(date +%-m)
+          if [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
+            echo "Generating CFB bowls"
+            node scripts/generate-static.js --sport CFB --season 2025 --week bowls ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+          fi
+
+      - name: Generate NBA data
+        if: steps.determine.outputs.sport == 'NBA' || steps.determine.outputs.sport == 'all'
+        run: |
+          YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
+          echo "Generating NBA data for $YESTERDAY"
+          node scripts/generate-static.js --sport NBA --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/
+
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No new data to commit"
+          else
+            git commit -m "Auto-generate static game data [skip ci]"
+            git push
+          fi
