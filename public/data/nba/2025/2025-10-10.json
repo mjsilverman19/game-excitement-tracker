@@ -1,0 +1,85 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812698",
+      "homeTeam": "76ers",
+      "awayTeam": "Magic",
+      "homeScore": 98,
+      "awayScore": 128,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 8.847774858014636,
+        "drama": 10,
+        "finish": 6.439298970560989
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812700",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Kings",
+      "homeScore": 124,
+      "awayScore": 123,
+      "excitement": 8.4,
+      "breakdown": {
+        "uncertainty": 8.261265331964756,
+        "drama": 10,
+        "finish": 5.6536706633648395
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812699",
+      "homeTeam": "Spurs",
+      "awayTeam": "Jazz",
+      "homeScore": 134,
+      "awayScore": 130,
+      "excitement": 7.9,
+      "breakdown": {
+        "uncertainty": 6.902710584622454,
+        "drama": 8.778794002797213,
+        "finish": 4.216703293584624
+      },
+      "overtime": true
+    },
+    {
+      "id": "401812696",
+      "homeTeam": "Nets",
+      "awayTeam": "Suns",
+      "homeScore": 127,
+      "awayScore": 132,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 4.6909196291913675,
+        "drama": 7.032917928644863,
+        "finish": 6.337567848548699
+      },
+      "overtime": true
+    },
+    {
+      "id": "401812697",
+      "homeTeam": "Raptors",
+      "awayTeam": "Celtics",
+      "homeScore": 107,
+      "awayScore": 105,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 6.504332749323268,
+        "drama": 8.152227315393672,
+        "finish": 3.533581938116229
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:25:48.755Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-10"
+  }
+}

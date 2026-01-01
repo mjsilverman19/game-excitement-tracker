@@ -1,0 +1,43 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810223",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Grizzlies",
+      "homeScore": 110,
+      "awayScore": 116,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 6.789182425914251,
+        "drama": 8.845482098559785,
+        "finish": 5.088509605778983
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810222",
+      "homeTeam": "Bulls",
+      "awayTeam": "Cavaliers",
+      "homeScore": 127,
+      "awayScore": 111,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 6.228212602193478,
+        "drama": 8.655094525535722,
+        "finish": 4.336953776021936
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:34.541Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-17"
+  }
+}

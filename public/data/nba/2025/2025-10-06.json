@@ -1,0 +1,85 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812678",
+      "homeTeam": "Heat",
+      "awayTeam": "Bucks",
+      "homeScore": 93,
+      "awayScore": 103,
+      "excitement": 8.8,
+      "breakdown": {
+        "uncertainty": 8.111050490101565,
+        "drama": 10,
+        "finish": 7.377942156134409
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812679",
+      "homeTeam": "Rockets",
+      "awayTeam": "Hawks",
+      "homeScore": 122,
+      "awayScore": 113,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 7.51835834929821,
+        "drama": 10,
+        "finish": 7.63992192070416
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812680",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Pistons",
+      "homeScore": 112,
+      "awayScore": 128,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 5.56026283741838,
+        "drama": 8.509695410470874,
+        "finish": 5.521221584836104
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812683",
+      "homeTeam": "Raptors",
+      "awayTeam": "Nuggets",
+      "homeScore": 108,
+      "awayScore": 112,
+      "excitement": 7.1,
+      "breakdown": {
+        "uncertainty": 6.760017300225098,
+        "drama": 9.181537974623811,
+        "finish": 4.016933378572686
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812682",
+      "homeTeam": "Mavericks",
+      "awayTeam": "Thunder",
+      "homeScore": 106,
+      "awayScore": 89,
+      "excitement": 4.2,
+      "breakdown": {
+        "uncertainty": 4.961433988512952,
+        "drama": 6.635030102440553,
+        "finish": 1.0107667654273833
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 6,
+    "insufficientData": 1,
+    "generatedAt": "2026-01-01T23:25:45.994Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-06"
+  }
+}

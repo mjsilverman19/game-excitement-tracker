@@ -1,0 +1,169 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401809814",
+      "homeTeam": "Pistons",
+      "awayTeam": "Magic",
+      "homeScore": 109,
+      "awayScore": 112,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 8.18717057492617,
+        "drama": 9.631827389018232,
+        "finish": 6.515858446932418
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809813",
+      "homeTeam": "Hornets",
+      "awayTeam": "Bulls",
+      "homeScore": 123,
+      "awayScore": 116,
+      "excitement": 8.4,
+      "breakdown": {
+        "uncertainty": 7.941801734685057,
+        "drama": 9.59532116745346,
+        "finish": 6.381344935398607
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809816",
+      "homeTeam": "Knicks",
+      "awayTeam": "Bucks",
+      "homeScore": 118,
+      "awayScore": 109,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 8.109898534465001,
+        "drama": 10,
+        "finish": 5.532388374683832
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809811",
+      "homeTeam": "Hawks",
+      "awayTeam": "Cavaliers",
+      "homeScore": 130,
+      "awayScore": 123,
+      "excitement": 8.1,
+      "breakdown": {
+        "uncertainty": 7.742818473622894,
+        "drama": 10,
+        "finish": 5.327436446198223
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809819",
+      "homeTeam": "Jazz",
+      "awayTeam": "Kings",
+      "homeScore": 128,
+      "awayScore": 119,
+      "excitement": 7.8,
+      "breakdown": {
+        "uncertainty": 6.9218209157283255,
+        "drama": 8.579048125075369,
+        "finish": 6.017849274446656
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809820",
+      "homeTeam": "Lakers",
+      "awayTeam": "Mavericks",
+      "homeScore": 129,
+      "awayScore": 119,
+      "excitement": 7,
+      "breakdown": {
+        "uncertainty": 5.93126506363366,
+        "drama": 8.416532234399485,
+        "finish": 4.8868511538852735
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809818",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Spurs",
+      "homeScore": 136,
+      "awayScore": 139,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 6.1146656282237455,
+        "drama": 8.124734041352493,
+        "finish": 3.989081368934195
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809815",
+      "homeTeam": "Pacers",
+      "awayTeam": "Wizards",
+      "homeScore": 119,
+      "awayScore": 86,
+      "excitement": 6.1,
+      "breakdown": {
+        "uncertainty": 5.372943649141703,
+        "drama": 7.578331889095905,
+        "finish": 3.9414916018522095
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809821",
+      "homeTeam": "Clippers",
+      "awayTeam": "Grizzlies",
+      "homeScore": 107,
+      "awayScore": 112,
+      "excitement": 4.8,
+      "breakdown": {
+        "uncertainty": 3.6566610346579376,
+        "drama": 5.503818947885507,
+        "finish": 4.233127658585309
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809812",
+      "homeTeam": "Nets",
+      "awayTeam": "76ers",
+      "homeScore": 103,
+      "awayScore": 115,
+      "excitement": 4.5,
+      "breakdown": {
+        "uncertainty": 3.4291050481388785,
+        "drama": 4.959340628630569,
+        "finish": 4.088986978828772
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809817",
+      "homeTeam": "Thunder",
+      "awayTeam": "Suns",
+      "homeScore": 123,
+      "awayScore": 119,
+      "excitement": 4.4,
+      "breakdown": {
+        "uncertainty": 3.475667352306817,
+        "drama": 4.476562756781723,
+        "finish": 4.273639834791689
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 11,
+    "totalGames": 11,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:21.678Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-11-28"
+  }
+}

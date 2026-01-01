@@ -1,0 +1,71 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401836748",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 143,
+      "awayScore": 120,
+      "excitement": 9.1,
+      "breakdown": {
+        "uncertainty": 8.827892717956814,
+        "drama": 10,
+        "finish": 8.482461888872823
+      },
+      "overtime": false
+    },
+    {
+      "id": "401836746",
+      "homeTeam": "Rockets",
+      "awayTeam": "Clippers",
+      "homeScore": 115,
+      "awayScore": 113,
+      "excitement": 7.9,
+      "breakdown": {
+        "uncertainty": 6.700094023553578,
+        "drama": 8.992754763129389,
+        "finish": 6.283688130437329
+      },
+      "overtime": false
+    },
+    {
+      "id": "401836747",
+      "homeTeam": "Bucks",
+      "awayTeam": "Celtics",
+      "homeScore": 116,
+      "awayScore": 101,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 4.987383787243671,
+        "drama": 7.268910546225515,
+        "finish": 6.298424147672436
+      },
+      "overtime": false
+    },
+    {
+      "id": "401836749",
+      "homeTeam": "Kings",
+      "awayTeam": "Nuggets",
+      "homeScore": 105,
+      "awayScore": 136,
+      "excitement": 2.2,
+      "breakdown": {
+        "uncertainty": 1.9255471635995371,
+        "drama": 3.0553262406567128,
+        "finish": 0.2632081592979307
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:30.761Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-11"
+  }
+}

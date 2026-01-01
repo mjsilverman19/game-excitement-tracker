@@ -1,0 +1,43 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401809833",
+      "homeTeam": "Magic",
+      "awayTeam": "Heat",
+      "homeScore": 117,
+      "awayScore": 108,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 7.108098330449842,
+        "drama": 9.817893477038231,
+        "finish": 5.664560634714765
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809834",
+      "homeTeam": "Raptors",
+      "awayTeam": "Knicks",
+      "homeScore": 101,
+      "awayScore": 117,
+      "excitement": 5.8,
+      "breakdown": {
+        "uncertainty": 5.795192946432081,
+        "drama": 7.688141297967047,
+        "finish": 2.944806967935013
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:29.476Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-09"
+  }
+}

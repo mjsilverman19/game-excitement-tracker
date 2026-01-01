@@ -1,0 +1,113 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810217",
+      "homeTeam": "76ers",
+      "awayTeam": "Lakers",
+      "homeScore": 108,
+      "awayScore": 112,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 8.184900423739688,
+        "drama": 9.801877395681268,
+        "finish": 6.482461888872824
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810212",
+      "homeTeam": "Knicks",
+      "awayTeam": "Magic",
+      "homeScore": 106,
+      "awayScore": 100,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 7.847347719336241,
+        "drama": 9.854210387910134,
+        "finish": 5.814817067784303
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810214",
+      "homeTeam": "Hornets",
+      "awayTeam": "Nuggets",
+      "homeScore": 106,
+      "awayScore": 115,
+      "excitement": 6.7,
+      "breakdown": {
+        "uncertainty": 5.751696957584662,
+        "drama": 8.313814231644429,
+        "finish": 4.421322832862664
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810216",
+      "homeTeam": "Bulls",
+      "awayTeam": "Warriors",
+      "homeScore": 91,
+      "awayScore": 123,
+      "excitement": 4.8,
+      "breakdown": {
+        "uncertainty": 3.8169891960932,
+        "drama": 6.034965484023793,
+        "finish": 3.7195306282313734
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810213",
+      "homeTeam": "Raptors",
+      "awayTeam": "Celtics",
+      "homeScore": 113,
+      "awayScore": 121,
+      "excitement": 4.4,
+      "breakdown": {
+        "uncertainty": 3.9174520192796587,
+        "drama": 5.834525114295845,
+        "finish": 2.9823075052392833
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810215",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 119,
+      "awayScore": 96,
+      "excitement": 3.5,
+      "breakdown": {
+        "uncertainty": 2.706886259481598,
+        "drama": 4.006831155068133,
+        "finish": 3.1349855683521244
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810218",
+      "homeTeam": "Jazz",
+      "awayTeam": "Thunder",
+      "homeScore": 101,
+      "awayScore": 131,
+      "excitement": 1.9,
+      "breakdown": {
+        "uncertainty": 1.1411847857979023,
+        "drama": 1.1688277687937363,
+        "finish": 0.6763463341432148
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 7,
+    "totalGames": 7,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:27.987Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-07"
+  }
+}

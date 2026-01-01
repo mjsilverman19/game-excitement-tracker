@@ -1,0 +1,43 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812677",
+      "homeTeam": "Warriors",
+      "awayTeam": "Lakers",
+      "homeScore": 111,
+      "awayScore": 103,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 7.327967562323034,
+        "drama": 9.444842111488462,
+        "finish": 3.578254666351873
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812676",
+      "homeTeam": "Hornets",
+      "awayTeam": "Thunder",
+      "homeScore": 114,
+      "awayScore": 135,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 5.796095798454502,
+        "drama": 7.880778386289212,
+        "finish": 4.344746765146718
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:25:45.131Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-05"
+  }
+}

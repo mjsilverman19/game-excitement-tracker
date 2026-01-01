@@ -1,0 +1,85 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401809955",
+      "homeTeam": "Magic",
+      "awayTeam": "Bulls",
+      "homeScore": 98,
+      "awayScore": 110,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 7.947636122919034,
+        "drama": 9.290082713295337,
+        "finish": 5.227478003882487
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809957",
+      "homeTeam": "76ers",
+      "awayTeam": "Hornets",
+      "homeScore": 125,
+      "awayScore": 121,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 6.2224358942136915,
+        "drama": 8.892903590998117,
+        "finish": 6.149604880472888
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809958",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Pacers",
+      "homeScore": 128,
+      "awayScore": 103,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 6.691063471073388,
+        "drama": 8.43555868493248,
+        "finish": 4.7347179434819875
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809956",
+      "homeTeam": "Hawks",
+      "awayTeam": "Thunder",
+      "homeScore": 100,
+      "awayScore": 117,
+      "excitement": 6,
+      "breakdown": {
+        "uncertainty": 5.241238533310838,
+        "drama": 7.3793021623139925,
+        "finish": 3.970228924874717
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809959",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Suns",
+      "homeScore": 133,
+      "awayScore": 111,
+      "excitement": 3.8,
+      "breakdown": {
+        "uncertainty": 2.833093847452823,
+        "drama": 3.798303021348071,
+        "finish": 3.806813655288348
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:25:57.838Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-25"
+  }
+}

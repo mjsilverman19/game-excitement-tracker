@@ -1,0 +1,71 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812711",
+      "homeTeam": "Hawks",
+      "awayTeam": "Heat",
+      "homeScore": 119,
+      "awayScore": 118,
+      "excitement": 8.9,
+      "breakdown": {
+        "uncertainty": 8.118378759868518,
+        "drama": 9.48024012838568,
+        "finish": 6.57748609121697
+      },
+      "overtime": true
+    },
+    {
+      "id": "401812712",
+      "homeTeam": "Pacers",
+      "awayTeam": "Spurs",
+      "homeScore": 108,
+      "awayScore": 124,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 7.954935754598944,
+        "drama": 9.933069412063915,
+        "finish": 6.477678574496488
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812715",
+      "homeTeam": "Jazz",
+      "awayTeam": "Mavericks",
+      "homeScore": 101,
+      "awayScore": 114,
+      "excitement": 7.8,
+      "breakdown": {
+        "uncertainty": 7.764468135525281,
+        "drama": 9.446060941961111,
+        "finish": 4.795053527160651
+      },
+      "overtime": false
+    },
+    {
+      "id": "401812713",
+      "homeTeam": "Knicks",
+      "awayTeam": "Wizards",
+      "homeScore": 103,
+      "awayScore": 120,
+      "excitement": 3.7,
+      "breakdown": {
+        "uncertainty": 4.2437758320914885,
+        "drama": 6.93031034212995,
+        "finish": 0.23634633414321446
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 5,
+    "insufficientData": 1,
+    "generatedAt": "2026-01-01T23:25:50.654Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-13"
+  }
+}

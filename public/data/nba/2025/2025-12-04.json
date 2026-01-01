@@ -1,0 +1,85 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810191",
+      "homeTeam": "Raptors",
+      "awayTeam": "Lakers",
+      "homeScore": 120,
+      "awayScore": 123,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 7.314074310200453,
+        "drama": 9.934109167047028,
+        "finish": 6.194597654437808
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810190",
+      "homeTeam": "Nets",
+      "awayTeam": "Jazz",
+      "homeScore": 110,
+      "awayScore": 123,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 7.164546719908343,
+        "drama": 9.082053606769495,
+        "finish": 6.204554836266921
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810192",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Timberwolves",
+      "homeScore": 116,
+      "awayScore": 125,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 5.8966940438013715,
+        "drama": 8.275573602753266,
+        "finish": 6.647977521987564
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810189",
+      "homeTeam": "Wizards",
+      "awayTeam": "Celtics",
+      "homeScore": 101,
+      "awayScore": 146,
+      "excitement": 4.4,
+      "breakdown": {
+        "uncertainty": 3.424850732120384,
+        "drama": 5.241152988678106,
+        "finish": 3.7195306282313734
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810188",
+      "homeTeam": "76ers",
+      "awayTeam": "Warriors",
+      "homeScore": 99,
+      "awayScore": 98,
+      "excitement": 3,
+      "breakdown": {
+        "uncertainty": 2.650704885883624,
+        "drama": 3.4149797875927463,
+        "finish": 2.2351259029311987
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:25.518Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-04"
+  }
+}

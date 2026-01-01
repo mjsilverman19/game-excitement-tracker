@@ -1,0 +1,309 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401752705",
+      "homeTeam": "Tennessee",
+      "awayTeam": "Georgia",
+      "homeScore": 41,
+      "awayScore": 44,
+      "excitement": 9.4,
+      "breakdown": {
+        "uncertainty": 6.995995874255854,
+        "drama": 9.80406591830348,
+        "finish": 10
+      },
+      "overtime": true
+    },
+    {
+      "id": "401752707",
+      "homeTeam": "Notre Dame",
+      "awayTeam": "Texas A&M",
+      "homeScore": 40,
+      "awayScore": 41,
+      "excitement": 9.1,
+      "breakdown": {
+        "uncertainty": 6.720873398250503,
+        "drama": 9.867460846887731,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401754623",
+      "homeTeam": "Georgia Tech",
+      "awayTeam": "Clemson",
+      "homeScore": 24,
+      "awayScore": 21,
+      "excitement": 8.2,
+      "breakdown": {
+        "uncertainty": 7.275786688427165,
+        "drama": 8.937228540561005,
+        "finish": 6.666666666666667
+      },
+      "overtime": false
+    },
+    {
+      "id": "401756890",
+      "homeTeam": "Arkansas St",
+      "awayTeam": "Iowa State",
+      "homeScore": 16,
+      "awayScore": 24,
+      "excitement": 8.1,
+      "breakdown": {
+        "uncertainty": 4.362922722082337,
+        "drama": 7.009598730869488,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752704",
+      "homeTeam": "South Carolina",
+      "awayTeam": "Vanderbilt",
+      "homeScore": 7,
+      "awayScore": 31,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 5.312789510946506,
+        "drama": 5.629309294636293,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752700",
+      "homeTeam": "Ole Miss",
+      "awayTeam": "Arkansas",
+      "homeScore": 41,
+      "awayScore": 35,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 4.80315144360861,
+        "drama": 7.106721341943469,
+        "finish": 6.541666666666667
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752699",
+      "homeTeam": "LSU",
+      "awayTeam": "Florida",
+      "homeScore": 20,
+      "awayScore": 10,
+      "excitement": 5.9,
+      "breakdown": {
+        "uncertainty": 6.363539743060638,
+        "drama": 6.870056713292721,
+        "finish": 3.3333333333333335
+      },
+      "overtime": false
+    },
+    {
+      "id": "401756895",
+      "homeTeam": "Wyoming",
+      "awayTeam": "Utah",
+      "homeScore": 6,
+      "awayScore": 31,
+      "excitement": 5.9,
+      "breakdown": {
+        "uncertainty": 2.3617535192692123,
+        "drama": 2.1028009823388847,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752703",
+      "homeTeam": "Temple",
+      "awayTeam": "Oklahoma",
+      "homeScore": 3,
+      "awayScore": 42,
+      "excitement": 5,
+      "breakdown": {
+        "uncertainty": 1.1700241804877494,
+        "drama": 0.6971428532223529,
+        "finish": 9.993333333333334
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752831",
+      "homeTeam": "Northwestern",
+      "awayTeam": "Oregon",
+      "homeScore": 14,
+      "awayScore": 34,
+      "excitement": 4.8,
+      "breakdown": {
+        "uncertainty": 1.1622946294656236,
+        "drama": 0.3885805905267586,
+        "finish": 9.993333333333334
+      },
+      "overtime": false
+    },
+    {
+      "id": "401754535",
+      "homeTeam": "Miami",
+      "awayTeam": "South Florida",
+      "homeScore": 49,
+      "awayScore": 12,
+      "excitement": 2,
+      "breakdown": {
+        "uncertainty": 1.785956997656987,
+        "drama": 1.848008410716918,
+        "finish": 0.025999999999999357
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752827",
+      "homeTeam": "Ohio State",
+      "awayTeam": "Ohio",
+      "homeScore": 37,
+      "awayScore": 9,
+      "excitement": 1.8,
+      "breakdown": {
+        "uncertainty": 1.2779037902896342,
+        "drama": 0.6944659782611742,
+        "finish": 0.21333333333333204
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752696",
+      "homeTeam": "Alabama",
+      "awayTeam": "Wisconsin",
+      "homeScore": 38,
+      "awayScore": 14,
+      "excitement": 1.8,
+      "breakdown": {
+        "uncertainty": 1.1952767375407074,
+        "drama": 0.8177462859284979,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752697",
+      "homeTeam": "Auburn",
+      "awayTeam": "South Alabama",
+      "homeScore": 31,
+      "awayScore": 15,
+      "excitement": 1.8,
+      "breakdown": {
+        "uncertainty": 1.0834405294586633,
+        "drama": 0.5659111291470599,
+        "finish": 0.8440000000000003
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752829",
+      "homeTeam": "Illinois",
+      "awayTeam": "W Michigan",
+      "homeScore": 38,
+      "awayScore": 0,
+      "excitement": 1.7,
+      "breakdown": {
+        "uncertainty": 1.0063864423689446,
+        "drama": 0.41118071694383507,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752836",
+      "homeTeam": "Indiana",
+      "awayTeam": "Indiana St",
+      "homeScore": 73,
+      "awayScore": 0,
+      "excitement": 1.6,
+      "breakdown": {
+        "uncertainty": 0.08909226396909231,
+        "drama": 0.0006576271970433538,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752835",
+      "homeTeam": "Penn State",
+      "awayTeam": "Villanova",
+      "homeScore": 52,
+      "awayScore": 6,
+      "excitement": 1.6,
+      "breakdown": {
+        "uncertainty": 0.20782701757601021,
+        "drama": 0.009893751209244354,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752706",
+      "homeTeam": "Texas",
+      "awayTeam": "UTEP",
+      "homeScore": 27,
+      "awayScore": 10,
+      "excitement": 1.6,
+      "breakdown": {
+        "uncertainty": 0.5858655086136245,
+        "drama": 0.13382686245032768,
+        "finish": 0.08600000000000016
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752938",
+      "homeTeam": "Texas Tech",
+      "awayTeam": "Oregon St",
+      "homeScore": 45,
+      "awayScore": 14,
+      "excitement": 1.6,
+      "breakdown": {
+        "uncertainty": 0.4640159359544006,
+        "drama": 0.15875895848139016,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752839",
+      "homeTeam": "Michigan",
+      "awayTeam": "C Michigan",
+      "homeScore": 63,
+      "awayScore": 3,
+      "excitement": 1.6,
+      "breakdown": {
+        "uncertainty": 0.32638494224362485,
+        "drama": 0.047500976676968155,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    },
+    {
+      "id": "401752702",
+      "homeTeam": "Missouri",
+      "awayTeam": "Louisiana",
+      "homeScore": 52,
+      "awayScore": 10,
+      "excitement": 1.6,
+      "breakdown": {
+        "uncertainty": 0.41195845220852656,
+        "drama": 0.06456565315700738,
+        "finish": 0.006666666666666673
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "CFB",
+    "season": 2025,
+    "count": 21,
+    "totalGames": 21,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:25:10.855Z",
+    "source": "ESPN Win Probability Analysis",
+    "week": 3
+  }
+}

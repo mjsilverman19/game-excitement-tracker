@@ -1,0 +1,71 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810121",
+      "homeTeam": "Bucks",
+      "awayTeam": "76ers",
+      "homeScore": 114,
+      "awayScore": 123,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 7.477280294641012,
+        "drama": 9.769405356037872,
+        "finish": 5.686275489467742
+      },
+      "overtime": true
+    },
+    {
+      "id": "401810122",
+      "homeTeam": "Spurs",
+      "awayTeam": "Hawks",
+      "homeScore": 135,
+      "awayScore": 126,
+      "excitement": 6.7,
+      "breakdown": {
+        "uncertainty": 5.878261299789162,
+        "drama": 7.926895958401488,
+        "finish": 4.707543385753423
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810119",
+      "homeTeam": "Magic",
+      "awayTeam": "Clippers",
+      "homeScore": 129,
+      "awayScore": 101,
+      "excitement": 5.9,
+      "breakdown": {
+        "uncertainty": 4.850323703397806,
+        "drama": 7.176628283210086,
+        "finish": 4.208441921706351
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810120",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Kings",
+      "homeScore": 137,
+      "awayScore": 96,
+      "excitement": 2.8,
+      "breakdown": {
+        "uncertainty": 2.9504400090386036,
+        "drama": 4.59517446468586,
+        "finish": 0.5528078304870031
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:15.961Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-11-20"
+  }
+}

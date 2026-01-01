@@ -1,0 +1,239 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401772812",
+      "homeTeam": "Ravens",
+      "awayTeam": "Lions",
+      "homeScore": 30,
+      "awayScore": 38,
+      "excitement": 8.9,
+      "breakdown": {
+        "uncertainty": 7.217503884949118,
+        "drama": 8.244492485150506,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772732",
+      "homeTeam": "Patriots",
+      "awayTeam": "Steelers",
+      "homeScore": 14,
+      "awayScore": 21,
+      "excitement": 8.8,
+      "breakdown": {
+        "uncertainty": 6.762036049273132,
+        "drama": 8.076151275437912,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772843",
+      "homeTeam": "49ers",
+      "awayTeam": "Cardinals",
+      "homeScore": 16,
+      "awayScore": 15,
+      "excitement": 8.6,
+      "breakdown": {
+        "uncertainty": 8.413239466836714,
+        "drama": 9.751370805854322,
+        "finish": 6.6416666666666675
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772839",
+      "homeTeam": "Eagles",
+      "awayTeam": "Rams",
+      "homeScore": 33,
+      "awayScore": 26,
+      "excitement": 8.2,
+      "breakdown": {
+        "uncertainty": 6.458419713567163,
+        "drama": 9.592627650379619,
+        "finish": 6.666666666666667
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772920",
+      "homeTeam": "Giants",
+      "awayTeam": "Chiefs",
+      "homeScore": 9,
+      "awayScore": 22,
+      "excitement": 8.1,
+      "breakdown": {
+        "uncertainty": 5.213141668756965,
+        "drama": 6.186061029976412,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772735",
+      "homeTeam": "Chargers",
+      "awayTeam": "Broncos",
+      "homeScore": 23,
+      "awayScore": 20,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 6.7530948521591805,
+        "drama": 8.295056156303461,
+        "finish": 5.5025
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772734",
+      "homeTeam": "Jaguars",
+      "awayTeam": "Texans",
+      "homeScore": 17,
+      "awayScore": 10,
+      "excitement": 7.3,
+      "breakdown": {
+        "uncertainty": 6.766460523522031,
+        "drama": 8.171395902305253,
+        "finish": 5.300833333333334
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772842",
+      "homeTeam": "Browns",
+      "awayTeam": "Packers",
+      "homeScore": 13,
+      "awayScore": 10,
+      "excitement": 7,
+      "breakdown": {
+        "uncertainty": 5.314536557698748,
+        "drama": 7.078971436414273,
+        "finish": 6.3525
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772733",
+      "homeTeam": "Titans",
+      "awayTeam": "Colts",
+      "homeScore": 20,
+      "awayScore": 41,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 2.7338662417312283,
+        "drama": 3.228798543379673,
+        "finish": 10
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772840",
+      "homeTeam": "Buccaneers",
+      "awayTeam": "Jets",
+      "homeScore": 29,
+      "awayScore": 27,
+      "excitement": 6.2,
+      "breakdown": {
+        "uncertainty": 4.31356938522774,
+        "drama": 6.954870811752106,
+        "finish": 5.549166666666667
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772937",
+      "homeTeam": "Bills",
+      "awayTeam": "Dolphins",
+      "homeScore": 31,
+      "awayScore": 21,
+      "excitement": 5.1,
+      "breakdown": {
+        "uncertainty": 4.994877364255286,
+        "drama": 6.174397210578439,
+        "finish": 3.3333333333333335
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772844",
+      "homeTeam": "Bears",
+      "awayTeam": "Cowboys",
+      "homeScore": 31,
+      "awayScore": 14,
+      "excitement": 3.6,
+      "breakdown": {
+        "uncertainty": 5.038157667413138,
+        "drama": 5.567943583959155,
+        "finish": 0.4013333333333306
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772838",
+      "homeTeam": "Panthers",
+      "awayTeam": "Falcons",
+      "homeScore": 30,
+      "awayScore": 0,
+      "excitement": 3.3,
+      "breakdown": {
+        "uncertainty": 4.499456062611532,
+        "drama": 5.2665764603598575,
+        "finish": 0.16399999999999898
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772841",
+      "homeTeam": "Commanders",
+      "awayTeam": "Raiders",
+      "homeScore": 41,
+      "awayScore": 24,
+      "excitement": 3.1,
+      "breakdown": {
+        "uncertainty": 3.9293894174556088,
+        "drama": 5.121375546062495,
+        "finish": 0.3840000000000021
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772731",
+      "homeTeam": "Vikings",
+      "awayTeam": "Bengals",
+      "homeScore": 48,
+      "awayScore": 10,
+      "excitement": 2.2,
+      "breakdown": {
+        "uncertainty": 2.2990418573505975,
+        "drama": 2.921123554571436,
+        "finish": 0.052000000000000934
+      },
+      "overtime": false
+    },
+    {
+      "id": "401772736",
+      "homeTeam": "Seahawks",
+      "awayTeam": "Saints",
+      "homeScore": 44,
+      "awayScore": 13,
+      "excitement": 2,
+      "breakdown": {
+        "uncertainty": 1.5162801631084457,
+        "drama": 2.095958861544138,
+        "finish": 0.05733333333333442
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NFL",
+    "season": 2025,
+    "count": 16,
+    "totalGames": 16,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:24:26.576Z",
+    "source": "ESPN Win Probability Analysis",
+    "week": 3
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810313",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "76ers",
+      "homeScore": 136,
+      "awayScore": 139,
+      "excitement": 8.8,
+      "breakdown": {
+        "uncertainty": 7.775047552027258,
+        "drama": 9.978104389850799,
+        "finish": 5.697100744322662
+      },
+      "overtime": true
+    },
+    {
+      "id": "401810314",
+      "homeTeam": "Jazz",
+      "awayTeam": "Celtics",
+      "homeScore": 119,
+      "awayScore": 129,
+      "excitement": 8.4,
+      "breakdown": {
+        "uncertainty": 8.06839020013485,
+        "drama": 10,
+        "finish": 5.798907635695784
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810315",
+      "homeTeam": "Lakers",
+      "awayTeam": "Pistons",
+      "homeScore": 106,
+      "awayScore": 128,
+      "excitement": 7.9,
+      "breakdown": {
+        "uncertainty": 6.967963105220747,
+        "drama": 8.93699263625446,
+        "finish": 6.1445867040025615
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810316",
+      "homeTeam": "Clippers",
+      "awayTeam": "Kings",
+      "homeScore": 131,
+      "awayScore": 90,
+      "excitement": 2.3,
+      "breakdown": {
+        "uncertainty": 2.2772182472389613,
+        "drama": 3.220747215950166,
+        "finish": 0.1163463341432145
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:42.527Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-30"
+  }
+}

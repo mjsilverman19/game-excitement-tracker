@@ -1,0 +1,99 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810296",
+      "homeTeam": "Raptors",
+      "awayTeam": "Warriors",
+      "homeScore": 141,
+      "awayScore": 127,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 8.092149276008628,
+        "drama": 9.722490957586935,
+        "finish": 5.100777489739574
+      },
+      "overtime": true
+    },
+    {
+      "id": "401810298",
+      "homeTeam": "Wizards",
+      "awayTeam": "Grizzlies",
+      "homeScore": 116,
+      "awayScore": 112,
+      "excitement": 8.2,
+      "breakdown": {
+        "uncertainty": 7.137607543663548,
+        "drama": 9.812986052824135,
+        "finish": 6.239289221836766
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810299",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Celtics",
+      "homeScore": 114,
+      "awayScore": 108,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 7.05787822263802,
+        "drama": 8.832545442989108,
+        "finish": 6.204554836266921
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810300",
+      "homeTeam": "Clippers",
+      "awayTeam": "Pistons",
+      "homeScore": 112,
+      "awayScore": 99,
+      "excitement": 5.1,
+      "breakdown": {
+        "uncertainty": 4.1951931222561285,
+        "drama": 6.64882206553759,
+        "finish": 3.619661204013629
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810297",
+      "homeTeam": "Thunder",
+      "awayTeam": "76ers",
+      "homeScore": 129,
+      "awayScore": 104,
+      "excitement": 4.3,
+      "breakdown": {
+        "uncertainty": 3.4588112095786805,
+        "drama": 5.07342097438776,
+        "finish": 3.6957041782121633
+      },
+      "overtime": false
+    },
+    {
+      "id": "401810301",
+      "homeTeam": "Lakers",
+      "awayTeam": "Kings",
+      "homeScore": 125,
+      "awayScore": 101,
+      "excitement": 2.8,
+      "breakdown": {
+        "uncertainty": 2.821852697618631,
+        "drama": 3.9678293587136286,
+        "finish": 1.0841000987607168
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 6,
+    "totalGames": 6,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:41.066Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-28"
+  }
+}

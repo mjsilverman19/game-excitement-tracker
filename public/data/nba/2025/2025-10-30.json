@@ -1,0 +1,71 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401809994",
+      "homeTeam": "Bucks",
+      "awayTeam": "Warriors",
+      "homeScore": 120,
+      "awayScore": 110,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 8.381000118066481,
+        "drama": 10,
+        "finish": 5.549093162574994
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809996",
+      "homeTeam": "Spurs",
+      "awayTeam": "Heat",
+      "homeScore": 107,
+      "awayScore": 101,
+      "excitement": 8.2,
+      "breakdown": {
+        "uncertainty": 7.87691059070743,
+        "drama": 9.200889320781785,
+        "finish": 6.043398912143072
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809993",
+      "homeTeam": "Hornets",
+      "awayTeam": "Magic",
+      "homeScore": 107,
+      "awayScore": 123,
+      "excitement": 5.8,
+      "breakdown": {
+        "uncertainty": 4.711753103937692,
+        "drama": 6.701111650380156,
+        "finish": 4.4587513098195055
+      },
+      "overtime": false
+    },
+    {
+      "id": "401809995",
+      "homeTeam": "Thunder",
+      "awayTeam": "Wizards",
+      "homeScore": 127,
+      "awayScore": 108,
+      "excitement": 3.1,
+      "breakdown": {
+        "uncertainty": 2.240133409545369,
+        "drama": 2.3280320475903347,
+        "finish": 3.580899309254891
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:26:00.886Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-30"
+  }
+}

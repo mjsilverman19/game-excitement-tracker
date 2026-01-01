@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812482",
+      "homeTeam": "Lakers",
+      "awayTeam": "Suns",
+      "homeScore": 81,
+      "awayScore": 103,
+      "excitement": 6.6,
+      "breakdown": {
+        "uncertainty": 6.093573932555692,
+        "drama": 8.091357644889728,
+        "finish": 4.08895711420815
+      },
+      "overtime": false
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-01T23:25:43.580Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-03"
+  }
+}
