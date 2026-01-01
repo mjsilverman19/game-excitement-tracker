@@ -3295,35 +3295,48 @@
                 showExportProgress(i + 1, totalWeeks, progressMessage);
 
                 try {
-                    let requestBody;
-                    if (useDateBasedFetch) {
-                        requestBody = {
-                            sport: sport,
-                            date: week
-                        };
-                    } else {
-                        requestBody = {
-                            sport: sport,
-                            season: season,
-                            week: week,
-                            seasonType: '2'
-                        };
-                    }
-
-                    const response = await fetch('/api/games', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(requestBody)
-                    });
-
-                    const data = await response.json();
-
-                    if (data.success && data.games && data.games.length > 0) {
-                        // Add week/date info to each game for Excel
-                        data.games.forEach(game => {
+                    // Try static file first
+                    const staticData = await fetchStaticData(sport, season, week);
+                    if (staticData && staticData.success && staticData.games) {
+                        console.log(`✅ ${useDateBasedFetch ? 'Date' : 'Week'} ${week}: loaded from static`);
+                        staticData.games.forEach(game => {
                             game.week = week;
                             allGames.push(game);
                         });
+                    } else {
+                        // Fall back to API
+                        console.log(`⚠️ ${useDateBasedFetch ? 'Date' : 'Week'} ${week}: falling back to API`);
+
+                        let requestBody;
+                        if (useDateBasedFetch) {
+                            requestBody = {
+                                sport: sport,
+                                date: week
+                            };
+                        } else {
+                            requestBody = {
+                                sport: sport,
+                                season: season,
+                                week: week,
+                                seasonType: '2'
+                            };
+                        }
+
+                        const response = await fetch('/api/games', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(requestBody)
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success && data.games && data.games.length > 0) {
+                            // Add week/date info to each game for Excel
+                            data.games.forEach(game => {
+                                game.week = week;
+                                allGames.push(game);
+                            });
+                        }
                     }
                 } catch (error) {
                     console.error(`Error fetching ${useDateBasedFetch ? 'date' : 'week'} ${week}:`, error);
