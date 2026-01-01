@@ -2221,6 +2221,66 @@
             }
         }
 
+        // Helper: Determine if static file should be used for this request
+        function shouldUseStatic(sport, season, weekOrDate) {
+            // Don't use static files for current/future weeks
+            // Use 24-hour buffer to ensure games are completed
+            const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+            if (sport === 'NBA') {
+                // For NBA, check if the date is at least 1 day ago
+                const gameDate = new Date(weekOrDate);
+                return gameDate < oneDayAgo;
+            } else {
+                // For NFL/CFB, use week end dates
+                const weekEndDate = getWeekEndDate(sport, season, weekOrDate);
+                return weekEndDate < oneDayAgo;
+            }
+        }
+
+        // Helper: Get the end date for a given week
+        function getWeekEndDate(sport, season, week) {
+            // This is a simplified version - actual week end dates vary
+            // For production, you may want to use more precise dates
+            const now = new Date();
+
+            // If requesting current season and current/future week, assume not completed
+            if (season >= now.getFullYear()) {
+                // Return far future date to force API call for current season
+                return new Date('2099-12-31');
+            }
+
+            // For past seasons, assume all weeks are completed
+            return new Date(season, 11, 31); // End of season year
+        }
+
+        // Helper: Get static file path
+        function getStaticPath(sport, season, weekOrDate) {
+            const sportLower = sport.toLowerCase();
+            if (sport === 'NBA') {
+                return `/data/${sportLower}/${season}/${weekOrDate}.json`;
+            }
+            const weekStr = weekOrDate === 'bowls' ? 'bowls' : `week-${String(weekOrDate).padStart(2, '0')}`;
+            return `/data/${sportLower}/${season}/${weekStr}.json`;
+        }
+
+        // Helper: Fetch from static file
+        async function fetchStaticData(sport, season, weekOrDate) {
+            try {
+                const path = getStaticPath(sport, season, weekOrDate);
+                const response = await fetch(path);
+
+                if (!response.ok) {
+                    return null;
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                return null;
+            }
+        }
+
         // Load games
         async function loadGames() {
             if (isLoading) return;
@@ -2228,6 +2288,21 @@
             showLoading();
 
             try {
+                // Try to load from static file first
+                const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
+                if (shouldUseStatic(selectedSport, selectedSeason, weekOrDate)) {
+                    const staticData = await fetchStaticData(selectedSport, selectedSeason, weekOrDate);
+                    if (staticData && staticData.success && staticData.games) {
+                        console.log('✅ Loaded from static file:', getStaticPath(selectedSport, selectedSeason, weekOrDate));
+                        currentGames = staticData.games;
+                        displayResults();
+                        isLoading = false;
+                        return;
+                    }
+                    console.log('⚠️ Static file not found, falling back to API');
+                }
+
+                // Fall back to API
                 let requestBody;
                 if (selectedSport === 'NBA') {
                     requestBody = {
@@ -2243,6 +2318,7 @@
                     };
                 }
 
+                console.log('🌐 Loading from API...');
                 const response = await fetch('/api/games', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

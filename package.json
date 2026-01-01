@@ -1,4 +1,10 @@
 {
   "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-static.js",
+    "generate:nfl": "node scripts/generate-static.js --sport NFL --season 2025 --all",
+    "generate:cfb": "node scripts/generate-static.js --sport CFB --season 2025 --all",
+    "generate:nba": "node scripts/generate-static.js --sport NBA --season 2025 --all"
+  },
   "dependencies": {}
 }
