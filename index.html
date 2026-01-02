@@ -790,6 +790,71 @@
             color: var(--text-secondary);
         }
 
+        /* Vote Buttons */
+        .vote-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .vote-btn {
+            background: none;
+            border: 1px solid var(--border-primary);
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1;
+            padding: 4px 8px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            border-radius: 2px;
+            font-family: inherit;
+            min-width: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vote-btn:hover {
+            border-color: var(--bg-active-alt);
+            color: var(--text-secondary);
+        }
+
+        .vote-btn.upvote.active {
+            border-color: var(--accent-must-watch);
+            color: var(--accent-must-watch);
+            background: rgba(138, 150, 128, 0.1);
+        }
+
+        .vote-btn.downvote.active {
+            border-color: var(--accent-skip);
+            color: var(--accent-skip);
+            background: rgba(160, 128, 120, 0.1);
+        }
+
+        .vote-tooltip {
+            position: absolute;
+            background: var(--bg-hover);
+            border: 1px solid var(--bg-active-alt);
+            padding: 8px 12px;
+            border-radius: 2px;
+            font-size: 11px;
+            color: var(--text-primary);
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+            display: none;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 8px;
+        }
+
+        .vote-container:hover .vote-tooltip {
+            display: block;
+        }
+
         /* Mobile-only score-rating line */
         .score-rating-line {
             display: none;
@@ -936,6 +1001,18 @@
                 position: static;
                 margin-top: 40px;
                 margin-bottom: 40px;
+            }
+
+            /* Mobile vote button adjustments */
+            .vote-btn {
+                min-width: 32px;
+                padding: 6px 10px;
+                font-size: 16px;
+            }
+
+            .vote-tooltip {
+                font-size: 10px;
+                padding: 6px 10px;
             }
         }
 
@@ -2504,6 +2581,7 @@
             // Attach event listeners
             attachScoreToggleListener();
             attachRadarChartListeners();
+            attachVoteListeners();
         }
 
         // Render radar chart for metric breakdown
@@ -2658,6 +2736,11 @@
                     <div class="rating ${ratingClass}">${ratingText}</div>
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
                     <button class="breakdown-toggle" data-game-id="${game.id}" data-breakdown='${JSON.stringify(game.breakdown || {})}'>View breakdown</button>
+                    <div class="vote-container">
+                        <button class="vote-btn upvote" data-game-id="${game.id}" data-vote="up">▲</button>
+                        <button class="vote-btn downvote" data-game-id="${game.id}" data-vote="down">▼</button>
+                        <div class="vote-tooltip">Agree with this rating?</div>
+                    </div>
                     <div class="game-breakdown" id="breakdown-${game.id}"></div>
                     <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
                 </div>
@@ -2734,6 +2817,72 @@
 
                 group.addEventListener('mouseleave', () => {
                     tooltip.style.display = 'none';
+                });
+            });
+        }
+
+        // Vote Management Functions
+        function loadVotes() {
+            try {
+                const stored = localStorage.getItem('gameVotes');
+                return stored ? JSON.parse(stored) : {};
+            } catch (e) {
+                console.error('Error loading votes:', e);
+                return {};
+            }
+        }
+
+        function saveVotes(votes) {
+            try {
+                localStorage.setItem('gameVotes', JSON.stringify(votes));
+            } catch (e) {
+                console.error('Error saving votes:', e);
+            }
+        }
+
+        function updateVoteUI(gameId, voteType) {
+            const upButton = document.querySelector(`.vote-btn.upvote[data-game-id="${gameId}"]`);
+            const downButton = document.querySelector(`.vote-btn.downvote[data-game-id="${gameId}"]`);
+
+            if (upButton && downButton) {
+                upButton.classList.toggle('active', voteType === 'up');
+                downButton.classList.toggle('active', voteType === 'down');
+            }
+        }
+
+        function handleVote(gameId, voteType) {
+            const votes = loadVotes();
+            const currentVote = votes[gameId];
+
+            // Toggle off if clicking the same button
+            if (currentVote === voteType) {
+                delete votes[gameId];
+                saveVotes(votes);
+                updateVoteUI(gameId, null);
+            } else {
+                // Switch to new vote or set initial vote
+                votes[gameId] = voteType;
+                saveVotes(votes);
+                updateVoteUI(gameId, voteType);
+            }
+        }
+
+        function attachVoteListeners() {
+            const votes = loadVotes();
+
+            document.querySelectorAll('.vote-btn').forEach(button => {
+                const gameId = button.dataset.gameId;
+                const voteType = button.dataset.vote;
+
+                // Set initial active state
+                if (votes[gameId] === voteType) {
+                    button.classList.add('active');
+                }
+
+                // Add click handler
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    handleVote(gameId, voteType);
                 });
             });
         }
