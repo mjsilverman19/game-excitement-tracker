@@ -33,7 +33,7 @@ for (let i = 0; i < args.length; i++) {
     options.season = parseInt(args[++i]);
   } else if (arg === '--week' && i + 1 < args.length) {
     const weekValue = args[++i];
-    options.week = weekValue === 'bowls' ? 'bowls' : parseInt(weekValue);
+    options.week = (weekValue === 'bowls' || weekValue === 'playoffs') ? weekValue : parseInt(weekValue);
   } else if (arg === '--date' && i + 1 < args.length) {
     options.date = args[++i];
   } else if (arg === '--all') {
@@ -53,7 +53,7 @@ Usage: node scripts/generate-static.js [options]
 Options:
   --sport <NFL|CFB|NBA>    Sport to generate data for (required)
   --season <year>          Season year (required)
-  --week <number|bowls>    Week number or 'bowls' for CFB postseason (required unless --all or NBA)
+  --week <number|bowls|playoffs>    Week number, 'bowls', or 'playoffs' for CFB postseason (required unless --all or NBA)
   --date <YYYY-MM-DD>      Date for NBA games (required for NBA unless --all)
   --all                    Generate all weeks/dates for the season
   --force                  Overwrite existing files
@@ -118,7 +118,14 @@ function getStaticFilePath(sport, season, weekOrDate) {
   if (sport === 'NBA') {
     filename = `${weekOrDate}.json`;
   } else {
-    const weekStr = weekOrDate === 'bowls' ? 'bowls' : `week-${String(weekOrDate).padStart(2, '0')}`;
+    let weekStr;
+    if (weekOrDate === 'bowls') {
+      weekStr = 'bowls';
+    } else if (weekOrDate === 'playoffs') {
+      weekStr = 'playoffs';
+    } else {
+      weekStr = `week-${String(weekOrDate).padStart(2, '0')}`;
+    }
     filename = `${weekStr}.json`;
   }
 
@@ -221,9 +228,10 @@ async function generateAllWeeks(sport, season) {
   const maxWeek = sport === 'NFL' ? 18 : 15;
   const weeks = Array.from({ length: maxWeek }, (_, i) => i + 1);
 
-  // Add bowls for CFB
+  // Add bowls and playoffs for CFB
   if (sport === 'CFB') {
     weeks.push('bowls');
+    weeks.push('playoffs');
   }
 
   console.log(`\n🚀 Generating all ${sport} weeks for ${season} season...\n`);
