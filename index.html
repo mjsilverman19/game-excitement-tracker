@@ -1837,7 +1837,7 @@
                     allTeams = [];
                     viewMode = 'week';
                     selectedTeam = null;
-                    isInitialLoad = false; // User manually changed sport
+                    isInitialLoad = true; // Allow fallback for sport switch
                     updateUI();
                     loadGames();
                 }
@@ -1853,7 +1853,7 @@
                     allTeams = [];
                     viewMode = 'week';
                     selectedTeam = null;
-                    isInitialLoad = false; // User manually changed sport
+                    isInitialLoad = true; // Allow fallback for sport switch
                     updateUI();
                     loadGames();
                 }
@@ -1873,7 +1873,7 @@
                     allTeams = [];
                     viewMode = 'week';
                     selectedTeam = null;
-                    isInitialLoad = false; // User manually changed sport
+                    isInitialLoad = true; // Allow fallback for sport switch
                     updateUI();
                     loadGames();
                 }
@@ -2303,11 +2303,15 @@
 
             const MAX_FALLBACK_ATTEMPTS = 3;
 
+            console.log(`🔍 loadGames() called - Sport: ${selectedSport}, Week: ${selectedWeek}, Date: ${selectedDate}, isInitialLoad: ${isInitialLoad}, fallbackAttempt: ${fallbackAttempt}`);
+
             try {
                 // Try to load from static file first
                 const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
+                console.log(`📂 Checking static file - weekOrDate: ${weekOrDate}`);
                 if (shouldUseStatic(selectedSport, selectedSeason, weekOrDate)) {
                     const staticData = await fetchStaticData(selectedSport, selectedSeason, weekOrDate);
+                    console.log(`📂 Static data result:`, staticData ? `success=${staticData.success}, games=${staticData.games?.length || 0}` : 'null');
                     if (staticData && staticData.success && staticData.games && staticData.games.length > 0) {
                         console.log('✅ Loaded from static file:', getStaticPath(selectedSport, selectedSeason, weekOrDate));
                         currentGames = staticData.games;
@@ -2343,42 +2347,56 @@
                 });
 
                 const data = await response.json();
+                console.log(`🌐 API response:`, data ? `success=${data.success}, games=${data.games?.length || 0}` : 'null');
 
                 if (data.success && data.games && data.games.length > 0) {
+                    console.log(`✅ Loaded ${data.games.length} games from API`);
                     currentGames = data.games;
                     displayResults();
                     isInitialLoad = false;
                 } else {
+                    console.log(`❌ No games found - isInitialLoad: ${isInitialLoad}, fallbackAttempt: ${fallbackAttempt}/${MAX_FALLBACK_ATTEMPTS}`);
+
                     // No games found - check if we should auto-fallback
                     if (isInitialLoad && fallbackAttempt < MAX_FALLBACK_ATTEMPTS) {
                         let canFallback = false;
 
                         if (selectedSport === 'NBA') {
                             // For NBA, try previous date
+                            console.log(`🔄 NBA fallback - current date: ${selectedDate}`);
                             const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                             const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
-                            selectedDate = prevDate.toISOString().split('T')[0];
+                            const newDate = prevDate.toISOString().split('T')[0];
+                            console.log(`📅 NBA fallback: ${selectedDate} → ${newDate}`);
+                            selectedDate = newDate;
                             canFallback = true;
-                            console.log(`📅 No games found, trying previous date: ${selectedDate}`);
                         } else {
                             // For NFL/CFB, try previous week
+                            console.log(`🔄 ${selectedSport} fallback - current week: ${selectedWeek}`);
                             if (selectedWeek === 'bowls') {
                                 const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+                                console.log(`📅 Bowls fallback: bowls → week ${maxWeeks}`);
                                 selectedWeek = maxWeeks;
                                 canFallback = true;
-                                console.log(`📅 No games found in bowls, trying week ${selectedWeek}`);
                             } else if (selectedWeek > 1) {
+                                console.log(`📅 Week fallback: week ${selectedWeek} → week ${selectedWeek - 1}`);
                                 selectedWeek--;
                                 canFallback = true;
-                                console.log(`📅 No games found, trying week ${selectedWeek}`);
+                            } else {
+                                console.log(`⚠️ Cannot fallback - already at week 1`);
                             }
                         }
 
                         if (canFallback) {
+                            console.log(`🔄 Retrying with fallback attempt ${fallbackAttempt + 1}`);
                             isLoading = false;
                             updateUI();
                             return loadGames(fallbackAttempt + 1);
+                        } else {
+                            console.log(`⛔ No fallback available`);
                         }
+                    } else {
+                        console.log(`⛔ Fallback disabled - isInitialLoad: ${isInitialLoad}, attempts: ${fallbackAttempt}/${MAX_FALLBACK_ATTEMPTS}`);
                     }
 
                     // No fallback or max attempts reached
