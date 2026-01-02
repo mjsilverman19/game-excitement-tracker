@@ -266,82 +266,12 @@
     <!-- JavaScript modules -->
     <script src="js/config.js"></script>
     <script src="js/supabase.js"></script>
+    <script src="js/navigation.js"></script>
 
     <script>
-        // Get current week for a sport based on date
+        // Use navigation module for current week calculation
         function getCurrentWeek(sport) {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth(); // 0-indexed
-
-            if (sport === 'NFL') {
-                // NFL season runs September - February
-                // Week 1 starts the Thursday after Labor Day (first Monday in September)
-                // 2024 season: Started Sept 5, 2024
-                // 2025 season: Started Sept 4, 2025
-
-                let season;
-                let seasonStart;
-
-                // Try current year's season first
-                season = year;
-                seasonStart = new Date(year, 8, 1); // Sept 1
-
-                // Find first Monday in September (Labor Day)
-                while (seasonStart.getDay() !== 1) {
-                    seasonStart.setDate(seasonStart.getDate() + 1);
-                }
-
-                // First Thursday after Labor Day (add 3 days)
-                seasonStart.setDate(seasonStart.getDate() + 3);
-
-                // If we're before this season's start, use previous year's season
-                if (now < seasonStart) {
-                    season = year - 1;
-                    seasonStart = new Date(season, 8, 1); // Sept 1 of previous year
-                    while (seasonStart.getDay() !== 1) {
-                        seasonStart.setDate(seasonStart.getDate() + 1);
-                    }
-                    seasonStart.setDate(seasonStart.getDate() + 3);
-                }
-
-                // Calculate weeks since season start
-                const daysSinceStart = Math.floor((now - seasonStart) / (24 * 60 * 60 * 1000));
-                let week = Math.floor(daysSinceStart / 7) + 1;
-
-                // Cap at week 18
-                week = Math.min(18, Math.max(1, week));
-                return { season: season, week: week };
-
-            } else if (sport === 'CFB') {
-                // CFB season runs late August - early January
-                // Week 0/1 typically starts last week of August
-                // 2024 season: Started Aug 24, 2024
-                // 2025 season: Started Aug 30, 2025
-
-                let season;
-                let seasonStart;
-
-                // Try current year's season first
-                season = year;
-                seasonStart = new Date(year, 7, 24); // Aug 24 (roughly last week of August)
-
-                // If we're before this season's start, use previous year's season
-                if (now < seasonStart) {
-                    season = year - 1;
-                    seasonStart = new Date(season, 7, 24); // Aug 24 of previous year
-                }
-
-                // Calculate weeks since season start
-                const daysSinceStart = Math.floor((now - seasonStart) / (24 * 60 * 60 * 1000));
-                let week = Math.floor(daysSinceStart / 7) + 1;
-
-                // Cap at week 15 (regular season)
-                week = Math.min(15, Math.max(1, week));
-                return { season: season, week: week };
-            }
-
-            return { season: year, week: 1 };
+            return window.Navigation.getCurrentWeek(sport);
         }
 
         // Legacy function for backwards compatibility
@@ -379,6 +309,12 @@
 
             updateThemeToggleText();
             attachEventListeners();
+
+            // Initialize navigation module
+            if (window.Navigation && window.Navigation.initNavigation) {
+                window.Navigation.initNavigation();
+            }
+
             updateUI();
             loadGames();
         }
@@ -491,63 +427,10 @@
             }
         }
 
-        // Update date-based navigation (NBA)
+        // Update date-based navigation (NBA) - delegated to navigation module
         function updateDateNavigation() {
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const currentDate = selectedDate ? new Date(selectedDate) : new Date(today.getTime() - 24*60*60*1000);
-
-            // Format display date
-            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const yesterday = new Date(today.getTime() - 24*60*60*1000);
-            const twoDaysAgo = new Date(today.getTime() - 2*24*60*60*1000);
-
-            // Update current date display
-            let currentDisplayText;
-            if (currentDate.getTime() === today.getTime()) {
-                currentDisplayText = 'today';
-            } else if (currentDate.getTime() === yesterday.getTime()) {
-                currentDisplayText = 'yesterday';
-            } else if (currentDate.getTime() === twoDaysAgo.getTime()) {
-                currentDisplayText = '2 days ago';
-            } else {
-                currentDisplayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
-            }
-            document.getElementById('currentDateDisplay').textContent = currentDisplayText;
-
-            // Calculate prev/next dates
-            const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
-            const nextDate = new Date(currentDate.getTime() + 24*60*60*1000);
-
-            // Update prev date
-            let prevDisplayText;
-            if (prevDate.getTime() === yesterday.getTime()) {
-                prevDisplayText = 'yesterday';
-            } else if (prevDate.getTime() === twoDaysAgo.getTime()) {
-                prevDisplayText = '2 days ago';
-            } else {
-                prevDisplayText = `${monthShort[prevDate.getMonth()]} ${prevDate.getDate()}`;
-            }
-            document.getElementById('prevDateDisplay').textContent = prevDisplayText;
-
-            // Update next date (only show if before or equal to today)
-            const prevDateLink = document.getElementById('prevDate');
-            const nextDateLink = document.getElementById('nextDate');
-
-            if (nextDate <= today) {
-                let nextDisplayText;
-                if (nextDate.getTime() === today.getTime()) {
-                    nextDisplayText = 'today';
-                } else if (nextDate.getTime() === yesterday.getTime()) {
-                    nextDisplayText = 'yesterday';
-                } else {
-                    nextDisplayText = `${monthShort[nextDate.getMonth()]} ${nextDate.getDate()}`;
-                }
-                document.getElementById('nextDateDisplay').textContent = nextDisplayText;
-                nextDateLink.style.display = 'inline';
-            } else {
-                nextDateLink.style.display = 'none';
+            if (window.Navigation && window.Navigation.updateDateNavigation) {
+                window.Navigation.updateDateNavigation();
             }
         }
 
@@ -589,19 +472,9 @@
             document.getElementById('nbaOption').addEventListener('click', () => {
                 if (selectedSport !== 'NBA') {
                     selectedSport = 'NBA';
-                    // Default to yesterday for NBA (most recent completed games)
-                    // Use setDate method which handles month boundaries correctly
-                    const now = new Date();
-                    const yesterday = new Date(now);
-                    yesterday.setDate(yesterday.getDate() - 1);
+                    // Use navigation module for clean date handling
+                    selectedDate = window.Navigation.getDefaultNBADate();
 
-                    // Format using local date components to avoid timezone issues
-                    const year = yesterday.getFullYear();
-                    const month = String(yesterday.getMonth() + 1).padStart(2, '0');
-                    const day = String(yesterday.getDate()).padStart(2, '0');
-                    selectedDate = `${year}-${month}-${day}`;
-
-                    console.log(`📅 NBA selectedDate set to yesterday: ${selectedDate} (today is ${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')})`);
                     // Reset date picker state
                     pickerMonth = null;
                     pickerYear = null;
@@ -652,57 +525,7 @@
                 }
             });
 
-            // Date navigation (NBA)
-            document.getElementById('prevDate').addEventListener('click', (e) => {
-                e.preventDefault();
-                const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                const prevDate = new Date(currentDate);
-                prevDate.setDate(prevDate.getDate() - 1);
-
-                // Format using local date components to avoid timezone issues
-                const year = prevDate.getFullYear();
-                const month = String(prevDate.getMonth() + 1).padStart(2, '0');
-                const day = String(prevDate.getDate()).padStart(2, '0');
-                selectedDate = `${year}-${month}-${day}`;
-                console.log(`📅 NBA selectedDate changed via prev button: ${selectedDate}`);
-                isInitialLoad = false; // User manually navigated
-                updateUI();
-                loadGames();
-            });
-
-            document.getElementById('nextDate').addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log(`📅 Next button clicked! selectedDate=${selectedDate}`);
-
-                const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                console.log(`📅 currentDate=${currentDate.toDateString()}`);
-
-                const nextDate = new Date(currentDate);
-                nextDate.setDate(nextDate.getDate() + 1);
-                console.log(`📅 nextDate calculated=${nextDate.toDateString()}`);
-
-                // Normalize both dates to midnight for proper comparison
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                nextDate.setHours(0, 0, 0, 0);
-
-                console.log(`📅 Next date check: nextDate=${nextDate.toDateString()}, today=${today.toDateString()}, nextDate <= today: ${nextDate <= today}`);
-
-                if (nextDate <= today) {
-                    console.log(`✅ Next button: proceeding with date change`);
-                    // Format using local date components to avoid timezone issues
-                    const year = nextDate.getFullYear();
-                    const month = String(nextDate.getMonth() + 1).padStart(2, '0');
-                    const day = String(nextDate.getDate()).padStart(2, '0');
-                    selectedDate = `${year}-${month}-${day}`;
-                    console.log(`📅 NBA selectedDate changed via next button: ${selectedDate}`);
-                    isInitialLoad = false; // User manually navigated
-                    updateUI();
-                    loadGames();
-                } else {
-                    console.log(`❌ Next button: blocked - nextDate is in the future`);
-                }
-            });
+            // Navigation event listeners are now handled by the navigation module
 
             // Custom date picker toggle (NBA)
             document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
