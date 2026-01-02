@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const { ALGORITHM_CONFIG } = require('../js/algorithm-config.js');
 import { writeFile, mkdir, readFile } from 'fs/promises';
 import { existsSync } from 'fs';
-import { dirname, join } from 'path';
+import { dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -153,7 +153,14 @@ async function generateStatic(sport, season, weekOrDate) {
     if (NO_NETWORK) {
       console.log(`📦 NO_NETWORK enabled. Writing fixture data for ${sport} ${weekOrDate}...`);
       const fixturePath = join(FIXTURES_DIR, 'offline-static.json');
-      const fixtureData = JSON.parse(await readFile(fixturePath, 'utf8'));
+      let fixtureData;
+      try {
+        fixtureData = JSON.parse(await readFile(fixturePath, 'utf8'));
+      } catch (e) {
+        console.error('❌ NO_NETWORK=1 but fixtures/offline-static.json could not be read.');
+        console.error('   Ensure fixtures/offline-static.json exists and contains valid JSON.');
+        process.exit(1);
+      }
 
       const metadata = {
         ...fixtureData.metadata,
@@ -170,7 +177,7 @@ async function generateStatic(sport, season, weekOrDate) {
       }
 
       if (NO_NETWORK_OUTDIR) {
-        const relativePath = filepath.replace(`${PUBLIC_DATA_DIR}/`, '');
+        const relativePath = relative(PUBLIC_DATA_DIR, filepath);
         filepath = join(NO_NETWORK_OUTDIR, relativePath);
         dir = dirname(filepath);
       }
