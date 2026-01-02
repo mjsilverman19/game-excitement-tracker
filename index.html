@@ -670,8 +670,13 @@
 
             document.getElementById('nextDate').addEventListener('click', (e) => {
                 e.preventDefault();
+                console.log(`📅 Next button clicked! selectedDate=${selectedDate}`);
+
                 const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                console.log(`📅 currentDate=${currentDate.toDateString()}`);
+
                 const nextDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+                console.log(`📅 nextDate calculated=${nextDate.toDateString()}`);
 
                 // Normalize both dates to midnight for proper comparison
                 const today = new Date();
@@ -681,6 +686,7 @@
                 console.log(`📅 Next date check: nextDate=${nextDate.toDateString()}, today=${today.toDateString()}, nextDate <= today: ${nextDate <= today}`);
 
                 if (nextDate <= today) {
+                    console.log(`✅ Next button: proceeding with date change`);
                     // Format manually to avoid timezone issues
                     const year = nextDate.getFullYear();
                     const month = String(nextDate.getMonth() + 1).padStart(2, '0');
@@ -690,6 +696,8 @@
                     isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
+                } else {
+                    console.log(`❌ Next button: blocked - nextDate is in the future`);
                 }
             });
 
