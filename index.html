@@ -1087,6 +1087,15 @@
             // Filter games based on bowls vs playoffs view
             let filteredGames = [...currentGames];
             if (selectedSport === 'CFB' && (selectedWeek === 'bowls' || selectedWeek === 'playoffs')) {
+                // Debug: Check playoff detection
+                console.log('🔍 Playoff filtering debug:');
+                const playoffGames = currentGames.filter(g => g.playoffRound);
+                const bowlGames = currentGames.filter(g => g.bowlName && !g.playoffRound);
+                console.log(`  Total games: ${currentGames.length}`);
+                console.log(`  Games with playoffRound:`, playoffGames.length, playoffGames.map(g => `${g.awayTeam} @ ${g.homeTeam} (${g.playoffRound})`));
+                console.log(`  Games with bowlName only:`, bowlGames.length);
+                console.log(`  Sample game:`, currentGames[0]);
+
                 if (selectedWeek === 'bowls') {
                     // Bowls view: games with bowlName AND no playoffRound, OR games with neither (default to bowls)
                     filteredGames = currentGames.filter(g => !g.playoffRound);
