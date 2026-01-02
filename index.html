@@ -489,6 +489,7 @@
             document.getElementById('nbaOption').addEventListener('click', () => {
                 if (selectedSport !== 'NBA') {
                     selectedSport = 'NBA';
+                    selectedSeason = getCurrentWeek('NBA').season;
                     // Use navigation module for clean date handling
                     selectedDate = window.Navigation.getDefaultNBADate();
 
