@@ -1636,6 +1636,7 @@
         let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         let currentGames = null;
         let isLoading = false;
+        let isInitialLoad = true; // Track if this is the first load to enable auto-fallback
 
         // Theme state
         let currentTheme = localStorage.getItem('theme') || 'dark';
@@ -1836,6 +1837,7 @@
                     allTeams = [];
                     viewMode = 'week';
                     selectedTeam = null;
+                    isInitialLoad = false; // User manually changed sport
                     updateUI();
                     loadGames();
                 }
@@ -1851,6 +1853,7 @@
                     allTeams = [];
                     viewMode = 'week';
                     selectedTeam = null;
+                    isInitialLoad = false; // User manually changed sport
                     updateUI();
                     loadGames();
                 }
@@ -1870,6 +1873,7 @@
                     allTeams = [];
                     viewMode = 'week';
                     selectedTeam = null;
+                    isInitialLoad = false; // User manually changed sport
                     updateUI();
                     loadGames();
                 }
@@ -1883,10 +1887,12 @@
                 if (selectedWeek === 'bowls') {
                     // Previous from bowls is week 15 for CFB
                     selectedWeek = maxWeeks;
+                    isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
                 } else if (selectedWeek > 1) {
                     selectedWeek--;
+                    isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
                 }
@@ -1899,10 +1905,12 @@
                 if (selectedSport === 'CFB' && selectedWeek === maxWeeks) {
                     // Next from week 15 is bowls for CFB
                     selectedWeek = 'bowls';
+                    isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
                 } else if (selectedWeek < maxWeeks && selectedWeek !== 'bowls') {
                     selectedWeek++;
+                    isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
                 }
@@ -1914,6 +1922,7 @@
                 const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                 const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
                 selectedDate = prevDate.toISOString().split('T')[0];
+                isInitialLoad = false; // User manually navigated
                 updateUI();
                 loadGames();
             });
@@ -1927,6 +1936,7 @@
 
                 if (nextDate <= today) {
                     selectedDate = nextDate.toISOString().split('T')[0];
+                    isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
                 }
@@ -2128,6 +2138,7 @@
                     cell.addEventListener('click', (e) => {
                         e.stopPropagation();
                         selectedDate = cellDateStr;
+                        isInitialLoad = false; // User manually selected date
                         document.getElementById('customDatePicker').classList.remove('visible');
                         updateUI();
                         loadGames();
@@ -2176,6 +2187,7 @@
                 btn.addEventListener('click', () => {
                     selectedSeason = year;
                     selectedWeek = 1; // Reset to week 1 when changing season
+                    isInitialLoad = false; // User manually selected season
                     updateUI();
                     loadGames();
                     document.getElementById('weekPicker').classList.remove('visible');
@@ -2196,6 +2208,7 @@
                 weekItem.textContent = week;
                 weekItem.addEventListener('click', () => {
                     selectedWeek = week;
+                    isInitialLoad = false; // User manually selected week
                     updateUI();
                     loadGames();
                     document.getElementById('weekPicker').classList.remove('visible');
@@ -2213,6 +2226,7 @@
                 bowlsItem.textContent = 'Bowls';
                 bowlsItem.addEventListener('click', () => {
                     selectedWeek = 'bowls';
+                    isInitialLoad = false; // User manually selected bowls
                     updateUI();
                     loadGames();
                     document.getElementById('weekPicker').classList.remove('visible');
@@ -2282,24 +2296,27 @@
         }
 
         // Load games
-        async function loadGames() {
+        async function loadGames(fallbackAttempt = 0) {
             if (isLoading) return;
             isLoading = true;
             showLoading();
+
+            const MAX_FALLBACK_ATTEMPTS = 3;
 
             try {
                 // Try to load from static file first
                 const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
                 if (shouldUseStatic(selectedSport, selectedSeason, weekOrDate)) {
                     const staticData = await fetchStaticData(selectedSport, selectedSeason, weekOrDate);
-                    if (staticData && staticData.success && staticData.games) {
+                    if (staticData && staticData.success && staticData.games && staticData.games.length > 0) {
                         console.log('✅ Loaded from static file:', getStaticPath(selectedSport, selectedSeason, weekOrDate));
                         currentGames = staticData.games;
                         displayResults();
                         isLoading = false;
+                        isInitialLoad = false;
                         return;
                     }
-                    console.log('⚠️ Static file not found, falling back to API');
+                    console.log('⚠️ Static file not found or empty, falling back to API');
                 }
 
                 // Fall back to API
@@ -2330,11 +2347,47 @@
                 if (data.success && data.games && data.games.length > 0) {
                     currentGames = data.games;
                     displayResults();
+                    isInitialLoad = false;
                 } else {
+                    // No games found - check if we should auto-fallback
+                    if (isInitialLoad && fallbackAttempt < MAX_FALLBACK_ATTEMPTS) {
+                        let canFallback = false;
+
+                        if (selectedSport === 'NBA') {
+                            // For NBA, try previous date
+                            const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                            const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
+                            selectedDate = prevDate.toISOString().split('T')[0];
+                            canFallback = true;
+                            console.log(`📅 No games found, trying previous date: ${selectedDate}`);
+                        } else {
+                            // For NFL/CFB, try previous week
+                            if (selectedWeek === 'bowls') {
+                                const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
+                                selectedWeek = maxWeeks;
+                                canFallback = true;
+                                console.log(`📅 No games found in bowls, trying week ${selectedWeek}`);
+                            } else if (selectedWeek > 1) {
+                                selectedWeek--;
+                                canFallback = true;
+                                console.log(`📅 No games found, trying week ${selectedWeek}`);
+                            }
+                        }
+
+                        if (canFallback) {
+                            isLoading = false;
+                            updateUI();
+                            return loadGames(fallbackAttempt + 1);
+                        }
+                    }
+
+                    // No fallback or max attempts reached
+                    isInitialLoad = false;
                     showEmpty();
                 }
             } catch (error) {
                 console.error('Error:', error);
+                isInitialLoad = false;
                 showEmpty('Could not load games. Please try again.');
             } finally {
                 isLoading = false;
@@ -2887,6 +2940,7 @@
             selectedTeam = null;
             currentSchedule = null;
             selectedGameFromSchedule = null;
+            isInitialLoad = false; // User manually navigated back
             loadGames();
         }
 
