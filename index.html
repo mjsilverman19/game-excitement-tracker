@@ -1042,13 +1042,17 @@
                     console.log(`📂 Static data result:`, staticData ? `success=${staticData.success}, games=${staticData.games?.length || 0}` : 'null');
                     if (staticData && staticData.success && staticData.games && staticData.games.length > 0) {
                         console.log('✅ Loaded from static file:', getStaticPath(selectedSport, selectedSeason, weekOrDate));
+                        console.log('📊 All games from static file:', staticData.games.map(g => `${g.homeTeam} v ${g.awayTeam}`));
                         currentGames = staticData.games;
+                        console.log('📊 currentGames set to:', currentGames.length, 'games');
                         displayResults();
                         isLoading = false;
                         isInitialLoad = false;
                         return;
                     }
                     console.log('⚠️ Static file not found or empty, falling back to API');
+                } else {
+                    console.log('❌ shouldUseStatic returned false, using API instead');
                 }
 
                 // Fall back to API
@@ -1188,10 +1192,12 @@
 
         // Display results
         function displayResults() {
+            console.log('🎯 displayResults() called with currentGames:', currentGames?.length || 'null/undefined');
             if (!currentGames) return;
 
             // Sort by excitement score
             const sortedGames = [...currentGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
+            console.log('🎯 sortedGames length:', sortedGames.length);
 
             // Calculate statistics
             const stats = {
