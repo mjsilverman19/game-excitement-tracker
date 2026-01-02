@@ -590,10 +590,17 @@
                 if (selectedSport !== 'NBA') {
                     selectedSport = 'NBA';
                     // Default to yesterday for NBA (most recent completed games)
-                    const yesterday = new Date();
-                    yesterday.setDate(yesterday.getDate() - 1);
-                    selectedDate = yesterday.toISOString().split('T')[0];
-                    console.log(`📅 NBA selectedDate set to yesterday: ${selectedDate}`);
+                    // Use more reliable date calculation to avoid timezone issues
+                    const now = new Date();
+                    const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+
+                    // Format as YYYY-MM-DD manually to avoid timezone issues
+                    const year = yesterday.getFullYear();
+                    const month = String(yesterday.getMonth() + 1).padStart(2, '0');
+                    const day = String(yesterday.getDate()).padStart(2, '0');
+                    selectedDate = `${year}-${month}-${day}`;
+
+                    console.log(`📅 NBA selectedDate set to yesterday: ${selectedDate} (today is ${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')})`);
                     // Reset date picker state
                     pickerMonth = null;
                     pickerYear = null;
@@ -648,8 +655,13 @@
             document.getElementById('prevDate').addEventListener('click', (e) => {
                 e.preventDefault();
                 const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
-                selectedDate = prevDate.toISOString().split('T')[0];
+                const prevDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
+
+                // Format manually to avoid timezone issues
+                const year = prevDate.getFullYear();
+                const month = String(prevDate.getMonth() + 1).padStart(2, '0');
+                const day = String(prevDate.getDate()).padStart(2, '0');
+                selectedDate = `${year}-${month}-${day}`;
                 console.log(`📅 NBA selectedDate changed via prev button: ${selectedDate}`);
                 isInitialLoad = false; // User manually navigated
                 updateUI();
@@ -659,12 +671,16 @@
             document.getElementById('nextDate').addEventListener('click', (e) => {
                 e.preventDefault();
                 const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                const nextDate = new Date(currentDate.getTime() + 24*60*60*1000);
+                const nextDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
                 if (nextDate <= today) {
-                    selectedDate = nextDate.toISOString().split('T')[0];
+                    // Format manually to avoid timezone issues
+                    const year = nextDate.getFullYear();
+                    const month = String(nextDate.getMonth() + 1).padStart(2, '0');
+                    const day = String(nextDate.getDate()).padStart(2, '0');
+                    selectedDate = `${year}-${month}-${day}`;
                     console.log(`📅 NBA selectedDate changed via next button: ${selectedDate}`);
                     isInitialLoad = false; // User manually navigated
                     updateUI();
@@ -1115,8 +1131,13 @@
                             // For NBA, try previous date
                             console.log(`🔄 NBA fallback - current date: ${selectedDate}`);
                             const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                            const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
-                            const newDate = prevDate.toISOString().split('T')[0];
+                            const prevDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
+
+                            // Format manually to avoid timezone issues
+                            const year = prevDate.getFullYear();
+                            const month = String(prevDate.getMonth() + 1).padStart(2, '0');
+                            const day = String(prevDate.getDate()).padStart(2, '0');
+                            const newDate = `${year}-${month}-${day}`;
                             console.log(`📅 NBA fallback: ${selectedDate} → ${newDate}`);
                             selectedDate = newDate;
                             console.log(`📅 NBA selectedDate changed via fallback: ${selectedDate}`);
