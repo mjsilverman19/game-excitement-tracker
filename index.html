@@ -971,11 +971,12 @@
             if (sport === 'NBA') {
                 // For NBA, check if the date is at least 1 day ago
                 const gameDate = new Date(weekOrDate);
-                return gameDate < oneDayAgo;
+                console.log(`🔍 shouldUseStatic check - gameDate: ${gameDate.toISOString()}, oneDayAgo: ${oneDayAgo.toISOString()}, result: ${gameDate <= oneDayAgo}`);
+                return gameDate <= oneDayAgo;
             } else {
                 // For NFL/CFB, use week end dates
                 const weekEndDate = getWeekEndDate(sport, season, weekOrDate);
-                return weekEndDate < oneDayAgo;
+                return weekEndDate <= oneDayAgo;
             }
         }
 
