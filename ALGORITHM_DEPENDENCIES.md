@@ -28,10 +28,13 @@ graph TD
 - Exposes `getTier(score)` helper.
 
 **Frontend consumption**
-- Classic script tag loads `js/algorithm-config.js`, which attaches:
+- Classic script tag loads `js/algorithm-config.js` (loaded in `index.html:268`), which attaches:
   - `window.ALGORITHM_CONFIG`
   - `window.getTier`
-- **NOTE**: Frontend display precision is currently hardcoded as `toFixed(1)` in three locations in `index.html` (lines 1217, 1246, 2266) instead of using `ALGORITHM_CONFIG.precision.decimals`. This creates a maintenance risk if precision changes.
+- All display precision now uses `ALGORITHM_CONFIG.precision.decimals` consistently across:
+  - Radar chart value display (`index.html:1214`)
+  - Game score display (`index.html:1252`)
+  - Excel export rating column (`index.html:2271`)
 
 **Backend consumption**
 - Node ESM uses `createRequire()` to load the CommonJS config from `js/algorithm-config.js`.
@@ -87,11 +90,14 @@ graph TD
   - If `ALGORITHM_CONFIG.scale.max` changes, chart scaling and score displays must be validated.
 
 ### 6) Vote storage (`js/supabase.js`)
-**Consumers**: stores the algorithm score alongside votes.
-- **Fields used**: `algorithm_score: game.excitement` (search `algorithm_score` in `js/supabase.js`).
-- **Transformations**: none; persists numeric score.
+**Consumers**: stores the algorithm score and version alongside votes.
+- **Fields used**:
+  - `algorithm_score: game.excitement` (`js/supabase.js:56`)
+  - `algorithm_version: ALGORITHM_CONFIG.version` (`js/supabase.js:57`)
+- **Transformations**: none; persists numeric score and version string.
 - **Break risk**:
   - If `excitement` renamed or new scale, stored data becomes inconsistent with current UI and any future analytics.
+  - Algorithm version tracking enables segmentation of historical votes by version for analytics.
 
 ### 7) Export (`index.html` + SheetJS)
 **Consumers**: uses `excitement` and `overtime` for Excel output.
@@ -116,7 +122,7 @@ graph TD
 |  | `index.html` (search `displayResults`) | Sort order and tier statistics. | **High**: stats and list order break. |
 |  | `index.html` (search `createGameRow`) | Tier class/label, display score, pie chart fill. | **High**: UI labels/colors and visual scale break. |
 |  | `index.html` (search `exportFullSeason`) | Export rating/tier. | **High**: exported tiers and rating column wrong. |
-|  | `js/supabase.js` (search `algorithm_score`) | Persisted vote `algorithm_score`. | **Medium**: historical data becomes incomparable. |
+|  | `js/supabase.js:56-57` | Persisted as `algorithm_score` with `algorithm_version` for historical tracking. | **Medium**: historical data versioned for comparability. |
 | `breakdown.uncertainty` | `index.html` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
 |  | `index.html` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
 | `breakdown.drama` | `index.html` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
@@ -173,9 +179,10 @@ graph TD
 
 ## Vote Data Integrity (Supabase `votes` table)
 
-- **Stored fields**: `algorithm_score` is captured at vote time (search `algorithm_score` in `js/supabase.js`).
-- **Risk**: If the algorithm changes, historical votes retain the old score; comparisons against new scores become inconsistent.
-- **Recommendation**: Introduce `algorithm_version` and/or `score_model` fields in the `votes` table so analytics can segment by version, or store raw metric inputs so scores can be recomputed.
+- **Stored fields**: Both `algorithm_score` and `algorithm_version` are captured at vote time (`js/supabase.js:56-57`).
+- **Version tracking**: ✅ **IMPLEMENTED** - Each vote now includes `algorithm_version` from `ALGORITHM_CONFIG.version`.
+- **Analytics capability**: Historical votes can be segmented by algorithm version, enabling meaningful comparisons across algorithm iterations.
+- **Database schema**: Requires `algorithm_version TEXT` column in `votes` table (migration needed if not present).
 
 ---
 
@@ -254,17 +261,23 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
 4. **“How do I regenerate all static data after an algorithm update?”**
    - Use `node scripts/generate-static.js --sport <NFL|CFB|NBA> --season <year> --all --force` and redeploy `public/data/**`.
 
-5. **“Will historical vote data still be meaningful after a scoring change?”**
-   - Only partially. Votes persist the old `algorithm_score` without versioning (search `algorithm_score` in `js/supabase.js`), so comparisons against new scores are inconsistent unless you store an algorithm version or backfill.
+5. **"Will historical vote data still be meaningful after a scoring change?"**
+   - Yes, with version tracking. Each vote now includes `algorithm_version` (`js/supabase.js:57`), enabling segmentation by algorithm version. Analytics can compare votes within the same version or track sentiment shifts across versions.
 
 ---
 
 ## Recommendations Summary
 
-- **Centralize configuration**: Keep tier thresholds, scale assumptions, and precision in `js/algorithm-config.js` so frontend and backend are in sync. **ACTION NEEDED**: Replace hardcoded `toFixed(1)` calls in `index.html` (lines 1217, 1246, 2266) with `toFixed(ALGORITHM_CONFIG.precision.decimals)` to fully centralize precision.
-- **Add algorithm versioning**: Include `algorithm_version` in API responses, static JSON metadata, and vote records. ✅ **IMPLEMENTED**: `algorithmVersion` is now included in static JSON metadata.
-- **Regenerate static data after changes**: Treat static JSON as derived artifacts; rebuild and invalidate caches on updates.
-- **Build regression fixtures**: Add a small set of canonical games to validate score ranges after any algorithm change.
+- **Centralize configuration**: ✅ **COMPLETED** - All algorithm parameters (tier thresholds, scale assumptions, weights, precision) are centralized in `js/algorithm-config.js`. Frontend precision formatting now consistently uses `ALGORITHM_CONFIG.precision.decimals` across all display locations.
+
+- **Add algorithm versioning**: ✅ **COMPLETED** - Algorithm version tracking is fully implemented:
+  - Static JSON metadata includes `algorithmVersion` field
+  - Vote records include `algorithm_version` field for historical analysis
+  - Enables segmentation and comparison across algorithm iterations
+
+- **Regenerate static data after changes**: Treat static JSON as derived artifacts; rebuild and invalidate caches on updates using `node scripts/generate-static.js --all --force`.
+
+- **Build regression fixtures**: Add a small set of canonical games to validate score ranges after any algorithm change (future work).
 
 ---
 
