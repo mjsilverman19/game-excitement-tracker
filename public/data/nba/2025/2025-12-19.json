@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 6.657327723604283
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810236",
@@ -27,7 +29,9 @@
         "drama": 9.752336329320407,
         "finish": 6.6010555493326475
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810239",
@@ -41,7 +45,9 @@
         "drama": 8.561328589363939,
         "finish": 5.419589906224915
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810240",
@@ -55,7 +61,9 @@
         "drama": 8.070130135481447,
         "finish": 6.596347499598499
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810238",
@@ -63,13 +71,15 @@
       "awayTeam": "Spurs",
       "homeScore": 98,
       "awayScore": 126,
-      "excitement": 3.9,
+      "excitement": 3.2,
       "breakdown": {
         "uncertainty": 3.449224923686419,
         "drama": 5.978470372543288,
-        "finish": 1.947945499452585
+        "finish": 0.2529568461192504
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -78,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:35.821Z",
+    "generatedAt": "2026-01-02T21:10:47.304Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-19"
   }

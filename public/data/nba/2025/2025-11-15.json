@@ -13,7 +13,9 @@
         "drama": 9.619634392292495,
         "finish": 6.525372729673644
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810087",
@@ -27,7 +29,9 @@
         "drama": 9.618638395737621,
         "finish": 6.472892139547003
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810085",
@@ -35,13 +39,15 @@
       "awayTeam": "Raptors",
       "homeScore": 111,
       "awayScore": 129,
-      "excitement": 6.7,
+      "excitement": 5.8,
       "breakdown": {
         "uncertainty": 6.327715783680537,
         "drama": 8.166645248449326,
-        "finish": 4.123876745714078
+        "finish": 2.211414505714077
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810086",
@@ -49,13 +55,15 @@
       "awayTeam": "Lakers",
       "homeScore": 95,
       "awayScore": 119,
-      "excitement": 5.7,
+      "excitement": 4.6,
       "breakdown": {
         "uncertainty": 4.721138408710791,
         "drama": 7.768136632955116,
-        "finish": 3.619661204013629
+        "finish": 1.3569918706802953
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810084",
@@ -63,13 +71,15 @@
       "awayTeam": "Thunder",
       "homeScore": 96,
       "awayScore": 109,
-      "excitement": 4.9,
+      "excitement": 3.9,
       "breakdown": {
         "uncertainty": 4.122065964866623,
         "drama": 5.863107273352871,
-        "finish": 3.776544163546111
+        "finish": 1.6818762568794443
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -78,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:12.206Z",
+    "generatedAt": "2026-01-02T21:10:25.278Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-15"
   }

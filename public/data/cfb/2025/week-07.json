@@ -2,18 +2,20 @@
   "success": true,
   "games": [
     {
-      "id": "401752870",
-      "homeTeam": "Oregon",
-      "awayTeam": "Indiana",
-      "homeScore": 20,
-      "awayScore": 30,
-      "excitement": 8.9,
+      "id": "401756916",
+      "homeTeam": "Arizona",
+      "awayTeam": "BYU",
+      "homeScore": 27,
+      "awayScore": 33,
+      "excitement": 8.3,
       "breakdown": {
-        "uncertainty": 7.105372251935417,
-        "drama": 8.400934720067033,
-        "finish": 10
+        "uncertainty": 6.390065861369623,
+        "drama": 7.882201451565125,
+        "finish": 6.369743213586666
       },
-      "overtime": false
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401754559",
@@ -21,13 +23,31 @@
       "awayTeam": "Pitt",
       "homeScore": 31,
       "awayScore": 34,
-      "excitement": 8.9,
+      "excitement": 7.9,
       "breakdown": {
         "uncertainty": 6.708923676646192,
         "drama": 8.403301436858383,
-        "finish": 10
+        "finish": 6.613437829213335
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752870",
+      "homeTeam": "Oregon",
+      "awayTeam": "Indiana",
+      "homeScore": 20,
+      "awayScore": 30,
+      "excitement": 7.8,
+      "breakdown": {
+        "uncertainty": 7.105372251935417,
+        "drama": 8.400934720067033,
+        "finish": 6.1780492681200005
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752731",
@@ -35,13 +55,15 @@
       "awayTeam": "Georgia",
       "homeScore": 10,
       "awayScore": 20,
-      "excitement": 8.7,
+      "excitement": 7.4,
       "breakdown": {
         "uncertainty": 6.552728265247795,
         "drama": 7.79358502755675,
-        "finish": 10
+        "finish": 5.822403826440001
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752734",
@@ -49,41 +71,15 @@
       "awayTeam": "Alabama",
       "homeScore": 24,
       "awayScore": 27,
-      "excitement": 8.5,
+      "excitement": 7.1,
       "breakdown": {
         "uncertainty": 5.987272569970077,
         "drama": 7.385422844981607,
-        "finish": 10
+        "finish": 5.797991003253333
       },
-      "overtime": false
-    },
-    {
-      "id": "401756916",
-      "homeTeam": "Arizona",
-      "awayTeam": "BYU",
-      "homeScore": 27,
-      "awayScore": 33,
-      "excitement": 8.4,
-      "breakdown": {
-        "uncertainty": 6.390065861369623,
-        "drama": 7.882201451565125,
-        "finish": 6.666666666666667
-      },
-      "overtime": true
-    },
-    {
-      "id": "401762481",
-      "homeTeam": "North Texas",
-      "awayTeam": "South Florida",
-      "homeScore": 36,
-      "awayScore": 63,
-      "excitement": 8.3,
-      "breakdown": {
-        "uncertainty": 4.956953879650061,
-        "drama": 7.07849727343646,
-        "finish": 10
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401756918",
@@ -97,7 +93,25 @@
         "drama": 8.739824421343931,
         "finish": 3.3333333333333335
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401762481",
+      "homeTeam": "North Texas",
+      "awayTeam": "South Florida",
+      "homeScore": 36,
+      "awayScore": 63,
+      "excitement": 5.4,
+      "breakdown": {
+        "uncertainty": 4.956953879650061,
+        "drama": 7.07849727343646,
+        "finish": 3.340881612306667
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752736",
@@ -105,27 +119,15 @@
       "awayTeam": "Oklahoma",
       "homeScore": 23,
       "awayScore": 6,
-      "excitement": 5.8,
+      "excitement": 4.9,
       "breakdown": {
         "uncertainty": 6.748126615414957,
         "drama": 7.520588218492998,
-        "finish": 2.3833333333333324
+        "finish": 0.4960434812133331
       },
-      "overtime": false
-    },
-    {
-      "id": "401752865",
-      "homeTeam": "Illinois",
-      "awayTeam": "Ohio State",
-      "homeScore": 16,
-      "awayScore": 34,
-      "excitement": 5.6,
-      "breakdown": {
-        "uncertainty": 1.8035602021197321,
-        "drama": 1.785992438022126,
-        "finish": 9.996666666666668
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": "Allstate Red River Rivalry",
+      "playoffRound": null
     },
     {
       "id": "401752732",
@@ -133,13 +135,15 @@
       "awayTeam": "South Carolina",
       "homeScore": 20,
       "awayScore": 10,
-      "excitement": 5.5,
+      "excitement": 4.5,
       "breakdown": {
         "uncertainty": 5.418041748791876,
         "drama": 6.693503916127498,
-        "finish": 3.3333333333333335
+        "finish": 1.3646311948533338
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752735",
@@ -147,27 +151,15 @@
       "awayTeam": "Arkansas",
       "homeScore": 34,
       "awayScore": 31,
-      "excitement": 5.3,
+      "excitement": 3.9,
       "breakdown": {
         "uncertainty": 4.991568486010067,
         "drama": 6.752104356339399,
-        "finish": 3.3333333333333335
+        "finish": 0.33437890189333325
       },
-      "overtime": false
-    },
-    {
-      "id": "401752733",
-      "homeTeam": "Ole Miss",
-      "awayTeam": "Washington St",
-      "homeScore": 24,
-      "awayScore": 21,
-      "excitement": 3.8,
-      "breakdown": {
-        "uncertainty": 3.1560304970871664,
-        "drama": 4.2964957966631285,
-        "finish": 3.3333333333333335
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752737",
@@ -175,13 +167,47 @@
       "awayTeam": "Florida",
       "homeScore": 34,
       "awayScore": 17,
-      "excitement": 3.8,
+      "excitement": 3,
       "breakdown": {
         "uncertainty": 4.009891885860556,
         "drama": 4.485156284261053,
-        "finish": 2.573333333333335
+        "finish": 0.5287421151733335
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752733",
+      "homeTeam": "Ole Miss",
+      "awayTeam": "Washington St",
+      "homeScore": 24,
+      "awayScore": 21,
+      "excitement": 2.9,
+      "breakdown": {
+        "uncertainty": 3.1560304970871664,
+        "drama": 4.2964957966631285,
+        "finish": 0.9565182162133337
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752865",
+      "homeTeam": "Illinois",
+      "awayTeam": "Ohio State",
+      "homeScore": 16,
+      "awayScore": 34,
+      "excitement": 2.8,
+      "breakdown": {
+        "uncertainty": 1.8035602021197321,
+        "drama": 1.785992438022126,
+        "finish": 3.3399899983333334
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752868",
@@ -189,27 +215,15 @@
       "awayTeam": "Michigan",
       "homeScore": 31,
       "awayScore": 13,
-      "excitement": 3,
+      "excitement": 2.7,
       "breakdown": {
         "uncertainty": 3.628838372518361,
         "drama": 4.093399397881457,
-        "finish": 0.8213333333333325
+        "finish": 0.0380053060399999
       },
-      "overtime": false
-    },
-    {
-      "id": "401756921",
-      "homeTeam": "Texas Tech",
-      "awayTeam": "Kansas",
-      "homeScore": 42,
-      "awayScore": 17,
-      "excitement": 2.5,
-      "breakdown": {
-        "uncertainty": 2.4948316925384075,
-        "drama": 3.1102124875911747,
-        "finish": 0.785333333333335
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401756922",
@@ -221,9 +235,27 @@
       "breakdown": {
         "uncertainty": 2.7510368487219545,
         "drama": 3.440961569008038,
-        "finish": 0.038666666666668334
+        "finish": 0.0001200601600000043
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401756921",
+      "homeTeam": "Texas Tech",
+      "awayTeam": "Kansas",
+      "homeScore": 42,
+      "awayScore": 17,
+      "excitement": 2.3,
+      "breakdown": {
+        "uncertainty": 2.4948316925384075,
+        "drama": 3.1102124875911747,
+        "finish": 0.05915895068
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401754562",
@@ -235,9 +267,11 @@
       "breakdown": {
         "uncertainty": 2.5729646949570846,
         "drama": 2.573428505676007,
-        "finish": 0.12266666666666723
+        "finish": 0.0014390345200000069
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401754560",
@@ -245,13 +279,15 @@
       "awayTeam": "Virginia Tech",
       "homeScore": 35,
       "awayScore": 20,
-      "excitement": 2,
+      "excitement": 1.9,
       "breakdown": {
         "uncertainty": 1.7276085096422544,
         "drama": 1.646342909157992,
-        "finish": 0.5986666666666667
+        "finish": 0.012396238893333338
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -260,7 +296,7 @@
     "count": 18,
     "totalGames": 18,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:25:14.077Z",
+    "generatedAt": "2026-01-02T21:09:30.598Z",
     "source": "ESPN Win Probability Analysis",
     "week": 7
   }

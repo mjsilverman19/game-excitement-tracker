@@ -7,13 +7,15 @@
       "awayTeam": "Magic",
       "homeScore": 118,
       "awayScore": 126,
-      "excitement": 7.3,
+      "excitement": 7,
       "breakdown": {
         "uncertainty": 6.837334391271536,
         "drama": 8.60684007296912,
-        "finish": 4.899774136347122
+        "finish": 4.0082582963471225
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401812486",
@@ -27,7 +29,9 @@
         "drama": 8.404844724572387,
         "finish": 4.46617284109788
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -36,7 +40,7 @@
     "count": 2,
     "totalGames": 5,
     "insufficientData": 3,
-    "generatedAt": "2026-01-01T23:25:44.437Z",
+    "generatedAt": "2026-01-02T21:09:57.946Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-04"
   }

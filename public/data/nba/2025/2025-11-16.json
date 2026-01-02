@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 6.08406520750973
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810093",
@@ -27,7 +29,9 @@
         "drama": 9.716967647604775,
         "finish": 5.487573395047586
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810094",
@@ -41,7 +45,9 @@
         "drama": 9.667306614841193,
         "finish": 6.568037750864718
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810095",
@@ -49,13 +55,15 @@
       "awayTeam": "Bulls",
       "homeScore": 150,
       "awayScore": 147,
-      "excitement": 8.1,
+      "excitement": 7.9,
       "breakdown": {
         "uncertainty": 7.269173926114578,
         "drama": 8.957533125017237,
-        "finish": 4.344746765146718
+        "finish": 3.6908969384800523
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810090",
@@ -69,7 +77,9 @@
         "drama": 9.506294900795677,
         "finish": 5.007847657028228
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810092",
@@ -77,27 +87,15 @@
       "awayTeam": "Warriors",
       "homeScore": 106,
       "awayScore": 124,
-      "excitement": 4.5,
+      "excitement": 3.8,
       "breakdown": {
         "uncertainty": 3.4484230023201756,
         "drama": 5.757710400374915,
-        "finish": 3.606161602108546
+        "finish": 1.876961428775212
       },
-      "overtime": false
-    },
-    {
-      "id": "401810089",
-      "homeTeam": "Spurs",
-      "awayTeam": "Kings",
-      "homeScore": 123,
-      "awayScore": 110,
-      "excitement": 3.7,
-      "breakdown": {
-        "uncertainty": 2.9192103816197568,
-        "drama": 3.8832362876327675,
-        "finish": 3.5923693116924693
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810088",
@@ -105,13 +103,31 @@
       "awayTeam": "Clippers",
       "homeScore": 121,
       "awayScore": 118,
-      "excitement": 3.6,
+      "excitement": 2.9,
       "breakdown": {
         "uncertainty": 2.8189299479056595,
         "drama": 4.267494427634065,
-        "finish": 3.009134766307445
+        "finish": 1.146057486307447
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810089",
+      "homeTeam": "Spurs",
+      "awayTeam": "Kings",
+      "homeScore": 123,
+      "awayScore": 110,
+      "excitement": 2.7,
+      "breakdown": {
+        "uncertainty": 2.9192103816197568,
+        "drama": 3.8832362876327675,
+        "finish": 0.8238602183591365
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -120,7 +136,7 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:12.809Z",
+    "generatedAt": "2026-01-02T21:10:25.831Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-16"
   }

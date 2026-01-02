@@ -13,7 +13,9 @@
         "drama": 9.978104389850799,
         "finish": 5.697100744322662
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810314",
@@ -27,7 +29,9 @@
         "drama": 10,
         "finish": 5.798907635695784
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810315",
@@ -41,7 +45,9 @@
         "drama": 8.93699263625446,
         "finish": 6.1445867040025615
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810316",
@@ -53,9 +59,11 @@
       "breakdown": {
         "uncertainty": 2.2772182472389613,
         "drama": 3.220747215950166,
-        "finish": 0.1163463341432145
+        "finish": 0.04323928080988111
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -64,7 +72,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:42.527Z",
+    "generatedAt": "2026-01-02T21:10:53.944Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-30"
   }

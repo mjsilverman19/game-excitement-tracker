@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 5.549093162574994
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809996",
@@ -27,7 +29,9 @@
         "drama": 9.200889320781785,
         "finish": 6.043398912143072
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809993",
@@ -35,13 +39,15 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 123,
-      "excitement": 5.8,
+      "excitement": 4.8,
       "breakdown": {
         "uncertainty": 4.711753103937692,
         "drama": 6.701111650380156,
-        "finish": 4.4587513098195055
+        "finish": 2.4152252831528385
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809995",
@@ -49,13 +55,15 @@
       "awayTeam": "Wizards",
       "homeScore": 127,
       "awayScore": 108,
-      "excitement": 3.1,
+      "excitement": 2.3,
       "breakdown": {
         "uncertainty": 2.240133409545369,
         "drama": 2.3280320475903347,
-        "finish": 3.580899309254891
+        "finish": 0.8067728159215597
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -64,7 +72,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:00.886Z",
+    "generatedAt": "2026-01-02T21:10:14.923Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-30"
   }

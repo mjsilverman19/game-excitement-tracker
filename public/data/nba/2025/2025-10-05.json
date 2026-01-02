@@ -7,13 +7,15 @@
       "awayTeam": "Lakers",
       "homeScore": 111,
       "awayScore": 103,
-      "excitement": 7.2,
+      "excitement": 7,
       "breakdown": {
         "uncertainty": 7.327967562323034,
         "drama": 9.444842111488462,
-        "finish": 3.578254666351873
+        "finish": 3.1448116796852075
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401812676",
@@ -21,13 +23,15 @@
       "awayTeam": "Thunder",
       "homeScore": 114,
       "awayScore": 135,
-      "excitement": 6.5,
+      "excitement": 5.6,
       "breakdown": {
         "uncertainty": 5.796095798454502,
         "drama": 7.880778386289212,
-        "finish": 4.344746765146718
+        "finish": 2.4096777384800516
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -36,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:25:45.131Z",
+    "generatedAt": "2026-01-02T21:09:58.766Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-05"
   }

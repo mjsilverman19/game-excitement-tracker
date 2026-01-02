@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 6.4920191910503995
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810253",
@@ -27,7 +29,9 @@
         "drama": 10,
         "finish": 5.961269070069989
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810255",
@@ -41,7 +45,9 @@
         "drama": 9.63063764574721,
         "finish": 5.5601997522787
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810252",
@@ -49,13 +55,15 @@
       "awayTeam": "Raptors",
       "homeScore": 96,
       "awayScore": 81,
-      "excitement": 7.3,
+      "excitement": 6.4,
       "breakdown": {
         "uncertainty": 6.868507362719027,
         "drama": 8.92147435008045,
-        "finish": 4.46617284109788
+        "finish": 2.54498688109788
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810256",
@@ -63,13 +71,15 @@
       "awayTeam": "Rockets",
       "homeScore": 125,
       "awayScore": 124,
-      "excitement": 6,
+      "excitement": 4.8,
       "breakdown": {
         "uncertainty": 3.847510615427222,
         "drama": 5.712787750975644,
-        "finish": 4.344746765146718
+        "finish": 1.9017341384800521
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810254",
@@ -77,13 +87,15 @@
       "awayTeam": "Spurs",
       "homeScore": 113,
       "awayScore": 124,
-      "excitement": 2.4,
+      "excitement": 2.2,
       "breakdown": {
         "uncertainty": 2.135653211912245,
         "drama": 2.59755892775593,
-        "finish": 1.0412788327859177
+        "finish": 0.1946630194525837
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -92,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:36.933Z",
+    "generatedAt": "2026-01-02T21:10:48.419Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-21"
   }

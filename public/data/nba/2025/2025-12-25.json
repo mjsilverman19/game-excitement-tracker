@@ -2,32 +2,36 @@
   "success": true,
   "games": [
     {
-      "id": "401809238",
-      "homeTeam": "Knicks",
-      "awayTeam": "Cavaliers",
-      "homeScore": 126,
-      "awayScore": 124,
-      "excitement": 8.3,
-      "breakdown": {
-        "uncertainty": 7.466683159852083,
-        "drama": 10,
-        "finish": 6.072863272969967
-      },
-      "overtime": false
-    },
-    {
       "id": "401809242",
       "homeTeam": "Nuggets",
       "awayTeam": "Timberwolves",
       "homeScore": 142,
       "awayScore": 138,
-      "excitement": 8.2,
+      "excitement": 7.9,
       "breakdown": {
         "uncertainty": 7.224324325316063,
         "drama": 9.196345251474057,
-        "finish": 4.383334073886473
+        "finish": 3.7334685672198042
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809238",
+      "homeTeam": "Knicks",
+      "awayTeam": "Cavaliers",
+      "homeScore": 126,
+      "awayScore": 124,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 7.466683159852083,
+        "drama": 10,
+        "finish": 4.4061966063033005
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809239",
@@ -41,7 +45,9 @@
         "drama": 8.640402233437584,
         "finish": 4.305517756071202
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809240",
@@ -49,13 +55,15 @@
       "awayTeam": "Mavericks",
       "homeScore": 126,
       "awayScore": 116,
-      "excitement": 5.2,
+      "excitement": 3.9,
       "breakdown": {
         "uncertainty": 4.3047894204949335,
         "drama": 5.886623205429741,
-        "finish": 4.233127658585309
+        "finish": 1.5265929252519748
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809241",
@@ -63,13 +71,15 @@
       "awayTeam": "Rockets",
       "homeScore": 96,
       "awayScore": 119,
-      "excitement": 5.2,
+      "excitement": 3.9,
       "breakdown": {
         "uncertainty": 4.423002754177065,
         "drama": 6.788729039641471,
-        "finish": 3.501278832785917
+        "finish": 0.5951138594525838
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -78,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:39.208Z",
+    "generatedAt": "2026-01-02T21:10:50.890Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-25"
   }

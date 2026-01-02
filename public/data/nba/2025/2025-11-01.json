@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 5.30411332441621
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810002",
@@ -27,7 +29,9 @@
         "drama": 9.142974553897826,
         "finish": 5.761613128328714
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809999",
@@ -41,7 +45,9 @@
         "drama": 8.369728912745812,
         "finish": 5.930186375568164
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809997",
@@ -55,7 +61,9 @@
         "drama": 8.391581503770594,
         "finish": 5.904161850957788
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810000",
@@ -63,13 +71,15 @@
       "awayTeam": "Magic",
       "homeScore": 94,
       "awayScore": 125,
-      "excitement": 4.5,
+      "excitement": 3.6,
       "breakdown": {
         "uncertainty": 4.606626257915408,
         "drama": 6.355780656437128,
-        "finish": 2.3128078304870043
+        "finish": 0.24681519048700276
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810001",
@@ -77,13 +87,15 @@
       "awayTeam": "Rockets",
       "homeScore": 101,
       "awayScore": 128,
-      "excitement": 3.9,
+      "excitement": 3,
       "breakdown": {
         "uncertainty": 3.3846965896438785,
         "drama": 5.096626519936841,
-        "finish": 2.6377341045816656
+        "finish": 0.348262144581664
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -92,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:02.238Z",
+    "generatedAt": "2026-01-02T21:10:16.049Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-01"
   }

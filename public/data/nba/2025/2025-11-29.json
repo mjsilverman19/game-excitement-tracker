@@ -13,7 +13,9 @@
         "drama": 9.87584846619473,
         "finish": 6.134538812535643
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810150",
@@ -27,7 +29,9 @@
         "drama": 9.76547756056753,
         "finish": 5.131289021570158
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810154",
@@ -39,23 +43,11 @@
       "breakdown": {
         "uncertainty": 7.147702154433776,
         "drama": 9.951490938309385,
-        "finish": 4.707543385753423
+        "finish": 4.564545505753424
       },
-      "overtime": false
-    },
-    {
-      "id": "401810151",
-      "homeTeam": "Heat",
-      "awayTeam": "Pistons",
-      "homeScore": 135,
-      "awayScore": 138,
-      "excitement": 7.2,
-      "breakdown": {
-        "uncertainty": 6.7767378323285055,
-        "drama": 9.033921731881412,
-        "finish": 4.367973274249755
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810153",
@@ -69,7 +61,9 @@
         "drama": 8.333080537159454,
         "finish": 5.131289021570158
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810149",
@@ -83,7 +77,25 @@
         "drama": 5.8628814269889675,
         "finish": 5.587863057139756
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810151",
+      "homeTeam": "Heat",
+      "awayTeam": "Pistons",
+      "homeScore": 135,
+      "awayScore": 138,
+      "excitement": 6.7,
+      "breakdown": {
+        "uncertainty": 6.7767378323285055,
+        "drama": 9.033921731881412,
+        "finish": 3.152793887583089
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810155",
@@ -97,7 +109,9 @@
         "drama": 7.042503235816444,
         "finish": 5.15553928567967
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810152",
@@ -105,13 +119,15 @@
       "awayTeam": "Nets",
       "homeScore": 116,
       "awayScore": 99,
-      "excitement": 2.4,
+      "excitement": 2.3,
       "breakdown": {
         "uncertainty": 2.3250650350646227,
         "drama": 3.6536319594087403,
-        "finish": 0.26967966747654804
+        "finish": 0.046510320809881114
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -120,7 +136,7 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:22.430Z",
+    "generatedAt": "2026-01-02T21:10:34.259Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-29"
   }

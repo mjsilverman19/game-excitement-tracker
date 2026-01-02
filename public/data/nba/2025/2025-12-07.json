@@ -13,7 +13,9 @@
         "drama": 9.801877395681268,
         "finish": 6.482461888872824
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810212",
@@ -27,7 +29,9 @@
         "drama": 9.854210387910134,
         "finish": 5.814817067784303
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810214",
@@ -35,13 +39,15 @@
       "awayTeam": "Nuggets",
       "homeScore": 106,
       "awayScore": 115,
-      "excitement": 6.7,
+      "excitement": 6.6,
       "breakdown": {
         "uncertainty": 5.751696957584662,
         "drama": 8.313814231644429,
-        "finish": 4.421322832862664
+        "finish": 4.22637545952933
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810216",
@@ -49,13 +55,15 @@
       "awayTeam": "Warriors",
       "homeScore": 91,
       "awayScore": 123,
-      "excitement": 4.8,
+      "excitement": 3.7,
       "breakdown": {
         "uncertainty": 3.8169891960932,
         "drama": 6.034965484023793,
-        "finish": 3.7195306282313734
+        "finish": 1.1147484415647073
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810213",
@@ -63,13 +71,15 @@
       "awayTeam": "Celtics",
       "homeScore": 113,
       "awayScore": 121,
-      "excitement": 4.4,
+      "excitement": 3.5,
       "breakdown": {
         "uncertainty": 3.9174520192796587,
         "drama": 5.834525114295845,
-        "finish": 2.9823075052392833
+        "finish": 0.9137087985726156
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810215",
@@ -77,13 +87,15 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 119,
       "awayScore": 96,
-      "excitement": 3.5,
+      "excitement": 2.8,
       "breakdown": {
         "uncertainty": 2.706886259481598,
         "drama": 4.006831155068133,
-        "finish": 3.1349855683521244
+        "finish": 1.1187888483521249
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810218",
@@ -91,13 +103,15 @@
       "awayTeam": "Thunder",
       "homeScore": 101,
       "awayScore": 131,
-      "excitement": 1.9,
+      "excitement": 1.8,
       "breakdown": {
         "uncertainty": 1.1411847857979023,
         "drama": 1.1688277687937363,
-        "finish": 0.6763463341432148
+        "finish": 0.051816200809881106
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -106,7 +120,7 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:27.987Z",
+    "generatedAt": "2026-01-02T21:10:39.758Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-07"
   }

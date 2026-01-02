@@ -13,7 +13,9 @@
         "drama": 9.028038698865275,
         "finish": 5.798907635695784
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809237",
@@ -27,7 +29,9 @@
         "drama": 9.182724910724886,
         "finish": 6.400715026833165
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -36,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:25:56.737Z",
+    "generatedAt": "2026-01-02T21:10:10.669Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-23"
   }

@@ -7,13 +7,15 @@
       "awayTeam": "Iowa State",
       "homeScore": 21,
       "awayScore": 24,
-      "excitement": 9.2,
+      "excitement": 8.4,
       "breakdown": {
         "uncertainty": 7.880450471654243,
         "drama": 9.292649559197892,
-        "finish": 10
+        "finish": 6.666666666666667
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": "Aer Lingus College Football Classic",
+      "playoffRound": null
     },
     {
       "id": "401752671",
@@ -21,13 +23,15 @@
       "awayTeam": "LSU",
       "homeScore": 10,
       "awayScore": 17,
-      "excitement": 8.9,
+      "excitement": 7.5,
       "breakdown": {
         "uncertainty": 7.0019403805875005,
         "drama": 8.136412199943303,
-        "finish": 10
+        "finish": 5.496801067973333
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401754522",
@@ -35,55 +39,15 @@
       "awayTeam": "Notre Dame",
       "homeScore": 27,
       "awayScore": 24,
-      "excitement": 7.3,
+      "excitement": 6.3,
       "breakdown": {
         "uncertainty": 6.309712315194612,
         "drama": 7.992696436717353,
-        "finish": 5.695
-      },
-      "overtime": false
-    },
-    {
-      "id": "401752677",
-      "homeTeam": "Ohio State",
-      "awayTeam": "Texas",
-      "homeScore": 14,
-      "awayScore": 7,
-      "excitement": 5.5,
-      "breakdown": {
-        "uncertainty": 5.877568375867602,
-        "drama": 6.227873568805721,
         "finish": 3.3333333333333335
       },
-      "overtime": false
-    },
-    {
-      "id": "401752680",
-      "homeTeam": "South Carolina",
-      "awayTeam": "Virginia Tech",
-      "homeScore": 24,
-      "awayScore": 11,
-      "excitement": 5.2,
-      "breakdown": {
-        "uncertainty": 5.194189917215629,
-        "drama": 6.30890914976446,
-        "finish": 3.3333333333333335
-      },
-      "overtime": false
-    },
-    {
-      "id": "401752665",
-      "homeTeam": "Florida St",
-      "awayTeam": "Alabama",
-      "homeScore": 31,
-      "awayScore": 17,
-      "excitement": 4.7,
-      "breakdown": {
-        "uncertainty": 4.456537484989871,
-        "drama": 5.484980425156094,
-        "finish": 3.3333333333333335
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401756855",
@@ -97,7 +61,57 @@
         "drama": 6.266282412566197,
         "finish": 3.3333333333333335
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752680",
+      "homeTeam": "South Carolina",
+      "awayTeam": "Virginia Tech",
+      "homeScore": 24,
+      "awayScore": 11,
+      "excitement": 4.3,
+      "breakdown": {
+        "uncertainty": 5.194189917215629,
+        "drama": 6.30890914976446,
+        "finish": 1.349116749813333
+      },
+      "overtime": false,
+      "bowlName": "Aflac Kickoff",
+      "playoffRound": null
+    },
+    {
+      "id": "401752677",
+      "homeTeam": "Ohio State",
+      "awayTeam": "Texas",
+      "homeScore": 14,
+      "awayScore": 7,
+      "excitement": 4.1,
+      "breakdown": {
+        "uncertainty": 5.877568375867602,
+        "drama": 6.227873568805721,
+        "finish": 0.40519093213333335
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752665",
+      "homeTeam": "Florida St",
+      "awayTeam": "Alabama",
+      "homeScore": 31,
+      "awayScore": 17,
+      "excitement": 3.7,
+      "breakdown": {
+        "uncertainty": 4.456537484989871,
+        "drama": 5.484980425156094,
+        "finish": 1.0516392446533338
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401762522",
@@ -109,9 +123,11 @@
       "breakdown": {
         "uncertainty": 4.853242807505844,
         "drama": 5.2268183889757935,
-        "finish": 0.023333333333332245
+        "finish": 0.00006496487999999678
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752806",
@@ -119,13 +135,15 @@
       "awayTeam": "Old Dominion",
       "homeScore": 27,
       "awayScore": 14,
-      "excitement": 2.4,
+      "excitement": 2.3,
       "breakdown": {
         "uncertainty": 2.6878923461514943,
         "drama": 3.0916936999633506,
-        "finish": 0.4800000000000012
+        "finish": 0.007128215400000017
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752678",
@@ -137,9 +155,11 @@
       "breakdown": {
         "uncertainty": 1.771539752218386,
         "drama": 1.608691092893513,
-        "finish": 0.10533333333333432
+        "finish": 0.0012169383200000042
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752676",
@@ -147,13 +167,15 @@
       "awayTeam": "Syracuse",
       "homeScore": 45,
       "awayScore": 26,
-      "excitement": 1.9,
+      "excitement": 1.8,
       "breakdown": {
         "uncertainty": 1.2087684784296462,
         "drama": 0.8265650864248968,
-        "finish": 0.9193333333333328
+        "finish": 0.031230754426666674
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": "Aflac Kickoff",
+      "playoffRound": null
     },
     {
       "id": "401752808",
@@ -165,9 +187,11 @@
       "breakdown": {
         "uncertainty": 0.7573060817674793,
         "drama": 0.2811796603569356,
-        "finish": 0.4813333333333351
+        "finish": 0.022879386053333388
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752672",
@@ -179,9 +203,11 @@
       "breakdown": {
         "uncertainty": 0.75944839764489,
         "drama": 0.34979102157074915,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401756853",
@@ -193,9 +219,11 @@
       "breakdown": {
         "uncertainty": 1.0166028224993835,
         "drama": 0.551734176258003,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752795",
@@ -207,9 +235,11 @@
       "breakdown": {
         "uncertainty": 0.15110412645316357,
         "drama": 0.0039992367381504555,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752807",
@@ -221,9 +251,11 @@
       "breakdown": {
         "uncertainty": 0.22382381642307786,
         "drama": 0.012424442948459541,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752669",
@@ -235,9 +267,11 @@
       "breakdown": {
         "uncertainty": 0.3100802583951793,
         "drama": 0.04115232122196149,
-        "finish": 0.013333333333332606
+        "finish": 0.00002996499999999784
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752804",
@@ -249,9 +283,11 @@
       "breakdown": {
         "uncertainty": 0.2929440955765716,
         "drama": 0.035365250819148375,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401756850",
@@ -263,9 +299,11 @@
       "breakdown": {
         "uncertainty": 0.6369059644027364,
         "drama": 0.20283831025700655,
-        "finish": 0.14666666666666606
+        "finish": 0.0011643959333333283
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752668",
@@ -277,9 +315,11 @@
       "breakdown": {
         "uncertainty": 0.075568220014162,
         "drama": 0.00030795021306482336,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401754521",
@@ -291,9 +331,11 @@
       "breakdown": {
         "uncertainty": 0.19180101806396357,
         "drama": 0.013820487114832825,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401752675",
@@ -305,9 +347,11 @@
       "breakdown": {
         "uncertainty": 0.4267906824172263,
         "drama": 0.057158839829906674,
-        "finish": 0.016666666666666313
+        "finish": 0.00006319499999999716
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401756877",
@@ -319,9 +363,11 @@
       "breakdown": {
         "uncertainty": 0.07264134905666796,
         "drama": 0.00009542068333682016,
-        "finish": 0.006666666666666673
+        "finish": 0.000013320000000000025
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -330,7 +376,7 @@
     "count": 23,
     "totalGames": 23,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:25:08.422Z",
+    "generatedAt": "2026-01-02T21:09:25.360Z",
     "source": "ESPN Win Probability Analysis",
     "week": 1
   }

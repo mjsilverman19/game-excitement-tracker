@@ -13,7 +13,9 @@
         "drama": 8.729501120500363,
         "finish": 4.957373865272943
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810177",
@@ -27,7 +29,9 @@
         "drama": 9.861462475693374,
         "finish": 5.070038517001656
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810174",
@@ -41,7 +45,9 @@
         "drama": 8.748388766134704,
         "finish": 4.24942452243427
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810175",
@@ -55,7 +61,9 @@
         "drama": 8.667335406045341,
         "finish": 4.603495357346741
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810178",
@@ -63,13 +71,15 @@
       "awayTeam": "Thunder",
       "homeScore": 112,
       "awayScore": 124,
-      "excitement": 4.4,
+      "excitement": 3.3,
       "breakdown": {
         "uncertainty": 3.0991589671778135,
         "drama": 4.4942195133483125,
-        "finish": 4.436359460315286
+        "finish": 1.8642307269819518
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810173",
@@ -77,13 +87,15 @@
       "awayTeam": "Wizards",
       "homeScore": 121,
       "awayScore": 102,
-      "excitement": 3.9,
+      "excitement": 3,
       "breakdown": {
         "uncertainty": 3.0171672876521787,
         "drama": 3.978658297641337,
-        "finish": 3.8410658574799346
+        "finish": 1.4533599774799348
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -92,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:24.437Z",
+    "generatedAt": "2026-01-02T21:10:36.615Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-02"
   }

@@ -13,7 +13,9 @@
         "drama": 9.331741308598636,
         "finish": 4.707543385753423
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810184",
@@ -21,27 +23,15 @@
       "awayTeam": "Nets",
       "homeScore": 103,
       "awayScore": 113,
-      "excitement": 7.2,
+      "excitement": 7.1,
       "breakdown": {
         "uncertainty": 6.311971726533056,
         "drama": 8.408784367247394,
-        "finish": 5.125204563102588
+        "finish": 4.967109523102588
       },
-      "overtime": false
-    },
-    {
-      "id": "401810182",
-      "homeTeam": "Hawks",
-      "awayTeam": "Clippers",
-      "homeScore": 92,
-      "awayScore": 115,
-      "excitement": 7.1,
-      "breakdown": {
-        "uncertainty": 6.9647762403223625,
-        "drama": 8.843732106262475,
-        "finish": 4.026109360547778
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810186",
@@ -55,21 +45,9 @@
         "drama": 7.930893124757574,
         "finish": 5.350643237246556
       },
-      "overtime": false
-    },
-    {
-      "id": "401810187",
-      "homeTeam": "Mavericks",
-      "awayTeam": "Heat",
-      "homeScore": 118,
-      "awayScore": 108,
-      "excitement": 6.9,
-      "breakdown": {
-        "uncertainty": 6.522336553544774,
-        "drama": 8.58761340048111,
-        "finish": 4.123876745714078
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810179",
@@ -83,7 +61,41 @@
         "drama": 8.09954541359635,
         "finish": 4.624589889067367
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810187",
+      "homeTeam": "Mavericks",
+      "awayTeam": "Heat",
+      "homeScore": 118,
+      "awayScore": 108,
+      "excitement": 6.3,
+      "breakdown": {
+        "uncertainty": 6.522336553544774,
+        "drama": 8.58761340048111,
+        "finish": 2.7661919323807442
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810182",
+      "homeTeam": "Hawks",
+      "awayTeam": "Clippers",
+      "homeScore": 92,
+      "awayScore": 115,
+      "excitement": 5.9,
+      "breakdown": {
+        "uncertainty": 6.9647762403223625,
+        "drama": 8.843732106262475,
+        "finish": 1.3802645205477782
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810185",
@@ -97,7 +109,9 @@
         "drama": 6.813884446406355,
         "finish": 4.801691256395787
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810183",
@@ -105,13 +119,15 @@
       "awayTeam": "Hornets",
       "homeScore": 119,
       "awayScore": 104,
-      "excitement": 3.9,
+      "excitement": 3.1,
       "breakdown": {
         "uncertainty": 2.933399824569916,
         "drama": 3.835337263693777,
-        "finish": 4.044307179161798
+        "finish": 2.045741819161797
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810180",
@@ -119,13 +135,15 @@
       "awayTeam": "Nuggets",
       "homeScore": 120,
       "awayScore": 135,
-      "excitement": 3.1,
+      "excitement": 2.9,
       "breakdown": {
         "uncertainty": 3.3467780785696633,
         "drama": 5.070507040714492,
-        "finish": 0.6861411638203363
+        "finish": 0.09954989715366942
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -134,7 +152,7 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:24.981Z",
+    "generatedAt": "2026-01-02T21:10:37.163Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-03"
   }

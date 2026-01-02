@@ -13,7 +13,9 @@
         "drama": 9.836897106903447,
         "finish": 6.468102575183242
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809978",
@@ -27,7 +29,9 @@
         "drama": 9.864590955525026,
         "finish": 4.428852203128412
       },
-      "overtime": true
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809981",
@@ -41,7 +45,9 @@
         "drama": 10,
         "finish": 5.020364108556876
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809982",
@@ -55,7 +61,9 @@
         "drama": 9.276876988906743,
         "finish": 5.045278532995011
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809979",
@@ -63,13 +71,15 @@
       "awayTeam": "Hornets",
       "homeScore": 144,
       "awayScore": 117,
-      "excitement": 7.5,
+      "excitement": 7.2,
       "breakdown": {
         "uncertainty": 6.1527599601727,
         "drama": 9.597086600218562,
-        "finish": 4.96371955254518
+        "finish": 4.327115059211847
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -78,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:25:59.777Z",
+    "generatedAt": "2026-01-02T21:10:13.793Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-28"
   }

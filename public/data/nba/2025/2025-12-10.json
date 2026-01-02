@@ -7,13 +7,15 @@
       "awayTeam": "Spurs",
       "homeScore": 119,
       "awayScore": 132,
-      "excitement": 5.8,
+      "excitement": 5,
       "breakdown": {
         "uncertainty": 5.145676900431981,
         "drama": 7.466849403358626,
-        "finish": 3.6957041782121633
+        "finish": 2.03702580487883
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401809835",
@@ -27,7 +29,9 @@
         "drama": 0.5987565607201583,
         "finish": 0.04301300080988111
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -36,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:30.012Z",
+    "generatedAt": "2026-01-02T21:10:41.674Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-10"
   }

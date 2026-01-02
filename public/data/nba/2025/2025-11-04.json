@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 6.089130347264235
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810023",
@@ -27,7 +29,9 @@
         "drama": 9.225978323346816,
         "finish": 5.549093162574994
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810021",
@@ -35,13 +39,15 @@
       "awayTeam": "Magic",
       "homeScore": 127,
       "awayScore": 112,
-      "excitement": 6.4,
+      "excitement": 5.7,
       "breakdown": {
         "uncertainty": 5.666655748178908,
         "drama": 8.053723655455546,
-        "finish": 4.088957114208151
+        "finish": 2.5519690075414836
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810020",
@@ -49,13 +55,15 @@
       "awayTeam": "Bucks",
       "homeScore": 128,
       "awayScore": 100,
-      "excitement": 6.3,
+      "excitement": 4.8,
       "breakdown": {
         "uncertainty": 5.514713675630091,
         "drama": 7.735709709340865,
-        "finish": 4.106501429138372
+        "finish": 1.1894931358050376
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810022",
@@ -63,13 +71,15 @@
       "awayTeam": "76ers",
       "homeScore": 113,
       "awayScore": 111,
-      "excitement": 3.3,
+      "excitement": 2.6,
       "breakdown": {
         "uncertainty": 2.641479481932662,
         "drama": 4.098155417787396,
-        "finish": 2.629037511545498
+        "finish": 0.5278168448788296
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810024",
@@ -77,13 +87,15 @@
       "awayTeam": "Suns",
       "homeScore": 118,
       "awayScore": 107,
-      "excitement": 2.7,
+      "excitement": 2.4,
       "breakdown": {
         "uncertainty": 2.3955741683201435,
         "drama": 3.2786378430150327,
-        "finish": 1.6261616021085465
+        "finish": 0.32733168210854535
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -92,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:04.112Z",
+    "generatedAt": "2026-01-02T21:10:17.698Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-04"
   }

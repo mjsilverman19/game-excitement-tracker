@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 6.2935156362291504
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810302",
@@ -27,7 +29,9 @@
         "drama": 9.933634448669594,
         "finish": 5.814817067784304
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810311",
@@ -41,7 +45,9 @@
         "drama": 9.666590348058744,
         "finish": 5.830682905081578
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810309",
@@ -55,7 +61,9 @@
         "drama": 9.659604024140307,
         "finish": 5.088509605778983
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810305",
@@ -69,7 +77,9 @@
         "drama": 9.932443704368747,
         "finish": 4.893318380204567
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810307",
@@ -77,27 +87,15 @@
       "awayTeam": "Timberwolves",
       "homeScore": 101,
       "awayScore": 136,
-      "excitement": 7.1,
+      "excitement": 6.8,
       "breakdown": {
         "uncertainty": 7.172111481952057,
         "drama": 8.888487434611891,
-        "finish": 3.8514736346016782
+        "finish": 3.1077790612683454
       },
-      "overtime": false
-    },
-    {
-      "id": "401810303",
-      "homeTeam": "Wizards",
-      "awayTeam": "Suns",
-      "homeScore": 101,
-      "awayScore": 115,
-      "excitement": 6.7,
-      "breakdown": {
-        "uncertainty": 5.93841360702644,
-        "drama": 8.151691617223126,
-        "finish": 4.352514104807446
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810310",
@@ -111,7 +109,25 @@
         "drama": 8.693001510930191,
         "finish": 3.892247306247005
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810303",
+      "homeTeam": "Wizards",
+      "awayTeam": "Suns",
+      "homeScore": 101,
+      "awayScore": 115,
+      "excitement": 5.7,
+      "breakdown": {
+        "uncertainty": 5.93841360702644,
+        "drama": 8.151691617223126,
+        "finish": 2.341333158140779
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810306",
@@ -119,13 +135,15 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 106,
-      "excitement": 6.5,
+      "excitement": 5.7,
       "breakdown": {
         "uncertainty": 5.053331427650058,
         "drama": 6.960642547491922,
-        "finish": 5.487573395047586
+        "finish": 3.937939488380919
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810312",
@@ -133,13 +151,15 @@
       "awayTeam": "Mavericks",
       "homeScore": 125,
       "awayScore": 122,
-      "excitement": 5.8,
+      "excitement": 5,
       "breakdown": {
         "uncertainty": 4.719883495918676,
         "drama": 6.918083831754997,
-        "finish": 4.2896357262354785
+        "finish": 2.6603823795688117
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810308",
@@ -147,13 +167,15 @@
       "awayTeam": "Pacers",
       "homeScore": 126,
       "awayScore": 119,
-      "excitement": 2.3,
+      "excitement": 2.1,
       "breakdown": {
         "uncertainty": 1.902062257767465,
         "drama": 2.457725724819758,
-        "finish": 0.8923693116924701
+        "finish": 0.27231177835913617
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -162,7 +184,7 @@
     "count": 11,
     "totalGames": 11,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:41.704Z",
+    "generatedAt": "2026-01-02T21:10:53.122Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-29"
   }

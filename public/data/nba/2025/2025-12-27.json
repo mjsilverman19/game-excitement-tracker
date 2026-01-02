@@ -13,7 +13,9 @@
         "drama": 10,
         "finish": 8.297052885878513
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810294",
@@ -27,21 +29,9 @@
         "drama": 10,
         "finish": 5.481943494216258
       },
-      "overtime": false
-    },
-    {
-      "id": "401810289",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Suns",
-      "homeScore": 114,
-      "awayScore": 123,
-      "excitement": 7.8,
-      "breakdown": {
-        "uncertainty": 6.820169695680698,
-        "drama": 9.214413922295027,
-        "finish": 5.565744149683424
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810291",
@@ -55,7 +45,25 @@
         "drama": 8.624549091225212,
         "finish": 6.525372729673644
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810289",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Suns",
+      "homeScore": 114,
+      "awayScore": 123,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 6.820169695680698,
+        "drama": 9.214413922295027,
+        "finish": 5.222877976350091
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810288",
@@ -63,27 +71,15 @@
       "awayTeam": "Nuggets",
       "homeScore": 127,
       "awayScore": 126,
-      "excitement": 7,
+      "excitement": 6.4,
       "breakdown": {
         "uncertainty": 6.046069656257265,
         "drama": 8.37038020242918,
-        "finish": 4.761668503805308
+        "finish": 3.471400823805307
       },
-      "overtime": false
-    },
-    {
-      "id": "401810287",
-      "homeTeam": "Kings",
-      "awayTeam": "Mavericks",
-      "homeScore": 113,
-      "awayScore": 107,
-      "excitement": 6.4,
-      "breakdown": {
-        "uncertainty": 5.4004707349789065,
-        "drama": 7.920140124869147,
-        "finish": 4.336953776021936
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810295",
@@ -97,7 +93,25 @@
         "drama": 7.366242315867698,
         "finish": 5.119111237277876
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810287",
+      "homeTeam": "Kings",
+      "awayTeam": "Mavericks",
+      "homeScore": 113,
+      "awayScore": 107,
+      "excitement": 6.2,
+      "breakdown": {
+        "uncertainty": 5.4004707349789065,
+        "drama": 7.920140124869147,
+        "finish": 3.9079780560219364
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810290",
@@ -105,13 +119,15 @@
       "awayTeam": "Knicks",
       "homeScore": 125,
       "awayScore": 128,
-      "excitement": 6.1,
+      "excitement": 5.1,
       "breakdown": {
         "uncertainty": 5.58071916950222,
         "drama": 7.574216337349451,
-        "finish": 3.8821764980461215
+        "finish": 1.7256915780461202
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810293",
@@ -119,13 +135,15 @@
       "awayTeam": "Cavaliers",
       "homeScore": 117,
       "awayScore": 100,
-      "excitement": 5.3,
+      "excitement": 4,
       "breakdown": {
         "uncertainty": 4.649730753789658,
         "drama": 6.740220131171354,
-        "finish": 3.4660357235178325
+        "finish": 0.6905641235178319
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -134,7 +152,7 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:40.321Z",
+    "generatedAt": "2026-01-02T21:10:51.992Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-27"
   }

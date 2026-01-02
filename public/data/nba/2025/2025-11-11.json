@@ -13,7 +13,9 @@
         "drama": 9.36657079057905,
         "finish": 6.214497241108544
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810067",
@@ -27,21 +29,9 @@
         "drama": 9.387936489544247,
         "finish": 5.039064568713552
       },
-      "overtime": false
-    },
-    {
-      "id": "401810062",
-      "homeTeam": "Nets",
-      "awayTeam": "Raptors",
-      "homeScore": 109,
-      "awayScore": 119,
-      "excitement": 6.7,
-      "breakdown": {
-        "uncertainty": 5.768759700082501,
-        "drama": 7.781510527254703,
-        "finish": 4.775062237351077
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810066",
@@ -49,27 +39,31 @@
       "awayTeam": "Pacers",
       "homeScore": 152,
       "awayScore": 128,
-      "excitement": 6.7,
+      "excitement": 6,
       "breakdown": {
         "uncertainty": 6.040360055940958,
         "drama": 7.872427344337455,
-        "finish": 4.610543441252816
+        "finish": 3.100432881252815
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
-      "id": "401810065",
-      "homeTeam": "Thunder",
-      "awayTeam": "Warriors",
-      "homeScore": 126,
-      "awayScore": 102,
-      "excitement": 3.2,
+      "id": "401810062",
+      "homeTeam": "Nets",
+      "awayTeam": "Raptors",
+      "homeScore": 109,
+      "awayScore": 119,
+      "excitement": 5.8,
       "breakdown": {
-        "uncertainty": 2.896495283414493,
-        "drama": 4.265808935592182,
-        "finish": 1.8612788327859187
+        "uncertainty": 5.768759700082501,
+        "drama": 7.781510527254703,
+        "finish": 2.854873144017743
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810063",
@@ -77,13 +71,31 @@
       "awayTeam": "Grizzlies",
       "homeScore": 133,
       "awayScore": 120,
-      "excitement": 3,
+      "excitement": 2.7,
       "breakdown": {
         "uncertainty": 2.890416907586606,
         "drama": 4.308399758569136,
-        "finish": 1.4325460302883015
+        "finish": 0.35497200362163384
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810065",
+      "homeTeam": "Thunder",
+      "awayTeam": "Warriors",
+      "homeScore": 126,
+      "awayScore": 102,
+      "excitement": 2.6,
+      "breakdown": {
+        "uncertainty": 2.896495283414493,
+        "drama": 4.265808935592182,
+        "finish": 0.2585705394525839
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -92,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:09.059Z",
+    "generatedAt": "2026-01-02T21:10:22.737Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-11"
   }

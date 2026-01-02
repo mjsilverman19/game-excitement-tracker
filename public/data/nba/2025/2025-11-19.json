@@ -13,7 +13,9 @@
         "drama": 9.703669858253203,
         "finish": 6.57748609121697
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810118",
@@ -27,7 +29,9 @@
         "drama": 9.711874867985898,
         "finish": 5.598887675175415
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810113",
@@ -41,7 +45,9 @@
         "drama": 10,
         "finish": 4.995290980382364
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810115",
@@ -49,13 +55,15 @@
       "awayTeam": "Nuggets",
       "homeScore": 118,
       "awayScore": 125,
-      "excitement": 7,
+      "excitement": 6.5,
       "breakdown": {
         "uncertainty": 6.600895930570838,
         "drama": 8.703716756851813,
-        "finish": 4.249424522434271
+        "finish": 3.1769129624342716
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810111",
@@ -63,27 +71,15 @@
       "awayTeam": "Hornets",
       "homeScore": 127,
       "awayScore": 118,
-      "excitement": 6.9,
+      "excitement": 5.9,
       "breakdown": {
         "uncertainty": 6.750666145245655,
         "drama": 8.649746281855048,
-        "finish": 3.7875659759215603
+        "finish": 1.7150874159215606
       },
-      "overtime": false
-    },
-    {
-      "id": "401810110",
-      "homeTeam": "Cavaliers",
-      "awayTeam": "Rockets",
-      "homeScore": 104,
-      "awayScore": 114,
-      "excitement": 5.6,
-      "breakdown": {
-        "uncertainty": 4.860062247383684,
-        "drama": 6.8330027911433575,
-        "finish": 3.931783043730673
-      },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810112",
@@ -97,7 +93,25 @@
         "drama": 5.70106569244116,
         "finish": 5.125204563102588
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810110",
+      "homeTeam": "Cavaliers",
+      "awayTeam": "Rockets",
+      "homeScore": 104,
+      "awayScore": 114,
+      "excitement": 4.2,
+      "breakdown": {
+        "uncertainty": 4.860062247383684,
+        "drama": 6.8330027911433575,
+        "finish": 1.1144889103973397
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810116",
@@ -105,13 +119,15 @@
       "awayTeam": "Kings",
       "homeScore": 113,
       "awayScore": 99,
-      "excitement": 3.4,
+      "excitement": 2.5,
       "breakdown": {
         "uncertainty": 2.5161421197016653,
         "drama": 2.755687254574047,
-        "finish": 4.024813918892151
+        "finish": 1.2774483055588193
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810114",
@@ -119,13 +135,15 @@
       "awayTeam": "Wizards",
       "homeScore": 120,
       "awayScore": 109,
-      "excitement": 2.5,
+      "excitement": 2.1,
       "breakdown": {
         "uncertainty": 1.8411542349990002,
         "drama": 2.1300286226067517,
-        "finish": 1.9920258581561339
+        "finish": 0.6300465914894658
       },
-      "overtime": false
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     }
   ],
   "metadata": {
@@ -134,7 +152,7 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-01T23:26:15.120Z",
+    "generatedAt": "2026-01-02T21:10:27.643Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-19"
   }
