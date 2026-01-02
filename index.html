@@ -265,6 +265,7 @@
 
     <!-- JavaScript modules -->
     <script src="js/config.js"></script>
+    <script src="js/algorithm-config.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/navigation.js"></script>
 
@@ -1210,7 +1211,7 @@
                 labels += `
                     <g class="radar-label-group" data-metric="${metrics[i].key}" data-desc="${metrics[i].desc}">
                         <text x="${p.labelX}" y="${p.labelY}" class="radar-label">${p.label}</text>
-                        <text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(1)}</text>
+                        <text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(window.ALGORITHM_CONFIG.precision.decimals)}</text>
                     </g>
                 `;
             });
@@ -1248,7 +1249,7 @@
             const shouldShowGameScore = !spoilerFree;
 
             // Format scores
-            const displayScore = score % 1 === 0 ? score : score.toFixed(1);
+            const displayScore = score % 1 === 0 ? score : score.toFixed(window.ALGORITHM_CONFIG.precision.decimals);
             const gameScoreText = `${game.awayScore || 0}-${game.homeScore || 0}${game.overtime ? ' OT' : ''}`;
 
             // Calculate pie chart values
@@ -2267,7 +2268,7 @@
 
                     return {
                         'Rank': index + 1,
-                        'Rating': rating.toFixed(1),
+                        'Rating': rating.toFixed(window.ALGORITHM_CONFIG.precision.decimals),
                         'Tier': tier,
                         'Week': weekDisplay,
                         'Date': dateDisplay,
