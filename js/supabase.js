@@ -54,6 +54,7 @@ async function upsertVoteToSupabase(gameId, voteType, game, sport, season, week)
             game_id: gameId,
             vote: voteType,
             algorithm_score: game?.excitement || null,
+            algorithm_version: window.ALGORITHM_CONFIG?.version || null,
             sport: sport,
             season: season,
             week: week
