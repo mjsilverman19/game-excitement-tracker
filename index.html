@@ -792,45 +792,39 @@
 
         /* Vote Buttons */
         .vote-container {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 4px;
-            margin-top: 8px;
+            gap: 6px;
+            margin-top: 4px;
             position: relative;
         }
 
         .vote-btn {
             background: none;
-            border: 1px solid var(--border-primary);
+            border: none;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1;
-            padding: 4px 8px;
+            padding: 0;
             cursor: pointer;
             transition: all 150ms ease;
-            border-radius: 2px;
             font-family: inherit;
-            min-width: 28px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            opacity: 0.4;
         }
 
         .vote-btn:hover {
-            border-color: var(--bg-active-alt);
             color: var(--text-secondary);
+            opacity: 0.8;
         }
 
         .vote-btn.upvote.active {
-            border-color: var(--accent-must-watch);
             color: var(--accent-must-watch);
-            background: rgba(138, 150, 128, 0.1);
+            opacity: 1;
         }
 
         .vote-btn.downvote.active {
-            border-color: var(--accent-skip);
             color: var(--accent-skip);
-            background: rgba(160, 128, 120, 0.1);
+            opacity: 1;
         }
 
         .vote-tooltip {
@@ -1005,9 +999,8 @@
 
             /* Mobile vote button adjustments */
             .vote-btn {
-                min-width: 32px;
-                padding: 6px 10px;
-                font-size: 16px;
+                font-size: 15px;
+                padding: 4px;
             }
 
             .vote-tooltip {
@@ -2734,13 +2727,13 @@
                         </div>
                     </div>
                     <div class="rating ${ratingClass}">${ratingText}</div>
-                    <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
-                    <button class="breakdown-toggle" data-game-id="${game.id}" data-breakdown='${JSON.stringify(game.breakdown || {})}'>View breakdown</button>
                     <div class="vote-container">
-                        <button class="vote-btn upvote" data-game-id="${game.id}" data-vote="up">▲</button>
-                        <button class="vote-btn downvote" data-game-id="${game.id}" data-vote="down">▼</button>
+                        <button class="vote-btn upvote" data-game-id="${game.id}" data-vote="up">△</button>
+                        <button class="vote-btn downvote" data-game-id="${game.id}" data-vote="down">▽</button>
                         <div class="vote-tooltip">Agree with this rating?</div>
                     </div>
+                    <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
+                    <button class="breakdown-toggle" data-game-id="${game.id}" data-breakdown='${JSON.stringify(game.breakdown || {})}'>View breakdown</button>
                     <div class="game-breakdown" id="breakdown-${game.id}"></div>
                     <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
                 </div>
@@ -2845,8 +2838,13 @@
             const downButton = document.querySelector(`.vote-btn.downvote[data-game-id="${gameId}"]`);
 
             if (upButton && downButton) {
+                // Update active class
                 upButton.classList.toggle('active', voteType === 'up');
                 downButton.classList.toggle('active', voteType === 'down');
+
+                // Update arrow character (hollow when inactive, filled when active)
+                upButton.textContent = voteType === 'up' ? '▲' : '△';
+                downButton.textContent = voteType === 'down' ? '▼' : '▽';
             }
         }
 
@@ -2874,9 +2872,10 @@
                 const gameId = button.dataset.gameId;
                 const voteType = button.dataset.vote;
 
-                // Set initial active state
+                // Set initial active state and arrow character
                 if (votes[gameId] === voteType) {
                     button.classList.add('active');
+                    button.textContent = voteType === 'up' ? '▲' : '▼';
                 }
 
                 // Add click handler
