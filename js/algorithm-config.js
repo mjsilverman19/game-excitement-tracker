@@ -8,7 +8,7 @@
   }
 })(typeof self !== 'undefined' ? self : this, function () {
   const ALGORITHM_CONFIG = {
-    version: '1.0',
+    version: '1.1',
 
     scale: { min: 1, max: 10 },
     precision: { decimals: 1 },
