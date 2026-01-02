@@ -1094,7 +1094,8 @@
                 console.log(`  Total games: ${currentGames.length}`);
                 console.log(`  Games with playoffRound:`, playoffGames.length, playoffGames.map(g => `${g.awayTeam} @ ${g.homeTeam} (${g.playoffRound})`));
                 console.log(`  Games with bowlName only:`, bowlGames.length);
-                console.log(`  Sample game:`, currentGames[0]);
+                console.log(`  Sample game keys:`, Object.keys(currentGames[0]));
+                console.log(`  Sample game (full):`, currentGames[0]);
 
                 if (selectedWeek === 'bowls') {
                     // Bowls view: games with bowlName AND no playoffRound, OR games with neither (default to bowls)
