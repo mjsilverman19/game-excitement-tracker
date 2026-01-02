@@ -488,44 +488,7 @@
                 }
             });
 
-            // Week navigation (NFL/CFB)
-            document.getElementById('prevWeek').addEventListener('click', (e) => {
-                e.preventDefault();
-                const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
-
-                if (selectedWeek === 'bowls') {
-                    // Previous from bowls is week 15 for CFB
-                    selectedWeek = maxWeeks;
-                    isInitialLoad = false; // User manually navigated
-                    updateUI();
-                    loadGames();
-                } else if (selectedWeek > 1) {
-                    selectedWeek--;
-                    isInitialLoad = false; // User manually navigated
-                    updateUI();
-                    loadGames();
-                }
-            });
-
-            document.getElementById('nextWeek').addEventListener('click', (e) => {
-                e.preventDefault();
-                const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
-
-                if (selectedSport === 'CFB' && selectedWeek === maxWeeks) {
-                    // Next from week 15 is bowls for CFB
-                    selectedWeek = 'bowls';
-                    isInitialLoad = false; // User manually navigated
-                    updateUI();
-                    loadGames();
-                } else if (selectedWeek < maxWeeks && selectedWeek !== 'bowls') {
-                    selectedWeek++;
-                    isInitialLoad = false; // User manually navigated
-                    updateUI();
-                    loadGames();
-                }
-            });
-
-            // Navigation event listeners are now handled by the navigation module
+            // Navigation event listeners (prevWeek/nextWeek/prevDate/nextDate) are handled by the navigation module
 
             // Custom date picker toggle (NBA)
             document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
