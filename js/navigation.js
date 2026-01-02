@@ -15,7 +15,9 @@ function formatDate(date) {
 }
 
 function parseDate(dateString) {
-    return new Date(dateString);
+    // Parse date string (YYYY-MM-DD) as local time to avoid timezone issues
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
 }
 
 function isToday(date) {
