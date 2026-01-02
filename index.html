@@ -474,7 +474,7 @@
                     selectedSport = 'CFB';
                     const currentWeek = getCurrentWeek('CFB');
                     selectedSeason = currentWeek.season;
-                    selectedWeek = currentWeek.week;
+                    selectedWeek = 'playoffs'; // Default to playoffs during CFP season
                     // Reset team lookup state
                     allTeams = [];
                     viewMode = 'week';
@@ -1087,16 +1087,6 @@
             // Filter games based on bowls vs playoffs view
             let filteredGames = [...currentGames];
             if (selectedSport === 'CFB' && (selectedWeek === 'bowls' || selectedWeek === 'playoffs')) {
-                // Debug: Check playoff detection
-                console.log('🔍 Playoff filtering debug:');
-                const playoffGames = currentGames.filter(g => g.playoffRound);
-                const bowlGames = currentGames.filter(g => g.bowlName && !g.playoffRound);
-                console.log(`  Total games: ${currentGames.length}`);
-                console.log(`  Games with playoffRound:`, playoffGames.length, playoffGames.map(g => `${g.awayTeam} @ ${g.homeTeam} (${g.playoffRound})`));
-                console.log(`  Games with bowlName only:`, bowlGames.length);
-                console.log(`  Sample game keys:`, Object.keys(currentGames[0]));
-                console.log(`  Sample game (full):`, currentGames[0]);
-
                 if (selectedWeek === 'bowls') {
                     // Bowls view: games with bowlName AND no playoffRound, OR games with neither (default to bowls)
                     filteredGames = currentGames.filter(g => !g.playoffRound);
@@ -1141,30 +1131,11 @@
             let html = '';
 
             // Statistics line
-            if (selectedSport === 'CFB' && selectedWeek === 'playoffs') {
-                // For playoffs view, show round breakdown
-                const roundCounts = {
-                    championship: sortedGames.filter(g => g.playoffRound === 'Championship').length,
-                    semifinals: sortedGames.filter(g => g.playoffRound === 'Semifinal').length,
-                    quarterfinals: sortedGames.filter(g => g.playoffRound === 'Quarterfinal').length,
-                    firstRound: sortedGames.filter(g => g.playoffRound === 'First Round').length
-                };
-
-                let roundStats = [];
-                if (roundCounts.championship > 0) roundStats.push(`<span class="stat-number">${roundCounts.championship}</span> championship`);
-                if (roundCounts.semifinals > 0) roundStats.push(`<span class="stat-number">${roundCounts.semifinals}</span> semifinal${roundCounts.semifinals > 1 ? 's' : ''}`);
-                if (roundCounts.quarterfinals > 0) roundStats.push(`<span class="stat-number">${roundCounts.quarterfinals}</span> quarterfinal${roundCounts.quarterfinals > 1 ? 's' : ''}`);
-                if (roundCounts.firstRound > 0) roundStats.push(`<span class="stat-number">${roundCounts.firstRound}</span> first round`);
-
-                html += `<div class="statistics-line">${roundStats.join(' · ')}</div>`;
-            } else {
-                // Default: show tier breakdown
-                html += `<div class="statistics-line">
-                    <span class="stat-number">${stats.mustWatch}</span> must watch ·
-                    <span class="stat-number">${stats.recommended}</span> recommended ·
-                    <span class="stat-number">${stats.skip}</span> skip
-                </div>`;
-            }
+            html += `<div class="statistics-line">
+                <span class="stat-number">${stats.mustWatch}</span> must watch ·
+                <span class="stat-number">${stats.recommended}</span> recommended ·
+                <span class="stat-number">${stats.skip}</span> skip
+            </div>`;
 
             // Toggle slider for scores
             html += `
