@@ -56,8 +56,8 @@ export default async function handler(req, res) {
     // Handle week/date-based request
     let actualSeasonType = seasonType;
 
-    // For CFB bowls, set seasonType to 3 (postseason)
-    if (sport === 'CFB' && week === 'bowls') {
+    // For CFB bowls or playoffs, set seasonType to 3 (postseason)
+    if (sport === 'CFB' && (week === 'bowls' || week === 'playoffs')) {
       actualSeasonType = '3';
     }
 
@@ -65,6 +65,8 @@ export default async function handler(req, res) {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
     } else if (week === 'bowls') {
       console.log(`Fetching ${sport} bowl games for ${season} season`);
+    } else if (week === 'playoffs') {
+      console.log(`Fetching ${sport} playoff games for ${season} season`);
     } else {
       console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${actualSeasonType})`);
     }
@@ -113,9 +115,9 @@ export default async function handler(req, res) {
     };
 
     // Add bowl-specific metadata if this is CFB postseason
-    if (sport === 'CFB' && (week === 'bowls' || actualSeasonType === '3')) {
-      const playoffGames = validGames.filter(g => g.playoffRound !== null).length;
-      const bowlGames = validGames.filter(g => g.bowlName !== null && g.playoffRound === null).length;
+    if (sport === 'CFB' && (week === 'bowls' || week === 'playoffs' || actualSeasonType === '3')) {
+      const playoffGames = validGames.filter(g => g.playoffRound !== null && g.playoffRound !== undefined).length;
+      const bowlGames = validGames.filter(g => g.bowlName !== null && g.bowlName !== undefined && !g.playoffRound).length;
 
       metadata.playoffGames = playoffGames;
       metadata.bowlGames = bowlGames;

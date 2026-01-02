@@ -54,7 +54,9 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       awayScore: game.awayScore,
       excitement: excitement.score,
       breakdown: excitement.breakdown,
-      overtime: game.overtime
+      overtime: game.overtime,
+      bowlName: game.bowlName,
+      playoffRound: game.playoffRound
     };
   } catch (error) {
     console.error(`Error analyzing game ${game.id}:`, error);
