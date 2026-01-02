@@ -672,8 +672,13 @@
                 e.preventDefault();
                 const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                 const nextDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+
+                // Normalize both dates to midnight for proper comparison
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
+                nextDate.setHours(0, 0, 0, 0);
+
+                console.log(`📅 Next date check: nextDate=${nextDate.toDateString()}, today=${today.toDateString()}, nextDate <= today: ${nextDate <= today}`);
 
                 if (nextDate <= today) {
                     // Format manually to avoid timezone issues
