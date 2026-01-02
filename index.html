@@ -6,8 +6,6 @@
     <title>Game Entertainment Index</title>
     <!-- SheetJS library for Excel export -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-    <!-- Supabase client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Prevent flash of wrong theme by setting theme before CSS loads
         (function() {
@@ -2814,70 +2812,6 @@
             });
         }
 
-        // Supabase Configuration
-        const supabaseUrl = 'https://teiwophkodpqwkmwljzf.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlaXdvcGhrb2RwcXdrbXdsanpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU4NTk4NDYsImV4cCI6MjA1MTQzNTg0Nn0.fBRXMdPdl3js4mmi5SFruw_pWqTf6Uu';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Get or create anonymous visitor ID
-        function getVisitorId() {
-            let visitorId = localStorage.getItem('visitorId');
-            if (!visitorId) {
-                // Generate a simple UUID v4
-                visitorId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    const r = Math.random() * 16 | 0;
-                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                });
-                localStorage.setItem('visitorId', visitorId);
-            }
-            return visitorId;
-        }
-
-        // Upsert vote to Supabase (fire and forget)
-        async function upsertVoteToSupabase(gameId, voteType, game) {
-            try {
-                const visitorId = getVisitorId();
-                const payload = {
-                    visitor_id: visitorId,
-                    game_id: gameId,
-                    vote: voteType,
-                    algorithm_score: game?.excitement || null,
-                    sport: selectedSport,
-                    season: selectedSeason,
-                    week: selectedWeek
-                };
-
-                const { error } = await supabase
-                    .from('votes')
-                    .upsert(payload, { onConflict: 'visitor_id,game_id' });
-
-                if (error) {
-                    console.error('Error upserting vote to Supabase:', error);
-                }
-            } catch (e) {
-                console.error('Error upserting vote to Supabase:', e);
-            }
-        }
-
-        // Delete vote from Supabase (fire and forget)
-        async function deleteVoteFromSupabase(gameId) {
-            try {
-                const visitorId = getVisitorId();
-                const { error } = await supabase
-                    .from('votes')
-                    .delete()
-                    .eq('visitor_id', visitorId)
-                    .eq('game_id', gameId);
-
-                if (error) {
-                    console.error('Error deleting vote from Supabase:', error);
-                }
-            } catch (e) {
-                console.error('Error deleting vote from Supabase:', e);
-            }
-        }
-
         // Vote Management Functions
         function loadVotes() {
             try {
@@ -2916,23 +2850,16 @@
             const votes = loadVotes();
             const currentVote = votes[gameId];
 
-            // Find the game object for Supabase payload
-            const game = currentGames?.find(g => g.id === gameId);
-
             // Toggle off if clicking the same button
             if (currentVote === voteType) {
                 delete votes[gameId];
                 saveVotes(votes);
                 updateVoteUI(gameId, null);
-                // Delete from Supabase (fire and forget)
-                deleteVoteFromSupabase(gameId);
             } else {
                 // Switch to new vote or set initial vote
                 votes[gameId] = voteType;
                 saveVotes(votes);
                 updateVoteUI(gameId, voteType);
-                // Upsert to Supabase (fire and forget)
-                upsertVoteToSupabase(gameId, voteType, game);
             }
         }
 
