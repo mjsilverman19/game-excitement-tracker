@@ -1096,28 +1096,8 @@
                 }
             }
 
-            // Sort games
-            let sortedGames;
-            if (selectedSport === 'CFB' && selectedWeek === 'playoffs') {
-                // For playoffs view, sort by round priority first, then by excitement
-                const roundPriority = {
-                    'Championship': 1,
-                    'Semifinal': 2,
-                    'Quarterfinal': 3,
-                    'First Round': 4
-                };
-                sortedGames = [...filteredGames].sort((a, b) => {
-                    const priorityA = roundPriority[a.playoffRound] || 999;
-                    const priorityB = roundPriority[b.playoffRound] || 999;
-                    if (priorityA !== priorityB) {
-                        return priorityA - priorityB;
-                    }
-                    return (b.excitement || 0) - (a.excitement || 0);
-                });
-            } else {
-                // Default: sort by excitement score only
-                sortedGames = [...filteredGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
-            }
+            // Sort games by excitement score
+            const sortedGames = [...filteredGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
             console.log('🎯 sortedGames length:', sortedGames.length);
 
             // Calculate statistics
