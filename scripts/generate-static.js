@@ -19,6 +19,7 @@ const ROOT_DIR = join(__dirname, '..');
 const PUBLIC_DATA_DIR = join(ROOT_DIR, 'public', 'data');
 const FIXTURES_DIR = join(ROOT_DIR, 'fixtures');
 const NO_NETWORK = process.env.NO_NETWORK === '1';
+const NO_NETWORK_OUTDIR = process.env.NO_NETWORK_OUTDIR;
 
 // Command line argument parsing
 const args = process.argv.slice(2);
@@ -141,7 +142,7 @@ function getStaticFilePath(sport, season, weekOrDate) {
 // Generate static JSON for a single week/date
 async function generateStatic(sport, season, weekOrDate) {
   try {
-    const { dir, filepath } = getStaticFilePath(sport, season, weekOrDate);
+    let { dir, filepath } = getStaticFilePath(sport, season, weekOrDate);
 
     // Check if file already exists
     if (existsSync(filepath) && !options.force) {
@@ -168,8 +169,15 @@ async function generateStatic(sport, season, weekOrDate) {
         metadata.week = weekOrDate;
       }
 
+      if (NO_NETWORK_OUTDIR) {
+        const relativePath = filepath.replace(`${PUBLIC_DATA_DIR}/`, '');
+        filepath = join(NO_NETWORK_OUTDIR, relativePath);
+        dir = dirname(filepath);
+      }
+
       const responseData = {
         ...fixtureData,
+        success: true,
         metadata
       };
 

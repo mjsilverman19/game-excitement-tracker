@@ -205,8 +205,9 @@ function calculateFinishQuality(probs, sport = 'NFL') {
   }
 
   let walkoffScore = 0;
-  if (maxFinalSwing >= ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold) {
-    walkoffScore = 2 + Math.min(2, (maxFinalSwing - 0.15) * 10); // Up to 4 points
+  const walkoffThreshold = ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold;
+  if (maxFinalSwing >= walkoffThreshold) {
+    walkoffScore = 2 + Math.min(2, (maxFinalSwing - walkoffThreshold) * 10); // Up to 4 points
   }
 
   // Combine components (max 12, scaled to 10)

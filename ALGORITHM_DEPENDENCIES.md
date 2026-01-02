@@ -37,10 +37,10 @@ graph TD
 
 ### 1) `api/calculator.js` (source)
 **Outputs**: `excitement` (1–10), `breakdown` `{uncertainty, drama, finish}` (0–10), `overtime` passthrough (boolean), plus game metadata.
-- **Where it happens**: `analyzeGameEntertainment` returns the output object with `excitement`, `breakdown`, `overtime` (`api/calculator.js` lines 49–59).
+- **Where it happens**: `analyzeGameEntertainment` returns the output object with `excitement`, `breakdown`, `overtime` (search `analyzeGameEntertainment` in `api/calculator.js`).
 - **Transformations**:
-  - Weighted combination of metrics (`weights`), overtime bonus, then normalization to 1–10 (`api/calculator.js` lines 96–114).
-  - Subscores are 0–10 before weighting (`api/calculator.js` lines 80–94).
+  - Weighted combination of metrics (`weights`), overtime bonus, then normalization to 1–10 (search `calculateExcitement` in `api/calculator.js`).
+  - Subscores are 0–10 before weighting (search `breakdown = {` in `api/calculator.js`).
 - **Break risk**:
   - Changing field names (`excitement`, `breakdown`, `overtime`) breaks API responses, static JSON schema, frontend UI, exports, and vote storage.
   - Changing output ranges impacts UI tier thresholds, radar chart scaling, pie chart fill, and exports.
@@ -48,7 +48,7 @@ graph TD
 
 ### 2) `api/games.js` (API endpoint)
 **Consumers**: sorts and returns `excitement` and `breakdown` from calculator output.
-- **Fields used**: `excitement` for sorting (`api/games.js` line 102–104).
+- **Fields used**: `excitement` for sorting (search `Sort by excitement` in `api/games.js`).
 - **Transformations**: sorts descending; otherwise passthrough.
 - **Break risk**:
   - If `excitement` missing or renamed, sort and downstream UI ordering will break.
@@ -59,7 +59,7 @@ graph TD
 
 ### 3) Static JSON generation (`scripts/generate-static.js`)
 **Consumers**: same fields as API response.
-- **Fields used**: `excitement` for sorting (`scripts/generate-static.js` lines 174–175).
+- **Fields used**: `excitement` for sorting (search `Sort by excitement score` in `scripts/generate-static.js`).
 - **Transformations**: writes response JSON to `public/data/**` with same schema (games array + metadata).
 - **Break risk**:
   - Any schema change requires regenerating files and updating frontend parsing.
@@ -74,9 +74,9 @@ graph TD
 ### 5) Frontend (`index.html`)
 **Consumers**: reads and renders algorithm fields from API/static JSON.
 - **Fields used**:
-  - `excitement` for sorting, tier stats, rating label, pie chart, display score, export rating, and tier labeling (`index.html` lines 1099–1107, 1234–1258, 2231–2245).
-  - `breakdown` for radar chart and tooltip labels (`index.html` lines 1154–1215, 1322, 1348–1363).
-  - `overtime` for on-screen score suffix and export OT column (`index.html` lines 1251–1252, 2278).
+  - `excitement` for sorting, tier stats, rating label, pie chart, display score, export rating, and tier labeling (search `displayResults`, `createGameRow`, and `exportFullSeason` in `index.html`).
+  - `breakdown` for radar chart and tooltip labels (search `renderRadarChart` and `breakdown-toggle` in `index.html`).
+  - `overtime` for on-screen score suffix and export OT column (search `gameScoreText` and `OT` in `index.html`).
 - **Transformations**:
   - Tier classification uses `getTier()` on display and export.
   - Normalized display formatting uses `ALGORITHM_CONFIG.precision.decimals`; pie chart uses `ALGORITHM_CONFIG.scale.max`.
@@ -87,14 +87,14 @@ graph TD
 
 ### 6) Vote storage (`js/supabase.js`)
 **Consumers**: stores the algorithm score alongside votes.
-- **Fields used**: `algorithm_score: game.excitement` (`js/supabase.js` line 56).
+- **Fields used**: `algorithm_score: game.excitement` (search `algorithm_score` in `js/supabase.js`).
 - **Transformations**: none; persists numeric score.
 - **Break risk**:
   - If `excitement` renamed or new scale, stored data becomes inconsistent with current UI and any future analytics.
 
 ### 7) Export (`index.html` + SheetJS)
 **Consumers**: uses `excitement` and `overtime` for Excel output.
-- **Fields used**: `excitement` (rating and tier), `overtime` (OT column) (`index.html` lines 2231–2280).
+- **Fields used**: `excitement` (rating and tier), `overtime` (OT column) (search `exportFullSeason` in `index.html`).
 - **Break risk**:
   - Tier labels rely on `getTier()`; changes to `ALGORITHM_CONFIG.tiers` ripple into exports.
 
@@ -102,7 +102,7 @@ graph TD
 **Consumers**: tier classes derived from score thresholds.
 - **Fields used**: `must-watch`, `recommended`, `skip` classes set in `index.html` based on `excitement`.
 - **Break risk**:
-  - If tiers or class names change, colors and visuals must be updated (`css/styles.css` lines 502–542).
+  - If tiers or class names change, colors and visuals must be updated (search `score-pie-fill.must-watch` in `css/styles.css`).
 
 ---
 
@@ -110,20 +110,20 @@ graph TD
 
 | Field | Consumers (file:line) | Usage | Breaking Change Risk |
 | --- | --- | --- | --- |
-| `excitement` | `api/games.js:102–104` | Sort order for API responses. | **High**: missing/renamed breaks ordering and UI expectations. |
-|  | `scripts/generate-static.js:174–175` | Sort order for static files. | **High**: static output ordering shifts or fails. |
-|  | `index.html:1099–1107` | Sort order and tier statistics. | **High**: stats and list order break. |
-|  | `index.html:1234–1258` | Tier class/label, display score, pie chart fill. | **High**: UI labels/colors and visual scale break. |
-|  | `index.html:2231–2245, 2269–2271` | Export rating/tier. | **High**: exported tiers and rating column wrong. |
-|  | `js/supabase.js:56` | Persisted vote `algorithm_score`. | **Medium**: historical data becomes incomparable. |
-| `breakdown.uncertainty` | `index.html:1160–1177, 1211–1214` | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
-|  | `index.html:1322` | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
-| `breakdown.drama` | `index.html:1160–1177, 1211–1214` | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
-|  | `index.html:1322` | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
-| `breakdown.finish` | `index.html:1160–1177, 1211–1214` | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
-|  | `index.html:1322` | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
-| `overtime` (bonus applied) | `index.html:1251–1252` | Adds “OT” suffix to score display. | **Low**: UI text only. |
-|  | `index.html:2278` | Excel export `OT` column. | **Low**: export data missing if renamed. |
+| `excitement` | `api/games.js` (search `Sort by excitement`) | Sort order for API responses. | **High**: missing/renamed breaks ordering and UI expectations. |
+|  | `scripts/generate-static.js` (search `Sort by excitement score`) | Sort order for static files. | **High**: static output ordering shifts or fails. |
+|  | `index.html` (search `displayResults`) | Sort order and tier statistics. | **High**: stats and list order break. |
+|  | `index.html` (search `createGameRow`) | Tier class/label, display score, pie chart fill. | **High**: UI labels/colors and visual scale break. |
+|  | `index.html` (search `exportFullSeason`) | Export rating/tier. | **High**: exported tiers and rating column wrong. |
+|  | `js/supabase.js` (search `algorithm_score`) | Persisted vote `algorithm_score`. | **Medium**: historical data becomes incomparable. |
+| `breakdown.uncertainty` | `index.html` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
+|  | `index.html` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
+| `breakdown.drama` | `index.html` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
+|  | `index.html` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
+| `breakdown.finish` | `index.html` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
+|  | `index.html` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
+| `overtime` (bonus applied) | `index.html` (search `gameScoreText`) | Adds “OT” suffix to score display. | **Low**: UI text only. |
+|  | `index.html` (search `OT`) | Excel export `OT` column. | **Low**: export data missing if renamed. |
 
 ---
 
@@ -139,12 +139,12 @@ graph TD
 - `normalizeScore` maps to `scale.min`/`scale.max` (`api/calculator.js`).
 
 ### UI tiers (centralized thresholds)
-- **List + stats tiering**: `getTier()` uses `ALGORITHM_CONFIG.tiers.*.min` (`js/algorithm-config.js`, `index.html` lines 1103–1117, 1233–1245).
-- **Export tiering**: `getTier()` for Excel output (`index.html` lines 2239–2272).
-- **Pie chart / radar chart**: uses `ALGORITHM_CONFIG.scale.max` (`index.html` lines 1173–1195, 1251–1257).
+- **List + stats tiering**: `getTier()` uses `ALGORITHM_CONFIG.tiers.*.min` (`js/algorithm-config.js`, search `displayResults` and `createGameRow` in `index.html`).
+- **Export tiering**: `getTier()` for Excel output (search `exportFullSeason` in `index.html`).
+- **Pie chart / radar chart**: uses `ALGORITHM_CONFIG.scale.max` (search `renderRadarChart` and `score-pie` in `index.html`).
 
 ### Styling tied to tiers
-- Tier class styles: `.score-pie-fill.must-watch`, `.rating.must-watch`, etc. (`css/styles.css` lines 502–542).
+- Tier class styles: `.score-pie-fill.must-watch`, `.rating.must-watch`, etc. (search `score-pie-fill.must-watch` in `css/styles.css`).
 
 **Duplication**: Tier thresholds now live in `js/algorithm-config.js`, reducing duplication across UI and exports.
 
@@ -153,25 +153,26 @@ graph TD
 ## Static Data Compatibility
 
 - **Static file schema**: Stored in `public/data/{sport}/{season}/...` with `games[]` entries including `excitement`, `breakdown`, and `overtime` (e.g., `public/data/nfl/2025/week-01.json`).
-- **Versioning**: Metadata now includes `algorithmVersion: ALGORITHM_CONFIG.version` (`scripts/generate-static.js`).
+- **Versioning**: Metadata now includes `algorithmVersion: ALGORITHM_CONFIG.version` (search `algorithmVersion` in `scripts/generate-static.js`).
 - **Regeneration**:
   - `scripts/generate-static.js --sport --season --week|--date` regenerates specific windows.
   - `--all` regenerates the full season; `--force` overwrites existing files.
 - **Cache impact**:
-  - The frontend prefers static files for completed weeks/dates (`index.html` lines 820–926). If the algorithm changes, old static files remain stale until regenerated or deleted.
+  - The frontend prefers static files for completed weeks/dates (search `shouldUseStatic` in `index.html`). If the algorithm changes, old static files remain stale until regenerated or deleted.
 
 **Implication**: Any algorithm change requires a full static data rebuild to keep historical scores consistent with the updated logic.
 
 ### Offline static generation
 - Set `NO_NETWORK=1` to bypass ESPN fetches and read `fixtures/offline-static.json`.
 - Purpose: enable local/CI generation without network access.
+- Set `NO_NETWORK_OUTDIR=/path/to/output` to avoid writing fixtures into `public/data/**`.
 - Output still injects `algorithmVersion: ALGORITHM_CONFIG.version` in metadata.
 
 ---
 
 ## Vote Data Integrity (Supabase `votes` table)
 
-- **Stored fields**: `algorithm_score` is captured at vote time (`js/supabase.js` line 56).
+- **Stored fields**: `algorithm_score` is captured at vote time (search `algorithm_score` in `js/supabase.js`).
 - **Risk**: If the algorithm changes, historical votes retain the old score; comparisons against new scores become inconsistent.
 - **Recommendation**: Introduce `algorithm_version` and/or `score_model` fields in the `votes` table so analytics can segment by version, or store raw metric inputs so scores can be recomputed.
 
@@ -241,7 +242,7 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
    - Score distribution shifts, changing tiers, sorting, exports, static JSON outputs, and vote `algorithm_score` comparability. All downstream consumers of `excitement` are affected.
 
 2. **“If I add a new metric to breakdown, what needs updating?”**
-   - Frontend radar chart assumes exactly three metrics; update `renderRadarChart` and labels (`index.html` lines 1154–1215), and consider UI layout changes.
+   - Update `renderRadarChart` and labels (search `renderRadarChart` in `index.html`), and consider UI layout changes.
 
 3. **“If I change tier thresholds from 8/6 to 8.5/6.5, where do I make that change?”**
    - Update `ALGORITHM_CONFIG.tiers.*.min` in `js/algorithm-config.js`. The UI and exports use `getTier()` so they update automatically.
@@ -250,7 +251,7 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
    - Use `node scripts/generate-static.js --sport <NFL|CFB|NBA> --season <year> --all --force` and redeploy `public/data/**`.
 
 5. **“Will historical vote data still be meaningful after a scoring change?”**
-   - Only partially. Votes persist the old `algorithm_score` without versioning (`js/supabase.js` line 56), so comparisons against new scores are inconsistent unless you store an algorithm version or backfill.
+   - Only partially. Votes persist the old `algorithm_score` without versioning (search `algorithm_score` in `js/supabase.js`), so comparisons against new scores are inconsistent unless you store an algorithm version or backfill.
 
 ---
 
