@@ -190,24 +190,33 @@ function calculateFinishQuality(probs, sport = 'NFL') {
   const finalCloseness = 1 - Math.abs(lastProb - 0.5) * 2; // 0 to 1
   const closenessScore = Math.pow(finalCloseness, 0.7) * 4; // Up to 4 points
 
-  // Component 2: Final period volatility
+  // Component 2: Final period volatility (leverage-weighted movement near 0.5)
   // Get final 25% of data points as "final period"
-  const finalPeriodSize = Math.floor(probs.length * 0.25);
+  const finalPeriodSize = Math.max(2, Math.floor(probs.length * 0.25));
   const finalPeriod = probs.slice(-finalPeriodSize);
 
   let finalPeriodMovement = 0;
   for (let i = 1; i < finalPeriod.length; i++) {
-    finalPeriodMovement += Math.abs(finalPeriod[i].value - finalPeriod[i - 1].value);
+    const swing = Math.abs(finalPeriod[i].value - finalPeriod[i - 1].value);
+    const leverage = finalPeriod[i - 1].value * (1 - finalPeriod[i - 1].value); // Max at 0.5, zero at 0 or 1
+    finalPeriodMovement += swing * leverage * 4; // Scale factor since max leverage is 0.25
   }
 
-  // More movement in final period = more exciting
-  const volatilityScore = Math.min(4, finalPeriodMovement * 8); // Up to 4 points
+  // More leverage-weighted movement in final period = more exciting
+  const volatilityScore = Math.min(4, finalPeriodMovement * 4); // Up to 4 points
 
   // Component 3: Walk-off detection (large swing in final moments)
   let maxFinalSwing = 0;
   for (let i = 1; i < finalProbs.length; i++) {
-    const swing = Math.abs(finalProbs[i].value - finalProbs[i - 1].value);
-    maxFinalSwing = Math.max(maxFinalSwing, swing);
+    const startValue = finalProbs[i - 1].value;
+    const endValue = finalProbs[i].value;
+    const swing = Math.abs(endValue - startValue);
+    const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
+    const startedCompetitive = startValue >= 0.4 && startValue <= 0.6;
+
+    if (crossedHalf || startedCompetitive) {
+      maxFinalSwing = Math.max(maxFinalSwing, swing);
+    }
   }
 
   let walkoffScore = 0;
