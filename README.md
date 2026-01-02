@@ -6,9 +6,21 @@ A web application that ranks NFL, college football, and NBA games by entertainme
 
 1. **Select** your sport (NFL, CFB, or NBA), season, and week/date
 2. **Browse** games ranked by entertainment score (1-10)
-3. **Watch** spoiler-free — scores are hidden by default
+3. **Vote** on ratings you agree or disagree with (stored in Supabase)
+4. **Watch** spoiler-free — scores are hidden by default
 
 You can also search by team to find and analyze any specific game from their schedule.
+
+## Voting System
+
+Each game includes upvote/downvote buttons for users to agree or disagree with the algorithm's rating. Votes are:
+
+- **Stored anonymously** in Supabase with a unique visitor ID (UUID)
+- **Tracked per game** with metadata (sport, season, week, algorithm score)
+- **Persistent** across sessions via localStorage
+- **Upserted** automatically — changing your vote updates the existing record
+
+Vote data enables analysis of where the algorithm aligns or diverges from viewer sentiment.
 
 ## Entertainment Scoring
 
@@ -24,8 +36,9 @@ Games are categorized as **must watch** (8+), **recommended** (6-7.9), or **skip
 
 ## Tech Stack
 
-- **Frontend**: Vanilla HTML/CSS/JavaScript (no build step)
+- **Frontend**: Vanilla HTML/CSS/JavaScript (modular structure, no build step)
 - **Backend**: Vercel serverless functions
+- **Database**: Supabase (vote storage and analytics)
 - **Data**: ESPN Sports API (win probability data)
 
 ## Local Development
@@ -171,7 +184,13 @@ GET /api/schedule?sport=NFL&teamId=12&season=2024
 ## File Structure
 
 ```
-├── index.html           # Frontend application
+├── index.html           # Frontend application (HTML only)
+├── css/
+│   └── styles.css       # All application styles
+├── js/
+│   ├── config.js        # Configuration (Supabase credentials)
+│   ├── supabase.js      # Supabase client and vote storage
+│   └── votes.js         # Vote management utilities
 ├── api/
 │   ├── games.js         # Main games analysis endpoint
 │   ├── calculator.js    # Entertainment scoring algorithm
