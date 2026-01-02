@@ -44,30 +44,30 @@ function canNavigateToDate(date) {
 }
 
 function handlePreviousDate() {
-    if (window.selectedSport !== 'NBA' || !window.selectedDate) return;
+    if (selectedSport !== 'NBA' || !selectedDate) return;
 
-    const currentDate = parseDate(window.selectedDate);
+    const currentDate = parseDate(selectedDate);
     const prevDate = addDays(currentDate, -1);
 
-    window.selectedDate = formatDate(prevDate);
-    window.isInitialLoad = false;
+    selectedDate = formatDate(prevDate);
+    isInitialLoad = false;
 
-    if (typeof window.updateUI === 'function') window.updateUI();
-    if (typeof window.loadGames === 'function') window.loadGames();
+    if (typeof updateUI === 'function') updateUI();
+    if (typeof loadGames === 'function') loadGames();
 }
 
 function handleNextDate() {
-    if (window.selectedSport !== 'NBA' || !window.selectedDate) return;
+    if (selectedSport !== 'NBA' || !selectedDate) return;
 
-    const currentDate = parseDate(window.selectedDate);
+    const currentDate = parseDate(selectedDate);
     const nextDate = addDays(currentDate, 1);
 
     if (canNavigateToDate(nextDate)) {
-        window.selectedDate = formatDate(nextDate);
-        window.isInitialLoad = false;
+        selectedDate = formatDate(nextDate);
+        isInitialLoad = false;
 
-        if (typeof window.updateUI === 'function') window.updateUI();
-        if (typeof window.loadGames === 'function') window.loadGames();
+        if (typeof updateUI === 'function') updateUI();
+        if (typeof loadGames === 'function') loadGames();
     }
 }
 
@@ -139,48 +139,48 @@ function getCurrentWeek(sport) {
 }
 
 function handlePreviousWeek() {
-    if (window.selectedSport === 'NBA') {
+    if (selectedSport === 'NBA') {
         handlePreviousDate();
         return;
     }
 
-    if (window.selectedWeek === 'bowls') {
-        window.selectedWeek = 15;
+    if (selectedWeek === 'bowls') {
+        selectedWeek = 15;
     } else {
-        window.selectedWeek = Math.max(1, window.selectedWeek - 1);
+        selectedWeek = Math.max(1, selectedWeek - 1);
     }
 
-    window.isInitialLoad = false;
-    if (typeof window.updateUI === 'function') window.updateUI();
-    if (typeof window.loadGames === 'function') window.loadGames();
+    isInitialLoad = false;
+    if (typeof updateUI === 'function') updateUI();
+    if (typeof loadGames === 'function') loadGames();
 }
 
 function handleNextWeek() {
-    if (window.selectedSport === 'NBA') {
+    if (selectedSport === 'NBA') {
         handleNextDate();
         return;
     }
 
-    const maxWeek = window.selectedSport === 'NFL' ? 18 : 15;
+    const maxWeek = selectedSport === 'NFL' ? 18 : 15;
 
-    if (window.selectedWeek < maxWeek) {
-        window.selectedWeek++;
-    } else if (window.selectedSport === 'CFB' && window.selectedWeek === maxWeek) {
-        window.selectedWeek = 'bowls';
+    if (selectedWeek < maxWeek) {
+        selectedWeek++;
+    } else if (selectedSport === 'CFB' && selectedWeek === maxWeek) {
+        selectedWeek = 'bowls';
     }
 
-    window.isInitialLoad = false;
-    if (typeof window.updateUI === 'function') window.updateUI();
-    if (typeof window.loadGames === 'function') window.loadGames();
+    isInitialLoad = false;
+    if (typeof updateUI === 'function') updateUI();
+    if (typeof loadGames === 'function') loadGames();
 }
 
 // Date Navigation UI Updates
 function updateDateNavigation() {
-    if (window.selectedSport !== 'NBA' || !window.selectedDate) return;
+    if (selectedSport !== 'NBA' || !selectedDate) return;
 
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const currentDate = parseDate(window.selectedDate);
+    const currentDate = parseDate(selectedDate);
 
     // Format display dates
     const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
