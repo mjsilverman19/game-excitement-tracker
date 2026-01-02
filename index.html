@@ -1025,34 +1025,42 @@
 
         // Load games
         async function loadGames(fallbackAttempt = 0) {
-            if (isLoading) return;
+            const loadId = Math.random().toString(36).substr(2, 9);
+            console.log(`🚀 [${loadId}] loadGames() START - isLoading was: ${isLoading}`);
+            if (isLoading) {
+                console.log(`⚠️ [${loadId}] loadGames() BLOCKED - already loading`);
+                return;
+            }
             isLoading = true;
             showLoading();
+            console.log(`🚀 [${loadId}] loadGames() PROCEEDING - isLoading set to true`);
 
             const MAX_FALLBACK_ATTEMPTS = 3;
 
-            console.log(`🔍 loadGames() called - Sport: ${selectedSport}, Week: ${selectedWeek}, Date: ${selectedDate}, isInitialLoad: ${isInitialLoad}, fallbackAttempt: ${fallbackAttempt}`);
+            console.log(`🔍 [${loadId}] loadGames() called - Sport: ${selectedSport}, Week: ${selectedWeek}, Date: ${selectedDate}, isInitialLoad: ${isInitialLoad}, fallbackAttempt: ${fallbackAttempt}`);
 
             try {
                 // Try to load from static file first
                 const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
-                console.log(`📂 Checking static file - weekOrDate: ${weekOrDate}`);
+                console.log(`📂 [${loadId}] Checking static file - weekOrDate: ${weekOrDate}`);
                 if (shouldUseStatic(selectedSport, selectedSeason, weekOrDate)) {
                     const staticData = await fetchStaticData(selectedSport, selectedSeason, weekOrDate);
-                    console.log(`📂 Static data result:`, staticData ? `success=${staticData.success}, games=${staticData.games?.length || 0}` : 'null');
+                    console.log(`📂 [${loadId}] Static data result:`, staticData ? `success=${staticData.success}, games=${staticData.games?.length || 0}` : 'null');
                     if (staticData && staticData.success && staticData.games && staticData.games.length > 0) {
-                        console.log('✅ Loaded from static file:', getStaticPath(selectedSport, selectedSeason, weekOrDate));
-                        console.log('📊 All games from static file:', staticData.games.map(g => `${g.homeTeam} v ${g.awayTeam}`));
+                        console.log(`✅ [${loadId}] Loaded from static file:`, getStaticPath(selectedSport, selectedSeason, weekOrDate));
+                        console.log(`📊 [${loadId}] All games from static file:`, staticData.games.map(g => `${g.homeTeam} v ${g.awayTeam}`));
                         currentGames = staticData.games;
-                        console.log('📊 currentGames set to:', currentGames.length, 'games');
+                        console.log(`📊 [${loadId}] currentGames set to:`, currentGames.length, 'games');
+                        console.log(`🎯 [${loadId}] About to call displayResults()`);
                         displayResults();
                         isLoading = false;
                         isInitialLoad = false;
+                        console.log(`✅ [${loadId}] loadGames() COMPLETE - static path`);
                         return;
                     }
-                    console.log('⚠️ Static file not found or empty, falling back to API');
+                    console.log(`⚠️ [${loadId}] Static file not found or empty, falling back to API`);
                 } else {
-                    console.log('❌ shouldUseStatic returned false, using API instead');
+                    console.log(`❌ [${loadId}] shouldUseStatic returned false, using API instead`);
                 }
 
                 // Fall back to API
@@ -1228,12 +1236,20 @@
 
             // Games list
             html += '<div class="games-list">';
+            console.log(`🎮 About to render ${sortedGames.length} games to DOM`);
             sortedGames.forEach((game, index) => {
+                console.log(`🎮 Processing game ${index}: ${game.homeTeam} v ${game.awayTeam}`);
                 html += createGameRow(game, index);
             });
             html += '</div>';
+            console.log(`🎮 Generated HTML for ${sortedGames.length} games, HTML length:`, html.length);
 
             document.getElementById('resultsArea').innerHTML = html;
+            console.log(`🎮 DOM updated. resultsArea innerHTML length:`, document.getElementById('resultsArea').innerHTML.length);
+
+            // Verify games in DOM
+            const gameElements = document.querySelectorAll('.game-row');
+            console.log(`🎮 DOM verification: Found ${gameElements.length} .game-row elements in DOM`);
 
             // Attach event listeners
             attachScoreToggleListener();
@@ -1321,6 +1337,7 @@
 
         // Create game row HTML
         function createGameRow(game, index) {
+            console.log(`🎮 createGameRow called for game ${index}: ${game.homeTeam} v ${game.awayTeam}`);
             const score = game.excitement || 0;
             let ratingClass, ratingText;
 
