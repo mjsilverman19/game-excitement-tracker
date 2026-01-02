@@ -349,6 +349,9 @@
                 if (selectedWeek === 'bowls') {
                     document.getElementById('headerWeekInfo').textContent =
                         `Bowl Season · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+                } else if (selectedWeek === 'playoffs') {
+                    document.getElementById('headerWeekInfo').textContent =
+                        `College Football Playoff · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
                 } else {
                     document.getElementById('headerWeekInfo').textContent =
                         `Week ${selectedWeek} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
@@ -378,6 +381,9 @@
             if (selectedWeek === 'bowls') {
                 document.getElementById('currentWeekDisplay').textContent =
                     `${selectedSeason} · bowls`;
+            } else if (selectedWeek === 'playoffs') {
+                document.getElementById('currentWeekDisplay').textContent =
+                    `${selectedSeason} · playoffs`;
             } else {
                 document.getElementById('currentWeekDisplay').textContent =
                     `${selectedSeason} · week ${selectedWeek}`;
@@ -388,12 +394,22 @@
             const prevWeekLink = document.getElementById('prevWeek');
             const nextWeekLink = document.getElementById('nextWeek');
 
-            // Handle navigation for bowls
-            if (selectedWeek === 'bowls') {
-                // Previous from bowls is week 15 for CFB
-                document.getElementById('prevWeekNum').textContent = maxWeeks;
+            // Handle navigation for CFB playoffs
+            if (selectedWeek === 'playoffs') {
+                // Previous from playoffs is bowls
+                document.getElementById('prevWeekNum').textContent = 'bowls';
                 prevWeekLink.style.display = 'inline';
                 nextWeekLink.style.display = 'none';
+            } else if (selectedWeek === 'bowls') {
+                // Previous from bowls is week 15, next is playoffs for CFB
+                document.getElementById('prevWeekNum').textContent = maxWeeks;
+                prevWeekLink.style.display = 'inline';
+                if (selectedSport === 'CFB') {
+                    document.getElementById('nextWeekNum').textContent = 'playoffs';
+                    nextWeekLink.style.display = 'inline';
+                } else {
+                    nextWeekLink.style.display = 'none';
+                }
             } else {
                 const prevWeekNum = selectedWeek > 1 ? selectedWeek - 1 : null;
                 let nextWeekNum;
@@ -765,7 +781,7 @@
                 weekGrid.appendChild(weekItem);
             }
 
-            // Add "Bowls" option for CFB
+            // Add "Bowls" and "Playoffs" options for CFB
             if (selectedSport === 'CFB') {
                 const bowlsItem = document.createElement('div');
                 bowlsItem.className = 'week-item';
@@ -775,12 +791,27 @@
                 bowlsItem.textContent = 'Bowls';
                 bowlsItem.addEventListener('click', () => {
                     selectedWeek = 'bowls';
-                    isInitialLoad = false; // User manually selected bowls
+                    isInitialLoad = false;
                     updateUI();
                     loadGames();
                     document.getElementById('weekPicker').classList.remove('visible');
                 });
                 weekGrid.appendChild(bowlsItem);
+
+                const playoffsItem = document.createElement('div');
+                playoffsItem.className = 'week-item';
+                if (selectedWeek === 'playoffs') {
+                    playoffsItem.classList.add('selected');
+                }
+                playoffsItem.textContent = 'Playoffs';
+                playoffsItem.addEventListener('click', () => {
+                    selectedWeek = 'playoffs';
+                    isInitialLoad = false;
+                    updateUI();
+                    loadGames();
+                    document.getElementById('weekPicker').classList.remove('visible');
+                });
+                weekGrid.appendChild(playoffsItem);
             }
         }
 
@@ -824,7 +855,14 @@
             if (sport === 'NBA') {
                 return `/data/${sportLower}/${season}/${weekOrDate}.json`;
             }
-            const weekStr = weekOrDate === 'bowls' ? 'bowls' : `week-${String(weekOrDate).padStart(2, '0')}`;
+            let weekStr;
+            if (weekOrDate === 'bowls') {
+                weekStr = 'bowls';
+            } else if (weekOrDate === 'playoffs') {
+                weekStr = 'playoffs';
+            } else {
+                weekStr = `week-${String(weekOrDate).padStart(2, '0')}`;
+            }
             return `/data/${sportLower}/${season}/${weekStr}.json`;
         }
 
@@ -948,7 +986,11 @@
                         } else {
                             // For NFL/CFB, try previous week
                             console.log(`🔄 ${selectedSport} fallback - current week: ${selectedWeek}`);
-                            if (selectedWeek === 'bowls') {
+                            if (selectedWeek === 'playoffs') {
+                                console.log(`📅 Playoffs fallback: playoffs → bowls`);
+                                selectedWeek = 'bowls';
+                                canFallback = true;
+                            } else if (selectedWeek === 'bowls') {
                                 const maxWeeks = selectedSport === 'NFL' ? 18 : 15;
                                 console.log(`📅 Bowls fallback: bowls → week ${maxWeeks}`);
                                 selectedWeek = maxWeeks;
@@ -999,6 +1041,8 @@
                     loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
                 } else if (selectedWeek === 'bowls') {
                     loadingMessage = `loading bowl games...`;
+                } else if (selectedWeek === 'playoffs') {
+                    loadingMessage = `loading playoff games...`;
                 } else {
                     loadingMessage = `loading week ${selectedWeek}...`;
                 }
@@ -1021,6 +1065,8 @@
                     message = `No games found for ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}.`;
                 } else if (selectedWeek === 'bowls') {
                     message = `No completed bowl games yet for the ${selectedSeason} season.`;
+                } else if (selectedWeek === 'playoffs') {
+                    message = `No completed playoff games yet for the ${selectedSeason} season.`;
                 } else {
                     message = `No games found for Week ${selectedWeek}, ${selectedSeason}.`;
                 }
@@ -1038,8 +1084,40 @@
             console.log('🎯 displayResults() called with currentGames:', currentGames?.length || 'null/undefined');
             if (!currentGames) return;
 
-            // Sort by excitement score
-            const sortedGames = [...currentGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
+            // Filter games based on bowls vs playoffs view
+            let filteredGames = [...currentGames];
+            if (selectedSport === 'CFB' && (selectedWeek === 'bowls' || selectedWeek === 'playoffs')) {
+                if (selectedWeek === 'bowls') {
+                    // Bowls view: games with bowlName AND no playoffRound, OR games with neither (default to bowls)
+                    filteredGames = currentGames.filter(g => !g.playoffRound);
+                } else if (selectedWeek === 'playoffs') {
+                    // Playoffs view: only games with playoffRound
+                    filteredGames = currentGames.filter(g => g.playoffRound);
+                }
+            }
+
+            // Sort games
+            let sortedGames;
+            if (selectedSport === 'CFB' && selectedWeek === 'playoffs') {
+                // For playoffs view, sort by round priority first, then by excitement
+                const roundPriority = {
+                    'Championship': 1,
+                    'Semifinal': 2,
+                    'Quarterfinal': 3,
+                    'First Round': 4
+                };
+                sortedGames = [...filteredGames].sort((a, b) => {
+                    const priorityA = roundPriority[a.playoffRound] || 999;
+                    const priorityB = roundPriority[b.playoffRound] || 999;
+                    if (priorityA !== priorityB) {
+                        return priorityA - priorityB;
+                    }
+                    return (b.excitement || 0) - (a.excitement || 0);
+                });
+            } else {
+                // Default: sort by excitement score only
+                sortedGames = [...filteredGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
+            }
             console.log('🎯 sortedGames length:', sortedGames.length);
 
             // Calculate statistics
@@ -1053,11 +1131,30 @@
             let html = '';
 
             // Statistics line
-            html += `<div class="statistics-line">
-                <span class="stat-number">${stats.mustWatch}</span> must watch ·
-                <span class="stat-number">${stats.recommended}</span> recommended ·
-                <span class="stat-number">${stats.skip}</span> skip
-            </div>`;
+            if (selectedSport === 'CFB' && selectedWeek === 'playoffs') {
+                // For playoffs view, show round breakdown
+                const roundCounts = {
+                    championship: sortedGames.filter(g => g.playoffRound === 'Championship').length,
+                    semifinals: sortedGames.filter(g => g.playoffRound === 'Semifinal').length,
+                    quarterfinals: sortedGames.filter(g => g.playoffRound === 'Quarterfinal').length,
+                    firstRound: sortedGames.filter(g => g.playoffRound === 'First Round').length
+                };
+
+                let roundStats = [];
+                if (roundCounts.championship > 0) roundStats.push(`<span class="stat-number">${roundCounts.championship}</span> championship`);
+                if (roundCounts.semifinals > 0) roundStats.push(`<span class="stat-number">${roundCounts.semifinals}</span> semifinal${roundCounts.semifinals > 1 ? 's' : ''}`);
+                if (roundCounts.quarterfinals > 0) roundStats.push(`<span class="stat-number">${roundCounts.quarterfinals}</span> quarterfinal${roundCounts.quarterfinals > 1 ? 's' : ''}`);
+                if (roundCounts.firstRound > 0) roundStats.push(`<span class="stat-number">${roundCounts.firstRound}</span> first round`);
+
+                html += `<div class="statistics-line">${roundStats.join(' · ')}</div>`;
+            } else {
+                // Default: show tier breakdown
+                html += `<div class="statistics-line">
+                    <span class="stat-number">${stats.mustWatch}</span> must watch ·
+                    <span class="stat-number">${stats.recommended}</span> recommended ·
+                    <span class="stat-number">${stats.skip}</span> skip
+                </div>`;
+            }
 
             // Toggle slider for scores
             html += `
@@ -1214,8 +1311,20 @@
             let bowlInfo = '';
             if (selectedSport === 'CFB' && (game.bowlName || game.playoffRound)) {
                 if (game.playoffRound) {
-                    bowlInfo = `<div class="bowl-info playoff">${game.bowlName ? game.bowlName + ' · ' : ''}CFP ${game.playoffRound}</div>`;
+                    // Format playoff games based on round
+                    if (game.playoffRound === 'Championship') {
+                        bowlInfo = `<div class="bowl-info playoff">CFP National Championship</div>`;
+                    } else if (game.playoffRound === 'First Round') {
+                        bowlInfo = `<div class="bowl-info playoff">CFP First Round</div>`;
+                    } else if (game.bowlName) {
+                        // Quarterfinals and Semifinals: "Rose Bowl · CFP Quarterfinal"
+                        bowlInfo = `<div class="bowl-info playoff">${game.bowlName} · CFP ${game.playoffRound}</div>`;
+                    } else {
+                        // Fallback if no bowl name
+                        bowlInfo = `<div class="bowl-info playoff">CFP ${game.playoffRound}</div>`;
+                    }
                 } else if (game.bowlName) {
+                    // Regular bowl game - just the bowl name
                     bowlInfo = `<div class="bowl-info">${game.bowlName}</div>`;
                 }
             }
@@ -1658,9 +1767,10 @@
                 ];
             } else if (sport === 'CFB') {
                 return [
-                    { label: 'All', value: 'all', start: 1, end: 'bowls' },
+                    { label: 'All', value: 'all', start: 1, end: 'playoffs' },
                     { label: 'Regular Season', value: 'regular', start: 1, end: 15 },
                     { label: 'Bowls Only', value: 'bowls', start: 'bowls', end: 'bowls' },
+                    { label: 'Playoffs Only', value: 'playoffs', start: 'playoffs', end: 'playoffs' },
                     { label: 'Custom', value: 'custom', start: null, end: null }
                 ];
             } else if (sport === 'NBA') {
@@ -1731,6 +1841,7 @@
                 } else if (sport === 'CFB') {
                     weekOptions = Array.from({ length: 15 }, (_, i) => ({ value: i + 1, label: `Week ${i + 1}` }));
                     weekOptions.push({ value: 'bowls', label: 'Bowls' });
+                    weekOptions.push({ value: 'playoffs', label: 'Playoffs' });
                 }
 
                 exportStartWeek.innerHTML = weekOptions.map(opt =>
@@ -1816,16 +1927,17 @@
                 const startWeek = document.getElementById('exportStartWeek').value;
                 const endWeek = document.getElementById('exportEndWeek').value;
 
-                // Handle bowls special case
-                if (startWeek === 'bowls' && endWeek !== 'bowls') {
-                    validationMessage.textContent = 'Invalid range: Bowls must be the end of the range.';
-                    validationMessage.style.display = 'block';
-                    downloadBtn.disabled = true;
-                    return false;
-                }
+                // Handle bowls/playoffs special cases
+                const weekOrder = { 'bowls': 16, 'playoffs': 17 };
+                const getWeekValue = (week) => {
+                    if (weekOrder[week] !== undefined) return weekOrder[week];
+                    return parseInt(week);
+                };
 
-                // Compare numeric weeks
-                if (startWeek !== 'bowls' && endWeek !== 'bowls' && parseInt(startWeek) > parseInt(endWeek)) {
+                const startValue = getWeekValue(startWeek);
+                const endValue = getWeekValue(endWeek);
+
+                if (startValue > endValue) {
                     validationMessage.textContent = 'Start week must be before or equal to end week.';
                     validationMessage.style.display = 'block';
                     downloadBtn.disabled = true;
@@ -1927,16 +2039,24 @@
                     filenameSuffix = `weeks-${rangeStart}-${rangeEnd}`;
                 }
             } else if (sport === 'CFB') {
+                const isPlayoffsOnly = rangeStart === 'playoffs' && rangeEnd === 'playoffs';
                 const isBowlsOnly = rangeStart === 'bowls' && rangeEnd === 'bowls';
-                const isFullSeason = rangeStart === 1 && rangeEnd === 'bowls';
+                const isFullSeason = rangeStart === 1 && rangeEnd === 'playoffs';
 
-                if (isBowlsOnly) {
+                if (isPlayoffsOnly) {
+                    isPartial = true;
+                    label = 'playoffs only';
+                    filenameSuffix = 'playoffs';
+                } else if (isBowlsOnly) {
                     isPartial = true;
                     label = 'bowls only';
                     filenameSuffix = 'bowls';
                 } else if (!isFullSeason) {
                     isPartial = true;
-                    if (rangeEnd === 'bowls') {
+                    if (rangeEnd === 'playoffs') {
+                        label = `weeks ${rangeStart}-15 + bowls + playoffs`;
+                        filenameSuffix = `weeks-${rangeStart}-playoffs`;
+                    } else if (rangeEnd === 'bowls') {
                         label = `weeks ${rangeStart}-15 + bowls`;
                         filenameSuffix = `weeks-${rangeStart}-bowls`;
                     } else {
@@ -1980,20 +2100,28 @@
                 const end = rangeEnd || 18;
                 weeks = Array.from({ length: end - start + 1 }, (_, i) => start + i);
             } else if (sport === 'CFB') {
-                const start = (rangeStart === 'bowls') ? 'bowls' : (rangeStart || 1);
-                const end = (rangeEnd === 'bowls') ? 'bowls' : (rangeEnd || 15);
+                const start = (rangeStart === 'bowls' || rangeStart === 'playoffs') ? rangeStart : (rangeStart || 1);
+                const end = (rangeEnd === 'bowls' || rangeEnd === 'playoffs') ? rangeEnd : (rangeEnd || 15);
 
-                if (start === 'bowls' && end === 'bowls') {
+                if (start === 'playoffs' && end === 'playoffs') {
+                    // Playoffs only
+                    weeks = ['playoffs'];
+                } else if (start === 'bowls' && end === 'bowls') {
                     // Bowls only
                     weeks = ['bowls'];
-                } else if (start === 'bowls') {
-                    // Invalid: can't start with bowls
-                    weeks = ['bowls'];
+                } else if (start === 'bowls' && end === 'playoffs') {
+                    // Bowls and playoffs
+                    weeks = ['bowls', 'playoffs'];
+                } else if (start === 'bowls' || start === 'playoffs') {
+                    // Invalid: can't start with bowls/playoffs unless end is also bowls/playoffs
+                    weeks = [start];
                 } else {
                     // Regular weeks
                     weeks = Array.from({ length: end - start + 1 }, (_, i) => start + i);
-                    // Add bowls if end is 'bowls'
-                    if (rangeEnd === 'bowls') {
+                    // Add bowls and/or playoffs if end is 'bowls' or 'playoffs'
+                    if (rangeEnd === 'playoffs') {
+                        weeks.push('bowls', 'playoffs');
+                    } else if (rangeEnd === 'bowls') {
                         weeks.push('bowls');
                     }
                 }
@@ -2031,6 +2159,8 @@
                     }
                 } else if (week === 'bowls') {
                     progressMessage = `Fetching bowl games...`;
+                } else if (week === 'playoffs') {
+                    progressMessage = `Fetching playoff games...`;
                 } else {
                     if (rangeInfo.isPartial) {
                         progressMessage = `Fetching week ${week} (${rangeInfo.label})...`;
@@ -2113,9 +2243,9 @@
             } else {
                 rangeStart = document.getElementById('exportStartWeek').value;
                 rangeEnd = document.getElementById('exportEndWeek').value;
-                // Convert to numbers if not 'bowls'
-                if (rangeStart !== 'bowls') rangeStart = parseInt(rangeStart);
-                if (rangeEnd !== 'bowls') rangeEnd = parseInt(rangeEnd);
+                // Convert to numbers if not 'bowls' or 'playoffs'
+                if (rangeStart !== 'bowls' && rangeStart !== 'playoffs') rangeStart = parseInt(rangeStart);
+                if (rangeEnd !== 'bowls' && rangeEnd !== 'playoffs') rangeEnd = parseInt(rangeEnd);
             }
 
             // Validate range before proceeding
@@ -2153,10 +2283,12 @@
                     else if (rating >= 6) tier = 'Recommended';
                     else tier = 'Skip';
 
-                    // Format week - handle bowls and dates
+                    // Format week - handle bowls, playoffs, and dates
                     let weekDisplay;
                     if (sport === 'NBA') {
                         weekDisplay = game.week; // Date string
+                    } else if (game.week === 'playoffs' || game.playoffRound) {
+                        weekDisplay = 'Playoff';
                     } else if (game.week === 'bowls' || game.bowlName) {
                         weekDisplay = 'Bowl';
                     } else {
@@ -2183,7 +2315,8 @@
                         'Away Score': game.awayScore || 0,
                         'Home Score': game.homeScore || 0,
                         'OT': game.overtime ? 'Yes' : 'No',
-                        'Bowl': game.bowlName || ''
+                        'Bowl': game.bowlName || '',
+                        'Playoff Round': game.playoffRound || ''
                     };
                 });
 
@@ -2202,7 +2335,8 @@
                     { wch: 12 }, // Away Score
                     { wch: 12 }, // Home Score
                     { wch: 6 },  // OT
-                    { wch: 25 }  // Bowl
+                    { wch: 25 }, // Bowl
+                    { wch: 15 }  // Playoff Round
                 ];
 
                 // Add worksheet to workbook
@@ -2301,10 +2435,10 @@
                     };
 
                     // Convert to numbers if applicable
-                    if (preset.start && preset.start !== 'bowls') {
+                    if (preset.start && preset.start !== 'bowls' && preset.start !== 'playoffs') {
                         preset.start = parseInt(preset.start);
                     }
-                    if (preset.end && preset.end !== 'bowls') {
+                    if (preset.end && preset.end !== 'bowls' && preset.end !== 'playoffs') {
                         preset.end = parseInt(preset.end);
                     }
 

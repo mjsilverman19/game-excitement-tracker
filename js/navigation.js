@@ -146,8 +146,16 @@ function handlePreviousWeek() {
         return;
     }
 
-    if (selectedWeek === 'bowls') {
-        selectedWeek = 15;
+    // For CFB: playoffs → bowls → week 15 → ...
+    // For NFL: week 18 → week 17 → ...
+    if (selectedSport === 'CFB') {
+        if (selectedWeek === 'playoffs') {
+            selectedWeek = 'bowls';
+        } else if (selectedWeek === 'bowls') {
+            selectedWeek = 15;
+        } else {
+            selectedWeek = Math.max(1, selectedWeek - 1);
+        }
     } else {
         selectedWeek = Math.max(1, selectedWeek - 1);
     }
@@ -165,10 +173,20 @@ function handleNextWeek() {
 
     const maxWeek = selectedSport === 'NFL' ? 18 : 15;
 
-    if (selectedWeek < maxWeek) {
-        selectedWeek++;
-    } else if (selectedSport === 'CFB' && selectedWeek === maxWeek) {
-        selectedWeek = 'bowls';
+    // For CFB: ... → week 15 → bowls → playoffs
+    // For NFL: ... → week 17 → week 18
+    if (selectedSport === 'CFB') {
+        if (selectedWeek === 'bowls') {
+            selectedWeek = 'playoffs';
+        } else if (selectedWeek < maxWeek) {
+            selectedWeek++;
+        } else if (selectedWeek === maxWeek) {
+            selectedWeek = 'bowls';
+        }
+    } else {
+        if (selectedWeek < maxWeek) {
+            selectedWeek++;
+        }
     }
 
     isInitialLoad = false;

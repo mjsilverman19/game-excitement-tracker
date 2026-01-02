@@ -33,8 +33,8 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
 
   let url;
 
-  // For CFB postseason (bowls), fetch all postseason games
-  if (league === 'college-football' && (week === 'bowls' || seasonType === '3')) {
+  // For CFB postseason (bowls or playoffs), fetch all postseason games
+  if (league === 'college-football' && (week === 'bowls' || week === 'playoffs' || seasonType === '3')) {
     // Fetch all postseason games for the season
     // Bowl season spans mid-December through mid-January
     const bowlStartDate = `${season}1214`; // December 14
@@ -121,45 +121,45 @@ function parseEvent(event, sport = 'NFL') {
   let playoffRound = null;
 
   if (sport === 'CFB') {
-    // Bowl name is typically in event.name or competition.notes
-    const eventName = event.name || event.shortName || '';
     const notes = competition.notes || [];
 
-    // Check if this is a playoff game
-    if (eventName.includes('CFP') || eventName.includes('College Football Playoff')) {
-      if (eventName.includes('National Championship') || eventName.includes('Championship')) {
-        playoffRound = 'Championship';
-      } else if (eventName.includes('Semifinal')) {
-        playoffRound = 'Semifinal';
-      } else if (eventName.includes('Quarterfinal')) {
-        playoffRound = 'Quarterfinal';
-      } else if (eventName.includes('First Round')) {
-        playoffRound = 'First Round';
-      }
-    }
-
-    // Extract bowl name from event name or notes
-    // Event names are typically like "Ohio State vs Oregon" or "Rose Bowl - CFP Quarterfinal"
-    // Notes contain detailed information about the bowl
+    // Extract bowl/playoff information from notes headline
+    // ESPN provides bowl and playoff info in competition.notes[].headline
     if (notes.length > 0) {
       const bowlNote = notes.find(note => note.headline);
       if (bowlNote?.headline) {
-        bowlName = bowlNote.headline;
-      }
-    }
+        const headline = bowlNote.headline;
 
-    // If no bowl name from notes, try to extract from event name
-    if (!bowlName && eventName) {
-      // Look for common bowl game patterns
-      const bowlMatch = eventName.match(/(.+?)\s*(Bowl|-|CFP|Playoff)/i);
-      if (bowlMatch && !eventName.includes(' vs ') && !eventName.includes(' at ')) {
-        bowlName = eventName.split(' - ')[0].trim();
+        // Check if this is a College Football Playoff game
+        if (headline.includes('College Football Playoff')) {
+          // Extract playoff round
+          if (headline.includes('National Championship')) {
+            playoffRound = 'Championship';
+            bowlName = headline; // Keep full name for championship
+          } else if (headline.includes('Semifinal')) {
+            playoffRound = 'Semifinal';
+            // Extract bowl name: "College Football Playoff Semifinal at the Vrbo Fiesta Bowl"
+            const bowlMatch = headline.match(/at the (.+)$/);
+            if (bowlMatch) {
+              bowlName = bowlMatch[1];
+            }
+          } else if (headline.includes('Quarterfinal')) {
+            playoffRound = 'Quarterfinal';
+            // Extract bowl name: "College Football Playoff Quarterfinal at the Rose Bowl Presented by Prudential"
+            const bowlMatch = headline.match(/at the (.+)$/);
+            if (bowlMatch) {
+              bowlName = bowlMatch[1];
+            }
+          } else if (headline.includes('First Round')) {
+            playoffRound = 'First Round';
+            // First round games don't have bowl names (played at home stadiums)
+            bowlName = null;
+          }
+        } else {
+          // Regular bowl game - use the full headline as bowl name
+          bowlName = headline;
+        }
       }
-    }
-
-    // Clean up bowl name if it contains playoff round info
-    if (bowlName && playoffRound) {
-      bowlName = bowlName.replace(/\s*-?\s*(CFP|College Football Playoff)?\s*(Quarterfinal|Semifinal|Championship|First Round)/i, '').trim();
     }
   }
 
@@ -217,33 +217,41 @@ export async function fetchSingleGame(sport, gameId) {
     let playoffRound = null;
 
     if (sport === 'CFB') {
-      const eventName = data.header?.league?.name || '';
       const notes = competition.notes || [];
 
-      // Check if this is a playoff game
-      if (eventName.includes('CFP') || eventName.includes('College Football Playoff')) {
-        if (eventName.includes('National Championship') || eventName.includes('Championship')) {
-          playoffRound = 'Championship';
-        } else if (eventName.includes('Semifinal')) {
-          playoffRound = 'Semifinal';
-        } else if (eventName.includes('Quarterfinal')) {
-          playoffRound = 'Quarterfinal';
-        } else if (eventName.includes('First Round')) {
-          playoffRound = 'First Round';
-        }
-      }
-
-      // Extract bowl name from notes
+      // Extract bowl/playoff information from notes headline
       if (notes.length > 0) {
         const bowlNote = notes.find(note => note.headline);
         if (bowlNote?.headline) {
-          bowlName = bowlNote.headline;
-        }
-      }
+          const headline = bowlNote.headline;
 
-      // Clean up bowl name if it contains playoff round info
-      if (bowlName && playoffRound) {
-        bowlName = bowlName.replace(/\s*-?\s*(CFP|College Football Playoff)?\s*(Quarterfinal|Semifinal|Championship|First Round)/i, '').trim();
+          // Check if this is a College Football Playoff game
+          if (headline.includes('College Football Playoff')) {
+            // Extract playoff round
+            if (headline.includes('National Championship')) {
+              playoffRound = 'Championship';
+              bowlName = headline;
+            } else if (headline.includes('Semifinal')) {
+              playoffRound = 'Semifinal';
+              const bowlMatch = headline.match(/at the (.+)$/);
+              if (bowlMatch) {
+                bowlName = bowlMatch[1];
+              }
+            } else if (headline.includes('Quarterfinal')) {
+              playoffRound = 'Quarterfinal';
+              const bowlMatch = headline.match(/at the (.+)$/);
+              if (bowlMatch) {
+                bowlName = bowlMatch[1];
+              }
+            } else if (headline.includes('First Round')) {
+              playoffRound = 'First Round';
+              bowlName = null;
+            }
+          } else {
+            // Regular bowl game
+            bowlName = headline;
+          }
+        }
       }
     }
 
