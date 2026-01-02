@@ -264,6 +264,7 @@
     </div>
 
     <!-- JavaScript modules -->
+    <script src="js/algorithm-config.js"></script>
     <script src="js/config.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/navigation.js"></script>
@@ -1101,18 +1102,18 @@
             console.log('🎯 sortedGames length:', sortedGames.length);
 
             // Calculate statistics
-            const stats = {
-                mustWatch: sortedGames.filter(g => (g.excitement || 0) >= 8).length,
-                recommended: sortedGames.filter(g => (g.excitement || 0) >= 6 && (g.excitement || 0) < 8).length,
-                skip: sortedGames.filter(g => (g.excitement || 0) < 6).length
-            };
+            const stats = sortedGames.reduce((acc, game) => {
+                const tier = window.getTier(game.excitement || 0);
+                acc[tier.cssClass] += 1;
+                return acc;
+            }, { 'must-watch': 0, recommended: 0, skip: 0 });
 
             // Build HTML
             let html = '';
 
             // Statistics line
             html += `<div class="statistics-line">
-                <span class="stat-number">${stats.mustWatch}</span> must watch ·
+                <span class="stat-number">${stats['must-watch']}</span> must watch ·
                 <span class="stat-number">${stats.recommended}</span> recommended ·
                 <span class="stat-number">${stats.skip}</span> skip
             </div>`;
@@ -1157,11 +1158,11 @@
                 return '<div style="color: #6b6560; font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
             }
 
-            const metrics = [
-                { key: 'uncertainty', label: 'Uncertainty', desc: 'How long was the outcome in doubt? Games that stayed close to 50/50 score highest.' },
-                { key: 'drama', label: 'Drama', desc: 'Magnitude of momentum swings when the game was close. Leverage-weighted for maximum impact.' },
-                { key: 'finish', label: 'Finish', desc: 'How exciting were the final minutes? Combines late-game volatility, closeness, and walk-off moments.' }
-            ];
+            const metrics = window.ALGORITHM_CONFIG.metrics.map(metric => ({
+                key: metric.key,
+                label: metric.label,
+                desc: metric.description
+            }));
 
             const size = 330;
             const center = size / 2;
@@ -1171,10 +1172,11 @@
             const startAngle = -Math.PI / 2; // Start at top
 
             // Calculate vertex positions for max (10) and actual values
+            const maxScale = window.ALGORITHM_CONFIG.scale.max;
             const points = metrics.map((m, i) => {
                 const angle = startAngle + (i * angleStep);
                 const value = breakdown[m.key] || 0;
-                const r = (value / 10) * radius;
+                const r = (value / maxScale) * radius;
                 return {
                     x: center + r * Math.cos(angle),
                     y: center + r * Math.sin(angle),
@@ -1188,10 +1190,11 @@
             // Build SVG
             const polygonPoints = points.map(p => `${p.x},${p.y}`).join(' ');
 
-            // Grid lines (circles at 2, 4, 6, 8, 10)
+            // Grid lines (even steps across the configured scale)
             let gridLines = '';
-            for (let level = 2; level <= 10; level += 2) {
-                const r = (level / 10) * radius;
+            const gridStep = maxScale / 5;
+            for (let level = gridStep; level <= maxScale; level += gridStep) {
+                const r = (level / maxScale) * radius;
                 gridLines += `<circle cx="${center}" cy="${center}" r="${r}" class="radar-grid"/>`;
             }
 
@@ -1232,18 +1235,9 @@
         function createGameRow(game, index) {
             console.log(`🎮 createGameRow called for game ${index}: ${game.homeTeam} v ${game.awayTeam}`);
             const score = game.excitement || 0;
-            let ratingClass, ratingText;
-
-            if (score >= 8) {
-                ratingClass = 'must-watch';
-                ratingText = 'must watch';
-            } else if (score >= 6) {
-                ratingClass = 'recommended';
-                ratingText = 'recommended';
-            } else {
-                ratingClass = 'skip';
-                ratingText = 'skip';
-            }
+            const tier = window.getTier(score);
+            const ratingClass = tier.cssClass;
+            const ratingText = tier.label;
 
             const shouldShowGameScore = !spoilerFree;
 
@@ -1254,7 +1248,7 @@
             // Calculate pie chart values
             const radius = 21;
             const circumference = 2 * Math.PI * radius;
-            const progress = (score / 10) * circumference;
+            const progress = (score / window.ALGORITHM_CONFIG.scale.max) * circumference;
             const remaining = circumference - progress;
 
             // Generate ESPN recap URL
@@ -2240,9 +2234,8 @@
                 const excelData = allGames.map((game, index) => {
                     const rating = game.excitement || 0;
                     let tier;
-                    if (rating >= 8) tier = 'Must Watch';
-                    else if (rating >= 6) tier = 'Recommended';
-                    else tier = 'Skip';
+                    const tierLabel = window.getTier(rating).label;
+                    tier = tierLabel.replace(/\b\w/g, char => char.toUpperCase());
 
                     // Format week - handle bowls, playoffs, and dates
                     let weekDisplay;

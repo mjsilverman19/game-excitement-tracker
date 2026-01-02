@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "fixture-001",
+      "homeTeam": "Home",
+      "awayTeam": "Away",
+      "homeScore": 24,
+      "awayScore": 21,
+      "excitement": 8.4,
+      "breakdown": {
+        "uncertainty": 7.8,
+        "drama": 8.9,
+        "finish": 8.5
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "source": "Offline Fixture"
+  }
+}

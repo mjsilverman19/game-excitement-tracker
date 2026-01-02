@@ -3,9 +3,13 @@
 // Static JSON Generator for Game Excitement Tracker
 // Generates pre-computed static JSON files for historical game data
 
+import { createRequire } from 'module';
 import { fetchGames } from '../api/fetcher.js';
 import { analyzeGameEntertainment } from '../api/calculator.js';
-import { writeFile, mkdir } from 'fs/promises';
+
+const require = createRequire(import.meta.url);
+const { ALGORITHM_CONFIG } = require('../js/algorithm-config.js');
+import { writeFile, mkdir, readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -13,6 +17,8 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = join(__dirname, '..');
 const PUBLIC_DATA_DIR = join(ROOT_DIR, 'public', 'data');
+const FIXTURES_DIR = join(ROOT_DIR, 'fixtures');
+const NO_NETWORK = process.env.NO_NETWORK === '1';
 
 // Command line argument parsing
 const args = process.argv.slice(2);
@@ -143,6 +149,36 @@ async function generateStatic(sport, season, weekOrDate) {
       return { skipped: true };
     }
 
+    if (NO_NETWORK) {
+      console.log(`📦 NO_NETWORK enabled. Writing fixture data for ${sport} ${weekOrDate}...`);
+      const fixturePath = join(FIXTURES_DIR, 'offline-static.json');
+      const fixtureData = JSON.parse(await readFile(fixturePath, 'utf8'));
+
+      const metadata = {
+        ...fixtureData.metadata,
+        sport,
+        season,
+        generatedAt: new Date().toISOString(),
+        algorithmVersion: ALGORITHM_CONFIG.version
+      };
+
+      if (sport === 'NBA') {
+        metadata.date = weekOrDate;
+      } else {
+        metadata.week = weekOrDate;
+      }
+
+      const responseData = {
+        ...fixtureData,
+        metadata
+      };
+
+      await mkdir(dir, { recursive: true });
+      await writeFile(filepath, JSON.stringify(responseData, null, 2), 'utf8');
+      console.log(`✅ Generated ${filepath} (fixture data)`);
+      return { success: true, count: responseData.games.length };
+    }
+
     console.log(`📥 Fetching ${sport} data for ${weekOrDate}...`);
 
     // Fetch games from ESPN API
@@ -182,7 +218,8 @@ async function generateStatic(sport, season, weekOrDate) {
       totalGames: analyzedGames.length,
       insufficientData: insufficientDataCount,
       generatedAt: new Date().toISOString(),
-      source: 'ESPN Win Probability Analysis'
+      source: 'ESPN Win Probability Analysis',
+      algorithmVersion: ALGORITHM_CONFIG.version
     };
 
     if (sport === 'NBA') {

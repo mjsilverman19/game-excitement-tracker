@@ -1,22 +1,10 @@
 // Entertainment Scoring Algorithm
 // Analyzes NFL/CFB games using ESPN win probability data to rank entertainment value
 
-const SCORING_CONFIG = {
-  weights: {
-    outcomeUncertainty: 0.30,
-    momentumDrama: 0.30,
-    finishQuality: 0.40
-  },
-  thresholds: {
-    minDataPoints: 10,
-    finalPeriodStart: 4,           // Q4 for both football and basketball
-    finalMomentPoints: 10,         // Last N data points for finish analysis
-    walkoffSwingThreshold: 0.15    // Minimum swing to qualify as "walk-off"
-  },
-  bonuses: {
-    overtime: 0.8  // Applied after normalization
-  }
-};
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const { ALGORITHM_CONFIG } = require('../js/algorithm-config.js');
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
   try {
@@ -40,7 +28,7 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 
     const probData = await response.json();
 
-    if (!probData.items || probData.items.length < SCORING_CONFIG.thresholds.minDataPoints) {
+    if (!probData.items || probData.items.length < ALGORITHM_CONFIG.thresholds.minDataPoints) {
       return null;
     }
 
@@ -73,7 +61,7 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     }))
     .filter(p => p.value >= 0 && p.value <= 1);
 
-  if (probs.length < SCORING_CONFIG.thresholds.minDataPoints) {
+  if (probs.length < ALGORITHM_CONFIG.thresholds.minDataPoints) {
     return null;
   }
 
@@ -94,14 +82,14 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   };
 
   // Weighted combination
-  const weights = SCORING_CONFIG.weights;
+  const weights = ALGORITHM_CONFIG.weights;
   let rawScore =
     uncertaintyScore * weights.outcomeUncertainty +
     dramaScore * weights.momentumDrama +
     finishScore * weights.finishQuality;
 
   // Add overtime bonus (applied after weighted combination)
-  const overtimeBonus = sport === 'NBA' ? 0.8 : SCORING_CONFIG.bonuses.overtime;
+  const overtimeBonus = ALGORITHM_CONFIG.bonuses.overtime;
   if (game.overtime) {
     rawScore += overtimeBonus;
   }
@@ -109,8 +97,14 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
 
+  const minScore = ALGORITHM_CONFIG.scale.min;
+  const maxScore = ALGORITHM_CONFIG.scale.max;
+
+  const decimals = ALGORITHM_CONFIG.precision.decimals;
+  const factor = 10 ** decimals;
+
   return {
-    score: Math.max(1, Math.min(10, Math.round(finalScore * 10) / 10)),
+    score: Math.max(minScore, Math.min(maxScore, Math.round(finalScore * factor) / factor)),
     breakdown
   };
 }
@@ -180,9 +174,9 @@ function calculateMomentumDrama(probs) {
  * @returns {number} Score from 0-10 based on finish quality
  */
 function calculateFinishQuality(probs, sport = 'NFL') {
-  if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
+  if (probs.length < ALGORITHM_CONFIG.thresholds.finalMomentPoints) return 0;
 
-  const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, probs.length);
+  const finalMoments = Math.min(ALGORITHM_CONFIG.thresholds.finalMomentPoints, probs.length);
   const finalProbs = probs.slice(-finalMoments);
   const lastProb = probs[probs.length - 1].value;
 
@@ -211,14 +205,14 @@ function calculateFinishQuality(probs, sport = 'NFL') {
   }
 
   let walkoffScore = 0;
-  if (maxFinalSwing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
+  if (maxFinalSwing >= ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold) {
     walkoffScore = 2 + Math.min(2, (maxFinalSwing - 0.15) * 10); // Up to 4 points
   }
 
   // Combine components (max 12, scaled to 10)
   const totalScore = (closenessScore + volatilityScore + walkoffScore) * (10 / 12);
 
-  return Math.min(10, Math.max(0, totalScore));
+  return Math.min(ALGORITHM_CONFIG.scale.max, Math.max(0, totalScore));
 }
 
 /**
@@ -232,6 +226,8 @@ function normalizeScore(rawScore) {
   const centered = (rawScore - 5) / 2.2;
   const sigmoid = 1 / (1 + Math.exp(-centered * 1.2));
 
-  // Map sigmoid output (0-1) to final score (1-10)
-  return Math.max(1, Math.min(10, 1 + sigmoid * 9));
+  // Map sigmoid output (0-1) to final score range
+  const minScore = ALGORITHM_CONFIG.scale.min;
+  const maxScore = ALGORITHM_CONFIG.scale.max;
+  return Math.max(minScore, Math.min(maxScore, minScore + sigmoid * (maxScore - minScore)));
 }
