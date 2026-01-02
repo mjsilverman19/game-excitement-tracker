@@ -803,9 +803,9 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 17px;
             line-height: 1;
-            padding: 0;
+            padding: 4px 6px;
             cursor: pointer;
             transition: all 150ms ease;
             font-family: inherit;
@@ -831,7 +831,7 @@
             position: absolute;
             background: var(--bg-hover);
             border: 1px solid var(--bg-active-alt);
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 2px;
             font-size: 11px;
             color: var(--text-primary);
@@ -839,10 +839,8 @@
             z-index: 1000;
             white-space: nowrap;
             display: none;
-            left: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-left: 8px;
+            left: 0;
+            bottom: calc(100% + 4px);
         }
 
         .vote-container:hover .vote-tooltip {
@@ -999,8 +997,8 @@
 
             /* Mobile vote button adjustments */
             .vote-btn {
-                font-size: 15px;
-                padding: 4px;
+                font-size: 20px;
+                padding: 6px 8px;
             }
 
             .vote-tooltip {
