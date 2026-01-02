@@ -593,6 +593,7 @@
                     const yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
                     selectedDate = yesterday.toISOString().split('T')[0];
+                    console.log(`📅 NBA selectedDate set to yesterday: ${selectedDate}`);
                     // Reset date picker state
                     pickerMonth = null;
                     pickerYear = null;
@@ -649,6 +650,7 @@
                 const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                 const prevDate = new Date(currentDate.getTime() - 24*60*60*1000);
                 selectedDate = prevDate.toISOString().split('T')[0];
+                console.log(`📅 NBA selectedDate changed via prev button: ${selectedDate}`);
                 isInitialLoad = false; // User manually navigated
                 updateUI();
                 loadGames();
@@ -663,6 +665,7 @@
 
                 if (nextDate <= today) {
                     selectedDate = nextDate.toISOString().split('T')[0];
+                    console.log(`📅 NBA selectedDate changed via next button: ${selectedDate}`);
                     isInitialLoad = false; // User manually navigated
                     updateUI();
                     loadGames();
@@ -865,6 +868,7 @@
                     cell.addEventListener('click', (e) => {
                         e.stopPropagation();
                         selectedDate = cellDateStr;
+                        console.log(`📅 NBA selectedDate changed via date picker: ${selectedDate}`);
                         isInitialLoad = false; // User manually selected date
                         document.getElementById('customDatePicker').classList.remove('visible');
                         updateUI();
@@ -1028,10 +1032,16 @@
             const loadId = Math.random().toString(36).substr(2, 9);
             console.log(`🚀 [${loadId}] loadGames() START - isLoading was: ${isLoading}`);
             if (isLoading) {
-                console.log(`⚠️ [${loadId}] loadGames() BLOCKED - already loading`);
+                console.log(`⚠️ [${loadId}] loadGames() BLOCKED - already loading, aborting`);
                 return;
             }
+
+            // Set loading immediately to prevent race conditions
             isLoading = true;
+
+            // Add small delay to ensure this sticks before any other calls
+            await new Promise(resolve => setTimeout(resolve, 10));
+
             showLoading();
             console.log(`🚀 [${loadId}] loadGames() PROCEEDING - isLoading set to true`);
 
@@ -1109,6 +1119,7 @@
                             const newDate = prevDate.toISOString().split('T')[0];
                             console.log(`📅 NBA fallback: ${selectedDate} → ${newDate}`);
                             selectedDate = newDate;
+                            console.log(`📅 NBA selectedDate changed via fallback: ${selectedDate}`);
                             canFallback = true;
                         } else {
                             // For NFL/CFB, try previous week
