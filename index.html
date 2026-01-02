@@ -489,6 +489,7 @@
             document.getElementById('nbaOption').addEventListener('click', () => {
                 if (selectedSport !== 'NBA') {
                     selectedSport = 'NBA';
+                    selectedSeason = getCurrentWeek('NBA').season;
                     // Use navigation module for clean date handling
                     selectedDate = window.Navigation.getDefaultNBADate();
 
@@ -1757,6 +1758,8 @@
             const exportDatePresets = document.getElementById('exportDatePresets');
             const exportStartWeek = document.getElementById('exportStartWeek');
             const exportEndWeek = document.getElementById('exportEndWeek');
+            const exportStartDate = document.getElementById('exportStartDate');
+            const exportEndDate = document.getElementById('exportEndDate');
             const validationMessage = document.getElementById('exportValidationMessage');
 
             // Clear validation message
@@ -1816,6 +1819,13 @@
                 // Set default to full range
                 exportStartWeek.value = weekOptions[0].value;
                 exportEndWeek.value = weekOptions[weekOptions.length - 1].value;
+            } else {
+                // Initialize NBA date inputs with default "All" preset
+                const allPreset = presets.find(p => p.value === 'all');
+                if (allPreset) {
+                    exportStartDate.value = allPreset.start;
+                    exportEndDate.value = allPreset.end;
+                }
             }
         }
 

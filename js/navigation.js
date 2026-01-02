@@ -135,6 +135,12 @@ function getCurrentWeek(sport) {
         // Cap at week 15 (regular season)
         week = Math.min(15, Math.max(1, week));
         return { season: season, week: week };
+    } else if (sport === 'NBA') {
+        // NBA season runs October - April (next year); season year is the start year
+        const season = month >= 9 ? year : year - 1; // October (9) through December use current year
+        const info = { season: season, week: 1 };
+        console.log('🏀 getCurrentWeek(NBA):', info);
+        return info;
     }
 
     return { season: year, week: 1 };
