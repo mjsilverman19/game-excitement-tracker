@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Raw data endpoints not intended for bulk scraping
+Disallow: /api/
+Disallow: /data/
+
+# Block AI training crawlers (not the same as AI assistants browsing)
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
