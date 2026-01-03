@@ -714,6 +714,14 @@
             stroke-width: 2;
         }
 
+        .radar-average {
+            fill: var(--text-muted);
+            fill-opacity: 0.15;
+            stroke: var(--text-muted);
+            stroke-width: 1.5;
+            stroke-dasharray: 4 3;
+        }
+
         .radar-label {
             font-family: monospace;
             font-size: 11px;
@@ -754,6 +762,21 @@
             z-index: 1000;
             max-width: 200px;
             display: none;
+        }
+
+        .radar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .radar-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
         }
 
         .breakdown-toggle {
