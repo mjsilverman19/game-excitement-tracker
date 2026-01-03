@@ -129,6 +129,7 @@ graph TD
 |  | `index.html` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
 | `breakdown.finish` | `index.html` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
 |  | `index.html` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
+| `breakdown.*` | `index.html` (search `calculatePeriodAverages`) | Computes week/date averages for radar chart overlay. Iterates `ALGORITHM_CONFIG.metrics` for keys. | **Low**: Auto-adapts to metric additions/renames via config. |
 | `overtime` (bonus applied) | `index.html` (search `gameScoreText`) | Adds “OT” suffix to score display. | **Low**: UI text only. |
 |  | `index.html` (search `OT`) | Excel export `OT` column. | **Low**: export data missing if renamed. |
 

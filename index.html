@@ -291,6 +291,7 @@
         let selectedDate = null; // For NBA date-based navigation
         let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         let currentGames = null;
+        let periodAverages = null;
         let isLoading = false;
         let isInitialLoad = true; // Track if this is the first load to enable auto-fallback
 
@@ -472,6 +473,7 @@
             // Sport selector
             document.getElementById('nflOption').addEventListener('click', () => {
                 if (selectedSport !== 'NFL') {
+                    periodAverages = null;
                     selectedSport = 'NFL';
                     const currentWeek = getCurrentWeek('NFL');
                     selectedSeason = currentWeek.season;
@@ -488,6 +490,7 @@
 
             document.getElementById('cfbOption').addEventListener('click', () => {
                 if (selectedSport !== 'CFB') {
+                    periodAverages = null;
                     selectedSport = 'CFB';
                     const currentWeek = getCurrentWeek('CFB');
                     selectedSeason = currentWeek.season;
@@ -504,6 +507,7 @@
 
             document.getElementById('nbaOption').addEventListener('click', () => {
                 if (selectedSport !== 'NBA') {
+                    periodAverages = null;
                     selectedSport = 'NBA';
                     selectedSeason = getCurrentWeek('NBA').season;
                     // Use navigation module for clean date handling
@@ -719,6 +723,7 @@
 
                     cell.addEventListener('click', (e) => {
                         e.stopPropagation();
+                        periodAverages = null;
                         selectedDate = cellDateStr;
                         console.log(`📅 NBA selectedDate changed via date picker: ${selectedDate}`);
                         isInitialLoad = false; // User manually selected date
@@ -768,6 +773,7 @@
                 }
                 btn.textContent = year;
                 btn.addEventListener('click', () => {
+                    periodAverages = null;
                     selectedSeason = year;
                     selectedWeek = 1; // Reset to week 1 when changing season
                     isInitialLoad = false; // User manually selected season
@@ -790,6 +796,7 @@
                 }
                 weekItem.textContent = week;
                 weekItem.addEventListener('click', () => {
+                    periodAverages = null;
                     selectedWeek = week;
                     isInitialLoad = false; // User manually selected week
                     updateUI();
@@ -808,6 +815,7 @@
                 }
                 bowlsItem.textContent = 'Bowls';
                 bowlsItem.addEventListener('click', () => {
+                    periodAverages = null;
                     selectedWeek = 'bowls';
                     isInitialLoad = false;
                     updateUI();
@@ -823,6 +831,7 @@
                 }
                 playoffsItem.textContent = 'Playoffs';
                 playoffsItem.addEventListener('click', () => {
+                    periodAverages = null;
                     selectedWeek = 'playoffs';
                     isInitialLoad = false;
                     updateUI();
@@ -912,6 +921,7 @@
 
             // Set loading immediately to prevent race conditions
             isLoading = true;
+            periodAverages = null;
 
             // Add small delay to ensure this sticks before any other calls
             await new Promise(resolve => setTimeout(resolve, 10));
@@ -1178,53 +1188,93 @@
             console.log(`🎮 DOM verification: Found ${gameElements.length} .game-row elements in DOM`);
 
             // Attach event listeners
+            periodAverages = calculatePeriodAverages(currentGames);
             attachScoreToggleListener();
             attachRadarChartListeners();
             attachVoteListeners();
         }
 
+        function calculatePeriodAverages(games) {
+            if (!games || games.length < 2) return null;
+
+            const metrics = window.ALGORITHM_CONFIG.metrics || [];
+            const metricKeys = metrics.map(metric => metric.key);
+
+            if (metricKeys.length === 0) return null;
+
+            const validGames = games.filter(game =>
+                game.breakdown &&
+                metricKeys.every(key => typeof game.breakdown[key] === 'number')
+            );
+
+            if (validGames.length < 2) return null;
+
+            const averages = {};
+            metricKeys.forEach(key => {
+                const sum = validGames.reduce((acc, game) => acc + game.breakdown[key], 0);
+                averages[key] = sum / validGames.length;
+            });
+
+            return averages;
+        }
+
         // Render radar chart for metric breakdown
-        function renderRadarChart(breakdown) {
+        function renderRadarChart(breakdown, averages = null) {
             // Handle missing or empty breakdown data
             if (!breakdown || Object.keys(breakdown).length === 0) {
                 return '<div style="color: #6b6560; font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
             }
 
-            const metrics = [
-                { key: 'uncertainty', label: 'Uncertainty', desc: 'How long was the outcome in doubt? Games that stayed close to 50/50 score highest.' },
-                { key: 'drama', label: 'Drama', desc: 'Magnitude of momentum swings when the game was close. Leverage-weighted for maximum impact.' },
-                { key: 'finish', label: 'Finish', desc: 'How exciting were the final minutes? Combines late-game volatility, closeness, and walk-off moments.' }
-            ];
+            const metrics = window.ALGORITHM_CONFIG.metrics || [];
+            if (metrics.length === 0) {
+                return '<div style="color: #6b6560; font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
+            }
 
             const size = 330;
             const center = size / 2;
             const radius = 80;
             const labelDistance = 130;
-            const angleStep = (2 * Math.PI) / 3;
+            const angleStep = (2 * Math.PI) / metrics.length;
             const startAngle = -Math.PI / 2; // Start at top
+            const maxScale = window.ALGORITHM_CONFIG.scale.max || 10;
+            const decimals = window.ALGORITHM_CONFIG.precision.decimals;
 
             // Calculate vertex positions for max (10) and actual values
-            const points = metrics.map((m, i) => {
+            const points = metrics.map((metric, i) => {
                 const angle = startAngle + (i * angleStep);
-                const value = breakdown[m.key] || 0;
-                const r = (value / 10) * radius;
+                const value = typeof breakdown[metric.key] === 'number' ? breakdown[metric.key] : 0;
+                const r = (value / maxScale) * radius;
                 return {
                     x: center + r * Math.cos(angle),
                     y: center + r * Math.sin(angle),
                     labelX: center + labelDistance * Math.cos(angle),
                     labelY: center + labelDistance * Math.sin(angle),
-                    label: m.label,
-                    value: value
+                    label: metric.label,
+                    value: value,
+                    desc: metric.description || ''
                 };
             });
 
             // Build SVG
             const polygonPoints = points.map(p => `${p.x},${p.y}`).join(' ');
+            const hasAverages = averages && typeof averages === 'object';
+            const averagePoints = hasAverages ? metrics.map((metric, i) => {
+                const angle = startAngle + (i * angleStep);
+                const value = typeof averages[metric.key] === 'number' ? averages[metric.key] : 0;
+                const r = (value / maxScale) * radius;
+                return {
+                    x: center + r * Math.cos(angle),
+                    y: center + r * Math.sin(angle)
+                };
+            }) : [];
+            const averagesPolygonPoints = averagePoints.map(p => `${p.x},${p.y}`).join(' ');
 
             // Grid lines (circles at 2, 4, 6, 8, 10)
             let gridLines = '';
-            for (let level = 2; level <= 10; level += 2) {
-                const r = (level / 10) * radius;
+            const gridLevels = 5;
+            for (let step = 1; step <= gridLevels; step += 1) {
+                const level = (maxScale / gridLevels) * step;
+                const r = (level / maxScale) * radius;
                 gridLines += `<circle cx="${center}" cy="${center}" r="${r}" class="radar-grid"/>`;
             }
 
@@ -1241,22 +1291,42 @@
             let labels = '';
             points.forEach((p, i) => {
                 labels += `
-                    <g class="radar-label-group" data-metric="${metrics[i].key}" data-desc="${metrics[i].desc}">
+                    <g class="radar-label-group" data-metric="${metrics[i].key}" data-desc="${p.desc}">
                         <text x="${p.labelX}" y="${p.labelY}" class="radar-label">${p.label}</text>
-                        <text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(window.ALGORITHM_CONFIG.precision.decimals)}</text>
+                        <text x="${p.labelX}" y="${p.labelY + 14}" class="radar-value">${p.value.toFixed(decimals)}</text>
                     </g>
                 `;
             });
+
+            const legendLabel = selectedSport === 'NBA' ? 'Date avg' : 'Week avg';
+            const legend = hasAverages ? `
+                <div class="radar-legend">
+                    <div class="radar-legend-item">
+                        <svg width="20" height="10" aria-hidden="true">
+                            <line x1="0" y1="5" x2="20" y2="5" stroke="var(--accent-must-watch)" stroke-width="2"></line>
+                        </svg>
+                        <span>This game</span>
+                    </div>
+                    <div class="radar-legend-item">
+                        <svg width="20" height="10" aria-hidden="true">
+                            <line x1="0" y1="5" x2="20" y2="5" stroke="rgba(160, 140, 180, 0.6)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+                        </svg>
+                        <span>${legendLabel}</span>
+                    </div>
+                </div>
+            ` : '';
 
             return `
                 <div style="position: relative;">
                     <svg width="${size}" height="${size}" class="radar-chart" viewBox="0 0 ${size} ${size}">
                         ${gridLines}
                         ${axisLines}
+                        ${hasAverages ? `<polygon points="${averagesPolygonPoints}" class="radar-average"/>` : ''}
                         <polygon points="${polygonPoints}" class="radar-fill"/>
                         ${labels}
                     </svg>
                     <div class="metric-tooltip" id="metric-tooltip"></div>
+                    ${legend}
                 </div>
             `;
         }
@@ -1392,7 +1462,7 @@
                             button.textContent = 'View breakdown';
                         } else {
                             console.log('Rendering chart');
-                            container.innerHTML = renderRadarChart(breakdown);
+                            container.innerHTML = renderRadarChart(breakdown, periodAverages);
                             button.textContent = 'Hide breakdown';
 
                             // Attach hover listeners to metric labels
@@ -1581,6 +1651,7 @@
 
         async function loadSchedule(team) {
             viewMode = 'schedule';
+            periodAverages = null;
             isLoading = true;
             showLoading(`loading ${team.displayName} schedule...`);
 
@@ -1681,6 +1752,7 @@
 
         async function loadSingleGame(gameId) {
             viewMode = 'single-game';
+            periodAverages = null;
             selectedGameFromSchedule = gameId;
             isLoading = true;
             showLoading('analyzing game...');
@@ -1711,6 +1783,7 @@
         }
 
         function displaySingleGame(game) {
+            periodAverages = null;
             const resultsArea = document.getElementById('resultsArea');
 
             let html = `
@@ -1742,6 +1815,7 @@
 
         function backToSchedule() {
             viewMode = 'schedule';
+            periodAverages = null;
             selectedGameFromSchedule = null;
             displaySchedule({ displayName: selectedTeam.displayName }, currentSchedule);
         }
