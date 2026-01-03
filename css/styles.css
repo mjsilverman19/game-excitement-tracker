@@ -879,6 +879,10 @@
             max-width: 500px;
         }
 
+        .footer-attribution {
+            margin-top: 16px;
+        }
+
         .footer-link {
             color: var(--text-muted);
             text-decoration: underline;
