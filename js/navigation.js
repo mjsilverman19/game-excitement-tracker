@@ -292,6 +292,176 @@ function initNavigation() {
     }
 }
 
+// ===== SMART WEEK DISCOVERY WITH CACHING =====
+
+// Cache management
+const CACHE_TTL = {
+    'NFL': 24 * 60 * 60 * 1000,  // 24 hours
+    'CFB': 24 * 60 * 60 * 1000,  // 24 hours
+    'NBA': 12 * 60 * 60 * 1000   // 12 hours
+};
+
+function getCacheKey(sport, season) {
+    return `gei_lastWeek_${sport}_${season}`;
+}
+
+function getValidCache(sport, season) {
+    const cacheKey = getCacheKey(sport, season);
+    const cached = localStorage.getItem(cacheKey);
+
+    if (!cached) return null;
+
+    try {
+        const data = JSON.parse(cached);
+        const age = Date.now() - data.timestamp;
+
+        if (age > CACHE_TTL[sport]) {
+            localStorage.removeItem(cacheKey);
+            return null;
+        }
+
+        return data;
+    } catch (e) {
+        localStorage.removeItem(cacheKey);
+        return null;
+    }
+}
+
+function setCache(sport, season, weekOrDate) {
+    const cacheKey = getCacheKey(sport, season);
+    const data = {
+        week: weekOrDate,
+        timestamp: Date.now()
+    };
+    localStorage.setItem(cacheKey, JSON.stringify(data));
+}
+
+function isCFBPostseason() {
+    const now = new Date();
+    const month = now.getMonth(); // 0-indexed
+    // December (11) or January (0)
+    return month === 11 || month === 0;
+}
+
+// Check if static file exists via HEAD request
+async function staticFileExists(sport, season, weekOrDate) {
+    const path = getStaticPath(sport, season, weekOrDate);
+
+    try {
+        const response = await fetch(path, { method: 'HEAD' });
+        return response.ok;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Helper to construct static file path (matches main app logic)
+function getStaticPath(sport, season, weekOrDate) {
+    const sportLower = sport.toLowerCase();
+    return `data/static/${sportLower}/${season}/${weekOrDate}.json`;
+}
+
+// Main discovery function: Find the most recent week/date with available data
+async function findLatestAvailable(sport, season) {
+    console.log(`🔍 findLatestAvailable(${sport}, ${season})`);
+
+    // CFB POSTSEASON: Special handling
+    if (sport === 'CFB' && isCFBPostseason()) {
+        console.log('🏈 CFB postseason detected (Dec/Jan)');
+
+        // Only trust postseason cache entries
+        const cached = getValidCache(sport, season);
+        if (cached && (cached.week === 'playoffs' || cached.week === 'bowls')) {
+            console.log(`✅ Using cached postseason week: ${cached.week}`);
+            return { week: cached.week, fromCache: true };
+        }
+
+        if (cached && typeof cached.week === 'number') {
+            console.log(`⚠️ Ignoring cached regular season week ${cached.week} during postseason`);
+        }
+
+        // Check playoffs → bowls → regular season
+        console.log('🔎 Checking postseason weeks: playoffs → bowls → week 15...');
+        for (const week of ['playoffs', 'bowls']) {
+            if (await staticFileExists(sport, season, week)) {
+                console.log(`✅ Found ${week} data`);
+                return { week, fromCache: false };
+            }
+        }
+
+        console.log('⚠️ No postseason data found, falling back to regular season');
+        // Fall through to regular season discovery
+    }
+
+    // STANDARD PATH: NFL, NBA, or CFB regular season
+    const cached = getValidCache(sport, season);
+    if (cached) {
+        console.log(`✅ Using cached week/date: ${cached.week}`);
+        return { week: cached.week, fromCache: true };
+    }
+
+    console.log('🔎 No valid cache, starting HEAD request discovery');
+
+    // HEAD REQUEST DISCOVERY
+    if (sport === 'NFL') {
+        // NFL: Check current week → previous weeks
+        const { week: currentWeek } = getCurrentWeek('NFL');
+        console.log(`🏈 NFL: Starting from week ${currentWeek}, checking backwards`);
+
+        for (let week = currentWeek; week >= 1; week--) {
+            if (await staticFileExists(sport, season, week)) {
+                console.log(`✅ Found NFL week ${week}`);
+                return { week, fromCache: false };
+            }
+        }
+
+        // No data found, return current week (will trigger API fallback)
+        console.log(`⚠️ No NFL data found, defaulting to week ${currentWeek}`);
+        return { week: currentWeek, fromCache: false };
+
+    } else if (sport === 'CFB') {
+        // CFB regular season: Check current week → previous weeks
+        const { week: currentWeek } = getCurrentWeek('CFB');
+        console.log(`🏈 CFB: Starting from week ${currentWeek}, checking backwards`);
+
+        for (let week = currentWeek; week >= 1; week--) {
+            if (await staticFileExists(sport, season, week)) {
+                console.log(`✅ Found CFB week ${week}`);
+                return { week, fromCache: false };
+            }
+        }
+
+        // No data found, return current week (will trigger API fallback)
+        console.log(`⚠️ No CFB data found, defaulting to week ${currentWeek}`);
+        return { week: currentWeek, fromCache: false };
+
+    } else if (sport === 'NBA') {
+        // NBA: Check yesterday → day before → ...
+        const today = new Date();
+        console.log(`🏀 NBA: Checking backwards from yesterday`);
+
+        for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
+            const date = addDays(today, -daysAgo);
+            const dateStr = formatDate(date);
+
+            if (await staticFileExists(sport, season, dateStr)) {
+                console.log(`✅ Found NBA date ${dateStr}`);
+                return { week: dateStr, fromCache: false }; // 'week' field is actually date for NBA
+            }
+        }
+
+        // No data found in last 7 days, return yesterday (will trigger API fallback)
+        const yesterday = formatDate(addDays(today, -1));
+        console.log(`⚠️ No NBA data found in last 7 days, defaulting to ${yesterday}`);
+        return { week: yesterday, fromCache: false };
+    }
+
+    // Fallback: should never reach here
+    console.log('⚠️ Unexpected sport, using getCurrentWeek fallback');
+    const fallback = getCurrentWeek(sport);
+    return { week: fallback.week, fromCache: false };
+}
+
 // Export functions for use by other modules
 window.Navigation = {
     addDays,
@@ -307,5 +477,10 @@ window.Navigation = {
     handlePreviousDate,
     handleNextDate,
     handlePreviousWeek,
-    handleNextWeek
+    handleNextWeek,
+    // Cache and discovery functions
+    findLatestAvailable,
+    setCache,
+    getValidCache,
+    isCFBPostseason
 };

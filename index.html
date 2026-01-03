@@ -319,6 +319,19 @@
                 window.Navigation.initNavigation();
             }
 
+            // Smart week discovery: Find the best starting week/date before loading games
+            if (window.Navigation && window.Navigation.findLatestAvailable) {
+                const result = await window.Navigation.findLatestAvailable(selectedSport, selectedSeason);
+
+                if (selectedSport === 'NBA') {
+                    selectedDate = result.week; // For NBA, 'week' is actually the date string
+                } else {
+                    selectedWeek = result.week;
+                }
+
+                console.log(`📍 Smart discovery: Starting with ${selectedSport} ${selectedSport === 'NBA' ? 'date' : 'week'} ${result.week} (fromCache: ${result.fromCache})`);
+            }
+
             updateUI();
             loadGames();
         }
@@ -924,6 +937,13 @@
                         console.log(`📊 [${loadId}] currentGames set to:`, currentGames.length, 'games');
                         console.log(`🎯 [${loadId}] About to call displayResults()`);
                         displayResults();
+
+                        // Cache successful load
+                        if (window.Navigation && window.Navigation.setCache) {
+                            window.Navigation.setCache(selectedSport, selectedSeason, weekOrDate);
+                            console.log(`💾 [${loadId}] Cached successful load: ${selectedSport} ${selectedSeason} ${weekOrDate}`);
+                        }
+
                         isLoading = false;
                         isInitialLoad = false;
                         console.log(`✅ [${loadId}] loadGames() COMPLETE - static path`);
@@ -964,6 +984,14 @@
                     console.log(`✅ Loaded ${data.games.length} games from API`);
                     currentGames = data.games;
                     displayResults();
+
+                    // Cache successful API load
+                    const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
+                    if (window.Navigation && window.Navigation.setCache) {
+                        window.Navigation.setCache(selectedSport, selectedSeason, weekOrDate);
+                        console.log(`💾 Cached successful API load: ${selectedSport} ${selectedSeason} ${weekOrDate}`);
+                    }
+
                     isInitialLoad = false;
                 } else {
                     console.log(`❌ No games found - isInitialLoad: ${isInitialLoad}, fallbackAttempt: ${fallbackAttempt}/${MAX_FALLBACK_ATTEMPTS}`);
