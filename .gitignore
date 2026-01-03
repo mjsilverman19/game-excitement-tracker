@@ -41,3 +41,4 @@ backup/
 
 # Vercel
 .vercel
+.env*.local
