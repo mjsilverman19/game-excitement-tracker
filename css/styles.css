@@ -715,15 +715,10 @@
         }
 
         .radar-average {
-            fill: var(--text-muted);
-            fill-opacity: 0.08;
-            stroke: var(--text-secondary);
+            fill: rgba(160, 140, 180, 0.15);
+            stroke: rgba(160, 140, 180, 0.6);
             stroke-width: 2;
             stroke-dasharray: 6 4;
-        }
-
-        .radar-average-vertex {
-            fill: var(--text-secondary);
         }
 
         .radar-label {

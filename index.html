@@ -1268,9 +1268,6 @@
                 };
             }) : [];
             const averagesPolygonPoints = averagePoints.map(p => `${p.x},${p.y}`).join(' ');
-            const averagesVertices = hasAverages
-                ? averagePoints.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3" class="radar-average-vertex"/>`).join('')
-                : '';
 
             // Grid lines (circles at 2, 4, 6, 8, 10)
             let gridLines = '';
@@ -1312,7 +1309,7 @@
                     </div>
                     <div class="radar-legend-item">
                         <svg width="20" height="10" aria-hidden="true">
-                            <line x1="0" y1="5" x2="20" y2="5" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+                            <line x1="0" y1="5" x2="20" y2="5" stroke="rgba(160, 140, 180, 0.6)" stroke-width="1.5" stroke-dasharray="4 3"></line>
                         </svg>
                         <span>${legendLabel}</span>
                     </div>
@@ -1325,7 +1322,6 @@
                         ${gridLines}
                         ${axisLines}
                         ${hasAverages ? `<polygon points="${averagesPolygonPoints}" class="radar-average"/>` : ''}
-                        ${averagesVertices}
                         <polygon points="${polygonPoints}" class="radar-fill"/>
                         ${labels}
                     </svg>
