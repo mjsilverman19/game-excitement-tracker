@@ -716,10 +716,14 @@
 
         .radar-average {
             fill: var(--text-muted);
-            fill-opacity: 0.15;
-            stroke: var(--text-muted);
-            stroke-width: 1.5;
-            stroke-dasharray: 4 3;
+            fill-opacity: 0.08;
+            stroke: var(--text-secondary);
+            stroke-width: 2;
+            stroke-dasharray: 6 4;
+        }
+
+        .radar-average-vertex {
+            fill: var(--text-secondary);
         }
 
         .radar-label {

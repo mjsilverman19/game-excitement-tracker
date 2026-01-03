@@ -1268,6 +1268,9 @@
                 };
             }) : [];
             const averagesPolygonPoints = averagePoints.map(p => `${p.x},${p.y}`).join(' ');
+            const averagesVertices = hasAverages
+                ? averagePoints.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3" class="radar-average-vertex"/>`).join('')
+                : '';
 
             // Grid lines (circles at 2, 4, 6, 8, 10)
             let gridLines = '';
@@ -1322,6 +1325,7 @@
                         ${gridLines}
                         ${axisLines}
                         ${hasAverages ? `<polygon points="${averagesPolygonPoints}" class="radar-average"/>` : ''}
+                        ${averagesVertices}
                         <polygon points="${polygonPoints}" class="radar-fill"/>
                         ${labels}
                     </svg>
