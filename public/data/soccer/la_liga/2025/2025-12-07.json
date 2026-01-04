@@ -2,61 +2,61 @@
   "success": true,
   "games": [
     {
-      "id": "99108",
-      "homeTeam": "Levante UD",
-      "awayTeam": "Real Sociedad de Fútbol",
-      "homeScore": 1,
-      "awayScore": 1,
-      "excitement": 8.2,
-      "breakdown": {
-        "uncertainty": 10,
-        "drama": 4.291994759047427,
-        "finish": 5.671611320869374
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "99106",
-      "homeTeam": "Real Oviedo",
-      "awayTeam": "RC Celta de Vigo",
-      "homeScore": 1,
-      "awayScore": 1,
-      "excitement": 7.7,
-      "breakdown": {
-        "uncertainty": 9.788417803016216,
-        "drama": 3.5263850638692813,
-        "finish": 5.025004011228457
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "99110",
-      "homeTeam": "CA Osasuna",
-      "awayTeam": "Deportivo Alavés",
+      "id": "88980",
+      "homeTeam": "Espanyol",
+      "awayTeam": "Rayo Vallecano",
       "homeScore": 2,
       "awayScore": 1,
-      "excitement": 7.6,
+      "excitement": 7.3,
       "breakdown": {
         "uncertainty": 10,
-        "drama": 2.8871074631922164,
-        "finish": 5.017002609931909
+        "drama": 1.4605193944798247,
+        "finish": 5.309940328451562
       },
       "overtime": false,
       "league": "Sports"
     },
     {
-      "id": "99112",
-      "homeTeam": "Real Madrid CF",
-      "awayTeam": "Sevilla FC",
+      "id": "88978",
+      "homeTeam": "Valencia",
+      "awayTeam": "Sevilla",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 9.640491723104006,
+        "drama": 2.0630073585783353,
+        "finish": 4.808241031718441
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88976",
+      "homeTeam": "Elche CF",
+      "awayTeam": "Girona",
       "homeScore": 2,
       "awayScore": 1,
-      "excitement": 5.4,
+      "excitement": 7.1,
       "breakdown": {
-        "uncertainty": 4.363799733081374,
-        "drama": 5.677576269732236,
-        "finish": 2.311715150958022
+        "uncertainty": 9.844881161840998,
+        "drama": 1.4106789025572442,
+        "finish": 5.077440300484791
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88983",
+      "homeTeam": "Real Madrid",
+      "awayTeam": "Celta Vigo",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 4.1,
+      "breakdown": {
+        "uncertainty": 4.731030016374168,
+        "drama": 1.098445509438929,
+        "finish": 2.715366163763271
       },
       "overtime": false,
       "league": "Sports"
@@ -68,7 +68,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T15:51:17.391Z",
+    "generatedAt": "2026-01-04T17:53:22.097Z",
     "source": "Polymarket Probability Analysis",
     "date": "2025-12-07",
     "league": "LA_LIGA"

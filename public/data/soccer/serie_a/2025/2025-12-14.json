@@ -2,76 +2,76 @@
   "success": true,
   "games": [
     {
-      "id": "104573",
-      "homeTeam": "Parma Calcio 1913",
-      "awayTeam": "ACF Fiorentina",
-      "homeScore": 2,
-      "awayScore": 1,
-      "excitement": 8.5,
-      "breakdown": {
-        "uncertainty": 10,
-        "drama": 6.124346400019144,
-        "finish": 5.240804183959058
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "104577",
-      "homeTeam": "US Lecce",
-      "awayTeam": "Como 1907",
-      "homeScore": 1,
-      "awayScore": 2,
-      "excitement": 7.7,
-      "breakdown": {
-        "uncertainty": 8.409086415358932,
-        "drama": 5.431654862178541,
-        "finish": 4.493528056605239
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "104576",
-      "homeTeam": "Torino FC",
-      "awayTeam": "Cagliari Calcio",
-      "homeScore": 1,
-      "awayScore": 2,
-      "excitement": 7.6,
-      "breakdown": {
-        "uncertainty": 9.057468945056991,
-        "drama": 4.819003716711776,
-        "finish": 4.299118217113253
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "104579",
-      "homeTeam": "Udinese Calcio",
-      "awayTeam": "SS Lazio",
-      "homeScore": 1,
-      "awayScore": 1,
-      "excitement": 7.5,
-      "breakdown": {
-        "uncertainty": 10,
-        "drama": 2.099510629495839,
-        "finish": 5.3755558558297984
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "104581",
-      "homeTeam": "Pisa SC",
+      "id": "94570",
+      "homeTeam": "Bologna FC 1909",
       "awayTeam": "Juventus FC",
       "homeScore": 1,
       "awayScore": 2,
-      "excitement": 6.4,
+      "excitement": 7.8,
       "breakdown": {
-        "uncertainty": 6.510944151406806,
-        "drama": 4.770402968588462,
-        "finish": 3.4525912303406283
+        "uncertainty": 10,
+        "drama": 2.6961951865162863,
+        "finish": 5.562604704817192
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94558",
+      "homeTeam": "ACF Fiorentina",
+      "awayTeam": "Hellas Verona FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 8.496352606998158,
+        "drama": 2.9310487292982885,
+        "finish": 5.1223090755728355
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94562",
+      "homeTeam": "Udinese Calcio",
+      "awayTeam": "SSC Napoli",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 8.625503654389735,
+        "drama": 2.516347907267584,
+        "finish": 4.663804845800914
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94567",
+      "homeTeam": "Genoa CFC",
+      "awayTeam": "FC Internazionale Milano",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 5.4,
+      "breakdown": {
+        "uncertainty": 6.6354264501929405,
+        "drama": 1.9673224736953812,
+        "finish": 3.4271514886240313
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94550",
+      "homeTeam": "AC Milan",
+      "awayTeam": "US Sassuolo Calcio",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 4.8,
+      "breakdown": {
+        "uncertainty": 5.812287840060409,
+        "drama": 1.1501845012061251,
+        "finish": 3.436527563351422
       },
       "overtime": false,
       "league": "Sports"
@@ -83,7 +83,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T15:59:34.964Z",
+    "generatedAt": "2026-01-04T17:59:10.416Z",
     "source": "Polymarket Probability Analysis",
     "date": "2025-12-14",
     "league": "SERIE_A"

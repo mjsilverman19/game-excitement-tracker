@@ -2,61 +2,46 @@
   "success": true,
   "games": [
     {
-      "id": "99711",
-      "homeTeam": "Genoa CFC",
-      "awayTeam": "Atalanta BC",
+      "id": "89768",
+      "homeTeam": "Pisa SC",
+      "awayTeam": "Parma Calcio 1913",
       "homeScore": 1,
       "awayScore": 2,
-      "excitement": 7.5,
-      "breakdown": {
-        "uncertainty": 9.055172558351119,
-        "drama": 3.3758663824945145,
-        "finish": 4.98303003849228
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "99708",
-      "homeTeam": "ACF Fiorentina",
-      "awayTeam": "Udinese Calcio",
-      "homeScore": 2,
-      "awayScore": 1,
-      "excitement": 7.3,
-      "breakdown": {
-        "uncertainty": 9.607267898545302,
-        "drama": 2.080777275048134,
-        "finish": 5.00404462565972
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "99705",
-      "homeTeam": "US Sassuolo Calcio",
-      "awayTeam": "Torino FC",
-      "homeScore": 1,
-      "awayScore": 2,
-      "excitement": 7.2,
+      "excitement": 7.7,
       "breakdown": {
         "uncertainty": 10,
-        "drama": 1.4640448066361362,
-        "finish": 5.140794274512299
+        "drama": 2.3891973093156844,
+        "finish": 5.48035332943749
       },
       "overtime": false,
       "league": "Sports"
     },
     {
-      "id": "99701",
-      "homeTeam": "Cagliari Calcio",
-      "awayTeam": "Pisa SC",
+      "id": "89772",
+      "homeTeam": "Udinese Calcio",
+      "awayTeam": "Genoa CFC",
       "homeScore": 1,
-      "awayScore": 1,
-      "excitement": 7.1,
+      "awayScore": 2,
+      "excitement": 7.6,
       "breakdown": {
-        "uncertainty": 9.928261782697655,
-        "drama": 1.5778834134926076,
-        "finish": 4.7596014153516855
+        "uncertainty": 10,
+        "drama": 2.1394374335631205,
+        "finish": 5.444724324670361
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "89775",
+      "homeTeam": "Torino FC",
+      "awayTeam": "AC Milan",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 5.9,
+      "breakdown": {
+        "uncertainty": 7.968599456336436,
+        "drama": 1.199966994271433,
+        "finish": 3.870590040082794
       },
       "overtime": false,
       "league": "Sports"
@@ -65,10 +50,10 @@
   "metadata": {
     "sport": "SOCCER",
     "season": 2025,
-    "count": 4,
-    "totalGames": 4,
+    "count": 3,
+    "totalGames": 3,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T15:59:24.697Z",
+    "generatedAt": "2026-01-04T17:58:57.530Z",
     "source": "Polymarket Probability Analysis",
     "date": "2025-12-08",
     "league": "SERIE_A"

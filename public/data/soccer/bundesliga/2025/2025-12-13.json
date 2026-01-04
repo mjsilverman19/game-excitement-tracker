@@ -1,0 +1,91 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "93746",
+      "homeTeam": "Borussia Mönchengladbach",
+      "awayTeam": "VfL Wolfsburg",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 9.425791689965102,
+        "drama": 2.196844682962148,
+        "finish": 5.008186292810869
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "93756",
+      "homeTeam": "FC St. Pauli 1910",
+      "awayTeam": "1. FC Heidenheim 1846",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.8,
+      "breakdown": {
+        "uncertainty": 8.845012960731484,
+        "drama": 2.274410307631771,
+        "finish": 4.491357947153091
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "93752",
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "FC Augsburg",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.6,
+      "breakdown": {
+        "uncertainty": 7.928341020537567,
+        "drama": 2.290527799622637,
+        "finish": 4.59389394998194
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "93741",
+      "homeTeam": "TSG 1899 Hoffenheim",
+      "awayTeam": "Hamburger SV",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 8.249143913689828,
+        "drama": 2.0889369080836904,
+        "finish": 4.246465727683239
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "93759",
+      "homeTeam": "Bayer 04 Leverkusen",
+      "awayTeam": "1. FC Köln",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.2,
+      "breakdown": {
+        "uncertainty": 7.0796164941827,
+        "drama": 1.9819969652884593,
+        "finish": 4.588695392275872
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:58:45.385Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-13",
+    "league": "BUNDESLIGA"
+  }
+}

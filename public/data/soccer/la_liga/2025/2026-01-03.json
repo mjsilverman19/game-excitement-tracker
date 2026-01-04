@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "114816",
+      "homeTeam": "Elche CF",
+      "awayTeam": "Villarreal CF",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 9.974113196950832,
+        "drama": 2.384425631866811,
+        "finish": 5.397472417972825
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "114810",
+      "homeTeam": "RC Celta de Vigo",
+      "awayTeam": "Valencia CF",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 8.8800352417637,
+        "drama": 3.997045923551503,
+        "finish": 4.646086587734033
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "114813",
+      "homeTeam": "CA Osasuna",
+      "awayTeam": "Athletic Club",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 1.1810616114315622,
+        "finish": 5.2536044220716
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "114818",
+      "homeTeam": "RCD Espanyol de Barcelona",
+      "awayTeam": "FC Barcelona",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 5.8,
+      "breakdown": {
+        "uncertainty": 7.284495285851151,
+        "drama": 2.083878936579111,
+        "finish": 3.5548574942777664
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:54:09.325Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2026-01-03",
+    "league": "LA_LIGA"
+  }
+}

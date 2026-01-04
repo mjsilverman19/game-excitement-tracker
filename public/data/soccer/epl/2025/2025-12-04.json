@@ -2,16 +2,16 @@
   "success": true,
   "games": [
     {
-      "id": "89769",
-      "homeTeam": "Wolves",
-      "awayTeam": "Manchester United",
+      "id": "86590",
+      "homeTeam": "Manchester United",
+      "awayTeam": "West Ham United",
       "homeScore": 1,
-      "awayScore": 2,
-      "excitement": 6.4,
+      "awayScore": 1,
+      "excitement": 4.2,
       "breakdown": {
-        "uncertainty": 7.975075540959552,
-        "drama": 2.451208571005349,
-        "finish": 4.107353833737589
+        "uncertainty": 5.829156775391183,
+        "drama": 0.11451678187013871,
+        "finish": 2.923848927581992
       },
       "overtime": false,
       "league": "Sports"
@@ -23,9 +23,9 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T17:48:19.938Z",
+    "generatedAt": "2026-01-04T17:48:08.181Z",
     "source": "Polymarket Probability Analysis",
-    "date": "2025-12-08",
+    "date": "2025-12-04",
     "league": "EPL"
   }
 }

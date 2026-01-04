@@ -1,0 +1,106 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "99063",
+      "homeTeam": "1. FC Köln",
+      "awayTeam": "1. FC Union Berlin",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 8.1,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 3.5285268490405204,
+        "finish": 5.858514100327666
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99061",
+      "homeTeam": "VfL Wolfsburg",
+      "awayTeam": "SC Freiburg",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.8,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.6103943210439287,
+        "finish": 5.675780660267794
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99065",
+      "homeTeam": "RB Leipzig",
+      "awayTeam": "Bayer 04 Leverkusen",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.8,
+      "breakdown": {
+        "uncertainty": 9.833757063529331,
+        "drama": 3.365640014018056,
+        "finish": 5.288790007633318
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99054",
+      "homeTeam": "VfB Stuttgart",
+      "awayTeam": "TSG 1899 Hoffenheim",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 9.497427393321608,
+        "drama": 3.7041261037711366,
+        "finish": 4.922210640739891
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99051",
+      "homeTeam": "Hamburger SV",
+      "awayTeam": "Eintracht Frankfurt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 1.7740226514362871,
+        "finish": 5.6645071749409635
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99058",
+      "homeTeam": "FC Augsburg",
+      "awayTeam": "SV Werder Bremen",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.323374084904851,
+        "finish": 5.258668470705096
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 6,
+    "totalGames": 6,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:58:59.890Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-20",
+    "league": "BUNDESLIGA"
+  }
+}

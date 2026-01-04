@@ -2,16 +2,16 @@
   "success": true,
   "games": [
     {
-      "id": "89769",
-      "homeTeam": "Wolves",
-      "awayTeam": "Manchester United",
+      "id": "116540",
+      "homeTeam": "SS Lazio",
+      "awayTeam": "SSC Napoli",
       "homeScore": 1,
       "awayScore": 2,
-      "excitement": 6.4,
+      "excitement": 7.1,
       "breakdown": {
-        "uncertainty": 7.975075540959552,
-        "drama": 2.451208571005349,
-        "finish": 4.107353833737589
+        "uncertainty": 10,
+        "drama": 1.478933948324145,
+        "finish": 4.867459945728394
       },
       "overtime": false,
       "league": "Sports"
@@ -23,9 +23,9 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T17:48:19.938Z",
+    "generatedAt": "2026-01-04T17:59:51.400Z",
     "source": "Polymarket Probability Analysis",
-    "date": "2025-12-08",
-    "league": "EPL"
+    "date": "2026-01-04",
+    "league": "SERIE_A"
   }
 }

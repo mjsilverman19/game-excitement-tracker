@@ -1,0 +1,61 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "94549",
+      "homeTeam": "SC Freiburg",
+      "awayTeam": "BV Borussia 09 Dortmund",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 9.961363110919415,
+        "drama": 2.3718143635099858,
+        "finish": 5.03241951115377
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94561",
+      "homeTeam": "SV Werder Bremen",
+      "awayTeam": "VfB Stuttgart",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 1.9964104091403723,
+        "finish": 5.384799562308768
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94555",
+      "homeTeam": "FC Bayern München",
+      "awayTeam": "1. FSV Mainz 05",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 2.9,
+      "breakdown": {
+        "uncertainty": 2.453442528133339,
+        "drama": 0.9058117566382142,
+        "finish": 1.3863520300527794
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:58:48.881Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-14",
+    "league": "BUNDESLIGA"
+  }
+}

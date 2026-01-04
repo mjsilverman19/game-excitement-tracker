@@ -2,16 +2,16 @@
   "success": true,
   "games": [
     {
-      "id": "89866",
-      "homeTeam": "Osasuna",
-      "awayTeam": "Levante UD",
+      "id": "93039",
+      "homeTeam": "US Lecce",
+      "awayTeam": "Pisa SC",
       "homeScore": 2,
       "awayScore": 1,
-      "excitement": 6.2,
+      "excitement": 7.6,
       "breakdown": {
-        "uncertainty": 7.925884402747654,
-        "drama": 1.8836948244302545,
-        "finish": 4.139756950045971
+        "uncertainty": 10,
+        "drama": 2.6530852201031045,
+        "finish": 5.238425260822883
       },
       "overtime": false,
       "league": "Sports"
@@ -23,9 +23,9 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T17:53:23.845Z",
+    "generatedAt": "2026-01-04T17:59:01.815Z",
     "source": "Polymarket Probability Analysis",
-    "date": "2025-12-08",
-    "league": "LA_LIGA"
+    "date": "2025-12-12",
+    "league": "SERIE_A"
   }
 }

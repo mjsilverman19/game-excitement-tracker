@@ -2,16 +2,16 @@
   "success": true,
   "games": [
     {
-      "id": "89866",
-      "homeTeam": "Osasuna",
-      "awayTeam": "Levante UD",
+      "id": "93037",
+      "homeTeam": "1. FC Union Berlin",
+      "awayTeam": "RB Leipzig",
       "homeScore": 2,
       "awayScore": 1,
-      "excitement": 6.2,
+      "excitement": 7.8,
       "breakdown": {
-        "uncertainty": 7.925884402747654,
-        "drama": 1.8836948244302545,
-        "finish": 4.139756950045971
+        "uncertainty": 9.565738067982538,
+        "drama": 2.9500094603060583,
+        "finish": 5.907459188833464
       },
       "overtime": false,
       "league": "Sports"
@@ -23,9 +23,9 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T17:53:23.845Z",
+    "generatedAt": "2026-01-04T17:58:40.556Z",
     "source": "Polymarket Probability Analysis",
-    "date": "2025-12-08",
-    "league": "LA_LIGA"
+    "date": "2025-12-12",
+    "league": "BUNDESLIGA"
   }
 }

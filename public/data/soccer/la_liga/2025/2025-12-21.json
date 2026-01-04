@@ -2,61 +2,61 @@
   "success": true,
   "games": [
     {
-      "id": "114816",
+      "id": "99759",
       "homeTeam": "Elche CF",
-      "awayTeam": "Villarreal CF",
-      "homeScore": 1,
-      "awayScore": 2,
-      "excitement": 7.6,
-      "breakdown": {
-        "uncertainty": 9.974113196950832,
-        "drama": 2.384425631866811,
-        "finish": 5.397472417972825
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "114810",
-      "homeTeam": "RC Celta de Vigo",
-      "awayTeam": "Valencia CF",
+      "awayTeam": "Rayo Vallecano de Madrid",
       "homeScore": 2,
       "awayScore": 1,
-      "excitement": 7.5,
-      "breakdown": {
-        "uncertainty": 8.8800352417637,
-        "drama": 3.997045923551503,
-        "finish": 4.646086587734033
-      },
-      "overtime": false,
-      "league": "Sports"
-    },
-    {
-      "id": "114813",
-      "homeTeam": "CA Osasuna",
-      "awayTeam": "Athletic Club",
-      "homeScore": 1,
-      "awayScore": 1,
-      "excitement": 7.2,
+      "excitement": 7.7,
       "breakdown": {
         "uncertainty": 10,
-        "drama": 1.1810616114315622,
-        "finish": 5.2536044220716
+        "drama": 2.460919690039851,
+        "finish": 5.467322449115624
       },
       "overtime": false,
       "league": "Sports"
     },
     {
-      "id": "114818",
-      "homeTeam": "RCD Espanyol de Barcelona",
+      "id": "99757",
+      "homeTeam": "Villarreal CF",
       "awayTeam": "FC Barcelona",
       "homeScore": 1,
       "awayScore": 2,
-      "excitement": 5.8,
+      "excitement": 7.3,
       "breakdown": {
-        "uncertainty": 7.284495285851151,
-        "drama": 2.083878936579111,
-        "finish": 3.5548574942777664
+        "uncertainty": 9.49498869759716,
+        "drama": 2.9238323282314878,
+        "finish": 4.543389644582899
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99761",
+      "homeTeam": "Real Betis Balompié",
+      "awayTeam": "Getafe CF",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.3,
+      "breakdown": {
+        "uncertainty": 7.852139583389901,
+        "drama": 5.511666382534629,
+        "finish": 3.9342558503788285
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99755",
+      "homeTeam": "Girona FC",
+      "awayTeam": "Club Atlético de Madrid",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 7.963339583607166,
+        "drama": 3.629214923760739,
+        "finish": 4.334629753286204
       },
       "overtime": false,
       "league": "Sports"
@@ -68,7 +68,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T15:51:38.852Z",
+    "generatedAt": "2026-01-04T17:53:51.176Z",
     "source": "Polymarket Probability Analysis",
     "date": "2025-12-21",
     "league": "LA_LIGA"

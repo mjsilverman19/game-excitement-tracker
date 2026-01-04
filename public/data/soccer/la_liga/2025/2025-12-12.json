@@ -2,16 +2,16 @@
   "success": true,
   "games": [
     {
-      "id": "89769",
-      "homeTeam": "Wolves",
-      "awayTeam": "Manchester United",
+      "id": "93095",
+      "homeTeam": "Real Sociedad de Fútbol",
+      "awayTeam": "Girona FC",
       "homeScore": 1,
       "awayScore": 2,
-      "excitement": 6.4,
+      "excitement": 6.3,
       "breakdown": {
-        "uncertainty": 7.975075540959552,
-        "drama": 2.451208571005349,
-        "finish": 4.107353833737589
+        "uncertainty": 8.012159875991571,
+        "drama": 1.951666541577686,
+        "finish": 4.151604519578004
       },
       "overtime": false,
       "league": "Sports"
@@ -23,9 +23,9 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-04T17:48:19.938Z",
+    "generatedAt": "2026-01-04T17:53:28.378Z",
     "source": "Polymarket Probability Analysis",
-    "date": "2025-12-08",
-    "league": "EPL"
+    "date": "2025-12-12",
+    "league": "LA_LIGA"
   }
 }

@@ -1,0 +1,151 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "91975",
+      "homeTeam": "Real Madrid CF",
+      "awayTeam": "Manchester City FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 8.2,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 4.3521874570923735,
+        "finish": 5.606754280127985
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91973",
+      "homeTeam": "Sport Lisboa e Benfica",
+      "awayTeam": "SSC Napoli",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 3.1955678754061427,
+        "finish": 5.861908484548099
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91217",
+      "homeTeam": "Qarabağ Ağdam FK",
+      "awayTeam": "AFC Ajax",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.9,
+      "breakdown": {
+        "uncertainty": 9.634087373476573,
+        "drama": 3.5422022269187736,
+        "finish": 5.6290116871142395
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91974",
+      "homeTeam": "Bayer 04 Leverkusen",
+      "awayTeam": "Newcastle United FC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.3682512559238655,
+        "finish": 5.154577659278193
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91972",
+      "homeTeam": "Athletic Club",
+      "awayTeam": "Paris Saint",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 6.7,
+      "breakdown": {
+        "uncertainty": 7.265812606504233,
+        "drama": 3.2210781992787942,
+        "finish": 4.696738446482872
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91218",
+      "homeTeam": "Villarreal CF",
+      "awayTeam": "FC København",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 6.1,
+      "breakdown": {
+        "uncertainty": 6.376385556089715,
+        "drama": 3.5280984584629396,
+        "finish": 3.7507158790557464
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91976",
+      "homeTeam": "Club Brugge KV",
+      "awayTeam": "Arsenal FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 5,
+      "breakdown": {
+        "uncertainty": 5.265050223581436,
+        "drama": 2.1273467938232113,
+        "finish": 3.373446138246211
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91966",
+      "homeTeam": "BV Borussia 09 Dortmund",
+      "awayTeam": "FK Bodø/Glimt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 4.9,
+      "breakdown": {
+        "uncertainty": 4.893857874596453,
+        "drama": 2.337087605883346,
+        "finish": 3.3354990823898607
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "91969",
+      "homeTeam": "Juventus FC",
+      "awayTeam": "Páfos FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 3.4,
+      "breakdown": {
+        "uncertainty": 3.532958224392485,
+        "drama": 0.9225075746571197,
+        "finish": 2.109548936752034
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 9,
+    "totalGames": 9,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:58:40.786Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-10",
+    "league": "CHAMPIONS_LEAGUE"
+  }
+}

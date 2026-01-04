@@ -1,0 +1,61 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "88103",
+      "homeTeam": "US Sassuolo Calcio",
+      "awayTeam": "ACF Fiorentina",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.075711804732838,
+        "finish": 5.809333009401907
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88115",
+      "homeTeam": "Hellas Verona FC",
+      "awayTeam": "Atalanta BC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 5.8,
+      "breakdown": {
+        "uncertainty": 7.44446461276988,
+        "drama": 1.5131241058294571,
+        "finish": 3.8626533931305307
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88109",
+      "homeTeam": "FC Internazionale Milano",
+      "awayTeam": "Como 1907",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 5.2,
+      "breakdown": {
+        "uncertainty": 6.795153312854768,
+        "drama": 0.8796787389405011,
+        "finish": 3.561849181464681
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:58:50.189Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-06",
+    "league": "SERIE_A"
+  }
+}

@@ -42,12 +42,8 @@ export async function fetchSoccerGames(league, date) {
       throw new Error(`Unknown league: ${league}. Available: ${Object.keys(POLYMARKET_SOCCER_SERIES).join(', ')}`);
     }
 
-    // Convert date to ISO format for API
-    const dateObj = new Date(date);
-    const startDate = dateObj.toISOString();
-    const endDate = new Date(dateObj.getTime() + 24 * 60 * 60 * 1000).toISOString();
-
     // Fetch events for the series (note: Polymarket only has recent season data)
+    // The API doesn't support date filtering, so we fetch all events and filter client-side
     const params = new URLSearchParams({
       series_id: seriesId,
       closed: 'true',
@@ -70,18 +66,27 @@ export async function fetchSoccerGames(league, date) {
       return [];
     }
 
-    // Filter events by date and parse into game format
-    console.log(`🔍 Filtering events for date range: ${dateObj.toISOString()} to ${new Date(dateObj.getTime() + 24 * 60 * 60 * 1000).toISOString()}`);
+    // Filter events by actual match date (endDate = when match is played, not when market was created)
+    console.log(`🔍 Filtering events for match date: ${date}`);
 
     const dateFilteredEvents = events.filter(event => {
-      if (!event.startDate) return false;
-      const eventDate = new Date(event.startDate);
-      return eventDate >= dateObj && eventDate < new Date(dateObj.getTime() + 24 * 60 * 60 * 1000);
+      // Use endDate (actual match time) or eventDate field, NOT startDate (market creation time)
+      const matchDate = event.eventDate || (event.endDate ? event.endDate.split('T')[0] : null);
+
+      if (!matchDate) {
+        console.log(`⚠️ Event ${event.id} (${event.title}) missing match date`);
+        return false;
+      }
+
+      return matchDate === date;
     });
 
     console.log(`📅 After date filtering: ${dateFilteredEvents.length} events (from ${events.length})`);
     if (dateFilteredEvents.length > 0) {
-      console.log(`📋 Sample event dates:`, dateFilteredEvents.slice(0, 3).map(e => ({ title: e.title, startDate: e.startDate })));
+      console.log(`📋 Sample matched events:`, dateFilteredEvents.slice(0, 3).map(e => ({
+        title: e.title,
+        matchDate: e.eventDate || e.endDate?.split('T')[0]
+      })));
     }
 
     const games = dateFilteredEvents

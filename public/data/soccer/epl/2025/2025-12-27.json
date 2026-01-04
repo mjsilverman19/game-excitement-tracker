@@ -1,0 +1,121 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "104580",
+      "homeTeam": "Burnley FC",
+      "awayTeam": "Everton FC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.8,
+      "breakdown": {
+        "uncertainty": 9.066550360761134,
+        "drama": 4.116306847153471,
+        "finish": 5.183817497531024
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "104572",
+      "homeTeam": "Nottingham Forest FC",
+      "awayTeam": "Manchester City FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 7.305486349379627,
+        "drama": 7.027550678749791,
+        "finish": 4.112426344296244
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "104583",
+      "homeTeam": "West Ham United FC",
+      "awayTeam": "Fulham FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.5623090456888535,
+        "finish": 5.472359028547471
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "104578",
+      "homeTeam": "Brentford FC",
+      "awayTeam": "AFC Bournemouth",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.1,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 1.1642082978001818,
+        "finish": 5.086342032003259
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "104584",
+      "homeTeam": "Chelsea FC",
+      "awayTeam": "Aston Villa FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7,
+      "breakdown": {
+        "uncertainty": 8.698280777298999,
+        "drama": 2.829851281278178,
+        "finish": 4.417353011812265
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "104575",
+      "homeTeam": "Arsenal FC",
+      "awayTeam": "Brighton & Hove Albion FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 5.4,
+      "breakdown": {
+        "uncertainty": 5.910052024316027,
+        "drama": 3.417773040300994,
+        "finish": 2.762012697986261
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "104582",
+      "homeTeam": "Liverpool FC",
+      "awayTeam": "Wolverhampton Wanderers FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 4.9,
+      "breakdown": {
+        "uncertainty": 4.0719912365098185,
+        "drama": 4.5529145046510155,
+        "finish": 2.3456197095711797
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 7,
+    "totalGames": 7,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:49:03.784Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-27",
+    "league": "EPL"
+  }
+}

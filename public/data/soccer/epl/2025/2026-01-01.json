@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "110990",
+      "homeTeam": "Brentford FC",
+      "awayTeam": "Tottenham Hotspur FC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 8.8,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 7.0101714911823745,
+        "finish": 5.880299491892446
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "110988",
+      "homeTeam": "Crystal Palace FC",
+      "awayTeam": "Fulham FC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 9.97598571762628,
+        "drama": 3.6574802020238533,
+        "finish": 5.393263225508333
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "110986",
+      "homeTeam": "Liverpool FC",
+      "awayTeam": "Leeds United FC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.4,
+      "breakdown": {
+        "uncertainty": 6.9744569956492795,
+        "drama": 6.956190905079682,
+        "finish": 3.7753445180135206
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "110989",
+      "homeTeam": "Sunderland AFC",
+      "awayTeam": "Manchester City FC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 6.4,
+      "breakdown": {
+        "uncertainty": 6.917588548407561,
+        "drama": 4.589232464818864,
+        "finish": 3.281715891731819
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:49:19.280Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2026-01-01",
+    "league": "EPL"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "99698",
+      "homeTeam": "1. FSV Mainz 05",
+      "awayTeam": "FC St. Pauli 1910",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 9.0819309959472,
+        "drama": 2.5178720257046647,
+        "finish": 4.95721051394664
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99700",
+      "homeTeam": "1. FC Heidenheim 1846",
+      "awayTeam": "FC Bayern München",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 4.5,
+      "breakdown": {
+        "uncertainty": 3.3846057278143205,
+        "drama": 4.654944223953263,
+        "finish": 2.001588790560285
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:59:02.399Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-21",
+    "league": "BUNDESLIGA"
+  }
+}

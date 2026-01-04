@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "105426",
+      "homeTeam": "Bologna FC 1909",
+      "awayTeam": "US Sassuolo Calcio",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 8.1,
+      "breakdown": {
+        "uncertainty": 8.123529341225058,
+        "drama": 6.822218302862081,
+        "finish": 4.967549982452965
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "105427",
+      "homeTeam": "Atalanta BC",
+      "awayTeam": "FC Internazionale Milano",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 9.89952554723675,
+        "drama": 2.8628146363310476,
+        "finish": 5.293112280994111
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "105419",
+      "homeTeam": "AC Milan",
+      "awayTeam": "Hellas Verona FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.3,
+      "breakdown": {
+        "uncertainty": 5.566351702627238,
+        "drama": 6.066795100443791,
+        "finish": 2.851401528712885
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "105424",
+      "homeTeam": "US Cremonese",
+      "awayTeam": "SSC Napoli",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 5.9,
+      "breakdown": {
+        "uncertainty": 7.044736023689637,
+        "drama": 2.821012084437486,
+        "finish": 3.452010453643858
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:59:37.277Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-28",
+    "league": "SERIE_A"
+  }
+}

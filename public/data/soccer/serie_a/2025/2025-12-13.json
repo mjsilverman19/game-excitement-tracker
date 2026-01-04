@@ -1,0 +1,61 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "93749",
+      "homeTeam": "Parma Calcio 1913",
+      "awayTeam": "SS Lazio",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.3,
+      "breakdown": {
+        "uncertainty": 9.526052098759353,
+        "drama": 2.638966005170734,
+        "finish": 4.697991766723695
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "93743",
+      "homeTeam": "Torino FC",
+      "awayTeam": "US Cremonese",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 8.803136115485145,
+        "drama": 2.598715809878959,
+        "finish": 5.005729364197612
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "93754",
+      "homeTeam": "Atalanta BC",
+      "awayTeam": "Cagliari Calcio",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 4.4,
+      "breakdown": {
+        "uncertainty": 5.173078589571179,
+        "drama": 1.3970779294446032,
+        "finish": 2.828668154049807
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T17:59:05.126Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-13",
+    "league": "SERIE_A"
+  }
+}
