@@ -311,6 +311,7 @@
         let selectedWeek = currentNFLWeek.week;
         let selectedDate = null; // For NBA date-based navigation
         let selectedLeague = localStorage.getItem('selectedLeague') || 'EPL';
+        let soccerDateIndex = {};  // Cache: { 'EPL': ['2025-12-21', '2025-12-19', ...] }
         let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         let currentGames = null;
         let periodAverages = null;
@@ -343,8 +344,17 @@
                 window.Navigation.initNavigation();
             }
 
+            // SOCCER: Load date index and use most recent date
+            if (selectedSport === 'SOCCER') {
+                const dates = await loadSoccerDateIndex(selectedLeague);
+                if (dates.length > 0) {
+                    selectedDate = dates[0];  // Most recent date with games
+                    console.log(`⚽ Soccer: Found ${dates.length} dates, starting with ${selectedDate}`);
+                }
+            }
+
             // Smart week discovery: Find the best starting week/date before loading games
-            if (window.Navigation && window.Navigation.findLatestAvailable) {
+            if (window.Navigation && window.Navigation.findLatestAvailable && selectedSport !== 'SOCCER') {
                 const result = await window.Navigation.findLatestAvailable(selectedSport, selectedSeason, selectedLeague);
 
                 if (isDateBasedSport(selectedSport)) {
@@ -598,11 +608,14 @@
                     periodAverages = null;
                     selectedSport = 'SOCCER';
                     selectedSeason = getCurrentWeek('SOCCER').season;
-                    selectedDate = window.Navigation.getDefaultNBADate();
 
-                    if (window.Navigation && window.Navigation.findLatestAvailable) {
-                        const result = await window.Navigation.findLatestAvailable(selectedSport, selectedSeason, selectedLeague);
-                        selectedDate = result.week;
+                    // Load date index and use most recent date
+                    const dates = await loadSoccerDateIndex(selectedLeague);
+                    if (dates.length > 0) {
+                        selectedDate = dates[0];  // Most recent date with games
+                        console.log(`⚽ Switched to soccer, using date ${selectedDate}`);
+                    } else {
+                        selectedDate = window.Navigation.getDefaultNBADate();
                     }
 
                     pickerMonth = null;
@@ -721,11 +734,21 @@
                 }
             });
 
-            document.getElementById('leagueSelect').addEventListener('change', (e) => {
+            document.getElementById('leagueSelect').addEventListener('change', async (e) => {
                 selectedLeague = e.target.value;
                 localStorage.setItem('selectedLeague', selectedLeague);
                 periodAverages = null;
                 isInitialLoad = true;
+
+                // Load date index for new league and set to most recent date
+                if (selectedSport === 'SOCCER') {
+                    const dates = await loadSoccerDateIndex(selectedLeague);
+                    if (dates.length > 0) {
+                        selectedDate = dates[0];  // Most recent date with games
+                        console.log(`⚽ League changed to ${selectedLeague}, using date ${selectedDate}`);
+                    }
+                }
+
                 updateUI();
                 loadGames();
             });
@@ -1010,6 +1033,26 @@
                 return data;
             } catch (error) {
                 return null;
+            }
+        }
+
+        // Load soccer date index
+        async function loadSoccerDateIndex(league) {
+            if (soccerDateIndex[league]) {
+                return soccerDateIndex[league];
+            }
+
+            try {
+                const response = await fetch(`/data/soccer/${league.toLowerCase()}/index.json`);
+                if (!response.ok) return [];
+
+                const data = await response.json();
+                soccerDateIndex[league] = data.availableDates || [];
+                console.log(`📅 Loaded ${soccerDateIndex[league].length} dates for ${league}`);
+                return soccerDateIndex[league];
+            } catch (e) {
+                console.error(`Failed to load soccer index for ${league}:`, e);
+                return [];
             }
         }
 

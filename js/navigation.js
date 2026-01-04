@@ -49,9 +49,30 @@ function isDateBasedSport(sport) {
     return sport === 'NBA' || sport === 'SOCCER';
 }
 
-function handlePreviousDate() {
+async function handlePreviousDate() {
     if (!isDateBasedSport(selectedSport) || !selectedDate) return;
 
+    // SOCCER: Use index-based navigation
+    if (selectedSport === 'SOCCER') {
+        if (typeof loadSoccerDateIndex !== 'function') {
+            console.error('loadSoccerDateIndex not available');
+            return;
+        }
+
+        const dates = await loadSoccerDateIndex(selectedLeague);
+        const currentIndex = dates.indexOf(selectedDate);
+
+        if (currentIndex < dates.length - 1) {
+            selectedDate = dates[currentIndex + 1];  // Next older date
+            isInitialLoad = false;
+
+            if (typeof updateUI === 'function') updateUI();
+            if (typeof loadGames === 'function') loadGames();
+        }
+        return;
+    }
+
+    // NBA: Day-by-day navigation
     const currentDate = parseDate(selectedDate);
     const prevDate = addDays(currentDate, -1);
 
@@ -62,9 +83,30 @@ function handlePreviousDate() {
     if (typeof loadGames === 'function') loadGames();
 }
 
-function handleNextDate() {
+async function handleNextDate() {
     if (!isDateBasedSport(selectedSport) || !selectedDate) return;
 
+    // SOCCER: Use index-based navigation
+    if (selectedSport === 'SOCCER') {
+        if (typeof loadSoccerDateIndex !== 'function') {
+            console.error('loadSoccerDateIndex not available');
+            return;
+        }
+
+        const dates = await loadSoccerDateIndex(selectedLeague);
+        const currentIndex = dates.indexOf(selectedDate);
+
+        if (currentIndex > 0) {
+            selectedDate = dates[currentIndex - 1];  // Next newer date
+            isInitialLoad = false;
+
+            if (typeof updateUI === 'function') updateUI();
+            if (typeof loadGames === 'function') loadGames();
+        }
+        return;
+    }
+
+    // NBA: Day-by-day navigation
     const currentDate = parseDate(selectedDate);
     const nextDate = addDays(currentDate, 1);
 

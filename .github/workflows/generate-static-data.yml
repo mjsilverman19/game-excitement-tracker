@@ -125,6 +125,12 @@ jobs:
             done
           fi
 
+      - name: Generate soccer date indexes
+        if: steps.determine.outputs.sport == 'SOCCER' || steps.determine.outputs.sport == 'all'
+        run: |
+          echo "Generating soccer date indexes"
+          node scripts/generate-soccer-index.js
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
