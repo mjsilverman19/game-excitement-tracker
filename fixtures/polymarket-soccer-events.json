@@ -1,0 +1,98 @@
+[
+  {
+    "id": "liverpool-vs-manchester-city-epl-mar-2025",
+    "slug": "liverpool-vs-manchester-city-english-premier-league-march-15-2025",
+    "title": "Liverpool vs Manchester City - English Premier League",
+    "active": false,
+    "closed": true,
+    "archived": false,
+    "category": "Sports",
+    "subcategory": "Soccer",
+    "startDate": "2025-03-15T15:00:00.000Z",
+    "endDate": "2025-03-15T16:55:00.000Z",
+    "volume": "125000",
+    "liquidity": "45000",
+    "markets": [
+      {
+        "id": "market-liverpool-win",
+        "question": "Will Liverpool win vs Manchester City?",
+        "clobTokenIds": ["0x1234567890abcdef_yes", "0x1234567890abcdef_no"],
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.45\", \"0.55\"]",
+        "volume": "62500",
+        "active": false,
+        "closed": true
+      },
+      {
+        "id": "market-mancity-win",
+        "question": "Will Manchester City win vs Liverpool?",
+        "clobTokenIds": ["0xfedcba0987654321_yes", "0xfedcba0987654321_no"],
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.35\", \"0.65\"]",
+        "volume": "62500",
+        "active": false,
+        "closed": true
+      }
+    ],
+    "tags": [
+      {
+        "id": "soccer",
+        "label": "Soccer",
+        "slug": "soccer"
+      },
+      {
+        "id": "epl",
+        "label": "English Premier League",
+        "slug": "epl"
+      }
+    ]
+  },
+  {
+    "id": "arsenal-vs-chelsea-epl-mar-2025",
+    "slug": "arsenal-vs-chelsea-english-premier-league-march-16-2025",
+    "title": "Arsenal vs Chelsea - English Premier League",
+    "active": false,
+    "closed": true,
+    "archived": false,
+    "category": "Sports",
+    "subcategory": "Soccer",
+    "startDate": "2025-03-16T12:30:00.000Z",
+    "endDate": "2025-03-16T14:25:00.000Z",
+    "volume": "98000",
+    "liquidity": "35000",
+    "markets": [
+      {
+        "id": "market-arsenal-win",
+        "question": "Will Arsenal win vs Chelsea?",
+        "clobTokenIds": ["0xaaa111_yes", "0xaaa111_no"],
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.52\", \"0.48\"]",
+        "volume": "49000",
+        "active": false,
+        "closed": true
+      },
+      {
+        "id": "market-chelsea-win",
+        "question": "Will Chelsea win vs Arsenal?",
+        "clobTokenIds": ["0xbbb222_yes", "0xbbb222_no"],
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.28\", \"0.72\"]",
+        "volume": "49000",
+        "active": false,
+        "closed": true
+      }
+    ],
+    "tags": [
+      {
+        "id": "soccer",
+        "label": "Soccer",
+        "slug": "soccer"
+      },
+      {
+        "id": "epl",
+        "label": "English Premier League",
+        "slug": "epl"
+      }
+    ]
+  }
+]
