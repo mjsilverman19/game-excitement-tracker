@@ -23,21 +23,21 @@ graph TD
 ## Data Flow Mapping (Node-by-Node)
 
 ### Shared configuration (single source of truth)
-**Source**: `js/algorithm-config.js`
+**Source**: `shared/algorithm-config.js`
 - Defines `scale`, `tiers`, `weights`, `thresholds`, `bonuses`, `metrics`, and `precision`.
 - Exposes `getTier(score)` helper.
 
 **Frontend consumption**
-- Classic script tag loads `js/algorithm-config.js` (loaded in `index.html:268`), which attaches:
+- `src/js/app.js` imports `shared/algorithm-config.js` and exposes:
   - `window.ALGORITHM_CONFIG`
   - `window.getTier`
-- All display precision now uses `ALGORITHM_CONFIG.precision.decimals` consistently across:
-  - Radar chart value display (`index.html:1214`)
-  - Game score display (`index.html:1252`)
-  - Excel export rating column (`index.html:2271`)
+- Display precision now uses `ALGORITHM_CONFIG.precision.decimals` consistently across:
+  - Radar chart value display (search `radar-value` in `src/js/app.js`)
+  - Game score display (search `displayScore` in `src/js/app.js`)
+  - Export rating column (search `scoreDisplay` in `src/js/app.js`)
 
 **Backend consumption**
-- Node ESM uses `createRequire()` to load the CommonJS config from `js/algorithm-config.js`.
+- Serverless functions import the shared config directly via ESM.
 
 ### 1) `api/calculator.js` (source)
 **Outputs**: `excitement` (1–10), `breakdown` `{uncertainty, drama, finish}` (0–10), `overtime` passthrough (boolean), plus game metadata.
@@ -138,23 +138,23 @@ graph TD
 ## Threshold Inventory (Score-Based Conditionals)
 
 ### Algorithm thresholds (source)
-- `weights` (0.30/0.30/0.40) — weighting for submetrics (`js/algorithm-config.js`).
-- `minDataPoints = 10` — minimum win-probability samples (`js/algorithm-config.js`, used in `api/calculator.js`).
-- `finalMomentPoints = 10` — finish analysis window (`js/algorithm-config.js`, used in `api/calculator.js`).
-- `walkoffSwingThreshold = 0.15` — walk-off detection (`js/algorithm-config.js`, used in `api/calculator.js`).
-- `overtime bonus = 0.8` — additive post-weighting bonus (`js/algorithm-config.js`, used in `api/calculator.js`).
-- `precision.decimals = 1` — score rounding precision (`js/algorithm-config.js`, used in `api/calculator.js`).
+- `weights` (0.30/0.30/0.40) — weighting for submetrics (`shared/algorithm-config.js`).
+- `minDataPoints = 10` — minimum win-probability samples (`shared/algorithm-config.js`, used in `api/calculator.js`).
+- `finalMomentPoints = 10` — finish analysis window (`shared/algorithm-config.js`, used in `api/calculator.js`).
+- `walkoffSwingThreshold = 0.15` — walk-off detection (`shared/algorithm-config.js`, used in `api/calculator.js`).
+- `overtime bonus = 0.8` — additive post-weighting bonus (`shared/algorithm-config.js`, used in `api/calculator.js`).
+- `precision.decimals = 1` — score rounding precision (`shared/algorithm-config.js`, used in `api/calculator.js`).
 - `normalizeScore` maps to `scale.min`/`scale.max` (`api/calculator.js`).
 
 ### UI tiers (centralized thresholds)
-- **List + stats tiering**: `getTier()` uses `ALGORITHM_CONFIG.tiers.*.min` (`js/algorithm-config.js`, search `displayResults` and `createGameRow` in `index.html`).
+- **List + stats tiering**: `getTier()` uses `ALGORITHM_CONFIG.tiers.*.min` (`shared/algorithm-config.js`, search `displayResults` and `createGameRow` in `src/js/app.js`).
 - **Export tiering**: `getTier()` for Excel output (search `exportFullSeason` in `index.html`).
 - **Pie chart / radar chart**: uses `ALGORITHM_CONFIG.scale.max` (search `renderRadarChart` and `score-pie` in `index.html`).
 
 ### Styling tied to tiers
 - Tier class styles: `.score-pie-fill.must-watch`, `.rating.must-watch`, etc. (search `score-pie-fill.must-watch` in `css/styles.css`).
 
-**Duplication**: Tier thresholds now live in `js/algorithm-config.js`, reducing duplication across UI and exports.
+**Duplication**: Tier thresholds now live in `shared/algorithm-config.js`, reducing duplication across UI and exports.
 
 ---
 
@@ -180,7 +180,7 @@ graph TD
 
 ## Vote Data Integrity (Supabase `votes` table)
 
-- **Stored fields**: Both `algorithm_score` and `algorithm_version` are captured at vote time (`js/supabase.js:56-57`).
+- **Stored fields**: Both `algorithm_score` and `algorithm_version` are captured at vote time (`src/js/services/supabase.js`).
 - **Version tracking**: ✅ **IMPLEMENTED** - Each vote now includes `algorithm_version` from `ALGORITHM_CONFIG.version`.
 - **Analytics capability**: Historical votes can be segmented by algorithm version, enabling meaningful comparisons across algorithm iterations.
 - **Database schema**: Requires `algorithm_version TEXT` column in `votes` table (migration needed if not present).
@@ -190,12 +190,12 @@ graph TD
 ## Configuration Consolidation Opportunities
 
 ### Current magic numbers / scattered config
-- Algorithm config and tiers centralized in `js/algorithm-config.js` (weights, thresholds, bonuses, tiers, scale, precision).
+- Algorithm config and tiers centralized in `shared/algorithm-config.js` (weights, thresholds, bonuses, tiers, scale, precision).
 - Root `package.json` sets `"type": "module"`, so `.js` defaults to ESM.
-- `js/package.json` sets `"type": "commonjs"` to create a package boundary so Node treats `js/algorithm-config.js` as CJS for `createRequire()`. Browser behavior is unaffected.
+- Shared configuration is a pure ESM module consumed directly by frontend and backend.
 
 ### Recommendation
-Continue to keep UI and backend consumers referencing `js/algorithm-config.js` so tier thresholds, scale assumptions, and precision remain consistent.
+Continue to keep UI and backend consumers referencing `shared/algorithm-config.js` so tier thresholds, scale assumptions, and precision remain consistent.
 
 ---
 
@@ -224,7 +224,7 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
    - Ensure `breakdown` keys remain consistent or update consumers.
 
 2. **Update UI thresholds**
-   - Update `ALGORITHM_CONFIG.tiers.*.min` in `js/algorithm-config.js`.
+   - Update `ALGORITHM_CONFIG.tiers.*.min` in `shared/algorithm-config.js`.
    - If scale changes, update `ALGORITHM_CONFIG.scale` (UI uses it for chart scaling).
    - If rounding changes, update `ALGORITHM_CONFIG.precision.decimals`.
 
@@ -251,13 +251,13 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
    - Score distribution shifts, changing tiers, sorting, exports, static JSON outputs, and vote `algorithm_score` comparability. All downstream consumers of `excitement` are affected.
 
 2. **"If I add a new metric to breakdown, what needs updating?"**
-   - Add the metric definition to `ALGORITHM_CONFIG.metrics` in `js/algorithm-config.js` (with `key`, `label`, and `description` properties).
+   - Add the metric definition to `ALGORITHM_CONFIG.metrics` in `shared/algorithm-config.js` (with `key`, `label`, and `description` properties).
    - Update `api/calculator.js` to compute the new metric and include it in the `breakdown` object.
    - The `renderRadarChart` function will automatically display the new metric since it iterates over `ALGORITHM_CONFIG.metrics`.
    - Consider UI layout changes if adding more than one metric (radar chart currently assumes 3 metrics).
 
 3. **“If I change tier thresholds from 8/6 to 8.5/6.5, where do I make that change?”**
-   - Update `ALGORITHM_CONFIG.tiers.*.min` in `js/algorithm-config.js`. The UI and exports use `getTier()` so they update automatically.
+   - Update `ALGORITHM_CONFIG.tiers.*.min` in `shared/algorithm-config.js`. The UI and exports use `getTier()` so they update automatically.
 
 4. **“How do I regenerate all static data after an algorithm update?”**
    - Use `node scripts/generate-static.js --sport <NFL|CFB|NBA> --season <year> --all --force` and redeploy `public/data/**`.
@@ -269,7 +269,7 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
 
 ## Recommendations Summary
 
-- **Centralize configuration**: ✅ **COMPLETED** - All algorithm parameters (tier thresholds, scale assumptions, weights, precision) are centralized in `js/algorithm-config.js`. Frontend precision formatting now consistently uses `ALGORITHM_CONFIG.precision.decimals` across all display locations.
+- **Centralize configuration**: ✅ **COMPLETED** - All algorithm parameters (tier thresholds, scale assumptions, weights, precision) are centralized in `shared/algorithm-config.js`. Frontend precision formatting now consistently uses `ALGORITHM_CONFIG.precision.decimals` across all display locations.
 
 - **Add algorithm versioning**: ✅ **COMPLETED** - Algorithm version tracking is fully implemented:
   - Static JSON metadata includes `algorithmVersion` field
@@ -285,8 +285,8 @@ Continue to keep UI and backend consumers referencing `js/algorithm-config.js` s
 ## Verification (copy/paste)
 
 ```bash
-# Node can load shared config (CJS boundary under /js)
-node -e "import('module').then(m=>{const r=m.createRequire(process.cwd() + '/'); console.log(Object.keys(r('./js/algorithm-config.js')));})"
+# Node can load shared config (ESM)
+node -e "import('./shared/algorithm-config.js').then(m=>console.log(Object.keys(m)))"
 
 # Calculator imports cleanly (no runtime module errors)
 node -e "import('./api/calculator.js').then(()=>console.log('calculator ok')).catch(e=>{console.error(e);process.exit(1)})"

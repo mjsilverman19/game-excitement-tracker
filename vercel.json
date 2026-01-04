@@ -8,6 +8,14 @@
   },
   "rewrites": [
     {
+      "source": "/css/:path*",
+      "destination": "/src/css/:path*"
+    },
+    {
+      "source": "/js/:path*",
+      "destination": "/src/js/:path*"
+    },
+    {
       "source": "/data/:path*",
       "destination": "/public/data/:path*"
     },
@@ -17,7 +25,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/src/index.html"
     }
   ],
   "headers": [

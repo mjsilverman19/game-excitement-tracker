@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Entertainment Index</title>
+    <meta name="description" content="Ranks NFL, CFB, and NBA games by entertainment value using win probability data. Find the best games to watch without spoilers.">
+    <meta name="author" content="Matthew Silverman">
+    <!-- SheetJS library for Excel export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <!-- Supabase client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Prevent flash of wrong theme by setting theme before CSS loads
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="main-nav">
+            <a href="#" class="nav-link" id="aboutLink">about</a>
+            <span class="separator">·</span>
+            <a href="#" class="nav-link" id="themeToggle">light</a>
+        </nav>
+
+        <div class="main-content" id="mainContent">
+            <div class="content-wrapper">
+                <header>
+                    <div class="masthead">GEI</div>
+                    <div class="header-info">
+                        <div class="site-title">Game Entertainment Index</div>
+                        <div class="week-info" id="headerWeekInfo">Week 16 · December 28, 2025</div>
+                    </div>
+                </header>
+
+                <div class="selection-interface">
+                    <div class="sport-selector" style="position: relative;">
+                        <span class="sport-option active" data-sport="NFL" id="nflOption">nfl</span>
+                        <span class="separator">·</span>
+                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb<span class="beta-label">beta</span></span>
+                        <span class="separator">·</span>
+                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
+                        <span class="separator">·</span>
+                        <span class="find-game-link" id="findGameLink">find a game</span>
+
+                        <!-- Team Picker Dropdown -->
+                        <div class="team-picker" id="teamPicker">
+                            <input type="text" class="team-search-input" placeholder="search teams..." id="teamSearchInput">
+                            <div class="team-list" id="teamList">
+                                <!-- Filtered teams appear here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="season-week-selector" id="weekSelector" style="position: relative;">
+                        <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
+                        <span class="separator">·</span>
+                        <span class="current-selection" id="currentWeekDisplay">2024 · week 16</span>
+                        <span class="separator">·</span>
+                        <a href="#" class="week-nav-link" id="nextWeek">week <span id="nextWeekNum"></span> →</a>
+
+                        <!-- Week Picker Dropdown -->
+                        <div class="week-picker" id="weekPicker">
+                            <div class="season-selector">
+                                <span class="season-selector-label">season</span>
+                                <div class="season-buttons" id="seasonButtons">
+                                    <!-- Season buttons populated by JS -->
+                                </div>
+                            </div>
+                            <div class="week-picker-header">select week</div>
+                            <div class="week-grid" id="weekGrid">
+                                <!-- Week buttons populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="season-week-selector" id="dateSelector" style="position: relative; display: none;">
+                        <a href="#" class="week-nav-link" id="prevDate">← <span id="prevDateDisplay"></span></a>
+                        <span class="separator">·</span>
+                        <span class="current-selection" id="currentDateDisplay">yesterday</span>
+                        <span class="separator">·</span>
+                        <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
+
+                        <!-- Custom Date Picker Dropdown -->
+                        <div class="date-picker" id="customDatePicker">
+                            <div class="date-picker-header">
+                                <span class="date-picker-month" id="pickerMonthYear">December 2025</span>
+                                <div class="date-picker-nav">
+                                    <button class="date-picker-nav-btn" id="prevMonth">←</button>
+                                    <button class="date-picker-nav-btn" id="nextMonth">→</button>
+                                </div>
+                            </div>
+                            <div class="date-grid" id="dateGrid">
+                                <div class="date-grid-header">S</div>
+                                <div class="date-grid-header">M</div>
+                                <div class="date-grid-header">T</div>
+                                <div class="date-grid-header">W</div>
+                                <div class="date-grid-header">T</div>
+                                <div class="date-grid-header">F</div>
+                                <div class="date-grid-header">S</div>
+                                <!-- Date cells populated by JS as direct children -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="resultsArea">
+                    <!-- Results populated by JavaScript -->
+                </div>
+
+                <div class="footer">
+                    <p class="footer-text">
+                        Entertainment scores reflect game dynamics including score margin, lead changes, and overtime.
+                        <br><br>
+                        <a href="#" class="footer-link" id="exportSeasonLink">export data</a>
+                    </p>
+                    <p class="footer-text footer-attribution">Built by Matthew Silverman · 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-content hidden" id="aboutContent">
+            <div class="content-wrapper">
+                <header>
+                    <div class="masthead">GEI</div>
+                    <div class="header-info">
+                        <div class="site-title">Game Entertainment Index</div>
+                    </div>
+                </header>
+
+                <section class="about-section">
+                    <h3>Who am I?</h3>
+                    <p>I'm Matthew Silverman. I work in financial communications in New York.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>What is this?</h3>
+                    <p>I built this site to solve a problem I kept running into as a sports fan: how do you know which past games are worth watching without seeing the score?</p>
+                    <p>The site pulls win probability data from ESPN and runs it through an algorithm. Win probability graphs contain information that final scores don't. A 24-21 game could be a back-and-forth thriller or a blowout that got close in garbage time. The model tries to tell the difference.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>How it works</h3>
+                    <p>The algorithm analyzes win probability data across three independent dimensions:</p>
+
+                    <table class="about-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Description</th>
+                                <th>Calculation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Outcome Uncertainty</td>
+                                <td>How long was the result in doubt?</td>
+                                <td>Time-weighted integral of <code>1 - |prob - 0.5|</code> across all data points. A game at 50/50 the entire time scores 10; a wire-to-wire blowout scores near 0.</td>
+                            </tr>
+                            <tr>
+                                <td>Momentum Drama</td>
+                                <td>How big were the swings, when they mattered?</td>
+                                <td>Leverage-weighted movement: <code>Σ(|Δprob| × p × (1-p))</code>. Swings near 50/50 count fully; swings when the game is decided contribute almost nothing.</td>
+                            </tr>
+                            <tr>
+                                <td>Finish Quality</td>
+                                <td>Did it come down to the wire?</td>
+                                <td>Final-period volatility plus proximity to 0.5 at game end, with a bonus for walk-off moments (swing > 0.15 in final data points).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Of these metrics, finish quality carries the most weight (40%). This is a judgement call on my part but I think a boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>Flaws in this approach</h3>
+                    <p>This model reflects one definition of entertaining: competitive games with meaningful swings and late drama. It won't flag a defensive masterpiece, a historic individual performance, or a rivalry game that matters for reasons the data can't see.</p>
+                    <p>Which raises interesting questions on its own. What makes something worth watching? Can you quantify it? Where does the model fail, and what does that reveal about what we actually value? I don't have great answers but am open to any thoughts.</p>
+                </section>
+
+                <section class="about-section">
+                    <h3>Feedback & contact</h3>
+                    <p>This is a hobby project and a work in progress. If you have suggestions, see something broken, or want to discuss the methodology, I'd love to hear from you.</p>
+                    <p>
+                        <a href="mailto:mjsilverman19@gmail.com">mjsilverman19@gmail.com</a> ·
+                        <a href="https://www.linkedin.com/in/matthew-silverman-a84382105/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+                        <a href="https://buymeacoffee.com/msilverman" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+                    </p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Export Season Modal -->
+        <div class="export-modal-overlay" id="exportModalOverlay"></div>
+        <div class="export-modal" id="exportModal">
+            <div class="export-modal-header">Export Data</div>
+
+            <div class="export-form-group">
+                <label class="export-label" for="exportSportSelect">Sport</label>
+                <select class="export-select" id="exportSportSelect">
+                    <option value="NFL">NFL</option>
+                    <option value="CFB">CFB</option>
+                    <option value="NBA">NBA</option>
+                </select>
+            </div>
+
+            <div class="export-form-group">
+                <label class="export-label" for="exportSeasonSelect">Season</label>
+                <select class="export-select" id="exportSeasonSelect">
+                    <!-- Options populated by JavaScript -->
+                </select>
+            </div>
+
+            <div class="export-form-group" id="weekRangeGroup">
+                <label class="export-label">Weeks</label>
+                <div class="export-presets" id="exportPresets">
+                    <!-- Preset buttons populated by JavaScript -->
+                </div>
+                <div class="export-custom-range" id="exportCustomRange" style="display: none;">
+                    <div class="export-range-inputs">
+                        <select class="export-range-select" id="exportStartWeek">
+                            <!-- Options populated by JavaScript -->
+                        </select>
+                        <span class="export-range-separator">to</span>
+                        <select class="export-range-select" id="exportEndWeek">
+                            <!-- Options populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-form-group" id="dateRangeGroup" style="display: none;">
+                <label class="export-label">Dates</label>
+                <div class="export-presets" id="exportDatePresets">
+                    <!-- Preset buttons populated by JavaScript -->
+                </div>
+                <div class="export-custom-range" id="exportCustomDateRange" style="display: none;">
+                    <div class="export-range-inputs">
+                        <input type="date" class="export-date-input" id="exportStartDate">
+                        <span class="export-range-separator">to</span>
+                        <input type="date" class="export-date-input" id="exportEndDate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-validation-message" id="exportValidationMessage" style="display: none;"></div>
+
+            <div class="export-progress" id="exportProgress">
+                <div class="export-progress-text" id="exportProgressText">Fetching week 1 of 18...</div>
+                <div class="export-progress-bar">
+                    <div class="export-progress-fill" id="exportProgressFill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="export-warning" id="exportWarning" style="display: none;">
+                Note: NBA exports may take 1-2 minutes due to the larger number of games.
+            </div>
+
+            <div class="export-actions">
+                <button class="export-btn" id="exportCancelBtn">Cancel</button>
+                <button class="export-btn primary" id="exportDownloadBtn">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

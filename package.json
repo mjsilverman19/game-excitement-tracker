@@ -4,7 +4,13 @@
     "generate": "node scripts/generate-static.js",
     "generate:nfl": "node scripts/generate-static.js --sport NFL --season 2025 --all",
     "generate:cfb": "node scripts/generate-static.js --sport CFB --season 2025 --all",
-    "generate:nba": "node scripts/generate-static.js --sport NBA --season 2025 --all"
+    "generate:nba": "node scripts/generate-static.js --sport NBA --season 2025 --all",
+    "lint": "eslint \"src/js/**/*.js\" \"api/**/*.js\" \"scripts/**/*.js\"",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write \"src/**/*.{js,css,html}\" \"api/**/*.js\" \"scripts/**/*.js\""
   },
-  "dependencies": {}
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4"
+  }
 }
