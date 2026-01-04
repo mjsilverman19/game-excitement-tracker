@@ -55,6 +55,7 @@ export async function fetchSoccerGames(league, date) {
     });
 
     const url = `${POLYMARKET_BASE}/events?${params}`;
+    console.log(`🔍 Fetching Polymarket events: ${url}`);
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -62,21 +63,32 @@ export async function fetchSoccerGames(league, date) {
     }
 
     const events = await response.json();
+    console.log(`📊 Polymarket returned ${Array.isArray(events) ? events.length : 'non-array'} events for ${league} on ${date}`);
 
     if (!Array.isArray(events) || events.length === 0) {
+      console.log(`⚠️ No events found for ${league} on ${date}`);
       return [];
     }
 
     // Filter events by date and parse into game format
-    const games = events
-      .filter(event => {
-        if (!event.startDate) return false;
-        const eventDate = new Date(event.startDate);
-        return eventDate >= dateObj && eventDate < new Date(dateObj.getTime() + 24 * 60 * 60 * 1000);
-      })
+    console.log(`🔍 Filtering events for date range: ${dateObj.toISOString()} to ${new Date(dateObj.getTime() + 24 * 60 * 60 * 1000).toISOString()}`);
+
+    const dateFilteredEvents = events.filter(event => {
+      if (!event.startDate) return false;
+      const eventDate = new Date(event.startDate);
+      return eventDate >= dateObj && eventDate < new Date(dateObj.getTime() + 24 * 60 * 60 * 1000);
+    });
+
+    console.log(`📅 After date filtering: ${dateFilteredEvents.length} events (from ${events.length})`);
+    if (dateFilteredEvents.length > 0) {
+      console.log(`📋 Sample event dates:`, dateFilteredEvents.slice(0, 3).map(e => ({ title: e.title, startDate: e.startDate })));
+    }
+
+    const games = dateFilteredEvents
       .map(event => parsePolymarketEvent(event))
       .filter(game => game !== null);
 
+    console.log(`⚽ Parsed ${games.length} valid games from ${dateFilteredEvents.length} events`);
     return games;
   } catch (error) {
     console.error('Error fetching soccer games:', error);

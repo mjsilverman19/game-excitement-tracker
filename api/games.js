@@ -83,6 +83,7 @@ export default async function handler(req, res) {
       }
 
       const targetDate = date || new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      console.log(`⚽ Fetching soccer games for league: ${league}, date: ${targetDate}`);
       const games = await fetchSoccerGamesForDate(league, targetDate);
 
       return res.status(200).json({
