@@ -426,7 +426,8 @@ async function findRecentSoccerDate(league, maxDaysBack) {
 function getStaticPath(sport, season, weekOrDate, league) {
     const sportLower = sport.toLowerCase();
     if (sport === 'SOCCER') {
-        return `/data/${sportLower}/${league}/${season}/${weekOrDate}.json`;
+        const leagueLower = league ? league.toLowerCase() : '';
+        return `/data/${sportLower}/${leagueLower}/${season}/${weekOrDate}.json`;
     }
     if (sport === 'NBA') {
         return `/data/${sportLower}/${season}/${weekOrDate}.json`;
