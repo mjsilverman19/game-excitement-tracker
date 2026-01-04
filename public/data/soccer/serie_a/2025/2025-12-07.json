@@ -1,0 +1,46 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "99056",
+      "homeTeam": "Juventus FC",
+      "awayTeam": "AS Roma",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 9.329921225734356,
+        "drama": 3.735430683310092,
+        "finish": 4.865495241837804
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99053",
+      "homeTeam": "SS Lazio",
+      "awayTeam": "US Cremonese",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.3,
+      "breakdown": {
+        "uncertainty": 7.2393127272373885,
+        "drama": 6.3687434082127075,
+        "finish": 3.647765276029079
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:59:21.608Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-07",
+    "league": "SERIE_A"
+  }
+}

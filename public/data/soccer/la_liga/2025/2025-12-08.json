@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "99759",
+      "homeTeam": "Elche CF",
+      "awayTeam": "Rayo Vallecano de Madrid",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.460919690039851,
+        "finish": 5.467322449115624
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99757",
+      "homeTeam": "Villarreal CF",
+      "awayTeam": "FC Barcelona",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.3,
+      "breakdown": {
+        "uncertainty": 9.49498869759716,
+        "drama": 2.9238323282314878,
+        "finish": 4.543389644582899
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99761",
+      "homeTeam": "Real Betis Balompié",
+      "awayTeam": "Getafe CF",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.3,
+      "breakdown": {
+        "uncertainty": 7.852139583389901,
+        "drama": 5.511666382534629,
+        "finish": 3.9342558503788285
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "99755",
+      "homeTeam": "Girona FC",
+      "awayTeam": "Club Atlético de Madrid",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 7.963339583607166,
+        "drama": 3.629214923760739,
+        "finish": 4.334629753286204
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:51:20.192Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-08",
+    "league": "LA_LIGA"
+  }
+}

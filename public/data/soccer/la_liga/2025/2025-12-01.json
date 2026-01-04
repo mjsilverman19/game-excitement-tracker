@@ -1,0 +1,61 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "94622",
+      "homeTeam": "RC Celta de Vigo",
+      "awayTeam": "Athletic Club",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.082782432593127,
+        "finish": 5.705302217392399
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94618",
+      "homeTeam": "Sevilla FC",
+      "awayTeam": "Real Oviedo",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7,
+      "breakdown": {
+        "uncertainty": 8.143113033951337,
+        "drama": 2.8291510727444726,
+        "finish": 5.035876103338364
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94626",
+      "homeTeam": "Deportivo Alavés",
+      "awayTeam": "Real Madrid CF",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 6.9046979570642035,
+        "drama": 3.5980787150144344,
+        "finish": 4.101885415410292
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:51:06.505Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-01",
+    "league": "LA_LIGA"
+  }
+}

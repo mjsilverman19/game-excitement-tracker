@@ -1,0 +1,91 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "94570",
+      "homeTeam": "Bologna FC 1909",
+      "awayTeam": "Juventus FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.42605058231756,
+        "finish": 5.487887517439388
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94558",
+      "homeTeam": "ACF Fiorentina",
+      "awayTeam": "Hellas Verona FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.1,
+      "breakdown": {
+        "uncertainty": 8.49156803341913,
+        "drama": 2.79588323038284,
+        "finish": 5.041627076132646
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94562",
+      "homeTeam": "Udinese Calcio",
+      "awayTeam": "SSC Napoli",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7,
+      "breakdown": {
+        "uncertainty": 8.626371651031317,
+        "drama": 2.5130076420512997,
+        "finish": 4.735055296705364
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94567",
+      "homeTeam": "Genoa CFC",
+      "awayTeam": "FC Internazionale Milano",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 5.5,
+      "breakdown": {
+        "uncertainty": 6.6344365124857685,
+        "drama": 2.1432628114567476,
+        "finish": 3.4585834106693762
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "94550",
+      "homeTeam": "AC Milan",
+      "awayTeam": "US Sassuolo Calcio",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 4.9,
+      "breakdown": {
+        "uncertainty": 5.814153055911519,
+        "drama": 1.2698759515937714,
+        "finish": 3.5103662782319023
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:59:11.600Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-01",
+    "league": "SERIE_A"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "99702",
+      "homeTeam": "Aston Villa FC",
+      "awayTeam": "Manchester United FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 9.828760873221173,
+        "drama": 2.6277419433667197,
+        "finish": 5.0422963065005355
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:40:15.341Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-08",
+    "league": "EPL"
+  }
+}

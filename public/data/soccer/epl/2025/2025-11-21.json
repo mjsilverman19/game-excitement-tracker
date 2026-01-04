@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "86590",
+      "homeTeam": "Manchester United",
+      "awayTeam": "West Ham United",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 4.3,
+      "breakdown": {
+        "uncertainty": 5.8689086189598125,
+        "drama": 0.30370489413766016,
+        "finish": 2.9421412891226577
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:39:34.277Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-11-21",
+    "league": "EPL"
+  }
+}

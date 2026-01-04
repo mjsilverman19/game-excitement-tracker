@@ -1,0 +1,121 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "88108",
+      "homeTeam": "Bournemouth",
+      "awayTeam": "Chelsea",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 7.5,
+      "breakdown": {
+        "uncertainty": 9.99490282710131,
+        "drama": 2.4153109867897036,
+        "finish": 5.1951791724925025
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88126",
+      "homeTeam": "Tottenham",
+      "awayTeam": "Brentford",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 1.0177249583038643,
+        "finish": 5.307477442814438
+      },
+      "overtime": false,
+      "league": "Premier League"
+    },
+    {
+      "id": "88101",
+      "homeTeam": "Aston Villa",
+      "awayTeam": "Arsenal",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.8,
+      "breakdown": {
+        "uncertainty": 8.734228474154355,
+        "drama": 2.1600222594622647,
+        "finish": 4.621910361862706
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88123",
+      "homeTeam": "Everton",
+      "awayTeam": "Nottingham Forest",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 6.8,
+      "breakdown": {
+        "uncertainty": 9.775721440200185,
+        "drama": 0.8145316406837046,
+        "finish": 4.758556726911503
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88128",
+      "homeTeam": "Leeds United",
+      "awayTeam": "Liverpool",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 6.4,
+      "breakdown": {
+        "uncertainty": 8.735301303166374,
+        "drama": 1.4957433892653786,
+        "finish": 4.260414730304658
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88116",
+      "homeTeam": "Newcastle United",
+      "awayTeam": "Burnley FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 3.9,
+      "breakdown": {
+        "uncertainty": 4.679038595718657,
+        "drama": 0.4530494533436922,
+        "finish": 2.7868355604185613
+      },
+      "overtime": false,
+      "league": "Games"
+    },
+    {
+      "id": "88120",
+      "homeTeam": "Manchester City",
+      "awayTeam": "Sunderland AFC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 3.7,
+      "breakdown": {
+        "uncertainty": 4.433079469471221,
+        "drama": 0.5950132460810238,
+        "finish": 2.430015453605776
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 7,
+    "totalGames": 7,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:39:39.117Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-11-23",
+    "league": "EPL"
+  }
+}

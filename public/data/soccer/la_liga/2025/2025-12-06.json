@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "98516",
+      "homeTeam": "Valencia CF",
+      "awayTeam": "RCD Mallorca",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 9.193247301944814,
+        "drama": 8.315797445086536,
+        "finish": 4.989925358404179
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:51:14.320Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-06",
+    "league": "LA_LIGA"
+  }
+}

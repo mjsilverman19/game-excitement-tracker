@@ -340,16 +340,21 @@ async function generateAllNBADates(season) {
 }
 
 function getSoccerSeasonRange(league, season) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set to beginning of today
+
   if (league === 'MLS') {
+    const endDate = new Date(`${season}-11-30`);
     return {
       start: new Date(`${season}-03-01`),
-      end: new Date(`${season}-11-30`)
+      end: endDate > today ? today : endDate
     };
   }
 
+  const seasonEnd = new Date(`${season + 1}-05-31`);
   return {
     start: new Date(`${season}-08-01`),
-    end: new Date(`${season + 1}-05-31`)
+    end: seasonEnd > today ? today : seasonEnd
   };
 }
 

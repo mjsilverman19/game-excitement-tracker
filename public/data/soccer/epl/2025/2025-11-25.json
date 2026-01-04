@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "89769",
+      "homeTeam": "Wolves",
+      "awayTeam": "Manchester United",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 6.5,
+      "breakdown": {
+        "uncertainty": 7.9815927584354736,
+        "drama": 2.532392890886287,
+        "finish": 4.107372613217578
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:39:46.556Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-11-25",
+    "league": "EPL"
+  }
+}

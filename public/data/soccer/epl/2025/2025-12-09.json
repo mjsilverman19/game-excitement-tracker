@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "100666",
+      "homeTeam": "Fulham FC",
+      "awayTeam": "Nottingham Forest FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.1368189532960193,
+        "finish": 5.651382702829171
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:40:20.284Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-09",
+    "league": "EPL"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "88922",
+      "homeTeam": "Fulham",
+      "awayTeam": "Crystal Palace",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 7.7,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.4268779873023973,
+        "finish": 5.661711727700036
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88915",
+      "homeTeam": "Brighton",
+      "awayTeam": "West Ham United",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 5.8,
+      "breakdown": {
+        "uncertainty": 7.016484053616111,
+        "drama": 1.8054122536746284,
+        "finish": 3.947432862357853
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:39:40.972Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-11-24",
+    "league": "EPL"
+  }
+}

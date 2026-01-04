@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "88184",
+      "homeTeam": "Athletic Club",
+      "awayTeam": "Atletico Madrid",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.6,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 2.178140698152753,
+        "finish": 5.608449511342119
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88181",
+      "homeTeam": "Alaves",
+      "awayTeam": "Real Sociedad",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 0.8697442630552084,
+        "finish": 5.530394280858086
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88182",
+      "homeTeam": "Real Betis",
+      "awayTeam": "Barcelona",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 6.9,
+      "breakdown": {
+        "uncertainty": 8.376973798256817,
+        "drama": 2.325885949175355,
+        "finish": 4.826289200809685
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "88176",
+      "homeTeam": "Villarreal",
+      "awayTeam": "Getafe",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 5.5,
+      "breakdown": {
+        "uncertainty": 7.101429796521823,
+        "drama": 0.9592739649723777,
+        "finish": 3.87610871145317
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:50:50.761Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-11-23",
+    "league": "LA_LIGA"
+  }
+}

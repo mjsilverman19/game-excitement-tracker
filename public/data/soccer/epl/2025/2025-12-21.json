@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "114635",
+      "homeTeam": "Wolverhampton Wanderers FC",
+      "awayTeam": "West Ham United FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 9.2,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 10,
+        "finish": 5.774969729269468
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "114630",
+      "homeTeam": "Aston Villa FC",
+      "awayTeam": "Nottingham Forest FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 8.6,
+      "breakdown": {
+        "uncertainty": 7.511552165966518,
+        "drama": 10,
+        "finish": 4.766901736471861
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "114639",
+      "homeTeam": "Brighton & Hove Albion FC",
+      "awayTeam": "Burnley FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 8.724276718091629,
+        "drama": 10,
+        "finish": 3.2341001281363506
+      },
+      "overtime": false,
+      "league": "Sports"
+    },
+    {
+      "id": "114643",
+      "homeTeam": "AFC Bournemouth",
+      "awayTeam": "Arsenal FC",
+      "homeScore": 1,
+      "awayScore": 2,
+      "excitement": 8.4,
+      "breakdown": {
+        "uncertainty": 7.861998633196879,
+        "drama": 10,
+        "finish": 3.7141660809529657
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:40:46.563Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-21",
+    "league": "EPL"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "95557",
+      "homeTeam": "Rayo Vallecano de Madrid",
+      "awayTeam": "Real Betis Balompié",
+      "homeScore": 1,
+      "awayScore": 1,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 10,
+        "drama": 4.506541317671134,
+        "finish": 5.651498240222514
+      },
+      "overtime": false,
+      "league": "Sports"
+    }
+  ],
+  "metadata": {
+    "sport": "SOCCER",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-04T15:51:10.757Z",
+    "source": "Polymarket Probability Analysis",
+    "date": "2025-12-02",
+    "league": "LA_LIGA"
+  }
+}
