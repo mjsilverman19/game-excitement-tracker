@@ -367,6 +367,61 @@ async function staticFileExists(sport, season, weekOrDate, league) {
     }
 }
 
+// Helper to find recent soccer date with games by querying Polymarket API
+async function findRecentSoccerDate(league, maxDaysBack) {
+    const SERIES_IDS = {
+        'EPL': '10188',
+        'CHAMPIONS_LEAGUE': '10204',
+        'LA_LIGA': '10193',
+        'BUNDESLIGA': '10194',
+        'SERIE_A': '10203',
+        'MLS': '10189'
+    };
+
+    const seriesId = SERIES_IDS[league];
+    if (!seriesId) {
+        console.warn(`⚠️ Unknown league: ${league}`);
+        return null;
+    }
+
+    try {
+        console.log(`🔍 Querying Polymarket for recent ${league} games...`);
+        // Fetch more events and filter/sort client-side since API doesn't support sort by date
+        const response = await fetch(
+            `https://gamma-api.polymarket.com/events?series_id=${seriesId}&limit=500`
+        );
+
+        if (!response.ok) {
+            console.warn(`⚠️ Polymarket API error: ${response.status}`);
+            return null;
+        }
+
+        const events = await response.json();
+
+        // Find the most recent closed event date within maxDaysBack
+        const today = new Date();
+        const cutoff = addDays(today, -maxDaysBack);
+
+        const recentDates = events
+            .filter(e => e.startDate && e.closed === true)
+            .map(e => new Date(e.startDate))
+            .filter(d => d >= cutoff && d <= today)
+            .sort((a, b) => b - a);
+
+        if (recentDates.length > 0) {
+            const foundDate = formatDate(recentDates[0]);
+            console.log(`✅ Found recent ${league} games on ${foundDate}`);
+            return foundDate;
+        }
+
+        console.warn(`⚠️ No recent ${league} games found in last ${maxDaysBack} days`);
+    } catch (e) {
+        console.error('Error finding recent soccer date:', e);
+    }
+
+    return null;
+}
+
 // Helper to construct static file path (matches main app logic)
 function getStaticPath(sport, season, weekOrDate, league) {
     const sportLower = sport.toLowerCase();
@@ -482,20 +537,29 @@ async function findLatestAvailable(sport, season, league) {
         return { week: yesterday, fromCache: false };
     } else if (sport === 'SOCCER') {
         const today = new Date();
-        console.log(`⚽ SOCCER: Checking backwards from yesterday`);
+        console.log(`⚽ SOCCER: Checking backwards from yesterday for league ${league}`);
 
-        for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
+        // First try static files
+        for (let daysAgo = 1; daysAgo <= 14; daysAgo++) {
             const date = addDays(today, -daysAgo);
             const dateStr = formatDate(date);
 
             if (await staticFileExists(sport, season, dateStr, league)) {
-                console.log(`✅ Found SOCCER date ${dateStr}`);
+                console.log(`✅ Found SOCCER static file for ${dateStr}`);
                 return { week: dateStr, fromCache: false };
             }
         }
 
+        // If no static files, query API for recent dates with games
+        console.log(`⚠️ No static files found, querying Polymarket for recent games`);
+        const recentDate = await findRecentSoccerDate(league, 14);
+        if (recentDate) {
+            return { week: recentDate, fromCache: false };
+        }
+
+        // Final fallback
         const yesterday = formatDate(addDays(today, -1));
-        console.log(`⚠️ No SOCCER data found in last 7 days, defaulting to ${yesterday}`);
+        console.log(`⚠️ No SOCCER data found, defaulting to ${yesterday}`);
         return { week: yesterday, fromCache: false };
     }
 

@@ -956,6 +956,27 @@
                 max-width: 100%;
             }
 
+            /* Tighten navigation spacing for mobile */
+            .sport-selector {
+                font-size: 12px;
+            }
+
+            .sport-option {
+                margin-right: 6px;
+            }
+
+            .separator {
+                margin: 0 4px;
+            }
+
+            .find-game-link {
+                margin-left: 2px;
+            }
+
+            .beta-label {
+                font-size: 8px;
+            }
+
             .masthead {
                 font-size: 120px;
             }
@@ -1043,6 +1064,22 @@
             .vote-tooltip {
                 font-size: 10px;
                 padding: 6px 10px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 360px) {
+            .sport-selector {
+                font-size: 11px;
+            }
+
+            .separator {
+                margin: 0 2px;
+            }
+
+            /* Hide beta labels on very small screens */
+            .beta-label {
+                display: none;
             }
         }
 

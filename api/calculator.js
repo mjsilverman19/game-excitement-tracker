@@ -128,12 +128,43 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     finish: finishScore
   };
 
+  // Apply sport-specific scaling to expand score distribution
+  const sportScaling = {
+    'SOCCER': {
+      uncertaintyBoost: 1.15,
+      dramaBoost: 2.2,
+      finishBoost: 1.6,
+      baseBoost: 1.0
+    }
+  };
+
+  let adjustedUncertainty = uncertaintyScore;
+  let adjustedDrama = dramaScore;
+  let adjustedFinish = finishScore;
+
+  if (sportScaling[sport]) {
+    const scaling = sportScaling[sport];
+    adjustedUncertainty = Math.min(10, uncertaintyScore * scaling.uncertaintyBoost);
+    adjustedDrama = Math.min(10, dramaScore * scaling.dramaBoost);
+    adjustedFinish = Math.min(10, finishScore * scaling.finishBoost);
+
+    // Update breakdown with boosted values
+    breakdown.uncertainty = adjustedUncertainty;
+    breakdown.drama = adjustedDrama;
+    breakdown.finish = adjustedFinish;
+  }
+
   // Weighted combination
   const weights = SCORING_CONFIG.weights;
   let rawScore =
-    uncertaintyScore * weights.outcomeUncertainty +
-    dramaScore * weights.momentumDrama +
-    finishScore * weights.finishQuality;
+    adjustedUncertainty * weights.outcomeUncertainty +
+    adjustedDrama * weights.momentumDrama +
+    adjustedFinish * weights.finishQuality;
+
+  // Add sport-specific base boost
+  if (sportScaling[sport]) {
+    rawScore += sportScaling[sport].baseBoost;
+  }
 
   // Add overtime bonus (applied after weighted combination)
   const overtimeBonus = sport === 'NBA' ? 0.8 : SCORING_CONFIG.bonuses.overtime;
