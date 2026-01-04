@@ -258,6 +258,35 @@
             color: var(--text-secondary);
         }
 
+        .league-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .league-label {
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .league-select {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-secondary);
+            border-radius: 2px;
+            padding: 6px 8px;
+            font-size: 12px;
+        }
+
+        .league-select:focus {
+            outline: none;
+            border-color: var(--border-primary);
+        }
+
         .week-nav-link {
             color: var(--text-secondary);
             text-decoration: none;

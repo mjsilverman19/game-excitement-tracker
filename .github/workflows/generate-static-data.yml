@@ -8,12 +8,18 @@ on:
     - cron: '0 8 * 8-12,1 0'
     # NBA: Daily 10 AM UTC (5 AM EST, after West Coast games)
     - cron: '0 10 * 10-12,1-6 *'
+    # SOCCER: Daily 11 AM UTC (6 AM EST)
+    - cron: '0 11 * 8-12,1-5 *'
   workflow_dispatch:
     inputs:
       sport:
-        description: 'Sport to generate (NFL, CFB, NBA, or all)'
+        description: 'Sport to generate (NFL, CFB, NBA, SOCCER, or all)'
         required: false
         default: 'all'
+      league:
+        description: 'Soccer league to generate (EPL, CHAMPIONS_LEAGUE, LA_LIGA, BUNDESLIGA, SERIE_A, MLS)'
+        required: false
+        default: 'EPL'
       force:
         description: 'Force regenerate existing files'
         required: false
@@ -39,16 +45,21 @@ jobs:
         run: |
           DAY_OF_WEEK=$(date +%u)
           MONTH=$(date +%-m)
+          SCHEDULE="${{ github.event.schedule }}"
 
           # Manual trigger
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "sport=${{ github.event.inputs.sport }}" >> $GITHUB_OUTPUT
             echo "force=${{ github.event.inputs.force }}" >> $GITHUB_OUTPUT
+            echo "league=${{ github.event.inputs.league }}" >> $GITHUB_OUTPUT
             exit 0
           fi
 
+          # Soccer daily schedule
+          if [ "$SCHEDULE" = "0 11 * 8-12,1-5 *" ]; then
+            echo "sport=SOCCER" >> $GITHUB_OUTPUT
           # Tuesday = NFL (day 2)
-          if [ "$DAY_OF_WEEK" = "2" ] && [ "$MONTH" -ge 9 -o "$MONTH" -le 2 ]; then
+          elif [ "$DAY_OF_WEEK" = "2" ] && [ "$MONTH" -ge 9 -o "$MONTH" -le 2 ]; then
             echo "sport=NFL" >> $GITHUB_OUTPUT
           # Sunday = CFB (day 7)
           elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 -o "$MONTH" -le 1 ]; then
@@ -60,6 +71,7 @@ jobs:
             echo "sport=none" >> $GITHUB_OUTPUT
           fi
           echo "force=false" >> $GITHUB_OUTPUT
+          echo "league=${{ github.event.inputs.league || 'EPL' }}" >> $GITHUB_OUTPUT
 
       - name: Generate NFL data
         if: steps.determine.outputs.sport == 'NFL' || steps.determine.outputs.sport == 'all'
@@ -98,6 +110,20 @@ jobs:
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
           echo "Generating NBA data for $YESTERDAY"
           node scripts/generate-static.js --sport NBA --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+
+      - name: Generate SOCCER data
+        if: steps.determine.outputs.sport == 'SOCCER' || steps.determine.outputs.sport == 'all'
+        run: |
+          YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
+          if [ "${{ steps.determine.outputs.sport }}" = "SOCCER" ]; then
+            echo "Generating SOCCER data for $YESTERDAY (${{ steps.determine.outputs.league }})"
+            node scripts/generate-static.js --sport SOCCER --league ${{ steps.determine.outputs.league }} --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+          else
+            for LEAGUE in EPL CHAMPIONS_LEAGUE LA_LIGA BUNDESLIGA SERIE_A MLS; do
+              echo "Generating SOCCER data for $YESTERDAY ($LEAGUE)"
+              node scripts/generate-static.js --sport SOCCER --league $LEAGUE --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+            done
+          fi
 
       - name: Commit and push changes
         run: |

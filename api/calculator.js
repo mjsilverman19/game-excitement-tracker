@@ -64,6 +64,41 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
   }
 }
 
+export function analyzeGameEntertainmentFromTimeseries(game, probabilitySeries, sport = 'SOCCER') {
+  try {
+    if (!Array.isArray(probabilitySeries) || probabilitySeries.length < SCORING_CONFIG.thresholds.minDataPoints) {
+      return null;
+    }
+
+    const formattedSeries = probabilitySeries.map(point => ({
+      homeWinPercentage: point.value,
+      period: point.period,
+      clock: point.clock
+    }));
+
+    const excitement = calculateExcitement(formattedSeries, game, sport);
+
+    if (!excitement) {
+      return null;
+    }
+
+    return {
+      id: game.id,
+      homeTeam: game.homeTeam,
+      awayTeam: game.awayTeam,
+      homeScore: game.homeScore,
+      awayScore: game.awayScore,
+      excitement: excitement.score,
+      breakdown: excitement.breakdown,
+      overtime: game.overtime,
+      league: game.league
+    };
+  } catch (error) {
+    console.error(`Error analyzing game ${game.id}:`, error);
+    return null;
+  }
+}
+
 function calculateExcitement(probabilities, game, sport = 'NFL') {
   const probs = probabilities
     .map(p => ({

@@ -2,6 +2,8 @@
 // Retrieves historical match probability data from Polymarket's free API
 // and normalizes it for the entertainment algorithm
 
+import { analyzeGameEntertainmentFromTimeseries } from './calculator.js';
+
 const POLYMARKET_BASE = 'https://gamma-api.polymarket.com';
 const POLYMARKET_CLOB = 'https://clob.polymarket.com';
 
@@ -61,6 +63,10 @@ export async function fetchSoccerGames(league, date) {
 
     const events = await response.json();
 
+    if (!Array.isArray(events) || events.length === 0) {
+      return [];
+    }
+
     // Filter events by date and parse into game format
     const games = events
       .filter(event => {
@@ -76,6 +82,37 @@ export async function fetchSoccerGames(league, date) {
     console.error('Error fetching soccer games:', error);
     throw error;
   }
+}
+
+/**
+ * Fetches and analyzes completed soccer matches for API consumption
+ * @param {string} league - League identifier (EPL, CHAMPIONS_LEAGUE, etc.)
+ * @param {string} date - Date in YYYY-MM-DD format
+ * @returns {Promise<Array>} Array of analyzed matches
+ */
+export async function fetchSoccerGamesForDate(league, date) {
+  const games = await fetchSoccerGames(league, date);
+
+  if (!games.length) {
+    return [];
+  }
+
+  const analyzedGames = [];
+
+  for (const game of games) {
+    const timeseries = await fetchSoccerProbabilityTimeseries(game.id);
+
+    if (timeseries && timeseries.length > 0) {
+      const analyzed = analyzeGameEntertainmentFromTimeseries(game, timeseries, 'SOCCER');
+      if (analyzed) {
+        analyzedGames.push(analyzed);
+      }
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+
+  return analyzedGames;
 }
 
 /**

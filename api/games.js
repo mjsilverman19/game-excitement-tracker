@@ -1,6 +1,7 @@
 // Streamlined Games API Endpoint
 import { fetchGames, fetchSingleGame } from './fetcher.js';
 import { analyzeGameEntertainment } from './calculator.js';
+import { fetchSoccerGamesForDate } from './soccer-fetcher.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -20,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { sport = 'NFL', season, week, seasonType = '2', date, gameId } = req.body;
+    const { sport = 'NFL', season, week, seasonType = '2', date, gameId, league } = req.body;
 
     // Handle single game request
     if (gameId) {
@@ -63,12 +64,38 @@ export default async function handler(req, res) {
 
     if (sport === 'NBA') {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
+    } else if (sport === 'SOCCER') {
+      console.log(`Fetching ${sport} games for ${league || 'unknown league'} on ${date || 'yesterday'}`);
     } else if (week === 'bowls') {
       console.log(`Fetching ${sport} bowl games for ${season} season`);
     } else if (week === 'playoffs') {
       console.log(`Fetching ${sport} playoff games for ${season} season`);
     } else {
       console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${actualSeasonType})`);
+    }
+
+    if (sport === 'SOCCER') {
+      if (!league) {
+        return res.status(400).json({
+          success: false,
+          error: 'League is required for soccer requests'
+        });
+      }
+
+      const targetDate = date || new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const games = await fetchSoccerGamesForDate(league, targetDate);
+
+      return res.status(200).json({
+        success: true,
+        games,
+        metadata: {
+          sport,
+          league,
+          date: targetDate,
+          count: games.length,
+          source: 'Polymarket Probability Analysis'
+        }
+      });
     }
 
     // Fetch games from ESPN

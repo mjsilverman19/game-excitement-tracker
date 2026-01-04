@@ -5,6 +5,7 @@
 
 import { fetchGames } from '../api/fetcher.js';
 import { analyzeGameEntertainment } from '../api/calculator.js';
+import { fetchSoccerGamesForDate } from '../api/soccer-fetcher.js';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
@@ -21,6 +22,7 @@ const options = {
   season: null,
   week: null,
   date: null,
+  league: null,
   all: false,
   force: false
 };
@@ -36,6 +38,8 @@ for (let i = 0; i < args.length; i++) {
     options.week = (weekValue === 'bowls' || weekValue === 'playoffs') ? weekValue : parseInt(weekValue);
   } else if (arg === '--date' && i + 1 < args.length) {
     options.date = args[++i];
+  } else if (arg === '--league' && i + 1 < args.length) {
+    options.league = args[++i].toUpperCase();
   } else if (arg === '--all') {
     options.all = true;
   } else if (arg === '--force') {
@@ -51,10 +55,11 @@ function printUsage() {
 Usage: node scripts/generate-static.js [options]
 
 Options:
-  --sport <NFL|CFB|NBA>    Sport to generate data for (required)
+  --sport <NFL|CFB|NBA|SOCCER>    Sport to generate data for (required)
   --season <year>          Season year (required)
   --week <number|bowls|playoffs>    Week number, 'bowls', or 'playoffs' for CFB postseason (required unless --all or NBA)
   --date <YYYY-MM-DD>      Date for NBA games (required for NBA unless --all)
+  --league <league>        Soccer league (required for SOCCER)
   --all                    Generate all weeks/dates for the season
   --force                  Overwrite existing files
   --help, -h               Show this help message
@@ -77,13 +82,16 @@ Examples:
 
   # Generate all NBA dates for season (with force overwrite)
   node scripts/generate-static.js --sport NBA --season 2025 --all --force
+
+  # Generate single soccer date
+  node scripts/generate-static.js --sport SOCCER --league EPL --season 2025 --date 2025-09-21
 `);
 }
 
 // Validate options
 function validateOptions() {
-  if (!options.sport || !['NFL', 'CFB', 'NBA'].includes(options.sport)) {
-    console.error('Error: --sport is required and must be NFL, CFB, or NBA');
+  if (!options.sport || !['NFL', 'CFB', 'NBA', 'SOCCER'].includes(options.sport)) {
+    console.error('Error: --sport is required and must be NFL, CFB, NBA, or SOCCER');
     printUsage();
     process.exit(1);
   }
@@ -94,7 +102,18 @@ function validateOptions() {
     process.exit(1);
   }
 
-  if (options.sport === 'NBA') {
+  if (options.sport === 'SOCCER') {
+    if (!options.league) {
+      console.error('Error: SOCCER requires --league');
+      printUsage();
+      process.exit(1);
+    }
+    if (!options.all && !options.date) {
+      console.error('Error: SOCCER requires either --date or --all');
+      printUsage();
+      process.exit(1);
+    }
+  } else if (options.sport === 'NBA') {
     if (!options.all && !options.date) {
       console.error('Error: NBA requires either --date or --all');
       printUsage();
@@ -110,12 +129,14 @@ function validateOptions() {
 }
 
 // Get file path for static JSON
-function getStaticFilePath(sport, season, weekOrDate) {
+function getStaticFilePath(sport, season, weekOrDate, league) {
   const sportLower = sport.toLowerCase();
-  const dir = join(PUBLIC_DATA_DIR, sportLower, String(season));
+  const dir = sport === 'SOCCER'
+    ? join(PUBLIC_DATA_DIR, sportLower, String(league).toLowerCase(), String(season))
+    : join(PUBLIC_DATA_DIR, sportLower, String(season));
 
   let filename;
-  if (sport === 'NBA') {
+  if (sport === 'NBA' || sport === 'SOCCER') {
     filename = `${weekOrDate}.json`;
   } else {
     let weekStr;
@@ -133,9 +154,9 @@ function getStaticFilePath(sport, season, weekOrDate) {
 }
 
 // Generate static JSON for a single week/date
-async function generateStatic(sport, season, weekOrDate) {
+async function generateStatic(sport, season, weekOrDate, league) {
   try {
-    const { dir, filepath } = getStaticFilePath(sport, season, weekOrDate);
+    const { dir, filepath } = getStaticFilePath(sport, season, weekOrDate, league);
 
     // Check if file already exists
     if (existsSync(filepath) && !options.force) {
@@ -145,11 +166,13 @@ async function generateStatic(sport, season, weekOrDate) {
 
     console.log(`📥 Fetching ${sport} data for ${weekOrDate}...`);
 
-    // Fetch games from ESPN API
+    // Fetch games from API
     let games;
     const seasonType = sport === 'CFB' && weekOrDate === 'bowls' ? '3' : '2';
 
-    if (sport === 'NBA') {
+    if (sport === 'SOCCER') {
+      games = await fetchSoccerGamesForDate(league, weekOrDate);
+    } else if (sport === 'NBA') {
       games = await fetchGames(sport, season, null, seasonType, weekOrDate);
     } else {
       games = await fetchGames(sport, season, weekOrDate, seasonType);
@@ -160,12 +183,16 @@ async function generateStatic(sport, season, weekOrDate) {
       return { noGames: true };
     }
 
-    console.log(`🧮 Analyzing ${games.length} games...`);
+    if (sport !== 'SOCCER') {
+      console.log(`🧮 Analyzing ${games.length} games...`);
+    }
 
     // Analyze each game
-    const analyzedGames = await Promise.all(
-      games.map(game => analyzeGameEntertainment(game, sport))
-    );
+    const analyzedGames = sport === 'SOCCER'
+      ? games
+      : await Promise.all(
+        games.map(game => analyzeGameEntertainment(game, sport))
+      );
 
     // Filter out null results (games with insufficient data)
     const validGames = analyzedGames.filter(game => game !== null);
@@ -182,11 +209,14 @@ async function generateStatic(sport, season, weekOrDate) {
       totalGames: analyzedGames.length,
       insufficientData: insufficientDataCount,
       generatedAt: new Date().toISOString(),
-      source: 'ESPN Win Probability Analysis'
+      source: sport === 'SOCCER' ? 'Polymarket Probability Analysis' : 'ESPN Win Probability Analysis'
     };
 
     if (sport === 'NBA') {
       metadata.date = weekOrDate;
+    } else if (sport === 'SOCCER') {
+      metadata.date = weekOrDate;
+      metadata.league = league;
     } else {
       metadata.week = weekOrDate;
 
@@ -309,6 +339,60 @@ async function generateAllNBADates(season) {
   console.log(`   ❌ Errors: ${results.errors}`);
 }
 
+function getSoccerSeasonRange(league, season) {
+  if (league === 'MLS') {
+    return {
+      start: new Date(`${season}-03-01`),
+      end: new Date(`${season}-11-30`)
+    };
+  }
+
+  return {
+    start: new Date(`${season}-08-01`),
+    end: new Date(`${season + 1}-05-31`)
+  };
+}
+
+async function generateAllSoccerDates(season, league) {
+  const range = getSoccerSeasonRange(league, season);
+  const startDate = range.start;
+  const endDate = range.end;
+
+  console.log(`\n🚀 Generating SOCCER dates from ${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}...\n`);
+
+  const results = {
+    total: 0,
+    successful: 0,
+    skipped: 0,
+    noGames: 0,
+    errors: 0
+  };
+
+  const currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    const dateStr = currentDate.toISOString().split('T')[0];
+    results.total++;
+
+    const result = await generateStatic('SOCCER', season, dateStr, league);
+
+    if (result.success) results.successful++;
+    else if (result.skipped) results.skipped++;
+    else if (result.noGames) results.noGames++;
+    else if (result.error) results.errors++;
+
+    currentDate.setDate(currentDate.getDate() + 1);
+
+    await new Promise(resolve => setTimeout(resolve, 300));
+  }
+
+  console.log(`\n📊 Summary:`);
+  console.log(`   Total: ${results.total}`);
+  console.log(`   ✅ Generated: ${results.successful}`);
+  console.log(`   ⏭️  Skipped: ${results.skipped}`);
+  console.log(`   ⚠️  No games: ${results.noGames}`);
+  console.log(`   ❌ Errors: ${results.errors}`);
+}
+
 // Main execution
 async function main() {
   validateOptions();
@@ -318,12 +402,14 @@ async function main() {
   if (options.all) {
     if (options.sport === 'NBA') {
       await generateAllNBADates(options.season);
+    } else if (options.sport === 'SOCCER') {
+      await generateAllSoccerDates(options.season, options.league);
     } else {
       await generateAllWeeks(options.sport, options.season);
     }
   } else {
-    const weekOrDate = options.sport === 'NBA' ? options.date : options.week;
-    await generateStatic(options.sport, options.season, weekOrDate);
+    const weekOrDate = options.sport === 'NBA' || options.sport === 'SOCCER' ? options.date : options.week;
+    await generateStatic(options.sport, options.season, weekOrDate, options.league);
   }
 
   console.log(`\n✨ Done!\n`);
