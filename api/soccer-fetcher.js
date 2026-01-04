@@ -7,16 +7,16 @@ import { analyzeGameEntertainmentFromTimeseries } from './calculator.js';
 const POLYMARKET_BASE = 'https://gamma-api.polymarket.com';
 const POLYMARKET_CLOB = 'https://clob.polymarket.com';
 
-// League/series mappings (may need adjustment based on actual Polymarket tags)
-const POLYMARKET_SOCCER_TAGS = {
-  'EPL': 'epl',
-  'PREMIER_LEAGUE': 'epl',
-  'CHAMPIONS_LEAGUE': 'champions-league',
-  'UCL': 'champions-league',
-  'LA_LIGA': 'la-liga',
-  'BUNDESLIGA': 'bundesliga',
-  'SERIE_A': 'serie-a',
-  'MLS': 'mls'
+// League/series mappings - using Polymarket series IDs from /sports endpoint
+const POLYMARKET_SOCCER_SERIES = {
+  'EPL': '10188',
+  'PREMIER_LEAGUE': '10188',
+  'CHAMPIONS_LEAGUE': '10204',
+  'UCL': '10204',
+  'LA_LIGA': '10193',
+  'BUNDESLIGA': '10194',
+  'SERIE_A': '10203',
+  'MLS': '10189'
 };
 
 // Common team name variations for fuzzy matching
@@ -37,9 +37,9 @@ const TEAM_NAME_MAPPINGS = {
  */
 export async function fetchSoccerGames(league, date) {
   try {
-    const tagId = POLYMARKET_SOCCER_TAGS[league];
-    if (!tagId) {
-      throw new Error(`Unknown league: ${league}. Available: ${Object.keys(POLYMARKET_SOCCER_TAGS).join(', ')}`);
+    const seriesId = POLYMARKET_SOCCER_SERIES[league];
+    if (!seriesId) {
+      throw new Error(`Unknown league: ${league}. Available: ${Object.keys(POLYMARKET_SOCCER_SERIES).join(', ')}`);
     }
 
     // Convert date to ISO format for API
@@ -47,11 +47,11 @@ export async function fetchSoccerGames(league, date) {
     const startDate = dateObj.toISOString();
     const endDate = new Date(dateObj.getTime() + 24 * 60 * 60 * 1000).toISOString();
 
-    // Fetch closed events for the date range
+    // Fetch events for the series (note: Polymarket only has recent season data)
     const params = new URLSearchParams({
-      tag: tagId,
+      series_id: seriesId,
       closed: 'true',
-      limit: '100'
+      limit: '500'
     });
 
     const url = `${POLYMARKET_BASE}/events?${params}`;
@@ -157,10 +157,13 @@ export async function fetchSoccerProbabilityTimeseries(matchId) {
       return null;
     }
 
-    // Fetch price history for both markets
+    // Parse clobTokenIds (stored as JSON strings) and fetch price history for both markets
+    const homeTokenIds = JSON.parse(markets.homeMarket.clobTokenIds);
+    const awayTokenIds = JSON.parse(markets.awayMarket.clobTokenIds);
+
     const [homeHistory, awayHistory] = await Promise.all([
-      fetchPriceHistory(markets.homeMarket.clobTokenIds[0]), // Yes token
-      fetchPriceHistory(markets.awayMarket.clobTokenIds[0])  // Yes token
+      fetchPriceHistory(homeTokenIds[0]), // Yes token (first in array)
+      fetchPriceHistory(awayTokenIds[0])  // Yes token (first in array)
     ]);
 
     if (!homeHistory || !awayHistory) {
