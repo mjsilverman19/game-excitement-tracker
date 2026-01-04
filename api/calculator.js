@@ -1,21 +1,17 @@
 // Entertainment Scoring Algorithm
 // Analyzes NFL/CFB games using ESPN win probability data to rank entertainment value
 
+import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
+
 const SCORING_CONFIG = {
-  weights: {
-    outcomeUncertainty: 0.30,
-    momentumDrama: 0.30,
-    finishQuality: 0.40
-  },
+  weights: ALGORITHM_CONFIG.weights,
   thresholds: {
-    minDataPoints: 10,
-    finalPeriodStart: 4,           // Q4 for both football and basketball
-    finalMomentPoints: 10,         // Last N data points for finish analysis
-    walkoffSwingThreshold: 0.15    // Minimum swing to qualify as "walk-off"
+    minDataPoints: ALGORITHM_CONFIG.thresholds.minDataPoints,
+    finalPeriodStart: 4, // Q4 for both football and basketball
+    finalMomentPoints: ALGORITHM_CONFIG.thresholds.finalMomentPoints,
+    walkoffSwingThreshold: ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold
   },
-  bonuses: {
-    overtime: 0.8  // Applied after normalization
-  }
+  bonuses: ALGORITHM_CONFIG.bonuses
 };
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {

@@ -42,3 +42,8 @@ backup/
 # Vercel
 .vercel
 .env*.local
+
+# Generated static data
+/public/data/**
+!/public/data/.gitkeep
+!/public/data/**/.gitkeep
