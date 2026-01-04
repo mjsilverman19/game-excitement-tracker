@@ -8,7 +8,7 @@
   }
 })(typeof self !== 'undefined' ? self : this, function () {
   const ALGORITHM_CONFIG = {
-    version: '1.1',
+    version: '1.2',
 
     scale: { min: 1, max: 10 },
     precision: { decimals: 1 },
@@ -32,6 +32,34 @@
     },
 
     bonuses: { overtime: 0.8 },
+
+    sportConfig: {
+      NFL: {
+        minDataPoints: 10,
+        finalMomentPoints: 10,
+        walkoffSwingThreshold: 0.15,
+        overtimeBonus: 0.8
+      },
+      CFB: {
+        minDataPoints: 10,
+        finalMomentPoints: 10,
+        walkoffSwingThreshold: 0.15,
+        overtimeBonus: 0.8
+      },
+      NBA: {
+        minDataPoints: 10,
+        finalMomentPoints: 10,
+        walkoffSwingThreshold: 0.15,
+        overtimeBonus: 0.8
+      },
+      SOCCER: {
+        minDataPoints: 5,
+        finalMomentPoints: 3,
+        walkoffSwingThreshold: 0.10,
+        extraTimeBonus: 0.5,
+        penaltiesBonus: 1.0
+      }
+    },
 
     metrics: [
       { key: 'uncertainty', label: 'Uncertainty', description: 'How long was the outcome in doubt?' },

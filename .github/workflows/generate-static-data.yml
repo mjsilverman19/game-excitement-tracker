@@ -8,6 +8,8 @@ on:
     - cron: '0 8 * 8-12,1 0'
     # NBA: Daily 10 AM UTC (5 AM EST, after West Coast games)
     - cron: '0 10 * 10-12,1-6 *'
+    # Soccer: Monday 10 AM UTC (after weekend matches)
+    - cron: '0 10 * 8-12,1-5 1'
   workflow_dispatch:
     inputs:
       sport:
@@ -50,6 +52,9 @@ jobs:
           # Tuesday = NFL (day 2)
           if [ "$DAY_OF_WEEK" = "2" ] && [ "$MONTH" -ge 9 -o "$MONTH" -le 2 ]; then
             echo "sport=NFL" >> $GITHUB_OUTPUT
+          # Monday = Soccer (day 1)
+          elif [ "$DAY_OF_WEEK" = "1" ] && [ "$MONTH" -ge 8 -o "$MONTH" -le 5 ]; then
+            echo "sport=SOCCER" >> $GITHUB_OUTPUT
           # Sunday = CFB (day 7)
           elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 -o "$MONTH" -le 1 ]; then
             echo "sport=CFB" >> $GITHUB_OUTPUT
@@ -98,6 +103,15 @@ jobs:
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
           echo "Generating NBA data for $YESTERDAY"
           node scripts/generate-static.js --sport NBA --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+
+      - name: Generate Soccer data
+        if: steps.determine.outputs.sport == 'SOCCER' || steps.determine.outputs.sport == 'all'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
+          echo "Generating EPL data for $YESTERDAY"
+          node scripts/generate-static.js --sport SOCCER --league EPL --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
 
       - name: Commit and push changes
         run: |

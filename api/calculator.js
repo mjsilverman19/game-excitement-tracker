@@ -15,11 +15,80 @@ const SCORING_CONFIG = {
   },
   bonuses: {
     overtime: 0.8  // Applied after normalization
+  },
+  sportConfig: {
+    NFL: {
+      minDataPoints: 10,
+      finalMomentPoints: 10,
+      walkoffSwingThreshold: 0.15,
+      overtimeBonus: 0.8
+    },
+    CFB: {
+      minDataPoints: 10,
+      finalMomentPoints: 10,
+      walkoffSwingThreshold: 0.15,
+      overtimeBonus: 0.8
+    },
+    NBA: {
+      minDataPoints: 10,
+      finalMomentPoints: 10,
+      walkoffSwingThreshold: 0.15,
+      overtimeBonus: 0.8
+    },
+    SOCCER: {
+      minDataPoints: 5,
+      finalMomentPoints: 3,
+      walkoffSwingThreshold: 0.10,
+      extraTimeBonus: 0.5,
+      penaltiesBonus: 1.0
+    }
   }
 };
 
-export async function analyzeGameEntertainment(game, sport = 'NFL') {
+function getSportConfig(sport) {
+  const defaults = {
+    minDataPoints: SCORING_CONFIG.thresholds.minDataPoints,
+    finalMomentPoints: SCORING_CONFIG.thresholds.finalMomentPoints,
+    walkoffSwingThreshold: SCORING_CONFIG.thresholds.walkoffSwingThreshold,
+    overtimeBonus: SCORING_CONFIG.bonuses.overtime,
+    extraTimeBonus: 0,
+    penaltiesBonus: 0
+  };
+
+  return { ...defaults, ...(SCORING_CONFIG.sportConfig[sport] || {}) };
+}
+
+export async function analyzeGameEntertainment(game, sport = 'NFL', probabilityOverride = null) {
   try {
+    const sportSettings = getSportConfig(sport);
+
+    if (sport === 'SOCCER') {
+      if (!Array.isArray(probabilityOverride) || probabilityOverride.length < sportSettings.minDataPoints) {
+        return null;
+      }
+
+      const excitement = calculateExcitement(probabilityOverride, game, sport);
+
+      if (!excitement) {
+        return null;
+      }
+
+      return {
+        id: game.id,
+        homeTeam: game.homeTeam,
+        awayTeam: game.awayTeam,
+        homeScore: game.homeScore,
+        awayScore: game.awayScore,
+        excitement: excitement.score,
+        breakdown: excitement.breakdown,
+        extraTime: game.extraTime,
+        penalties: game.penalties,
+        minute: game.minute,
+        period: game.period,
+        clock: game.clock
+      };
+    }
+
     // Determine the correct sport type and league for ESPN API
     let sportType, league;
     if (sport === 'NBA') {
@@ -40,7 +109,7 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 
     const probData = await response.json();
 
-    if (!probData.items || probData.items.length < SCORING_CONFIG.thresholds.minDataPoints) {
+    if (!probData.items || probData.items.length < sportSettings.minDataPoints) {
       return null;
     }
 
@@ -65,15 +134,17 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 }
 
 function calculateExcitement(probabilities, game, sport = 'NFL') {
+  const sportSettings = getSportConfig(sport);
   const probs = probabilities
     .map(p => ({
-      value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
+      value: Math.max(0, Math.min(1, p.homeWinPercentage ?? p.value ?? 0.5)),
       period: p.period || 1,
-      clock: p.clock
+      clock: p.clock,
+      minute: p.minute
     }))
     .filter(p => p.value >= 0 && p.value <= 1);
 
-  if (probs.length < SCORING_CONFIG.thresholds.minDataPoints) {
+  if (probs.length < sportSettings.minDataPoints) {
     return null;
   }
 
@@ -84,7 +155,7 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   const dramaScore = calculateMomentumDrama(probs);
 
   // METRIC 3: Finish Quality (did it come down to the wire?)
-  const finishScore = calculateFinishQuality(probs, sport);
+  const finishScore = calculateFinishQuality(probs, sport, sportSettings);
 
   // Capture breakdown before weighting
   const breakdown = {
@@ -101,9 +172,16 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     finishScore * weights.finishQuality;
 
   // Add overtime bonus (applied after weighted combination)
-  const overtimeBonus = sport === 'NBA' ? 0.8 : SCORING_CONFIG.bonuses.overtime;
-  if (game.overtime) {
-    rawScore += overtimeBonus;
+  if (game.overtime && sportSettings.overtimeBonus) {
+    rawScore += sportSettings.overtimeBonus;
+  }
+
+  if (game.extraTime && sportSettings.extraTimeBonus) {
+    rawScore += sportSettings.extraTimeBonus;
+  }
+
+  if (game.penalties && sportSettings.penaltiesBonus) {
+    rawScore += sportSettings.penaltiesBonus;
   }
 
   // Normalize to 1-10 range with better distribution
@@ -179,10 +257,12 @@ function calculateMomentumDrama(probs) {
  * @param {string} sport - Sport type (NFL, CFB, NBA)
  * @returns {number} Score from 0-10 based on finish quality
  */
-function calculateFinishQuality(probs, sport = 'NFL') {
-  if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
+function calculateFinishQuality(probs, sport = 'NFL', sportSettings = null) {
+  const settings = sportSettings || getSportConfig(sport);
 
-  const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, probs.length);
+  if (probs.length < settings.finalMomentPoints) return 0;
+
+  const finalMoments = Math.min(settings.finalMomentPoints, probs.length);
   const finalProbs = probs.slice(-finalMoments);
   const lastProb = probs[probs.length - 1].value;
 
@@ -220,8 +300,8 @@ function calculateFinishQuality(probs, sport = 'NFL') {
   }
 
   let walkoffScore = 0;
-  if (maxFinalSwing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
-    walkoffScore = 2 + Math.min(2, (maxFinalSwing - 0.15) * 10); // Up to 4 points
+  if (maxFinalSwing >= settings.walkoffSwingThreshold) {
+    walkoffScore = 2 + Math.min(2, (maxFinalSwing - settings.walkoffSwingThreshold) * 10); // Up to 4 points
   }
 
   // Combine components (max 12, scaled to 10)

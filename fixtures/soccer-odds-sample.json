@@ -1,0 +1,29 @@
+{
+  "timestamp": "2024-12-15T18:00:00Z",
+  "data": [
+    {
+      "id": "match_123",
+      "sport_key": "soccer_epl",
+      "commence_time": "2024-12-15T16:30:00Z",
+      "home_team": "Manchester United",
+      "away_team": "Liverpool",
+      "bookmakers": [
+        {
+          "key": "samplebook",
+          "title": "Sample Bookmaker",
+          "last_update": "2024-12-15T17:04:00Z",
+          "markets": [
+            {
+              "key": "h2h",
+              "outcomes": [
+                { "name": "Manchester United", "price": 2.5 },
+                { "name": "Draw", "price": 3.2 },
+                { "name": "Liverpool", "price": 3.0 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -45,6 +45,8 @@
                         <span class="separator">·</span>
                         <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
+                        <span class="sport-option" data-sport="SOCCER" id="soccerOption">soccer<span class="beta-label">beta</span></span>
+                        <span class="separator">·</span>
                         <span class="find-game-link" id="findGameLink">find a game</span>
 
                         <!-- Team Picker Dropdown -->
@@ -103,6 +105,17 @@
                                 <!-- Date cells populated by JS as direct children -->
                             </div>
                         </div>
+                    </div>
+                    <div class="soccer-league-selector" id="soccerLeagueWrapper" style="display: none;">
+                        <label class="league-label" for="soccerLeagueSelect">league</label>
+                        <select id="soccerLeagueSelect">
+                            <option value="EPL">Premier League</option>
+                            <option value="CHAMPIONS_LEAGUE">Champions League</option>
+                            <option value="LA_LIGA">La Liga</option>
+                            <option value="BUNDESLIGA">Bundesliga</option>
+                            <option value="SERIE_A">Serie A</option>
+                            <option value="MLS">MLS</option>
+                        </select>
                     </div>
                 </div>
 
@@ -289,6 +302,7 @@
         let selectedSeason = currentNFLWeek.season;
         let selectedWeek = currentNFLWeek.week;
         let selectedDate = null; // For NBA date-based navigation
+        let selectedLeague = 'EPL'; // For soccer league selection
         let spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         let currentGames = null;
         let periodAverages = null;
@@ -298,12 +312,25 @@
         // Theme state
         let currentTheme = localStorage.getItem('theme') || 'dark';
 
+        const SOCCER_LEAGUE_NAMES = {
+            EPL: 'Premier League',
+            CHAMPIONS_LEAGUE: 'Champions League',
+            LA_LIGA: 'La Liga',
+            BUNDESLIGA: 'Bundesliga',
+            SERIE_A: 'Serie A',
+            MLS: 'MLS'
+        };
+
         // Team lookup state
         let viewMode = 'week'; // 'week' | 'schedule' | 'single-game'
         let selectedTeam = null;
         let selectedGameFromSchedule = null;
         let allTeams = [];
         let currentSchedule = null;
+
+        function isDateBasedSport(sport) {
+            return sport === 'NBA' || sport === 'SOCCER';
+        }
 
         // Initialize
         async function init() {
@@ -322,15 +349,15 @@
 
             // Smart week discovery: Find the best starting week/date before loading games
             if (window.Navigation && window.Navigation.findLatestAvailable) {
-                const result = await window.Navigation.findLatestAvailable(selectedSport, selectedSeason);
+                const result = await window.Navigation.findLatestAvailable(selectedSport, selectedSeason, selectedLeague);
 
-                if (selectedSport === 'NBA') {
-                    selectedDate = result.week; // For NBA, 'week' is actually the date string
+                if (selectedSport === 'NBA' || selectedSport === 'SOCCER') {
+                    selectedDate = result.week; // For NBA/SOCCER, 'week' is actually the date string
                 } else {
                     selectedWeek = result.week;
                 }
 
-                console.log(`📍 Smart discovery: Starting with ${selectedSport} ${selectedSport === 'NBA' ? 'date' : 'week'} ${result.week} (fromCache: ${result.fromCache})`);
+                console.log(`📍 Smart discovery: Starting with ${selectedSport} ${selectedSport === 'NBA' || selectedSport === 'SOCCER' ? 'date' : 'week'} ${result.week} (fromCache: ${result.fromCache})`);
             }
 
             updateUI();
@@ -363,6 +390,11 @@
                 const dateObj = selectedDate ? new Date(selectedDate) : new Date(now.getTime() - 24*60*60*1000);
                 document.getElementById('headerWeekInfo').textContent =
                     `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+            } else if (selectedSport === 'SOCCER') {
+                const dateObj = selectedDate ? new Date(selectedDate) : new Date(now.getTime() - 24*60*60*1000);
+                const leagueDisplayName = SOCCER_LEAGUE_NAMES[selectedLeague] || selectedLeague;
+                document.getElementById('headerWeekInfo').textContent =
+                    `${leagueDisplayName} · ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
             } else {
                 if (selectedWeek === 'bowls') {
                     document.getElementById('headerWeekInfo').textContent =
@@ -380,9 +412,10 @@
             document.getElementById('nflOption').classList.toggle('active', selectedSport === 'NFL');
             document.getElementById('cfbOption').classList.toggle('active', selectedSport === 'CFB');
             document.getElementById('nbaOption').classList.toggle('active', selectedSport === 'NBA');
+            document.getElementById('soccerOption').classList.toggle('active', selectedSport === 'SOCCER');
 
             // Show/hide appropriate navigation
-            if (selectedSport === 'NBA') {
+            if (selectedSport === 'NBA' || selectedSport === 'SOCCER') {
                 document.getElementById('weekSelector').style.display = 'none';
                 document.getElementById('dateSelector').style.display = 'block';
                 updateDateNavigation();
@@ -390,6 +423,21 @@
                 document.getElementById('weekSelector').style.display = 'block';
                 document.getElementById('dateSelector').style.display = 'none';
                 updateWeekNavigation();
+            }
+
+            const soccerLeagueWrapper = document.getElementById('soccerLeagueWrapper');
+            if (soccerLeagueWrapper) {
+                soccerLeagueWrapper.style.display = selectedSport === 'SOCCER' ? 'flex' : 'none';
+            }
+
+            const leagueSelect = document.getElementById('soccerLeagueSelect');
+            if (leagueSelect) {
+                leagueSelect.value = selectedLeague;
+            }
+
+            const findGameLink = document.getElementById('findGameLink');
+            if (findGameLink) {
+                findGameLink.style.display = selectedSport === 'SOCCER' ? 'none' : 'inline';
             }
         }
 
@@ -526,11 +574,44 @@
                 }
             });
 
+            document.getElementById('soccerOption').addEventListener('click', () => {
+                if (selectedSport !== 'SOCCER') {
+                    periodAverages = null;
+                    selectedSport = 'SOCCER';
+                    selectedSeason = new Date().getFullYear();
+                    selectedDate = window.Navigation.getDefaultNBADate();
+                    selectedLeague = document.getElementById('soccerLeagueSelect').value || 'EPL';
+
+                    // Reset date picker state
+                    pickerMonth = null;
+                    pickerYear = null;
+                    // Reset team lookup state
+                    allTeams = [];
+                    viewMode = 'week';
+                    selectedTeam = null;
+                    isInitialLoad = true;
+                    updateUI();
+                    loadGames();
+                }
+            });
+
+            const soccerLeagueSelect = document.getElementById('soccerLeagueSelect');
+            if (soccerLeagueSelect) {
+                soccerLeagueSelect.addEventListener('change', (e) => {
+                    if (selectedSport !== 'SOCCER') return;
+                    periodAverages = null;
+                    selectedLeague = e.target.value;
+                    isInitialLoad = false;
+                    updateUI();
+                    loadGames();
+                });
+            }
+
             // Navigation event listeners (prevWeek/nextWeek/prevDate/nextDate) are handled by the navigation module
 
             // Custom date picker toggle (NBA)
             document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
-                if (selectedSport === 'NBA') {
+                if (selectedSport === 'NBA' || selectedSport === 'SOCCER') {
                     e.stopPropagation();
                     const picker = document.getElementById('customDatePicker');
                     const isVisible = picker.classList.contains('visible');
@@ -549,7 +630,7 @@
                 const picker = document.getElementById('customDatePicker');
                 const currentDateDisplay = document.getElementById('currentDateDisplay');
 
-                if (selectedSport === 'NBA' && !picker.contains(e.target) && e.target !== currentDateDisplay) {
+                if ((selectedSport === 'NBA' || selectedSport === 'SOCCER') && !picker.contains(e.target) && e.target !== currentDateDisplay) {
                     picker.classList.remove('visible');
                 }
             });
@@ -848,7 +929,7 @@
             // Use 24-hour buffer to ensure games are completed
             const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-            if (sport === 'NBA') {
+            if (sport === 'NBA' || sport === 'SOCCER') {
                 // For NBA, check if the date is at least 1 day ago
                 const gameDate = new Date(weekOrDate);
                 console.log(`🔍 shouldUseStatic check - gameDate: ${gameDate.toISOString()}, oneDayAgo: ${oneDayAgo.toISOString()}, result: ${gameDate <= oneDayAgo}`);
@@ -876,11 +957,20 @@
             return new Date(season, 11, 31); // End of season year
         }
 
+        function getSoccerLeagueSlug(league) {
+            return (league || 'epl').toLowerCase();
+        }
+
         // Helper: Get static file path
         function getStaticPath(sport, season, weekOrDate) {
             const sportLower = sport.toLowerCase();
             if (sport === 'NBA') {
                 return `/data/${sportLower}/${season}/${weekOrDate}.json`;
+            }
+            if (sport === 'SOCCER') {
+                const leagueSlug = getSoccerLeagueSlug(selectedLeague);
+                const year = new Date(weekOrDate).getFullYear();
+                return `/data/soccer/${leagueSlug}/${year}/${weekOrDate}.json`;
             }
             let weekStr;
             if (weekOrDate === 'bowls') {
@@ -935,7 +1025,7 @@
 
             try {
                 // Try to load from static file first
-                const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
+                const weekOrDate = isDateBasedSport(selectedSport) ? selectedDate : selectedWeek;
                 console.log(`📂 [${loadId}] Checking static file - weekOrDate: ${weekOrDate}`);
                 if (shouldUseStatic(selectedSport, selectedSeason, weekOrDate)) {
                     const staticData = await fetchStaticData(selectedSport, selectedSeason, weekOrDate);
@@ -950,7 +1040,7 @@
 
                         // Cache successful load
                         if (window.Navigation && window.Navigation.setCache) {
-                            window.Navigation.setCache(selectedSport, selectedSeason, weekOrDate);
+                            window.Navigation.setCache(selectedSport, selectedSeason, weekOrDate, selectedSport === 'SOCCER' ? selectedLeague : null);
                             console.log(`💾 [${loadId}] Cached successful load: ${selectedSport} ${selectedSeason} ${weekOrDate}`);
                         }
 
@@ -969,6 +1059,12 @@
                 if (selectedSport === 'NBA') {
                     requestBody = {
                         sport: selectedSport,
+                        date: selectedDate
+                    };
+                } else if (selectedSport === 'SOCCER') {
+                    requestBody = {
+                        sport: selectedSport,
+                        league: selectedLeague,
                         date: selectedDate
                     };
                 } else {
@@ -990,15 +1086,22 @@
                 const data = await response.json();
                 console.log(`🌐 API response:`, data ? `success=${data.success}, games=${data.games?.length || 0}` : 'null');
 
+                if (!data.success) {
+                    console.log(`❌ API returned error: ${data.error || 'Unknown error'}`);
+                    isInitialLoad = false;
+                    showEmpty(data.error || 'Could not load games. Please try again.');
+                    return;
+                }
+
                 if (data.success && data.games && data.games.length > 0) {
                     console.log(`✅ Loaded ${data.games.length} games from API`);
                     currentGames = data.games;
                     displayResults();
 
                     // Cache successful API load
-                    const weekOrDate = selectedSport === 'NBA' ? selectedDate : selectedWeek;
+                    const weekOrDate = isDateBasedSport(selectedSport) ? selectedDate : selectedWeek;
                     if (window.Navigation && window.Navigation.setCache) {
-                        window.Navigation.setCache(selectedSport, selectedSeason, weekOrDate);
+                        window.Navigation.setCache(selectedSport, selectedSeason, weekOrDate, selectedSport === 'SOCCER' ? selectedLeague : null);
                         console.log(`💾 Cached successful API load: ${selectedSport} ${selectedSeason} ${weekOrDate}`);
                     }
 
@@ -1010,9 +1113,9 @@
                     if (isInitialLoad && fallbackAttempt < MAX_FALLBACK_ATTEMPTS) {
                         let canFallback = false;
 
-                        if (selectedSport === 'NBA') {
+                        if (selectedSport === 'NBA' || selectedSport === 'SOCCER') {
                             // For NBA, try previous date
-                            console.log(`🔄 NBA fallback - current date: ${selectedDate}`);
+                            console.log(`🔄 ${selectedSport} fallback - current date: ${selectedDate}`);
                             const currentDate = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                             const prevDate = new Date(currentDate);
                             prevDate.setDate(prevDate.getDate() - 1);
@@ -1022,9 +1125,9 @@
                             const month = String(prevDate.getMonth() + 1).padStart(2, '0');
                             const day = String(prevDate.getDate()).padStart(2, '0');
                             const newDate = `${year}-${month}-${day}`;
-                            console.log(`📅 NBA fallback: ${selectedDate} → ${newDate}`);
+                            console.log(`📅 ${selectedSport} fallback: ${selectedDate} → ${newDate}`);
                             selectedDate = newDate;
-                            console.log(`📅 NBA selectedDate changed via fallback: ${selectedDate}`);
+                            console.log(`📅 ${selectedSport} selectedDate changed via fallback: ${selectedDate}`);
                             canFallback = true;
                         } else {
                             // For NFL/CFB, try previous week
@@ -1078,10 +1181,15 @@
             let loadingMessage = customMessage;
 
             if (!loadingMessage) {
-                if (selectedSport === 'NBA') {
+                if (selectedSport === 'NBA' || selectedSport === 'SOCCER') {
                     const dateObj = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                     const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
+                    if (selectedSport === 'SOCCER') {
+                        const leagueDisplayName = SOCCER_LEAGUE_NAMES[selectedLeague] || selectedLeague;
+                        loadingMessage = `loading ${leagueDisplayName} · ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
+                    } else {
+                        loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
+                    }
                 } else if (selectedWeek === 'bowls') {
                     loadingMessage = `loading bowl games...`;
                 } else if (selectedWeek === 'playoffs') {
@@ -1101,11 +1209,16 @@
         // Show empty state
         function showEmpty(message = null) {
             if (!message) {
-                if (selectedSport === 'NBA') {
+                if (selectedSport === 'NBA' || selectedSport === 'SOCCER') {
                     const dateObj = selectedDate ? new Date(selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                         'July', 'August', 'September', 'October', 'November', 'December'];
-                    message = `No games found for ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}.`;
+                    if (selectedSport === 'SOCCER') {
+                        const leagueDisplayName = SOCCER_LEAGUE_NAMES[selectedLeague] || selectedLeague;
+                        message = `No games found for ${leagueDisplayName} on ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}.`;
+                    } else {
+                        message = `No games found for ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}.`;
+                    }
                 } else if (selectedWeek === 'bowls') {
                     message = `No completed bowl games yet for the ${selectedSeason} season.`;
                 } else if (selectedWeek === 'playoffs') {
@@ -1298,7 +1411,7 @@
                 `;
             });
 
-            const legendLabel = selectedSport === 'NBA' ? 'Date avg' : 'Week avg';
+            const legendLabel = selectedSport === 'NBA' || selectedSport === 'SOCCER' ? 'Date avg' : 'Week avg';
             const legend = hasAverages ? `
                 <div class="radar-legend">
                     <div class="radar-legend-item">
@@ -1331,6 +1444,14 @@
             `;
         }
 
+        function getSoccerPeriodLabel(game) {
+            if (game.penalties) return 'Penalties';
+            if (game.extraTime) return 'Extra Time';
+            if (game.period === 1 || (game.minute !== undefined && game.minute <= 45)) return '1st Half';
+            if (game.period === 2 || (game.minute !== undefined && game.minute <= 90)) return '2nd Half';
+            return '2nd Half';
+        }
+
         // Create game row HTML
         function createGameRow(game, index) {
             console.log(`🎮 createGameRow called for game ${index}: ${game.homeTeam} v ${game.awayTeam}`);
@@ -1352,7 +1473,13 @@
 
             // Format scores
             const displayScore = score % 1 === 0 ? score : score.toFixed(window.ALGORITHM_CONFIG.precision.decimals);
-            const gameScoreText = `${game.awayScore || 0}-${game.homeScore || 0}${game.overtime ? ' OT' : ''}`;
+            let gameScoreText;
+            if (selectedSport === 'SOCCER') {
+                const suffix = game.penalties ? ' (pens)' : game.extraTime ? ' ET' : '';
+                gameScoreText = `${game.awayScore || 0}-${game.homeScore || 0}${suffix}`;
+            } else {
+                gameScoreText = `${game.awayScore || 0}-${game.homeScore || 0}${game.overtime ? ' OT' : ''}`;
+            }
 
             // Calculate pie chart values
             const radius = 21;
@@ -1361,15 +1488,30 @@
             const remaining = circumference - progress;
 
             // Generate ESPN recap URL
-            let sportPath;
-            if (selectedSport === 'NFL') {
-                sportPath = 'nfl';
-            } else if (selectedSport === 'CFB') {
-                sportPath = 'college-football';
-            } else if (selectedSport === 'NBA') {
-                sportPath = 'nba';
+            let recapUrl = null;
+            if (selectedSport !== 'SOCCER') {
+                let sportPath;
+                if (selectedSport === 'NFL') {
+                    sportPath = 'nfl';
+                } else if (selectedSport === 'CFB') {
+                    sportPath = 'college-football';
+                } else if (selectedSport === 'NBA') {
+                    sportPath = 'nba';
+                }
+                recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
             }
-            const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
+
+            let soccerStatus = '';
+            if (selectedSport === 'SOCCER') {
+                const label = getSoccerPeriodLabel(game);
+                let indicator = '';
+                if (game.penalties) {
+                    indicator = '<span class="soccer-indicator penalties">penalties</span>';
+                } else if (game.extraTime) {
+                    indicator = '<span class="soccer-indicator extra-time">extra time</span>';
+                }
+                soccerStatus = `<div class="soccer-status">${label}${indicator}</div>`;
+            }
 
             // Build bowl/playoff info for CFB postseason
             let bowlInfo = '';
@@ -1396,6 +1538,7 @@
             return `
                 <div class="game-row" data-game-index="${index}">
                     ${bowlInfo}
+                    ${soccerStatus}
                     <div class="score-rating-line ${ratingClass}">
                         <span class="score-value">${displayScore}</span>
                         <span class="score-separator"> · </span>
@@ -1424,7 +1567,7 @@
                     <div class="game-score ${shouldShowGameScore ? 'visible' : ''}">${gameScoreText}</div>
                     <button class="breakdown-toggle" data-game-id="${game.id}" data-breakdown='${JSON.stringify(game.breakdown || {})}'>View breakdown</button>
                     <div class="game-breakdown" id="breakdown-${game.id}"></div>
-                    <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
+                    ${recapUrl ? `<a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>` : ''}
                 </div>
             `;
         }

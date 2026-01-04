@@ -1,6 +1,7 @@
 // Streamlined Games API Endpoint
 import { fetchGames, fetchSingleGame } from './fetcher.js';
 import { analyzeGameEntertainment } from './calculator.js';
+import { fetchSoccerGames, fetchSoccerOddsTimeseries, SOCCER_LEAGUES } from './soccer-fetcher.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -20,10 +21,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { sport = 'NFL', season, week, seasonType = '2', date, gameId } = req.body;
+    const { sport = 'NFL', season, week, seasonType = '2', date, gameId, league } = req.body;
+    let effectiveDate = date;
 
     // Handle single game request
     if (gameId) {
+      if (sport === 'SOCCER') {
+        return res.status(400).json({
+          success: false,
+          error: 'Single-game lookup is not supported for soccer'
+        });
+      }
       console.log(`Fetching single ${sport} game: ${gameId}`);
 
       const game = await fetchSingleGame(sport, gameId);
@@ -62,7 +70,9 @@ export default async function handler(req, res) {
     }
 
     if (sport === 'NBA') {
-      console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
+      console.log(`Fetching ${sport} games for ${effectiveDate || 'yesterday'}`);
+    } else if (sport === 'SOCCER') {
+      console.log(`Fetching ${sport} games for ${league || 'unknown league'} on ${effectiveDate}`);
     } else if (week === 'bowls') {
       console.log(`Fetching ${sport} bowl games for ${season} season`);
     } else if (week === 'playoffs') {
@@ -71,8 +81,37 @@ export default async function handler(req, res) {
       console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${actualSeasonType})`);
     }
 
-    // Fetch games from ESPN
-    const games = await fetchGames(sport, season, week, actualSeasonType, date);
+    let games;
+
+    if (sport === 'SOCCER') {
+      if (!process.env.ODDS_API_KEY) {
+        return res.status(200).json({
+          success: false,
+          error: 'Soccer support requires ODDS_API_KEY environment variable'
+        });
+      }
+
+      if (!league || !SOCCER_LEAGUES[league]) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid soccer league',
+          supportedLeagues: Object.keys(SOCCER_LEAGUES)
+        });
+      }
+
+      effectiveDate = date || new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      games = await fetchSoccerGames(league, effectiveDate);
+    } else {
+      // Fetch games from ESPN
+      games = await fetchGames(sport, season, week, actualSeasonType, date);
+    }
+
+    if (sport === 'SOCCER' && games === null) {
+      return res.status(200).json({
+        success: false,
+        error: 'Unable to fetch soccer data from The Odds API'
+      });
+    }
 
     if (!games || games.length === 0) {
       return res.status(200).json({
@@ -80,20 +119,49 @@ export default async function handler(req, res) {
         games: [],
         metadata: {
           sport,
+          league,
           season,
           week,
-          date,
-          count: 0
+          date: effectiveDate,
+          count: 0,
+          source: sport === 'SOCCER' ? 'The Odds API Historical Data' : 'ESPN Win Probability Analysis'
         }
       });
     }
 
     console.log(`Found ${games.length} completed games, analyzing...`);
 
-    // Analyze each game in parallel
-    const analyzedGames = await Promise.all(
-      games.map(game => analyzeGameEntertainment(game, sport))
-    );
+    let analyzedGames;
+
+    if (sport === 'SOCCER') {
+      analyzedGames = await Promise.all(
+        games.map(async game => {
+          const oddsTimeseries = await fetchSoccerOddsTimeseries(game.id);
+          if (!oddsTimeseries) return null;
+
+          const lastSnapshot = oddsTimeseries[oddsTimeseries.length - 1];
+          const minute = lastSnapshot?.minute ?? 0;
+          const extraTime = minute > 90;
+          const penalties = minute > 120;
+
+          const enrichedGame = {
+            ...game,
+            minute,
+            period: lastSnapshot?.period,
+            clock: lastSnapshot?.clock,
+            extraTime,
+            penalties
+          };
+
+          return analyzeGameEntertainment(enrichedGame, sport, oddsTimeseries);
+        })
+      );
+    } else {
+      // Analyze each game in parallel
+      analyzedGames = await Promise.all(
+        games.map(game => analyzeGameEntertainment(game, sport))
+      );
+    }
 
     // Filter out null results (games with insufficient data)
     const validGames = analyzedGames.filter(game => game !== null);
@@ -105,13 +173,14 @@ export default async function handler(req, res) {
     // Calculate bowl/playoff metadata for CFB postseason
     const metadata = {
       sport,
+      league,
       season,
       week,
-      date,
+      date: effectiveDate,
       count: validGames.length,
       totalGames: analyzedGames.length,
       insufficientData: insufficientDataCount,
-      source: 'ESPN Win Probability Analysis'
+      source: sport === 'SOCCER' ? 'The Odds API Historical Data' : 'ESPN Win Probability Analysis'
     };
 
     // Add bowl-specific metadata if this is CFB postseason

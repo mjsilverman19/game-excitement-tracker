@@ -1,5 +1,12 @@
 // Simplified ESPN Data Fetcher
 
+export const SPORT_TYPES = {
+  NFL: 'NFL',
+  CFB: 'CFB',
+  NBA: 'NBA',
+  SOCCER: 'SOCCER'
+};
+
 export async function fetchGames(sport, season, week, seasonType = '2', date = null) {
   try {
     // Handle NBA date-based fetching

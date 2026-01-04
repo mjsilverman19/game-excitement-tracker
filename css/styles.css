@@ -258,6 +258,35 @@
             color: var(--text-secondary);
         }
 
+        .soccer-league-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .league-label {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        #soccerLeagueSelect {
+            background: var(--bg-hover);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        #soccerLeagueSelect:focus {
+            outline: none;
+            border-color: var(--accent-recommended);
+        }
+
         .week-nav-link {
             color: var(--text-secondary);
             text-decoration: none;
@@ -581,6 +610,38 @@
 
         .bowl-info.playoff {
             color: var(--accent-must-watch);
+        }
+
+        .soccer-status {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .soccer-indicator {
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 1px solid var(--border-secondary);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .soccer-indicator.extra-time {
+            border-color: var(--accent-recommended);
+            color: var(--text-primary);
+        }
+
+        .soccer-indicator.penalties {
+            border-color: var(--accent-must-watch);
+            color: var(--text-primary);
         }
 
         /* Date Picker - Custom Calendar */
