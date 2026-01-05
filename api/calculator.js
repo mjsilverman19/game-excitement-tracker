@@ -42,22 +42,13 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 
     const excitement = calculateExcitement(probData.items, game, sport);
 
-    // Hardcoded override for Steelers vs Ravens game
-    let finalExcitement = excitement.score;
-    const isSteelersVsRavens =
-      (game.homeTeam.includes('Steelers') && game.awayTeam.includes('Ravens')) ||
-      (game.homeTeam.includes('Ravens') && game.awayTeam.includes('Steelers'));
-    if (isSteelersVsRavens && finalExcitement < 9.5) {
-      finalExcitement = 9.5;
-    }
-
     return {
       id: game.id,
       homeTeam: game.homeTeam,
       awayTeam: game.awayTeam,
       homeScore: game.homeScore,
       awayScore: game.awayScore,
-      excitement: finalExcitement,
+      excitement: excitement.score,
       breakdown: excitement.breakdown,
       overtime: game.overtime,
       bowlName: game.bowlName,
@@ -105,11 +96,9 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     dramaScore * weights.momentumDrama +
     finishScore * weights.finishQuality;
 
-  // Add overtime bonus (applied after weighted combination)
-  const overtimeBonus = sport === 'NBA' ? 0.8 : SCORING_CONFIG.bonuses.overtime;
-  if (game.overtime) {
-    rawScore += overtimeBonus;
-  }
+  // Add upset bonus (replaces overtime bonus - rewards games where underdogs win)
+  const upsetBonus = calculateUpsetBonus(probs);
+  rawScore += upsetBonus;
 
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
@@ -191,9 +180,15 @@ function calculateFinishQuality(probs, sport = 'NFL') {
   const finalProbs = probs.slice(-finalMoments);
   const lastProb = probs[probs.length - 1].value;
 
-  // Component 1: Final probability closeness (how close to 0.5 at game end)
-  const finalCloseness = 1 - Math.abs(lastProb - 0.5) * 2; // 0 to 1
-  const closenessScore = Math.pow(finalCloseness, 0.7) * 4; // Up to 4 points
+  // Component 1: Pre-final closeness (how close to 0.5 before the decisive play)
+  // Use the minimum distance from 0.5 among final points, excluding absolute last
+  // This captures "how close was the game before the walk-off play"
+  const preFinalWindow = probs.slice(-finalMoments, -1);
+  const minDistanceFrom50 = preFinalWindow.length > 0
+    ? Math.min(...preFinalWindow.map(p => Math.abs(p.value - 0.5)))
+    : Math.abs(lastProb - 0.5);
+  const finalCloseness = 1 - minDistanceFrom50 * 2; // 0 to 1
+  const closenessScore = Math.pow(Math.max(0, finalCloseness), 0.7) * 4; // Up to 4 points
 
   // Component 2: Final period volatility (leverage-weighted movement near 0.5)
   // Get final 25% of data points as "final period"
@@ -243,9 +238,48 @@ function calculateFinishQuality(probs, sport = 'NFL') {
  */
 function normalizeScore(rawScore) {
   // Sigmoid centered at 5 to spread scores across 1-10
-  const centered = (rawScore - 5) / 2.2;
-  const sigmoid = 1 / (1 + Math.exp(-centered * 1.2));
+  // Adjusted parameters to allow elite games to reach 9.5+
+  const centered = (rawScore - 5) / 1.9;
+  const sigmoid = 1 / (1 + Math.exp(-centered * 1.4));
 
   // Map sigmoid output (0-1) to final score (1-10)
   return Math.max(1, Math.min(10, 1 + sigmoid * 9));
+}
+
+/**
+ * Calculates upset bonus based on pre-game expectations vs outcome
+ * Rewards games where underdogs win, scaling with degree of upset
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Bonus from 0-0.8 based on upset magnitude
+ */
+function calculateUpsetBonus(probs) {
+  if (probs.length < 10) return 0;
+
+  // Get early game state (first 10 points or 10% of game, whichever is smaller)
+  const earlyWindowSize = Math.min(10, Math.floor(probs.length * 0.1));
+  const earlyWindow = probs.slice(0, Math.max(earlyWindowSize, 5));
+  const earlyHomeWP = earlyWindow.reduce((sum, p) => sum + p.value, 0) / earlyWindow.length;
+
+  // Determine pre-game favorite (team with >50% early WP)
+  const homeFavored = earlyHomeWP > 0.5;
+  const favoriteEarlyWP = homeFavored ? earlyHomeWP : (1 - earlyHomeWP);
+
+  // Need a clear favorite (>55%) for upset bonus to apply
+  if (favoriteEarlyWP < SCORING_CONFIG.bonuses.upset.threshold) return 0;
+
+  // Get final outcome
+  const finalHomeWP = probs[probs.length - 1].value;
+  const homeWon = finalHomeWP > 0.5;
+
+  // Check if underdog won
+  const underdogWon = (homeFavored && !homeWon) || (!homeFavored && homeWon);
+
+  if (!underdogWon) return 0;
+
+  // Scale bonus by degree of upset (0.55 favorite losing = small bonus, 0.75+ favorite losing = max bonus)
+  // upsetMagnitude: 0 at 0.55, 1 at 0.75+
+  const upsetMagnitude = Math.min(1, Math.max(0, (favoriteEarlyWP - 0.55) / 0.2));
+  const bonus = upsetMagnitude * SCORING_CONFIG.bonuses.upset.max;
+
+  return bonus;
 }
