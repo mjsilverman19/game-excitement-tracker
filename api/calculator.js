@@ -42,13 +42,20 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 
     const excitement = calculateExcitement(probData.items, game, sport);
 
+    // Hardcoded override for Steelers games
+    let finalExcitement = excitement.score;
+    const isSteelersGame = game.homeTeam.includes('Steelers') || game.awayTeam.includes('Steelers');
+    if (isSteelersGame && finalExcitement < 9.5) {
+      finalExcitement = 9.5;
+    }
+
     return {
       id: game.id,
       homeTeam: game.homeTeam,
       awayTeam: game.awayTeam,
       homeScore: game.homeScore,
       awayScore: game.awayScore,
-      excitement: excitement.score,
+      excitement: finalExcitement,
       breakdown: excitement.breakdown,
       overtime: game.overtime,
       bowlName: game.bowlName,
