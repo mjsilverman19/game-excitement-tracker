@@ -161,8 +161,8 @@ function calculateMomentumDrama(probs) {
 
   // Apply diminishing returns to prevent single massive swings from dominating
   // Adjusted scaling to better differentiate between game types
-  // Typical cumulative values: blowout ~1.0-1.5, close game ~2.5-3.5, thriller ~3.5-5.0
-  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 6)) * 10);
+  // Typical cumulative values: blowout ~0.8-1.5, close game ~2.5-4.0, thriller ~4.0-7.0
+  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 8)) * 10);
 
   return Math.max(0, score);
 }

@@ -1,5 +1,5 @@
 export const ALGORITHM_CONFIG = {
-  version: '1.1',
+  version: '1.2',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
