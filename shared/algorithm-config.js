@@ -1,5 +1,5 @@
 export const ALGORITHM_CONFIG = {
-  version: '1.2',
+  version: '1.3',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -22,7 +22,7 @@ export const ALGORITHM_CONFIG = {
     walkoffSwingThreshold: 0.15
   },
 
-  bonuses: { overtime: 0.8 },
+  bonuses: { upset: { max: 0.8, threshold: 0.55 } },
 
   metrics: [
     { key: 'uncertainty', label: 'Uncertainty', description: 'How long was the outcome in doubt?' },
