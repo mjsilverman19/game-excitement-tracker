@@ -9,9 +9,9 @@
       "awayScore": 101,
       "excitement": 9.2,
       "breakdown": {
-        "uncertainty": 8.041599658889162,
+        "uncertainty": 10,
         "drama": 8.889599148365628,
-        "finish": 5.642758743620329
+        "finish": 4.836650351674567
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Knicks",
       "homeScore": 121,
       "awayScore": 111,
-      "excitement": 8.8,
+      "excitement": 9.1,
       "breakdown": {
-        "uncertainty": 7.610134910751568,
+        "uncertainty": 9.530134910751567,
         "drama": 8.711771255873405,
-        "finish": 6.525372729673644
+        "finish": 5.593176625434552
       },
       "overtime": false,
       "bowlName": null,
@@ -39,29 +39,13 @@
       "awayTeam": "76ers",
       "homeScore": 134,
       "awayScore": 139,
-      "excitement": 8.6,
+      "excitement": 8.8,
       "breakdown": {
-        "uncertainty": 7.263529017017225,
-        "drama": 8.736297534004,
-        "finish": 4.39859915997872
+        "uncertainty": 10,
+        "drama": 8.736951786704845,
+        "finish": 3.7702278514103313
       },
       "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401809982",
-      "homeTeam": "Warriors",
-      "awayTeam": "Clippers",
-      "homeScore": 98,
-      "awayScore": 79,
-      "excitement": 8.2,
-      "breakdown": {
-        "uncertainty": 6.709923577470496,
-        "drama": 8.21580518917025,
-        "finish": 6.109351174152188
-      },
-      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -71,11 +55,27 @@
       "awayTeam": "Hornets",
       "homeScore": 144,
       "awayScore": 117,
-      "excitement": 7.7,
+      "excitement": 8.8,
       "breakdown": {
-        "uncertainty": 6.1527599601727,
+        "uncertainty": 6.175617103029843,
         "drama": 8.499389825398985,
-        "finish": 5.076694429198313
+        "finish": 4.351452367884268
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809982",
+      "homeTeam": "Warriors",
+      "awayTeam": "Clippers",
+      "homeScore": 98,
+      "awayScore": 79,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 7.875637863184782,
+        "drama": 8.21580518917025,
+        "finish": 5.236586720701875
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:17:57.352Z",
+    "generatedAt": "2026-01-06T02:33:48.889Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-28"
   }

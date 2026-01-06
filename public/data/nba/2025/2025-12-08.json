@@ -7,11 +7,11 @@
       "awayTeam": "Suns",
       "homeScore": 105,
       "awayScore": 108,
-      "excitement": 9.4,
+      "excitement": 9.3,
       "breakdown": {
-        "uncertainty": 9.105522450159514,
+        "uncertainty": 10,
         "drama": 9.403715670848689,
-        "finish": 6.6010555493326475
+        "finish": 5.6580476137136975
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Spurs",
       "homeScore": 132,
       "awayScore": 135,
-      "excitement": 3.6,
+      "excitement": 3.3,
       "breakdown": {
         "uncertainty": 3.3529854320724786,
-        "drama": 4.319702361304853,
-        "finish": 3.6386388539279912
+        "drama": 4.373452195511673,
+        "finish": 3.11883330336685
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Kings",
       "homeScore": 116,
       "awayScore": 105,
-      "excitement": 3.4,
+      "excitement": 3.1,
       "breakdown": {
         "uncertainty": 4.57998258418346,
-        "drama": 5.6428544511010035,
-        "finish": 1.4195616261993897
+        "drama": 5.646609130748345,
+        "finish": 1.2167671081709055
       },
       "overtime": false,
       "bowlName": null,
@@ -56,7 +56,7 @@
     "count": 3,
     "totalGames": 3,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:18:24.058Z",
+    "generatedAt": "2026-01-06T02:34:15.693Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-08"
   }

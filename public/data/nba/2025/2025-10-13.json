@@ -9,9 +9,9 @@
       "awayScore": 118,
       "excitement": 8.8,
       "breakdown": {
-        "uncertainty": 8.118378759868518,
+        "uncertainty": 10,
         "drama": 8.395908033976205,
-        "finish": 6.629243106330328
+        "finish": 5.682208376854566
       },
       "overtime": true,
       "bowlName": null,
@@ -25,9 +25,9 @@
       "awayScore": 124,
       "excitement": 8.8,
       "breakdown": {
-        "uncertainty": 7.954935754598944,
+        "uncertainty": 10,
         "drama": 8.796943553052367,
-        "finish": 6.189613492306759
+        "finish": 5.305382993405793
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 101,
       "awayScore": 114,
-      "excitement": 8.2,
+      "excitement": 7.7,
       "breakdown": {
-        "uncertainty": 7.764468135525281,
+        "uncertainty": 8.050182421239565,
         "drama": 8.365638198823236,
-        "finish": 5.0199122832732215
+        "finish": 4.302781957091332
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Wizards",
       "homeScore": 103,
       "awayScore": 120,
-      "excitement": 2.8,
+      "excitement": 3,
       "breakdown": {
-        "uncertainty": 4.2437758320914885,
-        "drama": 6.137634436623214,
-        "finish": 0.04847013414321444
+        "uncertainty": 4.620918689234345,
+        "drama": 6.150039605534956,
+        "finish": 0.6333370100221163
       },
       "overtime": false,
       "bowlName": null,
@@ -72,7 +72,7 @@
     "count": 4,
     "totalGames": 5,
     "insufficientData": 1,
-    "generatedAt": "2026-01-06T00:17:48.064Z",
+    "generatedAt": "2026-01-06T02:33:40.181Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-13"
   }

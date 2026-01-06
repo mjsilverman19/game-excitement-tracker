@@ -7,11 +7,11 @@
       "awayTeam": "Heat",
       "homeScore": 117,
       "awayScore": 108,
-      "excitement": 8.4,
+      "excitement": 8.6,
       "breakdown": {
-        "uncertainty": 7.108098330449842,
+        "uncertainty": 10,
         "drama": 8.694941225568332,
-        "finish": 5.729449989371739
+        "finish": 4.910957133747204
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Knicks",
       "homeScore": 101,
       "awayScore": 117,
-      "excitement": 4.1,
+      "excitement": 3.6,
       "breakdown": {
         "uncertainty": 5.795192946432081,
-        "drama": 6.808786108346957,
-        "finish": 0.7867019742449257
+        "drama": 6.828465402222754,
+        "finish": 0.674315977924222
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:18:24.800Z",
+    "generatedAt": "2026-01-06T02:34:16.226Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-09"
   }

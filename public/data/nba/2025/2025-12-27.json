@@ -7,11 +7,11 @@
       "awayTeam": "Bucks",
       "homeScore": 103,
       "awayScore": 112,
-      "excitement": 9.6,
+      "excitement": 9.8,
       "breakdown": {
-        "uncertainty": 7.433318006743191,
+        "uncertainty": 8.86188943531462,
         "drama": 9.56245891539653,
-        "finish": 9.920255986339807
+        "finish": 9.931647988291264
       },
       "overtime": false,
       "bowlName": null,
@@ -23,43 +23,11 @@
       "awayTeam": "Nets",
       "homeScore": 107,
       "awayScore": 123,
-      "excitement": 9.2,
+      "excitement": 9.4,
       "breakdown": {
-        "uncertainty": 7.588015071890169,
+        "uncertainty": 10,
         "drama": 9.124856192019072,
-        "finish": 6.204554836266921
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810291",
-      "homeTeam": "Heat",
-      "awayTeam": "Pacers",
-      "homeScore": 142,
-      "awayScore": 116,
-      "excitement": 8.1,
-      "breakdown": {
-        "uncertainty": 6.222456415432499,
-        "drama": 7.638089333584242,
-        "finish": 6.515858446932418
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810289",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Suns",
-      "homeScore": 114,
-      "awayScore": 123,
-      "excitement": 7.9,
-      "breakdown": {
-        "uncertainty": 6.820169695680698,
-        "drama": 8.160486531025523,
-        "finish": 5.239475905571239
+        "finish": 5.318189859657361
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +39,43 @@
       "awayTeam": "Jazz",
       "homeScore": 114,
       "awayScore": 127,
+      "excitement": 9,
+      "breakdown": {
+        "uncertainty": 8.656853506454445,
+        "drama": 6.523929566109138,
+        "finish": 4.780127388034147
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810291",
+      "homeTeam": "Heat",
+      "awayTeam": "Pacers",
+      "homeScore": 142,
+      "awayScore": 116,
       "excitement": 7.6,
       "breakdown": {
-        "uncertainty": 4.6568535064544445,
-        "drama": 6.5237053283945095,
-        "finish": 5.576815286039838
+        "uncertainty": 6.222456415432499,
+        "drama": 7.638089333584242,
+        "finish": 5.585021525942072
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810289",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Suns",
+      "homeScore": 114,
+      "awayScore": 123,
+      "excitement": 7.4,
+      "breakdown": {
+        "uncertainty": 7.014455409966412,
+        "drama": 8.160486531025523,
+        "finish": 4.49097934763249
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 113,
       "awayScore": 107,
-      "excitement": 6.6,
+      "excitement": 6.5,
       "breakdown": {
-        "uncertainty": 5.4004707349789065,
+        "uncertainty": 6.38332787783605,
         "drama": 7.014249344328521,
-        "finish": 4.509296905958541
+        "finish": 3.865111633678749
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 127,
       "awayScore": 126,
-      "excitement": 6.2,
+      "excitement": 5.6,
       "breakdown": {
         "uncertainty": 6.046069656257265,
-        "drama": 7.412991805828603,
-        "finish": 3.511423576395787
+        "drama": 7.4133028554027085,
+        "finish": 3.0097916369106743
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Knicks",
       "homeScore": 125,
       "awayScore": 128,
-      "excitement": 4.7,
+      "excitement": 4.2,
       "breakdown": {
         "uncertainty": 5.58071916950222,
-        "drama": 6.707891671163267,
-        "finish": 2.010134452544122
+        "drama": 6.710444388198356,
+        "finish": 1.7229723878949617
       },
       "overtime": false,
       "bowlName": null,
@@ -138,8 +138,8 @@
       "excitement": 3.3,
       "breakdown": {
         "uncertainty": 4.649730753789658,
-        "drama": 5.969286387654621,
-        "finish": 0.8306900021085447
+        "drama": 5.978168207194408,
+        "finish": 1.246201797388594
       },
       "overtime": false,
       "bowlName": null,
@@ -152,7 +152,7 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:18:36.438Z",
+    "generatedAt": "2026-01-06T02:34:27.002Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-27"
   }
