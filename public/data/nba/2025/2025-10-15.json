@@ -7,11 +7,11 @@
       "awayTeam": "Raptors",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 8.5,
+      "excitement": 8.2,
       "breakdown": {
-        "uncertainty": 7.769574092639618,
+        "uncertainty": 8.386716949782475,
         "drama": 8.353545136004541,
-        "finish": 5.956099600816861
+        "finish": 5.105228229271595
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 94,
       "awayScore": 121,
-      "excitement": 7.1,
+      "excitement": 6.6,
       "breakdown": {
-        "uncertainty": 6.083490365446785,
+        "uncertainty": 6.232061794018214,
         "drama": 7.236503986383367,
-        "finish": 5.097012083005161
+        "finish": 4.36886749971871
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Grizzlies",
       "homeScore": 145,
       "awayScore": 116,
-      "excitement": 6.4,
+      "excitement": 6,
       "breakdown": {
-        "uncertainty": 5.508105508569504,
-        "drama": 6.8326927276191505,
-        "finish": 4.68865997161156
+        "uncertainty": 5.656676937140933,
+        "drama": 6.832819431119653,
+        "finish": 4.01885140423848
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Clippers",
       "homeScore": 91,
       "awayScore": 109,
-      "excitement": 2.7,
+      "excitement": 3.1,
       "breakdown": {
-        "uncertainty": 4.348355091150536,
-        "drama": 5.46547962136872,
-        "finish": 0.25329145685116594
+        "uncertainty": 5.982640805436249,
+        "drama": 5.5014597582692275,
+        "finish": 0.5808013064543857
       },
       "overtime": false,
       "bowlName": null,
@@ -72,7 +72,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:17:49.471Z",
+    "generatedAt": "2026-01-06T02:33:41.282Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-15"
   }

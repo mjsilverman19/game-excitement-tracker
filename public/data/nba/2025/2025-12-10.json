@@ -7,11 +7,11 @@
       "awayTeam": "Spurs",
       "homeScore": 119,
       "awayScore": 132,
-      "excitement": 5.3,
+      "excitement": 6,
       "breakdown": {
-        "uncertainty": 5.145676900431981,
-        "drama": 6.612805165814331,
-        "finish": 2.117865790212778
+        "uncertainty": 7.911391186146268,
+        "drama": 6.622839260698738,
+        "finish": 1.8153135344680955
       },
       "overtime": false,
       "bowlName": null,
@@ -26,8 +26,8 @@
       "excitement": 1.3,
       "breakdown": {
         "uncertainty": 0.9574698108596413,
-        "drama": 0.5302719077224859,
-        "finish": 0.04301300080988111
+        "drama": 0.6761453377460848,
+        "finish": 0.06960939497989815
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:18:25.630Z",
+    "generatedAt": "2026-01-06T02:34:16.796Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-10"
   }

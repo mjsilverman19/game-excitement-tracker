@@ -9,9 +9,9 @@
       "awayScore": 100,
       "excitement": 9.3,
       "breakdown": {
-        "uncertainty": 8.111391983428891,
+        "uncertainty": 10,
         "drama": 8.519358643283159,
-        "finish": 6.366782685217957
+        "finish": 5.457242301615391
       },
       "overtime": false,
       "bowlName": null,
@@ -23,27 +23,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 112,
       "awayScore": 123,
-      "excitement": 8.8,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 7.8121806142989385,
+        "uncertainty": 9.10360918572751,
         "drama": 8.518476566947156,
-        "finish": 6.624552372881704
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810085",
-      "homeTeam": "Pacers",
-      "awayTeam": "Raptors",
-      "homeScore": 111,
-      "awayScore": 129,
-      "excitement": 5.7,
-      "breakdown": {
-        "uncertainty": 6.327715783680537,
-        "drama": 7.232559673967348,
-        "finish": 2.575851513374891
+        "finish": 5.6781877481843175
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +39,27 @@
       "awayTeam": "Lakers",
       "homeScore": 95,
       "awayScore": 119,
-      "excitement": 4,
+      "excitement": 5.6,
       "breakdown": {
-        "uncertainty": 4.721138408710791,
-        "drama": 6.879631726876802,
-        "finish": 1.4450293273582657
+        "uncertainty": 5.566852694425077,
+        "drama": 6.9829673424000465,
+        "finish": 1.2385965663070848
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810085",
+      "homeTeam": "Pacers",
+      "awayTeam": "Raptors",
+      "homeScore": 111,
+      "awayScore": 129,
+      "excitement": 5.4,
+      "breakdown": {
+        "uncertainty": 7.013430069394823,
+        "drama": 7.23416689253667,
+        "finish": 2.2078727257499065
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Thunder",
       "homeScore": 96,
       "awayScore": 109,
-      "excitement": 3.2,
+      "excitement": 3,
       "breakdown": {
         "uncertainty": 4.122065964866623,
-        "drama": 5.192496054294571,
-        "finish": 1.7568057279350113
+        "drama": 5.201551590223938,
+        "finish": 1.5058334810871525
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:18:08.894Z",
+    "generatedAt": "2026-01-06T02:34:00.366Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-15"
   }

@@ -9,7 +9,10 @@ const SCORING_CONFIG = {
     minDataPoints: ALGORITHM_CONFIG.thresholds.minDataPoints,
     finalPeriodStart: 4, // Q4 for both football and basketball
     finalMomentPoints: ALGORITHM_CONFIG.thresholds.finalMomentPoints,
-    walkoffSwingThreshold: ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold
+    walkoffSwingThreshold: ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold,
+    leverageFloor: ALGORITHM_CONFIG.thresholds.leverageFloor,
+    lateDramaSwingThreshold: ALGORITHM_CONFIG.thresholds.lateDramaSwingThreshold,
+    largeFinalSwingThreshold: ALGORITHM_CONFIG.thresholds.largeFinalSwingThreshold
   },
   bonuses: ALGORITHM_CONFIG.bonuses
 };
@@ -74,7 +77,10 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   }
 
   // METRIC 1: Outcome Uncertainty (how long was the result in doubt?)
-  const uncertaintyScore = calculateOutcomeUncertainty(probs);
+  // Adjust for comebacks - a game that looked decided but came back was actually uncertain
+  const baseUncertainty = calculateOutcomeUncertainty(probs);
+  const comebackFactor = calculateComebackUncertaintyBoost(probs);
+  const uncertaintyScore = Math.min(10, baseUncertainty + comebackFactor);
 
   // METRIC 2: Momentum Drama (leverage-weighted swings)
   const dramaScore = calculateMomentumDrama(probs);
@@ -99,6 +105,14 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // Add upset bonus (replaces overtime bonus - rewards games where underdogs win)
   const upsetBonus = calculateUpsetBonus(probs);
   rawScore += upsetBonus;
+
+  // Add comeback bonus for dramatic comebacks from extreme deficits
+  const comebackBonus = calculateComebackBonus(probs);
+  rawScore += comebackBonus;
+
+  // Add extraordinary volatility bonus for rare swing patterns
+  const volatilityBonus = calculateVolatilityBonus(probs);
+  rawScore += volatilityBonus;
 
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
@@ -139,6 +153,42 @@ function calculateOutcomeUncertainty(probs) {
 }
 
 /**
+ * Boosts uncertainty score for games with significant comebacks
+ * A game that looked "decided" but came back was actually uncertain in hindsight
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Boost from 0-4 based on comeback magnitude
+ */
+function calculateComebackUncertaintyBoost(probs) {
+  if (probs.length < 20) return 0;
+
+  // Find the most extreme point (furthest from 50%) where the eventual loser was "winning"
+  const finalWP = probs[probs.length - 1].value;
+  const homeWon = finalWP > 0.5;
+
+  let maxDeficit = 0; // How far behind did the winner get?
+
+  for (let i = 0; i < probs.length; i++) {
+    const wp = probs[i].value;
+    // If home won, look for points where home WP was low (home was losing)
+    // If away won, look for points where home WP was high (away was losing)
+    if (homeWon && wp < 0.5) {
+      maxDeficit = Math.max(maxDeficit, 0.5 - wp);
+    } else if (!homeWon && wp > 0.5) {
+      maxDeficit = Math.max(maxDeficit, wp - 0.5);
+    }
+  }
+
+  // No comeback if winner was never behind
+  if (maxDeficit === 0) return 0;
+
+  // Scale boost: small deficit (5%) = tiny boost, large deficit (40%+) = max boost
+  // 0.05 deficit = 0, 0.40 deficit = 4 points
+  const boost = Math.min(4, Math.max(0, (maxDeficit - 0.05) / 0.35) * 4);
+
+  return boost;
+}
+
+/**
  * METRIC 2: Momentum Drama
  * Measures leverage-weighted swings - big swings matter more when the game is close
  * Swings near 50/50 count more than swings when the game is already decided
@@ -148,11 +198,14 @@ function calculateOutcomeUncertainty(probs) {
 function calculateMomentumDrama(probs) {
   if (probs.length < 2) return 0;
 
+  const leverageFloor = SCORING_CONFIG.thresholds.leverageFloor;
   let totalWeightedSwing = 0;
 
   for (let i = 1; i < probs.length; i++) {
     const swing = Math.abs(probs[i].value - probs[i - 1].value);
-    const leverage = probs[i - 1].value * (1 - probs[i - 1].value); // Max at 0.5, zero at 0 or 1
+    // Add leverage floor so swings at extremes still contribute
+    const rawLeverage = probs[i - 1].value * (1 - probs[i - 1].value);
+    const leverage = Math.max(leverageFloor, rawLeverage);
     const weightedSwing = swing * leverage * 4; // Scale factor since max leverage is 0.25
     totalWeightedSwing += weightedSwing;
   }
@@ -166,6 +219,49 @@ function calculateMomentumDrama(probs) {
 }
 
 /**
+ * Detects truncated OT/late-game data and returns an adjusted probability array
+ * If the final N points are all stuck at an extreme (<2% or >98%), trim them
+ * to find the actual competitive finish window
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {Array} Adjusted probability array for finish evaluation
+ */
+function detectAndAdjustForTruncatedData(probs) {
+  if (probs.length < 20) return probs;
+
+  // Check if final 10+ points are all at same extreme
+  const checkWindow = 10;
+  const finalWindow = probs.slice(-checkWindow);
+  const extremeThreshold = 0.02; // 2%
+
+  const allAtLowExtreme = finalWindow.every(p => p.value <= extremeThreshold);
+  const allAtHighExtreme = finalWindow.every(p => p.value >= (1 - extremeThreshold));
+
+  if (!allAtLowExtreme && !allAtHighExtreme) {
+    return probs; // Data looks fine
+  }
+
+  // Find where the data became "stuck" at the extreme
+  // Walk backwards to find last point that wasn't at the extreme
+  let cutoffIndex = probs.length - 1;
+  for (let i = probs.length - 1; i >= 0; i--) {
+    const p = probs[i].value;
+    const isExtreme = p <= extremeThreshold || p >= (1 - extremeThreshold);
+    if (!isExtreme) {
+      cutoffIndex = i + 1; // Include one extreme point as the "finish"
+      break;
+    }
+  }
+
+  // Don't trim too much - keep at least 80% of data
+  const minKeep = Math.floor(probs.length * 0.8);
+  if (cutoffIndex < minKeep) {
+    cutoffIndex = minKeep;
+  }
+
+  return probs.slice(0, cutoffIndex);
+}
+
+/**
  * METRIC 3: Finish Quality
  * Combines final probability closeness, final period volatility, and walk-off detection
  * Games that come down to the wire score highest
@@ -176,14 +272,18 @@ function calculateMomentumDrama(probs) {
 function calculateFinishQuality(probs, sport = 'NFL') {
   if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
 
-  const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, probs.length);
-  const finalProbs = probs.slice(-finalMoments);
-  const lastProb = probs[probs.length - 1].value;
+  // Detect truncated OT data: if final N points are all at same extreme (<2% or >98%),
+  // use a broader window that captures the actual finish drama
+  const adjustedProbs = detectAndAdjustForTruncatedData(probs);
+
+  const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, adjustedProbs.length);
+  const finalProbs = adjustedProbs.slice(-finalMoments);
+  const lastProb = adjustedProbs[adjustedProbs.length - 1].value;
 
   // Component 1: Pre-final closeness (how close to 0.5 before the decisive play)
   // Use the minimum distance from 0.5 among final points, excluding absolute last
   // This captures "how close was the game before the walk-off play"
-  const preFinalWindow = probs.slice(-finalMoments, -1);
+  const preFinalWindow = adjustedProbs.slice(-finalMoments, -1);
   const minDistanceFrom50 = preFinalWindow.length > 0
     ? Math.min(...preFinalWindow.map(p => Math.abs(p.value - 0.5)))
     : Math.abs(lastProb - 0.5);
@@ -192,8 +292,8 @@ function calculateFinishQuality(probs, sport = 'NFL') {
 
   // Component 2: Final period volatility (leverage-weighted movement near 0.5)
   // Get final 25% of data points as "final period"
-  const finalPeriodSize = Math.max(2, Math.floor(probs.length * 0.25));
-  const finalPeriod = probs.slice(-finalPeriodSize);
+  const finalPeriodSize = Math.max(2, Math.floor(adjustedProbs.length * 0.25));
+  const finalPeriod = adjustedProbs.slice(-finalPeriodSize);
 
   let finalPeriodMovement = 0;
   for (let i = 1; i < finalPeriod.length; i++) {
@@ -224,8 +324,22 @@ function calculateFinishQuality(probs, sport = 'NFL') {
     walkoffScore = 2 + Math.min(2, (maxFinalSwing - 0.15) * 10); // Up to 4 points
   }
 
-  // Combine components (max 12, scaled to 10)
-  const totalScore = (closenessScore + volatilityScore + walkoffScore) * (10 / 12);
+  // Component 4: Late drama - any large swing in final 5 points regardless of position
+  const lateDramaWindow = adjustedProbs.slice(-5);
+  let maxLateDramaSwing = 0;
+  for (let i = 1; i < lateDramaWindow.length; i++) {
+    const swing = Math.abs(lateDramaWindow[i].value - lateDramaWindow[i - 1].value);
+    maxLateDramaSwing = Math.max(maxLateDramaSwing, swing);
+  }
+
+  let lateDramaScore = 0;
+  if (maxLateDramaSwing >= SCORING_CONFIG.thresholds.largeFinalSwingThreshold) {
+    // Large swing in final moments, even at extremes
+    lateDramaScore = Math.min(2, (maxLateDramaSwing - 0.15) * 8); // Up to 2 points
+  }
+
+  // Combine components (max 14, scaled to 10)
+  const totalScore = (closenessScore + volatilityScore + walkoffScore + lateDramaScore) * (10 / 14);
 
   return Math.min(10, Math.max(0, totalScore));
 }
@@ -282,4 +396,130 @@ function calculateUpsetBonus(probs) {
   const bonus = upsetMagnitude * SCORING_CONFIG.bonuses.upset.max;
 
   return bonus;
+}
+
+/**
+ * Calculates comeback bonus for games with dramatic swings from extreme deficits
+ * Rewards games where a team comes back from <15% or >85% win probability through 50%
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Bonus from 0-1.0 based on comeback magnitude
+ */
+function calculateComebackBonus(probs) {
+  if (probs.length < 20) return 0;
+
+  const extremeThreshold = SCORING_CONFIG.bonuses.comeback.extremeThreshold;
+  const maxBonus = SCORING_CONFIG.bonuses.comeback.max;
+
+  // Track extreme points and subsequent crossings of 50%
+  let maxComebackMagnitude = 0;
+
+  // Find all points where a team was in extreme territory
+  for (let i = 0; i < probs.length - 10; i++) {
+    const p = probs[i].value;
+
+    // Check if this is an extreme point (one team heavily favored)
+    const isHomeExtreme = p >= (1 - extremeThreshold); // Home >85%
+    const isAwayExtreme = p <= extremeThreshold; // Away >85% (home <15%)
+
+    if (!isHomeExtreme && !isAwayExtreme) continue;
+
+    // Look for subsequent crossing of 50% in the opposite direction
+    for (let j = i + 1; j < probs.length; j++) {
+      const laterP = probs[j].value;
+
+      // Did the disadvantaged team come back through 50%?
+      const homeCameBack = isAwayExtreme && laterP > 0.5;
+      const awayCameBack = isHomeExtreme && laterP < 0.5;
+
+      if (homeCameBack || awayCameBack) {
+        // Calculate comeback magnitude: how far from 50% were they?
+        const deficit = isAwayExtreme ? (0.5 - p) : (p - 0.5);
+        maxComebackMagnitude = Math.max(maxComebackMagnitude, deficit);
+        break; // Found a comeback from this extreme point
+      }
+    }
+  }
+
+  if (maxComebackMagnitude === 0) return 0;
+
+  // Scale bonus: 0.35 deficit (15% WP) = 0, 0.50 deficit (0% WP) = max
+  // comebackScale: 0 at 0.35, 1 at 0.50
+  const comebackScale = Math.min(1, Math.max(0, (maxComebackMagnitude - 0.35) / 0.15));
+  return comebackScale * maxBonus;
+}
+
+/**
+ * Calculates extraordinary volatility bonus for games with rare swing patterns
+ * Only triggers for truly exceptional games to avoid score inflation
+ * Criteria:
+ * - Multiple large swings (5+ swings > 15%) OR
+ * - A massive single swing (>25%) OR
+ * - An extreme recovery swing (>18% from <10% WP)
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Bonus from 0-1.5 based on extraordinary volatility
+ */
+function calculateVolatilityBonus(probs) {
+  if (probs.length < 20) return 0;
+
+  const config = SCORING_CONFIG.bonuses.volatility;
+  const maxBonus = config.max;
+
+  let largeSwingCount = 0;
+  let hasMassiveSwing = false;
+  let hasExtremeRecovery = false;
+
+  for (let i = 1; i < probs.length; i++) {
+    const prev = probs[i - 1].value;
+    const curr = probs[i].value;
+    const swing = Math.abs(curr - prev);
+
+    // Count large swings (>15%)
+    if (swing >= config.largeSwingThreshold) {
+      largeSwingCount++;
+    }
+
+    // Check for massive swing (>25%) - very rare
+    if (swing >= config.massiveSwingThreshold) {
+      hasMassiveSwing = true;
+    }
+
+    // Check for extreme recovery: large swing FROM a very low probability
+    // e.g., going from 5% to 25% is extraordinary (hope from despair)
+    const prevIsExtremeLow = prev <= 0.10;
+    const prevIsExtremeHigh = prev >= 0.90;
+    if ((prevIsExtremeLow || prevIsExtremeHigh) && swing >= config.extremeRecoveryThreshold) {
+      hasExtremeRecovery = true;
+    }
+  }
+
+  // Calculate bonus based on which criteria are met
+  // These are rare patterns, so we can be generous when they occur
+  let bonus = 0;
+
+  // Multiple large swings: indicates sustained back-and-forth drama
+  if (largeSwingCount >= config.multiSwingCount) {
+    // Scale from 0.5 at 5 swings to max at 10+ swings
+    const multiSwingScale = Math.min(1, (largeSwingCount - 5) / 5);
+    bonus = Math.max(bonus, 0.5 + multiSwingScale * 0.5);
+  }
+
+  // Massive single swing: indicates a game-changing moment
+  if (hasMassiveSwing) {
+    bonus = Math.max(bonus, 0.8);
+  }
+
+  // Extreme recovery: indicates hope from near-certain defeat
+  if (hasExtremeRecovery) {
+    bonus = Math.max(bonus, 1.0);
+  }
+
+  // If multiple criteria are met, give extra credit
+  const criteriaCount = (largeSwingCount >= config.multiSwingCount ? 1 : 0) +
+                        (hasMassiveSwing ? 1 : 0) +
+                        (hasExtremeRecovery ? 1 : 0);
+  if (criteriaCount >= 2) {
+    bonus = Math.min(maxBonus, bonus + 0.5);
+  }
+
+  return Math.min(maxBonus, bonus);
 }

@@ -2,22 +2,6 @@
   "success": true,
   "games": [
     {
-      "id": "401812728",
-      "homeTeam": "Hawks",
-      "awayTeam": "Rockets",
-      "homeScore": 115,
-      "awayScore": 133,
-      "excitement": 9,
-      "breakdown": {
-        "uncertainty": 8.801669794832646,
-        "drama": 9.167443410570883,
-        "finish": 6.209527879875882
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401812729",
       "homeTeam": "Bulls",
       "awayTeam": "Timberwolves",
@@ -25,9 +9,9 @@
       "awayScore": 120,
       "excitement": 9,
       "breakdown": {
-        "uncertainty": 8.34357791689497,
+        "uncertainty": 10,
         "drama": 9.033565396542828,
-        "finish": 6.615162297656205
+        "finish": 5.670139112276748
       },
       "overtime": false,
       "bowlName": null,
@@ -41,9 +25,25 @@
       "awayScore": 129,
       "excitement": 8.9,
       "breakdown": {
-        "uncertainty": 8.338841279434154,
+        "uncertainty": 10,
         "drama": 9.132344634571028,
-        "finish": 6.194597654437808
+        "finish": 5.309655132375264
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812728",
+      "homeTeam": "Hawks",
+      "awayTeam": "Rockets",
+      "homeScore": 115,
+      "awayScore": 133,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 9.247384080546931,
+        "drama": 9.167443410570883,
+        "finish": 5.322452468465041
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Wizards",
       "homeScore": 119,
       "awayScore": 98,
-      "excitement": 8.1,
+      "excitement": 7.9,
       "breakdown": {
         "uncertainty": 6.252902571725812,
         "drama": 7.882704188369523,
-        "finish": 6.376494171296029
+        "finish": 5.465566432539453
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Pelicans",
       "homeScore": 132,
       "awayScore": 125,
-      "excitement": 7.6,
+      "excitement": 7.1,
       "breakdown": {
         "uncertainty": 5.5468029680936395,
         "drama": 7.254034002159649,
-        "finish": 6.322914717596115
+        "finish": 5.4196411865109555
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:17:50.020Z",
+    "generatedAt": "2026-01-06T02:33:41.869Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-16"
   }

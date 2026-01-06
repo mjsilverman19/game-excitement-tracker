@@ -7,11 +7,11 @@
       "awayTeam": "76ers",
       "homeScore": 114,
       "awayScore": 123,
-      "excitement": 8.5,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 7.477280294641012,
+        "uncertainty": 10,
         "drama": 8.651999084953099,
-        "finish": 5.878023925329604
+        "finish": 5.038306221711089
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Hawks",
       "homeScore": 135,
       "awayScore": 126,
-      "excitement": 5.7,
+      "excitement": 6,
       "breakdown": {
-        "uncertainty": 5.878261299789162,
-        "drama": 7.020232458285788,
-        "finish": 3.0766556469087183
+        "uncertainty": 7.8554041569320185,
+        "drama": 7.020290853007385,
+        "finish": 2.6371334116360443
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Clippers",
       "homeScore": 129,
       "awayScore": 101,
-      "excitement": 4.4,
+      "excitement": 3.9,
       "breakdown": {
         "uncertainty": 4.850323703397806,
-        "drama": 6.355778993345465,
-        "finish": 2.345454789355269
+        "drama": 6.356004235333056,
+        "finish": 2.010389819447373
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Kings",
       "homeScore": 137,
       "awayScore": 96,
-      "excitement": 2,
+      "excitement": 1.9,
       "breakdown": {
         "uncertainty": 2.9504400090386036,
-        "drama": 4.069587023440507,
-        "finish": 0.0986820438203361
+        "drama": 4.120305301295532,
+        "finish": 0.19633402695676744
       },
       "overtime": false,
       "bowlName": null,
@@ -72,7 +72,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:18:12.242Z",
+    "generatedAt": "2026-01-06T02:34:03.389Z",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-20"
   }

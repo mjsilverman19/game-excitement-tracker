@@ -7,11 +7,11 @@
       "awayTeam": "Duke",
       "homeScore": 20,
       "awayScore": 27,
-      "excitement": 9.3,
+      "excitement": 9.7,
       "breakdown": {
-        "uncertainty": 6.610293874081864,
-        "drama": 7.8593059339008855,
-        "finish": 9.842500000000001
+        "uncertainty": 8.060579588367577,
+        "drama": 7.8735441578134555,
+        "finish": 9.471285714285715
       },
       "overtime": true,
       "bowlName": "ACC Championship",
@@ -23,11 +23,11 @@
       "awayTeam": "Indiana",
       "homeScore": 10,
       "awayScore": 13,
-      "excitement": 8.5,
+      "excitement": 9.5,
       "breakdown": {
-        "uncertainty": 7.632081880971359,
-        "drama": 7.543623395875913,
-        "finish": 6.666666666666667
+        "uncertainty": 9.685796166685645,
+        "drama": 7.64573791325624,
+        "finish": 7.142857142857143
       },
       "overtime": false,
       "bowlName": "Big Ten Championship",
@@ -39,11 +39,11 @@
       "awayTeam": "Georgia",
       "homeScore": 7,
       "awayScore": 28,
-      "excitement": 6.6,
+      "excitement": 8.4,
       "breakdown": {
         "uncertainty": 3.739763955560317,
-        "drama": 4.010120690032953,
-        "finish": 8.360507110906667
+        "drama": 4.400785169697682,
+        "finish": 8.594720380777144
       },
       "overtime": false,
       "bowlName": "SEC Championship",
@@ -55,11 +55,11 @@
       "awayTeam": "North Texas",
       "homeScore": 34,
       "awayScore": 21,
-      "excitement": 2.8,
+      "excitement": 3.1,
       "breakdown": {
-        "uncertainty": 3.966107042937452,
-        "drama": 4.812249353144678,
-        "finish": 0.49311488489150673
+        "uncertainty": 6.027821328651738,
+        "drama": 4.876757570952269,
+        "finish": 0.4226699013355772
       },
       "overtime": false,
       "bowlName": "American Championship",
@@ -71,11 +71,11 @@
       "awayTeam": "BYU",
       "homeScore": 34,
       "awayScore": 7,
-      "excitement": 2.6,
+      "excitement": 2.9,
       "breakdown": {
         "uncertainty": 4.98135877633072,
-        "drama": 4.667401510699895,
-        "finish": 0.08864749596988118
+        "drama": 4.692101157331166,
+        "finish": 1.1647252632885539
       },
       "overtime": false,
       "bowlName": "Big 12 Championship",
@@ -87,11 +87,11 @@
       "awayTeam": "Troy",
       "homeScore": 31,
       "awayScore": 14,
-      "excitement": 1.9,
+      "excitement": 2.5,
       "breakdown": {
         "uncertainty": 2.716595573146454,
-        "drama": 2.7127949057872804,
-        "finish": 0.9581295323298815
+        "drama": 2.727276684662274,
+        "finish": 2.8352972952536097
       },
       "overtime": false,
       "bowlName": "Sun Belt Championship",
@@ -104,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T00:17:27.899Z",
+    "generatedAt": "2026-01-06T02:33:19.527Z",
     "source": "ESPN Win Probability Analysis",
     "week": 15
   }
