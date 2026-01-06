@@ -22,7 +22,8 @@ const options = {
   week: null,
   date: null,
   all: false,
-  force: false
+  force: false,
+  until: null
 };
 
 for (let i = 0; i < args.length; i++) {
@@ -36,6 +37,8 @@ for (let i = 0; i < args.length; i++) {
     options.week = (weekValue === 'bowls' || weekValue === 'playoffs') ? weekValue : parseInt(weekValue);
   } else if (arg === '--date' && i + 1 < args.length) {
     options.date = args[++i];
+  } else if (arg === '--until' && i + 1 < args.length) {
+    options.until = args[++i];
   } else if (arg === '--all') {
     options.all = true;
   } else if (arg === '--force') {
@@ -55,6 +58,7 @@ Options:
   --season <year>          Season year (required)
   --week <number|bowls|playoffs>    Week number, 'bowls', or 'playoffs' for CFB postseason (required unless --all or NBA)
   --date <YYYY-MM-DD>      Date for NBA games (required for NBA unless --all)
+  --until <YYYY-MM-DD>     End date for NBA --all generation
   --all                    Generate all weeks/dates for the season
   --force                  Overwrite existing files
   --help, -h               Show this help message
@@ -269,9 +273,22 @@ async function generateAllNBADates(season) {
   // NBA season runs from October to April (next year)
   // For 2025 season: October 2025 - April 2026
   const startDate = new Date(`${season}-10-01`);
-  const endDate = new Date(`${season + 1}-04-30`);
+  const seasonEndDate = options.until
+    ? new Date(options.until)
+    : new Date(`${season + 1}-04-30`);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setHours(0, 0, 0, 0);
+  const endDate = seasonEndDate < yesterday ? seasonEndDate : yesterday;
+
+  if (startDate > yesterday) {
+    console.log(`\n⚠️  NBA ${season} season hasn't started yet (starts ${startDate.toISOString().split('T')[0]})\n`);
+    return;
+  }
 
   console.log(`\n🚀 Generating NBA dates from ${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}...\n`);
+  const totalDays = Math.floor((endDate - startDate) / (24 * 60 * 60 * 1000)) + 1;
+  console.log(`📅 Processing ${totalDays} days (skipping future dates)\n`);
 
   const results = {
     total: 0,

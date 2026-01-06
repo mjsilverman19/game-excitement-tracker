@@ -43,7 +43,5 @@ backup/
 .vercel
 .env*.local
 
-# Generated static data
-/public/data/**
-!/public/data/.gitkeep
-!/public/data/**/.gitkeep
+# Static data is now committed to repo
+# Generated via: node scripts/generate-static.js --sport <SPORT> --season <YEAR> --all
