@@ -1,5 +1,5 @@
 export const ALGORITHM_CONFIG = {
-  version: '1.5',
+  version: '2.1',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -11,9 +11,9 @@ export const ALGORITHM_CONFIG = {
   },
 
   weights: {
-    outcomeUncertainty: 0.25,
+    outcomeUncertainty: 0.20,
     momentumDrama: 0.30,
-    finishQuality: 0.45
+    finishQuality: 0.50
   },
 
   thresholds: {
@@ -31,10 +31,21 @@ export const ALGORITHM_CONFIG = {
     volatility: {
       // Extraordinary volatility bonus for games with rare swing patterns
       max: 1.5,
-      largeSwingThreshold: 0.18,      // 18%+ swing is "large" (raised from 15%)
-      massiveSwingThreshold: 0.50,    // 50%+ swing is "massive" (truly rare)
-      extremeRecoveryThreshold: 0.18, // 18%+ swing from <10% WP is extraordinary
-      multiSwingCount: 6              // 6+ large swings is extraordinary (raised from 5)
+      largeSwingThreshold: 0.18,
+      massiveSwingThreshold: 0.50,
+      extremeRecoveryThreshold: 0.18,
+      multiSwingCount: 6
+    },
+    overtime: {
+      // Overtime bonus - OT games are inherently dramatic
+      base: 0.8,           // Base bonus for going to OT
+      perAdditionalOT: 0.3 // Bonus per additional OT period
+    },
+    closeGame: {
+      // Score margin bonus for close final scores
+      margin3orLess: 1.0,  // 1-3 point games
+      margin7orLess: 0.5,  // 4-7 point games
+      margin10orLess: 0.2  // 8-10 point games
     }
   },
 

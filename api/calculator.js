@@ -82,11 +82,13 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   const comebackFactor = calculateComebackUncertaintyBoost(probs);
   const uncertaintyScore = Math.min(10, baseUncertainty + comebackFactor);
 
-  // METRIC 2: Momentum Drama (leverage-weighted swings)
-  const dramaScore = calculateMomentumDrama(probs);
+  // METRIC 2: Momentum Drama (leverage-weighted swings + lead changes)
+  const baseDrama = calculateMomentumDrama(probs);
+  const leadChangeBoost = calculateLeadChangeBoost(probs);
+  const dramaScore = Math.min(10, baseDrama + leadChangeBoost);
 
   // METRIC 3: Finish Quality (did it come down to the wire?)
-  const finishScore = calculateFinishQuality(probs, sport);
+  const finishScore = calculateFinishQuality(probs, game, sport);
 
   // Capture breakdown before weighting
   const breakdown = {
@@ -113,6 +115,14 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // Add extraordinary volatility bonus for rare swing patterns
   const volatilityBonus = calculateVolatilityBonus(probs);
   rawScore += volatilityBonus;
+
+  // Add overtime bonus - OT games are inherently dramatic
+  const overtimeBonus = calculateOvertimeBonus(game);
+  rawScore += overtimeBonus;
+
+  // Add close game bonus based on final score margin
+  const closeGameBonus = calculateCloseGameBonus(game, sport);
+  rawScore += closeGameBonus;
 
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
@@ -155,6 +165,7 @@ function calculateOutcomeUncertainty(probs) {
 /**
  * Boosts uncertainty score for games with significant comebacks
  * A game that looked "decided" but came back was actually uncertain in hindsight
+ * Tiered boost: small comebacks get modest boost, extreme comebacks (>35% deficit) get large boost
  * @param {Array} probs - Array of probability objects with value property
  * @returns {number} Boost from 0-4 based on comeback magnitude
  */
@@ -181,11 +192,23 @@ function calculateComebackUncertaintyBoost(probs) {
   // No comeback if winner was never behind
   if (maxDeficit === 0) return 0;
 
-  // Scale boost: small deficit (5%) = tiny boost, large deficit (40%+) = max boost
-  // 0.05 deficit = 0, 0.40 deficit = 4 points
-  const boost = Math.min(4, Math.max(0, (maxDeficit - 0.05) / 0.35) * 4);
-
-  return boost;
+  // Tiered boost system:
+  // - Deficit < 15%: No boost (just normal close game fluctuation)
+  // - Deficit 15-30%: Small boost (0-1 points) - minor comeback
+  // - Deficit 30-40%: Medium boost (1-2.5 points) - significant comeback
+  // - Deficit > 40%: Large boost (2.5-4 points) - epic comeback (Super Bowl LI territory)
+  if (maxDeficit < 0.15) {
+    return 0;
+  } else if (maxDeficit < 0.30) {
+    // 15% -> 0, 30% -> 1
+    return ((maxDeficit - 0.15) / 0.15) * 1;
+  } else if (maxDeficit < 0.40) {
+    // 30% -> 1, 40% -> 2.5
+    return 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
+  } else {
+    // 40% -> 2.5, 50% -> 4
+    return Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
+  }
 }
 
 /**
@@ -266,10 +289,11 @@ function detectAndAdjustForTruncatedData(probs) {
  * Combines final probability closeness, final period volatility, and walk-off detection
  * Games that come down to the wire score highest
  * @param {Array} probs - Array of probability objects with value, period, clock
+ * @param {Object} game - Game object with score information
  * @param {string} sport - Sport type (NFL, CFB, NBA)
  * @returns {number} Score from 0-10 based on finish quality
  */
-function calculateFinishQuality(probs, sport = 'NFL') {
+function calculateFinishQuality(probs, game, sport = 'NFL') {
   if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
 
   // Detect truncated OT data: if final N points are all at same extreme (<2% or >98%),
@@ -345,19 +369,105 @@ function calculateFinishQuality(probs, sport = 'NFL') {
 }
 
 /**
+ * Calculates lead change boost for drama score
+ * Games with multiple lead changes are more dramatic
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Boost from 0-1 based on lead changes (reduced from 0-2)
+ */
+function calculateLeadChangeBoost(probs) {
+  if (probs.length < 10) return 0;
+
+  let leadChanges = 0;
+  for (let i = 1; i < probs.length; i++) {
+    const prev = probs[i - 1].value;
+    const curr = probs[i].value;
+    // Lead change = crossing 50%
+    if ((prev - 0.5) * (curr - 0.5) < 0) {
+      leadChanges++;
+    }
+  }
+
+  // Scale: 0-4 changes = 0, 5-7 = 0.3, 8-10 = 0.6, 11+ = 1.0
+  // Raised thresholds - only truly back-and-forth games get boost
+  if (leadChanges < 5) return 0;
+  if (leadChanges < 8) return 0.3;
+  if (leadChanges < 11) return 0.6;
+  return 1.0;
+}
+
+/**
+ * Calculates overtime bonus
+ * Games that go to OT are inherently dramatic
+ * @param {Object} game - Game object with overtime flag
+ * @returns {number} Bonus from 0-1.4+ based on OT
+ */
+function calculateOvertimeBonus(game) {
+  if (!game || !game.overtime) return 0;
+
+  const config = SCORING_CONFIG.bonuses.overtime;
+  // Base OT bonus
+  let bonus = config.base;
+
+  // For now, we only know if it went to OT, not how many periods
+  // Future: could detect multiple OT from period data
+  return bonus;
+}
+
+/**
+ * Calculates close game bonus based on final score margin
+ * Captures excitement that probability data may miss
+ * @param {Object} game - Game object with scores
+ * @param {string} sport - Sport type for context
+ * @returns {number} Bonus from 0-1.0 based on margin
+ */
+function calculateCloseGameBonus(game, sport) {
+  if (!game) return 0;
+
+  const margin = Math.abs(game.homeScore - game.awayScore);
+  const config = SCORING_CONFIG.bonuses.closeGame;
+
+  // Adjust thresholds for basketball (higher scoring)
+  const factor = sport === 'NBA' ? 2 : 1;
+
+  if (margin <= 3 * factor) return config.margin3orLess;
+  if (margin <= 7 * factor) return config.margin7orLess;
+  if (margin <= 10 * factor) return config.margin10orLess;
+  return 0;
+}
+
+/**
  * Normalizes raw score to 1-10 range with better distribution
- * Applies transformation to spread results more evenly
+ * Uses piecewise approach to spread top scores and prevent clustering
+ * Target: top 2-3% of games should score 9.5+, most good games 6-8
  * @param {number} rawScore - Raw weighted score before normalization
  * @returns {number} Normalized score between 1-10
  */
 function normalizeScore(rawScore) {
-  // Sigmoid centered at 5 to spread scores across 1-10
-  // Adjusted parameters to allow elite games to reach 9.5+
-  const centered = (rawScore - 5) / 1.9;
-  const sigmoid = 1 / (1 + Math.exp(-centered * 1.4));
+  // Piecewise linear mapping with compressed top
+  // Raw 0-3: maps to 1-4 (blowouts)
+  // Raw 3-5: maps to 4-5.5 (below average games)
+  // Raw 5-7: maps to 5.5-7 (average games)
+  // Raw 7-8.5: maps to 7-8 (good games)
+  // Raw 8.5-10: maps to 8-9 (great games)
+  // Raw 10-12: maps to 9-9.5 (excellent games)
+  // Raw 12+: maps to 9.5-10 (elite, canonical classics)
 
-  // Map sigmoid output (0-1) to final score (1-10)
-  return Math.max(1, Math.min(10, 1 + sigmoid * 9));
+  if (rawScore <= 3) {
+    return 1 + (rawScore / 3) * 3; // 1-4
+  } else if (rawScore <= 5) {
+    return 4 + ((rawScore - 3) / 2) * 1.5; // 4-5.5
+  } else if (rawScore <= 7) {
+    return 5.5 + ((rawScore - 5) / 2) * 1.5; // 5.5-7
+  } else if (rawScore <= 8.5) {
+    return 7 + ((rawScore - 7) / 1.5) * 1; // 7-8
+  } else if (rawScore <= 10) {
+    return 8 + ((rawScore - 8.5) / 1.5) * 1; // 8-9
+  } else if (rawScore <= 12) {
+    return 9 + ((rawScore - 10) / 2) * 0.5; // 9-9.5
+  } else {
+    // 12+ raw = 9.5-10, canonical classics with bonus stacking
+    return Math.min(10, 9.5 + ((rawScore - 12) / 4) * 0.5);
+  }
 }
 
 /**
@@ -401,14 +511,14 @@ function calculateUpsetBonus(probs) {
 /**
  * Calculates comeback bonus for games with dramatic swings from extreme deficits
  * Rewards games where a team comes back from <15% or >85% win probability through 50%
+ * Uses gradient: larger comebacks get exponentially more bonus
  * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Bonus from 0-1.0 based on comeback magnitude
+ * @returns {number} Bonus from 0-2.0 based on comeback magnitude
  */
 function calculateComebackBonus(probs) {
   if (probs.length < 20) return 0;
 
   const extremeThreshold = SCORING_CONFIG.bonuses.comeback.extremeThreshold;
-  const maxBonus = SCORING_CONFIG.bonuses.comeback.max;
 
   // Track extreme points and subsequent crossings of 50%
   let maxComebackMagnitude = 0;
@@ -442,10 +552,19 @@ function calculateComebackBonus(probs) {
 
   if (maxComebackMagnitude === 0) return 0;
 
-  // Scale bonus: 0.35 deficit (15% WP) = 0, 0.50 deficit (0% WP) = max
-  // comebackScale: 0 at 0.35, 1 at 0.50
-  const comebackScale = Math.min(1, Math.max(0, (maxComebackMagnitude - 0.35) / 0.15));
-  return comebackScale * maxBonus;
+  // Gradient bonus based on comeback magnitude:
+  // - 0.35 deficit (15% WP): 0 bonus
+  // - 0.40 deficit (10% WP): 0.5 bonus
+  // - 0.45 deficit (5% WP): 1.2 bonus
+  // - 0.49+ deficit (1% WP): 2.0 bonus (Super Bowl LI territory)
+  if (maxComebackMagnitude < 0.35) return 0;
+  if (maxComebackMagnitude < 0.40) {
+    return ((maxComebackMagnitude - 0.35) / 0.05) * 0.5;
+  } else if (maxComebackMagnitude < 0.45) {
+    return 0.5 + ((maxComebackMagnitude - 0.40) / 0.05) * 0.7;
+  } else {
+    return Math.min(2.0, 1.2 + ((maxComebackMagnitude - 0.45) / 0.04) * 0.8);
+  }
 }
 
 /**
