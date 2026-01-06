@@ -1,5 +1,15 @@
 export const ALGORITHM_CONFIG = {
-  version: '2.1',
+  // Version 2.2: Major algorithm overhaul
+  // - Fixed finish quality false positives (directional awareness, competitive-range only)
+  // - Added time-weighting to momentum drama (later swings count more)
+  // - Replaced cliff-effect thresholds with smooth sigmoid functions
+  // - Reduced leverage floor to minimize garbage-time inflation
+  // - Converted bonuses from additive to multiplicative
+  // - Smooth sigmoid normalization replacing piecewise linear
+  // - Rebalanced weights to reduce finish dominance
+  // - Comeback timing awareness
+  // - Close game bonus now conditional to avoid double-counting
+  version: '2.2',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -10,10 +20,13 @@ export const ALGORITHM_CONFIG = {
     skip: { min: 0, label: 'skip', cssClass: 'skip' }
   },
 
+  // Rebalanced weights (was 0.20/0.30/0.50)
+  // Reduced finish quality dominance now that the metric is fixed
+  // This better represents full-game experience vs just the ending
   weights: {
-    outcomeUncertainty: 0.20,
-    momentumDrama: 0.30,
-    finishQuality: 0.50
+    outcomeUncertainty: 0.30,
+    momentumDrama: 0.35,
+    finishQuality: 0.35
   },
 
   thresholds: {

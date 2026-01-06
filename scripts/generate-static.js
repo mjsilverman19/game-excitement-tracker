@@ -5,6 +5,7 @@
 
 import { fetchGames } from '../api/fetcher.js';
 import { analyzeGameEntertainment } from '../api/calculator.js';
+import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
@@ -186,6 +187,7 @@ async function generateStatic(sport, season, weekOrDate) {
       totalGames: analyzedGames.length,
       insufficientData: insufficientDataCount,
       generatedAt: new Date().toISOString(),
+      algorithmVersion: ALGORITHM_CONFIG.version,
       source: 'ESPN Win Probability Analysis'
     };
 

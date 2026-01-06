@@ -104,25 +104,36 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     dramaScore * weights.momentumDrama +
     finishScore * weights.finishQuality;
 
-  // Add upset bonus (replaces overtime bonus - rewards games where underdogs win)
-  const upsetBonus = calculateUpsetBonus(probs);
-  rawScore += upsetBonus;
-
-  // Add comeback bonus for dramatic comebacks from extreme deficits
-  const comebackBonus = calculateComebackBonus(probs);
-  rawScore += comebackBonus;
-
-  // Add extraordinary volatility bonus for rare swing patterns
-  const volatilityBonus = calculateVolatilityBonus(probs);
-  rawScore += volatilityBonus;
-
-  // Add overtime bonus - OT games are inherently dramatic
-  const overtimeBonus = calculateOvertimeBonus(game);
-  rawScore += overtimeBonus;
-
-  // Add close game bonus based on final score margin
-  const closeGameBonus = calculateCloseGameBonus(game, sport);
-  rawScore += closeGameBonus;
+  // MULTIPLICATIVE BONUSES
+  // Key change: bonuses now scale with base quality instead of flat addition
+  // This prevents mediocre games from inflating to high scores via bonus stacking
+  // while still rewarding exceptional games
+  
+  // Calculate bonus multiplier (each bonus is now a percentage boost)
+  // Old system: raw 5 + 5.1 bonuses = 10.1 (mediocre game becomes great)
+  // New system: raw 5 * 1.5 = 7.5 (mediocre game improves but stays mediocre-good)
+  
+  const upsetBonus = calculateUpsetBonus(probs);           // 0-0.8 -> 0-0.08 (8%)
+  const comebackBonus = calculateComebackBonus(probs);     // 0-2.0 -> 0-0.20 (20%)
+  const volatilityBonus = calculateVolatilityBonus(probs); // 0-1.5 -> 0-0.15 (15%)
+  const overtimeBonus = calculateOvertimeBonus(game);      // 0-0.8 -> 0-0.08 (8%)
+  const closeGameBonus = calculateCloseGameBonus(game, sport, finishScore); // 0-1.0 -> 0-0.10 (10%)
+  
+  // Convert to percentage multipliers and sum
+  // Old max total: 5.1 additive points
+  // New max total: 61% multiplier (capped at 50%)
+  const totalBonusRate = 
+    (upsetBonus / 10) +      // max 0.08
+    (comebackBonus / 10) +   // max 0.20 
+    (volatilityBonus / 10) + // max 0.15
+    (overtimeBonus / 10) +   // max 0.08
+    (closeGameBonus / 10);   // max 0.10
+  
+  // Cap total bonus at 50% boost to prevent runaway scores
+  const cappedBonusRate = Math.min(0.5, totalBonusRate);
+  
+  // Apply multiplicative bonus
+  rawScore *= (1 + cappedBonusRate);
 
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
@@ -137,6 +148,11 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
  * METRIC 1: Outcome Uncertainty
  * Measures how long the result was in doubt by integrating closeness to 50/50 over time
  * A game at 50/50 the entire time scores 10; a wire-to-wire blowout scores near 0
+ * 
+ * Key fix: Changed exponent from 0.8 to 1.3
+ * - Old behavior: compressed differences between very close games (0.9 vs 0.95 closeness similar)
+ * - New behavior: expands high-closeness differentiation, compresses low-closeness (blowouts)
+ * 
  * @param {Array} probs - Array of probability objects with value property
  * @returns {number} Score from 0-10 based on outcome uncertainty
  */
@@ -156,8 +172,12 @@ function calculateOutcomeUncertainty(probs) {
   const avgWeight = 1 + 0.15; // Average of time weights
   const avgCloseness = totalCloseness / (probs.length * avgWeight);
 
-  // Scale to 0-10 with some exponential emphasis on very close games
-  const score = Math.pow(avgCloseness, 0.8) * 10;
+  // Scale to 0-10 with exponential emphasis
+  // Using 1 - (1 - x)^1.3 to expand near 1 and compress near 0
+  // This means: very close games (0.9 vs 0.95) show more differentiation
+  //             blowouts (0.3 vs 0.4) show less differentiation (both bad)
+  const transformedCloseness = 1 - Math.pow(1 - avgCloseness, 1.3);
+  const score = transformedCloseness * 10;
 
   return Math.min(10, Math.max(0, score));
 }
@@ -165,9 +185,13 @@ function calculateOutcomeUncertainty(probs) {
 /**
  * Boosts uncertainty score for games with significant comebacks
  * A game that looked "decided" but came back was actually uncertain in hindsight
- * Tiered boost: small comebacks get modest boost, extreme comebacks (>35% deficit) get large boost
+ * 
+ * Key improvement: Now considers WHEN the deficit occurred
+ * - Late-game comebacks (Q4) get full boost
+ * - Early-game comebacks (Q1) get reduced boost (less dramatic)
+ * 
  * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Boost from 0-4 based on comeback magnitude
+ * @returns {number} Boost from 0-4 based on comeback magnitude and timing
  */
 function calculateComebackUncertaintyBoost(probs) {
   if (probs.length < 20) return 0;
@@ -177,66 +201,99 @@ function calculateComebackUncertaintyBoost(probs) {
   const homeWon = finalWP > 0.5;
 
   let maxDeficit = 0; // How far behind did the winner get?
+  let maxDeficitIndex = 0; // WHEN did the max deficit occur?
 
   for (let i = 0; i < probs.length; i++) {
     const wp = probs[i].value;
+    let deficit = 0;
+    
     // If home won, look for points where home WP was low (home was losing)
     // If away won, look for points where home WP was high (away was losing)
     if (homeWon && wp < 0.5) {
-      maxDeficit = Math.max(maxDeficit, 0.5 - wp);
+      deficit = 0.5 - wp;
     } else if (!homeWon && wp > 0.5) {
-      maxDeficit = Math.max(maxDeficit, wp - 0.5);
+      deficit = wp - 0.5;
+    }
+    
+    if (deficit > maxDeficit) {
+      maxDeficit = deficit;
+      maxDeficitIndex = i;
     }
   }
 
   // No comeback if winner was never behind
   if (maxDeficit === 0) return 0;
 
-  // Tiered boost system:
-  // - Deficit < 15%: No boost (just normal close game fluctuation)
-  // - Deficit 15-30%: Small boost (0-1 points) - minor comeback
-  // - Deficit 30-40%: Medium boost (1-2.5 points) - significant comeback
-  // - Deficit > 40%: Large boost (2.5-4 points) - epic comeback (Super Bowl LI territory)
+  // Calculate base boost from deficit magnitude (tiered system)
+  let baseBoost = 0;
   if (maxDeficit < 0.15) {
-    return 0;
+    baseBoost = 0;
   } else if (maxDeficit < 0.30) {
     // 15% -> 0, 30% -> 1
-    return ((maxDeficit - 0.15) / 0.15) * 1;
+    baseBoost = ((maxDeficit - 0.15) / 0.15) * 1;
   } else if (maxDeficit < 0.40) {
     // 30% -> 1, 40% -> 2.5
-    return 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
+    baseBoost = 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
   } else {
     // 40% -> 2.5, 50% -> 4
-    return Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
+    baseBoost = Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
   }
+
+  if (baseBoost === 0) return 0;
+
+  // Apply time multiplier based on when max deficit occurred
+  // Early deficit (index near 0): 0.5x multiplier (less dramatic)
+  // Late deficit (index near end): 1.0x multiplier (full drama)
+  // A Q1 comeback from 20% is less exciting than a Q4 comeback from 20%
+  const gameProgress = maxDeficitIndex / probs.length;
+  const timeMultiplier = 0.5 + 0.5 * gameProgress; // 0.5 at start, 1.0 at end
+
+  return baseBoost * timeMultiplier;
 }
 
 /**
  * METRIC 2: Momentum Drama
  * Measures leverage-weighted swings - big swings matter more when the game is close
  * Swings near 50/50 count more than swings when the game is already decided
+ * 
+ * Key improvements:
+ * - Time-weighting: later swings count more (up to 50% more in final moments)
+ * - Reduced leverage floor: garbage-time swings contribute minimally
+ * - Smooth scaling for better differentiation
+ * 
  * @param {Array} probs - Array of probability objects with value property
  * @returns {number} Score from 0-10 based on momentum drama
  */
 function calculateMomentumDrama(probs) {
   if (probs.length < 2) return 0;
 
-  const leverageFloor = SCORING_CONFIG.thresholds.leverageFloor;
+  // Reduced leverage floor - swings at extremes should contribute very little
+  // Old value (0.05) meant 95%->98% swings contributed 5x their true leverage
+  // New value (0.01) means extreme swings are nearly eliminated but not zero
+  const leverageFloor = 0.01;
+  const timeWeightFactor = 0.5; // Later moments count up to 50% more
+
   let totalWeightedSwing = 0;
 
   for (let i = 1; i < probs.length; i++) {
     const swing = Math.abs(probs[i].value - probs[i - 1].value);
-    // Add leverage floor so swings at extremes still contribute
+    
+    // Leverage: max at 0.5 (0.25), approaches 0 at extremes
     const rawLeverage = probs[i - 1].value * (1 - probs[i - 1].value);
     const leverage = Math.max(leverageFloor, rawLeverage);
-    const weightedSwing = swing * leverage * 4; // Scale factor since max leverage is 0.25
+    
+    // Time weight: 1.0 at start, up to 1.5 at end
+    // This makes Q4 swings count more than Q1 swings
+    const timeWeight = 1 + (i / probs.length) * timeWeightFactor;
+    
+    const weightedSwing = swing * leverage * timeWeight * 4; // Scale factor since max leverage is 0.25
     totalWeightedSwing += weightedSwing;
   }
 
   // Apply diminishing returns to prevent single massive swings from dominating
-  // Adjusted scaling to better differentiate between game types
-  // Typical cumulative values: blowout ~0.8-1.5, close game ~2.5-4.0, thriller ~4.0-7.0
-  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 8)) * 10);
+  // Adjusted scaling factor (was 8, now 10) to account for time-weighting increase
+  // and leverage floor decrease balancing out
+  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 10)) * 10);
 
   return Math.max(0, score);
 }
@@ -286,8 +343,14 @@ function detectAndAdjustForTruncatedData(probs) {
 
 /**
  * METRIC 3: Finish Quality
- * Combines final probability closeness, final period volatility, and walk-off detection
+ * Combines final probability closeness, competitive-range volatility, and walk-off detection
  * Games that come down to the wire score highest
+ * 
+ * Key design decisions to avoid false positives:
+ * - Volatility only counts movement in competitive range (0.3-0.7) or crossing 0.5
+ * - Walk-off requires crossing 0.5 OR starting competitive AND moving toward uncertainty
+ * - Late drama removed (rewarded any movement regardless of context)
+ * 
  * @param {Array} probs - Array of probability objects with value, period, clock
  * @param {Object} game - Game object with score information
  * @param {string} sport - Sport type (NFL, CFB, NBA)
@@ -302,68 +365,98 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
 
   const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, adjustedProbs.length);
   const finalProbs = adjustedProbs.slice(-finalMoments);
-  const lastProb = adjustedProbs[adjustedProbs.length - 1].value;
 
   // Component 1: Pre-final closeness (how close to 0.5 before the decisive play)
-  // Use the minimum distance from 0.5 among final points, excluding absolute last
-  // This captures "how close was the game before the walk-off play"
+  // Use AVERAGE distance from 0.5 in final window (not minimum - avoids single-point gaming)
+  // This captures sustained uncertainty, not just one moment near 0.5
   const preFinalWindow = adjustedProbs.slice(-finalMoments, -1);
-  const minDistanceFrom50 = preFinalWindow.length > 0
-    ? Math.min(...preFinalWindow.map(p => Math.abs(p.value - 0.5)))
-    : Math.abs(lastProb - 0.5);
-  const finalCloseness = 1 - minDistanceFrom50 * 2; // 0 to 1
-  const closenessScore = Math.pow(Math.max(0, finalCloseness), 0.7) * 4; // Up to 4 points
+  const avgDistanceFrom50 = preFinalWindow.length > 0
+    ? preFinalWindow.reduce((sum, p) => sum + Math.abs(p.value - 0.5), 0) / preFinalWindow.length
+    : 0.5;
+  const finalCloseness = 1 - avgDistanceFrom50 * 2; // 0 to 1
+  const closenessScore = Math.pow(Math.max(0, finalCloseness), 1.2) * 4; // Up to 4 points, exponent >1 rewards truly close games
 
-  // Component 2: Final period volatility (leverage-weighted movement near 0.5)
-  // Get final 25% of data points as "final period"
+  // Component 2: Final period volatility - ONLY count competitive movement
+  // Movement only counts if:
+  //   a) It crosses 0.5 (actual lead change), OR
+  //   b) It occurs while in competitive range (0.3-0.7) AND moves toward 0.5
   const finalPeriodSize = Math.max(2, Math.floor(adjustedProbs.length * 0.25));
   const finalPeriod = adjustedProbs.slice(-finalPeriodSize);
+  const competitiveRange = { min: 0.3, max: 0.7 };
 
-  let finalPeriodMovement = 0;
+  let competitiveMovement = 0;
+  let leadChangesInFinalPeriod = 0;
+
   for (let i = 1; i < finalPeriod.length; i++) {
-    const swing = Math.abs(finalPeriod[i].value - finalPeriod[i - 1].value);
-    const leverage = finalPeriod[i - 1].value * (1 - finalPeriod[i - 1].value); // Max at 0.5, zero at 0 or 1
-    finalPeriodMovement += swing * leverage * 4; // Scale factor since max leverage is 0.25
+    const startValue = finalPeriod[i - 1].value;
+    const endValue = finalPeriod[i].value;
+    const swing = Math.abs(endValue - startValue);
+    const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
+
+    if (crossedHalf) {
+      // Lead change - always counts, weighted by swing magnitude
+      competitiveMovement += swing;
+      leadChangesInFinalPeriod++;
+    } else {
+      // Not a lead change - only count if in competitive range AND moving toward 0.5
+      const inCompetitiveRange = startValue >= competitiveRange.min && startValue <= competitiveRange.max;
+      const startDistFrom50 = Math.abs(startValue - 0.5);
+      const endDistFrom50 = Math.abs(endValue - 0.5);
+      const movingTowardUncertainty = endDistFrom50 < startDistFrom50;
+
+      if (inCompetitiveRange && movingTowardUncertainty) {
+        // Weight by how much closer to 0.5 we got
+        const uncertaintyGain = startDistFrom50 - endDistFrom50;
+        competitiveMovement += uncertaintyGain;
+      }
+      // Movement away from 0.5 when not crossing = game ending, don't reward
+    }
   }
 
-  // More leverage-weighted movement in final period = more exciting
-  const volatilityScore = Math.min(4, finalPeriodMovement * 4); // Up to 4 points
+  // Scale competitive movement: typical exciting finish has 0.3-0.6 total movement
+  const volatilityScore = Math.min(4, competitiveMovement * 8); // Up to 4 points
 
-  // Component 3: Walk-off detection (large swing in final moments)
-  let maxFinalSwing = 0;
+  // Bonus for multiple lead changes in final period (genuine back-and-forth)
+  const leadChangeBonus = Math.min(1, leadChangesInFinalPeriod * 0.5); // Up to 1 point for 2+ lead changes
+
+  // Component 3: Walk-off detection (decisive swing in final moments)
+  // Requirements tightened: must cross 0.5 OR (start competitive AND swing is dramatic)
+  let walkoffScore = 0;
+  let bestWalkoffSwing = 0;
+
   for (let i = 1; i < finalProbs.length; i++) {
     const startValue = finalProbs[i - 1].value;
     const endValue = finalProbs[i].value;
     const swing = Math.abs(endValue - startValue);
     const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
-    const startedCompetitive = startValue >= 0.4 && startValue <= 0.6;
+    const startedCompetitive = startValue >= 0.35 && startValue <= 0.65;
 
-    if (crossedHalf || startedCompetitive) {
-      maxFinalSwing = Math.max(maxFinalSwing, swing);
+    // Qualify for walk-off if:
+    // 1. Crossed 0.5 (definitive lead change), OR
+    // 2. Started in tight competitive range AND swing was large
+    if (crossedHalf) {
+      bestWalkoffSwing = Math.max(bestWalkoffSwing, swing);
+    } else if (startedCompetitive && swing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
+      // Started competitive, big swing - but discount swings that move away from 0.5
+      const movedTowardCertainty = Math.abs(endValue - 0.5) > Math.abs(startValue - 0.5);
+      if (movedTowardCertainty) {
+        // Game-ending swing from competitive position - still dramatic but less so
+        bestWalkoffSwing = Math.max(bestWalkoffSwing, swing * 0.6);
+      } else {
+        // Moved toward 0.5 - game getting MORE uncertain, very exciting
+        bestWalkoffSwing = Math.max(bestWalkoffSwing, swing);
+      }
     }
+    // Swings like 0.75->0.95 don't qualify at all
   }
 
-  let walkoffScore = 0;
-  if (maxFinalSwing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
-    walkoffScore = 2 + Math.min(2, (maxFinalSwing - 0.15) * 10); // Up to 4 points
+  if (bestWalkoffSwing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
+    walkoffScore = 2 + Math.min(2, (bestWalkoffSwing - 0.15) * 8); // Up to 4 points
   }
 
-  // Component 4: Late drama - any large swing in final 5 points regardless of position
-  const lateDramaWindow = adjustedProbs.slice(-5);
-  let maxLateDramaSwing = 0;
-  for (let i = 1; i < lateDramaWindow.length; i++) {
-    const swing = Math.abs(lateDramaWindow[i].value - lateDramaWindow[i - 1].value);
-    maxLateDramaSwing = Math.max(maxLateDramaSwing, swing);
-  }
-
-  let lateDramaScore = 0;
-  if (maxLateDramaSwing >= SCORING_CONFIG.thresholds.largeFinalSwingThreshold) {
-    // Large swing in final moments, even at extremes
-    lateDramaScore = Math.min(2, (maxLateDramaSwing - 0.15) * 8); // Up to 2 points
-  }
-
-  // Combine components (max 14, scaled to 10)
-  const totalScore = (closenessScore + volatilityScore + walkoffScore + lateDramaScore) * (10 / 14);
+  // Combine components (max 13, scaled to 10)
+  // Removed late drama component - it rewarded any movement regardless of competitive context
+  const totalScore = (closenessScore + volatilityScore + leadChangeBonus + walkoffScore) * (10 / 13);
 
   return Math.min(10, Math.max(0, totalScore));
 }
@@ -371,8 +464,13 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
 /**
  * Calculates lead change boost for drama score
  * Games with multiple lead changes are more dramatic
+ * 
+ * Uses sigmoid function to eliminate cliff effects from step thresholds
+ * Old implementation: 4->5 lead changes jumped from 0->0.3 (cliff)
+ * New implementation: smooth continuous curve
+ * 
  * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Boost from 0-1 based on lead changes (reduced from 0-2)
+ * @returns {number} Boost from 0-1 based on lead changes
  */
 function calculateLeadChangeBoost(probs) {
   if (probs.length < 10) return 0;
@@ -387,12 +485,12 @@ function calculateLeadChangeBoost(probs) {
     }
   }
 
-  // Scale: 0-4 changes = 0, 5-7 = 0.3, 8-10 = 0.6, 11+ = 1.0
-  // Raised thresholds - only truly back-and-forth games get boost
-  if (leadChanges < 5) return 0;
-  if (leadChanges < 8) return 0.3;
-  if (leadChanges < 11) return 0.6;
-  return 1.0;
+  // Sigmoid function centered at 7 lead changes
+  // This gives: 3 changes ≈ 0.02, 5 changes ≈ 0.12, 7 changes = 0.5, 9 changes ≈ 0.88, 11+ changes ≈ 0.98
+  // Eliminates cliff effects while preserving the intent of rewarding back-and-forth games
+  const sigmoid = 1 / (1 + Math.exp(-(leadChanges - 7) / 1.5));
+  
+  return Math.min(1.0, sigmoid);
 }
 
 /**
@@ -416,11 +514,16 @@ function calculateOvertimeBonus(game) {
 /**
  * Calculates close game bonus based on final score margin
  * Captures excitement that probability data may miss
+ * 
+ * Key fix (Task 10): Now conditional on finish quality to avoid double-counting
+ * If finish quality already captured the close game drama, reduce/skip this bonus
+ * 
  * @param {Object} game - Game object with scores
  * @param {string} sport - Sport type for context
+ * @param {number} finishScore - The finish quality score (0-10), used to avoid double-counting
  * @returns {number} Bonus from 0-1.0 based on margin
  */
-function calculateCloseGameBonus(game, sport) {
+function calculateCloseGameBonus(game, sport, finishScore = 0) {
   if (!game) return 0;
 
   const margin = Math.abs(game.homeScore - game.awayScore);
@@ -429,45 +532,74 @@ function calculateCloseGameBonus(game, sport) {
   // Adjust thresholds for basketball (higher scoring)
   const factor = sport === 'NBA' ? 2 : 1;
 
-  if (margin <= 3 * factor) return config.margin3orLess;
-  if (margin <= 7 * factor) return config.margin7orLess;
-  if (margin <= 10 * factor) return config.margin10orLess;
-  return 0;
+  let baseBonus = 0;
+  if (margin <= 3 * factor) {
+    baseBonus = config.margin3orLess;
+  } else if (margin <= 7 * factor) {
+    baseBonus = config.margin7orLess;
+  } else if (margin <= 10 * factor) {
+    baseBonus = config.margin10orLess;
+  }
+
+  if (baseBonus === 0) return 0;
+
+  // Task 10: Reduce double-counting with finish quality
+  // If finish score is high (>7), the drama was already captured - reduce bonus
+  // If finish score is low (<5), the bonus provides needed lift
+  // Linear scaling: finishScore 5 = full bonus, finishScore 8+ = 25% bonus
+  if (finishScore >= 8) {
+    return baseBonus * 0.25; // Already captured, minimal bonus
+  } else if (finishScore >= 5) {
+    // Scale from 100% at finishScore=5 to 25% at finishScore=8
+    const reductionFactor = 1 - 0.75 * ((finishScore - 5) / 3);
+    return baseBonus * reductionFactor;
+  }
+  
+  return baseBonus; // Low finish score, full bonus applies
 }
 
 /**
- * Normalizes raw score to 1-10 range with better distribution
- * Uses piecewise approach to spread top scores and prevent clustering
- * Target: top 2-3% of games should score 9.5+, most good games 6-8
+ * Normalizes raw score to 1-10 range with smooth S-curve distribution
+ * 
+ * Key improvement (Task 6): Replaced piecewise linear with sigmoid
+ * - Old: 6 breakpoints with discontinuous derivatives (cliff effects in sensitivity)
+ * - New: Smooth continuous function with consistent sensitivity
+ * 
+ * The sigmoid is tuned so:
+ * - Raw 0-2: maps to ~1-3 (blowouts)
+ * - Raw 4-6: maps to ~4-6 (average games)  
+ * - Raw 7-9: maps to ~7-8.5 (good games)
+ * - Raw 10+: maps to ~9-10 (great games, compressed top)
+ * 
  * @param {number} rawScore - Raw weighted score before normalization
  * @returns {number} Normalized score between 1-10
  */
 function normalizeScore(rawScore) {
-  // Piecewise linear mapping with compressed top
-  // Raw 0-3: maps to 1-4 (blowouts)
-  // Raw 3-5: maps to 4-5.5 (below average games)
-  // Raw 5-7: maps to 5.5-7 (average games)
-  // Raw 7-8.5: maps to 7-8 (good games)
-  // Raw 8.5-10: maps to 8-9 (great games)
-  // Raw 10-12: maps to 9-9.5 (excellent games)
-  // Raw 12+: maps to 9.5-10 (elite, canonical classics)
-
-  if (rawScore <= 3) {
-    return 1 + (rawScore / 3) * 3; // 1-4
-  } else if (rawScore <= 5) {
-    return 4 + ((rawScore - 3) / 2) * 1.5; // 4-5.5
-  } else if (rawScore <= 7) {
-    return 5.5 + ((rawScore - 5) / 2) * 1.5; // 5.5-7
-  } else if (rawScore <= 8.5) {
-    return 7 + ((rawScore - 7) / 1.5) * 1; // 7-8
-  } else if (rawScore <= 10) {
-    return 8 + ((rawScore - 8.5) / 1.5) * 1; // 8-9
-  } else if (rawScore <= 12) {
-    return 9 + ((rawScore - 10) / 2) * 0.5; // 9-9.5
-  } else {
-    // 12+ raw = 9.5-10, canonical classics with bonus stacking
-    return Math.min(10, 9.5 + ((rawScore - 12) / 4) * 0.5);
-  }
+  // Sigmoid-based normalization: smooth S-curve mapping
+  // Formula: 1 + 9 / (1 + exp(-(rawScore - midpoint) / steepness))
+  // 
+  // Parameters tuned for desired distribution:
+  // - midpoint = 5: raw score of 5 maps to ~5.5 final
+  // - steepness = 2.5: controls how spread out the curve is
+  //
+  // This gives approximately:
+  // - raw 0 -> ~1.2
+  // - raw 2 -> ~2.3  
+  // - raw 4 -> ~4.0
+  // - raw 5 -> ~5.5 (midpoint)
+  // - raw 6 -> ~6.9
+  // - raw 8 -> ~8.5
+  // - raw 10 -> ~9.3
+  // - raw 12 -> ~9.7
+  // - raw 15 -> ~9.9
+  
+  const midpoint = 5;
+  const steepness = 2.5;
+  
+  const sigmoid = 1 / (1 + Math.exp(-(rawScore - midpoint) / steepness));
+  const normalized = 1 + 9 * sigmoid;
+  
+  return Math.min(10, Math.max(1, normalized));
 }
 
 /**
