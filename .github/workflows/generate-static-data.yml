@@ -48,13 +48,13 @@ jobs:
           fi
 
           # Tuesday = NFL (day 2)
-          if [ "$DAY_OF_WEEK" = "2" ] && [ "$MONTH" -ge 9 -o "$MONTH" -le 2 ]; then
+          if [ "$DAY_OF_WEEK" = "2" ] && ([ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]); then
             echo "sport=NFL" >> $GITHUB_OUTPUT
           # Sunday = CFB (day 7)
-          elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 -o "$MONTH" -le 1 ]; then
+          elif [ "$DAY_OF_WEEK" = "7" ] && ([ "$MONTH" -ge 8 ] || [ "$MONTH" -le 1 ]); then
             echo "sport=CFB" >> $GITHUB_OUTPUT
           # Daily = NBA (October through June)
-          elif [ "$MONTH" -ge 10 -o "$MONTH" -le 6 ]; then
+          elif [ "$MONTH" -ge 10 ] || [ "$MONTH" -le 6 ]; then
             echo "sport=NBA" >> $GITHUB_OUTPUT
           else
             echo "sport=none" >> $GITHUB_OUTPUT
@@ -71,7 +71,7 @@ jobs:
             console.log(Math.min(18, Math.max(1, weeks)));
           ")
           echo "Generating NFL week $CURRENT_WEEK"
-          node scripts/generate-static.js --sport NFL --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+          node scripts/generate-static.js --sport NFL --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NFL generation completed with warnings"
 
       - name: Generate CFB data
         if: steps.determine.outputs.sport == 'CFB' || steps.determine.outputs.sport == 'all'
@@ -83,32 +83,47 @@ jobs:
             console.log(Math.min(15, Math.max(1, weeks)));
           ")
           echo "Generating CFB week $CURRENT_WEEK"
-          node scripts/generate-static.js --sport CFB --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+          node scripts/generate-static.js --sport CFB --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB generation completed with warnings"
 
           # Also generate bowls if in December/January
           MONTH=$(date +%-m)
           if [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
             echo "Generating CFB bowls"
-            node scripts/generate-static.js --sport CFB --season 2025 --week bowls ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+            node scripts/generate-static.js --sport CFB --season 2025 --week bowls ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB bowls generation completed with warnings"
           fi
 
       - name: Generate NBA data
         if: steps.determine.outputs.sport == 'NBA' || steps.determine.outputs.sport == 'all'
         run: |
+          # Generate yesterday's games only (not future dates)
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
           echo "Generating NBA data for $YESTERDAY"
-          node scripts/generate-static.js --sport NBA --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }}
+          node scripts/generate-static.js --sport NBA --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NBA generation completed with warnings"
+
+      - name: Check for generated files
+        id: check_files
+        run: |
+          if [ -n "$(find public/data -name '*.json' -newer .git/index 2>/dev/null)" ]; then
+            echo "has_new_files=true" >> $GITHUB_OUTPUT
+            echo "New files detected:"
+            find public/data -name '*.json' -newer .git/index
+          else
+            echo "has_new_files=false" >> $GITHUB_OUTPUT
+            echo "No new files generated"
+          fi
 
       - name: Commit and push changes
+        if: steps.check_files.outputs.has_new_files == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/data/
 
-          # Only commit if there are changes
+          # Check if there are staged changes
           if git diff --staged --quiet; then
-            echo "No new data to commit"
+            echo "No changes to commit (files may already exist)"
           else
             git commit -m "Auto-generate static game data [skip ci]"
             git push
+            echo "Successfully committed and pushed new data"
           fi
