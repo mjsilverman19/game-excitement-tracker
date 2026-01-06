@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401809839",
+      "homeTeam": "Knicks",
+      "awayTeam": "Spurs",
+      "homeScore": 124,
+      "awayScore": 113,
+      "excitement": 9,
+      "breakdown": {
+        "uncertainty": 8.23806051195058,
+        "drama": 8.762761861217612,
+        "finish": 6.022967514268758
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:18:29.344Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-16"
+  }
+}

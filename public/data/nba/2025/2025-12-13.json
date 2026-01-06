@@ -1,0 +1,47 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401809837",
+      "homeTeam": "Magic",
+      "awayTeam": "Knicks",
+      "homeScore": 120,
+      "awayScore": 132,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 7.1234210407047645,
+        "drama": 8.212109681417582,
+        "finish": 6.586922653006474
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809838",
+      "homeTeam": "Thunder",
+      "awayTeam": "Spurs",
+      "homeScore": 109,
+      "awayScore": 111,
+      "excitement": 7.2,
+      "breakdown": {
+        "uncertainty": 3.7667472011014502,
+        "drama": 4.94638821486601,
+        "finish": 6.629243106330328
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:18:27.323Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-13"
+  }
+}

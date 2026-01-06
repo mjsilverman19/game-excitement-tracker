@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812703",
+      "homeTeam": "Mavericks",
+      "awayTeam": "Hornets",
+      "homeScore": 116,
+      "awayScore": 120,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 7.6913649642023,
+        "drama": 8.775074809547155,
+        "finish": 6.078996067376482
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812701",
+      "homeTeam": "Pacers",
+      "awayTeam": "Thunder",
+      "homeScore": 116,
+      "awayScore": 101,
+      "excitement": 8.6,
+      "breakdown": {
+        "uncertainty": 8.52957091163103,
+        "drama": 8.65243455040336,
+        "finish": 5.487573395047586
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812702",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Hawks",
+      "homeScore": 116,
+      "awayScore": 122,
+      "excitement": 8,
+      "breakdown": {
+        "uncertainty": 7.225984708451386,
+        "drama": 7.8203049134624125,
+        "finish": 5.521221584836104
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:17:46.334Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-11"
+  }
+}

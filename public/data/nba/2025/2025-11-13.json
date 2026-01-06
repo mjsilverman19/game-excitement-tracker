@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810080",
+      "homeTeam": "Cavaliers",
+      "awayTeam": "Raptors",
+      "homeScore": 113,
+      "awayScore": 126,
+      "excitement": 7.4,
+      "breakdown": {
+        "uncertainty": 5.956607272674925,
+        "drama": 7.562572961270861,
+        "finish": 3.667091356406241
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810082",
+      "homeTeam": "Jazz",
+      "awayTeam": "Hawks",
+      "homeScore": 122,
+      "awayScore": 132,
+      "excitement": 5.6,
+      "breakdown": {
+        "uncertainty": 4.407532308509047,
+        "drama": 5.739494269631825,
+        "finish": 5.053557399875882
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810081",
+      "homeTeam": "Suns",
+      "awayTeam": "Pacers",
+      "homeScore": 133,
+      "awayScore": 98,
+      "excitement": 3.5,
+      "breakdown": {
+        "uncertainty": 4.684105736812712,
+        "drama": 5.67352219501419,
+        "finish": 1.579017901936632
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:18:07.801Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-11-13"
+  }
+}

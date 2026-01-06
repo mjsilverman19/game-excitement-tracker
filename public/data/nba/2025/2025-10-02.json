@@ -1,0 +1,47 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812480",
+      "homeTeam": "Knicks",
+      "awayTeam": "76ers",
+      "homeScore": 99,
+      "awayScore": 84,
+      "excitement": 8.3,
+      "breakdown": {
+        "uncertainty": 8.014224335235893,
+        "drama": 8.528983751194106,
+        "finish": 5.05767757150888
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812481",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Melbourne United",
+      "homeScore": 107,
+      "awayScore": 97,
+      "excitement": 6.7,
+      "breakdown": {
+        "uncertainty": 6.019149735709261,
+        "drama": 7.256999739688736,
+        "finish": 4.349257527049031
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:17:39.982Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-02"
+  }
+}

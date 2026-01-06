@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810037",
+      "homeTeam": "Suns",
+      "awayTeam": "Clippers",
+      "homeScore": 115,
+      "awayScore": 102,
+      "excitement": 7,
+      "breakdown": {
+        "uncertainty": 7.2585135869148765,
+        "drama": 8.155200597273915,
+        "finish": 3.236190670288301
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:18:03.204Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-11-06"
+  }
+}

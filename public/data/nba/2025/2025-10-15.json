@@ -1,0 +1,79 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401812723",
+      "homeTeam": "Celtics",
+      "awayTeam": "Raptors",
+      "homeScore": 110,
+      "awayScore": 108,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 7.769574092639618,
+        "drama": 8.353545136004541,
+        "finish": 5.956099600816861
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812724",
+      "homeTeam": "Lakers",
+      "awayTeam": "Mavericks",
+      "homeScore": 94,
+      "awayScore": 121,
+      "excitement": 7.1,
+      "breakdown": {
+        "uncertainty": 6.083490365446785,
+        "drama": 7.236503986383367,
+        "finish": 5.097012083005161
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812722",
+      "homeTeam": "Hornets",
+      "awayTeam": "Grizzlies",
+      "homeScore": 145,
+      "awayScore": 116,
+      "excitement": 6.4,
+      "breakdown": {
+        "uncertainty": 5.508105508569504,
+        "drama": 6.8326927276191505,
+        "finish": 4.68865997161156
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812725",
+      "homeTeam": "Kings",
+      "awayTeam": "Clippers",
+      "homeScore": 91,
+      "awayScore": 109,
+      "excitement": 2.7,
+      "breakdown": {
+        "uncertainty": 4.348355091150536,
+        "drama": 5.46547962136872,
+        "finish": 0.25329145685116594
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:17:49.471Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-10-15"
+  }
+}

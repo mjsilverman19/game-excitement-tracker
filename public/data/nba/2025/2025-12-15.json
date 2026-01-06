@@ -1,0 +1,95 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401836806",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Rockets",
+      "homeScore": 128,
+      "awayScore": 125,
+      "excitement": 9.2,
+      "breakdown": {
+        "uncertainty": 8.285455678342736,
+        "drama": 9.787333162173613,
+        "finish": 6.624552372881704
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401836803",
+      "homeTeam": "Celtics",
+      "awayTeam": "Pistons",
+      "homeScore": 105,
+      "awayScore": 112,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 7.507912892216927,
+        "drama": 8.277717524992003,
+        "finish": 6.586922653006474
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401836805",
+      "homeTeam": "Jazz",
+      "awayTeam": "Mavericks",
+      "homeScore": 140,
+      "awayScore": 133,
+      "excitement": 8.7,
+      "breakdown": {
+        "uncertainty": 7.7126563128288925,
+        "drama": 9.031107912007917,
+        "finish": 5.8622858366031085
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401839023",
+      "homeTeam": "Heat",
+      "awayTeam": "Raptors",
+      "homeScore": 96,
+      "awayScore": 106,
+      "excitement": 8.6,
+      "breakdown": {
+        "uncertainty": 7.1401282135996365,
+        "drama": 8.560224645860742,
+        "finish": 6.563309143759647
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401836807",
+      "homeTeam": "Clippers",
+      "awayTeam": "Grizzlies",
+      "homeScore": 103,
+      "awayScore": 121,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 7.226699175040052,
+        "drama": 8.442590478301483,
+        "finish": 5.419589906224915
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:18:28.790Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-15"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401777328",
+      "homeTeam": "Virginia",
+      "awayTeam": "Duke",
+      "homeScore": 20,
+      "awayScore": 27,
+      "excitement": 9.3,
+      "breakdown": {
+        "uncertainty": 6.610293874081864,
+        "drama": 7.8593059339008855,
+        "finish": 9.842500000000001
+      },
+      "overtime": true,
+      "bowlName": "ACC Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777353",
+      "homeTeam": "Ohio State",
+      "awayTeam": "Indiana",
+      "homeScore": 10,
+      "awayScore": 13,
+      "excitement": 8.5,
+      "breakdown": {
+        "uncertainty": 7.632081880971359,
+        "drama": 7.543623395875913,
+        "finish": 6.666666666666667
+      },
+      "overtime": false,
+      "bowlName": "Big Ten Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777351",
+      "homeTeam": "Alabama",
+      "awayTeam": "Georgia",
+      "homeScore": 7,
+      "awayScore": 28,
+      "excitement": 6.6,
+      "breakdown": {
+        "uncertainty": 3.739763955560317,
+        "drama": 4.010120690032953,
+        "finish": 8.360507110906667
+      },
+      "overtime": false,
+      "bowlName": "SEC Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777324",
+      "homeTeam": "Tulane",
+      "awayTeam": "North Texas",
+      "homeScore": 34,
+      "awayScore": 21,
+      "excitement": 2.8,
+      "breakdown": {
+        "uncertainty": 3.966107042937452,
+        "drama": 4.812249353144678,
+        "finish": 0.49311488489150673
+      },
+      "overtime": false,
+      "bowlName": "American Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777327",
+      "homeTeam": "Texas Tech",
+      "awayTeam": "BYU",
+      "homeScore": 34,
+      "awayScore": 7,
+      "excitement": 2.6,
+      "breakdown": {
+        "uncertainty": 4.98135877633072,
+        "drama": 4.667401510699895,
+        "finish": 0.08864749596988118
+      },
+      "overtime": false,
+      "bowlName": "Big 12 Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777352",
+      "homeTeam": "James Madison",
+      "awayTeam": "Troy",
+      "homeScore": 31,
+      "awayScore": 14,
+      "excitement": 1.9,
+      "breakdown": {
+        "uncertainty": 2.716595573146454,
+        "drama": 2.7127949057872804,
+        "finish": 0.9581295323298815
+      },
+      "overtime": false,
+      "bowlName": "Sun Belt Championship",
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "CFB",
+    "season": 2025,
+    "count": 6,
+    "totalGames": 6,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:17:27.899Z",
+    "source": "ESPN Win Probability Analysis",
+    "week": 15
+  }
+}

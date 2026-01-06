@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810220",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Suns",
+      "homeScore": 105,
+      "awayScore": 108,
+      "excitement": 9.4,
+      "breakdown": {
+        "uncertainty": 9.105522450159514,
+        "drama": 9.403715670848689,
+        "finish": 6.6010555493326475
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810221",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Spurs",
+      "homeScore": 132,
+      "awayScore": 135,
+      "excitement": 3.6,
+      "breakdown": {
+        "uncertainty": 3.3529854320724786,
+        "drama": 4.319702361304853,
+        "finish": 3.6386388539279912
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810219",
+      "homeTeam": "Pacers",
+      "awayTeam": "Kings",
+      "homeScore": 116,
+      "awayScore": 105,
+      "excitement": 3.4,
+      "breakdown": {
+        "uncertainty": 4.57998258418346,
+        "drama": 5.6428544511010035,
+        "finish": 1.4195616261993897
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-06T00:18:24.058Z",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2025-12-08"
+  }
+}
