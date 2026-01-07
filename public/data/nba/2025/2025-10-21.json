@@ -7,11 +7,11 @@
       "awayTeam": "Rockets",
       "homeScore": 125,
       "awayScore": 124,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
-        "uncertainty": 9.675273236774467,
-        "drama": 8.77220494786158,
-        "finish": 4.952251147181516
+        "tension": 8.635965979488518,
+        "drama": 9.83439578822579,
+        "finish": 8.066062533225251
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Warriors",
       "homeScore": 109,
       "awayScore": 119,
-      "excitement": 8.1,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 8.80627829445648,
-        "drama": 8.750647636761634,
-        "finish": 3.9518943782166995
+        "tension": 8.48189840821475,
+        "drama": 9.841393550151968,
+        "finish": 6.757762606355046
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:44.390Z",
+    "generatedAt": "2026-01-07T02:35:26.350Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-21"
   }

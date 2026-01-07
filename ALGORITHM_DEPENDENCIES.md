@@ -40,7 +40,7 @@ graph TD
 - Serverless functions import the shared config directly via ESM.
 
 ### 1) `api/calculator.js` (source)
-**Outputs**: `excitement` (1–10), `breakdown` `{uncertainty, drama, finish}` (0–10), `overtime` passthrough (boolean), plus game metadata.
+**Outputs**: `excitement` (1–10), `breakdown `{tension, drama, finish}` (0–10), `overtime` passthrough (boolean), plus game metadata.
 - **Where it happens**: `analyzeGameEntertainment` returns the output object with `excitement`, `breakdown`, `overtime` (search `analyzeGameEntertainment` in `api/calculator.js`).
 - **Transformations**:
   - Weighted combination of metrics (`weights`), overtime bonus, then normalization to 1–10 (search `calculateExcitement` in `api/calculator.js`).
@@ -123,7 +123,7 @@ graph TD
 |  | `src/js/components/game-list.js` (search `createGameRow`) | Tier class/label, display score, pie chart fill. | **High**: UI labels/colors and visual scale break. |
 |  | `src/js/components/export-modal.js` (search `exportFullSeason`) | Export rating/tier. | **High**: exported tiers and rating column wrong. |
 |  | `src/js/services/supabase.js` | Persisted as `algorithm_score` with `algorithm_version` for historical tracking. | **Medium**: historical data versioned for comparability. |
-| `breakdown.uncertainty` | `src/js/components/radar-chart.js` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
+| `breakdown.tension` | `src/js/components/radar-chart.js` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
 |  | `src/js/components/game-list.js` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
 | `breakdown.drama` | `src/js/components/radar-chart.js` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
 |  | `src/js/components/game-list.js` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
@@ -138,7 +138,7 @@ graph TD
 ## Threshold Inventory (Score-Based Conditionals)
 
 ### Algorithm thresholds (source)
-- `weights` (0.30/0.30/0.40) — weighting for submetrics (`shared/algorithm-config.js`).
+- `weights` (0.30/0.35/0.35) — weighting for submetrics (`shared/algorithm-config.js`).
 - `minDataPoints = 10` — minimum win-probability samples (`shared/algorithm-config.js`, used in `api/calculator.js`).
 - `finalMomentPoints = 10` — finish analysis window (`shared/algorithm-config.js`, used in `api/calculator.js`).
 - `walkoffSwingThreshold = 0.15` — walk-off detection (`shared/algorithm-config.js`, used in `api/calculator.js`).

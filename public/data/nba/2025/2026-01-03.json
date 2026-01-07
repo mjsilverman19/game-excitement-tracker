@@ -7,11 +7,11 @@
       "awayTeam": "Rockets",
       "homeScore": 110,
       "awayScore": 104,
-      "excitement": 9.3,
+      "excitement": 9,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.062963360802021,
-        "finish": 5.694255583533245
+        "tension": 9.043928373737113,
+        "drama": 9.298216200542237,
+        "finish": 8.975951774646793
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 110,
       "awayScore": 115,
-      "excitement": 9.2,
+      "excitement": 8.9,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.701880676532392,
-        "finish": 5.706280905946528
+        "tension": 8.918216064134462,
+        "drama": 9.852579345022406,
+        "finish": 8.9903923056295
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Timberwolves",
       "homeScore": 115,
       "awayScore": 125,
-      "excitement": 9.1,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 9.20579164161629,
-        "finish": 5.702274886108453
+        "tension": 9.04021785567281,
+        "drama": 10,
+        "finish": 8.985582671441104
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Hornets",
       "homeScore": 99,
       "awayScore": 112,
-      "excitement": 9,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 7.6859150773663085,
-        "finish": 6.3260414427373455
+        "tension": 8.351367498897401,
+        "drama": 8.1979691114567,
+        "finish": 8.779939308072597
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,27 @@
       "awayTeam": "Jazz",
       "homeScore": 123,
       "awayScore": 114,
-      "excitement": 8.7,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 9.620063437820724,
-        "drama": 8.936522173641515,
-        "finish": 5.236586720701875
+        "tension": 8.324430215599518,
+        "drama": 9.177747249359374,
+        "finish": 8.419435580930909
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810343",
+      "homeTeam": "Raptors",
+      "awayTeam": "Hawks",
+      "homeScore": 134,
+      "awayScore": 117,
+      "excitement": 8,
+      "breakdown": {
+        "tension": 7.507076528043848,
+        "drama": 8.88030794475038,
+        "finish": 7.8608666075271305
       },
       "overtime": false,
       "bowlName": null,
@@ -89,25 +105,9 @@
       "awayScore": 130,
       "excitement": 7.9,
       "breakdown": {
-        "uncertainty": 8.70574624170815,
-        "drama": 8.48894113847588,
-        "finish": 3.223944953974257
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810343",
-      "homeTeam": "Raptors",
-      "awayTeam": "Hawks",
-      "homeScore": 134,
-      "awayScore": 117,
-      "excitement": 7.7,
-      "breakdown": {
-        "uncertainty": 7.141450618623705,
-        "drama": 8.461745729171161,
-        "finish": 4.789596906119791
+        "tension": 7.33619898841995,
+        "drama": 8.74332108576439,
+        "finish": 6.1431151351901505
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Celtics",
       "homeScore": 115,
       "awayScore": 146,
-      "excitement": 6.5,
+      "excitement": 7.2,
       "breakdown": {
-        "uncertainty": 5.528797579573899,
-        "drama": 8.135606904178958,
-        "finish": 3.9997227854955537
+        "tension": 5.691513077397234,
+        "drama": 8.298917494372757,
+        "finish": 6.8233844628036255
       },
       "overtime": false,
       "bowlName": null,
@@ -136,7 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:34:31.132Z",
+    "generatedAt": "2026-01-07T02:36:14.099Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-03"
   }

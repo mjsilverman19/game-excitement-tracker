@@ -2,48 +2,32 @@
   "success": true,
   "games": [
     {
-      "id": "401809997",
-      "homeTeam": "Bucks",
-      "awayTeam": "Kings",
-      "homeScore": 133,
-      "awayScore": 135,
-      "excitement": 9.2,
-      "breakdown": {
-        "uncertainty": 9.341227340876573,
-        "drama": 7.431768142066135,
-        "finish": 5.498749930429701
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810002",
       "homeTeam": "Pistons",
       "awayTeam": "Mavericks",
       "homeScore": 122,
       "awayScore": 110,
-      "excitement": 9.2,
+      "excitement": 8.9,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.097218263666733,
-        "finish": 5.5358691622508545
+        "tension": 9.684213583267745,
+        "drama": 9.275082685813908,
+        "finish": 8.784921654663577
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809999",
-      "homeTeam": "Pacers",
-      "awayTeam": "Warriors",
-      "homeScore": 114,
-      "awayScore": 109,
-      "excitement": 8.9,
+      "id": "401809997",
+      "homeTeam": "Bucks",
+      "awayTeam": "Kings",
+      "homeScore": 133,
+      "awayScore": 135,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 9.864888104019737,
-        "drama": 7.412415009438322,
-        "finish": 5.11850996659589
+        "tension": 7.509457299014448,
+        "drama": 7.920619655965487,
+        "finish": 8.739921638127898
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +39,27 @@
       "awayTeam": "Timberwolves",
       "homeScore": 105,
       "awayScore": 122,
-      "excitement": 8.8,
+      "excitement": 8.6,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 9.079371917253876,
-        "finish": 5.083016893344141
+        "tension": 9.058823440180358,
+        "drama": 10,
+        "finish": 8.22937750178919
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809999",
+      "homeTeam": "Pacers",
+      "awayTeam": "Warriors",
+      "homeScore": 114,
+      "awayScore": 109,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 8.16044805994006,
+        "drama": 8.438378570912889,
+        "finish": 8.273465775762553
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Magic",
       "homeScore": 94,
       "awayScore": 125,
-      "excitement": 2.9,
+      "excitement": 4.8,
       "breakdown": {
-        "uncertainty": 4.606626257915408,
-        "drama": 5.656238593672191,
-        "finish": 0.8422664776292101
+        "tension": 4.622866117700366,
+        "drama": 5.63524316110478,
+        "finish": 2.435742256715947
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Rockets",
       "homeScore": 101,
       "awayScore": 128,
-      "excitement": 2.1,
+      "excitement": 3.9,
       "breakdown": {
-        "uncertainty": 3.3846965896438785,
-        "drama": 4.567715009177231,
-        "finish": 0.37970629687303414
+        "tension": 3.2173646712474158,
+        "drama": 4.4553854087780245,
+        "finish": 1.6941565953434563
       },
       "overtime": false,
       "bowlName": null,
@@ -104,7 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:51.158Z",
+    "generatedAt": "2026-01-07T02:35:33.576Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-01"
   }

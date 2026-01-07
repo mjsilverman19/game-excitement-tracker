@@ -2,32 +2,32 @@
   "success": true,
   "games": [
     {
-      "id": "401812486",
-      "homeTeam": "Nuggets",
-      "awayTeam": "Timberwolves",
-      "homeScore": 116,
+      "id": "401812485",
+      "homeTeam": "Heat",
+      "awayTeam": "Magic",
+      "homeScore": 118,
       "awayScore": 126,
-      "excitement": 6.9,
+      "excitement": 7.7,
       "breakdown": {
-        "uncertainty": 5.6864373961296675,
-        "drama": 7.4435143405355975,
-        "finish": 4.947680237382063
+        "tension": 7.174286351103056,
+        "drama": 8.576672755607932,
+        "finish": 6.405057765716096
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401812485",
-      "homeTeam": "Heat",
-      "awayTeam": "Magic",
-      "homeScore": 118,
+      "id": "401812486",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Timberwolves",
+      "homeScore": 116,
       "awayScore": 126,
-      "excitement": 6.8,
+      "excitement": 7.5,
       "breakdown": {
-        "uncertainty": 7.808762962700108,
-        "drama": 7.622405839639295,
-        "finish": 3.4466877835469223
+        "tension": 5.794199669431829,
+        "drama": 7.695439242325046,
+        "finish": 8.060327999328118
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,8 @@
     "count": 2,
     "totalGames": 5,
     "insufficientData": 3,
-    "generatedAt": "2026-01-06T02:33:34.640Z",
+    "generatedAt": "2026-01-07T02:35:15.336Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-04"
   }

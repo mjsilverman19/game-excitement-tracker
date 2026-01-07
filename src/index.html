@@ -155,24 +155,24 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Outcome Uncertainty</td>
-                                <td>How long was the result in doubt?</td>
-                                <td>Time-weighted integral of <code>1 - |prob - 0.5|</code> across all data points. A game at 50/50 the entire time scores 10; a wire-to-wire blowout scores near 0.</td>
+                                <td>Tension</td>
+                                <td>Was there reason to keep watching?</td>
+                                <td>Measures sustained closeness plus comeback potential. Games that stayed competitive or featured meaningful comebacks score higher.</td>
                             </tr>
                             <tr>
-                                <td>Momentum Drama</td>
+                                <td>Drama</td>
                                 <td>How big were the swings, when they mattered?</td>
                                 <td>Leverage-weighted movement: <code>Σ(|Δprob| × p × (1-p))</code>. Swings near 50/50 count fully; swings when the game is decided contribute almost nothing.</td>
                             </tr>
                             <tr>
-                                <td>Finish Quality</td>
-                                <td>Did it come down to the wire?</td>
+                                <td>Finish</td>
+                                <td>How did it end?</td>
                                 <td>Final-period volatility plus proximity to 0.5 at game end, with a bonus for walk-off moments (swing > 0.15 in final data points).</td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <p>Of these metrics, finish quality carries the most weight (40%). This is a judgement call on my part but I think a boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
+                    <p>Drama and Finish each carry 35% weight, with Tension at 30%. Finish is weighted heavily because a boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
                 </section>
 
                 <section class="about-section">

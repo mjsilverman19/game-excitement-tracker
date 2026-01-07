@@ -7,11 +7,11 @@
       "awayTeam": "Knicks",
       "homeScore": 120,
       "awayScore": 132,
-      "excitement": 8.9,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.212109681417582,
-        "finish": 5.645933702576977
+        "tension": 9.067668754538847,
+        "drama": 9.318607907252014,
+        "finish": 8.917836132041682
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Spurs",
       "homeScore": 109,
       "awayScore": 111,
-      "excitement": 8.8,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 7.766747201101451,
-        "drama": 4.947764435629344,
-        "finish": 5.682208376854566
+        "tension": 6.629693213642877,
+        "drama": 5.43018279900456,
+        "finish": 8.961476193590991
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:34:18.468Z",
+    "generatedAt": "2026-01-07T02:36:01.170Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-13"
   }

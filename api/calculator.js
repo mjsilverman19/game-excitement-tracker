@@ -76,11 +76,10 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     return null;
   }
 
-  // METRIC 1: Outcome Uncertainty (how long was the result in doubt?)
-  // Adjust for comebacks - a game that looked decided but came back was actually uncertain
-  const baseUncertainty = calculateOutcomeUncertainty(probs);
-  const comebackFactor = calculateComebackUncertaintyBoost(probs);
-  const uncertaintyScore = Math.min(10, baseUncertainty + comebackFactor);
+  // METRIC 1: Tension (was there reason to keep watching?)
+  // Captures EITHER sustained closeness OR meaningful comeback potential
+  // This replaces the old Uncertainty which only measured closeness
+  const tensionScore = calculateTension(probs);
 
   // METRIC 2: Momentum Drama (leverage-weighted swings + lead changes)
   const baseDrama = calculateMomentumDrama(probs);
@@ -92,7 +91,7 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
 
   // Capture breakdown before weighting
   const breakdown = {
-    uncertainty: uncertaintyScore,
+    tension: tensionScore,
     drama: dramaScore,
     finish: finishScore
   };
@@ -100,9 +99,9 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // Weighted combination
   const weights = SCORING_CONFIG.weights;
   let rawScore =
-    uncertaintyScore * weights.outcomeUncertainty +
-    dramaScore * weights.momentumDrama +
-    finishScore * weights.finishQuality;
+    tensionScore * weights.tension +
+    dramaScore * weights.drama +
+    finishScore * weights.finish;
 
   // MULTIPLICATIVE BONUSES
   // Key change: bonuses now scale with base quality instead of flat addition
@@ -145,110 +144,71 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
 }
 
 /**
- * METRIC 1: Outcome Uncertainty
- * Measures how long the result was in doubt by integrating closeness to 50/50 over time
- * A game at 50/50 the entire time scores 10; a wire-to-wire blowout scores near 0
+ * METRIC 1: Tension
+ * Measures "was there reason to keep watching?" through two lenses:
+ * 1. Closeness: How much time was spent in competitive range (30-70%)
+ * 2. Comeback: Did a team mount a meaningful comeback that made it interesting?
  * 
- * Key fix: Changed exponent from 0.8 to 1.3
- * - Old behavior: compressed differences between very close games (0.9 vs 0.95 closeness similar)
- * - New behavior: expands high-closeness differentiation, compresses low-closeness (blowouts)
+ * Uses MAX of the two - a game is tense if it was EITHER close OR had a comeback.
+ * This captures games the old "Uncertainty" metric missed (comeback games that
+ * weren't close overall but were still engaging).
  * 
  * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Score from 0-10 based on outcome uncertainty
+ * @returns {number} Score from 0-10 based on game tension
  */
-function calculateOutcomeUncertainty(probs) {
-  if (probs.length === 0) return 0;
-
-  // For each probability point, calculate how close to 0.5
-  // Weight slightly more towards later in the game
+function calculateTension(probs) {
+  if (probs.length < 10) return 5;
+  
+  // Base tension from closeness (same formula as v2.2 Uncertainty)
+  // Measures how much time the game spent near 50%
   let totalCloseness = 0;
   for (let i = 0; i < probs.length; i++) {
-    const closeness = 1 - Math.abs(probs[i].value - 0.5) * 2; // 0 at extremes, 1 at 0.5
-    const timeWeight = 1 + (i / probs.length) * 0.3; // Slight increase for later moments
+    const closeness = 1 - Math.abs(probs[i].value - 0.5) * 2;
+    const timeWeight = 1 + (i / probs.length) * 0.3;
     totalCloseness += closeness * timeWeight;
   }
-
-  // Calculate average weighted closeness
-  const avgWeight = 1 + 0.15; // Average of time weights
+  const avgWeight = 1 + 0.15;
   const avgCloseness = totalCloseness / (probs.length * avgWeight);
-
-  // Scale to 0-10 with exponential emphasis
-  // Using 1 - (1 - x)^1.3 to expand near 1 and compress near 0
-  // This means: very close games (0.9 vs 0.95) show more differentiation
-  //             blowouts (0.3 vs 0.4) show less differentiation (both bad)
   const transformedCloseness = 1 - Math.pow(1 - avgCloseness, 1.3);
-  const score = transformedCloseness * 10;
-
-  return Math.min(10, Math.max(0, score));
-}
-
-/**
- * Boosts uncertainty score for games with significant comebacks
- * A game that looked "decided" but came back was actually uncertain in hindsight
- * 
- * Key improvement: Now considers WHEN the deficit occurred
- * - Late-game comebacks (Q4) get full boost
- * - Early-game comebacks (Q1) get reduced boost (less dramatic)
- * 
- * @param {Array} probs - Array of probability objects with value property
- * @returns {number} Boost from 0-4 based on comeback magnitude and timing
- */
-function calculateComebackUncertaintyBoost(probs) {
-  if (probs.length < 20) return 0;
-
-  // Find the most extreme point (furthest from 50%) where the eventual loser was "winning"
+  const baseTension = transformedCloseness * 10;
+  
+  // Comeback boost (same as v2.2 calculateComebackUncertaintyBoost)
+  // Rewards games where winner came back from significant deficit
   const finalWP = probs[probs.length - 1].value;
   const homeWon = finalWP > 0.5;
-
-  let maxDeficit = 0; // How far behind did the winner get?
-  let maxDeficitIndex = 0; // WHEN did the max deficit occur?
-
+  
+  let maxDeficit = 0;
+  let maxDeficitIndex = 0;
+  
   for (let i = 0; i < probs.length; i++) {
     const wp = probs[i].value;
     let deficit = 0;
-    
-    // If home won, look for points where home WP was low (home was losing)
-    // If away won, look for points where home WP was high (away was losing)
-    if (homeWon && wp < 0.5) {
-      deficit = 0.5 - wp;
-    } else if (!homeWon && wp > 0.5) {
-      deficit = wp - 0.5;
-    }
+    if (homeWon && wp < 0.5) deficit = 0.5 - wp;
+    else if (!homeWon && wp > 0.5) deficit = wp - 0.5;
     
     if (deficit > maxDeficit) {
       maxDeficit = deficit;
       maxDeficitIndex = i;
     }
   }
-
-  // No comeback if winner was never behind
-  if (maxDeficit === 0) return 0;
-
-  // Calculate base boost from deficit magnitude (tiered system)
-  let baseBoost = 0;
-  if (maxDeficit < 0.15) {
-    baseBoost = 0;
-  } else if (maxDeficit < 0.30) {
-    // 15% -> 0, 30% -> 1
-    baseBoost = ((maxDeficit - 0.15) / 0.15) * 1;
-  } else if (maxDeficit < 0.40) {
-    // 30% -> 1, 40% -> 2.5
-    baseBoost = 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
-  } else {
-    // 40% -> 2.5, 50% -> 4
-    baseBoost = Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
+  
+  let comebackBoost = 0;
+  if (maxDeficit >= 0.15) {
+    if (maxDeficit < 0.30) {
+      comebackBoost = ((maxDeficit - 0.15) / 0.15) * 1;
+    } else if (maxDeficit < 0.40) {
+      comebackBoost = 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
+    } else {
+      comebackBoost = Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
+    }
+    
+    // Time multiplier - late comebacks are more dramatic
+    const gameProgress = maxDeficitIndex / probs.length;
+    const timeMultiplier = 0.5 + 0.5 * gameProgress;
+    comebackBoost *= timeMultiplier;
   }
-
-  if (baseBoost === 0) return 0;
-
-  // Apply time multiplier based on when max deficit occurred
-  // Early deficit (index near 0): 0.5x multiplier (less dramatic)
-  // Late deficit (index near end): 1.0x multiplier (full drama)
-  // A Q1 comeback from 20% is less exciting than a Q4 comeback from 20%
-  const gameProgress = maxDeficitIndex / probs.length;
-  const timeMultiplier = 0.5 + 0.5 * gameProgress; // 0.5 at start, 1.0 at end
-
-  return baseBoost * timeMultiplier;
+  
+  return Math.min(10, baseTension + comebackBoost);
 }
 
 /**
@@ -343,13 +303,9 @@ function detectAndAdjustForTruncatedData(probs) {
 
 /**
  * METRIC 3: Finish Quality
- * Combines final probability closeness, competitive-range volatility, and walk-off detection
- * Games that come down to the wire score highest
+ * Measures how dramatic the ending was
  * 
- * Key design decisions to avoid false positives:
- * - Volatility only counts movement in competitive range (0.3-0.7) or crossing 0.5
- * - Walk-off requires crossing 0.5 OR starting competitive AND moving toward uncertainty
- * - Late drama removed (rewarded any movement regardless of context)
+ * V2.3: Renamed from finishQuality, minor tuning for better average (~5 target)
  * 
  * @param {Array} probs - Array of probability objects with value, period, clock
  * @param {Object} game - Game object with score information
@@ -359,71 +315,39 @@ function detectAndAdjustForTruncatedData(probs) {
 function calculateFinishQuality(probs, game, sport = 'NFL') {
   if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
 
-  // Detect truncated OT data: if final N points are all at same extreme (<2% or >98%),
-  // use a broader window that captures the actual finish drama
+  // Detect truncated OT data
   const adjustedProbs = detectAndAdjustForTruncatedData(probs);
-
   const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, adjustedProbs.length);
   const finalProbs = adjustedProbs.slice(-finalMoments);
+  const lastProb = adjustedProbs[adjustedProbs.length - 1].value;
 
   // Component 1: Pre-final closeness (how close to 0.5 before the decisive play)
-  // Use AVERAGE distance from 0.5 in final window (not minimum - avoids single-point gaming)
-  // This captures sustained uncertainty, not just one moment near 0.5
+  // Use the minimum distance from 0.5 among final points, excluding absolute last
+  // This captures "how close was the game before the walk-off play"
   const preFinalWindow = adjustedProbs.slice(-finalMoments, -1);
-  const avgDistanceFrom50 = preFinalWindow.length > 0
-    ? preFinalWindow.reduce((sum, p) => sum + Math.abs(p.value - 0.5), 0) / preFinalWindow.length
-    : 0.5;
-  const finalCloseness = 1 - avgDistanceFrom50 * 2; // 0 to 1
-  const closenessScore = Math.pow(Math.max(0, finalCloseness), 1.2) * 4; // Up to 4 points, exponent >1 rewards truly close games
+  const minDistanceFrom50 = preFinalWindow.length > 0
+    ? Math.min(...preFinalWindow.map(p => Math.abs(p.value - 0.5)))
+    : Math.abs(lastProb - 0.5);
+  const finalCloseness = 1 - minDistanceFrom50 * 2; // 0 to 1
+  // Base floor of 1.0 (even blowouts get some credit) + up to 4.0 for closeness
+  // More generous exponent (0.6 vs 0.7) to boost mid-range games
+  const closenessScore = 1.0 + Math.pow(Math.max(0, finalCloseness), 0.6) * 4.0;
 
-  // Component 2: Final period volatility - ONLY count competitive movement
-  // Movement only counts if:
-  //   a) It crosses 0.5 (actual lead change), OR
-  //   b) It occurs while in competitive range (0.3-0.7) AND moves toward 0.5
+  // Component 2: Final period volatility (leverage-weighted movement near 0.5)
   const finalPeriodSize = Math.max(2, Math.floor(adjustedProbs.length * 0.25));
   const finalPeriod = adjustedProbs.slice(-finalPeriodSize);
-  const competitiveRange = { min: 0.3, max: 0.7 };
 
-  let competitiveMovement = 0;
-  let leadChangesInFinalPeriod = 0;
-
+  let finalPeriodMovement = 0;
   for (let i = 1; i < finalPeriod.length; i++) {
-    const startValue = finalPeriod[i - 1].value;
-    const endValue = finalPeriod[i].value;
-    const swing = Math.abs(endValue - startValue);
-    const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
-
-    if (crossedHalf) {
-      // Lead change - always counts, weighted by swing magnitude
-      competitiveMovement += swing;
-      leadChangesInFinalPeriod++;
-    } else {
-      // Not a lead change - only count if in competitive range AND moving toward 0.5
-      const inCompetitiveRange = startValue >= competitiveRange.min && startValue <= competitiveRange.max;
-      const startDistFrom50 = Math.abs(startValue - 0.5);
-      const endDistFrom50 = Math.abs(endValue - 0.5);
-      const movingTowardUncertainty = endDistFrom50 < startDistFrom50;
-
-      if (inCompetitiveRange && movingTowardUncertainty) {
-        // Weight by how much closer to 0.5 we got
-        const uncertaintyGain = startDistFrom50 - endDistFrom50;
-        competitiveMovement += uncertaintyGain;
-      }
-      // Movement away from 0.5 when not crossing = game ending, don't reward
-    }
+    const swing = Math.abs(finalPeriod[i].value - finalPeriod[i - 1].value);
+    const leverage = finalPeriod[i - 1].value * (1 - finalPeriod[i - 1].value);
+    finalPeriodMovement += swing * leverage * 4;
   }
+  // Slightly increased from *4 max 4 to *4.5 max 4 for more credit
+  const volatilityScore = Math.min(4, finalPeriodMovement * 4.5);
 
-  // Scale competitive movement: typical exciting finish has 0.3-0.6 total movement
-  const volatilityScore = Math.min(4, competitiveMovement * 8); // Up to 4 points
-
-  // Bonus for multiple lead changes in final period (genuine back-and-forth)
-  const leadChangeBonus = Math.min(1, leadChangesInFinalPeriod * 0.5); // Up to 1 point for 2+ lead changes
-
-  // Component 3: Walk-off detection (decisive swing in final moments)
-  // Requirements tightened: must cross 0.5 OR (start competitive AND swing is dramatic)
-  let walkoffScore = 0;
-  let bestWalkoffSwing = 0;
-
+  // Component 3: Walk-off detection (large swing in final moments)
+  let maxFinalSwing = 0;
   for (let i = 1; i < finalProbs.length; i++) {
     const startValue = finalProbs[i - 1].value;
     const endValue = finalProbs[i].value;
@@ -431,34 +355,27 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
     const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
     const startedCompetitive = startValue >= 0.35 && startValue <= 0.65;
 
-    // Qualify for walk-off if:
-    // 1. Crossed 0.5 (definitive lead change), OR
-    // 2. Started in tight competitive range AND swing was large
-    if (crossedHalf) {
-      bestWalkoffSwing = Math.max(bestWalkoffSwing, swing);
-    } else if (startedCompetitive && swing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
-      // Started competitive, big swing - but discount swings that move away from 0.5
+    if (crossedHalf && startedCompetitive) {
+      maxFinalSwing = Math.max(maxFinalSwing, swing);
+    } else if (startedCompetitive && swing >= 0.15) {
       const movedTowardCertainty = Math.abs(endValue - 0.5) > Math.abs(startValue - 0.5);
       if (movedTowardCertainty) {
-        // Game-ending swing from competitive position - still dramatic but less so
-        bestWalkoffSwing = Math.max(bestWalkoffSwing, swing * 0.6);
+        maxFinalSwing = Math.max(maxFinalSwing, swing * 0.6);
       } else {
-        // Moved toward 0.5 - game getting MORE uncertain, very exciting
-        bestWalkoffSwing = Math.max(bestWalkoffSwing, swing);
+        maxFinalSwing = Math.max(maxFinalSwing, swing);
       }
     }
-    // Swings like 0.75->0.95 don't qualify at all
   }
 
-  if (bestWalkoffSwing >= SCORING_CONFIG.thresholds.walkoffSwingThreshold) {
-    walkoffScore = 2 + Math.min(2, (bestWalkoffSwing - 0.15) * 8); // Up to 4 points
+  let walkoffScore = 0;
+  if (maxFinalSwing >= 0.15) {
+    walkoffScore = 1 + Math.min(2, (maxFinalSwing - 0.15) * 8);
   }
 
-  // Combine components (max 13, scaled to 10)
-  // Removed late drama component - it rewarded any movement regardless of competitive context
-  const totalScore = (closenessScore + volatilityScore + leadChangeBonus + walkoffScore) * (10 / 13);
+  // Combine components (max ~11.5, scale to 0-10)
+  const totalScore = Math.min(10, closenessScore + volatilityScore + walkoffScore);
 
-  return Math.min(10, Math.max(0, totalScore));
+  return Math.max(0, totalScore);
 }
 
 /**

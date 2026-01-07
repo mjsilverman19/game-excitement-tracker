@@ -7,11 +7,11 @@
       "awayTeam": "Suns",
       "homeScore": 81,
       "awayScore": 103,
-      "excitement": 4.9,
+      "excitement": 6.6,
       "breakdown": {
-        "uncertainty": 6.539288218269978,
-        "drama": 7.166793195878069,
-        "finish": 1.9448696937496366
+        "tension": 6.339265764965858,
+        "drama": 8.153313051789846,
+        "finish": 4.1563693141762865
       },
       "overtime": false,
       "bowlName": null,
@@ -24,7 +24,8 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:33.553Z",
+    "generatedAt": "2026-01-07T02:35:14.068Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-03"
   }

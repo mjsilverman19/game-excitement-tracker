@@ -7,11 +7,11 @@
       "awayTeam": "Hornets",
       "homeScore": 111,
       "awayScore": 119,
-      "excitement": 9.1,
+      "excitement": 9,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.739554044092559,
-        "finish": 4.335152204150469
+        "tension": 8.843526901364218,
+        "drama": 9.12890346219622,
+        "finish": 7.2735198771198215
       },
       "overtime": true,
       "bowlName": null,
@@ -23,27 +23,11 @@
       "awayTeam": "Lakers",
       "homeScore": 114,
       "awayScore": 116,
-      "excitement": 9,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 9.034117488166904,
-        "finish": 5.544087921585636
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401836797",
-      "homeTeam": "Pacers",
-      "awayTeam": "Wizards",
-      "homeScore": 89,
-      "awayScore": 108,
-      "excitement": 8.9,
-      "breakdown": {
-        "uncertainty": 9.325556890309151,
-        "drama": 7.751794792574909,
-        "finish": 4.961380174339118
+        "tension": 8.754669400127721,
+        "drama": 9.979446015582248,
+        "finish": 8.794873255520574
       },
       "overtime": false,
       "bowlName": null,
@@ -57,9 +41,25 @@
       "awayScore": 131,
       "excitement": 8.6,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 9.07057184314244,
-        "finish": 4.6257579675981315
+        "tension": 9.422400631060226,
+        "drama": 10,
+        "finish": 7.651662905152328
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401836797",
+      "homeTeam": "Pacers",
+      "awayTeam": "Wizards",
+      "homeScore": 89,
+      "awayScore": 108,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 7.242467144411018,
+        "drama": 7.95576458755103,
+        "finish": 8.07751020784961
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Pelicans",
       "homeScore": 104,
       "awayScore": 114,
-      "excitement": 8.3,
+      "excitement": 8.2,
       "breakdown": {
-        "uncertainty": 9.691702294888938,
-        "drama": 8.385926343105732,
-        "finish": 4.439701727643465
+        "tension": 8.379353104976017,
+        "drama": 9.336782657514199,
+        "finish": 7.410688325450236
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "76ers",
       "homeScore": 120,
       "awayScore": 117,
-      "excitement": 7.9,
+      "excitement": 8.1,
       "breakdown": {
-        "uncertainty": 7.3977239675284086,
-        "drama": 8.290221453052261,
-        "finish": 5.002253073216157
+        "tension": 7.782464066745827,
+        "drama": 8.455389678562694,
+        "finish": 8.12867778819648
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Kings",
       "homeScore": 117,
       "awayScore": 103,
-      "excitement": 6.5,
+      "excitement": 7.7,
       "breakdown": {
-        "uncertainty": 6.705186962550195,
-        "drama": 7.8430739232001745,
-        "finish": 3.503708274444565
+        "tension": 7.027911969496503,
+        "drama": 8.651274059486944,
+        "finish": 6.560170034071897
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Bucks",
       "homeScore": 127,
       "awayScore": 82,
-      "excitement": 3.3,
+      "excitement": 5.3,
       "breakdown": {
-        "uncertainty": 4.899813221352144,
-        "drama": 5.896525577672341,
-        "finish": 1.1962876135471758
+        "tension": 4.551992387791854,
+        "drama": 6.754321525204917,
+        "finish": 2.983551809795249
       },
       "overtime": false,
       "bowlName": null,
@@ -136,7 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:34:19.274Z",
+    "generatedAt": "2026-01-07T02:36:02.517Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-14"
   }

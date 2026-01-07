@@ -7,11 +7,27 @@
       "awayTeam": "Chiefs",
       "homeScore": 14,
       "awayScore": 12,
+      "excitement": 9.4,
+      "breakdown": {
+        "tension": 9.577939119804904,
+        "drama": 10,
+        "finish": 8.904680833875585
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772964",
+      "homeTeam": "Bengals",
+      "awayTeam": "Browns",
+      "homeScore": 18,
+      "awayScore": 20,
       "excitement": 9.3,
       "breakdown": {
-        "uncertainty": 9.577939119804904,
-        "drama": 10,
-        "finish": 8.139219929083792
+        "tension": 9.596612727182995,
+        "drama": 9.251751311965666,
+        "finish": 9
       },
       "overtime": false,
       "bowlName": null,
@@ -25,41 +41,9 @@
       "awayScore": 24,
       "excitement": 9.2,
       "breakdown": {
-        "uncertainty": 8.615264920155063,
+        "tension": 8.615264920155063,
         "drama": 10,
-        "finish": 8.450259114007515
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772964",
-      "homeTeam": "Bengals",
-      "awayTeam": "Browns",
-      "homeScore": 18,
-      "awayScore": 20,
-      "excitement": 9,
-      "breakdown": {
-        "uncertainty": 9.596612727182995,
-        "drama": 9.251751311965666,
-        "finish": 6.4595247704768815
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772965",
-      "homeTeam": "Bears",
-      "awayTeam": "Lions",
-      "homeScore": 16,
-      "awayScore": 19,
-      "excitement": 7.3,
-      "breakdown": {
-        "uncertainty": 5.3200064970609535,
-        "drama": 6.892081465211422,
-        "finish": 4.804934362538122
+        "finish": 8.828085174446844
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +55,27 @@
       "awayTeam": "Commanders",
       "homeScore": 17,
       "awayScore": 24,
-      "excitement": 7.2,
+      "excitement": 8.3,
       "breakdown": {
-        "uncertainty": 8.112228173922018,
+        "tension": 8.112228173922018,
         "drama": 7.121221491973691,
-        "finish": 1.9431741031782013
+        "finish": 5.917823265151945
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772965",
+      "homeTeam": "Bears",
+      "awayTeam": "Lions",
+      "homeScore": 16,
+      "awayScore": 19,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 5.3200064970609535,
+        "drama": 6.892081465211422,
+        "finish": 9
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Colts",
       "homeScore": 38,
       "awayScore": 30,
-      "excitement": 7.1,
+      "excitement": 8,
       "breakdown": {
-        "uncertainty": 7.322897707643101,
+        "tension": 7.322897707643101,
         "drama": 7.548623851094782,
-        "finish": 4.677520695284278
+        "finish": 8.172015617043886
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Saints",
       "homeScore": 19,
       "awayScore": 17,
-      "excitement": 5.5,
+      "excitement": 7.1,
       "breakdown": {
-        "uncertainty": 6.804494741854732,
+        "tension": 6.804494741854732,
         "drama": 7.027861708105532,
-        "finish": 0.07332245124299464
+        "finish": 4.854446744143798
       },
       "overtime": false,
       "bowlName": null,
@@ -119,43 +119,11 @@
       "awayTeam": "Cowboys",
       "homeScore": 34,
       "awayScore": 17,
-      "excitement": 5,
+      "excitement": 6.2,
       "breakdown": {
-        "uncertainty": 6.284158910213287,
+        "tension": 6.284158910213287,
         "drama": 7.094765154837105,
-        "finish": 0.2975968028779254
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772968",
-      "homeTeam": "Vikings",
-      "awayTeam": "Packers",
-      "homeScore": 16,
-      "awayScore": 3,
-      "excitement": 4.5,
-      "breakdown": {
-        "uncertainty": 5.868290956584088,
-        "drama": 5.797181427493653,
-        "finish": 0.18491099778278677
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772961",
-      "homeTeam": "49ers",
-      "awayTeam": "Seahawks",
-      "homeScore": 3,
-      "awayScore": 13,
-      "excitement": 4.4,
-      "breakdown": {
-        "uncertainty": 5.370445076056151,
-        "drama": 5.021431190859113,
-        "finish": 0.002862776084813666
+        "finish": 3.952398730763136
       },
       "overtime": false,
       "bowlName": null,
@@ -167,11 +135,27 @@
       "awayTeam": "Panthers",
       "homeScore": 16,
       "awayScore": 14,
-      "excitement": 4.3,
+      "excitement": 6,
       "breakdown": {
-        "uncertainty": 4.744348777762909,
+        "tension": 4.744348777762909,
         "drama": 5.274020659072215,
-        "finish": 0.15036736307190823
+        "finish": 5.154249020615918
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772968",
+      "homeTeam": "Vikings",
+      "awayTeam": "Packers",
+      "homeScore": 16,
+      "awayScore": 3,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 5.868290956584088,
+        "drama": 5.797181427493653,
+        "finish": 2.8114420268117346
       },
       "overtime": false,
       "bowlName": null,
@@ -183,11 +167,27 @@
       "awayTeam": "Cardinals",
       "homeScore": 37,
       "awayScore": 20,
-      "excitement": 4.1,
+      "excitement": 5.2,
       "breakdown": {
-        "uncertainty": 4.003967364832635,
+        "tension": 4.003967364832635,
         "drama": 4.6575056463237985,
-        "finish": 1.5643474450205328
+        "finish": 5.19916401274719
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772961",
+      "homeTeam": "49ers",
+      "awayTeam": "Seahawks",
+      "homeScore": 3,
+      "awayScore": 13,
+      "excitement": 5.1,
+      "breakdown": {
+        "tension": 5.370445076056151,
+        "drama": 5.021431190859113,
+        "finish": 2.0663676215434448
       },
       "overtime": false,
       "bowlName": null,
@@ -199,11 +199,11 @@
       "awayTeam": "Chargers",
       "homeScore": 19,
       "awayScore": 3,
-      "excitement": 3,
+      "excitement": 3.6,
       "breakdown": {
-        "uncertainty": 2.8406438188421257,
+        "tension": 2.8406438188421257,
         "drama": 2.8659670441424168,
-        "finish": 0.1344396414536445
+        "finish": 2.5476669934793152
       },
       "overtime": false,
       "bowlName": null,
@@ -215,11 +215,11 @@
       "awayTeam": "Titans",
       "homeScore": 41,
       "awayScore": 7,
-      "excitement": 2.8,
+      "excitement": 3,
       "breakdown": {
-        "uncertainty": 2.2619697018907337,
+        "tension": 2.2619697018907337,
         "drama": 2.3908483725293617,
-        "finish": 0.0020149376990141283
+        "finish": 1.1422541642009514
       },
       "overtime": false,
       "bowlName": null,
@@ -231,11 +231,11 @@
       "awayTeam": "Dolphins",
       "homeScore": 38,
       "awayScore": 10,
-      "excitement": 2.7,
+      "excitement": 3,
       "breakdown": {
-        "uncertainty": 1.9576822225528434,
+        "tension": 1.9576822225528434,
         "drama": 2.3046487713577313,
-        "finish": 0.006225146564098232
+        "finish": 1.4092602096147462
       },
       "overtime": false,
       "bowlName": null,
@@ -247,11 +247,11 @@
       "awayTeam": "Jets",
       "homeScore": 35,
       "awayScore": 8,
-      "excitement": 2.2,
+      "excitement": 2.3,
       "breakdown": {
-        "uncertainty": 0.5104488662955942,
+        "tension": 0.5104488662955942,
         "drama": 0.2206860751298672,
-        "finish": 0.0017756306534241469
+        "finish": 1.0963873495125145
       },
       "overtime": false,
       "bowlName": null,
@@ -264,7 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T12:28:18.782Z",
+    "generatedAt": "2026-01-07T02:34:40.396Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "week": 18
   }

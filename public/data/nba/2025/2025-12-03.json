@@ -7,11 +7,11 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 110,
       "awayScore": 122,
-      "excitement": 9,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 7.1731345924408,
-        "finish": 4.3085206483580265
+        "tension": 7.714907833841606,
+        "drama": 7.991449770492242,
+        "finish": 7.238361097917042
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Spurs",
       "homeScore": 112,
       "awayScore": 114,
-      "excitement": 8.3,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 8.892220734998649,
-        "drama": 8.264394230823381,
-        "finish": 4.287063755921414
+        "tension": 7.936910439814715,
+        "drama": 9.133915984001458,
+        "finish": 7.209966829839216
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Nets",
       "homeScore": 103,
       "awayScore": 113,
-      "excitement": 8.3,
+      "excitement": 7.9,
       "breakdown": {
-        "uncertainty": 8.8948288693902,
-        "drama": 7.4470033742666155,
-        "finish": 4.2575224483736465
+        "tension": 7.09663831639885,
+        "drama": 7.639315450614702,
+        "finish": 7.3496237368083435
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Heat",
       "homeScore": 118,
       "awayScore": 108,
-      "excitement": 7.4,
+      "excitement": 7.6,
       "breakdown": {
-        "uncertainty": 9.196622267830488,
-        "drama": 7.605378277908514,
-        "finish": 2.923446217856955
+        "tension": 7.295801352877599,
+        "drama": 8.196674472579826,
+        "finish": 5.609499001320816
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Pistons",
       "homeScore": 113,
       "awayScore": 109,
-      "excitement": 6.8,
+      "excitement": 7.5,
       "breakdown": {
-        "uncertainty": 5.602267025341037,
-        "drama": 7.023772436247077,
-        "finish": 5.051760350467363
+        "tension": 5.776227514893679,
+        "drama": 7.312040416209591,
+        "finish": 8.19046849728575
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Kings",
       "homeScore": 121,
       "awayScore": 95,
-      "excitement": 6.5,
+      "excitement": 7.3,
       "breakdown": {
-        "uncertainty": 4.647512833311025,
-        "drama": 6.034525116602747,
-        "finish": 4.601120125569361
+        "tension": 4.67030520136189,
+        "drama": 6.803643674370616,
+        "finish": 7.619969048211162
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Clippers",
       "homeScore": 92,
       "awayScore": 115,
-      "excitement": 6,
+      "excitement": 6.9,
       "breakdown": {
-        "uncertainty": 8.279061954608077,
-        "drama": 7.837551321943028,
-        "finish": 1.28896528352443
+        "tension": 7.365470769016113,
+        "drama": 8.775043610215725,
+        "finish": 3.1257400286364323
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Hornets",
       "homeScore": 119,
       "awayScore": 104,
-      "excitement": 2.4,
+      "excitement": 4.3,
       "breakdown": {
-        "uncertainty": 2.933399824569916,
-        "drama": 3.419418561686523,
-        "finish": 2.0636839254028274
+        "tension": 2.7105175662761374,
+        "drama": 3.6911216940282676,
+        "finish": 4.31570401519015
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 120,
       "awayScore": 135,
-      "excitement": 2.1,
+      "excitement": 3.8,
       "breakdown": {
-        "uncertainty": 3.3467780785696633,
-        "drama": 4.538604613708158,
-        "finish": 0.21070704409962454
+        "tension": 3.174422621112619,
+        "drama": 4.448374135554817,
+        "finish": 1.4206346667373229
       },
       "overtime": false,
       "bowlName": null,
@@ -152,7 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:34:12.610Z",
+    "generatedAt": "2026-01-07T02:35:54.656Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-03"
   }

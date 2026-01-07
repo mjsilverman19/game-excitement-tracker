@@ -7,27 +7,11 @@
       "awayTeam": "Magic",
       "homeScore": 120,
       "awayScore": 97,
-      "excitement": 9,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 9.242897234188037,
-        "finish": 5.686226554667316
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810258",
-      "homeTeam": "Celtics",
-      "awayTeam": "Pacers",
-      "homeScore": 103,
-      "awayScore": 95,
-      "excitement": 8.2,
-      "breakdown": {
-        "uncertainty": 9.51302991474364,
-        "drama": 7.22876733058337,
-        "finish": 3.277439769666027
+        "tension": 9.426742431046232,
+        "drama": 10,
+        "finish": 8.966305300131227
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +23,27 @@
       "awayTeam": "Mavericks",
       "homeScore": 119,
       "awayScore": 113,
-      "excitement": 8.1,
+      "excitement": 8.2,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.122117046215507,
-        "finish": 4.188729560473091
+        "tension": 8.482915509833576,
+        "drama": 8.862577689305803,
+        "finish": 7.079043411704324
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810258",
+      "homeTeam": "Celtics",
+      "awayTeam": "Pacers",
+      "homeScore": 103,
+      "awayScore": 95,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 7.125032612981022,
+        "drama": 7.515659846945445,
+        "finish": 6.002302327389118
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Hornets",
       "homeScore": 139,
       "awayScore": 132,
-      "excitement": 5.3,
+      "excitement": 6.8,
       "breakdown": {
-        "uncertainty": 5.355493665949318,
-        "drama": 6.70851040399845,
-        "finish": 3.373057997639905
+        "tension": 5.491293888467227,
+        "drama": 6.895258231228718,
+        "finish": 6.190027488056067
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Pistons",
       "homeScore": 102,
       "awayScore": 110,
-      "excitement": 4.2,
+      "excitement": 6.1,
       "breakdown": {
-        "uncertainty": 4.641349186705657,
-        "drama": 6.063562129408421,
-        "finish": 2.6269199975310427
+        "tension": 4.663153279844103,
+        "drama": 6.193651210204544,
+        "finish": 5.183881778010466
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Grizzlies",
       "homeScore": 119,
       "awayScore": 103,
-      "excitement": 1.9,
+      "excitement": 3.6,
       "breakdown": {
-        "uncertainty": 2.6894680938431,
-        "drama": 2.898622181948957,
-        "finish": 1.0043623016445489
+        "tension": 2.4410718378907124,
+        "drama": 2.998519279986778,
+        "finish": 2.669032688364867
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Jazz",
       "homeScore": 135,
       "awayScore": 112,
-      "excitement": 1.3,
+      "excitement": 2.4,
       "breakdown": {
-        "uncertainty": 0.5739043639160653,
-        "drama": 0.43326423512679857,
-        "finish": 0.17840062124248168
+        "tension": 0.36361920642422163,
+        "drama": 0.24312646874462268,
+        "finish": 1.3697520507373229
       },
       "overtime": false,
       "bowlName": null,
@@ -120,7 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:34:24.002Z",
+    "generatedAt": "2026-01-07T02:36:07.215Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-22"
   }

@@ -2,18 +2,18 @@
   "success": true,
   "games": [
     {
-      "id": "401809981",
-      "homeTeam": "Thunder",
-      "awayTeam": "Kings",
-      "homeScore": 107,
-      "awayScore": 101,
-      "excitement": 9.2,
+      "id": "401809978",
+      "homeTeam": "Wizards",
+      "awayTeam": "76ers",
+      "homeScore": 134,
+      "awayScore": 139,
+      "excitement": 8.9,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.889599148365628,
-        "finish": 4.836650351674567
+        "tension": 8.200750824750411,
+        "drama": 9.848366452884614,
+        "finish": 6.504574282279972
       },
-      "overtime": false,
+      "overtime": true,
       "bowlName": null,
       "playoffRound": null
     },
@@ -23,29 +23,29 @@
       "awayTeam": "Knicks",
       "homeScore": 121,
       "awayScore": 111,
-      "excitement": 9.1,
+      "excitement": 8.9,
       "breakdown": {
-        "uncertainty": 9.530134910751567,
-        "drama": 8.711771255873405,
-        "finish": 5.593176625434552
+        "tension": 8.326266073967277,
+        "drama": 9.835687025751653,
+        "finish": 8.854221799830619
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809978",
-      "homeTeam": "Wizards",
-      "awayTeam": "76ers",
-      "homeScore": 134,
-      "awayScore": 139,
-      "excitement": 8.8,
+      "id": "401809981",
+      "homeTeam": "Thunder",
+      "awayTeam": "Kings",
+      "homeScore": 107,
+      "awayScore": 101,
+      "excitement": 8.9,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.736951786704845,
-        "finish": 3.7702278514103313
+        "tension": 9.215364530646143,
+        "drama": 10,
+        "finish": 7.920471788581672
       },
-      "overtime": true,
+      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -55,11 +55,11 @@
       "awayTeam": "Hornets",
       "homeScore": 144,
       "awayScore": 117,
-      "excitement": 8.8,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 6.175617103029843,
-        "drama": 8.499389825398985,
-        "finish": 4.351452367884268
+        "tension": 6.406590338542876,
+        "drama": 8.579138294679934,
+        "finish": 7.6373516151772884
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Clippers",
       "homeScore": 98,
       "awayScore": 79,
-      "excitement": 8.3,
+      "excitement": 8.1,
       "breakdown": {
-        "uncertainty": 7.875637863184782,
-        "drama": 8.21580518917025,
-        "finish": 5.236586720701875
+        "tension": 7.045175444364326,
+        "drama": 8.401021348273153,
+        "finish": 8.419435580930909
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:48.889Z",
+    "generatedAt": "2026-01-07T02:35:31.299Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-28"
   }

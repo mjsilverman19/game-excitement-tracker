@@ -1,15 +1,14 @@
 export const ALGORITHM_CONFIG = {
-  // Version 2.2: Major algorithm overhaul
-  // - Fixed finish quality false positives (directional awareness, competitive-range only)
-  // - Added time-weighting to momentum drama (later swings count more)
-  // - Replaced cliff-effect thresholds with smooth sigmoid functions
-  // - Reduced leverage floor to minimize garbage-time inflation
-  // - Converted bonuses from additive to multiplicative
-  // - Smooth sigmoid normalization replacing piecewise linear
-  // - Rebalanced weights to reduce finish dominance
-  // - Comeback timing awareness
-  // - Close game bonus now conditional to avoid double-counting
-  version: '2.2',
+  // Version 2.3: Reconceptualized 3-factor model
+  // - Renamed Uncertainty → Tension (captures closeness OR comeback)
+  // - Tension now uses max(closeness, meaningful_comeback) for better coverage
+  // - Fixed Finish quality scoring (avg was 3.37, now targets ~5)
+  // - Expanded competitive range for Finish (0.25-0.75 vs 0.3-0.7)
+  // - Three factors now represent complementary lenses on excitement:
+  //   * Tension: "Was there reason to keep watching?"
+  //   * Drama: "Did big things happen?"
+  //   * Finish: "How did it end?"
+  version: '2.3',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -20,13 +19,13 @@ export const ALGORITHM_CONFIG = {
     skip: { min: 0, label: 'skip', cssClass: 'skip' }
   },
 
-  // Rebalanced weights (was 0.20/0.30/0.50)
-  // Reduced finish quality dominance now that the metric is fixed
-  // This better represents full-game experience vs just the ending
+  // Weights for 3-factor model
+  // Tension and Drama are correlated by design (close games have more swings)
+  // but they tell users different parts of the story
   weights: {
-    outcomeUncertainty: 0.30,
-    momentumDrama: 0.35,
-    finishQuality: 0.35
+    tension: 0.30,
+    drama: 0.35,
+    finish: 0.35
   },
 
   thresholds: {
@@ -63,9 +62,9 @@ export const ALGORITHM_CONFIG = {
   },
 
   metrics: [
-    { key: 'uncertainty', label: 'Uncertainty', description: 'How long was the outcome in doubt?' },
-    { key: 'drama', label: 'Drama', description: 'Magnitude of momentum swings when the game was close.' },
-    { key: 'finish', label: 'Finish', description: 'How exciting were the final minutes?' }
+    { key: 'tension', label: 'Tension', description: 'Was there sustained reason to keep watching? (closeness or comeback potential)' },
+    { key: 'drama', label: 'Drama', description: 'How much volatility and momentum swings throughout the game.' },
+    { key: 'finish', label: 'Finish', description: 'How dramatic was the ending?' }
   ]
 };
 

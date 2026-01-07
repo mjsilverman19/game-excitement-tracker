@@ -7,11 +7,11 @@
       "awayTeam": "Raptors",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 8.2,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 8.386716949782475,
-        "drama": 8.353545136004541,
-        "finish": 5.105228229271595
+        "tension": 8.172243488040888,
+        "drama": 9.346594498637117,
+        "finish": 8.256979316349497
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 94,
       "awayScore": 121,
-      "excitement": 6.6,
+      "excitement": 7.3,
       "breakdown": {
-        "uncertainty": 6.232061794018214,
-        "drama": 7.236503986383367,
-        "finish": 4.36886749971871
+        "tension": 6.327783232623384,
+        "drama": 7.328021395680177,
+        "finish": 7.609017048916468
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Grizzlies",
       "homeScore": 145,
       "awayScore": 116,
-      "excitement": 6,
+      "excitement": 7.2,
       "breakdown": {
-        "uncertainty": 5.656676937140933,
-        "drama": 6.832819431119653,
-        "finish": 4.01885140423848
+        "tension": 5.667634844870568,
+        "drama": 7.789554799111549,
+        "finish": 7.215640722337274
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Clippers",
       "homeScore": 91,
       "awayScore": 109,
-      "excitement": 3.1,
+      "excitement": 4.9,
       "breakdown": {
-        "uncertainty": 5.982640805436249,
-        "drama": 5.5014597582692275,
-        "finish": 0.5808013064543857
+        "tension": 4.493090222584292,
+        "drama": 6.248447136986125,
+        "finish": 2.0264567113097747
       },
       "overtime": false,
       "bowlName": null,
@@ -72,7 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:41.282Z",
+    "generatedAt": "2026-01-07T02:35:22.672Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-15"
   }

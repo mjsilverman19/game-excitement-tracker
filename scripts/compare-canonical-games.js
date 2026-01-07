@@ -77,7 +77,7 @@ async function evaluateGame(entry) {
     gameId: entry.gameId,
     label: entry.label,
     excitement: '',
-    uncertainty: '',
+    tension: '',
     drama: '',
     finish: '',
     rankPercentile: '',
@@ -94,7 +94,7 @@ async function evaluateGame(entry) {
     }
 
     row.excitement = analysis.excitement;
-    row.uncertainty = analysis.breakdown?.uncertainty ?? '';
+    row.tension = analysis.breakdown?.tension ?? '';
     row.drama = analysis.breakdown?.drama ?? '';
     row.finish = analysis.breakdown?.finish ?? '';
 
@@ -113,7 +113,7 @@ async function evaluateGame(entry) {
 }
 
 function printCsv(rows) {
-  console.log('sport,season,gameId,label,excitement,uncertainty,drama,finish,rankPercentile,note');
+  console.log('sport,season,gameId,label,excitement,tension,drama,finish,rankPercentile,note');
   for (const r of rows) {
     const fields = [
       r.sport,
@@ -121,7 +121,7 @@ function printCsv(rows) {
       r.gameId,
       `"${(r.label || '').replace(/"/g, '""')}"`,
       r.excitement,
-      formatNumber(r.uncertainty),
+      formatNumber(r.tension),
       formatNumber(r.drama),
       formatNumber(r.finish),
       r.rankPercentile,

@@ -2,32 +2,32 @@
   "success": true,
   "games": [
     {
-      "id": "401810041",
-      "homeTeam": "Cavaliers",
-      "awayTeam": "Bulls",
-      "homeScore": 128,
-      "awayScore": 122,
-      "excitement": 9.2,
+      "id": "401810039",
+      "homeTeam": "76ers",
+      "awayTeam": "Raptors",
+      "homeScore": 130,
+      "awayScore": 120,
+      "excitement": 8.6,
       "breakdown": {
-        "uncertainty": 9.455911727189438,
-        "drama": 7.114936400361602,
-        "finish": 5.682208376854566
+        "tension": 8.927319749972412,
+        "drama": 9.979500772332937,
+        "finish": 8.714765045358147
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401810039",
-      "homeTeam": "76ers",
-      "awayTeam": "Raptors",
-      "homeScore": 130,
-      "awayScore": 120,
-      "excitement": 8.9,
+      "id": "401810041",
+      "homeTeam": "Cavaliers",
+      "awayTeam": "Bulls",
+      "homeScore": 128,
+      "awayScore": 122,
+      "excitement": 8.6,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.946641568713181,
-        "finish": 5.478031332600955
+        "tension": 6.962404049224372,
+        "drama": 7.4886378294137765,
+        "finish": 8.961476193590991
       },
       "overtime": false,
       "bowlName": null,
@@ -41,9 +41,9 @@
       "awayScore": 131,
       "excitement": 8.5,
       "breakdown": {
-        "uncertainty": 9.752315396627408,
-        "drama": 9.068673363098211,
-        "finish": 4.439701727643465
+        "tension": 8.370143543293128,
+        "drama": 10,
+        "finish": 7.410688325450236
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Suns",
       "homeScore": 103,
       "awayScore": 114,
-      "excitement": 7.5,
+      "excitement": 8.1,
       "breakdown": {
-        "uncertainty": 8.00776735177665,
-        "drama": 8.178734657409823,
-        "finish": 4.098371749328222
+        "tension": 7.7749041050333485,
+        "drama": 9.211406918401922,
+        "finish": 7.299579773869125
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 105,
       "awayScore": 111,
-      "excitement": 7.3,
+      "excitement": 8,
       "breakdown": {
-        "uncertainty": 6.818144091141623,
-        "drama": 7.64818252356943,
-        "finish": 4.770637842585792
+        "tension": 6.8095145099635,
+        "drama": 8.78192051085162,
+        "finish": 7.836791740077742
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Pacers",
       "homeScore": 117,
       "awayScore": 100,
-      "excitement": 4.4,
+      "excitement": 6,
       "breakdown": {
-        "uncertainty": 4.076038665855789,
-        "drama": 5.353575022161596,
-        "finish": 3.8055338983004283
+        "tension": 4.008692688677213,
+        "drama": 5.496283390498001,
+        "finish": 6.8254133078399
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Lakers",
       "homeScore": 122,
       "awayScore": 102,
-      "excitement": 3.8,
+      "excitement": 5.7,
       "breakdown": {
-        "uncertainty": 4.948618164584982,
-        "drama": 6.490906843094817,
-        "finish": 1.7059696727497584
+        "tension": 4.993236316813874,
+        "drama": 6.528301603176221,
+        "finish": 3.7952299303022983
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Pelicans",
       "homeScore": 126,
       "awayScore": 119,
-      "excitement": 2.8,
+      "excitement": 4.9,
       "breakdown": {
-        "uncertainty": 3.439622464821256,
-        "drama": 4.801161268638644,
-        "finish": 1.91652071998176
+        "tension": 3.2796688175037714,
+        "drama": 5.0133870056248675,
+        "finish": 4.084985550279972
       },
       "overtime": false,
       "bowlName": null,
@@ -136,7 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:55.539Z",
+    "generatedAt": "2026-01-07T02:35:38.402Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-08"
   }

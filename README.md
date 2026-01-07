@@ -28,9 +28,9 @@ Games are scored based on three metrics derived from win probability data:
 
 | Metric | Weight | Description |
 |--------|--------|-------------|
-| **Outcome Uncertainty** | 30% | How long was the result in doubt? Measures time spent near 50/50 win probability. |
-| **Momentum Drama** | 30% | Leverage-weighted swings — big momentum shifts matter more when the game is close. |
-| **Finish Quality** | 40% | Did it come down to the wire? Combines late-game volatility, final closeness, and walk-off moments. |
+| **Tension** | 30% | Was there reason to keep watching? Measures sustained closeness and comeback potential. |
+| **Drama** | 35% | Leverage-weighted swings — big momentum shifts matter more when the game is close. |
+| **Finish** | 35% | How did it end? Combines late-game volatility, final closeness, and walk-off moments. |
 
 Games are categorized as **must watch** (8+), **recommended** (6-7.9), or **skip** (<6). Overtime games receive a bonus.
 
@@ -98,7 +98,7 @@ Analyzes games for a given week (NFL/CFB) or date (NBA). Can also analyze a sing
       "awayScore": 20,
       "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 7.2,
+        "tension": 7.2,
         "drama": 8.1,
         "finish": 9.4
       },

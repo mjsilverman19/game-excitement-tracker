@@ -42,16 +42,13 @@ async function main() {
   console.log(`Data points: ${probs.length}\n`);
   
   // Calculate each component
-  const uncertainty = calculateOutcomeUncertainty(probs);
-  const comebackBoost = calculateComebackUncertaintyBoost(probs);
+  const tension = calculateTension(probs);
   const baseDrama = calculateMomentumDrama(probs);
   const leadChangeBoost = calculateLeadChangeBoost(probs);
   const finish = calculateFinishQuality(probs);
   
   console.log('=== COMPONENT SCORES (0-10 scale) ===');
-  console.log(`Base Uncertainty: ${uncertainty.toFixed(2)}`);
-  console.log(`Comeback Boost: +${comebackBoost.toFixed(2)}`);
-  console.log(`Total Uncertainty: ${Math.min(10, uncertainty + comebackBoost).toFixed(2)}`);
+  console.log(`Tension: ${tension.toFixed(2)}`);
   console.log();
   console.log(`Base Drama: ${baseDrama.toFixed(2)}`);
   console.log(`Lead Change Boost: +${leadChangeBoost.toFixed(2)}`);
@@ -61,18 +58,17 @@ async function main() {
   
   // Calculate weighted base
   const weights = ALGORITHM_CONFIG.weights;
-  const uncertaintyScore = Math.min(10, uncertainty + comebackBoost);
   const dramaScore = Math.min(10, baseDrama + leadChangeBoost);
   
   const weightedBase = 
-    uncertaintyScore * weights.outcomeUncertainty +
-    dramaScore * weights.momentumDrama +
-    finish * weights.finishQuality;
+    tension * weights.tension +
+    dramaScore * weights.drama +
+    finish * weights.finish;
   
   console.log(`\n=== WEIGHTED BASE ===`);
-  console.log(`Uncertainty (${weights.outcomeUncertainty * 100}%): ${uncertaintyScore.toFixed(2)} × ${weights.outcomeUncertainty} = ${(uncertaintyScore * weights.outcomeUncertainty).toFixed(2)}`);
-  console.log(`Drama (${weights.momentumDrama * 100}%): ${dramaScore.toFixed(2)} × ${weights.momentumDrama} = ${(dramaScore * weights.momentumDrama).toFixed(2)}`);
-  console.log(`Finish (${weights.finishQuality * 100}%): ${finish.toFixed(2)} × ${weights.finishQuality} = ${(finish * weights.finishQuality).toFixed(2)}`);
+  console.log(`Tension (${weights.tension * 100}%): ${tension.toFixed(2)} × ${weights.tension} = ${(tension * weights.tension).toFixed(2)}`);
+  console.log(`Drama (${weights.drama * 100}%): ${dramaScore.toFixed(2)} × ${weights.drama} = ${(dramaScore * weights.drama).toFixed(2)}`);
+  console.log(`Finish (${weights.finish * 100}%): ${finish.toFixed(2)} × ${weights.finish} = ${(finish * weights.finish).toFixed(2)}`);
   console.log(`Weighted Base: ${weightedBase.toFixed(2)}`);
   
   // Calculate bonuses
@@ -96,7 +92,10 @@ async function main() {
 }
 
 // Copy of algorithm functions for testing
-function calculateOutcomeUncertainty(probs) {
+function calculateTension(probs) {
+  if (probs.length < 10) return 5;
+  
+  // Base tension from closeness
   let totalCloseness = 0;
   for (let i = 0; i < probs.length; i++) {
     const closeness = 1 - Math.abs(probs[i].value - 0.5) * 2;
@@ -105,28 +104,36 @@ function calculateOutcomeUncertainty(probs) {
   }
   const avgWeight = 1 + 0.15;
   const avgCloseness = totalCloseness / (probs.length * avgWeight);
-  return Math.pow(avgCloseness, 0.8) * 10;
-}
-
-function calculateComebackUncertaintyBoost(probs) {
-  if (probs.length < 20) return 0;
+  const transformedCloseness = 1 - Math.pow(1 - avgCloseness, 1.3);
+  const baseTension = transformedCloseness * 10;
+  
+  // Comeback boost
   const finalWP = probs[probs.length - 1].value;
   const homeWon = finalWP > 0.5;
   let maxDeficit = 0;
+  let maxDeficitIndex = 0;
   for (let i = 0; i < probs.length; i++) {
     const wp = probs[i].value;
-    if (homeWon && wp < 0.5) {
-      maxDeficit = Math.max(maxDeficit, 0.5 - wp);
-    } else if (!homeWon && wp > 0.5) {
-      maxDeficit = Math.max(maxDeficit, wp - 0.5);
+    let deficit = 0;
+    if (homeWon && wp < 0.5) deficit = 0.5 - wp;
+    else if (!homeWon && wp > 0.5) deficit = wp - 0.5;
+    if (deficit > maxDeficit) {
+      maxDeficit = deficit;
+      maxDeficitIndex = i;
     }
   }
-  if (maxDeficit === 0) return 0;
-  // Tiered gradient based on deficit size
-  if (maxDeficit < 0.15) return 0;
-  if (maxDeficit < 0.30) return ((maxDeficit - 0.15) / 0.15) * 1;
-  if (maxDeficit < 0.40) return 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
-  return Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
+  
+  let comebackBoost = 0;
+  if (maxDeficit >= 0.15) {
+    if (maxDeficit < 0.30) comebackBoost = ((maxDeficit - 0.15) / 0.15) * 1;
+    else if (maxDeficit < 0.40) comebackBoost = 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
+    else comebackBoost = Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
+    const gameProgress = maxDeficitIndex / probs.length;
+    const timeMultiplier = 0.5 + 0.5 * gameProgress;
+    comebackBoost *= timeMultiplier;
+  }
+  
+  return Math.min(10, baseTension + comebackBoost);
 }
 
 function calculateMomentumDrama(probs) {

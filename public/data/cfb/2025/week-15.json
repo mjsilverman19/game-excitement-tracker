@@ -7,11 +7,11 @@
       "awayTeam": "Duke",
       "homeScore": 20,
       "awayScore": 27,
-      "excitement": 9.7,
+      "excitement": 9.3,
       "breakdown": {
-        "uncertainty": 8.060579588367577,
-        "drama": 7.8735441578134555,
-        "finish": 9.471285714285715
+        "tension": 7.030196887035186,
+        "drama": 8.718245160752419,
+        "finish": 10
       },
       "overtime": true,
       "bowlName": "ACC Championship",
@@ -23,11 +23,11 @@
       "awayTeam": "Indiana",
       "homeScore": 10,
       "awayScore": 13,
-      "excitement": 9.5,
+      "excitement": 8.8,
       "breakdown": {
-        "uncertainty": 9.685796166685645,
-        "drama": 7.64573791325624,
-        "finish": 7.142857142857143
+        "tension": 8.380418336917538,
+        "drama": 8.658556911035783,
+        "finish": 9
       },
       "overtime": false,
       "bowlName": "Big Ten Championship",
@@ -39,30 +39,14 @@
       "awayTeam": "Georgia",
       "homeScore": 7,
       "awayScore": 28,
-      "excitement": 8.4,
+      "excitement": 6.9,
       "breakdown": {
-        "uncertainty": 3.739763955560317,
-        "drama": 4.400785169697682,
-        "finish": 8.594720380777144
+        "tension": 3.6220320261114383,
+        "drama": 4.5102010790057045,
+        "finish": 9.481884599724001
       },
       "overtime": false,
       "bowlName": "SEC Championship",
-      "playoffRound": null
-    },
-    {
-      "id": "401777324",
-      "homeTeam": "Tulane",
-      "awayTeam": "North Texas",
-      "homeScore": 34,
-      "awayScore": 21,
-      "excitement": 3.1,
-      "breakdown": {
-        "uncertainty": 6.027821328651738,
-        "drama": 4.876757570952269,
-        "finish": 0.4226699013355772
-      },
-      "overtime": false,
-      "bowlName": "American Championship",
       "playoffRound": null
     },
     {
@@ -71,14 +55,30 @@
       "awayTeam": "BYU",
       "homeScore": 34,
       "awayScore": 7,
-      "excitement": 2.9,
+      "excitement": 4.8,
       "breakdown": {
-        "uncertainty": 4.98135877633072,
-        "drama": 4.692101157331166,
-        "finish": 1.1647252632885539
+        "tension": 5.057750902065279,
+        "drama": 4.741499274087049,
+        "finish": 2.943119586649136
       },
       "overtime": false,
       "bowlName": "Big 12 Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777324",
+      "homeTeam": "Tulane",
+      "awayTeam": "North Texas",
+      "homeScore": 34,
+      "awayScore": 21,
+      "excitement": 4.3,
+      "breakdown": {
+        "tension": 4.174755586085977,
+        "drama": 4.761185632512372,
+        "finish": 1.7760203208063805
+      },
+      "overtime": false,
+      "bowlName": "American Championship",
       "playoffRound": null
     },
     {
@@ -87,11 +87,11 @@
       "awayTeam": "Troy",
       "homeScore": 31,
       "awayScore": 14,
-      "excitement": 2.5,
+      "excitement": 4.3,
       "breakdown": {
-        "uncertainty": 2.716595573146454,
-        "drama": 2.727276684662274,
-        "finish": 2.8352972952536097
+        "tension": 2.47085562301545,
+        "drama": 3.0303047648049173,
+        "finish": 5.380556477445062
       },
       "overtime": false,
       "bowlName": "Sun Belt Championship",
@@ -104,7 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:33:19.527Z",
+    "generatedAt": "2026-01-07T02:35:02.323Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "week": 15
   }

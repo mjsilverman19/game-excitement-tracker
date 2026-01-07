@@ -7,11 +7,11 @@
       "awayTeam": "Rockets",
       "homeScore": 122,
       "awayScore": 109,
-      "excitement": 9,
+      "excitement": 8.7,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 8.761864130220424,
-        "finish": 4.36684125029896
+        "tension": 9.05574807079126,
+        "drama": 9.891754825676355,
+        "finish": 7.315237900150276
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Warriors",
       "homeScore": 94,
       "awayScore": 99,
-      "excitement": 8.9,
+      "excitement": 8.4,
       "breakdown": {
-        "uncertainty": 10,
-        "drama": 7.481913556014174,
-        "finish": 5.03830622171109
+        "tension": 8.220253337235455,
+        "drama": 7.732734580813922,
+        "finish": 8.173696105726494
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Clippers",
       "homeScore": 109,
       "awayScore": 106,
-      "excitement": 8.2,
+      "excitement": 8,
       "breakdown": {
-        "uncertainty": 7.780080139670696,
-        "drama": 7.879552960452656,
-        "finish": 4.910957133747204
+        "tension": 6.580597975419365,
+        "drama": 8.0569053554615,
+        "finish": 8.014190836088842
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Kings",
       "homeScore": 111,
       "awayScore": 127,
-      "excitement": 7.5,
+      "excitement": 7.2,
       "breakdown": {
-        "uncertainty": 9.199101021810696,
-        "drama": 7.446558327455493,
-        "finish": 2.1126685746262917
+        "tension": 7.020749436445888,
+        "drama": 7.684460202454907,
+        "finish": 4.4373691611519455
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Bucks",
       "homeScore": 124,
       "awayScore": 112,
-      "excitement": 3.9,
+      "excitement": 5.9,
       "breakdown": {
-        "uncertainty": 4.482315409730762,
-        "drama": 5.992973531967575,
-        "finish": 2.388012325749908
+        "tension": 4.4786940371455755,
+        "drama": 6.126825196697005,
+        "finish": 4.8144473691880805
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Pelicans",
       "homeScore": 119,
       "awayScore": 101,
-      "excitement": 2.4,
+      "excitement": 4.3,
       "breakdown": {
-        "uncertainty": 3.8974779753500566,
-        "drama": 5.333681399401255,
-        "finish": 0.2750545691402158
+        "tension": 3.8030345574654403,
+        "drama": 5.251384717838031,
+        "finish": 1.527159573120625
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Hawks",
       "homeScore": 116,
       "awayScore": 131,
-      "excitement": 1.8,
+      "excitement": 3.4,
       "breakdown": {
-        "uncertainty": 2.386865923734775,
-        "drama": 2.8603222018119077,
-        "finish": 0.8987472017699152
+        "tension": 2.112291020455024,
+        "drama": 2.76587137080049,
+        "finish": 2.507054804654729
       },
       "overtime": false,
       "bowlName": null,
@@ -120,7 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-06T02:34:14.607Z",
+    "generatedAt": "2026-01-07T02:35:56.787Z",
+    "algorithmVersion": "2.3",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-06"
   }
