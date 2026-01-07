@@ -334,36 +334,49 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
   const closenessScore = 1.0 + Math.pow(Math.max(0, finalCloseness), 0.6) * 4.0;
 
   // Component 2: Final period volatility (leverage-weighted movement near 0.5)
+  // V2.4: Only count movement TOWARD 0.5 or that CROSSES 0.5
+  // This prevents false positives from monotonic pull-away sequences (e.g., 0.65→0.75→0.85→0.95)
   const finalPeriodSize = Math.max(2, Math.floor(adjustedProbs.length * 0.25));
   const finalPeriod = adjustedProbs.slice(-finalPeriodSize);
 
   let finalPeriodMovement = 0;
   for (let i = 1; i < finalPeriod.length; i++) {
-    const swing = Math.abs(finalPeriod[i].value - finalPeriod[i - 1].value);
-    const leverage = finalPeriod[i - 1].value * (1 - finalPeriod[i - 1].value);
-    finalPeriodMovement += swing * leverage * 4;
+    const prevValue = finalPeriod[i - 1].value;
+    const currValue = finalPeriod[i].value;
+    const swing = Math.abs(currValue - prevValue);
+
+    // Only count movement toward 0.5 OR movement that crosses 0.5
+    const crossedHalf = (prevValue - 0.5) * (currValue - 0.5) < 0;
+    const movedToward50 = Math.abs(currValue - 0.5) < Math.abs(prevValue - 0.5);
+
+    if (crossedHalf || movedToward50) {
+      const leverage = prevValue * (1 - prevValue);
+      finalPeriodMovement += swing * leverage * 4;
+    }
   }
   // Slightly increased from *4 max 4 to *4.5 max 4 for more credit
   const volatilityScore = Math.min(4, finalPeriodMovement * 4.5);
 
   // Component 3: Walk-off detection (large swing in final moments)
+  // V2.4: Tightened criteria to reduce false positives
+  // Requires EITHER:
+  // 1. Swing crosses 0.5 (true lead change), OR
+  // 2. Started tight competitive (0.40-0.60) AND moved toward 0.5
   let maxFinalSwing = 0;
   for (let i = 1; i < finalProbs.length; i++) {
     const startValue = finalProbs[i - 1].value;
     const endValue = finalProbs[i].value;
     const swing = Math.abs(endValue - startValue);
-    const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
-    const startedCompetitive = startValue >= 0.35 && startValue <= 0.65;
 
-    if (crossedHalf && startedCompetitive) {
+    const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
+    const startedTightCompetitive = startValue >= 0.40 && startValue <= 0.60;
+    const movedToward50 = Math.abs(endValue - 0.5) < Math.abs(startValue - 0.5);
+
+    // Only count if it crossed 0.5 OR (started tight competitive AND moved toward 0.5)
+    if (crossedHalf) {
       maxFinalSwing = Math.max(maxFinalSwing, swing);
-    } else if (startedCompetitive && swing >= 0.15) {
-      const movedTowardCertainty = Math.abs(endValue - 0.5) > Math.abs(startValue - 0.5);
-      if (movedTowardCertainty) {
-        maxFinalSwing = Math.max(maxFinalSwing, swing * 0.6);
-      } else {
-        maxFinalSwing = Math.max(maxFinalSwing, swing);
-      }
+    } else if (startedTightCompetitive && movedToward50) {
+      maxFinalSwing = Math.max(maxFinalSwing, swing);
     }
   }
 
