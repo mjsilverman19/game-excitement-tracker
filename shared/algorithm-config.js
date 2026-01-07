@@ -1,14 +1,13 @@
 export const ALGORITHM_CONFIG = {
-  // Version 2.3: Reconceptualized 3-factor model
-  // - Renamed Uncertainty → Tension (captures closeness OR comeback)
-  // - Tension now uses max(closeness, meaningful_comeback) for better coverage
-  // - Fixed Finish quality scoring (avg was 3.37, now targets ~5)
-  // - Expanded competitive range for Finish (0.25-0.75 vs 0.3-0.7)
-  // - Three factors now represent complementary lenses on excitement:
+  // Version 2.4: Fixed Finish metric false positives
+  // - Directional volatility: Only count movement toward 0.5 or crossing 0.5
+  // - Tightened walk-off criteria: Require true competitive swings (0.40-0.60 range)
+  // - Prevents false positives from monotonic pull-away sequences
+  // - Three factors represent complementary lenses on excitement:
   //   * Tension: "Was there reason to keep watching?"
   //   * Drama: "Did big things happen?"
   //   * Finish: "How did it end?"
-  version: '2.3',
+  version: '2.4',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
