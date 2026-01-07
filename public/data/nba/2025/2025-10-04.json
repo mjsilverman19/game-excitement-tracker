@@ -7,11 +7,11 @@
       "awayTeam": "Magic",
       "homeScore": 118,
       "awayScore": 126,
-      "excitement": 7.7,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 7.174286351103056,
         "drama": 8.576672755607932,
-        "finish": 6.405057765716096
+        "finish": 4.523025735716097
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Timberwolves",
       "homeScore": 116,
       "awayScore": 126,
-      "excitement": 7.5,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 5.794199669431829,
         "drama": 7.695439242325046,
-        "finish": 8.060327999328118
+        "finish": 6.413069875328118
       },
       "overtime": false,
       "bowlName": null,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 5,
     "insufficientData": 3,
-    "generatedAt": "2026-01-07T02:35:15.336Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:11.674Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-04"
   }

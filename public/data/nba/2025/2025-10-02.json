@@ -23,11 +23,11 @@
       "awayTeam": "Melbourne United",
       "homeScore": 107,
       "awayScore": 97,
-      "excitement": 7.2,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 6.254434333356535,
         "drama": 7.3698849291424,
-        "finish": 6.830685057775907
+        "finish": 4.897944579775906
       },
       "overtime": false,
       "bowlName": null,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:13.470Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:10.161Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-02"
   }

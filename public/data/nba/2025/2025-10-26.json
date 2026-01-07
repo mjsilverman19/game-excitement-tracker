@@ -43,7 +43,7 @@
       "breakdown": {
         "tension": 9.253783663709909,
         "drama": 10,
-        "finish": 8.985582671441104
+        "finish": 8.829063397441104
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Bucks",
       "homeScore": 118,
       "awayScore": 113,
-      "excitement": 6.2,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 5.540865025563615,
         "drama": 6.859688051185736,
-        "finish": 3.2983877266448953
+        "finish": 2.267711794644895
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Nets",
       "homeScore": 118,
       "awayScore": 107,
-      "excitement": 4.3,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 3.3075376003922843,
         "drama": 4.306287148458942,
-        "finish": 2.7984189305881486
+        "finish": 2.2870018865881483
       },
       "overtime": false,
       "bowlName": null,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:30.036Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:26.905Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-26"
   }

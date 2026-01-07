@@ -7,11 +7,11 @@
       "awayTeam": "Jets",
       "homeScore": 38,
       "awayScore": 39,
-      "excitement": 9.2,
+      "excitement": 9.1,
       "breakdown": {
         "tension": 8.492234403829722,
         "drama": 6.847896615536035,
-        "finish": 8.947449533296087
+        "finish": 8.431432714914088
       },
       "overtime": false,
       "bowlName": null,
@@ -27,7 +27,7 @@
       "breakdown": {
         "tension": 7.296123006891789,
         "drama": 7.3286677470361985,
-        "finish": 1.2237771210723043
+        "finish": 1.1349212986503043
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Bears",
       "homeScore": 30,
       "awayScore": 16,
-      "excitement": 5.7,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 6.4224613778619855,
         "drama": 6.118781080267494,
-        "finish": 3.0358822741969878
+        "finish": 1.9073464438729875
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Browns",
       "homeScore": 32,
       "awayScore": 13,
-      "excitement": 4.5,
+      "excitement": 4.4,
       "breakdown": {
         "tension": 5.060758679978412,
         "drama": 5.106762880596854,
-        "finish": 1.5040560844835784
+        "finish": 1.4293723703615784
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Commanders",
       "homeScore": 28,
       "awayScore": 7,
-      "excitement": 4.4,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 4.348366826416904,
         "drama": 4.630543356702187,
-        "finish": 2.413939076085013
+        "finish": 2.041217570127013
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Giants",
       "homeScore": 38,
       "awayScore": 20,
-      "excitement": 4.3,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 3.727897803677073,
         "drama": 4.053748265289412,
-        "finish": 3.044947537654099
+        "finish": 2.676749986006099
       },
       "overtime": false,
       "bowlName": null,
@@ -123,7 +123,7 @@
       "breakdown": {
         "tension": 4.123277427648304,
         "drama": 4.5746556176172755,
-        "finish": 1.1116658973645146
+        "finish": 1.1061715978485145
       },
       "overtime": false,
       "bowlName": null,
@@ -139,7 +139,7 @@
       "breakdown": {
         "tension": 3.9464962405950486,
         "drama": 4.266721724585552,
-        "finish": 1.1051693554545146
+        "finish": 1.1051028788985147
       },
       "overtime": false,
       "bowlName": null,
@@ -151,11 +151,11 @@
       "awayTeam": "Cowboys",
       "homeScore": 44,
       "awayScore": 24,
-      "excitement": 4.1,
+      "excitement": 4,
       "breakdown": {
         "tension": 3.8802231337786286,
         "drama": 4.248087188094536,
-        "finish": 2.127661452460778
+        "finish": 1.7721675680507782
       },
       "overtime": false,
       "bowlName": null,
@@ -167,11 +167,11 @@
       "awayTeam": "49ers",
       "homeScore": 26,
       "awayScore": 15,
-      "excitement": 4,
+      "excitement": 3.9,
       "breakdown": {
         "tension": 3.5164948790642137,
         "drama": 3.920558040655278,
-        "finish": 2.2455067032628744
+        "finish": 1.9196797103548746
       },
       "overtime": false,
       "bowlName": null,
@@ -187,7 +187,7 @@
       "breakdown": {
         "tension": 3.2272779378152494,
         "drama": 3.449473786749098,
-        "finish": 1.7917597426663971
+        "finish": 1.6993617005323969
       },
       "overtime": false,
       "bowlName": null,
@@ -203,7 +203,7 @@
       "breakdown": {
         "tension": 1.6707693842014681,
         "drama": 1.5515708302737405,
-        "finish": 1.1288217970385428
+        "finish": 1.116238928682543
       },
       "overtime": false,
       "bowlName": null,
@@ -216,8 +216,8 @@
     "count": 13,
     "totalGames": 13,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:34:32.469Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:01:34.989Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": 8
   }

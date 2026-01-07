@@ -43,23 +43,7 @@
       "breakdown": {
         "tension": 8.259389853688932,
         "drama": 9.03610880437464,
-        "finish": 8.002582886904289
-      },
-      "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810095",
-      "homeTeam": "Jazz",
-      "awayTeam": "Bulls",
-      "homeScore": 150,
-      "awayScore": 147,
-      "excitement": 8.4,
-      "breakdown": {
-        "tension": 7.644952153949111,
-        "drama": 8.95947622169524,
-        "finish": 6.551896347639688
+        "finish": 7.253810026904288
       },
       "overtime": true,
       "bowlName": null,
@@ -71,13 +55,29 @@
       "awayTeam": "Nets",
       "homeScore": 106,
       "awayScore": 129,
-      "excitement": 8.2,
+      "excitement": 8,
       "breakdown": {
         "tension": 7.816537817594702,
         "drama": 9.447247339563718,
-        "finish": 7.645344402042715
+        "finish": 6.542600876042716
       },
       "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810095",
+      "homeTeam": "Jazz",
+      "awayTeam": "Bulls",
+      "homeScore": 150,
+      "awayScore": 147,
+      "excitement": 8,
+      "breakdown": {
+        "tension": 7.644952153949111,
+        "drama": 8.95947622169524,
+        "finish": 4.352477535639688
+      },
+      "overtime": true,
       "bowlName": null,
       "playoffRound": null
     },
@@ -87,11 +87,11 @@
       "awayTeam": "Warriors",
       "homeScore": 106,
       "awayScore": 124,
-      "excitement": 5,
+      "excitement": 4.5,
       "breakdown": {
         "tension": 3.2896624083548542,
         "drama": 5.1842533203479055,
-        "finish": 4.283425251182029
+        "finish": 2.7588183031820295
       },
       "overtime": false,
       "bowlName": null,
@@ -107,7 +107,7 @@
       "breakdown": {
         "tension": 2.5836284844323796,
         "drama": 3.8825790922184784,
-        "finish": 2.5148484371195776
+        "finish": 2.416792159119578
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Kings",
       "homeScore": 123,
       "awayScore": 110,
-      "excitement": 3.8,
+      "excitement": 3.7,
       "breakdown": {
         "tension": 2.6947479371756278,
         "drama": 3.5304438016134965,
-        "finish": 2.3764607356998564
+        "finish": 1.910995981699856
       },
       "overtime": false,
       "bowlName": null,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:43.914Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:40.105Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-16"
   }

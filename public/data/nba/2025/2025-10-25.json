@@ -23,11 +23,11 @@
       "awayTeam": "Bulls",
       "homeScore": 98,
       "awayScore": 110,
-      "excitement": 8.6,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 8.912447121667869,
         "drama": 9.34743813826734,
-        "finish": 8.300820924796854
+        "finish": 7.473824492796853
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Pacers",
       "homeScore": 128,
       "awayScore": 103,
-      "excitement": 7.5,
+      "excitement": 7,
       "breakdown": {
         "tension": 7.012210263852211,
         "drama": 7.6281041901389335,
-        "finish": 7.51023679020331
+        "finish": 5.497300566203309
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Thunder",
       "homeScore": 100,
       "awayScore": 117,
-      "excitement": 6,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 5.359047543687123,
         "drama": 6.66202734520319,
-        "finish": 4.386120741687778
+        "finish": 2.8405080276877763
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Suns",
       "homeScore": 133,
       "awayScore": 111,
-      "excitement": 3.7,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 2.59928762480183,
         "drama": 3.495558229644097,
-        "finish": 2.494497150378797
+        "finish": 2.267961714378797
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:29.223Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:26.131Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-25"
   }

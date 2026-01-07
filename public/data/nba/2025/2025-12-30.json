@@ -7,11 +7,11 @@
       "awayTeam": "76ers",
       "homeScore": 136,
       "awayScore": 139,
-      "excitement": 8.8,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 8.177883388918538,
         "drama": 9.886911119840274,
-        "finish": 7.836791740077742
+        "finish": 7.058182080077742
       },
       "overtime": true,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Pistons",
       "homeScore": 106,
       "awayScore": 128,
-      "excitement": 7.9,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 7.31796330679618,
         "drama": 8.047330836673051,
-        "finish": 8.46189203033057
+        "finish": 7.954557130330571
       },
       "overtime": false,
       "bowlName": null,
@@ -59,7 +59,7 @@
       "breakdown": {
         "tension": 1.9948713349054736,
         "drama": 2.8072534148888026,
-        "finish": 1.1490893462420866
+        "finish": 1.1462365982420866
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:36:11.871Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:03:08.372Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-30"
   }

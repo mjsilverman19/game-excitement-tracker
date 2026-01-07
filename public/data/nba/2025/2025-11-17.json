@@ -27,7 +27,7 @@
       "breakdown": {
         "tension": 8.124645866587844,
         "drama": 8.84579730275437,
-        "finish": 8.975951774646793
+        "finish": 8.799379726646794
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Bucks",
       "homeScore": 118,
       "awayScore": 106,
-      "excitement": 8.6,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 8.713765692511705,
         "drama": 9.927281116861629,
-        "finish": 8.451310583068683
+        "finish": 7.688056597068682
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Hornets",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 6.7,
+      "excitement": 6.4,
       "breakdown": {
         "tension": 4.7855058299362785,
         "drama": 5.982445138767285,
-        "finish": 7.264313818349497
+        "finish": 6.056209942349498
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Pacers",
       "homeScore": 127,
       "awayScore": 112,
-      "excitement": 3.8,
+      "excitement": 3.7,
       "breakdown": {
         "tension": 2.870625391551054,
         "drama": 3.666523778312328,
-        "finish": 2.1976484391519455
+        "finish": 2.022313049151946
       },
       "overtime": false,
       "bowlName": null,
@@ -107,7 +107,7 @@
       "breakdown": {
         "tension": 1.8125944593067633,
         "drama": 2.129165490496019,
-        "finish": 2.160674190574425
+        "finish": 1.8944417345744249
       },
       "overtime": false,
       "bowlName": null,
@@ -123,7 +123,7 @@
       "breakdown": {
         "tension": 0.9877069826140339,
         "drama": 1.1214291513401748,
-        "finish": 2.413313830644894
+        "finish": 2.107279900644894
       },
       "overtime": false,
       "bowlName": null,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:44.490Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:40.653Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-17"
   }

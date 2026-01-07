@@ -23,11 +23,11 @@
       "awayTeam": "Heat",
       "homeScore": 107,
       "awayScore": 101,
-      "excitement": 8.4,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 8.282280130029427,
         "drama": 9.248376336144815,
-        "finish": 8.29536201256414
+        "finish": 6.60228103656414
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 123,
-      "excitement": 5.7,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 4.744853878361688,
         "drama": 6.0234169254168455,
-        "finish": 4.588829173053506
+        "finish": 3.649485277053506
       },
       "overtime": false,
       "bowlName": null,
@@ -59,7 +59,7 @@
       "breakdown": {
         "tension": 1.9553838523549472,
         "drama": 2.2494827330876954,
-        "finish": 2.7054526741762857
+        "finish": 2.428265022176286
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:32.440Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:29.843Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-30"
   }

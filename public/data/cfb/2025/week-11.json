@@ -23,29 +23,13 @@
       "awayTeam": "California",
       "homeScore": 26,
       "awayScore": 29,
-      "excitement": 9.3,
+      "excitement": 9.4,
       "breakdown": {
         "tension": 7.494477031707078,
         "drama": 9.153818745419088,
-        "finish": 8.873379181070153
+        "finish": 10
       },
       "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401754589",
-      "homeTeam": "Virginia",
-      "awayTeam": "Wake Forest",
-      "homeScore": 9,
-      "awayScore": 16,
-      "excitement": 9,
-      "breakdown": {
-        "tension": 8.006768440936705,
-        "drama": 8.097476569017022,
-        "finish": 9
-      },
-      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -60,6 +44,22 @@
         "tension": 7.02412081033294,
         "drama": 6.9512851327030765,
         "finish": 9
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401754589",
+      "homeTeam": "Virginia",
+      "awayTeam": "Wake Forest",
+      "homeScore": 9,
+      "awayScore": 16,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 8.006768440936705,
+        "drama": 8.097476569017022,
+        "finish": 7.5150101357059995
       },
       "overtime": false,
       "bowlName": null,
@@ -98,22 +98,6 @@
       "playoffRound": null
     },
     {
-      "id": "401752762",
-      "homeTeam": "Mississippi St",
-      "awayTeam": "Georgia",
-      "homeScore": 21,
-      "awayScore": 41,
-      "excitement": 6.7,
-      "breakdown": {
-        "tension": 2.805614117520827,
-        "drama": 4.685289907837988,
-        "finish": 9.458680184304
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401752763",
       "homeTeam": "Missouri",
       "awayTeam": "Texas A&M",
@@ -123,7 +107,23 @@
       "breakdown": {
         "tension": 4.159307228410015,
         "drama": 3.88430782259307,
-        "finish": 5.035231474736
+        "finish": 5.01754460216
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752762",
+      "homeTeam": "Mississippi St",
+      "awayTeam": "Georgia",
+      "homeScore": 21,
+      "awayScore": 41,
+      "excitement": 5.2,
+      "breakdown": {
+        "tension": 2.805614117520827,
+        "drama": 4.685289907837988,
+        "finish": 5.01795592205
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "LSU",
       "homeScore": 20,
       "awayScore": 9,
-      "excitement": 3.7,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 2.5404619884428126,
         "drama": 2.9775586130717158,
-        "finish": 2.935172719509444
+        "finish": 2.583925255239444
       },
       "overtime": false,
       "bowlName": null,
@@ -155,7 +155,7 @@
       "breakdown": {
         "tension": 2.683362748155924,
         "drama": 3.5910565579866804,
-        "finish": 1.1591522610245428
+        "finish": 1.120731688452543
       },
       "overtime": false,
       "bowlName": null,
@@ -183,11 +183,11 @@
       "awayTeam": "Northwestern",
       "homeScore": 38,
       "awayScore": 17,
-      "excitement": 2.9,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 1.441906413180707,
         "drama": 1.443529633913712,
-        "finish": 2.053357095748092
+        "finish": 1.9385112407620924
       },
       "overtime": false,
       "bowlName": null,
@@ -203,7 +203,7 @@
       "breakdown": {
         "tension": 0.6582390916878889,
         "drama": 0.3597618771922443,
-        "finish": 1.1017026922185145
+        "finish": 1.0966952570085147
       },
       "overtime": false,
       "bowlName": null,
@@ -219,7 +219,7 @@
       "breakdown": {
         "tension": 0.4313079960820332,
         "drama": 0.1909005679871667,
-        "finish": 1.0965487934385145
+        "finish": 1.0961156612565146
       },
       "overtime": false,
       "bowlName": null,
@@ -235,7 +235,7 @@
       "breakdown": {
         "tension": 0.031374155939813964,
         "drama": 0.011600670896266504,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -248,8 +248,8 @@
     "count": 15,
     "totalGames": 15,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:34:58.649Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:01:57.628Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": 11
   }

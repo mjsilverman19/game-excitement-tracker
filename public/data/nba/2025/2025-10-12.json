@@ -27,7 +27,7 @@
       "breakdown": {
         "tension": 8.089484410182399,
         "drama": 8.923571335018625,
-        "finish": 8.908094300980364
+        "finish": 8.841458026980366
       },
       "overtime": false,
       "bowlName": null,
@@ -59,7 +59,7 @@
       "breakdown": {
         "tension": 7.534833157865446,
         "drama": 8.860063249063082,
-        "finish": 7.896727882043988
+        "finish": 7.159589790043988
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Heat",
       "homeScore": 120,
       "awayScore": 104,
-      "excitement": 7.8,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 7.837240318928105,
         "drama": 8.286842310692851,
-        "finish": 7.1159512156939755
+        "finish": 5.044661673693975
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Warriors",
       "homeScore": 126,
       "awayScore": 116,
-      "excitement": 6.2,
+      "excitement": 6,
       "breakdown": {
         "tension": 5.100451858521704,
         "drama": 6.214860831582396,
-        "finish": 5.054810586442952
+        "finish": 4.383957570442951
       },
       "overtime": false,
       "bowlName": null,
@@ -107,7 +107,7 @@
       "breakdown": {
         "tension": 3.671699638086449,
         "drama": 4.910821762025465,
-        "finish": 2.0189240657481164
+        "finish": 1.8632640257481166
       },
       "overtime": false,
       "bowlName": null,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:20.807Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:17.603Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-12"
   }

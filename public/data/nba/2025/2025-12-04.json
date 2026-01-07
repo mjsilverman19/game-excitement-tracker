@@ -55,11 +55,11 @@
       "awayTeam": "Celtics",
       "homeScore": 101,
       "awayScore": 146,
-      "excitement": 4.2,
+      "excitement": 4.1,
       "breakdown": {
         "tension": 3.262901212061775,
         "drama": 4.773623118264453,
-        "finish": 2.6244158893187857
+        "finish": 1.9784261113187855
       },
       "overtime": false,
       "bowlName": null,
@@ -75,7 +75,7 @@
       "breakdown": {
         "tension": 2.3985964767407575,
         "drama": 2.974965974550435,
-        "finish": 1.913104682570918
+        "finish": 1.8531953185709178
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:55.196Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:51.509Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-04"
   }

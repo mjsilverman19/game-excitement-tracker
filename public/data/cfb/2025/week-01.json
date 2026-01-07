@@ -7,11 +7,11 @@
       "awayTeam": "Iowa State",
       "homeScore": 21,
       "awayScore": 24,
-      "excitement": 9,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 8.560681312428608,
         "drama": 9.335139277109535,
-        "finish": 9
+        "finish": 6.608478244514
       },
       "overtime": false,
       "bowlName": "Aer Lingus College Football Classic",
@@ -23,11 +23,11 @@
       "awayTeam": "LSU",
       "homeScore": 10,
       "awayScore": 17,
-      "excitement": 8.5,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 8.30197843161466,
         "drama": 8.17028854175826,
-        "finish": 7.920681441764
+        "finish": 5.95642532936
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Notre Dame",
       "homeScore": 27,
       "awayScore": 24,
-      "excitement": 7.9,
+      "excitement": 7.6,
       "breakdown": {
         "tension": 6.584484621106265,
         "drama": 8.187671595677505,
-        "finish": 8.287709390910223
+        "finish": 6.423110791484223
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,27 @@
       "awayTeam": "Alabama",
       "homeScore": 31,
       "awayScore": 17,
-      "excitement": 6.7,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 6.120176192428359,
         "drama": 5.113420334986736,
-        "finish": 5.00204475752151
+        "finish": 3.85948223540751
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752677",
+      "homeTeam": "Ohio State",
+      "awayTeam": "Texas",
+      "homeScore": 14,
+      "awayScore": 7,
+      "excitement": 5.6,
+      "breakdown": {
+        "tension": 6.092562557435805,
+        "drama": 6.080476713529565,
+        "finish": 2.7236288886081144
       },
       "overtime": false,
       "bowlName": null,
@@ -87,30 +103,14 @@
       "awayTeam": "Virginia Tech",
       "homeScore": 24,
       "awayScore": 11,
-      "excitement": 6.3,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 5.304544686214917,
         "drama": 5.806900253575172,
-        "finish": 6.5420188787461155
+        "finish": 4.145875054572114
       },
       "overtime": false,
       "bowlName": "Aflac Kickoff",
-      "playoffRound": null
-    },
-    {
-      "id": "401752677",
-      "homeTeam": "Ohio State",
-      "awayTeam": "Texas",
-      "homeScore": 14,
-      "awayScore": 7,
-      "excitement": 5.8,
-      "breakdown": {
-        "tension": 6.092562557435805,
-        "drama": 6.080476713529565,
-        "finish": 3.1267926184821144
-      },
-      "overtime": false,
-      "bowlName": null,
       "playoffRound": null
     },
     {
@@ -123,7 +123,7 @@
       "breakdown": {
         "tension": 5.287073491985082,
         "drama": 4.669340490311127,
-        "finish": 1.2153433437827963
+        "finish": 1.2082738907087962
       },
       "overtime": false,
       "bowlName": null,
@@ -139,7 +139,7 @@
       "breakdown": {
         "tension": 2.4393432612166333,
         "drama": 2.738814115057063,
-        "finish": 1.1411044315968053
+        "finish": 1.1383783616748053
       },
       "overtime": false,
       "bowlName": null,
@@ -155,7 +155,7 @@
       "breakdown": {
         "tension": 1.4676232216453433,
         "drama": 1.5443948984408677,
-        "finish": 1.8148407670978206
+        "finish": 1.4956916468938206
       },
       "overtime": false,
       "bowlName": null,
@@ -171,7 +171,7 @@
       "breakdown": {
         "tension": 0.9164814568195045,
         "drama": 0.7678038919390909,
-        "finish": 1.834889434761762
+        "finish": 1.808705866953762
       },
       "overtime": false,
       "bowlName": "Aflac Kickoff",
@@ -187,7 +187,7 @@
       "breakdown": {
         "tension": 0.5133485759041723,
         "drama": 0.3012261476175703,
-        "finish": 2.1485846210316106
+        "finish": 2.0763914660376104
       },
       "overtime": false,
       "bowlName": null,
@@ -203,7 +203,7 @@
       "breakdown": {
         "tension": 0.4139351254088852,
         "drama": 0.21894476863092727,
-        "finish": 1.412851528779428
+        "finish": 1.358997924129428
       },
       "overtime": false,
       "bowlName": null,
@@ -219,7 +219,7 @@
       "breakdown": {
         "tension": 0.739732995337431,
         "drama": 0.49730227383035586,
-        "finish": 1.0970581600665146
+        "finish": 1.0962144335925146
       },
       "overtime": false,
       "bowlName": null,
@@ -251,7 +251,7 @@
       "breakdown": {
         "tension": 0.15726490388704106,
         "drama": 0.04342362139774482,
-        "finish": 1.0962548074305145
+        "finish": 1.0961384521185145
       },
       "overtime": false,
       "bowlName": null,
@@ -267,7 +267,7 @@
       "breakdown": {
         "tension": 0.2514436583905222,
         "drama": 0.0656468194202728,
-        "finish": 1.1996274351672793
+        "finish": 1.1978597772252795
       },
       "overtime": false,
       "bowlName": null,
@@ -283,7 +283,7 @@
       "breakdown": {
         "tension": 0.5151533257156216,
         "drama": 0.3245052293780744,
-        "finish": 1.0961404659045146
+        "finish": 1.0961097302385145
       },
       "overtime": false,
       "bowlName": null,
@@ -299,7 +299,7 @@
       "breakdown": {
         "tension": 0.06881657787556561,
         "drama": 0.015494290529932803,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -315,7 +315,7 @@
       "breakdown": {
         "tension": 0.1123985577204456,
         "drama": 0.023858449722840475,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -331,7 +331,7 @@
       "breakdown": {
         "tension": 0.02895490198659978,
         "drama": 0.010985247855463374,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -347,7 +347,7 @@
       "breakdown": {
         "tension": 0.0926917273203498,
         "drama": 0.029863287042511854,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -363,7 +363,7 @@
       "breakdown": {
         "tension": 0.02756036638706938,
         "drama": 0.009907946934717759,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -376,8 +376,8 @@
     "count": 23,
     "totalGames": 23,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:34:49.878Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:01:48.487Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": 1
   }

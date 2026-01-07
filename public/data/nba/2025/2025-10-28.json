@@ -2,22 +2,6 @@
   "success": true,
   "games": [
     {
-      "id": "401809978",
-      "homeTeam": "Wizards",
-      "awayTeam": "76ers",
-      "homeScore": 134,
-      "awayScore": 139,
-      "excitement": 8.9,
-      "breakdown": {
-        "tension": 8.200750824750411,
-        "drama": 9.848366452884614,
-        "finish": 6.504574282279972
-      },
-      "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401809980",
       "homeTeam": "Bucks",
       "awayTeam": "Knicks",
@@ -50,16 +34,32 @@
       "playoffRound": null
     },
     {
+      "id": "401809978",
+      "homeTeam": "Wizards",
+      "awayTeam": "76ers",
+      "homeScore": 134,
+      "awayScore": 139,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 8.200750824750411,
+        "drama": 9.848366452884614,
+        "finish": 4.399641444279973
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401809979",
       "homeTeam": "Heat",
       "awayTeam": "Hornets",
       "homeScore": 144,
       "awayScore": 117,
-      "excitement": 8.4,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 6.406590338542876,
         "drama": 8.579138294679934,
-        "finish": 7.6373516151772884
+        "finish": 5.595822809177287
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Clippers",
       "homeScore": 98,
       "awayScore": 79,
-      "excitement": 8.1,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 7.045175444364326,
         "drama": 8.401021348273153,
-        "finish": 8.419435580930909
+        "finish": 7.876836232930907
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:31.299Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:28.106Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-28"
   }

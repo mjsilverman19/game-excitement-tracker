@@ -23,29 +23,13 @@
       "awayTeam": "Mavericks",
       "homeScore": 140,
       "awayScore": 133,
-      "excitement": 8.7,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 8.21221735566732,
         "drama": 9.469395506914829,
-        "finish": 8.156864411978376
+        "finish": 7.4121431899783765
       },
       "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401836803",
-      "homeTeam": "Celtics",
-      "awayTeam": "Pistons",
-      "homeScore": 105,
-      "awayScore": 112,
-      "excitement": 8.3,
-      "breakdown": {
-        "tension": 7.899260090418543,
-        "drama": 8.74122680342585,
-        "finish": 8.917836132041682
-      },
-      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -66,6 +50,22 @@
       "playoffRound": null
     },
     {
+      "id": "401836803",
+      "homeTeam": "Celtics",
+      "awayTeam": "Pistons",
+      "homeScore": 105,
+      "awayScore": 112,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 7.899260090418543,
+        "drama": 8.74122680342585,
+        "finish": 8.455325606041683
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401839023",
       "homeTeam": "Heat",
       "awayTeam": "Raptors",
@@ -75,7 +75,7 @@
       "breakdown": {
         "tension": 7.505642815075841,
         "drama": 8.73259988203711,
-        "finish": 8.89345111946444
+        "finish": 8.798359329464441
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:36:03.062Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:58.693Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-15"
   }

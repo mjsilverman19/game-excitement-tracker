@@ -7,11 +7,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 122,
       "awayScore": 110,
-      "excitement": 8.9,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 9.684213583267745,
         "drama": 9.275082685813908,
-        "finish": 8.784921654663577
+        "finish": 8.171670614663578
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Magic",
       "homeScore": 94,
       "awayScore": 125,
-      "excitement": 4.8,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 4.622866117700366,
         "drama": 5.63524316110478,
-        "finish": 2.435742256715947
+        "finish": 2.090645788715947
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Rockets",
       "homeScore": 101,
       "awayScore": 128,
-      "excitement": 3.9,
+      "excitement": 3.8,
       "breakdown": {
         "tension": 3.2173646712474158,
         "drama": 4.4553854087780245,
-        "finish": 1.6941565953434563
+        "finish": 1.5373719693434562
       },
       "overtime": false,
       "bowlName": null,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:33.576Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:31.082Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-01"
   }

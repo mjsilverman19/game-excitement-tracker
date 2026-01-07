@@ -23,11 +23,11 @@
       "awayTeam": "Rockets",
       "homeScore": 115,
       "awayScore": 122,
-      "excitement": 8.5,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 7.732848015394875,
         "drama": 9.528699168640518,
-        "finish": 8.414103818747648
+        "finish": 7.438865326747648
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Thunder",
       "homeScore": 100,
       "awayScore": 114,
-      "excitement": 8.3,
+      "excitement": 8.1,
       "breakdown": {
         "tension": 7.260443284501681,
         "drama": 7.695902082890776,
-        "finish": 8.322596683811204
+        "finish": 7.290511455811204
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Pistons",
       "homeScore": 108,
       "awayScore": 111,
-      "excitement": 8.1,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 8.005597861941942,
         "drama": 8.63173048224182,
-        "finish": 6.903262935129976
+        "finish": 5.071311383129976
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Pacers",
       "homeScore": 114,
       "awayScore": 83,
-      "excitement": 7,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 5.311260873741761,
         "drama": 6.593625748567153,
-        "finish": 8.139972675626732
+        "finish": 6.414836021626732
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Timberwolves",
       "homeScore": 117,
       "awayScore": 144,
-      "excitement": 5.2,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 4.556092950422962,
         "drama": 7.006280739217645,
-        "finish": 2.56991399809613
+        "finish": 2.1932376820961297
       },
       "overtime": false,
       "bowlName": null,
@@ -107,7 +107,7 @@
       "breakdown": {
         "tension": 0.6622900900568163,
         "drama": 0.47945280301251253,
-        "finish": 1.813693716574425
+        "finish": 1.7611514825744248
       },
       "overtime": false,
       "bowlName": null,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:38.966Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:35.769Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-09"
   }

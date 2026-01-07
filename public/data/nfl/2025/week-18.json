@@ -7,11 +7,11 @@
       "awayTeam": "Chiefs",
       "homeScore": 14,
       "awayScore": 12,
-      "excitement": 9.4,
+      "excitement": 9.5,
       "breakdown": {
         "tension": 9.577939119804904,
         "drama": 10,
-        "finish": 8.904680833875585
+        "finish": 10
       },
       "overtime": false,
       "bowlName": null,
@@ -39,27 +39,11 @@
       "awayTeam": "Ravens",
       "homeScore": 26,
       "awayScore": 24,
-      "excitement": 9.2,
+      "excitement": 9.3,
       "breakdown": {
         "tension": 8.615264920155063,
         "drama": 10,
-        "finish": 8.828085174446844
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772959",
-      "homeTeam": "Eagles",
-      "awayTeam": "Commanders",
-      "homeScore": 17,
-      "awayScore": 24,
-      "excitement": 8.3,
-      "breakdown": {
-        "tension": 8.112228173922018,
-        "drama": 7.121221491973691,
-        "finish": 5.917823265151945
+        "finish": 10
       },
       "overtime": false,
       "bowlName": null,
@@ -82,16 +66,32 @@
       "playoffRound": null
     },
     {
+      "id": "401772959",
+      "homeTeam": "Eagles",
+      "awayTeam": "Commanders",
+      "homeScore": 17,
+      "awayScore": 24,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 8.112228173922018,
+        "drama": 7.121221491973691,
+        "finish": 3.907162628169946
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772962",
       "homeTeam": "Texans",
       "awayTeam": "Colts",
       "homeScore": 38,
       "awayScore": 30,
-      "excitement": 8,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 7.322897707643101,
         "drama": 7.548623851094782,
-        "finish": 8.172015617043886
+        "finish": 6.730276010639885
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Saints",
       "homeScore": 19,
       "awayScore": 17,
-      "excitement": 7.1,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 6.804494741854732,
         "drama": 7.027861708105532,
-        "finish": 4.854446744143798
+        "finish": 3.1402183818197975
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Cowboys",
       "homeScore": 34,
       "awayScore": 17,
-      "excitement": 6.2,
+      "excitement": 5.9,
       "breakdown": {
         "tension": 6.284158910213287,
         "drama": 7.094765154837105,
-        "finish": 3.952398730763136
+        "finish": 3.137250347723136
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Panthers",
       "homeScore": 16,
       "awayScore": 14,
-      "excitement": 6,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 4.744348777762909,
         "drama": 5.274020659072215,
-        "finish": 5.154249020615918
+        "finish": 3.4361530494839183
       },
       "overtime": false,
       "bowlName": null,
@@ -151,27 +151,11 @@
       "awayTeam": "Packers",
       "homeScore": 16,
       "awayScore": 3,
-      "excitement": 5.3,
+      "excitement": 5.2,
       "breakdown": {
         "tension": 5.868290956584088,
         "drama": 5.797181427493653,
-        "finish": 2.8114420268117346
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772955",
-      "homeTeam": "Rams",
-      "awayTeam": "Cardinals",
-      "homeScore": 37,
-      "awayScore": 20,
-      "excitement": 5.2,
-      "breakdown": {
-        "tension": 4.003967364832635,
-        "drama": 4.6575056463237985,
-        "finish": 5.19916401274719
+        "finish": 2.4276954944297344
       },
       "overtime": false,
       "bowlName": null,
@@ -183,11 +167,27 @@
       "awayTeam": "Seahawks",
       "homeScore": 3,
       "awayScore": 13,
-      "excitement": 5.1,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 5.370445076056151,
         "drama": 5.021431190859113,
-        "finish": 2.0663676215434448
+        "finish": 1.4993852510674446
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772955",
+      "homeTeam": "Rams",
+      "awayTeam": "Cardinals",
+      "homeScore": 37,
+      "awayScore": 20,
+      "excitement": 4.6,
+      "breakdown": {
+        "tension": 4.003967364832635,
+        "drama": 4.6575056463237985,
+        "finish": 3.3107742884811913
       },
       "overtime": false,
       "bowlName": null,
@@ -199,11 +199,11 @@
       "awayTeam": "Chargers",
       "homeScore": 19,
       "awayScore": 3,
-      "excitement": 3.6,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 2.8406438188421257,
         "drama": 2.8659670441424168,
-        "finish": 2.5476669934793152
+        "finish": 2.2193632516193156
       },
       "overtime": false,
       "bowlName": null,
@@ -219,7 +219,7 @@
       "breakdown": {
         "tension": 2.2619697018907337,
         "drama": 2.3908483725293617,
-        "finish": 1.1422541642009514
+        "finish": 1.1415170351489512
       },
       "overtime": false,
       "bowlName": null,
@@ -235,7 +235,7 @@
       "breakdown": {
         "tension": 1.9576822225528434,
         "drama": 2.3046487713577313,
-        "finish": 1.4092602096147462
+        "finish": 1.2968870136387463
       },
       "overtime": false,
       "bowlName": null,
@@ -251,7 +251,7 @@
       "breakdown": {
         "tension": 0.5104488662955942,
         "drama": 0.2206860751298672,
-        "finish": 1.0963873495125145
+        "finish": 1.0961497786005145
       },
       "overtime": false,
       "bowlName": null,
@@ -264,8 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:34:40.396Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:01:43.417Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": 18
   }

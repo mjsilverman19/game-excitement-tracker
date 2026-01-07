@@ -7,11 +7,11 @@
       "awayTeam": "Georgia",
       "homeScore": 41,
       "awayScore": 44,
-      "excitement": 9.7,
+      "excitement": 9.6,
       "breakdown": {
         "tension": 10,
         "drama": 9.282065423586744,
-        "finish": 10
+        "finish": 9
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Texas A&M",
       "homeScore": 40,
       "awayScore": 41,
-      "excitement": 9.5,
+      "excitement": 9.6,
       "breakdown": {
         "tension": 8.489045784232239,
         "drama": 10,
-        "finish": 8.978360955816768
+        "finish": 10
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Clemson",
       "homeScore": 24,
       "awayScore": 21,
-      "excitement": 8.7,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 7.6520574540804,
         "drama": 9.177735245554498,
-        "finish": 10
+        "finish": 8.96582256590564
       },
       "overtime": false,
       "bowlName": null,
@@ -55,27 +55,11 @@
       "awayTeam": "Iowa State",
       "homeScore": 16,
       "awayScore": 24,
-      "excitement": 8.2,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 4.340348754594396,
         "drama": 6.6515777429889225,
-        "finish": 9
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752700",
-      "homeTeam": "Ole Miss",
-      "awayTeam": "Arkansas",
-      "homeScore": 41,
-      "awayScore": 35,
-      "excitement": 6.7,
-      "breakdown": {
-        "tension": 4.8509341891205064,
-        "drama": 6.513301242642539,
-        "finish": 7.017958784000541
+        "finish": 6.887527587698
       },
       "overtime": false,
       "bowlName": null,
@@ -91,7 +75,23 @@
       "breakdown": {
         "tension": 5.733570168054546,
         "drama": 5.0724222102279555,
-        "finish": 5.02881008396
+        "finish": 5.012014927406
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752700",
+      "homeTeam": "Ole Miss",
+      "awayTeam": "Arkansas",
+      "homeScore": 41,
+      "awayScore": 35,
+      "excitement": 6.2,
+      "breakdown": {
+        "tension": 4.8509341891205064,
+        "drama": 6.513301242642539,
+        "finish": 5.142332543420543
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Florida",
       "homeScore": 20,
       "awayScore": 10,
-      "excitement": 5.6,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 6.6452645154678835,
         "drama": 6.185917215450169,
-        "finish": 2.584430559801083
+        "finish": 2.0588662726650826
       },
       "overtime": false,
       "bowlName": null,
@@ -123,7 +123,7 @@
       "breakdown": {
         "tension": 2.0853126168197966,
         "drama": 2.0542424738093876,
-        "finish": 5.02822227713
+        "finish": 5.012149778708
       },
       "overtime": false,
       "bowlName": null,
@@ -171,7 +171,7 @@
       "breakdown": {
         "tension": 1.4822878468589429,
         "drama": 1.6178301100585644,
-        "finish": 1.1685932852189513
+        "finish": 1.1512014469529512
       },
       "overtime": false,
       "bowlName": null,
@@ -187,7 +187,7 @@
       "breakdown": {
         "tension": 0.9816736680411631,
         "drama": 0.6887882906699772,
-        "finish": 1.7995259615489752
+        "finish": 1.6724838737069752
       },
       "overtime": false,
       "bowlName": null,
@@ -203,7 +203,7 @@
       "breakdown": {
         "tension": 0.8004246904303658,
         "drama": 0.5402484529941908,
-        "finish": 1.8947636127265652
+        "finish": 1.8474076942465651
       },
       "overtime": false,
       "bowlName": null,
@@ -219,7 +219,7 @@
       "breakdown": {
         "tension": 0.9038534429028511,
         "drama": 0.7256703980087467,
-        "finish": 1.0962706779045146
+        "finish": 1.0961443634085146
       },
       "overtime": false,
       "bowlName": null,
@@ -235,7 +235,7 @@
       "breakdown": {
         "tension": 0.7305340412111272,
         "drama": 0.40271230759138077,
-        "finish": 1.1127415083068237
+        "finish": 1.1051594361128236
       },
       "overtime": false,
       "bowlName": null,
@@ -251,7 +251,7 @@
       "breakdown": {
         "tension": 0.3730750171216246,
         "drama": 0.14398904698730117,
-        "finish": 1.368510569295644
+        "finish": 1.360273744635644
       },
       "overtime": false,
       "bowlName": null,
@@ -267,7 +267,7 @@
       "breakdown": {
         "tension": 0.2790596946534729,
         "drama": 0.15311378541583792,
-        "finish": 1.0964870880885145
+        "finish": 1.0962329476185146
       },
       "overtime": false,
       "bowlName": null,
@@ -283,7 +283,7 @@
       "breakdown": {
         "tension": 0.17996927860901457,
         "drama": 0.052986008057855596,
-        "finish": 1.0961020010565146
+        "finish": 1.0960953493185146
       },
       "overtime": false,
       "bowlName": null,
@@ -299,7 +299,7 @@
       "breakdown": {
         "tension": 0.24059915706341806,
         "drama": 0.06868337434453543,
-        "finish": 1.0961997493725146
+        "finish": 1.0961136905265145
       },
       "overtime": false,
       "bowlName": null,
@@ -315,7 +315,7 @@
       "breakdown": {
         "tension": 0.03556844555236527,
         "drama": 0.011477686799253206,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -331,7 +331,7 @@
       "breakdown": {
         "tension": 0.10246028425403786,
         "drama": 0.02258248962111449,
-        "finish": 1.0961079367185145
+        "finish": 1.0960899547185146
       },
       "overtime": false,
       "bowlName": null,
@@ -344,8 +344,8 @@
     "count": 21,
     "totalGames": 21,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:34:51.601Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:01:50.618Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": 3
   }

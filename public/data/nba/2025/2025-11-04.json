@@ -27,7 +27,7 @@
       "breakdown": {
         "tension": 9.190384355027955,
         "drama": 9.276643727132049,
-        "finish": 8.043081235424193
+        "finish": 7.561997301424192
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Magic",
       "homeScore": 127,
       "awayScore": 112,
-      "excitement": 6.6,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 5.8503779686396875,
         "drama": 7.972537545351522,
-        "finish": 4.579269373875897
+        "finish": 2.915019649875897
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Bucks",
       "homeScore": 128,
       "awayScore": 100,
-      "excitement": 5.9,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 5.675261412009569,
         "drama": 7.641199843179673,
-        "finish": 2.9916682818005085
+        "finish": 2.6806754778005093
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "76ers",
       "homeScore": 113,
       "awayScore": 111,
-      "excitement": 3.7,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 2.388502311215308,
         "drama": 3.5575546321857776,
-        "finish": 1.711254263786774
+        "finish": 1.5701229057867743
       },
       "overtime": false,
       "bowlName": null,
@@ -91,7 +91,7 @@
       "breakdown": {
         "tension": 2.1216579817224135,
         "drama": 2.8592718125369143,
-        "finish": 1.7916965408818921
+        "finish": 1.737057738881892
       },
       "overtime": false,
       "bowlName": null,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:35.780Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:32.846Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-04"
   }

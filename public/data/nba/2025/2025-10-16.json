@@ -71,11 +71,11 @@
       "awayTeam": "Pelicans",
       "homeScore": 132,
       "awayScore": 125,
-      "excitement": 7.6,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 5.712284276226942,
         "drama": 7.5743367162289506,
-        "finish": 8.64371373866987
+        "finish": 8.10957682066987
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:23.222Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:20.217Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-16"
   }

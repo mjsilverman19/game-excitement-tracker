@@ -7,11 +7,11 @@
       "awayTeam": "Pistons",
       "homeScore": 117,
       "awayScore": 111,
-      "excitement": 8.7,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 7.955991731052327,
         "drama": 9.769823347634265,
-        "finish": 8.951806186199189
+        "finish": 8.37175998019919
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Timberwolves",
       "homeScore": 100,
       "awayScore": 95,
-      "excitement": 8.6,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 7.93950349060364,
         "drama": 9.257611723089912,
-        "finish": 8.037317820927834
+        "finish": 6.583616702927834
       },
       "overtime": true,
       "bowlName": null,
@@ -43,7 +43,7 @@
       "breakdown": {
         "tension": 9.19607407036615,
         "drama": 9.07885915889177,
-        "finish": 8.094628698875294
+        "finish": 7.964759720875293
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Hornets",
       "homeScore": 122,
       "awayScore": 116,
-      "excitement": 7.4,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 5.845305892310417,
         "drama": 7.198872640455458,
-        "finish": 8.139972675626732
+        "finish": 7.253167067626732
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 5,
     "insufficientData": 1,
-    "generatedAt": "2026-01-07T02:35:18.504Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:15.289Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-09"
   }

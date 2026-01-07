@@ -2,22 +2,6 @@
   "success": true,
   "games": [
     {
-      "id": "401812679",
-      "homeTeam": "Rockets",
-      "awayTeam": "Hawks",
-      "homeScore": 122,
-      "awayScore": 113,
-      "excitement": 9.2,
-      "breakdown": {
-        "tension": 8.668622393147208,
-        "drama": 10,
-        "finish": 9.57465183986769
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401812678",
       "homeTeam": "Heat",
       "awayTeam": "Bucks",
@@ -28,6 +12,22 @@
         "tension": 10,
         "drama": 10,
         "finish": 9.78396596601162
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812679",
+      "homeTeam": "Rockets",
+      "awayTeam": "Hawks",
+      "homeScore": 122,
+      "awayScore": 113,
+      "excitement": 9.1,
+      "breakdown": {
+        "tension": 8.668622393147208,
+        "drama": 10,
+        "finish": 8.48825183986769
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 108,
       "awayScore": 112,
-      "excitement": 7.8,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 7.088765410073323,
         "drama": 8.434899804402008,
-        "finish": 6.603739727142277
+        "finish": 4.612553335142278
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Thunder",
       "homeScore": 106,
       "awayScore": 89,
-      "excitement": 5.2,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 5.0346319651189075,
         "drama": 6.768128549830001,
-        "finish": 1.9507905275875563
+        "finish": 1.6383118055875565
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 6,
     "insufficientData": 1,
-    "generatedAt": "2026-01-07T02:35:16.805Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:13.459Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-06"
   }

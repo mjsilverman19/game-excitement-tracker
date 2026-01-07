@@ -55,11 +55,11 @@
       "awayTeam": "Clippers",
       "homeScore": 116,
       "awayScore": 131,
-      "excitement": 7.7,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 7.039889807281025,
         "drama": 8.262822883441633,
-        "finish": 7.356460671861117
+        "finish": 5.940157325861117
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Hawks",
       "homeScore": 98,
       "awayScore": 115,
-      "excitement": 6.3,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 6.4159462455253,
         "drama": 7.010167656073655,
-        "finish": 4.142443383694545
+        "finish": 3.244596093694545
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Kings",
       "homeScore": 123,
       "awayScore": 128,
-      "excitement": 5.4,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 3.427503145012205,
         "drama": 4.677565671318853,
-        "finish": 5.095247607188053
+        "finish": 3.7669332871880536
       },
       "overtime": false,
       "bowlName": null,
@@ -107,7 +107,7 @@
       "breakdown": {
         "tension": 3.413701492985153,
         "drama": 4.794904869504095,
-        "finish": 1.5398300795875568
+        "finish": 1.5213588575875567
       },
       "overtime": false,
       "bowlName": null,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:47.329Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:43.586Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-22"
   }

@@ -11,7 +11,7 @@
       "breakdown": {
         "tension": 9.00326360558467,
         "drama": 10,
-        "finish": 8.679353732977395
+        "finish": 8.561922538977395
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Heat",
       "homeScore": 132,
       "awayScore": 125,
-      "excitement": 8.5,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 8.202919941521472,
         "drama": 10,
-        "finish": 8.44070746350983
+        "finish": 7.549353903509828
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Bucks",
       "homeScore": 103,
       "awayScore": 100,
-      "excitement": 8.5,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 8.153781425540577,
         "drama": 8.686120535296713,
-        "finish": 7.782118197662303
+        "finish": 6.182890715662303
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Raptors",
       "homeScore": 96,
       "awayScore": 81,
-      "excitement": 7.1,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 7.416445670067295,
         "drama": 8.23888936688061,
-        "finish": 4.5883261505340105
+        "finish": 3.57409003253401
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Rockets",
       "homeScore": 125,
       "awayScore": 124,
-      "excitement": 5.5,
+      "excitement": 5.2,
       "breakdown": {
         "tension": 3.745617489475981,
         "drama": 5.199888238529632,
-        "finish": 3.6410722243838753
+        "finish": 2.9650468543838744
       },
       "overtime": true,
       "bowlName": null,
@@ -91,7 +91,7 @@
       "breakdown": {
         "tension": 1.8447812550097953,
         "drama": 2.408694410991592,
-        "finish": 1.6321438269421569
+        "finish": 1.5999514569421567
       },
       "overtime": false,
       "bowlName": null,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:36:06.678Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:03:02.753Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-21"
   }

@@ -87,11 +87,11 @@
       "awayTeam": "Hawks",
       "homeScore": 134,
       "awayScore": 117,
-      "excitement": 8,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 7.507076528043848,
         "drama": 8.88030794475038,
-        "finish": 7.8608666075271305
+        "finish": 6.411382169527132
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "76ers",
       "homeScore": 119,
       "awayScore": 130,
-      "excitement": 7.9,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 7.33619898841995,
         "drama": 8.74332108576439,
-        "finish": 6.1431151351901505
+        "finish": 4.093520259190151
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Celtics",
       "homeScore": 115,
       "awayScore": 146,
-      "excitement": 7.2,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 5.691513077397234,
         "drama": 8.298917494372757,
-        "finish": 6.8233844628036255
+        "finish": 5.3695426748036255
       },
       "overtime": false,
       "bowlName": null,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:36:14.099Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:03:10.898Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-03"
   }

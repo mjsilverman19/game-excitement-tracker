@@ -7,11 +7,11 @@
       "awayTeam": "49ers",
       "homeScore": 23,
       "awayScore": 26,
-      "excitement": 9.5,
+      "excitement": 9.6,
       "breakdown": {
         "tension": 8.535320346952032,
         "drama": 10,
-        "finish": 9
+        "finish": 10
       },
       "overtime": true,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Vikings",
       "homeScore": 17,
       "awayScore": 21,
-      "excitement": 9.1,
+      "excitement": 9,
       "breakdown": {
         "tension": 9.589207274167995,
         "drama": 9.52347090387522,
-        "finish": 8.958093482695382
+        "finish": 8.619870588255383
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Patriots",
       "homeScore": 20,
       "awayScore": 23,
-      "excitement": 8.9,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 8.395718398929194,
         "drama": 8.605683091690388,
-        "finish": 8.375549843635973
+        "finish": 7.864879016289974
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Broncos",
       "homeScore": 17,
       "awayScore": 21,
-      "excitement": 8.6,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 8.57785687228596,
         "drama": 6.626399519869542,
-        "finish": 6.782559356515664
+        "finish": 5.323305066903664
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Giants",
       "homeScore": 26,
       "awayScore": 14,
-      "excitement": 6.8,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 7.1239071991685785,
         "drama": 7.281624271115658,
-        "finish": 5.124444802895644
+        "finish": 2.9972567791556424
       },
       "overtime": false,
       "bowlName": null,
@@ -151,11 +151,11 @@
       "awayTeam": "Commanders",
       "homeScore": 10,
       "awayScore": 27,
-      "excitement": 5.8,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 6.249353138848381,
         "drama": 5.652844471553312,
-        "finish": 2.3267408170005153
+        "finish": 1.5199955550045143
       },
       "overtime": false,
       "bowlName": null,
@@ -171,7 +171,7 @@
       "breakdown": {
         "tension": 3.8708266884631226,
         "drama": 4.717097424027279,
-        "finish": 1.1055177441225146
+        "finish": 1.1052252375165146
       },
       "overtime": false,
       "bowlName": null,
@@ -203,7 +203,7 @@
       "breakdown": {
         "tension": 3.377810362764644,
         "drama": 3.8823255104711816,
-        "finish": 1.1523226319969513
+        "finish": 1.1419987159229512
       },
       "overtime": false,
       "bowlName": null,
@@ -219,7 +219,7 @@
       "breakdown": {
         "tension": 1.732357716205457,
         "drama": 1.7188256857055,
-        "finish": 1.2734107440199143
+        "finish": 1.2441862071799141
       },
       "overtime": false,
       "bowlName": null,
@@ -232,8 +232,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:34:30.221Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:01:32.551Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": 5
   }

@@ -23,11 +23,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 108,
       "awayScore": 122,
-      "excitement": 8,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 7.02345704365686,
         "drama": 8.46505518419686,
-        "finish": 8.467174675127584
+        "finish": 6.956220237127583
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Pacers",
       "homeScore": 152,
       "awayScore": 128,
-      "excitement": 7.1,
+      "excitement": 6.7,
       "breakdown": {
         "tension": 7.074613019697252,
         "drama": 7.848542511112295,
-        "finish": 5.219113350355045
+        "finish": 3.9001193043550453
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Raptors",
       "homeScore": 109,
       "awayScore": 119,
-      "excitement": 6.5,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 5.967764032156588,
         "drama": 6.933542667361611,
-        "finish": 4.529076058000693
+        "finish": 3.5015446900006935
       },
       "overtime": false,
       "bowlName": null,
@@ -75,7 +75,7 @@
       "breakdown": {
         "tension": 2.6627827833170734,
         "drama": 3.75435703217255,
-        "finish": 1.7359502920051775
+        "finish": 1.7006030620051773
       },
       "overtime": false,
       "bowlName": null,
@@ -91,7 +91,7 @@
       "breakdown": {
         "tension": 2.6695267874615434,
         "drama": 3.7604759553457137,
-        "finish": 1.8353476525812176
+        "finish": 1.7652726445812175
       },
       "overtime": false,
       "bowlName": null,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T02:35:40.270Z",
-    "algorithmVersion": "2.3",
+    "generatedAt": "2026-01-07T03:02:37.134Z",
+    "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-11"
   }
