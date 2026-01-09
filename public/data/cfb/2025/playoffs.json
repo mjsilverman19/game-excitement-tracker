@@ -82,6 +82,22 @@
       "playoffRound": null
     },
     {
+      "id": "401769075",
+      "homeTeam": "Ole Miss",
+      "awayTeam": "Miami",
+      "homeScore": 27,
+      "awayScore": 31,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 8.778077946937502,
+        "drama": 9.775469946614875,
+        "finish": 9
+      },
+      "overtime": false,
+      "bowlName": "Vrbo Fiesta Bowl",
+      "playoffRound": "Semifinal"
+    },
+    {
       "id": "401778310",
       "homeTeam": "Southern Miss",
       "awayTeam": "Western KY",
@@ -661,10 +677,10 @@
   "metadata": {
     "sport": "CFB",
     "season": 2025,
-    "count": 41,
-    "totalGames": 42,
+    "count": 42,
+    "totalGames": 43,
     "insufficientData": 1,
-    "generatedAt": "2026-01-07T03:02:03.445Z",
+    "generatedAt": "2026-01-09T18:44:22.467Z",
     "algorithmVersion": "2.4",
     "source": "ESPN Win Probability Analysis",
     "week": "playoffs"

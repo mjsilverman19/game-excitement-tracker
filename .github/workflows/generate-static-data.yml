@@ -90,11 +90,13 @@ jobs:
           echo "Generating CFB week $CURRENT_WEEK"
           node scripts/generate-static.js --sport CFB --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB generation completed with warnings"
 
-          # Also generate bowls if in December/January
+          # Also generate bowls and playoffs if in December/January
           MONTH=$(date +%-m)
           if [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
             echo "Generating CFB bowls"
-            node scripts/generate-static.js --sport CFB --season 2025 --week bowls ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB bowls generation completed with warnings"
+            node scripts/generate-static.js --sport CFB --season 2025 --week bowls --force || echo "CFB bowls generation completed with warnings"
+            echo "Generating CFB playoffs"
+            node scripts/generate-static.js --sport CFB --season 2025 --week playoffs --force || echo "CFB playoffs generation completed with warnings"
           fi
 
       - name: Generate NBA data
