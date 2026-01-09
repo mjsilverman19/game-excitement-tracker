@@ -49,8 +49,11 @@ jobs:
             exit 0
           fi
 
-          # Tuesday = NFL (day 2)
+          # Tuesday = NFL (day 2) during regular season
           if [ "$DAY_OF_WEEK" = "2" ] && ([ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]); then
+            echo "sport=NFL" >> $GITHUB_OUTPUT
+          # Sunday/Monday = NFL during playoffs (Jan-Feb) - games are on weekends
+          elif ([ "$DAY_OF_WEEK" = "7" ] || [ "$DAY_OF_WEEK" = "1" ]) && ([ "$MONTH" = "1" ] || [ "$MONTH" = "2" ]); then
             echo "sport=NFL" >> $GITHUB_OUTPUT
           # Sunday = CFB (day 7) during regular season (Aug-Nov)
           elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
@@ -77,6 +80,34 @@ jobs:
           ")
           echo "Generating NFL week $CURRENT_WEEK"
           node scripts/generate-static.js --sport NFL --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NFL generation completed with warnings"
+
+          # Generate NFL playoff rounds if in January/February
+          MONTH=$(date +%-m)
+          DAY=$(date +%-d)
+          if [ "$MONTH" = "1" ] && [ "$DAY" -ge 10 ]; then
+            echo "Generating NFL playoff rounds"
+            # Wild Card (mid-January)
+            node scripts/generate-static.js --sport NFL --season 2024 --week wild-card --force || echo "NFL wild-card generation completed with warnings"
+            # Divisional (late January)
+            if [ "$DAY" -ge 17 ]; then
+              node scripts/generate-static.js --sport NFL --season 2024 --week divisional --force || echo "NFL divisional generation completed with warnings"
+            fi
+            # Conference Championships (late January)
+            if [ "$DAY" -ge 24 ]; then
+              node scripts/generate-static.js --sport NFL --season 2024 --week conference --force || echo "NFL conference generation completed with warnings"
+            fi
+          fi
+          if [ "$MONTH" = "2" ]; then
+            echo "Generating NFL playoff rounds (February)"
+            # Generate all playoff rounds in February
+            node scripts/generate-static.js --sport NFL --season 2024 --week wild-card --force || echo "NFL wild-card generation completed with warnings"
+            node scripts/generate-static.js --sport NFL --season 2024 --week divisional --force || echo "NFL divisional generation completed with warnings"
+            node scripts/generate-static.js --sport NFL --season 2024 --week conference --force || echo "NFL conference generation completed with warnings"
+            # Super Bowl (early February)
+            if [ "$DAY" -ge 9 ]; then
+              node scripts/generate-static.js --sport NFL --season 2024 --week super-bowl --force || echo "NFL super-bowl generation completed with warnings"
+            fi
+          fi
 
       - name: Generate CFB data
         if: steps.determine.outputs.sport == 'CFB' || steps.determine.outputs.sport == 'all'

@@ -1,13 +1,46 @@
+// NFL Playoff Round Configuration
+// Maps user-friendly round names to ESPN API week numbers
+export const NFL_PLAYOFF_ROUNDS = {
+  'wild-card': { espnWeek: 1, label: 'Wild Card Round', order: 19 },
+  'divisional': { espnWeek: 2, label: 'Divisional Round', order: 20 },
+  'conference': { espnWeek: 3, label: 'Conference Championships', order: 21 },
+  'super-bowl': { espnWeek: 5, label: 'Super Bowl', order: 22 }
+  // Note: ESPN week 4 is Pro Bowl - skipped as not a competitive game
+};
+
+// Helper to check if a week value is an NFL playoff round
+export function isNFLPlayoffRound(week) {
+  return typeof week === 'string' && week in NFL_PLAYOFF_ROUNDS;
+}
+
+// Get all NFL playoff round keys in order
+export function getNFLPlayoffRoundKeys() {
+  return Object.keys(NFL_PLAYOFF_ROUNDS);
+}
+
+// Get the next NFL playoff round (or null if at end)
+export function getNextNFLPlayoffRound(currentRound) {
+  const rounds = getNFLPlayoffRoundKeys();
+  const currentIndex = rounds.indexOf(currentRound);
+  if (currentIndex === -1 || currentIndex === rounds.length - 1) return null;
+  return rounds[currentIndex + 1];
+}
+
+// Get the previous NFL playoff round (or null/18 if at start)
+export function getPrevNFLPlayoffRound(currentRound) {
+  const rounds = getNFLPlayoffRoundKeys();
+  const currentIndex = rounds.indexOf(currentRound);
+  if (currentIndex === -1) return null;
+  if (currentIndex === 0) return 18; // Return to week 18
+  return rounds[currentIndex - 1];
+}
+
 export const ALGORITHM_CONFIG = {
-  // Version 2.4: Fixed Finish metric false positives
-  // - Directional volatility: Only count movement toward 0.5 or crossing 0.5
-  // - Tightened walk-off criteria: Require true competitive swings (0.40-0.60 range)
-  // - Prevents false positives from monotonic pull-away sequences
-  // - Three factors represent complementary lenses on excitement:
-  //   * Tension: "Was there reason to keep watching?"
-  //   * Drama: "Did big things happen?"
-  //   * Finish: "How did it end?"
-  version: '2.4',
+  // Version 2.5: Added NFL playoff round support
+  // - NFL playoffs accessible via round names (wild-card, divisional, conference, super-bowl)
+  // - Proper navigation between week 18 and playoff rounds
+  // - Static data generation for NFL postseason
+  version: '2.5',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },

@@ -1,4 +1,4 @@
-import { ALGORITHM_CONFIG, getTier } from '../../shared/algorithm-config.js';
+import { ALGORITHM_CONFIG, getTier, NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound, getNextNFLPlayoffRound, getPrevNFLPlayoffRound } from '../../shared/algorithm-config.js';
 import { initSupabase, upsertVoteToSupabase, deleteVoteFromSupabase } from './services/supabase.js';
 import { loadVotes, saveVotes } from './services/storage.js';
 import {
@@ -102,6 +102,11 @@ window.getTier = getTier;
                 const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(now.getTime() - 24*60*60*1000);
                 document.getElementById('headerWeekInfo').textContent =
                     `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+            } else if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
+                // NFL playoff rounds - show proper round name
+                const roundInfo = NFL_PLAYOFF_ROUNDS[window.selectedWeek];
+                document.getElementById('headerWeekInfo').textContent =
+                    `${roundInfo.label} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
             } else {
                 if (window.selectedWeek === 'bowls') {
                     document.getElementById('headerWeekInfo').textContent =
@@ -134,6 +139,14 @@ window.getTier = getTier;
 
         // Update week-based navigation (NFL/CFB)
         function updateWeekNavigation() {
+            // Short labels for navigation display
+            const nflRoundLabels = {
+                'wild-card': 'wild card',
+                'divisional': 'divisional',
+                'conference': 'conference',
+                'super-bowl': 'super bowl'
+            };
+
             // Update week display
             if (window.selectedWeek === 'bowls') {
                 document.getElementById('currentWeekDisplay').textContent =
@@ -141,6 +154,9 @@ window.getTier = getTier;
             } else if (window.selectedWeek === 'playoffs') {
                 document.getElementById('currentWeekDisplay').textContent =
                     `${window.selectedSeason} · playoffs`;
+            } else if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
+                document.getElementById('currentWeekDisplay').textContent =
+                    `${window.selectedSeason} · ${nflRoundLabels[window.selectedWeek]}`;
             } else {
                 document.getElementById('currentWeekDisplay').textContent =
                     `${window.selectedSeason} · week ${window.selectedWeek}`;
@@ -151,8 +167,29 @@ window.getTier = getTier;
             const prevWeekLink = document.getElementById('prevWeek');
             const nextWeekLink = document.getElementById('nextWeek');
 
+            // Handle navigation for NFL playoff rounds
+            if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
+                const prevRound = getPrevNFLPlayoffRound(window.selectedWeek);
+                const nextRound = getNextNFLPlayoffRound(window.selectedWeek);
+
+                // Previous: either previous round or week 18
+                if (prevRound === 18) {
+                    document.getElementById('prevWeekNum').textContent = 'week 18';
+                } else if (prevRound) {
+                    document.getElementById('prevWeekNum').textContent = nflRoundLabels[prevRound];
+                }
+                prevWeekLink.style.display = 'inline';
+
+                // Next: either next round or hide
+                if (nextRound) {
+                    document.getElementById('nextWeekNum').textContent = nflRoundLabels[nextRound];
+                    nextWeekLink.style.display = 'inline';
+                } else {
+                    nextWeekLink.style.display = 'none';
+                }
+            }
             // Handle navigation for CFB playoffs
-            if (window.selectedWeek === 'playoffs') {
+            else if (window.selectedWeek === 'playoffs') {
                 // Previous from playoffs is bowls
                 document.getElementById('prevWeekNum').textContent = 'bowls';
                 prevWeekLink.style.display = 'inline';
@@ -174,6 +211,9 @@ window.getTier = getTier;
                 // For CFB at week 15, next is "bowls"
                 if (window.selectedSport === 'CFB' && window.selectedWeek === maxWeeks) {
                     nextWeekNum = 'bowls';
+                } else if (window.selectedSport === 'NFL' && window.selectedWeek === maxWeeks) {
+                    // For NFL at week 18, next is "wild-card"
+                    nextWeekNum = 'wild-card';
                 } else if (window.selectedWeek < maxWeeks) {
                     nextWeekNum = window.selectedWeek + 1;
                 } else {
@@ -190,6 +230,8 @@ window.getTier = getTier;
                 if (nextWeekNum) {
                     if (nextWeekNum === 'bowls') {
                         document.getElementById('nextWeekNum').textContent = 'bowls';
+                    } else if (nextWeekNum === 'wild-card') {
+                        document.getElementById('nextWeekNum').textContent = 'wild card';
                     } else {
                         document.getElementById('nextWeekNum').textContent = nextWeekNum;
                     }
@@ -242,6 +284,14 @@ window.getTier = getTier;
                 } else {
                     window.selectedWeek = Math.max(1, window.selectedWeek - 1);
                 }
+            } else if (window.selectedSport === 'NFL') {
+                // Handle NFL playoff round navigation
+                if (isNFLPlayoffRound(window.selectedWeek)) {
+                    const prevRound = getPrevNFLPlayoffRound(window.selectedWeek);
+                    window.selectedWeek = prevRound; // Either previous round or 18
+                } else {
+                    window.selectedWeek = Math.max(1, window.selectedWeek - 1);
+                }
             } else {
                 window.selectedWeek = Math.max(1, window.selectedWeek - 1);
             }
@@ -266,6 +316,20 @@ window.getTier = getTier;
                     window.selectedWeek++;
                 } else if (window.selectedWeek === maxWeek) {
                     window.selectedWeek = 'bowls';
+                }
+            } else if (window.selectedSport === 'NFL') {
+                // Handle NFL playoff round navigation
+                if (isNFLPlayoffRound(window.selectedWeek)) {
+                    const nextRound = getNextNFLPlayoffRound(window.selectedWeek);
+                    if (nextRound) {
+                        window.selectedWeek = nextRound;
+                    }
+                    // If no next round (super-bowl), do nothing
+                } else if (window.selectedWeek === maxWeek) {
+                    // Week 18 -> Wild Card
+                    window.selectedWeek = 'wild-card';
+                } else if (window.selectedWeek < maxWeek) {
+                    window.selectedWeek++;
                 }
             } else {
                 if (window.selectedWeek < maxWeek) {
@@ -490,6 +554,9 @@ window.getTier = getTier;
                     loadingMessage = `loading bowl games...`;
                 } else if (window.selectedWeek === 'playoffs') {
                     loadingMessage = `loading playoff games...`;
+                } else if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
+                    const roundInfo = NFL_PLAYOFF_ROUNDS[window.selectedWeek];
+                    loadingMessage = `loading ${roundInfo.label.toLowerCase()}...`;
                 } else {
                     loadingMessage = `loading week ${window.selectedWeek}...`;
                 }
@@ -514,6 +581,9 @@ window.getTier = getTier;
                     message = `No completed bowl games yet for the ${window.selectedSeason} season.`;
                 } else if (window.selectedWeek === 'playoffs') {
                     message = `No completed playoff games yet for the ${window.selectedSeason} season.`;
+                } else if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
+                    const roundInfo = NFL_PLAYOFF_ROUNDS[window.selectedWeek];
+                    message = `No completed ${roundInfo.label} games yet for the ${window.selectedSeason} season.`;
                 } else {
                     message = `No games found for Week ${window.selectedWeek}, ${window.selectedSeason}.`;
                 }

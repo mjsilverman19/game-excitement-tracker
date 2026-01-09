@@ -4,6 +4,7 @@
  */
 
 import { getCurrentWeek } from '../utils/dates.js';
+import { NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound } from '../../../shared/algorithm-config.js';
 
 /**
  * Populates the week picker with season selector and week grid
@@ -102,5 +103,34 @@ export function populateWeekPicker() {
             document.getElementById('weekPicker').classList.remove('visible');
         });
         weekGrid.appendChild(playoffsItem);
+    }
+
+    // Add NFL playoff round options
+    if (window.selectedSport === 'NFL') {
+        // Display labels for the buttons (shorter versions for UI)
+        const roundLabels = {
+            'wild-card': 'Wild Card',
+            'divisional': 'Divisional',
+            'conference': 'Conference',
+            'super-bowl': 'Super Bowl'
+        };
+
+        Object.keys(NFL_PLAYOFF_ROUNDS).forEach(roundKey => {
+            const roundItem = document.createElement('div');
+            roundItem.className = 'week-item';
+            if (window.selectedWeek === roundKey) {
+                roundItem.classList.add('selected');
+            }
+            roundItem.textContent = roundLabels[roundKey];
+            roundItem.addEventListener('click', () => {
+                window.periodAverages = null;
+                window.selectedWeek = roundKey;
+                window.isInitialLoad = false;
+                window.updateUI();
+                window.loadGames();
+                document.getElementById('weekPicker').classList.remove('visible');
+            });
+            weekGrid.appendChild(roundItem);
+        });
     }
 }

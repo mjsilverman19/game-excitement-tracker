@@ -1,3 +1,5 @@
+import { NFL_PLAYOFF_ROUNDS, getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
+
 export function addDays(date, days) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
@@ -188,6 +190,20 @@ export function isCFBPostseason() {
   return month === 11 || month === 0;
 }
 
+export function isNFLPostseason() {
+  // NFL playoffs run from Wild Card weekend (early January) through Super Bowl (early February)
+  const now = new Date();
+  const month = now.getMonth();
+  const day = now.getDate();
+
+  // January (month 0): playoffs after ~Jan 10
+  if (month === 0 && day >= 10) return true;
+  // February (month 1): playoffs until ~Feb 15 (Super Bowl usually first Sunday in Feb)
+  if (month === 1 && day <= 15) return true;
+
+  return false;
+}
+
 async function staticFileExists(sport, season, weekOrDate) {
   const path = getStaticPath(sport, season, weekOrDate);
 
@@ -201,12 +217,56 @@ async function staticFileExists(sport, season, weekOrDate) {
 
 function getStaticPath(sport, season, weekOrDate) {
   const sportLower = sport.toLowerCase();
-  return `data/static/${sportLower}/${season}/${weekOrDate}.json`;
+  // NFL playoff rounds use the round name as the filename (e.g., wild-card.json)
+  // Regular weeks use week-XX format
+  let filename;
+  if (sport === 'NFL' && getNFLPlayoffRoundKeys().includes(weekOrDate)) {
+    filename = weekOrDate;
+  } else if (weekOrDate === 'bowls' || weekOrDate === 'playoffs') {
+    filename = weekOrDate;
+  } else if (typeof weekOrDate === 'number') {
+    filename = `week-${String(weekOrDate).padStart(2, '0')}`;
+  } else {
+    filename = weekOrDate;
+  }
+  return `data/static/${sportLower}/${season}/${filename}.json`;
 }
 
 export async function findLatestAvailable(sport, season) {
   console.log(`🔍 findLatestAvailable(${sport}, ${season})`);
 
+  // Check for NFL postseason
+  if (sport === 'NFL' && isNFLPostseason()) {
+    console.log('🏈 NFL postseason detected (Jan/Feb)');
+
+    const cached = getValidCache(sport, season);
+    const playoffRounds = getNFLPlayoffRoundKeys();
+
+    // Check if cached value is a playoff round
+    if (cached && playoffRounds.includes(cached.week)) {
+      console.log(`✅ Using cached playoff round: ${cached.week}`);
+      return { week: cached.week, fromCache: true };
+    }
+
+    if (cached && typeof cached.week === 'number') {
+      console.log(`⚠️ Ignoring cached regular season week ${cached.week} during postseason`);
+    }
+
+    // Check playoff rounds in reverse order (most recent first)
+    // super-bowl → conference → divisional → wild-card
+    console.log('🔎 Checking playoff rounds: super-bowl → conference → divisional → wild-card...');
+    const reversedRounds = [...playoffRounds].reverse();
+    for (const round of reversedRounds) {
+      if (await staticFileExists(sport, season, round)) {
+        console.log(`✅ Found ${round} data`);
+        return { week: round, fromCache: false };
+      }
+    }
+
+    console.log('⚠️ No playoff data found, falling back to regular season');
+  }
+
+  // Check for CFB postseason
   if (sport === 'CFB' && isCFBPostseason()) {
     console.log('🏈 CFB postseason detected (Dec/Jan)');
 

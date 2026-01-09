@@ -5,7 +5,7 @@
 
 import { fetchGames } from '../api/fetcher.js';
 import { analyzeGameEntertainment } from '../api/calculator.js';
-import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
+import { ALGORITHM_CONFIG, NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound, getNFLPlayoffRoundKeys } from '../shared/algorithm-config.js';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
@@ -27,6 +27,9 @@ const options = {
   until: null
 };
 
+// NFL playoff round values that should be kept as strings
+const NFL_PLAYOFF_WEEK_VALUES = ['wild-card', 'divisional', 'conference', 'super-bowl'];
+
 for (let i = 0; i < args.length; i++) {
   const arg = args[i];
   if (arg === '--sport' && i + 1 < args.length) {
@@ -35,7 +38,12 @@ for (let i = 0; i < args.length; i++) {
     options.season = parseInt(args[++i]);
   } else if (arg === '--week' && i + 1 < args.length) {
     const weekValue = args[++i];
-    options.week = (weekValue === 'bowls' || weekValue === 'playoffs') ? weekValue : parseInt(weekValue);
+    // Keep special values as strings, parse numbers
+    if (weekValue === 'bowls' || weekValue === 'playoffs' || NFL_PLAYOFF_WEEK_VALUES.includes(weekValue)) {
+      options.week = weekValue;
+    } else {
+      options.week = parseInt(weekValue);
+    }
   } else if (arg === '--date' && i + 1 < args.length) {
     options.date = args[++i];
   } else if (arg === '--until' && i + 1 < args.length) {
@@ -57,7 +65,9 @@ Usage: node scripts/generate-static.js [options]
 Options:
   --sport <NFL|CFB|NBA>    Sport to generate data for (required)
   --season <year>          Season year (required)
-  --week <number|bowls|playoffs>    Week number, 'bowls', or 'playoffs' for CFB postseason (required unless --all or NBA)
+  --week <number|round>    Week number or special value:
+                           - NFL: 1-18, wild-card, divisional, conference, super-bowl
+                           - CFB: 1-15, bowls, playoffs
   --date <YYYY-MM-DD>      Date for NBA games (required for NBA unless --all)
   --until <YYYY-MM-DD>     End date for NBA --all generation
   --all                    Generate all weeks/dates for the season
@@ -68,7 +78,10 @@ Examples:
   # Generate single week
   node scripts/generate-static.js --sport NFL --season 2025 --week 1
 
-  # Generate all NFL weeks for 2025
+  # Generate NFL Wild Card round
+  node scripts/generate-static.js --sport NFL --season 2024 --week wild-card
+
+  # Generate all NFL weeks including playoffs for 2025
   node scripts/generate-static.js --sport NFL --season 2025 --all
 
   # Generate CFB bowls
@@ -128,6 +141,9 @@ function getStaticFilePath(sport, season, weekOrDate) {
       weekStr = 'bowls';
     } else if (weekOrDate === 'playoffs') {
       weekStr = 'playoffs';
+    } else if (sport === 'NFL' && isNFLPlayoffRound(weekOrDate)) {
+      // NFL playoff rounds: wild-card.json, divisional.json, etc.
+      weekStr = weekOrDate;
     } else {
       weekStr = `week-${String(weekOrDate).padStart(2, '0')}`;
     }
@@ -152,7 +168,13 @@ async function generateStatic(sport, season, weekOrDate) {
 
     // Fetch games from ESPN API
     let games;
-    const seasonType = sport === 'CFB' && weekOrDate === 'bowls' ? '3' : '2';
+    // Determine seasonType: '3' for postseason, '2' for regular season
+    let seasonType = '2';
+    if (sport === 'CFB' && (weekOrDate === 'bowls' || weekOrDate === 'playoffs')) {
+      seasonType = '3';
+    } else if (sport === 'NFL' && isNFLPlayoffRound(weekOrDate)) {
+      seasonType = '3';
+    }
 
     if (sport === 'NBA') {
       games = await fetchGames(sport, season, null, seasonType, weekOrDate);
@@ -197,12 +219,19 @@ async function generateStatic(sport, season, weekOrDate) {
       metadata.week = weekOrDate;
 
       // Add bowl-specific metadata for CFB postseason
-      if (sport === 'CFB' && (weekOrDate === 'bowls' || seasonType === '3')) {
+      if (sport === 'CFB' && (weekOrDate === 'bowls' || weekOrDate === 'playoffs' || seasonType === '3')) {
         const playoffGames = validGames.filter(g => g.playoffRound !== null).length;
         const bowlGames = validGames.filter(g => g.bowlName !== null && g.playoffRound === null).length;
 
         metadata.playoffGames = playoffGames;
         metadata.bowlGames = bowlGames;
+        metadata.seasonType = '3';
+      }
+
+      // Add NFL playoff-specific metadata
+      if (sport === 'NFL' && isNFLPlayoffRound(weekOrDate)) {
+        const roundInfo = NFL_PLAYOFF_ROUNDS[weekOrDate];
+        metadata.playoffRound = roundInfo.label;
         metadata.seasonType = '3';
       }
     }
@@ -229,7 +258,7 @@ async function generateStatic(sport, season, weekOrDate) {
   }
 }
 
-// Generate all weeks for NFL (1-18) or CFB (1-15 + bowls)
+// Generate all weeks for NFL (1-18 + playoffs) or CFB (1-15 + bowls + playoffs)
 async function generateAllWeeks(sport, season) {
   const maxWeek = sport === 'NFL' ? 18 : 15;
   const weeks = Array.from({ length: maxWeek }, (_, i) => i + 1);
@@ -238,6 +267,11 @@ async function generateAllWeeks(sport, season) {
   if (sport === 'CFB') {
     weeks.push('bowls');
     weeks.push('playoffs');
+  }
+
+  // Add playoff rounds for NFL
+  if (sport === 'NFL') {
+    weeks.push(...getNFLPlayoffRoundKeys());
   }
 
   console.log(`\n🚀 Generating all ${sport} weeks for ${season} season...\n`);
