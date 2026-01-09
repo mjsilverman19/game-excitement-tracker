@@ -9,7 +9,7 @@
       "awayScore": 19,
       "excitement": 9.6,
       "breakdown": {
-        "tension": 9.92489471630824,
+        "tension": 9.056343180334288,
         "drama": 10,
         "finish": 10
       },
@@ -23,10 +23,10 @@
       "awayTeam": "Steelers",
       "homeScore": 22,
       "awayScore": 27,
-      "excitement": 8.9,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 7.498672528473389,
-        "drama": 8.806356318487786,
+        "tension": 5.897800815346486,
+        "drama": 9.19264994615928,
         "finish": 7.9387851493528485
       },
       "overtime": false,
@@ -39,27 +39,11 @@
       "awayTeam": "Bengals",
       "homeScore": 39,
       "awayScore": 34,
-      "excitement": 8.7,
+      "excitement": 8.6,
       "breakdown": {
-        "tension": 9.804734721156757,
-        "drama": 8.452544973931825,
+        "tension": 7.233790516375733,
+        "drama": 10,
         "finish": 5.577417918133539
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772792",
-      "homeTeam": "Buccaneers",
-      "awayTeam": "Saints",
-      "homeScore": 20,
-      "awayScore": 24,
-      "excitement": 7.9,
-      "breakdown": {
-        "tension": 7.351048492191157,
-        "drama": 7.433851644442341,
-        "finish": 5.456713110735593
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +55,27 @@
       "awayTeam": "Titans",
       "homeScore": 29,
       "awayScore": 31,
-      "excitement": 7.3,
+      "excitement": 7.9,
       "breakdown": {
-        "tension": 7.27268642674642,
-        "drama": 7.486345167643942,
+        "tension": 7.418055326503065,
+        "drama": 7.937969960840533,
         "finish": 4.738592621986706
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772792",
+      "homeTeam": "Buccaneers",
+      "awayTeam": "Saints",
+      "homeScore": 20,
+      "awayScore": 24,
+      "excitement": 7.5,
+      "breakdown": {
+        "tension": 4.889788274631762,
+        "drama": 7.991774521824002,
+        "finish": 5.456713110735593
       },
       "overtime": false,
       "bowlName": null,
@@ -87,10 +87,10 @@
       "awayTeam": "Texans",
       "homeScore": 10,
       "awayScore": 20,
-      "excitement": 6.9,
+      "excitement": 7.1,
       "breakdown": {
-        "tension": 7.603147043161629,
-        "drama": 7.545571861746981,
+        "tension": 7.995578354312335,
+        "drama": 7.665787282976025,
         "finish": 2.120942399188514
       },
       "overtime": false,
@@ -103,27 +103,11 @@
       "awayTeam": "Bears",
       "homeScore": 28,
       "awayScore": 21,
-      "excitement": 6.3,
+      "excitement": 5.6,
       "breakdown": {
-        "tension": 5.2658215932352554,
-        "drama": 5.804829212795588,
+        "tension": 2.737940523220037,
+        "drama": 5.650745866600139,
         "finish": 5.760000421941896
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772900",
-      "homeTeam": "Falcons",
-      "awayTeam": "Seahawks",
-      "homeScore": 9,
-      "awayScore": 37,
-      "excitement": 5.4,
-      "breakdown": {
-        "tension": 5.763786100027522,
-        "drama": 6.530906876539824,
-        "finish": 1.1052089089065145
       },
       "overtime": false,
       "bowlName": null,
@@ -135,10 +119,10 @@
       "awayTeam": "Broncos",
       "homeScore": 17,
       "awayScore": 24,
-      "excitement": 5.2,
+      "excitement": 4.6,
       "breakdown": {
-        "tension": 3.4504026571784885,
-        "drama": 3.5305861037162742,
+        "tension": 1.2809178738245641,
+        "drama": 3.374197749551167,
         "finish": 5.009018686232
       },
       "overtime": false,
@@ -151,11 +135,27 @@
       "awayTeam": "Cowboys",
       "homeScore": 44,
       "awayScore": 30,
-      "excitement": 5.1,
+      "excitement": 4.5,
       "breakdown": {
-        "tension": 4.284770687449766,
-        "drama": 5.505901267340809,
+        "tension": 2.4264156975857096,
+        "drama": 5.320653382271559,
         "finish": 3.762604444489004
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772900",
+      "homeTeam": "Falcons",
+      "awayTeam": "Seahawks",
+      "homeScore": 9,
+      "awayScore": 37,
+      "excitement": 4,
+      "breakdown": {
+        "tension": 3.5736182958048883,
+        "drama": 4.3950997524869795,
+        "finish": 1.1052089089065145
       },
       "overtime": false,
       "bowlName": null,
@@ -167,10 +167,10 @@
       "awayTeam": "Colts",
       "homeScore": 36,
       "awayScore": 19,
-      "excitement": 4.2,
+      "excitement": 3.9,
       "breakdown": {
-        "tension": 4.282306870489013,
-        "drama": 4.5220418633255814,
+        "tension": 3.1302144716222404,
+        "drama": 4.467825493143655,
         "finish": 1.8463027874524993
       },
       "overtime": false,
@@ -183,10 +183,10 @@
       "awayTeam": "Commanders",
       "homeScore": 31,
       "awayScore": 0,
-      "excitement": 3.8,
+      "excitement": 3.068485695355428,
       "breakdown": {
-        "tension": 3.9448076670112386,
-        "drama": 4.01650888345054,
+        "tension": 1.8600693644224775,
+        "drama": 2.7891099962187873,
         "finish": 1.264676889405841
       },
       "overtime": false,
@@ -199,10 +199,10 @@
       "awayTeam": "Rams",
       "homeScore": 17,
       "awayScore": 45,
-      "excitement": 3.7,
+      "excitement": 3,
       "breakdown": {
-        "tension": 3.339274725992439,
-        "drama": 3.520481708996947,
+        "tension": 1.7178477905035072,
+        "drama": 2.3792095842498573,
         "finish": 1.1050629727185146
       },
       "overtime": false,
@@ -215,10 +215,10 @@
       "awayTeam": "Dolphins",
       "homeScore": 10,
       "awayScore": 34,
-      "excitement": 3.1,
+      "excitement": 2.6,
       "breakdown": {
-        "tension": 2.197414327647851,
-        "drama": 2.46650732538669,
+        "tension": 0.4182089957226347,
+        "drama": 1.6720149493139647,
         "finish": 1.1065744866645146
       },
       "overtime": false,
@@ -232,8 +232,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:01:40.321Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:00:55.467Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "week": 14
   }

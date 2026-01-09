@@ -7,10 +7,10 @@
       "awayTeam": "Raptors",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 8.4,
+      "excitement": 8.5,
       "breakdown": {
-        "tension": 8.172243488040888,
-        "drama": 9.346594498637117,
+        "tension": 8.208896152175315,
+        "drama": 9.26146163824678,
         "finish": 8.256979316349497
       },
       "overtime": false,
@@ -23,10 +23,10 @@
       "awayTeam": "Mavericks",
       "homeScore": 94,
       "awayScore": 121,
-      "excitement": 6.9,
+      "excitement": 6.5,
       "breakdown": {
-        "tension": 6.327783232623384,
-        "drama": 7.328021395680177,
+        "tension": 5.079678564486832,
+        "drama": 7.145479754236321,
         "finish": 6.172060380916469
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Grizzlies",
       "homeScore": 145,
       "awayScore": 116,
-      "excitement": 6.6,
+      "excitement": 6.050554168670306,
       "breakdown": {
-        "tension": 5.667634844870568,
-        "drama": 7.789554799111549,
+        "tension": 3.6191756504760564,
+        "drama": 7.6400546431995835,
         "finish": 5.300099802337275
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Clippers",
       "homeScore": 91,
       "awayScore": 109,
-      "excitement": 4.8,
+      "excitement": 4.7,
       "breakdown": {
-        "tension": 4.493090222584292,
-        "drama": 6.248447136986125,
+        "tension": 3.8711530917884462,
+        "drama": 6.281730412191769,
         "finish": 1.855047301309775
       },
       "overtime": false,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:19.594Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:03:37.547Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-15"
   }

@@ -7,10 +7,10 @@
       "awayTeam": "Timberwolves",
       "homeScore": 114,
       "awayScore": 113,
-      "excitement": 9.1,
+      "excitement": 8.8,
       "breakdown": {
-        "tension": 9.463796698002795,
-        "drama": 9.901839962208896,
+        "tension": 6.566267313727746,
+        "drama": 10,
         "finish": 8.985582671441104
       },
       "overtime": false,
@@ -23,10 +23,10 @@
       "awayTeam": "Nets",
       "homeScore": 105,
       "awayScore": 113,
-      "excitement": 8.8,
+      "excitement": 8.5,
       "breakdown": {
-        "tension": 8.265850677457136,
-        "drama": 8.219699503318232,
+        "tension": 4.8405971744170735,
+        "drama": 9.880205096359546,
         "finish": 8.898336253751712
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Pelicans",
       "homeScore": 118,
       "awayScore": 115,
-      "excitement": 8.7,
+      "excitement": 8.5,
       "breakdown": {
-        "tension": 9.414718080083583,
-        "drama": 9.465848182087651,
+        "tension": 6.523246976666297,
+        "drama": 10,
         "finish": 8.363774639898992
       },
       "overtime": false,
@@ -55,27 +55,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 109,
       "awayScore": 112,
-      "excitement": 8.5,
+      "excitement": 8.4,
       "breakdown": {
-        "tension": 8.116599068131563,
-        "drama": 9.65669266724078,
+        "tension": 7.4918714846568175,
+        "drama": 9.69635522775371,
         "finish": 7.854578939597877
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401809797",
-      "homeTeam": "Jazz",
-      "awayTeam": "Thunder",
-      "homeScore": 112,
-      "awayScore": 144,
-      "excitement": 8.2,
-      "breakdown": {
-        "tension": 7.963651782109768,
-        "drama": 9.9040585459975,
-        "finish": 6.713677147408228
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +71,27 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 123,
       "awayScore": 127,
-      "excitement": 7.8,
+      "excitement": 8.1,
       "breakdown": {
-        "tension": 7.3416452774003105,
-        "drama": 9.112508395586907,
+        "tension": 6.812959385943643,
+        "drama": 9.06569067904792,
         "finish": 4.912045313129976
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809797",
+      "homeTeam": "Jazz",
+      "awayTeam": "Thunder",
+      "homeScore": 112,
+      "awayScore": 144,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 8.34765612449332,
+        "drama": 9.683526434312034,
+        "finish": 6.713677147408228
       },
       "overtime": false,
       "bowlName": null,
@@ -103,10 +103,10 @@
       "awayTeam": "Heat",
       "homeScore": 107,
       "awayScore": 143,
-      "excitement": 6.4,
+      "excitement": 4.775170055710074,
       "breakdown": {
-        "tension": 6.185540534390503,
-        "drama": 7.971213556577756,
+        "tension": 3.5672821106065102,
+        "drama": 5.45772672507591,
         "finish": 2.361376782603832
       },
       "overtime": false,
@@ -119,10 +119,10 @@
       "awayTeam": "Pacers",
       "homeScore": 120,
       "awayScore": 109,
-      "excitement": 5.1,
+      "excitement": 4.1,
       "breakdown": {
-        "tension": 3.985258041449198,
-        "drama": 4.985961957400168,
+        "tension": 0,
+        "drama": 4.810238274651973,
         "finish": 4.0236040821228825
       },
       "overtime": false,
@@ -135,10 +135,10 @@
       "awayTeam": "Wizards",
       "homeScore": 140,
       "awayScore": 110,
-      "excitement": 3,
+      "excitement": 2.626816050072849,
       "breakdown": {
-        "tension": 1.5995247116737232,
-        "drama": 1.84553554815904,
+        "tension": 0,
+        "drama": 1.2433753296393246,
         "finish": 2.2478756219069367
       },
       "overtime": false,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:43.030Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:05:09.538Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-21"
   }

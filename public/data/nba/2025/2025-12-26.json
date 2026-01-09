@@ -7,11 +7,27 @@
       "awayTeam": "Raptors",
       "homeScore": 138,
       "awayScore": 117,
-      "excitement": 8.8,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 8.571438673305021,
+        "tension": 9.144125927876605,
         "drama": 10,
         "finish": 8.664107753233449
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810284",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Suns",
+      "homeScore": 108,
+      "awayScore": 115,
+      "excitement": 8.5,
+      "breakdown": {
+        "tension": 8.741603801741592,
+        "drama": 10,
+        "finish": 8.014190836088842
       },
       "overtime": false,
       "bowlName": null,
@@ -23,9 +39,9 @@
       "awayTeam": "76ers",
       "homeScore": 109,
       "awayScore": 102,
-      "excitement": 8.5,
+      "excitement": 8.3,
       "breakdown": {
-        "tension": 8.678594555862652,
+        "tension": 7.575534765616661,
         "drama": 10,
         "finish": 7.920471788581672
       },
@@ -39,27 +55,11 @@
       "awayTeam": "Pistons",
       "homeScore": 131,
       "awayScore": 129,
-      "excitement": 8.5,
+      "excitement": 8.3,
       "breakdown": {
-        "tension": 7.869829620453049,
-        "drama": 7.445542216930041,
+        "tension": 4.187908145218675,
+        "drama": 9.377645816980738,
         "finish": 8.274318659855254
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810284",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Suns",
-      "homeScore": 108,
-      "awayScore": 115,
-      "excitement": 8.4,
-      "breakdown": {
-        "tension": 8.122316494733516,
-        "drama": 10,
-        "finish": 8.014190836088842
       },
       "overtime": false,
       "bowlName": null,
@@ -71,10 +71,10 @@
       "awayTeam": "Heat",
       "homeScore": 111,
       "awayScore": 126,
-      "excitement": 8.1,
+      "excitement": 8,
       "breakdown": {
-        "tension": 8.310424255138855,
-        "drama": 9.576801749277642,
+        "tension": 8.379939379651448,
+        "drama": 9.322638217110223,
         "finish": 6.616003013297692
       },
       "overtime": false,
@@ -87,10 +87,10 @@
       "awayTeam": "Clippers",
       "homeScore": 103,
       "awayScore": 119,
-      "excitement": 8.1,
+      "excitement": 7.7,
       "breakdown": {
-        "tension": 8.47446882765676,
-        "drama": 8.69164327929491,
+        "tension": 5.109538436696114,
+        "drama": 10,
         "finish": 6.790117888259494
       },
       "overtime": false,
@@ -103,10 +103,10 @@
       "awayTeam": "Hornets",
       "homeScore": 105,
       "awayScore": 120,
-      "excitement": 7.2,
+      "excitement": 6.7,
       "breakdown": {
-        "tension": 6.893844538523134,
-        "drama": 7.763038175675298,
+        "tension": 4.366925151135065,
+        "drama": 8.019480469377719,
         "finish": 5.028015495265789
       },
       "overtime": false,
@@ -119,10 +119,10 @@
       "awayTeam": "Bucks",
       "homeScore": 125,
       "awayScore": 104,
-      "excitement": 6.6,
+      "excitement": 6.5,
       "breakdown": {
-        "tension": 7.15485647326555,
-        "drama": 7.815064642264563,
+        "tension": 6.5315421975827785,
+        "drama": 7.929511527508851,
         "finish": 4.061739958548542
       },
       "overtime": false,
@@ -137,8 +137,8 @@
       "awayScore": 140,
       "excitement": 6.2,
       "breakdown": {
-        "tension": 6.539422467418374,
-        "drama": 7.3213669797990875,
+        "tension": 6.471750389292845,
+        "drama": 7.425743607225767,
         "finish": 3.2594891438647933
       },
       "overtime": false,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:03:05.850Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:06:28.838Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-26"
   }

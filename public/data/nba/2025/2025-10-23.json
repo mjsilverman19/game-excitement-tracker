@@ -9,8 +9,8 @@
       "awayScore": 131,
       "excitement": 8.9,
       "breakdown": {
-        "tension": 9.059194759100759,
-        "drama": 8.479139692286754,
+        "tension": 6.7403004411164025,
+        "drama": 10,
         "finish": 8.524934104499517
       },
       "overtime": true,
@@ -23,10 +23,10 @@
       "awayTeam": "Thunder",
       "homeScore": 135,
       "awayScore": 141,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 8.569764774535384,
-        "drama": 9.097897785998052,
+        "tension": 8.607001614240897,
+        "drama": 8.848664813326744,
         "finish": 6.546798103041196
       },
       "overtime": true,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:24.877Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:03:48.982Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-23"
   }

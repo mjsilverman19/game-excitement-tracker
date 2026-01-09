@@ -9,8 +9,8 @@
       "awayScore": 100,
       "excitement": 9,
       "breakdown": {
-        "tension": 9.544142794714947,
-        "drama": 9.689750380404261,
+        "tension": 9.065762993840467,
+        "drama": 10,
         "finish": 8.689494361000717
       },
       "overtime": false,
@@ -23,10 +23,10 @@
       "awayTeam": "Nuggets",
       "homeScore": 112,
       "awayScore": 123,
-      "excitement": 8.6,
+      "excitement": 8.5,
       "breakdown": {
-        "tension": 8.288142809748951,
-        "drama": 9.734470325707017,
+        "tension": 8.313952434427843,
+        "drama": 9.576695952631571,
         "finish": 8.956643159348221
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Raptors",
       "homeScore": 111,
       "awayScore": 129,
-      "excitement": 6.2,
+      "excitement": 6,
       "breakdown": {
-        "tension": 6.604827090369363,
-        "drama": 7.333528669022253,
+        "tension": 5.618680304959707,
+        "drama": 7.2976509400790395,
         "finish": 3.3386010351880797
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Lakers",
       "homeScore": 95,
       "awayScore": 119,
-      "excitement": 5.4,
+      "excitement": 3.912332410911694,
       "breakdown": {
-        "tension": 4.755746215388586,
-        "drama": 6.937028208083198,
+        "tension": 2.0174473743502297,
+        "drama": 4.773871516867329,
         "finish": 1.696168771699856
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "Thunder",
       "homeScore": 96,
       "awayScore": 109,
-      "excitement": 4.8,
+      "excitement": 3.9,
       "breakdown": {
-        "tension": 4.061812000651756,
-        "drama": 5.464219811065707,
+        "tension": 0.35498812564241033,
+        "drama": 5.24577094578475,
         "finish": 2.4706726768966574
       },
       "overtime": false,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:39.542Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:04:51.870Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-15"
   }

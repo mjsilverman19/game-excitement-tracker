@@ -9,9 +9,25 @@
       "awayScore": 120,
       "excitement": 9.1,
       "breakdown": {
-        "tension": 9.260169338525591,
+        "tension": 9.262918748257684,
         "drama": 10,
         "finish": 8.980769164758485
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810370",
+      "homeTeam": "Kings",
+      "awayTeam": "Mavericks",
+      "homeScore": 98,
+      "awayScore": 100,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 9.00206540769289,
+        "drama": 9.95195676651817,
+        "finish": 8.322596683811204
       },
       "overtime": false,
       "bowlName": null,
@@ -25,41 +41,9 @@
       "awayScore": 111,
       "excitement": 8.7,
       "breakdown": {
-        "tension": 8.417497551601322,
-        "drama": 9.162828898965142,
+        "tension": 7.478883252714544,
+        "drama": 9.879728623017735,
         "finish": 8.956643159348221
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810370",
-      "homeTeam": "Kings",
-      "awayTeam": "Mavericks",
-      "homeScore": 98,
-      "awayScore": 100,
-      "excitement": 8.7,
-      "breakdown": {
-        "tension": 8.553032007716267,
-        "drama": 9.86949728384915,
-        "finish": 8.322596683811204
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810368",
-      "homeTeam": "Timberwolves",
-      "awayTeam": "Heat",
-      "homeScore": 122,
-      "awayScore": 94,
-      "excitement": 7.4,
-      "breakdown": {
-        "tension": 7.668962233002618,
-        "drama": 9.047060684155305,
-        "finish": 5.000385285746337
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +55,27 @@
       "awayTeam": "Magic",
       "homeScore": 120,
       "awayScore": 112,
-      "excitement": 7.1,
+      "excitement": 7,
       "breakdown": {
-        "tension": 7.343748779535637,
-        "drama": 8.662778006377232,
+        "tension": 6.139904562751286,
+        "drama": 8.902895861120838,
         "finish": 2.671986642487883
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810368",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Heat",
+      "homeScore": 122,
+      "awayScore": 94,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 7.442081977628878,
+        "drama": 8.8660326761882,
+        "finish": 5.000385285746337
       },
       "overtime": false,
       "bowlName": null,
@@ -87,10 +87,10 @@
       "awayTeam": "Spurs",
       "homeScore": 106,
       "awayScore": 105,
-      "excitement": 6.8,
+      "excitement": 6.4,
       "breakdown": {
-        "tension": 5.734083013002036,
-        "drama": 6.554701975986648,
+        "tension": 2.849422550453933,
+        "drama": 6.357426719032969,
         "finish": 5.820907949626731
       },
       "overtime": false,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T10:31:34.293Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:06:57.466Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-06"
   }

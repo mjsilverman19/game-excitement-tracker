@@ -7,10 +7,10 @@
       "awayTeam": "Heat",
       "homeScore": 119,
       "awayScore": 118,
-      "excitement": 9.1,
+      "excitement": 9,
       "breakdown": {
-        "tension": 9.819333091795516,
-        "drama": 9.558459494015837,
+        "tension": 8.247111866453565,
+        "drama": 10,
         "finish": 8.961476193590991
       },
       "overtime": true,
@@ -25,8 +25,8 @@
       "awayScore": 124,
       "excitement": 8.6,
       "breakdown": {
-        "tension": 9.276021360682464,
-        "drama": 9.857927522251495,
+        "tension": 9.016431415470949,
+        "drama": 10,
         "finish": 8.425210535561268
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Mavericks",
       "homeScore": 101,
       "awayScore": 114,
-      "excitement": 7.9,
+      "excitement": 7.8,
       "breakdown": {
-        "tension": 8.166979537688551,
-        "drama": 9.42367595006866,
+        "tension": 7.818265622998625,
+        "drama": 9.15934577294466,
         "finish": 5.231048773408228
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Wizards",
       "homeScore": 103,
       "awayScore": 120,
-      "excitement": 4.7,
+      "excitement": 4.4,
       "breakdown": {
-        "tension": 4.202454186648436,
-        "drama": 6.088255198924994,
+        "tension": 3.2065309228671968,
+        "drama": 5.995218667236569,
         "finish": 1.6380114840992146
       },
       "overtime": false,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 5,
     "insufficientData": 1,
-    "generatedAt": "2026-01-07T03:02:18.389Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:03:34.350Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-13"
   }

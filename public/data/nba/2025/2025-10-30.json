@@ -9,7 +9,7 @@
       "awayScore": 110,
       "excitement": 8.7,
       "breakdown": {
-        "tension": 9.287478596423718,
+        "tension": 9.619350543055603,
         "drama": 10,
         "finish": 8.392720997945263
       },
@@ -23,10 +23,10 @@
       "awayTeam": "Heat",
       "homeScore": 107,
       "awayScore": 101,
-      "excitement": 8.2,
+      "excitement": 8.4,
       "breakdown": {
-        "tension": 8.282280130029427,
-        "drama": 9.248376336144815,
+        "tension": 8.455701624151153,
+        "drama": 8.992202179449377,
         "finish": 6.60228103656414
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 123,
-      "excitement": 5.4,
+      "excitement": 4.4,
       "breakdown": {
-        "tension": 4.744853878361688,
-        "drama": 6.0234169254168455,
+        "tension": 1.1557280480594323,
+        "drama": 5.834522629110487,
         "finish": 3.649485277053506
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Wizards",
       "homeScore": 127,
       "awayScore": 108,
-      "excitement": 3.3,
+      "excitement": 2.8,
       "breakdown": {
-        "tension": 1.9553838523549472,
-        "drama": 2.2494827330876954,
+        "tension": 0,
+        "drama": 1.5109443511886298,
         "finish": 2.428265022176286
       },
       "overtime": false,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:29.843Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:04:10.710Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-30"
   }

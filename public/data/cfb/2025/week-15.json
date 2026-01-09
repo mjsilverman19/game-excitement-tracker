@@ -2,35 +2,35 @@
   "success": true,
   "games": [
     {
-      "id": "401777328",
-      "homeTeam": "Virginia",
-      "awayTeam": "Duke",
-      "homeScore": 20,
-      "awayScore": 27,
-      "excitement": 9.3,
-      "breakdown": {
-        "tension": 7.030196887035186,
-        "drama": 8.718245160752419,
-        "finish": 10
-      },
-      "overtime": true,
-      "bowlName": "ACC Championship",
-      "playoffRound": null
-    },
-    {
       "id": "401777353",
       "homeTeam": "Ohio State",
       "awayTeam": "Indiana",
       "homeScore": 10,
       "awayScore": 13,
-      "excitement": 8.8,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 8.380418336917538,
-        "drama": 8.658556911035783,
+        "tension": 8.932705198809197,
+        "drama": 8.853846001523086,
         "finish": 8.615273708264002
       },
       "overtime": false,
       "bowlName": "Big Ten Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777328",
+      "homeTeam": "Virginia",
+      "awayTeam": "Duke",
+      "homeScore": 20,
+      "awayScore": 27,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 7.2793604250303385,
+        "drama": 8.852617637661343,
+        "finish": 10
+      },
+      "overtime": true,
+      "bowlName": "ACC Championship",
       "playoffRound": null
     },
     {
@@ -39,30 +39,14 @@
       "awayTeam": "Georgia",
       "homeScore": 7,
       "awayScore": 28,
-      "excitement": 5.4,
+      "excitement": 5.1,
       "breakdown": {
-        "tension": 3.6220320261114383,
-        "drama": 4.5102010790057045,
+        "tension": 2.5191274532888275,
+        "drama": 4.698359140890403,
         "finish": 5.025910656128
       },
       "overtime": false,
       "bowlName": "SEC Championship",
-      "playoffRound": null
-    },
-    {
-      "id": "401777327",
-      "homeTeam": "Texas Tech",
-      "awayTeam": "BYU",
-      "homeScore": 34,
-      "awayScore": 7,
-      "excitement": 4.6,
-      "breakdown": {
-        "tension": 5.057750902065279,
-        "drama": 4.741499274087049,
-        "finish": 2.2508570116211364
-      },
-      "overtime": false,
-      "bowlName": "Big 12 Championship",
       "playoffRound": null
     },
     {
@@ -71,14 +55,30 @@
       "awayTeam": "North Texas",
       "homeScore": 34,
       "awayScore": 21,
-      "excitement": 4.3,
+      "excitement": 4,
       "breakdown": {
-        "tension": 4.174755586085977,
-        "drama": 4.761185632512372,
+        "tension": 3.0283885477659913,
+        "drama": 4.889025122388349,
         "finish": 1.7029873575783805
       },
       "overtime": false,
       "bowlName": "American Championship",
+      "playoffRound": null
+    },
+    {
+      "id": "401777327",
+      "homeTeam": "Texas Tech",
+      "awayTeam": "BYU",
+      "homeScore": 34,
+      "awayScore": 7,
+      "excitement": 3.5,
+      "breakdown": {
+        "tension": 2.422173025735693,
+        "drama": 3.219356047464993,
+        "finish": 2.2508570116211364
+      },
+      "overtime": false,
+      "bowlName": "Big 12 Championship",
       "playoffRound": null
     },
     {
@@ -87,10 +87,10 @@
       "awayTeam": "Troy",
       "homeScore": 31,
       "awayScore": 14,
-      "excitement": 4,
+      "excitement": 3.4,
       "breakdown": {
-        "tension": 2.47085562301545,
-        "drama": 3.0303047648049173,
+        "tension": 0,
+        "drama": 2.9071878264972795,
         "finish": 4.278692130993062
       },
       "overtime": false,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T13:43:34.465Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:02:45.651Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "week": 15
   }

@@ -7,10 +7,10 @@
       "awayTeam": "Celtics",
       "homeScore": 106,
       "awayScore": 120,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 8.20879606754097,
-        "drama": 10,
+        "tension": 8.95953102285599,
+        "drama": 9.878861882020331,
         "finish": 8.9903923056295
       },
       "overtime": false,
@@ -23,10 +23,10 @@
       "awayTeam": "Heat",
       "homeScore": 112,
       "awayScore": 118,
-      "excitement": 7.5,
+      "excitement": 8.1,
       "breakdown": {
-        "tension": 8.086902686678236,
-        "drama": 8.790954795632071,
+        "tension": 8.779075863232217,
+        "drama": 9.09446544750461,
         "finish": 3.0313424833187854
       },
       "overtime": false,
@@ -41,8 +41,8 @@
       "awayScore": 123,
       "excitement": 6.8,
       "breakdown": {
-        "tension": 7.131847159812467,
-        "drama": 7.826892273859156,
+        "tension": 6.385616108876655,
+        "drama": 8.254725586354137,
         "finish": 4.288111617775907
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Jazz",
       "homeScore": 118,
       "awayScore": 101,
-      "excitement": 5.8,
+      "excitement": 5.3,
       "breakdown": {
-        "tension": 3.346816380484634,
-        "drama": 5.0971088079126945,
+        "tension": 1.2856099756574935,
+        "drama": 5.002628150146558,
         "finish": 7.2952985351008675
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "Rockets",
       "homeScore": 96,
       "awayScore": 120,
-      "excitement": 3.5,
+      "excitement": 2.802996925988724,
       "breakdown": {
-        "tension": 2.4591506810393735,
-        "drama": 3.369177734188241,
+        "tension": 0,
+        "drama": 2.243764088432264,
         "finish": 2.1547040517655973
       },
       "overtime": false,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:03:09.775Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:06:44.614Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-01"
   }
