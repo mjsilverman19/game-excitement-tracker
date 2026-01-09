@@ -1,6 +1,7 @@
 // Streamlined Games API Endpoint
 import { fetchGames, fetchSingleGame } from './fetcher.js';
 import { analyzeGameEntertainment } from './calculator.js';
+import { NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound } from '../shared/algorithm-config.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -61,12 +62,20 @@ export default async function handler(req, res) {
       actualSeasonType = '3';
     }
 
+    // For NFL playoff rounds, set seasonType to 3 (postseason)
+    if (sport === 'NFL' && isNFLPlayoffRound(week)) {
+      actualSeasonType = '3';
+    }
+
     if (sport === 'NBA') {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
     } else if (week === 'bowls') {
       console.log(`Fetching ${sport} bowl games for ${season} season`);
     } else if (week === 'playoffs') {
       console.log(`Fetching ${sport} playoff games for ${season} season`);
+    } else if (sport === 'NFL' && isNFLPlayoffRound(week)) {
+      const roundInfo = NFL_PLAYOFF_ROUNDS[week];
+      console.log(`Fetching NFL ${roundInfo.label} for ${season} season`);
     } else {
       console.log(`Fetching ${sport} games for Week ${week}, ${season} (Season Type: ${actualSeasonType})`);
     }
@@ -121,6 +130,13 @@ export default async function handler(req, res) {
 
       metadata.playoffGames = playoffGames;
       metadata.bowlGames = bowlGames;
+      metadata.seasonType = '3';
+    }
+
+    // Add NFL playoff-specific metadata
+    if (sport === 'NFL' && isNFLPlayoffRound(week)) {
+      const roundInfo = NFL_PLAYOFF_ROUNDS[week];
+      metadata.playoffRound = roundInfo.label;
       metadata.seasonType = '3';
     }
 

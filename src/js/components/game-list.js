@@ -137,11 +137,11 @@ export function createGameRow(game, index) {
     }
     const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
 
-    // Build bowl/playoff info for CFB postseason
+    // Build bowl/playoff info for postseason games
     let bowlInfo = '';
     if (window.selectedSport === 'CFB' && (game.bowlName || game.playoffRound)) {
         if (game.playoffRound) {
-            // Format playoff games based on round
+            // Format CFB playoff games based on round
             if (game.playoffRound === 'Championship') {
                 bowlInfo = `<div class="bowl-info playoff">CFP National Championship</div>`;
             } else if (game.playoffRound === 'First Round') {
@@ -157,6 +157,9 @@ export function createGameRow(game, index) {
             // Regular bowl game - just the bowl name
             bowlInfo = `<div class="bowl-info">${game.bowlName}</div>`;
         }
+    } else if (window.selectedSport === 'NFL' && game.playoffRound) {
+        // NFL playoff games - show the round label
+        bowlInfo = `<div class="bowl-info playoff">${game.playoffRound}</div>`;
     }
 
     return `

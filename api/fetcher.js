@@ -1,5 +1,7 @@
 // Simplified ESPN Data Fetcher
 
+import { NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound } from '../shared/algorithm-config.js';
+
 export async function fetchGames(sport, season, week, seasonType = '2', date = null) {
   try {
     // Handle NBA date-based fetching
@@ -9,7 +11,8 @@ export async function fetchGames(sport, season, week, seasonType = '2', date = n
 
     // Handle NFL/CFB week-based fetching
     const league = sport === 'CFB' ? 'college-football' : 'nfl';
-    const usesSiteAPI = season >= 2025;
+    // Use Site API for 2025+ or for NFL playoff rounds (better data)
+    const usesSiteAPI = season >= 2025 || (sport === 'NFL' && isNFLPlayoffRound(week));
 
     let games = [];
 
@@ -32,9 +35,17 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
     : 'https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard';
 
   let url;
+  const sport = league === 'nfl' ? 'NFL' : 'CFB';
 
+  // For NFL playoff rounds, fetch specific round
+  if (league === 'nfl' && isNFLPlayoffRound(week)) {
+    const roundInfo = NFL_PLAYOFF_ROUNDS[week];
+    const espnWeek = roundInfo.espnWeek;
+    // Use seasontype=3 for postseason, no dates param needed
+    url = `${baseUrl}?limit=100&week=${espnWeek}&seasontype=3`;
+  }
   // For CFB postseason (bowls or playoffs), fetch all postseason games
-  if (league === 'college-football' && (week === 'bowls' || week === 'playoffs' || seasonType === '3')) {
+  else if (league === 'college-football' && (week === 'bowls' || week === 'playoffs' || seasonType === '3')) {
     // Fetch all postseason games for the season
     // Bowl season spans mid-December through mid-January
     const bowlStartDate = `${season}1214`; // December 14
@@ -50,8 +61,9 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
 
   const data = await response.json();
 
-  const sport = league === 'nfl' ? 'NFL' : 'CFB';
-  return (data.events || []).map(event => parseEvent(event, sport));
+  // Pass the requested week for NFL playoff round parsing
+  const requestedRound = (sport === 'NFL' && isNFLPlayoffRound(week)) ? week : null;
+  return (data.events || []).map(event => parseEvent(event, sport, requestedRound));
 }
 
 async function fetchFromCoreAPI(league, season, week, seasonType) {
@@ -103,7 +115,7 @@ async function fetchNBAGames(date) {
   return games.filter(game => game.completed);
 }
 
-function parseEvent(event, sport = 'NFL') {
+function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
   const competition = event.competitions?.[0] || event;
   const competitors = competition.competitors || [];
 
@@ -116,9 +128,15 @@ function parseEvent(event, sport = 'NFL') {
   // Football: period > 4, Basketball: period > 4 (regulation is 4 quarters)
   const overtime = competition.status?.period > 4;
 
-  // Parse bowl name and playoff round for CFB postseason
+  // Parse bowl name and playoff round for postseason
   let bowlName = null;
   let playoffRound = null;
+
+  // For NFL playoff games, set the round based on what was requested
+  if (sport === 'NFL' && nflPlayoffRound) {
+    const roundInfo = NFL_PLAYOFF_ROUNDS[nflPlayoffRound];
+    playoffRound = roundInfo.label;
+  }
 
   if (sport === 'CFB') {
     const notes = competition.notes || [];
