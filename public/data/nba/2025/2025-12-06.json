@@ -9,8 +9,8 @@
       "awayScore": 109,
       "excitement": 8.7,
       "breakdown": {
-        "tension": 9.05574807079126,
-        "drama": 9.891754825676355,
+        "tension": 9.367833372988523,
+        "drama": 10,
         "finish": 6.737939232150275
       },
       "overtime": false,
@@ -25,8 +25,8 @@
       "awayScore": 99,
       "excitement": 8.2,
       "breakdown": {
-        "tension": 8.220253337235455,
-        "drama": 7.732734580813922,
+        "tension": 5.773186079154903,
+        "drama": 8.907944685681617,
         "finish": 6.973440801726492
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Clippers",
       "homeScore": 109,
       "awayScore": 106,
-      "excitement": 7.9,
+      "excitement": 7.5,
       "breakdown": {
-        "tension": 6.580597975419365,
-        "drama": 8.0569053554615,
+        "tension": 3.9445215057096528,
+        "drama": 8.026740205240888,
         "finish": 7.785056196088842
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Kings",
       "homeScore": 111,
       "awayScore": 127,
-      "excitement": 6.6,
+      "excitement": 6.9,
       "breakdown": {
-        "tension": 7.020749436445888,
-        "drama": 7.684460202454907,
+        "tension": 6.913823639992051,
+        "drama": 8.373342193175478,
         "finish": 2.6633876931519453
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "Bucks",
       "homeScore": 124,
       "awayScore": 112,
-      "excitement": 5.5,
+      "excitement": 4.5,
       "breakdown": {
-        "tension": 4.4786940371455755,
-        "drama": 6.126825196697005,
+        "tension": 0.6283287316248864,
+        "drama": 5.916125850170096,
         "finish": 3.6206967291880803
       },
       "overtime": false,
@@ -87,10 +87,10 @@
       "awayTeam": "Pelicans",
       "homeScore": 119,
       "awayScore": 101,
-      "excitement": 4.2,
+      "excitement": 3.9,
       "breakdown": {
-        "tension": 3.8030345574654403,
-        "drama": 5.251384717838031,
+        "tension": 2.26222308710606,
+        "drama": 5.1262719523022495,
         "finish": 1.4407083631206248
       },
       "overtime": false,
@@ -103,10 +103,10 @@
       "awayTeam": "Hawks",
       "homeScore": 116,
       "awayScore": 131,
-      "excitement": 3.4,
+      "excitement": 3,
       "breakdown": {
-        "tension": 2.112291020455024,
-        "drama": 2.76587137080049,
+        "tension": 0,
+        "drama": 2.675269928005378,
         "finish": 2.364517808654729
       },
       "overtime": false,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:52.954Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:05:48.987Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-06"
   }

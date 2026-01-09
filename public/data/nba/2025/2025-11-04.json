@@ -7,9 +7,9 @@
       "awayTeam": "Thunder",
       "homeScore": 107,
       "awayScore": 126,
-      "excitement": 8.7,
+      "excitement": 8.8,
       "breakdown": {
-        "tension": 9.467109175695372,
+        "tension": 9.836088325436075,
         "drama": 10,
         "finish": 8.9903923056295
       },
@@ -23,10 +23,10 @@
       "awayTeam": "Hornets",
       "homeScore": 116,
       "awayScore": 112,
-      "excitement": 8.5,
+      "excitement": 8.4,
       "breakdown": {
-        "tension": 9.190384355027955,
-        "drama": 9.276643727132049,
+        "tension": 6.970325336601569,
+        "drama": 10,
         "finish": 7.561997301424192
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Magic",
       "homeScore": 127,
       "awayScore": 112,
-      "excitement": 6.1,
+      "excitement": 5.7,
       "breakdown": {
-        "tension": 5.8503779686396875,
-        "drama": 7.972537545351522,
+        "tension": 4.160864653111206,
+        "drama": 7.873739218867801,
         "finish": 2.915019649875897
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Bucks",
       "homeScore": 128,
       "awayScore": 100,
-      "excitement": 5.8,
+      "excitement": 4.199976749442841,
       "breakdown": {
-        "tension": 5.675261412009569,
-        "drama": 7.641199843179673,
+        "tension": 2.4708569948712116,
+        "drama": 5.239172938874754,
         "finish": 2.6806754778005093
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "76ers",
       "homeScore": 113,
       "awayScore": 111,
-      "excitement": 3.6,
+      "excitement": 3.8,
       "breakdown": {
-        "tension": 2.388502311215308,
-        "drama": 3.5575546321857776,
+        "tension": 0.7928477399537681,
+        "drama": 3.4561672242154744,
         "finish": 1.5701229057867743
       },
       "overtime": false,
@@ -87,10 +87,10 @@
       "awayTeam": "Suns",
       "homeScore": 118,
       "awayScore": 107,
-      "excitement": 3.3,
+      "excitement": 3,
       "breakdown": {
-        "tension": 2.1216579817224135,
-        "drama": 2.8592718125369143,
+        "tension": 0.03834243037265206,
+        "drama": 2.7609221899863474,
         "finish": 1.737057738881892
       },
       "overtime": false,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:32.846Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:04:23.129Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-04"
   }

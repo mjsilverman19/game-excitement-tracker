@@ -7,10 +7,10 @@
       "awayTeam": "76ers",
       "homeScore": 107,
       "awayScore": 116,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 8.64557383267648,
-        "drama": 9.904356693617482,
+        "tension": 9.122997818888157,
+        "drama": 9.93932278886524,
         "finish": 8.903217310294192
       },
       "overtime": false,
@@ -23,10 +23,10 @@
       "awayTeam": "Heat",
       "homeScore": 129,
       "awayScore": 116,
-      "excitement": 8.5,
+      "excitement": 8.6,
       "breakdown": {
-        "tension": 8.184005535941075,
-        "drama": 9.502595971600577,
+        "tension": 8.831184821071483,
+        "drama": 9.493400900248968,
         "finish": 8.917836132041682
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Bulls",
       "homeScore": 125,
       "awayScore": 136,
-      "excitement": 8.2,
+      "excitement": 7.9,
       "breakdown": {
-        "tension": 8.205134293020068,
-        "drama": 8.013663605713363,
+        "tension": 5.041445555748427,
+        "drama": 9.198878651664746,
         "finish": 6.018136982042716
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Thunder",
       "homeScore": 112,
       "awayScore": 107,
-      "excitement": 7.6,
+      "excitement": 7.2,
       "breakdown": {
-        "tension": 5.579695640989042,
-        "drama": 7.4604072541870705,
+        "tension": 3.390577213737483,
+        "drama": 7.307260329091918,
         "finish": 8.789899632687208
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "Spurs",
       "homeScore": 98,
       "awayScore": 126,
-      "excitement": 4.1,
+      "excitement": 3.2728938754019894,
       "breakdown": {
-        "tension": 3.290573189510968,
-        "drama": 5.191010547355331,
+        "tension": 1.4060093481486522,
+        "drama": 3.5105233015768627,
         "finish": 1.8193886837481164
       },
       "overtime": false,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:03:01.653Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:06:10.461Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-19"
   }

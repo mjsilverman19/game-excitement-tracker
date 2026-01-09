@@ -9,7 +9,7 @@
       "awayScore": 103,
       "excitement": 9.1,
       "breakdown": {
-        "tension": 9.771788292446033,
+        "tension": 9.475155243460307,
         "drama": 10,
         "finish": 10
       },
@@ -23,27 +23,11 @@
       "awayTeam": "Hawks",
       "homeScore": 99,
       "awayScore": 98,
-      "excitement": 8.8,
+      "excitement": 9,
       "breakdown": {
-        "tension": 9.134997468614031,
-        "drama": 9.492780136722455,
+        "tension": 9.949351426691958,
+        "drama": 9.927987582617229,
         "finish": 8.932418678536333
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810171",
-      "homeTeam": "Jazz",
-      "awayTeam": "Rockets",
-      "homeScore": 133,
-      "awayScore": 125,
-      "excitement": 8.3,
-      "breakdown": {
-        "tension": 7.24678482466478,
-        "drama": 8.16239988914331,
-        "finish": 6.838440923197245
       },
       "overtime": false,
       "bowlName": null,
@@ -57,9 +41,25 @@
       "awayScore": 120,
       "excitement": 8.2,
       "breakdown": {
-        "tension": 7.658811979279931,
-        "drama": 8.008540790190759,
+        "tension": 5.082429727062054,
+        "drama": 9.083580704346383,
         "finish": 6.708819280162544
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810171",
+      "homeTeam": "Jazz",
+      "awayTeam": "Rockets",
+      "homeScore": 133,
+      "awayScore": 125,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 3.524646318081961,
+        "drama": 9.452206299102885,
+        "finish": 6.838440923197245
       },
       "overtime": false,
       "bowlName": null,
@@ -71,10 +71,10 @@
       "awayTeam": "Mavericks",
       "homeScore": 121,
       "awayScore": 131,
-      "excitement": 6.8,
+      "excitement": 6.5,
       "breakdown": {
-        "tension": 3.8638265956832605,
-        "drama": 6.29974465075307,
+        "tension": 2.5652012569718377,
+        "drama": 6.1908112811615705,
         "finish": 8.723337581766785
       },
       "overtime": false,
@@ -87,10 +87,10 @@
       "awayTeam": "Suns",
       "homeScore": 108,
       "awayScore": 125,
-      "excitement": 6.3,
+      "excitement": 5.7,
       "breakdown": {
-        "tension": 6.30388419518625,
-        "drama": 7.06671240725633,
+        "tension": 3.298510919019307,
+        "drama": 7.763911419677147,
         "finish": 3.0089257310147226
       },
       "overtime": false,
@@ -103,10 +103,10 @@
       "awayTeam": "Bucks",
       "homeScore": 129,
       "awayScore": 126,
-      "excitement": 6,
+      "excitement": 5.5,
       "breakdown": {
-        "tension": 4.735565488840248,
-        "drama": 6.372694413562256,
+        "tension": 0.8249244940893574,
+        "drama": 6.158849777674822,
         "finish": 4.141030978808344
       },
       "overtime": false,
@@ -119,10 +119,10 @@
       "awayTeam": "Clippers",
       "homeScore": 140,
       "awayScore": 123,
-      "excitement": 4.5,
+      "excitement": 3.9,
       "breakdown": {
-        "tension": 4.033968473611498,
-        "drama": 5.46907186918459,
+        "tension": 1.8285694478988879,
+        "drama": 5.243134526036559,
         "finish": 1.8044401564878831
       },
       "overtime": false,
@@ -135,10 +135,10 @@
       "awayTeam": "Cavaliers",
       "homeScore": 119,
       "awayScore": 135,
-      "excitement": 4.2,
+      "excitement": 3.6,
       "breakdown": {
-        "tension": 2.7486417193717614,
-        "drama": 3.7342020833641585,
+        "tension": 0.30204133657934396,
+        "drama": 3.6348391821132253,
         "finish": 3.7591191825353905
       },
       "overtime": false,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:49.853Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:05:35.266Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-01"
   }

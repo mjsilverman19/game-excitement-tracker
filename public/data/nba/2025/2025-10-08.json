@@ -7,10 +7,10 @@
       "awayTeam": "Spurs",
       "homeScore": 107,
       "awayScore": 112,
-      "excitement": 8.3,
+      "excitement": 8.6,
       "breakdown": {
-        "tension": 8.862108196749297,
-        "drama": 9.641700302896773,
+        "tension": 8.97412596264893,
+        "drama": 9.947785070718934,
         "finish": 5.57041117673676
       },
       "overtime": false,
@@ -23,10 +23,10 @@
       "awayTeam": "Jazz",
       "homeScore": 140,
       "awayScore": 127,
-      "excitement": 8.3,
+      "excitement": 8.1,
       "breakdown": {
-        "tension": 8.333217164691922,
-        "drama": 9.845893104412136,
+        "tension": 7.524820189710988,
+        "drama": 9.882770012694236,
         "finish": 6.806629781225251
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 129,
       "awayScore": 123,
-      "excitement": 6.8,
+      "excitement": 6.9,
       "breakdown": {
-        "tension": 6.071172261685801,
-        "drama": 8.13267001930068,
+        "tension": 4.461930711684784,
+        "drama": 7.89100296784081,
         "finish": 3.6360827459864318
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Raptors",
       "homeScore": 122,
       "awayScore": 130,
-      "excitement": 5.7,
+      "excitement": 5.4,
       "breakdown": {
-        "tension": 5.74211907095314,
-        "drama": 7.33151227104423,
+        "tension": 4.185846808676539,
+        "drama": 7.365459525870618,
         "finish": 1.9180522240051774
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "Celtics",
       "homeScore": 103,
       "awayScore": 121,
-      "excitement": 4.5,
+      "excitement": 4.3,
       "breakdown": {
-        "tension": 3.8758777209687043,
-        "drama": 5.274859523606696,
+        "tension": 2.5417210960603462,
+        "drama": 5.295217553124446,
         "finish": 2.3503005781762867
       },
       "overtime": false,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:14.706Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:03:25.755Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-08"
   }

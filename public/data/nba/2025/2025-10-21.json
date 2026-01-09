@@ -7,10 +7,10 @@
       "awayTeam": "Rockets",
       "homeScore": 125,
       "awayScore": 124,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
-        "tension": 8.635965979488518,
-        "drama": 9.83439578822579,
+        "tension": 8.57934696538406,
+        "drama": 9.69976476411012,
         "finish": 6.877796525225251
       },
       "overtime": true,
@@ -25,8 +25,8 @@
       "awayScore": 119,
       "excitement": 8.4,
       "breakdown": {
-        "tension": 8.48189840821475,
-        "drama": 9.841393550151968,
+        "tension": 9.229657286830465,
+        "drama": 9.597132425646526,
         "finish": 6.757762606355046
       },
       "overtime": false,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:23.190Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:03:44.007Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-21"
   }

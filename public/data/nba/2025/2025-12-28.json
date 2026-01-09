@@ -7,10 +7,10 @@
       "awayTeam": "Warriors",
       "homeScore": 141,
       "awayScore": 127,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 8.82032845566866,
-        "drama": 9.646966205762158,
+        "tension": 9.230595619039995,
+        "drama": 9.734317689050165,
         "finish": 6.216936455846286
       },
       "overtime": true,
@@ -23,10 +23,10 @@
       "awayTeam": "Grizzlies",
       "homeScore": 116,
       "awayScore": 112,
-      "excitement": 8.6,
+      "excitement": 8.4,
       "breakdown": {
-        "tension": 7.502909635415326,
-        "drama": 9.836911098263213,
+        "tension": 6.434342839063731,
+        "drama": 9.693531974200859,
         "finish": 8.956643159348221
       },
       "overtime": false,
@@ -41,8 +41,8 @@
       "awayScore": 108,
       "excitement": 8,
       "breakdown": {
-        "tension": 7.416230217264774,
-        "drama": 8.35692857171988,
+        "tension": 6.794134596563628,
+        "drama": 8.43260451938515,
         "finish": 7.9936031036394235
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Pistons",
       "homeScore": 112,
       "awayScore": 99,
-      "excitement": 5,
+      "excitement": 4.5,
       "breakdown": {
-        "tension": 4.146285096572529,
-        "drama": 5.9329996500071704,
+        "tension": 2.112940554334821,
+        "drama": 5.85885917062774,
         "finish": 2.4621706006448942
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "76ers",
       "homeScore": 129,
       "awayScore": 104,
-      "excitement": 4.3,
+      "excitement": 3.1673569535942856,
       "breakdown": {
-        "tension": 3.3014626864602494,
-        "drama": 4.822555658888316,
+        "tension": 0,
+        "drama": 3.2406559877106162,
         "finish": 2.84360727432743
       },
       "overtime": false,
@@ -87,10 +87,10 @@
       "awayTeam": "Kings",
       "homeScore": 125,
       "awayScore": 101,
-      "excitement": 3.6,
+      "excitement": 2.8029603313718656,
       "breakdown": {
-        "tension": 2.5868587980469515,
-        "drama": 3.5834374279617234,
+        "tension": 0,
+        "drama": 2.3903621060988067,
         "finish": 2.0079247380636356
       },
       "overtime": false,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:03:06.975Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:06:33.519Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-28"
   }

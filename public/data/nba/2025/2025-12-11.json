@@ -7,27 +7,11 @@
       "awayTeam": "Clippers",
       "homeScore": 115,
       "awayScore": 113,
-      "excitement": 8.9,
-      "breakdown": {
-        "tension": 8.177084506293134,
-        "drama": 9.252469070991426,
-        "finish": 8.864054007766784
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401836748",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Trail Blazers",
-      "homeScore": 143,
-      "awayScore": 120,
       "excitement": 8.7,
       "breakdown": {
-        "tension": 9.616942497686278,
+        "tension": 5.5019597921598296,
         "drama": 10,
-        "finish": 8.985582671441104
+        "finish": 8.864054007766784
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +23,27 @@
       "awayTeam": "Celtics",
       "homeScore": 116,
       "awayScore": 101,
-      "excitement": 8.4,
+      "excitement": 7.9,
       "breakdown": {
-        "tension": 7.1859080987122494,
-        "drama": 6.950996638336959,
+        "tension": 2.2002265897838247,
+        "drama": 9.189142589548144,
         "finish": 8.646308674536334
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401836748",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 143,
+      "awayScore": 120,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 9.9929797959488,
+        "drama": 10,
+        "finish": 8.985582671441104
       },
       "overtime": false,
       "bowlName": null,
@@ -55,10 +55,10 @@
       "awayTeam": "Nuggets",
       "homeScore": 105,
       "awayScore": 136,
-      "excitement": 3,
+      "excitement": 2.54149175306472,
       "breakdown": {
-        "tension": 1.6254711087532625,
-        "drama": 2.6870685897295887,
+        "tension": 0,
+        "drama": 1.8111569556048104,
         "finish": 1.2130944091601386
       },
       "overtime": false,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:56.130Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:05:55.335Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-11"
   }

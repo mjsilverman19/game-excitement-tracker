@@ -7,10 +7,10 @@
       "awayTeam": "76ers",
       "homeScore": 114,
       "awayScore": 123,
-      "excitement": 8.8,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 8.823677538573195,
-        "drama": 9.478991971730927,
+        "tension": 8.840819199704924,
+        "drama": 10,
         "finish": 8.173696105726494
       },
       "overtime": true,
@@ -23,10 +23,10 @@
       "awayTeam": "Hawks",
       "homeScore": 135,
       "awayScore": 126,
-      "excitement": 6.8,
+      "excitement": 6.5,
       "breakdown": {
-        "tension": 6.418611811933142,
-        "drama": 7.985027511570273,
+        "tension": 5.124516475896832,
+        "drama": 8.072953492333674,
         "finish": 4.016040364356233
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "Clippers",
       "homeScore": 129,
       "awayScore": 101,
-      "excitement": 5.4,
+      "excitement": 3.6804084232317336,
       "breakdown": {
-        "tension": 4.905685445449669,
-        "drama": 6.469454809555067,
+        "tension": 0.7087057105196903,
+        "drama": 4.373024994742213,
         "finish": 3.17890294980051
       },
       "overtime": false,
@@ -55,10 +55,10 @@
       "awayTeam": "Kings",
       "homeScore": 137,
       "awayScore": 96,
-      "excitement": 3.6,
+      "excitement": 2.8537002233490196,
       "breakdown": {
-        "tension": 2.7294701956056233,
-        "drama": 3.980458201304855,
+        "tension": 0.678817537430523,
+        "drama": 2.691593539799196,
         "finish": 1.373627522737323
       },
       "overtime": false,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:02:42.283Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:05:05.744Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-20"
   }

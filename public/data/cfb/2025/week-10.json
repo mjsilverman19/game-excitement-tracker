@@ -7,10 +7,10 @@
       "awayTeam": "Miami",
       "homeScore": 26,
       "awayScore": 20,
-      "excitement": 9.7,
+      "excitement": 9.3,
       "breakdown": {
-        "tension": 9.124041868994158,
-        "drama": 9.319674791845955,
+        "tension": 4.692358114747625,
+        "drama": 10,
         "finish": 8.92950505616157
       },
       "overtime": true,
@@ -23,10 +23,10 @@
       "awayTeam": "West Virginia",
       "homeScore": 35,
       "awayScore": 45,
-      "excitement": 9,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 7.415220820530374,
-        "drama": 9.737272838420218,
+        "tension": 6.850865859504336,
+        "drama": 10,
         "finish": 7.275183299582001
       },
       "overtime": false,
@@ -39,10 +39,10 @@
       "awayTeam": "USC",
       "homeScore": 17,
       "awayScore": 21,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 8.416610888195128,
-        "drama": 8.785835097483893,
+        "tension": 8.204542708103547,
+        "drama": 9.357194860280984,
         "finish": 7.59839841851
       },
       "overtime": false,
@@ -57,8 +57,8 @@
       "awayScore": 33,
       "excitement": 8.5,
       "breakdown": {
-        "tension": 7.499042995218429,
-        "drama": 8.675424116809813,
+        "tension": 6.3867680025313645,
+        "drama": 9.378759726758826,
         "finish": 6.0021643856
       },
       "overtime": false,
@@ -71,10 +71,10 @@
       "awayTeam": "Georgia",
       "homeScore": 20,
       "awayScore": 24,
-      "excitement": 8.3,
+      "excitement": 7.9,
       "breakdown": {
-        "tension": 6.8574376962241805,
-        "drama": 8.014537055741242,
+        "tension": 5.046964589129806,
+        "drama": 8.424741809869568,
         "finish": 7.62950395112
       },
       "overtime": false,
@@ -87,27 +87,11 @@
       "awayTeam": "Louisville",
       "homeScore": 16,
       "awayScore": 28,
-      "excitement": 7.6,
+      "excitement": 7.2,
       "breakdown": {
-        "tension": 6.479911511715918,
-        "drama": 7.865585709286784,
+        "tension": 5.279144011866945,
+        "drama": 7.816350811936844,
         "finish": 5.748599923142001
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401756941",
-      "homeTeam": "Kansas St",
-      "awayTeam": "Texas Tech",
-      "homeScore": 20,
-      "awayScore": 43,
-      "excitement": 6.9,
-      "breakdown": {
-        "tension": 5.727789847975764,
-        "drama": 6.911395145845423,
-        "finish": 5.186941045754
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +103,27 @@
       "awayTeam": "Georgia Tech",
       "homeScore": 48,
       "awayScore": 36,
-      "excitement": 6.6,
+      "excitement": 6.5,
       "breakdown": {
-        "tension": 6.490940226748541,
-        "drama": 7.807473244018774,
+        "tension": 5.925704783176644,
+        "drama": 8.126126204522985,
         "finish": 3.675077476621448
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401756941",
+      "homeTeam": "Kansas St",
+      "awayTeam": "Texas Tech",
+      "homeScore": 20,
+      "awayScore": 43,
+      "excitement": 5.5,
+      "breakdown": {
+        "tension": 3.35434900594794,
+        "drama": 4.839252383139033,
+        "finish": 5.186941045754
       },
       "overtime": false,
       "bowlName": null,
@@ -135,10 +135,10 @@
       "awayTeam": "Virginia",
       "homeScore": 21,
       "awayScore": 31,
-      "excitement": 6.5,
+      "excitement": 5.4,
       "breakdown": {
-        "tension": 4.051325457222302,
-        "drama": 5.910515809117368,
+        "tension": 0.36393077747720937,
+        "drama": 5.741487452551975,
         "finish": 6.475780482889999
       },
       "overtime": false,
@@ -151,10 +151,10 @@
       "awayTeam": "Indiana",
       "homeScore": 10,
       "awayScore": 55,
-      "excitement": 4.2,
+      "excitement": 3.6308206218971044,
       "breakdown": {
-        "tension": 1.3681632960121282,
-        "drama": 2.989911510674594,
+        "tension": 0.17060044137031416,
+        "drama": 2.0814431039533137,
         "finish": 5.017946036
       },
       "overtime": false,
@@ -167,10 +167,10 @@
       "awayTeam": "South Carolina",
       "homeScore": 30,
       "awayScore": 14,
-      "excitement": 4.2,
+      "excitement": 3.6,
       "breakdown": {
-        "tension": 3.3091606665187934,
-        "drama": 4.338499473768192,
+        "tension": 0.9751700961050869,
+        "drama": 4.17241918572127,
         "finish": 2.8892236545432617
       },
       "overtime": false,
@@ -183,10 +183,10 @@
       "awayTeam": "Notre Dame",
       "homeScore": 10,
       "awayScore": 25,
-      "excitement": 3.5,
+      "excitement": 3.3,
       "breakdown": {
-        "tension": 1.053075852883526,
-        "drama": 0.8621280558126043,
+        "tension": 0.2563562114207285,
+        "drama": 0.8308335926306838,
         "finish": 5.009906567156
       },
       "overtime": false,
@@ -199,43 +199,11 @@
       "awayTeam": "Memphis",
       "homeScore": 14,
       "awayScore": 38,
-      "excitement": 3.3,
-      "breakdown": {
-        "tension": 0.6322571128268539,
-        "drama": 0.36383180605336585,
-        "finish": 5.008973018
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401756942",
-      "homeTeam": "Utah",
-      "awayTeam": "Cincinnati",
-      "homeScore": 45,
-      "awayScore": 14,
       "excitement": 3.1,
       "breakdown": {
-        "tension": 1.785308371542551,
-        "drama": 2.85430274512516,
-        "finish": 1.5659511623528075
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752890",
-      "homeTeam": "Michigan",
-      "awayTeam": "Purdue",
-      "homeScore": 21,
-      "awayScore": 16,
-      "excitement": 3,
-      "breakdown": {
-        "tension": 1.7089417111483807,
-        "drama": 1.7073573501786865,
-        "finish": 1.9403322679247803
+        "tension": 0.16959140264050498,
+        "drama": 0.26654095587633814,
+        "finish": 5.008973018
       },
       "overtime": false,
       "bowlName": null,
@@ -247,11 +215,43 @@
       "awayTeam": "Vanderbilt",
       "homeScore": 34,
       "awayScore": 31,
-      "excitement": 2.9,
+      "excitement": 3.1,
       "breakdown": {
-        "tension": 1.2537691373805593,
-        "drama": 1.5534117624724502,
+        "tension": 0,
+        "drama": 1.5252292040184352,
         "finish": 1.661827224409845
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752890",
+      "homeTeam": "Michigan",
+      "awayTeam": "Purdue",
+      "homeScore": 21,
+      "awayScore": 16,
+      "excitement": 2.8,
+      "breakdown": {
+        "tension": 0,
+        "drama": 1.632531475772084,
+        "finish": 1.9403322679247803
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401756942",
+      "homeTeam": "Utah",
+      "awayTeam": "Cincinnati",
+      "homeScore": 45,
+      "awayScore": 14,
+      "excitement": 2.6275206104754845,
+      "breakdown": {
+        "tension": 0,
+        "drama": 1.9290752147332026,
+        "finish": 1.5659511623528075
       },
       "overtime": false,
       "bowlName": null,
@@ -263,10 +263,10 @@
       "awayTeam": "Penn State",
       "homeScore": 38,
       "awayScore": 14,
-      "excitement": 2.7,
+      "excitement": 2.4,
       "breakdown": {
-        "tension": 1.3609704706357229,
-        "drama": 1.3896922905844427,
+        "tension": 0,
+        "drama": 0.9235127479922206,
         "finish": 1.4746993773361803
       },
       "overtime": false,
@@ -280,8 +280,8 @@
     "count": 17,
     "totalGames": 17,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:01:56.762Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:02:20.529Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "week": 10
   }

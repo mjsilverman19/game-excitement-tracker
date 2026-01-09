@@ -9,7 +9,7 @@
       "awayScore": 97,
       "excitement": 8.9,
       "breakdown": {
-        "tension": 10,
+        "tension": 9.368650166278199,
         "drama": 10,
         "finish": 8.871809058758487
       },
@@ -23,10 +23,10 @@
       "awayTeam": "Nuggets",
       "homeScore": 124,
       "awayScore": 125,
-      "excitement": 8.5,
+      "excitement": 8.4,
       "breakdown": {
-        "tension": 6.998302627135629,
-        "drama": 9.296393655504357,
+        "tension": 5.996184142428181,
+        "drama": 9.145706457925593,
         "finish": 8.019983646756021
       },
       "overtime": true,
@@ -41,8 +41,8 @@
       "awayScore": 102,
       "excitement": 8.1,
       "breakdown": {
-        "tension": 7.745204188948433,
-        "drama": 8.90654035176075,
+        "tension": 6.76198673220381,
+        "drama": 9.106583264970267,
         "finish": 7.223321814043989
       },
       "overtime": false,
@@ -55,27 +55,11 @@
       "awayTeam": "Hornets",
       "homeScore": 97,
       "awayScore": 124,
-      "excitement": 7,
+      "excitement": 6.390070387741938,
       "breakdown": {
-        "tension": 6.926706138514909,
-        "drama": 7.103377579677351,
+        "tension": 3.600519822494619,
+        "drama": 8.297204949439653,
         "finish": 3.4617465601762865
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810357",
-      "homeTeam": "Pistons",
-      "awayTeam": "Knicks",
-      "homeScore": 121,
-      "awayScore": 90,
-      "excitement": 6.3,
-      "breakdown": {
-        "tension": 6.838290315427108,
-        "drama": 8.756366637259326,
-        "finish": 2.074779472715948
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +71,27 @@
       "awayTeam": "Hawks",
       "homeScore": 118,
       "awayScore": 100,
-      "excitement": 5.8,
+      "excitement": 5.3,
       "breakdown": {
-        "tension": 5.454663579754366,
-        "drama": 6.617796484507238,
+        "tension": 3.5472699571994513,
+        "drama": 6.3980390838059025,
         "finish": 3.7360865912657886
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810357",
+      "homeTeam": "Pistons",
+      "awayTeam": "Knicks",
+      "homeScore": 121,
+      "awayScore": 90,
+      "excitement": 4.725225798714245,
+      "breakdown": {
+        "tension": 4.153532373554818,
+        "drama": 5.970061652155087,
+        "finish": 2.074779472715948
       },
       "overtime": false,
       "bowlName": null,
@@ -103,10 +103,10 @@
       "awayTeam": "Jazz",
       "homeScore": 137,
       "awayScore": 117,
-      "excitement": 3.9,
+      "excitement": 3.1,
       "breakdown": {
-        "tension": 3.062136357996751,
-        "drama": 4.131133124181231,
+        "tension": 0.6344634133698419,
+        "drama": 2.7895863962542764,
         "finish": 2.010797644715948
       },
       "overtime": false,
@@ -119,10 +119,10 @@
       "awayTeam": "Bulls",
       "homeScore": 115,
       "awayScore": 101,
-      "excitement": 3.2,
+      "excitement": 2.9,
       "breakdown": {
-        "tension": 1.8762524684182647,
-        "drama": 2.46661608432024,
+        "tension": 0,
+        "drama": 2.385212664103577,
         "finish": 1.8330655585709177
       },
       "overtime": false,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-07T03:03:12.000Z",
-    "algorithmVersion": "2.4",
+    "generatedAt": "2026-01-09T22:06:55.468Z",
+    "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-05"
   }
