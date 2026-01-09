@@ -124,9 +124,7 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
 
   const completed = competition.status?.type?.completed || false;
 
-  // Determine overtime based on sport
-  // Football: period > 4, Basketball: period > 4 (regulation is 4 quarters)
-  const overtime = competition.status?.period > 4;
+  const overtime = detectOvertimeFromStatus(competition.status, sport);
 
   // Parse bowl name and playoff round for postseason
   let bowlName = null;
@@ -195,6 +193,14 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
   };
 }
 
+function detectOvertimeFromStatus(status, sport) {
+  const regulationPeriods = 4;
+  if (typeof status?.period === 'number' && status.period > regulationPeriods) return true;
+
+  const shortDetail = status?.type?.shortDetail || '';
+  return /OT/i.test(shortDetail);
+}
+
 export async function fetchSingleGame(sport, gameId) {
   try {
     // Map sport to ESPN API path
@@ -228,7 +234,7 @@ export async function fetchSingleGame(sport, gameId) {
     const awayTeam = competitors.find(c => c.homeAway === 'away');
 
     const completed = competition.status?.type?.completed || false;
-    const overtime = competition.status?.period > 4;
+    const overtime = detectOvertimeFromStatus(competition.status, sport);
 
     // Parse bowl name and playoff round for CFB
     let bowlName = null;
