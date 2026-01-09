@@ -4,6 +4,7 @@
     "season": 2016,
     "gameId": "400927752",
     "label": "Super Bowl LI: Patriots vs Falcons",
+    "expectedTier": "must-watch",
     "reason": "28–3 comeback and first overtime Super Bowl decided on last-possession TD."
   },
   {
@@ -11,6 +12,7 @@
     "season": 2021,
     "gameId": "401326594",
     "label": "Bills at Chiefs (AFC Divisional)",
+    "expectedTier": "must-watch",
     "reason": "“13 seconds” duel with four lead changes in final two minutes and overtime finish."
   },
   {
@@ -18,6 +20,7 @@
     "season": 2022,
     "gameId": "401437833",
     "label": "Vikings at Bills",
+    "expectedTier": "must-watch",
     "reason": "Justin Jefferson’s one-handed 4th-and-18 catch sparks OT win after goal-line fumble swing."
   },
   {
@@ -25,6 +28,7 @@
     "season": 2022,
     "gameId": "401437904",
     "label": "Colts at Vikings",
+    "expectedTier": "must-watch",
     "reason": "Largest comeback in NFL history (33 points) with OT walk-off field goal."
   },
   {
@@ -32,6 +36,7 @@
     "season": 2018,
     "gameId": "401030972",
     "label": "Chiefs at Rams (MNF)",
+    "expectedTier": "must-watch",
     "reason": "54–51 track meet with three defensive TDs and late lead swaps in final minute."
   },
   {
@@ -39,6 +44,7 @@
     "season": 2022,
     "gameId": "401438030",
     "label": "Super Bowl LVII: Chiefs vs Eagles",
+    "expectedTier": "must-watch",
     "reason": "38–35 thriller with second-half comeback and game-winning drive in final minutes."
   },
   {
@@ -46,6 +52,7 @@
     "season": 2018,
     "gameId": "401038850",
     "label": "Patriots at Chiefs (AFC Championship)",
+    "expectedTier": "must-watch",
     "reason": "Overtime classic with multiple 4Q lead changes decided on opening OT drive."
   },
   {
@@ -53,6 +60,7 @@
     "season": 2016,
     "gameId": "400876570",
     "label": "CFP National Championship: Clemson vs Alabama",
+    "expectedTier": "must-watch",
     "reason": "Deshaun Watson’s last-second TD completes 14-point comeback in rematch title game."
   },
   {
@@ -60,6 +68,7 @@
     "season": 2017,
     "gameId": "400953412",
     "label": "Rose Bowl (CFP Semifinal): Georgia vs Oklahoma",
+    "expectedTier": "must-watch",
     "reason": "Double-OT shootout after 17-point comeback sends Georgia to title game."
   },
   {
@@ -67,6 +76,7 @@
     "season": 2022,
     "gameId": "401442015",
     "label": "Peach Bowl (CFP Semifinal): Ohio State vs Georgia",
+    "expectedTier": "must-watch",
     "reason": "Back-and-forth semifinal decided by missed FG as clock struck midnight."
   },
   {
@@ -74,6 +84,7 @@
     "season": 2022,
     "gameId": "401442016",
     "label": "Fiesta Bowl (CFP Semifinal): TCU vs Michigan",
+    "expectedTier": "must-watch",
     "reason": "96-point upset semifinal with multiple defensive scores and late goal-line stand."
   },
   {
@@ -81,6 +92,7 @@
     "season": 2021,
     "gameId": "401331242",
     "label": "Rose Bowl: Ohio State vs Utah",
+    "expectedTier": "must-watch",
     "reason": "Jackson Smith-Njigba’s record day in 48–45 shootout with last-minute game winner."
   },
   {
@@ -88,6 +100,7 @@
     "season": 2018,
     "gameId": "401110192",
     "label": "LSU vs Texas A&M (7OT)",
+    "expectedTier": "must-watch",
     "reason": "Seven-overtime marathon ending 74–72, highest-scoring FBS game ever."
   },
   {
@@ -95,6 +108,7 @@
     "season": 2016,
     "gameId": "400876090",
     "label": "Rose Bowl: USC vs Penn State",
+    "expectedTier": "must-watch",
     "reason": "52–49 classic with 21-point USC rally and walk-off field goal."
   },
   {
@@ -102,6 +116,7 @@
     "season": 2016,
     "gameId": "400878160",
     "label": "NBA Finals Game 7: Cavaliers at Warriors",
+    "expectedTier": "must-watch",
     "reason": "LeBron’s chase-down block and Kyrie’s late three seal historic 3–1 comeback."
   },
   {
@@ -109,6 +124,7 @@
     "season": 2019,
     "gameId": "401129105",
     "label": "East Semis Game 7: 76ers at Raptors",
+    "expectedTier": "must-watch",
     "reason": "Kawhi Leonard’s four-bounce buzzer-beater sends Toronto to conference finals."
   },
   {
@@ -116,6 +132,7 @@
     "season": 2023,
     "gameId": "401547676",
     "label": "East Finals Game 6: Celtics at Heat",
+    "expectedTier": "must-watch",
     "reason": "Derrick White tip-in at the horn forces Game 7 after Miami’s late surge."
   },
   {
@@ -123,6 +140,7 @@
     "season": 2021,
     "gameId": "401344139",
     "label": "NBA Finals Game 5: Bucks at Suns",
+    "expectedTier": "must-watch",
     "reason": "Holiday steal to Giannis alley-oop caps furious Bucks road win for 3–2 lead."
   },
   {
@@ -130,6 +148,7 @@
     "season": 2020,
     "gameId": "401248437",
     "label": "NBA Finals Game 5: Heat at Lakers",
+    "expectedTier": "must-watch",
     "reason": "Jimmy Butler vs LeBron duel; Heat survive elimination by one possession."
   },
   {
@@ -137,6 +156,7 @@
     "season": 2019,
     "gameId": "401129362",
     "label": "West Semis Game 3: Nuggets at Trail Blazers",
+    "expectedTier": "must-watch",
     "reason": "Four-overtime epic decided by Rodney Hood’s late three."
   }
 ]

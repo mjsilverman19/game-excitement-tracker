@@ -64,14 +64,46 @@ export const ALGORITHM_CONFIG = {
     minDataPoints: 10,
     finalMomentPoints: 10,
     walkoffSwingThreshold: 0.15,
-    leverageFloor: 0.05,
+    leverageFloor: 0.01,
     lateDramaSwingThreshold: 0.15,
-    largeFinalSwingThreshold: 0.20
+    largeFinalSwingThreshold: 0.20,
+    lateClosenessThreshold: 0.25,
+    blowoutMargin: {
+      nflCfb: 21,
+      nba: 18
+    },
+    competitiveBand: {
+      low: 0.30,
+      high: 0.70
+    },
+    dramaTimeWeight: {
+      exponent: 2,
+      factor: 0.5
+    },
+    leadChangeSigmoid: {
+      center: 5,
+      slope: 1.5
+    },
+    comeback: {
+      minDeficit: 0.15,
+      tier1: 0.30,
+      tier2: 0.40,
+      maxBoost: 4,
+      timeMultiplier: {
+        min: 0.5,
+        max: 1.0
+      }
+    }
   },
 
   bonuses: {
     upset: { max: 0.8, threshold: 0.55 },
-    comeback: { max: 1.0, extremeThreshold: 0.15 },
+    comeback: {
+      max: 2.0,
+      minDeficit: 0.35,
+      tier1: 0.40,
+      tier2: 0.45
+    },
     volatility: {
       // Extraordinary volatility bonus for games with rare swing patterns
       max: 1.5,
@@ -87,7 +119,7 @@ export const ALGORITHM_CONFIG = {
     },
     closeGame: {
       // Score margin bonus for close final scores
-      margin3orLess: 1.0,  // 1-3 point games
+      margin3orLess: 1.5,  // 1-3 point games
       margin7orLess: 0.5,  // 4-7 point games
       margin10orLess: 0.2  // 8-10 point games
     }

@@ -12,7 +12,13 @@ const SCORING_CONFIG = {
     walkoffSwingThreshold: ALGORITHM_CONFIG.thresholds.walkoffSwingThreshold,
     leverageFloor: ALGORITHM_CONFIG.thresholds.leverageFloor,
     lateDramaSwingThreshold: ALGORITHM_CONFIG.thresholds.lateDramaSwingThreshold,
-    largeFinalSwingThreshold: ALGORITHM_CONFIG.thresholds.largeFinalSwingThreshold
+    largeFinalSwingThreshold: ALGORITHM_CONFIG.thresholds.largeFinalSwingThreshold,
+    lateClosenessThreshold: ALGORITHM_CONFIG.thresholds.lateClosenessThreshold,
+    blowoutMargin: ALGORITHM_CONFIG.thresholds.blowoutMargin,
+    competitiveBand: ALGORITHM_CONFIG.thresholds.competitiveBand,
+    dramaTimeWeight: ALGORITHM_CONFIG.thresholds.dramaTimeWeight,
+    leadChangeSigmoid: ALGORITHM_CONFIG.thresholds.leadChangeSigmoid,
+    comeback: ALGORITHM_CONFIG.thresholds.comeback
   },
   bonuses: ALGORITHM_CONFIG.bonuses
 };
@@ -53,7 +59,7 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       awayScore: game.awayScore,
       excitement: excitement.score,
       breakdown: excitement.breakdown,
-      overtime: game.overtime,
+      overtime: excitement.overtimeDetected ?? game.overtime,
       bowlName: game.bowlName,
       playoffRound: game.playoffRound
     };
@@ -63,7 +69,59 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
   }
 }
 
+export async function analyzeGameEntertainmentDetailed(game, sport = 'NFL') {
+  try {
+    let sportType, league;
+    if (sport === 'NBA') {
+      sportType = 'basketball';
+      league = 'nba';
+    } else {
+      sportType = 'football';
+      league = sport === 'CFB' ? 'college-football' : 'nfl';
+    }
+
+    const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
+    const response = await fetch(probUrl);
+    if (!response.ok) {
+      return null;
+    }
+
+    const probData = await response.json();
+    if (!probData.items || probData.items.length < SCORING_CONFIG.thresholds.minDataPoints) {
+      return null;
+    }
+
+    const excitement = calculateExcitementDetailed(probData.items, game, sport);
+    if (!excitement) return null;
+
+    return {
+      id: game.id,
+      homeTeam: game.homeTeam,
+      awayTeam: game.awayTeam,
+      homeScore: game.homeScore,
+      awayScore: game.awayScore,
+      overtime: game.overtime,
+      bowlName: game.bowlName,
+      playoffRound: game.playoffRound,
+      ...excitement
+    };
+  } catch (error) {
+    console.error(`Error analyzing game ${game.id}:`, error);
+    return null;
+  }
+}
+
 function calculateExcitement(probabilities, game, sport = 'NFL') {
+  const detailed = calculateExcitementDetailed(probabilities, game, sport);
+  if (!detailed) return null;
+  return {
+    score: detailed.score,
+    breakdown: detailed.breakdown,
+    overtimeDetected: detailed.overtimeDetected
+  };
+}
+
+function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
   const probs = probabilities
     .map(p => ({
       value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
@@ -76,18 +134,36 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     return null;
   }
 
+  const overtimeDetected = Boolean(game?.overtime);
+
   // METRIC 1: Tension (was there reason to keep watching?)
-  // Captures EITHER sustained closeness OR meaningful comeback potential
-  // This replaces the old Uncertainty which only measured closeness
-  const tensionScore = calculateTension(probs);
+  // Measures sustained competitive state only (time spent in 30-70% band)
+  let tensionScore = calculateTension(probs);
 
   // METRIC 2: Momentum Drama (leverage-weighted swings + lead changes)
   const baseDrama = calculateMomentumDrama(probs);
   const leadChangeBoost = calculateLeadChangeBoost(probs);
-  const dramaScore = Math.min(10, baseDrama + leadChangeBoost);
+  const comebackDramaBoost = calculateComebackDramaBoost(probs);
+  let dramaScore = Math.min(10, baseDrama + leadChangeBoost + comebackDramaBoost);
 
   // METRIC 3: Finish Quality (did it come down to the wire?)
   const finishScore = calculateFinishQuality(probs, game, sport);
+
+  const margin =
+    typeof game?.homeScore === 'number' && typeof game?.awayScore === 'number'
+      ? Math.abs(game.homeScore - game.awayScore)
+      : null;
+  const lateCloseness = calculateLateCloseness(probs);
+  const blowoutThreshold = sport === 'NBA'
+    ? SCORING_CONFIG.thresholds.blowoutMargin.nba
+    : SCORING_CONFIG.thresholds.blowoutMargin.nflCfb;
+
+  if (lateCloseness < SCORING_CONFIG.thresholds.lateClosenessThreshold &&
+      margin != null &&
+      margin > blowoutThreshold) {
+    tensionScore *= 0.6;
+    dramaScore *= 0.7;
+  }
 
   // Capture breakdown before weighting
   const breakdown = {
@@ -115,8 +191,8 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   const upsetBonus = calculateUpsetBonus(probs);           // 0-0.8 -> 0-0.08 (8%)
   const comebackBonus = calculateComebackBonus(probs);     // 0-2.0 -> 0-0.20 (20%)
   const volatilityBonus = calculateVolatilityBonus(probs); // 0-1.5 -> 0-0.15 (15%)
-  const overtimeBonus = calculateOvertimeBonus(game);      // 0-0.8 -> 0-0.08 (8%)
-  const closeGameBonus = calculateCloseGameBonus(game, sport, finishScore); // 0-1.0 -> 0-0.10 (10%)
+  const overtimeBonus = calculateOvertimeBonus(overtimeDetected);      // 0-0.8 -> 0-0.08 (8%)
+  const closeGameBonus = calculateCloseGameBonus(game, sport, finishScore); // 0-1.0
   
   // Convert to percentage multipliers and sum
   // Old max total: 5.1 additive points
@@ -125,8 +201,7 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
     (upsetBonus / 10) +      // max 0.08
     (comebackBonus / 10) +   // max 0.20 
     (volatilityBonus / 10) + // max 0.15
-    (overtimeBonus / 10) +   // max 0.08
-    (closeGameBonus / 10);   // max 0.10
+    (overtimeBonus / 10);    // max 0.08
   
   // Cap total bonus at 50% boost to prevent runaway scores
   const cappedBonusRate = Math.min(0.5, totalBonusRate);
@@ -134,81 +209,138 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
   // Apply multiplicative bonus
   rawScore *= (1 + cappedBonusRate);
 
+  // Apply close-game bonus as 50% additive, 50% multiplicative
+  if (closeGameBonus > 0) {
+    rawScore += closeGameBonus * 0.5;
+    rawScore *= (1 + (closeGameBonus * 0.5) / 10);
+  }
+
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
 
+  // Hard margin cap for extreme blowouts (data quality guardrail)
+  if (margin != null) {
+    const blowoutCapThreshold = sport === 'NBA' ? 22 : 28;
+    if (margin > blowoutCapThreshold) {
+      return {
+        score: Math.min(finalScore, 6.5),
+        breakdown,
+        rawScore,
+        finalScore,
+        tensionScore,
+        dramaScore,
+        finishScore,
+        overtimeFloorApplied: false,
+        overtimeDetected
+      };
+    }
+  }
+
+  // OT floor: overtime games should rarely score below 6.0
+  if (overtimeDetected && finalScore < 6.0) {
+    return {
+      score: 6.0,
+      breakdown,
+      rawScore,
+      finalScore,
+      tensionScore,
+      dramaScore,
+      finishScore,
+      overtimeFloorApplied: true,
+      overtimeDetected
+    };
+  }
+
   return {
     score: Math.max(1, Math.min(10, Math.round(finalScore * 10) / 10)),
-    breakdown
+    breakdown,
+    rawScore,
+    finalScore,
+    tensionScore,
+    dramaScore,
+    finishScore,
+    overtimeFloorApplied: false,
+    overtimeDetected
   };
 }
 
 /**
  * METRIC 1: Tension
- * Measures "was there reason to keep watching?" through two lenses:
- * 1. Closeness: How much time was spent in competitive range (30-70%)
- * 2. Comeback: Did a team mount a meaningful comeback that made it interesting?
- * 
- * Uses MAX of the two - a game is tense if it was EITHER close OR had a comeback.
- * This captures games the old "Uncertainty" metric missed (comeback games that
- * weren't close overall but were still engaging).
+ * Measures sustained competitive state: time spent in 30-70% win-prob band.
  * 
  * @param {Array} probs - Array of probability objects with value property
  * @returns {number} Score from 0-10 based on game tension
  */
 function calculateTension(probs) {
   if (probs.length < 10) return 5;
-  
-  // Base tension from closeness (same formula as v2.2 Uncertainty)
-  // Measures how much time the game spent near 50%
-  let totalCloseness = 0;
+
+  const bandLow = SCORING_CONFIG.thresholds.competitiveBand.low;
+  const bandHigh = SCORING_CONFIG.thresholds.competitiveBand.high;
+
+  let totalCompetitive = 0;
   for (let i = 0; i < probs.length; i++) {
-    const closeness = 1 - Math.abs(probs[i].value - 0.5) * 2;
+    const inBand = probs[i].value >= bandLow && probs[i].value <= bandHigh ? 1 : 0;
     const timeWeight = 1 + (i / probs.length) * 0.3;
-    totalCloseness += closeness * timeWeight;
+    totalCompetitive += inBand * timeWeight;
   }
   const avgWeight = 1 + 0.15;
-  const avgCloseness = totalCloseness / (probs.length * avgWeight);
-  const transformedCloseness = 1 - Math.pow(1 - avgCloseness, 1.3);
-  const baseTension = transformedCloseness * 10;
-  
-  // Comeback boost (same as v2.2 calculateComebackUncertaintyBoost)
-  // Rewards games where winner came back from significant deficit
+  const avgCompetitive = totalCompetitive / (probs.length * avgWeight);
+  const transformedCompetitive = 1 - Math.pow(1 - avgCompetitive, 1.3);
+  const baseTension = transformedCompetitive * 10;
+
+  return Math.min(10, baseTension);
+}
+
+function calculateComebackMagnitude(probs) {
+  if (probs.length < 10) {
+    return { maxDeficit: 0, maxDeficitIndex: 0, gameProgress: 0 };
+  }
+
   const finalWP = probs[probs.length - 1].value;
   const homeWon = finalWP > 0.5;
-  
+
   let maxDeficit = 0;
   let maxDeficitIndex = 0;
-  
+
   for (let i = 0; i < probs.length; i++) {
     const wp = probs[i].value;
     let deficit = 0;
     if (homeWon && wp < 0.5) deficit = 0.5 - wp;
     else if (!homeWon && wp > 0.5) deficit = wp - 0.5;
-    
+
     if (deficit > maxDeficit) {
       maxDeficit = deficit;
       maxDeficitIndex = i;
     }
   }
-  
-  let comebackBoost = 0;
-  if (maxDeficit >= 0.15) {
-    if (maxDeficit < 0.30) {
-      comebackBoost = ((maxDeficit - 0.15) / 0.15) * 1;
-    } else if (maxDeficit < 0.40) {
-      comebackBoost = 1 + ((maxDeficit - 0.30) / 0.10) * 1.5;
-    } else {
-      comebackBoost = Math.min(4, 2.5 + ((maxDeficit - 0.40) / 0.10) * 1.5);
-    }
-    
-    // Time multiplier - late comebacks are more dramatic
-    const gameProgress = maxDeficitIndex / probs.length;
-    const timeMultiplier = 0.5 + 0.5 * gameProgress;
-    comebackBoost *= timeMultiplier;
+
+  return {
+    maxDeficit,
+    maxDeficitIndex,
+    gameProgress: maxDeficitIndex / probs.length
+  };
+}
+
+function calculateComebackDramaBoost(probs) {
+  const { maxDeficit, gameProgress } = calculateComebackMagnitude(probs);
+  const config = SCORING_CONFIG.thresholds.comeback;
+
+  if (maxDeficit < config.minDeficit) return 0;
+
+  let boost = 0;
+  if (maxDeficit < config.tier1) {
+    boost = ((maxDeficit - config.minDeficit) / (config.tier1 - config.minDeficit)) * 1;
+  } else if (maxDeficit < config.tier2) {
+    boost = 1 + ((maxDeficit - config.tier1) / (config.tier2 - config.tier1)) * 1.5;
+  } else {
+    boost = Math.min(config.maxBoost, 2.5 + ((maxDeficit - config.tier2) / 0.10) * 1.5);
   }
-  
-  return Math.min(10, baseTension + comebackBoost);
+
+  const timeMin = config.timeMultiplier.min;
+  const timeMax = config.timeMultiplier.max;
+  const timeMultiplier = timeMin + (timeMax - timeMin) * gameProgress;
+
+  return boost * timeMultiplier;
 }
 
 /**
@@ -230,8 +362,9 @@ function calculateMomentumDrama(probs) {
   // Reduced leverage floor - swings at extremes should contribute very little
   // Old value (0.05) meant 95%->98% swings contributed 5x their true leverage
   // New value (0.01) means extreme swings are nearly eliminated but not zero
-  const leverageFloor = 0.01;
-  const timeWeightFactor = 0.5; // Later moments count up to 50% more
+  const leverageFloor = SCORING_CONFIG.thresholds.leverageFloor;
+  const timeWeightFactor = SCORING_CONFIG.thresholds.dramaTimeWeight.factor;
+  const timeWeightExponent = SCORING_CONFIG.thresholds.dramaTimeWeight.exponent;
 
   let totalWeightedSwing = 0;
 
@@ -244,7 +377,7 @@ function calculateMomentumDrama(probs) {
     
     // Time weight: 1.0 at start, up to 1.5 at end
     // This makes Q4 swings count more than Q1 swings
-    const timeWeight = 1 + (i / probs.length) * timeWeightFactor;
+    const timeWeight = 1 + Math.pow(i / probs.length, timeWeightExponent) * timeWeightFactor;
     
     const weightedSwing = swing * leverage * timeWeight * 4; // Scale factor since max leverage is 0.25
     totalWeightedSwing += weightedSwing;
@@ -256,6 +389,26 @@ function calculateMomentumDrama(probs) {
   const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 10)) * 10);
 
   return Math.max(0, score);
+}
+
+/**
+ * Calculates late-game closeness as average closeness in final quarter of data.
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {number} Closeness from 0-1
+ */
+function calculateLateCloseness(probs) {
+  if (!probs.length) return 0;
+  const startIndex = Math.floor(probs.length * 0.75);
+  const lateProbs = probs.slice(startIndex);
+  if (lateProbs.length === 0) return 0;
+
+  let total = 0;
+  for (const p of lateProbs) {
+    const closeness = 1 - Math.abs(p.value - 0.5) * 2;
+    total += Math.max(0, Math.min(1, closeness));
+  }
+
+  return total / lateProbs.length;
 }
 
 /**
@@ -415,10 +568,12 @@ function calculateLeadChangeBoost(probs) {
     }
   }
 
-  // Sigmoid function centered at 7 lead changes
-  // This gives: 3 changes ≈ 0.02, 5 changes ≈ 0.12, 7 changes = 0.5, 9 changes ≈ 0.88, 11+ changes ≈ 0.98
+  const center = SCORING_CONFIG.thresholds.leadChangeSigmoid.center;
+  const slope = SCORING_CONFIG.thresholds.leadChangeSigmoid.slope;
+  // Sigmoid function centered at configured lead-change count
+  // Example with center=5: 3 changes ≈ 0.21, 5 changes = 0.5, 7 changes ≈ 0.79
   // Eliminates cliff effects while preserving the intent of rewarding back-and-forth games
-  const sigmoid = 1 / (1 + Math.exp(-(leadChanges - 7) / 1.5));
+  const sigmoid = 1 / (1 + Math.exp(-(leadChanges - center) / slope));
   
   return Math.min(1.0, sigmoid);
 }
@@ -426,11 +581,11 @@ function calculateLeadChangeBoost(probs) {
 /**
  * Calculates overtime bonus
  * Games that go to OT are inherently dramatic
- * @param {Object} game - Game object with overtime flag
+ * @param {boolean} overtimeDetected - Whether OT was detected
  * @returns {number} Bonus from 0-1.4+ based on OT
  */
-function calculateOvertimeBonus(game) {
-  if (!game || !game.overtime) return 0;
+function calculateOvertimeBonus(overtimeDetected) {
+  if (!overtimeDetected) return 0;
 
   const config = SCORING_CONFIG.bonuses.overtime;
   // Base OT bonus
@@ -580,53 +735,19 @@ function calculateUpsetBonus(probs) {
 function calculateComebackBonus(probs) {
   if (probs.length < 20) return 0;
 
-  const extremeThreshold = SCORING_CONFIG.bonuses.comeback.extremeThreshold;
+  const config = SCORING_CONFIG.bonuses.comeback;
+  const { maxDeficit } = calculateComebackMagnitude(probs);
 
-  // Track extreme points and subsequent crossings of 50%
-  let maxComebackMagnitude = 0;
+  if (maxDeficit === 0) return 0;
+  if (maxDeficit < config.minDeficit) return 0;
 
-  // Find all points where a team was in extreme territory
-  for (let i = 0; i < probs.length - 10; i++) {
-    const p = probs[i].value;
-
-    // Check if this is an extreme point (one team heavily favored)
-    const isHomeExtreme = p >= (1 - extremeThreshold); // Home >85%
-    const isAwayExtreme = p <= extremeThreshold; // Away >85% (home <15%)
-
-    if (!isHomeExtreme && !isAwayExtreme) continue;
-
-    // Look for subsequent crossing of 50% in the opposite direction
-    for (let j = i + 1; j < probs.length; j++) {
-      const laterP = probs[j].value;
-
-      // Did the disadvantaged team come back through 50%?
-      const homeCameBack = isAwayExtreme && laterP > 0.5;
-      const awayCameBack = isHomeExtreme && laterP < 0.5;
-
-      if (homeCameBack || awayCameBack) {
-        // Calculate comeback magnitude: how far from 50% were they?
-        const deficit = isAwayExtreme ? (0.5 - p) : (p - 0.5);
-        maxComebackMagnitude = Math.max(maxComebackMagnitude, deficit);
-        break; // Found a comeback from this extreme point
-      }
-    }
+  if (maxDeficit < config.tier1) {
+    return ((maxDeficit - config.minDeficit) / (config.tier1 - config.minDeficit)) * 0.5;
+  } else if (maxDeficit < config.tier2) {
+    return 0.5 + ((maxDeficit - config.tier1) / (config.tier2 - config.tier1)) * 0.7;
   }
 
-  if (maxComebackMagnitude === 0) return 0;
-
-  // Gradient bonus based on comeback magnitude:
-  // - 0.35 deficit (15% WP): 0 bonus
-  // - 0.40 deficit (10% WP): 0.5 bonus
-  // - 0.45 deficit (5% WP): 1.2 bonus
-  // - 0.49+ deficit (1% WP): 2.0 bonus (Super Bowl LI territory)
-  if (maxComebackMagnitude < 0.35) return 0;
-  if (maxComebackMagnitude < 0.40) {
-    return ((maxComebackMagnitude - 0.35) / 0.05) * 0.5;
-  } else if (maxComebackMagnitude < 0.45) {
-    return 0.5 + ((maxComebackMagnitude - 0.40) / 0.05) * 0.7;
-  } else {
-    return Math.min(2.0, 1.2 + ((maxComebackMagnitude - 0.45) / 0.04) * 0.8);
-  }
+  return Math.min(config.max, 1.2 + ((maxDeficit - config.tier2) / 0.04) * 0.8);
 }
 
 /**

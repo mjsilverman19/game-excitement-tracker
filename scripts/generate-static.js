@@ -14,6 +14,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = join(__dirname, '..');
 const PUBLIC_DATA_DIR = join(ROOT_DIR, 'public', 'data');
+const SUMMARY_RATE_DELAY_MS = 0;
 
 // Command line argument parsing
 const args = process.argv.slice(2);
@@ -153,6 +154,58 @@ function getStaticFilePath(sport, season, weekOrDate) {
   return { dir, filepath: join(dir, filename) };
 }
 
+function getSummaryPath(sport) {
+  if (sport === 'NBA') return 'basketball/nba';
+  if (sport === 'CFB') return 'football/college-football';
+  return 'football/nfl';
+}
+
+async function fetchSummaryShortDetail(sport, gameId) {
+  const summaryPath = getSummaryPath(sport);
+  const urls = [
+    `https://site.web.api.espn.com/apis/v2/sports/${summaryPath}/summary?event=${gameId}`,
+    `https://site.api.espn.com/apis/site/v2/sports/${summaryPath}/summary?event=${gameId}`
+  ];
+
+  for (const url of urls) {
+    const response = await fetch(url);
+    if (!response.ok) continue;
+    const data = await response.json();
+    const competition = data.header?.competitions?.[0];
+    return competition?.status?.type?.shortDetail || '';
+  }
+
+  return null;
+}
+
+async function applySummaryOvertimeFlags(games, sport) {
+  let updated = 0;
+
+  for (const game of games) {
+    try {
+      const shortDetail = await fetchSummaryShortDetail(sport, game.id);
+      if (shortDetail == null) {
+        console.warn(`⚠️  Summary fetch failed for ${game.id}`);
+      } else if (/OT/i.test(shortDetail)) {
+        if (!game.overtime) updated += 1;
+        game.overtime = true;
+      } else if (game.overtime == null) {
+        game.overtime = false;
+      }
+    } catch (error) {
+      console.warn(`⚠️  Summary fetch failed for ${game.id}: ${error.message}`);
+    }
+
+    await new Promise(resolve => setTimeout(resolve, SUMMARY_RATE_DELAY_MS));
+  }
+
+  if (updated > 0) {
+    console.log(`✅ Updated OT flags from summary: ${updated}`);
+  }
+
+  return games;
+}
+
 // Generate static JSON for a single week/date
 async function generateStatic(sport, season, weekOrDate) {
   try {
@@ -187,6 +240,7 @@ async function generateStatic(sport, season, weekOrDate) {
       return { noGames: true };
     }
 
+    await applySummaryOvertimeFlags(games, sport);
     console.log(`🧮 Analyzing ${games.length} games...`);
 
     // Analyze each game
@@ -292,8 +346,7 @@ async function generateAllWeeks(sport, season) {
     else if (result.noGames) results.noGames++;
     else if (result.error) results.errors++;
 
-    // Add small delay to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // No delay between weeks
   }
 
   console.log(`\n📊 Summary:`);
@@ -350,8 +403,7 @@ async function generateAllNBADates(season) {
     // Move to next date
     currentDate.setDate(currentDate.getDate() + 1);
 
-    // Add small delay to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 300));
+    // No delay between dates
   }
 
   console.log(`\n📊 Summary:`);
