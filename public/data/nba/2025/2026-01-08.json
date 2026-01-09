@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810386",
+      "homeTeam": "Jazz",
+      "awayTeam": "Mavericks",
+      "homeScore": 116,
+      "awayScore": 114,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 8.849138669751625,
+        "drama": 9.613125456392396,
+        "finish": 8.472451959547993
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810383",
+      "homeTeam": "Hornets",
+      "awayTeam": "Pacers",
+      "homeScore": 112,
+      "awayScore": 114,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 8.797051800667749,
+        "drama": 9.778983731061153,
+        "finish": 6.600795508047749
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810385",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Cavaliers",
+      "homeScore": 131,
+      "awayScore": 122,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 8.091011219900937,
+        "drama": 9.269197554408342,
+        "finish": 5.101224706186647
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-09T10:30:23.096Z",
+    "algorithmVersion": "2.4",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-01-08"
+  }
+}
