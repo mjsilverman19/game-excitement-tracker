@@ -4,8 +4,10 @@ on:
   schedule:
     # NFL: Tuesday 10 AM UTC (5 AM EST, after Monday Night Football)
     - cron: '0 10 * 9-12,1-2 2'
-    # CFB: Sunday 8 AM UTC (3 AM EST, after Saturday games)
-    - cron: '0 8 * 8-12,1 0'
+    # CFB: Sunday 8 AM UTC (3 AM EST, after Saturday games) during regular season
+    - cron: '0 8 * 8-11 0'
+    # CFB: Daily 10 AM UTC (5 AM EST) during bowl/playoff season (Dec-Jan)
+    - cron: '0 10 * 12,1 *'
     # NBA: Daily 10 AM UTC (5 AM EST, after West Coast games)
     - cron: '0 10 * 10-12,1-6 *'
   workflow_dispatch:
@@ -50,8 +52,11 @@ jobs:
           # Tuesday = NFL (day 2)
           if [ "$DAY_OF_WEEK" = "2" ] && ([ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]); then
             echo "sport=NFL" >> $GITHUB_OUTPUT
-          # Sunday = CFB (day 7)
-          elif [ "$DAY_OF_WEEK" = "7" ] && ([ "$MONTH" -ge 8 ] || [ "$MONTH" -le 1 ]); then
+          # Sunday = CFB (day 7) during regular season (Aug-Nov)
+          elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
+            echo "sport=CFB" >> $GITHUB_OUTPUT
+          # Daily = CFB during bowl/playoff season (Dec-Jan)
+          elif [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
             echo "sport=CFB" >> $GITHUB_OUTPUT
           # Daily = NBA (October through June)
           elif [ "$MONTH" -ge 10 ] || [ "$MONTH" -le 6 ]; then
