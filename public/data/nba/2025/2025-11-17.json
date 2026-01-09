@@ -7,11 +7,11 @@
       "awayTeam": "Clippers",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 9.2,
+      "excitement": 9,
       "breakdown": {
         "tension": 8.555667600553976,
         "drama": 10,
-        "finish": 8.607839808629132
+        "finish": 4.303919904314566
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Bucks",
       "homeScore": 118,
       "awayScore": 106,
-      "excitement": 8.6,
+      "excitement": 8,
       "breakdown": {
         "tension": 9.49027883822586,
         "drama": 9.952429475352085,
-        "finish": 7.688056597068682
+        "finish": 3.844028298534341
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Hornets",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 5.7,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 0.6582743807420588,
         "drama": 5.809770917883273,
-        "finish": 6.056209942349498
+        "finish": 3.028104971174749
       },
       "overtime": false,
       "bowlName": null,
@@ -87,27 +87,11 @@
       "awayTeam": "Pacers",
       "homeScore": 127,
       "awayScore": 112,
-      "excitement": 3.1,
+      "excitement": 2.9,
       "breakdown": {
         "tension": 0,
         "drama": 3.529178890324247,
-        "finish": 2.022313049151946
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810102",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Thunder",
-      "homeScore": 109,
-      "awayScore": 126,
-      "excitement": 2.6,
-      "breakdown": {
-        "tension": 0,
-        "drama": 1.088185408247736,
-        "finish": 2.107279900644894
+        "finish": 1.011156524575973
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +103,27 @@
       "awayTeam": "Mavericks",
       "homeScore": 120,
       "awayScore": 96,
-      "excitement": 2.5957541219337807,
+      "excitement": 2.4290386649783624,
       "breakdown": {
         "tension": 0,
         "drama": 1.4290784457522954,
-        "finish": 1.8944417345744249
+        "finish": 0.9472208672872124
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810102",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Thunder",
+      "homeScore": 109,
+      "awayScore": 126,
+      "excitement": 2.4,
+      "breakdown": {
+        "tension": 0,
+        "drama": 1.088185408247736,
+        "finish": 1.053639950322447
       },
       "overtime": false,
       "bowlName": null,
@@ -136,7 +136,7 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:04:57.717Z",
+    "generatedAt": "2026-01-09T22:34:31.064Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-17"

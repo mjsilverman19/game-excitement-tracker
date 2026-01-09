@@ -7,11 +7,11 @@
       "awayTeam": "Kings",
       "homeScore": 124,
       "awayScore": 123,
-      "excitement": 8.7,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 9.736638021116395,
         "drama": 9.894964843022203,
-        "finish": 7.439128189945263
+        "finish": 3.7195640949726316
       },
       "overtime": false,
       "bowlName": null,
@@ -23,29 +23,13 @@
       "awayTeam": "Jazz",
       "homeScore": 134,
       "awayScore": 130,
-      "excitement": 7.8,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 7.022625316617416,
         "drama": 8.442245986624762,
-        "finish": 2.839235004348886
+        "finish": 1.419617502174443
       },
       "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401812697",
-      "homeTeam": "Raptors",
-      "awayTeam": "Celtics",
-      "homeScore": 107,
-      "awayScore": 105,
-      "excitement": 6.9,
-      "breakdown": {
-        "tension": 6.433956720544591,
-        "drama": 7.971894749829466,
-        "finish": 1.9602670123720727
-      },
-      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -62,6 +46,22 @@
         "finish": 8.243433889348223
       },
       "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812697",
+      "homeTeam": "Raptors",
+      "awayTeam": "Celtics",
+      "homeScore": 107,
+      "awayScore": 105,
+      "excitement": 6.6,
+      "breakdown": {
+        "tension": 6.433956720544591,
+        "drama": 7.971894749829466,
+        "finish": 0.9801335061860363
+      },
+      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:03:28.986Z",
+    "generatedAt": "2026-01-09T22:32:58.980Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-10"

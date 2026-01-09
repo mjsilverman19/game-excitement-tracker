@@ -18,22 +18,6 @@
       "playoffRound": null
     },
     {
-      "id": "401836805",
-      "homeTeam": "Jazz",
-      "awayTeam": "Mavericks",
-      "homeScore": 140,
-      "awayScore": 133,
-      "excitement": 8.7,
-      "breakdown": {
-        "tension": 8.454844577952695,
-        "drama": 9.633701206531867,
-        "finish": 7.4121431899783765
-      },
-      "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401836803",
       "homeTeam": "Celtics",
       "awayTeam": "Pistons",
@@ -66,16 +50,32 @@
       "playoffRound": null
     },
     {
+      "id": "401836805",
+      "homeTeam": "Jazz",
+      "awayTeam": "Mavericks",
+      "homeScore": 140,
+      "awayScore": 133,
+      "excitement": 8.1,
+      "breakdown": {
+        "tension": 8.454844577952695,
+        "drama": 9.633701206531867,
+        "finish": 3.7060715949891883
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401836807",
       "homeTeam": "Clippers",
       "awayTeam": "Grizzlies",
       "homeScore": 103,
       "awayScore": 121,
-      "excitement": 8.2,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 7.304301738500963,
         "drama": 9.659244884534662,
-        "finish": 7.67683725463366
+        "finish": 3.83841862731683
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:06:03.001Z",
+    "generatedAt": "2026-01-09T22:35:37.601Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-15"

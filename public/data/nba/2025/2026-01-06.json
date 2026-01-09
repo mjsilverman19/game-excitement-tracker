@@ -23,11 +23,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 98,
       "awayScore": 100,
-      "excitement": 8.8,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 9.00206540769289,
         "drama": 9.95195676651817,
-        "finish": 8.322596683811204
+        "finish": 4.161298341905602
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Lakers",
       "homeScore": 103,
       "awayScore": 111,
-      "excitement": 8.7,
+      "excitement": 8,
       "breakdown": {
         "tension": 7.478883252714544,
         "drama": 9.879728623017735,
-        "finish": 8.956643159348221
+        "finish": 4.478321579674111
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Magic",
       "homeScore": 120,
       "awayScore": 112,
-      "excitement": 7,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 6.139904562751286,
         "drama": 8.902895861120838,
-        "finish": 2.671986642487883
+        "finish": 1.3359933212439414
       },
       "overtime": false,
       "bowlName": null,
@@ -75,7 +75,7 @@
       "breakdown": {
         "tension": 7.442081977628878,
         "drama": 8.8660326761882,
-        "finish": 5.000385285746337
+        "finish": 2.5001926428731687
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Spurs",
       "homeScore": 106,
       "awayScore": 105,
-      "excitement": 6.4,
+      "excitement": 5.7,
       "breakdown": {
         "tension": 2.849422550453933,
         "drama": 6.357426719032969,
-        "finish": 5.820907949626731
+        "finish": 2.9104539748133655
       },
       "overtime": false,
       "bowlName": null,
@@ -104,7 +104,7 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:06:57.466Z",
+    "generatedAt": "2026-01-09T22:36:32.932Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-06"

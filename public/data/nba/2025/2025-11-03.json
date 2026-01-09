@@ -7,11 +7,11 @@
       "awayTeam": "Heat",
       "homeScore": 119,
       "awayScore": 120,
-      "excitement": 8.5,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 6.900774986886509,
         "drama": 10,
-        "finish": 6.857611333842716
+        "finish": 3.428805666921358
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Bucks",
       "homeScore": 115,
       "awayScore": 117,
-      "excitement": 7.6,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 5.767037914028224,
         "drama": 7.57576338317922,
-        "finish": 7.422623364597544
+        "finish": 3.711311682298772
       },
       "overtime": false,
       "bowlName": null,
@@ -39,27 +39,11 @@
       "awayTeam": "Pistons",
       "homeScore": 106,
       "awayScore": 114,
-      "excitement": 7.5,
+      "excitement": 6.7,
       "breakdown": {
         "tension": 7.105548223831413,
         "drama": 7.8109652786143675,
-        "finish": 6.480204943932734
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810018",
-      "homeTeam": "Trail Blazers",
-      "awayTeam": "Lakers",
-      "homeScore": 115,
-      "awayScore": 123,
-      "excitement": 6.1,
-      "breakdown": {
-        "tension": 2.4127177812470046,
-        "drama": 6.65990834033846,
-        "finish": 6.916323939505598
+        "finish": 3.240102471966367
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +55,27 @@
       "awayTeam": "Timberwolves",
       "homeScore": 109,
       "awayScore": 125,
-      "excitement": 6,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 4.41009281889427,
         "drama": 7.3349853750257825,
-        "finish": 4.406146782882234
+        "finish": 2.203073391441117
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810018",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Lakers",
+      "homeScore": 115,
+      "awayScore": 123,
+      "excitement": 5.2,
+      "breakdown": {
+        "tension": 2.4127177812470046,
+        "drama": 6.65990834033846,
+        "finish": 3.458161969752799
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 110,
       "awayScore": 102,
-      "excitement": 5.8,
+      "excitement": 4.8,
       "breakdown": {
         "tension": 1.205546566033564,
         "drama": 6.550562534928887,
-        "finish": 7.141998312670521
+        "finish": 3.5709991563352603
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Jazz",
       "homeScore": 103,
       "awayScore": 105,
-      "excitement": 4.7,
+      "excitement": 4,
       "breakdown": {
         "tension": 0,
         "drama": 4.075304131888174,
-        "finish": 4.708518936442951
+        "finish": 2.3542594682214757
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Kings",
       "homeScore": 130,
       "awayScore": 124,
-      "excitement": 4,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 0,
         "drama": 3.821599963823167,
-        "finish": 2.824063292285457
+        "finish": 1.4120316461427285
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Wizards",
       "homeScore": 119,
       "awayScore": 102,
-      "excitement": 3.8,
+      "excitement": 3.4,
       "breakdown": {
         "tension": 0.2566694158170557,
         "drama": 5.019947497290537,
-        "finish": 2.853761203875898
+        "finish": 1.426880601937949
       },
       "overtime": false,
       "bowlName": null,
@@ -152,7 +152,7 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:04:21.166Z",
+    "generatedAt": "2026-01-09T22:33:52.369Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-03"

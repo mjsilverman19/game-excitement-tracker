@@ -55,11 +55,11 @@
       "awayTeam": "Warriors",
       "homeScore": 99,
       "awayScore": 98,
-      "excitement": 3.9,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 1.621745791785414,
         "drama": 2.8893199828558886,
-        "finish": 1.8531953185709178
+        "finish": 0.9265976592854589
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Celtics",
       "homeScore": 101,
       "awayScore": 146,
-      "excitement": 2.9684932265660047,
+      "excitement": 2.763804508714213,
       "breakdown": {
         "tension": 0,
         "drama": 3.213483694810489,
-        "finish": 1.9784261113187855
+        "finish": 0.9892130556593928
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:05:42.323Z",
+    "generatedAt": "2026-01-09T22:35:16.198Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-04"

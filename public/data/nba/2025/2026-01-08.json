@@ -7,11 +7,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 116,
       "awayScore": 114,
-      "excitement": 8.9,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 9.031826533428765,
         "drama": 9.847144052124223,
-        "finish": 8.472451959547993
+        "finish": 4.236225979773996
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Pacers",
       "homeScore": 112,
       "awayScore": 114,
-      "excitement": 8.8,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 9.57351238502495,
         "drama": 9.62509547367327,
-        "finish": 6.600795508047749
+        "finish": 3.3003977540238747
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Cavaliers",
       "homeScore": 131,
       "awayScore": 122,
-      "excitement": 7.9,
+      "excitement": 7.2,
       "breakdown": {
         "tension": 7.698081587563469,
         "drama": 9.700684549009834,
-        "finish": 5.101224706186647
+        "finish": 2.5506123530933236
       },
       "overtime": false,
       "bowlName": null,
@@ -56,7 +56,7 @@
     "count": 3,
     "totalGames": 3,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:07:02.800Z",
+    "generatedAt": "2026-01-09T22:36:37.928Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-08"

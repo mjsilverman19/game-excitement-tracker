@@ -538,8 +538,21 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
     walkoffScore = 1 + Math.min(2, (maxFinalSwing - 0.15) * 8);
   }
 
+  // If the late window never crosses 50% and stays outside 60/40 on average,
+  // reduce finish sensitivity to avoid over-crediting stable leads.
+  const avgFinalWinProb =
+    finalProbs.reduce((sum, p) => sum + p.value, 0) / finalProbs.length;
+  const crossedHalfLate = finalProbs.some(
+    (p, i) => i > 0 && (finalProbs[i - 1].value - 0.5) * (p.value - 0.5) < 0
+  );
+  const lateStableLead = !crossedHalfLate && (avgFinalWinProb >= 0.60 || avgFinalWinProb <= 0.40);
+  const finishPenalty = lateStableLead ? 0.5 : 1.0;
+
   // Combine components (max ~11.5, scale to 0-10)
-  const totalScore = Math.min(10, closenessScore + volatilityScore + walkoffScore);
+  const totalScore = Math.min(
+    10,
+    (closenessScore + volatilityScore) * finishPenalty + walkoffScore
+  );
 
   return Math.max(0, totalScore);
 }

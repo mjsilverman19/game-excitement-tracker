@@ -39,11 +39,11 @@
       "awayTeam": "Raptors",
       "homeScore": 111,
       "awayScore": 129,
-      "excitement": 6,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 5.618680304959707,
         "drama": 7.2976509400790395,
-        "finish": 3.3386010351880797
+        "finish": 1.6693005175940399
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Lakers",
       "homeScore": 95,
       "awayScore": 119,
-      "excitement": 3.912332410911694,
+      "excitement": 3.661193607911317,
       "breakdown": {
         "tension": 2.0174473743502297,
         "drama": 4.773871516867329,
-        "finish": 1.696168771699856
+        "finish": 0.848084385849928
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Thunder",
       "homeScore": 96,
       "awayScore": 109,
-      "excitement": 3.9,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 0.35498812564241033,
         "drama": 5.24577094578475,
-        "finish": 2.4706726768966574
+        "finish": 1.2353363384483287
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:04:51.870Z",
+    "generatedAt": "2026-01-09T22:34:25.189Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-15"

@@ -7,11 +7,11 @@
       "awayTeam": "Grizzlies",
       "homeScore": 110,
       "awayScore": 116,
-      "excitement": 7.7,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 6.25391630904333,
         "drama": 7.756343641469672,
-        "finish": 5.7553153621502755
+        "finish": 2.8776576810751378
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Cavaliers",
       "homeScore": 127,
       "awayScore": 111,
-      "excitement": 7.6,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 5.592685866191602,
         "drama": 9.428631790326742,
-        "finish": 4.668948968670355
+        "finish": 2.3344744843351775
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:06:04.284Z",
+    "generatedAt": "2026-01-09T22:35:38.797Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-17"

@@ -18,38 +18,6 @@
       "playoffRound": null
     },
     {
-      "id": "401769073",
-      "homeTeam": "Georgia",
-      "awayTeam": "Ole Miss",
-      "homeScore": 34,
-      "awayScore": 39,
-      "excitement": 9.1,
-      "breakdown": {
-        "tension": 6.644734952360942,
-        "drama": 10,
-        "finish": 9
-      },
-      "overtime": false,
-      "bowlName": "Allstate Sugar Bowl",
-      "playoffRound": "Quarterfinal"
-    },
-    {
-      "id": "401778326",
-      "homeTeam": "Illinois",
-      "awayTeam": "Tennessee",
-      "homeScore": 30,
-      "awayScore": 28,
-      "excitement": 9,
-      "breakdown": {
-        "tension": 7.158522293721173,
-        "drama": 9.17528589961857,
-        "finish": 8.158550270929773
-      },
-      "overtime": false,
-      "bowlName": "Liberty Mutual Music City Bowl",
-      "playoffRound": null
-    },
-    {
       "id": "401778312",
       "homeTeam": "Hawai'i",
       "awayTeam": "California",
@@ -66,67 +34,19 @@
       "playoffRound": null
     },
     {
-      "id": "401778329",
-      "homeTeam": "Duke",
-      "awayTeam": "Arizona St",
-      "homeScore": 42,
-      "awayScore": 39,
-      "excitement": 8.9,
-      "breakdown": {
-        "tension": 8.20830616253517,
-        "drama": 10,
-        "finish": 6.204054115007285
-      },
-      "overtime": false,
-      "bowlName": "Tony the Tiger Sun Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401769075",
-      "homeTeam": "Ole Miss",
-      "awayTeam": "Miami",
-      "homeScore": 27,
-      "awayScore": 31,
-      "excitement": 8.9,
-      "breakdown": {
-        "tension": 7.3678754896753285,
-        "drama": 10,
-        "finish": 9
-      },
-      "overtime": false,
-      "bowlName": "Vrbo Fiesta Bowl",
-      "playoffRound": "Semifinal"
-    },
-    {
-      "id": "401778310",
-      "homeTeam": "Southern Miss",
-      "awayTeam": "Western KY",
-      "homeScore": 16,
-      "awayScore": 27,
-      "excitement": 8.8,
-      "breakdown": {
-        "tension": 8.134824417075544,
-        "drama": 10,
-        "finish": 8.369159141948
-      },
-      "overtime": false,
-      "bowlName": "New Orleans Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401778323",
-      "homeTeam": "Houston",
-      "awayTeam": "LSU",
-      "homeScore": 38,
-      "awayScore": 35,
+      "id": "401778326",
+      "homeTeam": "Illinois",
+      "awayTeam": "Tennessee",
+      "homeScore": 30,
+      "awayScore": 28,
       "excitement": 8.7,
       "breakdown": {
-        "tension": 6.722372045308589,
-        "drama": 10,
-        "finish": 4.2648890961389725
+        "tension": 7.158522293721173,
+        "drama": 9.17528589961857,
+        "finish": 4.079275135464886
       },
       "overtime": false,
-      "bowlName": "Kinder's Texas Bowl",
+      "bowlName": "Liberty Mutual Music City Bowl",
       "playoffRound": null
     },
     {
@@ -146,16 +66,96 @@
       "playoffRound": null
     },
     {
+      "id": "401778329",
+      "homeTeam": "Duke",
+      "awayTeam": "Arizona St",
+      "homeScore": 42,
+      "awayScore": 39,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 8.20830616253517,
+        "drama": 10,
+        "finish": 3.1020270575036424
+      },
+      "overtime": false,
+      "bowlName": "Tony the Tiger Sun Bowl",
+      "playoffRound": null
+    },
+    {
+      "id": "401769073",
+      "homeTeam": "Georgia",
+      "awayTeam": "Ole Miss",
+      "homeScore": 34,
+      "awayScore": 39,
+      "excitement": 8.5,
+      "breakdown": {
+        "tension": 6.644734952360942,
+        "drama": 10,
+        "finish": 4.5
+      },
+      "overtime": false,
+      "bowlName": "Allstate Sugar Bowl",
+      "playoffRound": "Quarterfinal"
+    },
+    {
+      "id": "401778323",
+      "homeTeam": "Houston",
+      "awayTeam": "LSU",
+      "homeScore": 38,
+      "awayScore": 35,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 6.722372045308589,
+        "drama": 10,
+        "finish": 2.1324445480694862
+      },
+      "overtime": false,
+      "bowlName": "Kinder's Texas Bowl",
+      "playoffRound": null
+    },
+    {
+      "id": "401769075",
+      "homeTeam": "Ole Miss",
+      "awayTeam": "Miami",
+      "homeScore": 27,
+      "awayScore": 31,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 7.3678754896753285,
+        "drama": 10,
+        "finish": 4.5
+      },
+      "overtime": false,
+      "bowlName": "Vrbo Fiesta Bowl",
+      "playoffRound": "Semifinal"
+    },
+    {
+      "id": "401778310",
+      "homeTeam": "Southern Miss",
+      "awayTeam": "Western KY",
+      "homeScore": 16,
+      "awayScore": 27,
+      "excitement": 8,
+      "breakdown": {
+        "tension": 8.134824417075544,
+        "drama": 10,
+        "finish": 4.184579570974
+      },
+      "overtime": false,
+      "bowlName": "New Orleans Bowl",
+      "playoffRound": null
+    },
+    {
       "id": "401779841",
       "homeTeam": "Texas A&M",
       "awayTeam": "Miami",
       "homeScore": 3,
       "awayScore": 10,
-      "excitement": 8.6,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 9.34569770179481,
         "drama": 8.980869560833641,
-        "finish": 9
+        "finish": 4.5
       },
       "overtime": false,
       "bowlName": null,
@@ -167,11 +167,11 @@
       "awayTeam": "Georgia Tech",
       "homeScore": 25,
       "awayScore": 21,
-      "excitement": 8.2,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 5.142254022072306,
         "drama": 9.729720487200147,
-        "finish": 8.011845764676954
+        "finish": 4.005922882338477
       },
       "overtime": false,
       "bowlName": "Pop-Tarts Bowl",
@@ -183,11 +183,11 @@
       "awayTeam": "Coastal",
       "homeScore": 23,
       "awayScore": 14,
-      "excitement": 7.8,
+      "excitement": 7,
       "breakdown": {
         "tension": 6.299287726091009,
         "drama": 10,
-        "finish": 6.642611814814501
+        "finish": 3.3213059074072504
       },
       "overtime": false,
       "bowlName": "Radiance Technologies Independence Bowl",
@@ -199,47 +199,15 @@
       "awayTeam": "Wake Forest",
       "homeScore": 29,
       "awayScore": 43,
-      "excitement": 7.8,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 6.451186983663257,
         "drama": 7.982626264906068,
-        "finish": 6.406623239072
+        "finish": 3.203311619536
       },
       "overtime": false,
       "bowlName": "Duke's Mayo Bowl",
       "playoffRound": null
-    },
-    {
-      "id": "401778304",
-      "homeTeam": "South Florida",
-      "awayTeam": "Old Dominion",
-      "homeScore": 10,
-      "awayScore": 24,
-      "excitement": 7.5,
-      "breakdown": {
-        "tension": 5.340300905551767,
-        "drama": 7.624887453510755,
-        "finish": 5.939646303596
-      },
-      "overtime": false,
-      "bowlName": "StaffDNA Cure Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401769070",
-      "homeTeam": "Ohio State",
-      "awayTeam": "Miami",
-      "homeScore": 14,
-      "awayScore": 24,
-      "excitement": 7.5,
-      "breakdown": {
-        "tension": 4.699090370174285,
-        "drama": 6.765315346416805,
-        "finish": 7.1049754382
-      },
-      "overtime": false,
-      "bowlName": "Goodyear Cotton Bowl Classic",
-      "playoffRound": "Quarterfinal"
     },
     {
       "id": "401778303",
@@ -247,46 +215,14 @@
       "awayTeam": "Troy",
       "homeScore": 17,
       "awayScore": 13,
-      "excitement": 7.4,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 7.293856714640886,
         "drama": 8.524322545869325,
-        "finish": 4.703421218788602
+        "finish": 2.351710609394301
       },
       "overtime": false,
       "bowlName": "IS4S Salute to Veterans Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401779840",
-      "homeTeam": "Oklahoma",
-      "awayTeam": "Alabama",
-      "homeScore": 24,
-      "awayScore": 34,
-      "excitement": 7.4,
-      "breakdown": {
-        "tension": 4.00580141152155,
-        "drama": 9.004398617311015,
-        "finish": 5.139335554898
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": "First Round"
-    },
-    {
-      "id": "401778322",
-      "homeTeam": "Missouri",
-      "awayTeam": "Virginia",
-      "homeScore": 7,
-      "awayScore": 13,
-      "excitement": 7.2,
-      "breakdown": {
-        "tension": 3.0843302666591565,
-        "drama": 7.381663168596802,
-        "finish": 6.343199251196
-      },
-      "overtime": false,
-      "bowlName": "TaxSlayer Gator Bowl",
       "playoffRound": null
     },
     {
@@ -295,15 +231,63 @@
       "awayTeam": "Pitt",
       "homeScore": 23,
       "awayScore": 17,
-      "excitement": 7.2,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 7.951646425087792,
         "drama": 9.27342228363099,
-        "finish": 2.6629422077287783
+        "finish": 1.3314711038643892
       },
       "overtime": false,
       "bowlName": "Go Bowling Military Bowl",
       "playoffRound": null
+    },
+    {
+      "id": "401778304",
+      "homeTeam": "South Florida",
+      "awayTeam": "Old Dominion",
+      "homeScore": 10,
+      "awayScore": 24,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 5.340300905551767,
+        "drama": 7.624887453510755,
+        "finish": 2.969823151798
+      },
+      "overtime": false,
+      "bowlName": "StaffDNA Cure Bowl",
+      "playoffRound": null
+    },
+    {
+      "id": "401779840",
+      "homeTeam": "Oklahoma",
+      "awayTeam": "Alabama",
+      "homeScore": 24,
+      "awayScore": 34,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 4.00580141152155,
+        "drama": 9.004398617311015,
+        "finish": 2.569667777449
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "First Round"
+    },
+    {
+      "id": "401769070",
+      "homeTeam": "Ohio State",
+      "awayTeam": "Miami",
+      "homeScore": 14,
+      "awayScore": 24,
+      "excitement": 6.4,
+      "breakdown": {
+        "tension": 4.699090370174285,
+        "drama": 6.765315346416805,
+        "finish": 3.5524877191
+      },
+      "overtime": false,
+      "bowlName": "Goodyear Cotton Bowl Classic",
+      "playoffRound": "Quarterfinal"
     },
     {
       "id": "401778305",
@@ -311,14 +295,30 @@
       "awayTeam": "Louisiana",
       "homeScore": 20,
       "awayScore": 13,
-      "excitement": 7,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 5.391616821143983,
         "drama": 6.368202876057733,
-        "finish": 4.845414645215648
+        "finish": 2.422707322607824
       },
       "overtime": false,
       "bowlName": "68 Ventures Bowl",
+      "playoffRound": null
+    },
+    {
+      "id": "401778322",
+      "homeTeam": "Missouri",
+      "awayTeam": "Virginia",
+      "homeScore": 7,
+      "awayScore": 13,
+      "excitement": 6.2,
+      "breakdown": {
+        "tension": 3.0843302666591565,
+        "drama": 7.381663168596802,
+        "finish": 3.171599625598
+      },
+      "overtime": false,
+      "bowlName": "TaxSlayer Gator Bowl",
       "playoffRound": null
     },
     {
@@ -327,11 +327,11 @@
       "awayTeam": "Penn State",
       "homeScore": 10,
       "awayScore": 22,
-      "excitement": 6.5,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 5.134660018308603,
         "drama": 6.233259628313937,
-        "finish": 5.393572172204
+        "finish": 2.696786086102
       },
       "overtime": false,
       "bowlName": "Bad Boy Mowers Pinstripe Bowl",
@@ -343,30 +343,14 @@
       "awayTeam": "UNLV",
       "homeScore": 17,
       "awayScore": 10,
-      "excitement": 5.5,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 5.83923217985871,
         "drama": 5.448465515641688,
-        "finish": 2.6492193347979285
+        "finish": 1.3246096673989642
       },
       "overtime": false,
       "bowlName": "Scooter's Coffee Frisco Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401778333",
-      "homeTeam": "Cincinnati",
-      "awayTeam": "Navy",
-      "homeScore": 13,
-      "awayScore": 35,
-      "excitement": 5.4,
-      "breakdown": {
-        "tension": 3.539063674966864,
-        "drama": 4.032113282799222,
-        "finish": 5.009775862622
-      },
-      "overtime": false,
-      "bowlName": "AutoZone Liberty Bowl",
       "playoffRound": null
     },
     {
@@ -375,14 +359,30 @@
       "awayTeam": "Iowa",
       "homeScore": 27,
       "awayScore": 34,
-      "excitement": 5.3,
+      "excitement": 5,
       "breakdown": {
         "tension": 4.683993558201635,
         "drama": 5.565754513259962,
-        "finish": 1.9910573975320491
+        "finish": 0.9955286987660246
       },
       "overtime": false,
       "bowlName": "ReliaQuest Bowl",
+      "playoffRound": null
+    },
+    {
+      "id": "401778320",
+      "homeTeam": "Fresno St",
+      "awayTeam": "Miami OH",
+      "homeScore": 18,
+      "awayScore": 3,
+      "excitement": 4.7,
+      "breakdown": {
+        "tension": 5.563220938358945,
+        "drama": 5.519248660446873,
+        "finish": 1.4524624932986478
+      },
+      "overtime": false,
+      "bowlName": "Snoop Dogg Arizona Bowl",
       "playoffRound": null
     },
     {
@@ -391,30 +391,46 @@
       "awayTeam": "Oregon",
       "homeScore": 0,
       "awayScore": 23,
-      "excitement": 5.3,
+      "excitement": 4.5,
       "breakdown": {
         "tension": 3.506743794850949,
         "drama": 4.486300893563146,
-        "finish": 5.03591237537
+        "finish": 2.517956187685
       },
       "overtime": false,
       "bowlName": "Capital One Orange Bowl",
       "playoffRound": "Quarterfinal"
     },
     {
-      "id": "401778320",
-      "homeTeam": "Fresno St",
-      "awayTeam": "Miami OH",
-      "homeScore": 18,
-      "awayScore": 3,
-      "excitement": 5.2,
+      "id": "401778333",
+      "homeTeam": "Cincinnati",
+      "awayTeam": "Navy",
+      "homeScore": 13,
+      "awayScore": 35,
+      "excitement": 4.5,
       "breakdown": {
-        "tension": 5.563220938358945,
-        "drama": 5.519248660446873,
-        "finish": 2.9049249865972957
+        "tension": 3.539063674966864,
+        "drama": 4.032113282799222,
+        "finish": 2.504887931311
       },
       "overtime": false,
-      "bowlName": "Snoop Dogg Arizona Bowl",
+      "bowlName": "AutoZone Liberty Bowl",
+      "playoffRound": null
+    },
+    {
+      "id": "401778321",
+      "homeTeam": "San Diego St",
+      "awayTeam": "North Texas",
+      "homeScore": 47,
+      "awayScore": 49,
+      "excitement": 4.2,
+      "breakdown": {
+        "tension": 0.7508921585195427,
+        "drama": 5.1551051494049815,
+        "finish": 0.8133395614416467
+      },
+      "overtime": false,
+      "bowlName": "Isleta New Mexico Bowl",
       "playoffRound": null
     },
     {
@@ -423,11 +439,11 @@
       "awayTeam": "GA Southern",
       "homeScore": 10,
       "awayScore": 29,
-      "excitement": 5,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 3.2279897651249234,
         "drama": 3.8609770084042223,
-        "finish": 5.01346829561
+        "finish": 2.506734147805
       },
       "overtime": false,
       "bowlName": "JLab Birmingham Bowl",
@@ -439,30 +455,14 @@
       "awayTeam": "Washington St",
       "homeScore": 21,
       "awayScore": 34,
-      "excitement": 4.8,
+      "excitement": 4,
       "breakdown": {
         "tension": 2.439090610787237,
         "drama": 3.736142634421838,
-        "finish": 5.020463478074
+        "finish": 2.510231739037
       },
       "overtime": false,
       "bowlName": "Famous Idaho Potato Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401778321",
-      "homeTeam": "San Diego St",
-      "awayTeam": "North Texas",
-      "homeScore": 47,
-      "awayScore": 49,
-      "excitement": 4.5,
-      "breakdown": {
-        "tension": 0.7508921585195427,
-        "drama": 5.1551051494049815,
-        "finish": 1.6266791228832933
-      },
-      "overtime": false,
-      "bowlName": "Isleta New Mexico Bowl",
       "playoffRound": null
     },
     {
@@ -471,11 +471,11 @@
       "awayTeam": "UConn",
       "homeScore": 41,
       "awayScore": 16,
-      "excitement": 3.7,
+      "excitement": 3.4,
       "breakdown": {
         "tension": 3.0927974661196256,
         "drama": 3.5827603741054923,
-        "finish": 1.7477839401563315
+        "finish": 0.8738919700781658
       },
       "overtime": false,
       "bowlName": "Wasabi Fenway Bowl",
@@ -487,11 +487,11 @@
       "awayTeam": "Toledo",
       "homeScore": 27,
       "awayScore": 22,
-      "excitement": 3.6,
+      "excitement": 3.3,
       "breakdown": {
         "tension": 0.4877972212646309,
         "drama": 4.186461921207558,
-        "finish": 2.47270448357912
+        "finish": 1.23635224178956
       },
       "overtime": false,
       "bowlName": "Bush's Boca Raton Bowl",
@@ -503,11 +503,11 @@
       "awayTeam": "Missouri St",
       "homeScore": 34,
       "awayScore": 28,
-      "excitement": 3.4,
+      "excitement": 3.2,
       "breakdown": {
         "tension": 1.590055548848266,
         "drama": 2.959831267170575,
-        "finish": 1.9519704624862546
+        "finish": 0.9759852312431273
       },
       "overtime": false,
       "bowlName": "Xbox Bowl",
@@ -519,11 +519,11 @@
       "awayTeam": "Arizona",
       "homeScore": 24,
       "awayScore": 19,
-      "excitement": 3.2,
+      "excitement": 3,
       "breakdown": {
         "tension": 1.4854589013960995,
         "drama": 2.466734393608617,
-        "finish": 1.7583477416264248
+        "finish": 0.8791738708132124
       },
       "overtime": false,
       "bowlName": "Trust & Will Holiday Bowl",
@@ -535,11 +535,11 @@
       "awayTeam": "FIU",
       "homeScore": 57,
       "awayScore": 20,
-      "excitement": 2.8292871061099127,
+      "excitement": 2.719511910590576,
       "breakdown": {
         "tension": 1.117415750492294,
         "drama": 2.4691000024445255,
-        "finish": 1.1011240290105146
+        "finish": 0.5505620145052573
       },
       "overtime": false,
       "bowlName": "SERVPRO First Responder Bowl",
@@ -551,11 +551,11 @@
       "awayTeam": "Memphis",
       "homeScore": 31,
       "awayScore": 7,
-      "excitement": 2.8,
+      "excitement": 2.7,
       "breakdown": {
         "tension": 1.3807345841145913,
         "drama": 2.2997489017619688,
-        "finish": 1.1424121620989514
+        "finish": 0.5712060810494757
       },
       "overtime": false,
       "bowlName": "Union Home Mortgage Gasparilla Bowl",
@@ -567,11 +567,11 @@
       "awayTeam": "Nebraska",
       "homeScore": 44,
       "awayScore": 22,
-      "excitement": 2.8,
+      "excitement": 2.7,
       "breakdown": {
         "tension": 1.0965563198864736,
         "drama": 2.3249178227009253,
-        "finish": 1.0967841611865146
+        "finish": 0.5483920805932573
       },
       "overtime": false,
       "bowlName": "SRS Distribution Las Vegas Bowl",
@@ -583,11 +583,11 @@
       "awayTeam": "Rice",
       "homeScore": 41,
       "awayScore": 10,
-      "excitement": 2.583838448195343,
+      "excitement": 2.457751325434674,
       "breakdown": {
         "tension": 0,
         "drama": 1.8325692430295977,
-        "finish": 1.4259285152921577
+        "finish": 0.7129642576460788
       },
       "overtime": false,
       "bowlName": "Lockheed Martin Armed Forces Bowl",
@@ -599,31 +599,15 @@
       "awayTeam": "Alabama",
       "homeScore": 38,
       "awayScore": 3,
-      "excitement": 2.5591209937868022,
+      "excitement": 2.45684517827991,
       "breakdown": {
         "tension": 0.6010604074065113,
         "drama": 1.4428932298621182,
-        "finish": 1.1642922000115954
+        "finish": 0.5821461000057977
       },
       "overtime": false,
       "bowlName": "Rose Bowl Presented by Prudential",
       "playoffRound": "Quarterfinal"
-    },
-    {
-      "id": "401778306",
-      "homeTeam": "W Michigan",
-      "awayTeam": "Kennesaw St",
-      "homeScore": 41,
-      "awayScore": 6,
-      "excitement": 2.4434833402198723,
-      "breakdown": {
-        "tension": 0.25116942753730354,
-        "drama": 1.1332410253183525,
-        "finish": 1.1132484231725428
-      },
-      "overtime": false,
-      "bowlName": "Myrtle Beach Bowl",
-      "playoffRound": null
     },
     {
       "id": "401778313",
@@ -635,27 +619,27 @@
       "breakdown": {
         "tension": 0,
         "drama": 1.3923778685540913,
-        "finish": 1.0961362885545145
+        "finish": 0.5480681442772573
       },
       "overtime": false,
       "bowlName": "GameAbove Sports Bowl",
       "playoffRound": null
     },
     {
-      "id": "401779843",
-      "homeTeam": "Oregon",
-      "awayTeam": "James Madison",
-      "homeScore": 51,
-      "awayScore": 34,
-      "excitement": 2.3,
+      "id": "401778306",
+      "homeTeam": "W Michigan",
+      "awayTeam": "Kennesaw St",
+      "homeScore": 41,
+      "awayScore": 6,
+      "excitement": 2.3515182941081063,
       "breakdown": {
-        "tension": 0,
-        "drama": 0.47899247562033775,
-        "finish": 1.0961063158005147
+        "tension": 0.25116942753730354,
+        "drama": 1.1332410253183525,
+        "finish": 0.5566242115862714
       },
       "overtime": false,
-      "bowlName": null,
-      "playoffRound": "First Round"
+      "bowlName": "Myrtle Beach Bowl",
+      "playoffRound": null
     },
     {
       "id": "401779842",
@@ -663,11 +647,27 @@
       "awayTeam": "Tulane",
       "homeScore": 41,
       "awayScore": 10,
-      "excitement": 2.2944557887059585,
+      "excitement": 2.2116618452458168,
       "breakdown": {
         "tension": 0,
         "drama": 0.4470028854934724,
-        "finish": 1.0969276090725146
+        "finish": 0.5484638045362573
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "First Round"
+    },
+    {
+      "id": "401779843",
+      "homeTeam": "Oregon",
+      "awayTeam": "James Madison",
+      "homeScore": 51,
+      "awayScore": 34,
+      "excitement": 2.2,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.47899247562033775,
+        "finish": 0.5480531579002573
       },
       "overtime": false,
       "bowlName": null,
@@ -680,7 +680,7 @@
     "count": 42,
     "totalGames": 43,
     "insufficientData": 1,
-    "generatedAt": "2026-01-09T22:02:59.066Z",
+    "generatedAt": "2026-01-09T22:31:58.900Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "week": "bowls",

@@ -55,11 +55,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 105,
       "awayScore": 136,
-      "excitement": 2.54149175306472,
+      "excitement": 2.4360208339736857,
       "breakdown": {
         "tension": 0,
         "drama": 1.8111569556048104,
-        "finish": 1.2130944091601386
+        "finish": 0.6065472045800693
       },
       "overtime": false,
       "bowlName": null,
@@ -72,7 +72,7 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:05:55.335Z",
+    "generatedAt": "2026-01-09T22:35:28.835Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-11"

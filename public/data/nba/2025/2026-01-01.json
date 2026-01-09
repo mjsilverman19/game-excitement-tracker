@@ -23,11 +23,11 @@
       "awayTeam": "Heat",
       "homeScore": 112,
       "awayScore": 118,
-      "excitement": 8.1,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 8.779075863232217,
         "drama": 9.09446544750461,
-        "finish": 3.0313424833187854
+        "finish": 1.5156712416593927
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "76ers",
       "homeScore": 108,
       "awayScore": 123,
-      "excitement": 6.8,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 6.385616108876655,
         "drama": 8.254725586354137,
-        "finish": 4.288111617775907
+        "finish": 2.1440558088879533
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Jazz",
       "homeScore": 118,
       "awayScore": 101,
-      "excitement": 5.3,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 1.2856099756574935,
         "drama": 5.002628150146558,
-        "finish": 7.2952985351008675
+        "finish": 3.6476492675504337
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Rockets",
       "homeScore": 96,
       "awayScore": 120,
-      "excitement": 2.802996925988724,
+      "excitement": 2.595312315992212,
       "breakdown": {
         "tension": 0,
         "drama": 2.243764088432264,
-        "finish": 2.1547040517655973
+        "finish": 1.0773520258827987
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:06:44.614Z",
+    "generatedAt": "2026-01-09T22:36:19.531Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-01"

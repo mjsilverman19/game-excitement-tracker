@@ -7,11 +7,11 @@
       "awayTeam": "76ers",
       "homeScore": 99,
       "awayScore": 84,
-      "excitement": 8.2,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 8.711955866924178,
         "drama": 9.451428128253983,
-        "finish": 7.273519877119821
+        "finish": 3.6367599385599103
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Melbourne United",
       "homeScore": 107,
       "awayScore": 97,
-      "excitement": 6.2,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 3.876066360227357,
         "drama": 7.292264385158385,
-        "finish": 4.897944579775906
+        "finish": 2.448972289887953
       },
       "overtime": false,
       "bowlName": null,
@@ -40,7 +40,7 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:03:16.632Z",
+    "generatedAt": "2026-01-09T22:32:44.640Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-02"

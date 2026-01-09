@@ -7,29 +7,13 @@
       "awayTeam": "Kings",
       "homeScore": 107,
       "awayScore": 101,
-      "excitement": 8.9,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 8.244237163463431,
         "drama": 10,
-        "finish": 7.920471788581672
+        "finish": 3.960235894290836
       },
       "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401809978",
-      "homeTeam": "Wizards",
-      "awayTeam": "76ers",
-      "homeScore": 134,
-      "awayScore": 139,
-      "excitement": 8.8,
-      "breakdown": {
-        "tension": 6.850041338433261,
-        "drama": 10,
-        "finish": 4.399641444279973
-      },
-      "overtime": true,
       "bowlName": null,
       "playoffRound": null
     },
@@ -50,16 +34,32 @@
       "playoffRound": null
     },
     {
+      "id": "401809978",
+      "homeTeam": "Wizards",
+      "awayTeam": "76ers",
+      "homeScore": 134,
+      "awayScore": 139,
+      "excitement": 8.3,
+      "breakdown": {
+        "tension": 6.850041338433261,
+        "drama": 10,
+        "finish": 2.1998207221399864
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401809982",
       "homeTeam": "Warriors",
       "awayTeam": "Clippers",
       "homeScore": 98,
       "awayScore": 79,
-      "excitement": 7.6,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 5.894640099301114,
         "drama": 8.27556313683979,
-        "finish": 7.876836232930907
+        "finish": 3.9384181164654537
       },
       "overtime": false,
       "bowlName": null,
@@ -75,7 +75,7 @@
       "breakdown": {
         "tension": 5.29553767801512,
         "drama": 8.393489604299928,
-        "finish": 5.595822809177287
+        "finish": 2.7979114045886435
       },
       "overtime": false,
       "bowlName": null,
@@ -88,7 +88,7 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:04:04.828Z",
+    "generatedAt": "2026-01-09T22:33:36.013Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-28"

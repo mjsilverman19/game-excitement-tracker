@@ -18,32 +18,32 @@
       "playoffRound": null
     },
     {
-      "id": "401810221",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Spurs",
-      "homeScore": 132,
-      "awayScore": 135,
-      "excitement": 4.9,
+      "id": "401810219",
+      "homeTeam": "Pacers",
+      "awayTeam": "Kings",
+      "homeScore": 116,
+      "awayScore": 105,
+      "excitement": 4.1,
       "breakdown": {
-        "tension": 0.11706719102553054,
-        "drama": 4.3457584018772835,
-        "finish": 4.914947139072531
+        "tension": 2.4502787345656607,
+        "drama": 5.4427539593300756,
+        "finish": 1.2353247865838934
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401810219",
-      "homeTeam": "Pacers",
-      "awayTeam": "Kings",
-      "homeScore": 116,
-      "awayScore": 105,
-      "excitement": 4.5,
+      "id": "401810221",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Spurs",
+      "homeScore": 132,
+      "awayScore": 135,
+      "excitement": 4.1,
       "breakdown": {
-        "tension": 2.4502787345656607,
-        "drama": 5.4427539593300756,
-        "finish": 2.470649573167787
+        "tension": 0.11706719102553054,
+        "drama": 4.3457584018772835,
+        "finish": 2.4574735695362655
       },
       "overtime": false,
       "bowlName": null,
@@ -56,7 +56,7 @@
     "count": 3,
     "totalGames": 3,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:05:52.512Z",
+    "generatedAt": "2026-01-09T22:35:25.103Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-08"

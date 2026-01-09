@@ -2,22 +2,6 @@
   "success": true,
   "games": [
     {
-      "id": "401810247",
-      "homeTeam": "Warriors",
-      "awayTeam": "Suns",
-      "homeScore": 119,
-      "awayScore": 116,
-      "excitement": 8.8,
-      "breakdown": {
-        "tension": 9.362049108863747,
-        "drama": 10,
-        "finish": 8.774952579466591
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810242",
       "homeTeam": "76ers",
       "awayTeam": "Mavericks",
@@ -28,6 +12,22 @@
         "tension": 8.012869305543452,
         "drama": 10,
         "finish": 8.9903923056295
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810247",
+      "homeTeam": "Warriors",
+      "awayTeam": "Suns",
+      "homeScore": 119,
+      "awayScore": 116,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 9.362049108863747,
+        "drama": 10,
+        "finish": 4.3874762897332955
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 93,
       "awayScore": 98,
-      "excitement": 7.8,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 6.660421636747005,
         "drama": 7.822796920078414,
-        "finish": 5.335576469157917
+        "finish": 2.6677882345789583
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Rockets",
       "homeScore": 101,
       "awayScore": 115,
-      "excitement": 7.2,
+      "excitement": 6.4,
       "breakdown": {
         "tension": 5.696325837997506,
         "drama": 8.517561152485024,
-        "finish": 5.549086091769736
+        "finish": 2.774543045884868
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Magic",
       "homeScore": 127,
       "awayScore": 128,
-      "excitement": 6.6,
+      "excitement": 6,
       "breakdown": {
         "tension": 2.7927343258303683,
         "drama": 6.197448493061464,
-        "finish": 4.706562476976016
+        "finish": 2.353281238488008
       },
       "overtime": true,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Hornets",
       "homeScore": 112,
       "awayScore": 86,
-      "excitement": 4.733358689139402,
+      "excitement": 4.23979300802606,
       "breakdown": {
         "tension": 2.300877351404258,
         "drama": 6.550366684382278,
-        "finish": 3.3054201885853516
+        "finish": 1.6527100942926758
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Lakers",
       "homeScore": 103,
       "awayScore": 88,
-      "excitement": 4.2,
+      "excitement": 3.8,
       "breakdown": {
         "tension": 1.7739318745414356,
         "drama": 5.3556641221416585,
-        "finish": 2.7565114463201064
+        "finish": 1.3782557231600532
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Pacers",
       "homeScore": 128,
       "awayScore": 109,
-      "excitement": 3.7,
+      "excitement": 3.2,
       "breakdown": {
         "tension": 0.8176194584224952,
         "drama": 3.588434731424331,
-        "finish": 3.5785945923472107
+        "finish": 1.7892972961736053
       },
       "overtime": false,
       "bowlName": null,
@@ -151,11 +151,11 @@
       "awayTeam": "Wizards",
       "homeScore": 122,
       "awayScore": 130,
-      "excitement": 3.4,
+      "excitement": 3.1,
       "breakdown": {
         "tension": 0,
         "drama": 3.617561890088321,
-        "finish": 2.428293864140513
+        "finish": 1.2141469320702565
       },
       "overtime": false,
       "bowlName": null,
@@ -168,7 +168,7 @@
     "count": 10,
     "totalGames": 10,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:06:13.997Z",
+    "generatedAt": "2026-01-09T22:35:48.256Z",
     "algorithmVersion": "2.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-20"
