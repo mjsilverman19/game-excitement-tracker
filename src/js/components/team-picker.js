@@ -9,10 +9,15 @@
  * Load all teams for the current sport
  */
 export async function loadTeams() {
+    console.log('loadTeams called:', { sport: window.selectedSport, cached: window.allTeams.length > 0 });
+
     if (window.allTeams.length > 0) {
         displayTeams(window.allTeams);
         return;
     }
+
+    // Show loading state
+    document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Loading teams...</div>';
 
     try {
         const response = await fetch(`/api/teams?sport=${window.selectedSport}`);
@@ -20,7 +25,15 @@ export async function loadTeams() {
 
         if (data.success && data.teams) {
             window.allTeams = data.teams;
-            displayTeams(window.allTeams);
+            console.log('loadTeams: loaded', window.allTeams.length, 'teams');
+
+            // If user has already typed in search box, filter; otherwise show all
+            const searchInput = document.getElementById('teamSearchInput');
+            if (searchInput && searchInput.value) {
+                filterTeams(searchInput.value);
+            } else {
+                displayTeams(window.allTeams);
+            }
         }
     } catch (error) {
         console.error('Error loading teams:', error);
@@ -55,6 +68,14 @@ export function displayTeams(teams) {
  * Filter teams based on search query
  */
 export function filterTeams(query) {
+    console.log('filterTeams called:', { query, allTeamsCount: window.allTeams?.length });
+
+    // Guard: If teams aren't loaded yet, don't filter
+    if (!window.allTeams || window.allTeams.length === 0) {
+        console.warn('filterTeams: allTeams not loaded yet, skipping filter');
+        return;
+    }
+
     if (!query) {
         displayTeams(window.allTeams);
         return;
@@ -66,6 +87,7 @@ export function filterTeams(query) {
         team.abbreviation.toLowerCase().includes(query.toLowerCase())
     );
 
+    console.log('filterTeams: filtered results:', filtered.length);
     displayTeams(filtered);
 }
 
