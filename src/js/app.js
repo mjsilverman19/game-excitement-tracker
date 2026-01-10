@@ -521,6 +521,7 @@ window.getTier = getTier;
                     document.getElementById('teamSearchInput').focus();
                 } else {
                     picker.classList.remove('visible');
+                    document.getElementById('teamSearchInput').value = '';
                 }
             });
 
@@ -536,6 +537,7 @@ window.getTier = getTier;
 
                 if (!picker.contains(e.target) && e.target !== findGameLink) {
                     picker.classList.remove('visible');
+                    document.getElementById('teamSearchInput').value = '';
                 }
             });
         }

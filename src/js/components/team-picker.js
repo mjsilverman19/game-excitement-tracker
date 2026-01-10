@@ -12,7 +12,14 @@ export async function loadTeams() {
     console.log('loadTeams called:', { sport: window.selectedSport, cached: window.allTeams.length > 0 });
 
     if (window.allTeams.length > 0) {
-        displayTeams(window.allTeams);
+        // Check if search input has text, filter if so
+        const searchInput = document.getElementById('teamSearchInput');
+        if (searchInput && searchInput.value) {
+            console.log('loadTeams: cached teams, applying existing filter:', searchInput.value);
+            filterTeams(searchInput.value);
+        } else {
+            displayTeams(window.allTeams);
+        }
         return;
     }
 
