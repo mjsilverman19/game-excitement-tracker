@@ -131,7 +131,7 @@ export async function loadSchedule(team) {
         const data = await response.json();
         console.log('Schedule API response data:', data);
 
-        if (data.success && data.games) {
+        if (data.success && data.games && data.games.length > 0) {
             window.currentSchedule = data.games;
             console.log('Displaying schedule with', data.games.length, 'games');
             displaySchedule(data.team, data.games);
