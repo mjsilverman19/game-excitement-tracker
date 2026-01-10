@@ -252,11 +252,10 @@ export async function findLatestAvailable(sport, season) {
       console.log(`⚠️ Ignoring cached regular season week ${cached.week} during postseason`);
     }
 
-    // Check playoff rounds in reverse order (most recent first)
-    // super-bowl → conference → divisional → wild-card
-    console.log('🔎 Checking playoff rounds: super-bowl → conference → divisional → wild-card...');
-    const reversedRounds = [...playoffRounds].reverse();
-    for (const round of reversedRounds) {
+    // Check playoff rounds in chronological order
+    // wild-card → divisional → conference → super-bowl
+    console.log('🔎 Checking playoff rounds: wild-card → divisional → conference → super-bowl...');
+    for (const round of playoffRounds) {
       if (await staticFileExists(sport, season, round)) {
         console.log(`✅ Found ${round} data`);
         return { week: round, fromCache: false };
