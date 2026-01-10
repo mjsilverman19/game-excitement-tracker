@@ -36,11 +36,9 @@ export function getPrevNFLPlayoffRound(currentRound) {
 }
 
 export const ALGORITHM_CONFIG = {
-  // Version 2.5: Added NFL playoff round support
-  // - NFL playoffs accessible via round names (wild-card, divisional, conference, super-bowl)
-  // - Proper navigation between week 18 and playoff rounds
-  // - Static data generation for NFL postseason
-  version: '2.5',
+  // Version 3.0: Raise finish ceiling and add exceptional finish detection
+  // - Adds finishLogBase and exceptionalFinish thresholds
+  version: '3.0',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -68,6 +66,31 @@ export const ALGORITHM_CONFIG = {
     lateDramaSwingThreshold: 0.15,
     largeFinalSwingThreshold: 0.20,
     lateClosenessThreshold: 0.25,
+    dramaLogBase: 18,
+    tensionFloor: {
+      oneScore: { margin: 3, floor: 4.0 },
+      close: { margin: 7, floor: 2.5 },
+      competitive: { margin: 10, floor: 1.5 },
+      nbaMultiplier: 2
+    },
+    finishLogBase: 12,
+    finishWalkoff: {
+      competitiveRange: { low: 0.35, high: 0.65 },
+      minSwing: 0.15,
+      largeSwing: 0.25
+    },
+    exceptionalFinish: {
+      lateLeadChangesRequired: 3,
+      competitiveOTRange: { low: 0.35, high: 0.65 },
+      finalSwingThreshold: 0.25,
+      finalWindowSize: 10,
+      sustainedUncertaintyRange: { low: 0.40, high: 0.60 },
+      multipliers: {
+        tier3: 1.5,
+        tier2: 1.25,
+        tier1: 1.1
+      }
+    },
     blowoutMargin: {
       nflCfb: 21,
       nba: 18
@@ -121,7 +144,9 @@ export const ALGORITHM_CONFIG = {
       // Score margin bonus for close final scores
       margin3orLess: 1.5,  // 1-3 point games
       margin7orLess: 0.5,  // 4-7 point games
-      margin10orLess: 0.2  // 8-10 point games
+      margin10orLess: 0.2, // 8-10 point games
+      tensionFloor: 3.0,   // Below this, 75% reduction
+      tensionFullCredit: 5.0 // Above this, full bonus
     }
   },
 

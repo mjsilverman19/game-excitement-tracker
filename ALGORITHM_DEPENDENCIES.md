@@ -199,6 +199,16 @@ Continue to keep UI and backend consumers referencing `shared/algorithm-config.j
 
 ---
 
+## Algorithm Version Notes
+
+### v3.0 (Finish, Tension, Drama Recalibration)
+- **Drama scaling**: `thresholds.dramaLogBase` added and used to reduce ceiling saturation for momentum drama.
+- **Close-game bonus**: `bonuses.closeGame` now scales with `tensionFloor`/`tensionFullCredit` to avoid inflating low-tension close scores.
+- **Tension floor**: `thresholds.tensionFloor` adds margin-based minimum tension (with a late-closeness guard) for genuinely close finals.
+- **Finish scaling**: `thresholds.finishLogBase` applies logarithmic scaling to spread finish scores.
+- **Exceptional finish**: `thresholds.exceptionalFinish` adds a multiplier for late lead changes, competitive OT, decisive final swings, and sustained late uncertainty.
+- **Config wiring**: `api/calculator.js` pulls the new thresholds through `SCORING_CONFIG`.
+
 ## Testing Surface Identification
 
 **Suggested test cases (inputs → expected ranges)**

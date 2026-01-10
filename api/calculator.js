@@ -14,6 +14,11 @@ const SCORING_CONFIG = {
     lateDramaSwingThreshold: ALGORITHM_CONFIG.thresholds.lateDramaSwingThreshold,
     largeFinalSwingThreshold: ALGORITHM_CONFIG.thresholds.largeFinalSwingThreshold,
     lateClosenessThreshold: ALGORITHM_CONFIG.thresholds.lateClosenessThreshold,
+    dramaLogBase: ALGORITHM_CONFIG.thresholds.dramaLogBase,
+    tensionFloor: ALGORITHM_CONFIG.thresholds.tensionFloor,
+    finishLogBase: ALGORITHM_CONFIG.thresholds.finishLogBase,
+    finishWalkoff: ALGORITHM_CONFIG.thresholds.finishWalkoff,
+    exceptionalFinish: ALGORITHM_CONFIG.thresholds.exceptionalFinish,
     blowoutMargin: ALGORITHM_CONFIG.thresholds.blowoutMargin,
     competitiveBand: ALGORITHM_CONFIG.thresholds.competitiveBand,
     dramaTimeWeight: ALGORITHM_CONFIG.thresholds.dramaTimeWeight,
@@ -147,13 +152,19 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
   let dramaScore = Math.min(10, baseDrama + leadChangeBoost + comebackDramaBoost);
 
   // METRIC 3: Finish Quality (did it come down to the wire?)
-  const finishScore = calculateFinishQuality(probs, game, sport);
+  const finishScore = calculateFinishQuality(probs, game, sport, overtimeDetected);
 
   const margin =
     typeof game?.homeScore === 'number' && typeof game?.awayScore === 'number'
       ? Math.abs(game.homeScore - game.awayScore)
       : null;
   const lateCloseness = calculateLateCloseness(probs);
+
+  // Apply margin-based tension floor for close final scores
+  if (margin != null) {
+    const marginFloor = calculateMarginBasedTensionFloor(margin, sport, lateCloseness);
+    tensionScore = Math.max(tensionScore, marginFloor);
+  }
   const blowoutThreshold = sport === 'NBA'
     ? SCORING_CONFIG.thresholds.blowoutMargin.nba
     : SCORING_CONFIG.thresholds.blowoutMargin.nflCfb;
@@ -192,7 +203,7 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
   const comebackBonus = calculateComebackBonus(probs);     // 0-2.0 -> 0-0.20 (20%)
   const volatilityBonus = calculateVolatilityBonus(probs); // 0-1.5 -> 0-0.15 (15%)
   const overtimeBonus = calculateOvertimeBonus(overtimeDetected);      // 0-0.8 -> 0-0.08 (8%)
-  const closeGameBonus = calculateCloseGameBonus(game, sport, finishScore); // 0-1.0
+  const closeGameBonus = calculateCloseGameBonus(game, sport, finishScore, tensionScore); // 0-1.0
   
   // Convert to percentage multipliers and sum
   // Old max total: 5.1 additive points
@@ -386,7 +397,8 @@ function calculateMomentumDrama(probs) {
   // Apply diminishing returns to prevent single massive swings from dominating
   // Adjusted scaling factor (was 8, now 10) to account for time-weighting increase
   // and leverage floor decrease balancing out
-  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + 10)) * 10);
+  const logBase = SCORING_CONFIG.thresholds.dramaLogBase;
+  const score = Math.min(10, (Math.log(1 + totalWeightedSwing) / Math.log(1 + logBase)) * 10);
 
   return Math.max(0, score);
 }
@@ -463,9 +475,10 @@ function detectAndAdjustForTruncatedData(probs) {
  * @param {Array} probs - Array of probability objects with value, period, clock
  * @param {Object} game - Game object with score information
  * @param {string} sport - Sport type (NFL, CFB, NBA)
+ * @param {boolean} overtimeDetected - Whether the game went to overtime
  * @returns {number} Score from 0-10 based on finish quality
  */
-function calculateFinishQuality(probs, game, sport = 'NFL') {
+function calculateFinishQuality(probs, game, sport = 'NFL', overtimeDetected = false) {
   if (probs.length < SCORING_CONFIG.thresholds.finalMomentPoints) return 0;
 
   // Detect truncated OT data
@@ -473,6 +486,11 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
   const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, adjustedProbs.length);
   const finalProbs = adjustedProbs.slice(-finalMoments);
   const lastProb = adjustedProbs[adjustedProbs.length - 1].value;
+  const finishWalkoff = SCORING_CONFIG.thresholds.finishWalkoff ?? {
+    competitiveRange: { low: 0.35, high: 0.65 },
+    minSwing: 0.15,
+    largeSwing: 0.25
+  };
 
   // Component 1: Pre-final closeness (how close to 0.5 before the decisive play)
   // Use the minimum distance from 0.5 among final points, excluding absolute last
@@ -511,10 +529,10 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
   const volatilityScore = Math.min(4, finalPeriodMovement * 4.5);
 
   // Component 3: Walk-off detection (large swing in final moments)
-  // V2.4: Tightened criteria to reduce false positives
+  // V2.9: Loosen competitive range and add decisive final-play detection
   // Requires EITHER:
   // 1. Swing crosses 0.5 (true lead change), OR
-  // 2. Started tight competitive (0.40-0.60) AND moved toward 0.5
+  // 2. Started competitive AND moved toward 0.5
   let maxFinalSwing = 0;
   for (let i = 1; i < finalProbs.length; i++) {
     const startValue = finalProbs[i - 1].value;
@@ -522,7 +540,9 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
     const swing = Math.abs(endValue - startValue);
 
     const crossedHalf = (startValue - 0.5) * (endValue - 0.5) < 0;
-    const startedTightCompetitive = startValue >= 0.40 && startValue <= 0.60;
+    const startedTightCompetitive =
+      startValue >= finishWalkoff.competitiveRange.low &&
+      startValue <= finishWalkoff.competitiveRange.high;
     const movedToward50 = Math.abs(endValue - 0.5) < Math.abs(startValue - 0.5);
 
     // Only count if it crossed 0.5 OR (started tight competitive AND moved toward 0.5)
@@ -534,8 +554,24 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
   }
 
   let walkoffScore = 0;
-  if (maxFinalSwing >= 0.15) {
-    walkoffScore = 1 + Math.min(2, (maxFinalSwing - 0.15) * 8);
+  if (maxFinalSwing >= finishWalkoff.minSwing) {
+    walkoffScore = 1 + Math.min(2, (maxFinalSwing - finishWalkoff.minSwing) * 8);
+  }
+
+  const secondToLast =
+    finalProbs.length >= 2 ? finalProbs[finalProbs.length - 2].value : null;
+  const lastValue = finalProbs[finalProbs.length - 1].value;
+  if (secondToLast !== null) {
+    const finalSwing = Math.abs(lastValue - secondToLast);
+    const preSwingCompetitive =
+      secondToLast >= finishWalkoff.competitiveRange.low &&
+      secondToLast <= finishWalkoff.competitiveRange.high;
+    const veryLargeSwing = finalSwing >= finishWalkoff.largeSwing;
+
+    if (finalSwing >= finishWalkoff.minSwing && (preSwingCompetitive || veryLargeSwing)) {
+      const finalPlayBonus = Math.min(2.0, finalSwing * 6);
+      walkoffScore = Math.max(walkoffScore, finalPlayBonus);
+    }
   }
 
   // If the late window never crosses 50% and stays outside 60/40 on average,
@@ -548,10 +584,18 @@ function calculateFinishQuality(probs, game, sport = 'NFL') {
   const lateStableLead = !crossedHalfLate && (avgFinalWinProb >= 0.60 || avgFinalWinProb <= 0.40);
   const finishPenalty = lateStableLead ? 0.5 : 1.0;
 
-  // Combine components (max ~11.5, scale to 0-10)
+  const baseTotalScore = (closenessScore + volatilityScore) * finishPenalty + walkoffScore;
+  const exceptionalMultiplier = calculateExceptionalFinishMultiplier(
+    adjustedProbs,
+    overtimeDetected
+  );
+  const finishLogBase = SCORING_CONFIG.thresholds.finishLogBase ?? 12;
+
+  // Scale to 0-10 with higher ceiling for truly elite finishes
   const totalScore = Math.min(
     10,
-    (closenessScore + volatilityScore) * finishPenalty + walkoffScore
+    (Math.log(1 + baseTotalScore * exceptionalMultiplier) /
+      Math.log(1 + finishLogBase)) * 10
   );
 
   return Math.max(0, totalScore);
@@ -619,9 +663,10 @@ function calculateOvertimeBonus(overtimeDetected) {
  * @param {Object} game - Game object with scores
  * @param {string} sport - Sport type for context
  * @param {number} finishScore - The finish quality score (0-10), used to avoid double-counting
+ * @param {number} tensionScore - The tension score (0-10), used to dampen boring close games
  * @returns {number} Bonus from 0-1.0 based on margin
  */
-function calculateCloseGameBonus(game, sport, finishScore = 0) {
+function calculateCloseGameBonus(game, sport, finishScore = 0, tensionScore = 0) {
   if (!game) return 0;
 
   const margin = Math.abs(game.homeScore - game.awayScore);
@@ -641,6 +686,17 @@ function calculateCloseGameBonus(game, sport, finishScore = 0) {
 
   if (baseBonus === 0) return 0;
 
+  // Reduce bonus if tension was low (close score doesn't fix a non-competitive game)
+  const tensionFloor = config.tensionFloor ?? 3.0;
+  const tensionFullCredit = config.tensionFullCredit ?? 5.0;
+  if (tensionScore < tensionFloor) {
+    baseBonus *= 0.25;
+  } else if (tensionScore < tensionFullCredit) {
+    const tensionFactor =
+      0.25 + 0.75 * ((tensionScore - tensionFloor) / (tensionFullCredit - tensionFloor));
+    baseBonus *= tensionFactor;
+  }
+
   // Task 10: Reduce double-counting with finish quality
   // If finish score is high (>7), the drama was already captured - reduce bonus
   // If finish score is low (<5), the bonus provides needed lift
@@ -654,6 +710,97 @@ function calculateCloseGameBonus(game, sport, finishScore = 0) {
   }
   
   return baseBonus; // Low finish score, full bonus applies
+}
+
+/**
+ * Ensures close games receive baseline tension even when win-probability leans
+ * are steady throughout the game.
+ * 
+ * @param {number} margin - Final score margin
+ * @param {string} sport - Sport type for context
+ * @param {number|null} lateCloseness - Late-game closeness metric
+ * @returns {number} Tension floor from 0-4.0 based on margin
+ */
+function calculateMarginBasedTensionFloor(margin, sport, lateCloseness = null) {
+  const config = SCORING_CONFIG.thresholds.tensionFloor;
+  if (!config) return 0;
+
+  const factor = sport === 'NBA' ? config.nbaMultiplier : 1;
+  let floor = 0;
+
+  if (margin <= config.oneScore.margin * factor) {
+    floor = config.oneScore.floor;
+  } else if (margin <= config.close.margin * factor) {
+    floor = config.close.floor;
+  } else if (margin <= config.competitive.margin * factor) {
+    floor = config.competitive.floor;
+  }
+
+  if (floor > 0 && lateCloseness != null && lateCloseness < 0.15 &&
+      margin <= config.close.margin * factor) {
+    floor *= 0.5;
+  }
+
+  return floor;
+}
+
+function calculateExceptionalFinishMultiplier(probs, overtimeDetected) {
+  const config = SCORING_CONFIG.thresholds.exceptionalFinish;
+  if (!config || probs.length < 20) return 1.0;
+
+  let criteriaCount = 0;
+
+  const q4StartIndex = Math.floor(probs.length * 0.75);
+  const q4Probs = probs.slice(q4StartIndex);
+  let q4Crossings = 0;
+  for (let i = 1; i < q4Probs.length; i++) {
+    if ((q4Probs[i - 1].value - 0.5) * (q4Probs[i].value - 0.5) < 0) {
+      q4Crossings++;
+    }
+  }
+  if (q4Crossings >= config.lateLeadChangesRequired) criteriaCount++;
+
+  if (overtimeDetected) {
+    const preOTWindow = probs.slice(
+      Math.floor(probs.length * 0.80),
+      Math.floor(probs.length * 0.90)
+    );
+    if (preOTWindow.length > 0) {
+      const avgPreOT =
+        preOTWindow.reduce((sum, p) => sum + p.value, 0) / preOTWindow.length;
+      if (
+        avgPreOT >= config.competitiveOTRange.low &&
+        avgPreOT <= config.competitiveOTRange.high
+      ) {
+        criteriaCount++;
+      }
+    }
+  }
+
+  if (probs.length >= 2) {
+    const prevValue = probs[probs.length - 2].value;
+    const lastValue = probs[probs.length - 1].value;
+    const lastSwing = Math.abs(lastValue - prevValue);
+    const lastCrossed = (prevValue - 0.5) * (lastValue - 0.5) < 0;
+    if (lastSwing >= config.finalSwingThreshold && lastCrossed) criteriaCount++;
+  }
+
+  const finalWindow = probs.slice(-config.finalWindowSize);
+  if (finalWindow.length > 0) {
+    const avgFinal =
+      finalWindow.reduce((sum, p) => sum + p.value, 0) / finalWindow.length;
+    if (
+      avgFinal >= config.sustainedUncertaintyRange.low &&
+      avgFinal <= config.sustainedUncertaintyRange.high
+    ) {
+      criteriaCount++;
+    }
+  }
+
+  if (criteriaCount >= 3) return config.multipliers.tier3;
+  if (criteriaCount >= 2) return config.multipliers.tier2;
+  if (criteriaCount >= 1) return config.multipliers.tier1;
+  return 1.0;
 }
 
 /**
