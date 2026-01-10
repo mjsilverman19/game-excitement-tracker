@@ -10,8 +10,8 @@
       "excitement": 9.1,
       "breakdown": {
         "tension": 9.262918748257684,
-        "drama": 10,
-        "finish": 8.980769164758485
+        "drama": 8.718412050613932,
+        "finish": 9.760667093441084
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 98,
       "awayScore": 100,
-      "excitement": 8.6,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 9.00206540769289,
-        "drama": 9.95195676651817,
-        "finish": 4.161298341905602
+        "drama": 8.289480392411175,
+        "finish": 6.398520733820354
       },
       "overtime": false,
       "bowlName": null,
@@ -42,8 +42,8 @@
       "excitement": 8,
       "breakdown": {
         "tension": 7.478883252714544,
-        "drama": 9.879728623017735,
-        "finish": 4.478321579674111
+        "drama": 8.257357898306237,
+        "finish": 6.937272997384182
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Magic",
       "homeScore": 120,
       "awayScore": 112,
-      "excitement": 6.5,
+      "excitement": 6.7,
       "breakdown": {
         "tension": 6.139904562751286,
-        "drama": 8.902895861120838,
-        "finish": 1.3359933212439414
+        "drama": 7.521417691345281,
+        "finish": 3.3078126998384
       },
       "overtime": false,
       "bowlName": null,
@@ -74,8 +74,8 @@
       "excitement": 6.5,
       "breakdown": {
         "tension": 7.442081977628878,
-        "drama": 8.8660326761882,
-        "finish": 2.5001926428731687
+        "drama": 7.417152173192192,
+        "finish": 4.88437716774831
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Spurs",
       "homeScore": 106,
       "awayScore": 105,
-      "excitement": 5.7,
+      "excitement": 6,
       "breakdown": {
-        "tension": 2.849422550453933,
-        "drama": 6.357426719032969,
-        "finish": 2.9104539748133655
+        "tension": 4,
+        "drama": 5.1837614532457295,
+        "finish": 5.31649277745363
       },
       "overtime": false,
       "bowlName": null,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:36:32.932Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:32:21.916Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-06"
   }

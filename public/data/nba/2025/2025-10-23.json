@@ -7,11 +7,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 137,
       "awayScore": 131,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 6.7403004411164025,
-        "drama": 10,
-        "finish": 4.262467052249758
+        "drama": 9.082142880826895,
+        "finish": 7.193114632696124
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Thunder",
       "homeScore": 135,
       "awayScore": 141,
-      "excitement": 8.3,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 8.607001614240897,
-        "drama": 8.848664813326744,
-        "finish": 3.273399051520598
+        "drama": 7.391803498608777,
+        "finish": 5.662527165115424
       },
       "overtime": true,
       "bowlName": null,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:33:19.686Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:28:38.656Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-23"
   }

@@ -10,8 +10,8 @@
       "excitement": 9,
       "breakdown": {
         "tension": 8.247111866453565,
-        "drama": 10,
-        "finish": 8.961476193590991
+        "drama": 9.084377506447307,
+        "finish": 10
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Spurs",
       "homeScore": 108,
       "awayScore": 124,
-      "excitement": 7.8,
+      "excitement": 8,
       "breakdown": {
         "tension": 9.016431415470949,
-        "drama": 10,
-        "finish": 4.212605267780634
+        "drama": 8.930452289549322,
+        "finish": 6.4370853068721186
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 101,
       "awayScore": 114,
-      "excitement": 7.1,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 7.818265622998625,
-        "drama": 9.15934577294466,
-        "finish": 2.615524386704114
+        "drama": 7.644695278933714,
+        "finish": 5.0107691207026575
       },
       "overtime": false,
       "bowlName": null,
@@ -58,8 +58,8 @@
       "excitement": 4.2,
       "breakdown": {
         "tension": 3.2065309228671968,
-        "drama": 5.995218667236569,
-        "finish": 0.8190057420496073
+        "drama": 4.921114100780557,
+        "finish": 2.332560892468773
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 5,
     "insufficientData": 1,
-    "generatedAt": "2026-01-09T22:33:04.555Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:28:24.078Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-13"
   }

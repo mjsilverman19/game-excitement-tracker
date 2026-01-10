@@ -7,11 +7,11 @@
       "awayTeam": "Miami",
       "homeScore": 26,
       "awayScore": 20,
-      "excitement": 9.3,
+      "excitement": 9.4,
       "breakdown": {
         "tension": 4.692358114747625,
         "drama": 10,
-        "finish": 8.92950505616157
+        "finish": 9.285264004536739
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "West Virginia",
       "homeScore": 35,
       "awayScore": 45,
-      "excitement": 8.3,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 6.850865859504336,
-        "drama": 10,
-        "finish": 3.6375916497910006
+        "drama": 8.475898394786562,
+        "finish": 5.9813858937737185
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "USC",
       "homeScore": 17,
       "awayScore": 21,
-      "excitement": 8.1,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 8.204542708103547,
-        "drama": 9.357194860280984,
-        "finish": 3.799199209255
+        "drama": 7.893454762601674,
+        "finish": 6.411958914268162
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Oklahoma",
       "homeScore": 27,
       "awayScore": 33,
-      "excitement": 7.8,
+      "excitement": 8,
       "breakdown": {
         "tension": 6.3867680025313645,
-        "drama": 9.378759726758826,
-        "finish": 3.0010821928
+        "drama": 7.826146951822526,
+        "finish": 5.405817735522752
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Georgia",
       "homeScore": 20,
       "awayScore": 24,
-      "excitement": 7,
+      "excitement": 7.2,
       "breakdown": {
         "tension": 5.046964589129806,
-        "drama": 8.424741809869568,
-        "finish": 3.81475197556
+        "drama": 6.98129253248742,
+        "finish": 6.127546060760023
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Louisville",
       "homeScore": 16,
       "awayScore": 28,
-      "excitement": 6.3,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 5.279144011866945,
-        "drama": 7.816350811936844,
-        "finish": 2.8742999615710003
+        "drama": 6.572220994246712,
+        "finish": 5.280279657244945
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Georgia Tech",
       "homeScore": 48,
       "awayScore": 36,
-      "excitement": 5.9,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 5.925704783176644,
-        "drama": 8.126126204522985,
-        "finish": 1.837538738310724
+        "drama": 6.875446012505514,
+        "finish": 4.066111605472764
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Texas Tech",
       "homeScore": 20,
       "awayScore": 43,
-      "excitement": 4.6,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 3.35434900594794,
-        "drama": 4.839252383139033,
-        "finish": 2.593470522877
+        "drama": 3.985074415375618,
+        "finish": 4.98691504871703
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Virginia",
       "homeScore": 21,
       "awayScore": 31,
-      "excitement": 4.4,
+      "excitement": 5,
       "breakdown": {
-        "tension": 0.36393077747720937,
-        "drama": 5.741487452551975,
-        "finish": 3.2378902414449997
+        "tension": 1.5,
+        "drama": 4.68215219393488,
+        "finish": 5.629996384302421
       },
       "overtime": false,
       "bowlName": null,
@@ -151,11 +151,11 @@
       "awayTeam": "South Carolina",
       "homeScore": 30,
       "awayScore": 14,
-      "excitement": 3.3,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 0.9751700961050869,
-        "drama": 4.17241918572127,
-        "finish": 1.4446118272716308
+        "drama": 3.404332749771557,
+        "finish": 3.4850058379140894
       },
       "overtime": false,
       "bowlName": null,
@@ -167,27 +167,11 @@
       "awayTeam": "Indiana",
       "homeScore": 10,
       "awayScore": 55,
-      "excitement": 2.9724577853120877,
+      "excitement": 3.488212072508454,
       "breakdown": {
         "tension": 0.17060044137031416,
-        "drama": 2.0814431039533137,
-        "finish": 2.508973018
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752758",
-      "homeTeam": "Texas",
-      "awayTeam": "Vanderbilt",
-      "homeScore": 34,
-      "awayScore": 31,
-      "excitement": 2.9,
-      "breakdown": {
-        "tension": 0,
-        "drama": 1.5252292040184352,
-        "finish": 0.8309136122049225
+        "drama": 1.699563372992466,
+        "finish": 4.894144999586598
       },
       "overtime": false,
       "bowlName": null,
@@ -199,11 +183,11 @@
       "awayTeam": "Notre Dame",
       "homeScore": 10,
       "awayScore": 25,
-      "excitement": 2.7,
+      "excitement": 3.2,
       "breakdown": {
         "tension": 0.2563562114207285,
-        "drama": 0.8308335926306838,
-        "finish": 2.504953283578
+        "drama": 0.6830088052042148,
+        "finish": 4.889676235676395
       },
       "overtime": false,
       "bowlName": null,
@@ -215,11 +199,27 @@
       "awayTeam": "Memphis",
       "homeScore": 14,
       "awayScore": 38,
-      "excitement": 2.6,
+      "excitement": 3.1,
       "breakdown": {
         "tension": 0.16959140264050498,
-        "drama": 0.26654095587633814,
-        "finish": 2.504486509
+        "drama": 0.22154147739271113,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752758",
+      "homeTeam": "Texas",
+      "awayTeam": "Vanderbilt",
+      "homeScore": 34,
+      "awayScore": 31,
+      "excitement": 3.1,
+      "breakdown": {
+        "tension": 2,
+        "drama": 1.2485114241343593,
+        "finish": 2.3580000991297805
       },
       "overtime": false,
       "bowlName": null,
@@ -231,11 +231,11 @@
       "awayTeam": "Purdue",
       "homeScore": 21,
       "awayScore": 16,
-      "excitement": 2.6,
+      "excitement": 3,
       "breakdown": {
-        "tension": 0,
-        "drama": 1.632531475772084,
-        "finish": 0.9701661339623902
+        "tension": 1.25,
+        "drama": 1.335896359607344,
+        "finish": 2.6437865885425396
       },
       "overtime": false,
       "bowlName": null,
@@ -247,11 +247,11 @@
       "awayTeam": "Cincinnati",
       "homeScore": 45,
       "awayScore": 14,
-      "excitement": 2.486455511974598,
+      "excitement": 2.6909889106114964,
       "breakdown": {
         "tension": 0,
-        "drama": 1.9290752147332026,
-        "finish": 0.7829755811764038
+        "drama": 1.5754778531795868,
+        "finish": 2.2545616417213594
       },
       "overtime": false,
       "bowlName": null,
@@ -263,11 +263,11 @@
       "awayTeam": "Penn State",
       "homeScore": 38,
       "awayScore": 14,
-      "excitement": 2.3,
+      "excitement": 2.5,
       "breakdown": {
         "tension": 0,
-        "drama": 0.9235127479922206,
-        "finish": 0.7373496886680901
+        "drama": 0.7565668475304629,
+        "finish": 2.1534958691822528
       },
       "overtime": false,
       "bowlName": null,
@@ -280,8 +280,8 @@
     "count": 17,
     "totalGames": 17,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:31:14.863Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:25:07.544Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "week": 10
   }

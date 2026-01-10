@@ -7,11 +7,11 @@
       "awayTeam": "76ers",
       "homeScore": 114,
       "awayScore": 123,
-      "excitement": 8.3,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 8.840819199704924,
-        "drama": 10,
-        "finish": 4.086848052863247
+        "drama": 8.820516809244443,
+        "finish": 7.055465137139578
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Hawks",
       "homeScore": 135,
       "awayScore": 126,
-      "excitement": 5.9,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 5.124516475896832,
-        "drama": 8.072953492333674,
-        "finish": 2.0080201821781163
+        "drama": 6.820216882114502,
+        "finish": 4.2935822976859805
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Clippers",
       "homeScore": 129,
       "awayScore": 101,
-      "excitement": 3.2811988724029186,
+      "excitement": 3.6080668444487025,
       "breakdown": {
         "tension": 0.7087057105196903,
-        "drama": 4.373024994742213,
-        "finish": 1.589451474900255
+        "drama": 3.5657842123554397,
+        "finish": 3.709414631369178
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Kings",
       "homeScore": 137,
       "awayScore": 96,
-      "excitement": 2.7161656744388827,
+      "excitement": 2.8889025713799468,
       "breakdown": {
         "tension": 0.678817537430523,
-        "drama": 2.691593539799196,
-        "finish": 0.6868137613686615
+        "drama": 2.1964583184006736,
+        "finish": 2.038408281260318
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:34:37.938Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:29:44.745Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-20"
   }

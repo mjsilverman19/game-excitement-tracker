@@ -56,6 +56,102 @@
     "reason": "Overtime classic with multiple 4Q lead changes decided on opening OT drive."
   },
   {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671789",
+    "label": "Week 1 (TNF): Ravens at Chiefs",
+    "expectedTier": "recommended",
+    "reason": "Season opener stayed one-score throughout and ended with a dramatic final-play review."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671792",
+    "label": "Week 1 (MNF): Rams at Lions",
+    "expectedTier": "must-watch",
+    "reason": "Monday night opener went to overtime with both teams trading late drives."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671626",
+    "label": "Week 5: Ravens at Bengals",
+    "expectedTier": "must-watch",
+    "reason": "41–38 shootout needed overtime after late lead swings."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671622",
+    "label": "Week 4: Broncos at Jets",
+    "expectedTier": "recommended",
+    "reason": "10–9 defensive slog decided by a late stand despite the low score."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671668",
+    "label": "Week 2: Steelers at Broncos",
+    "expectedTier": "recommended",
+    "reason": "13–6 defensive battle with a late score breaking the stalemate."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671702",
+    "label": "Week 2: Seahawks at Patriots",
+    "expectedTier": "recommended",
+    "reason": "Overtime finish after a fourth-quarter comeback to force extra time."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671869",
+    "label": "Week 11: Packers at Bears",
+    "expectedTier": "recommended",
+    "reason": "Rivalry game decided by a single point on the final possessions."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671492",
+    "label": "Thanksgiving: Bears at Lions",
+    "expectedTier": "recommended",
+    "reason": "Holiday showcase that stayed tight and came down to one late drive."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671784",
+    "label": "Week 5 (MNF): Cowboys at Steelers",
+    "expectedTier": "recommended",
+    "reason": "Monday night game settled by a field goal in the final minutes."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671790",
+    "label": "Week 16 (MNF): Buccaneers at Cowboys",
+    "expectedTier": "recommended",
+    "reason": "Primetime matchup decided by two points with late lead changes."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671883",
+    "label": "Wild Card: Commanders at Buccaneers",
+    "expectedTier": "recommended",
+    "reason": "Playoff elimination game settled by a three-point finish."
+  },
+  {
+    "sport": "NFL",
+    "season": 2024,
+    "gameId": "401671735",
+    "label": "Week 6: Buccaneers at Saints",
+    "expectedTier": "skip",
+    "reason": "High-scoring final masked a lopsided game that was never truly competitive."
+  },
+  {
     "sport": "CFB",
     "season": 2016,
     "gameId": "400876570",
@@ -112,6 +208,102 @@
     "reason": "52–49 classic with 21-point USC rally and walk-off field goal."
   },
   {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401677179",
+    "label": "CFP First Round: Indiana at Notre Dame",
+    "expectedTier": "recommended",
+    "reason": "Historic 12-team playoff opener that tightened before Notre Dame pulled away."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401677176",
+    "label": "CFP First Round: Clemson at Texas",
+    "expectedTier": "recommended",
+    "reason": "High-profile playoff game where Texas seized control after halftime."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401677182",
+    "label": "CFP Quarterfinal: Texas at Arizona State",
+    "expectedTier": "must-watch",
+    "reason": "Two-overtime quarterfinal with a one-score finish."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401677184",
+    "label": "CFP Quarterfinal: Notre Dame at Georgia",
+    "expectedTier": "recommended",
+    "reason": "Low-scoring playoff game defined by defense and field position."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401628566",
+    "label": "Rivalry: Michigan at Ohio State",
+    "expectedTier": "must-watch",
+    "reason": "13–10 rivalry clash with playoff stakes and late defensive stops."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401645383",
+    "label": "Army-Navy: Navy at Army",
+    "expectedTier": "recommended",
+    "reason": "Rivalry game with option-heavy offenses and sustained drives."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401628464",
+    "label": "Rivalry: Iowa State at Iowa",
+    "expectedTier": "recommended",
+    "reason": "One-point rivalry finish decided in the final possessions."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401636922",
+    "label": "Rivalry: BYU at Utah",
+    "expectedTier": "must-watch",
+    "reason": "Rivalry thriller decided by a single point late in the fourth quarter."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401628354",
+    "label": "Georgia at Kentucky",
+    "expectedTier": "recommended",
+    "reason": "13–12 defensive grinder that looked dull on paper but stayed tense throughout."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401628374",
+    "label": "Georgia at Alabama",
+    "expectedTier": "must-watch",
+    "reason": "Top-tier matchup with a 41–34 finish and multiple momentum swings."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401644683",
+    "label": "Miami (OH) at Northwestern",
+    "expectedTier": "recommended",
+    "reason": "Under-20 defensive battle decided by a single touchdown."
+  },
+  {
+    "sport": "CFB",
+    "season": 2024,
+    "gameId": "401628390",
+    "label": "Rivalry: Texas at Oklahoma",
+    "expectedTier": "skip",
+    "reason": "Red River matchup turned into a one-sided blowout despite the hype."
+  },
+  {
     "sport": "NBA",
     "season": 2016,
     "gameId": "400878160",
@@ -158,5 +350,93 @@
     "label": "West Semis Game 3: Nuggets at Trail Blazers",
     "expectedTier": "must-watch",
     "reason": "Four-overtime epic decided by Rodney Hood’s late three."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704974",
+    "label": "Christmas Day: Lakers at Warriors",
+    "expectedTier": "must-watch",
+    "reason": "Holiday showcase decided by two points in the final minute."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704973",
+    "label": "Christmas Day: 76ers at Celtics",
+    "expectedTier": "recommended",
+    "reason": "National spotlight game that stayed close and ended with late free throws."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704637",
+    "label": "Suns at Clippers",
+    "expectedTier": "must-watch",
+    "reason": "Early-season overtime duel with stars trading clutch buckets."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704685",
+    "label": "Celtics at Pacers",
+    "expectedTier": "must-watch",
+    "reason": "135–132 overtime shootout with a game-winning possession."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704693",
+    "label": "Trail Blazers at Clippers",
+    "expectedTier": "recommended",
+    "reason": "One-point finish that came down to the final shot."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704711",
+    "label": "Cavaliers at Bucks",
+    "expectedTier": "recommended",
+    "reason": "Back-and-forth game settled by a single point."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704977",
+    "label": "Heat at Magic",
+    "expectedTier": "recommended",
+    "reason": "89–88 defensive slugfest that stayed tense to the final possession."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401766459",
+    "label": "Play-In: Grizzlies at Warriors",
+    "expectedTier": "recommended",
+    "reason": "Elimination game with a tight finish in the final minutes."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401766462",
+    "label": "Play-In: Heat at Hawks",
+    "expectedTier": "recommended",
+    "reason": "Overtime play-in game with the last seed on the line."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704905",
+    "label": "Jazz at Trail Blazers",
+    "expectedTier": "skip",
+    "reason": "High-scoring blowout that never felt competitive despite the total."
+  },
+  {
+    "sport": "NBA",
+    "season": 2024,
+    "gameId": "401704933",
+    "label": "Knicks at Timberwolves",
+    "expectedTier": "skip",
+    "reason": "Track-meet final score but the margin stayed comfortable most of the night."
   }
 ]

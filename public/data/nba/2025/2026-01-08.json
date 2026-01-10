@@ -2,32 +2,32 @@
   "success": true,
   "games": [
     {
-      "id": "401810386",
-      "homeTeam": "Jazz",
-      "awayTeam": "Mavericks",
-      "homeScore": 116,
+      "id": "401810383",
+      "homeTeam": "Hornets",
+      "awayTeam": "Pacers",
+      "homeScore": 112,
       "awayScore": 114,
-      "excitement": 8.7,
+      "excitement": 8.6,
       "breakdown": {
-        "tension": 9.031826533428765,
-        "drama": 9.847144052124223,
-        "finish": 4.236225979773996
+        "tension": 9.57351238502495,
+        "drama": 8.04281141589038,
+        "finish": 5.97536695206492
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401810383",
-      "homeTeam": "Hornets",
-      "awayTeam": "Pacers",
-      "homeScore": 112,
+      "id": "401810386",
+      "homeTeam": "Jazz",
+      "awayTeam": "Mavericks",
+      "homeScore": 116,
       "awayScore": 114,
-      "excitement": 8.5,
+      "excitement": 8.6,
       "breakdown": {
-        "tension": 9.57351238502495,
-        "drama": 9.62509547367327,
-        "finish": 3.3003977540238747
+        "tension": 9.031826533428765,
+        "drama": 8.253604873471286,
+        "finish": 6.758017010227694
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Cavaliers",
       "homeScore": 131,
       "awayScore": 122,
-      "excitement": 7.2,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 7.698081587563469,
-        "drama": 9.700684549009834,
-        "finish": 2.5506123530933236
+        "drama": 8.152672169248813,
+        "finish": 4.940136844242084
       },
       "overtime": false,
       "bowlName": null,
@@ -56,8 +56,8 @@
     "count": 3,
     "totalGames": 3,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:36:37.928Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:32:28.961Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-08"
   }

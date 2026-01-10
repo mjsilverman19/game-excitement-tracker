@@ -7,11 +7,11 @@
       "awayTeam": "Texas",
       "homeScore": 38,
       "awayScore": 45,
-      "excitement": 8.7,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 4.306560544097101,
         "drama": 10,
-        "finish": 4.46936329778579
+        "finish": 8.163413961073239
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "South Florida",
       "homeScore": 34,
       "awayScore": 31,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 3.982022773991355,
+        "tension": 4,
         "drama": 10,
-        "finish": 4.206785168619271
+        "finish": 6.735645036053715
       },
       "overtime": false,
       "bowlName": null,
@@ -39,10 +39,10 @@
       "awayTeam": "Virginia",
       "homeScore": 16,
       "awayScore": 17,
-      "excitement": 8.2,
+      "excitement": 7.9,
       "breakdown": {
-        "tension": 3.5941355402673567,
-        "drama": 8.559612151066561,
+        "tension": 4,
+        "drama": 7.134278469419341,
         "finish": 10
       },
       "overtime": true,
@@ -55,11 +55,11 @@
       "awayTeam": "Ole Miss",
       "homeScore": 26,
       "awayScore": 34,
-      "excitement": 7,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 6.6498997387562095,
-        "drama": 8.226410091460695,
-        "finish": 3.03420446125
+        "drama": 6.881712771192359,
+        "finish": 5.437959695712312
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "BYU",
       "homeScore": 27,
       "awayScore": 41,
-      "excitement": 7,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 5.779626064724106,
-        "drama": 9.849055650747703,
-        "finish": 2.540166220321
+        "drama": 8.451906782256644,
+        "finish": 4.928649672005197
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Missouri",
       "homeScore": 17,
       "awayScore": 10,
-      "excitement": 6.8,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 7.936614263019505,
-        "drama": 8.683743313856937,
-        "finish": 1.9874735579985283
+        "drama": 7.25749427173356,
+        "finish": 4.2668603306165584
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +103,11 @@
       "awayTeam": "Alabama",
       "homeScore": 22,
       "awayScore": 29,
-      "excitement": 6.5,
+      "excitement": 6.7,
       "breakdown": {
-        "tension": 2.116569218360742,
-        "drama": 8.462717723910059,
-        "finish": 4.5
+        "tension": 2.5,
+        "drama": 7.232002470676253,
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Houston",
       "homeScore": 16,
       "awayScore": 24,
-      "excitement": 5.5,
+      "excitement": 6,
       "breakdown": {
         "tension": 4.803936889516928,
-        "drama": 5.330917452486997,
-        "finish": 2.540899772548
+        "drama": 4.407455967023351,
+        "finish": 4.929457434343547
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +135,11 @@
       "awayTeam": "Texas A&M",
       "homeScore": 25,
       "awayScore": 49,
-      "excitement": 4.5,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 3.914918958430662,
-        "drama": 4.22236247195575,
-        "finish": 2.50453658419
+        "drama": 3.5244661714252588,
+        "finish": 4.889212695211821
       },
       "overtime": false,
       "bowlName": null,
@@ -151,11 +151,11 @@
       "awayTeam": "Illinois",
       "homeScore": 42,
       "awayScore": 25,
-      "excitement": 3.8,
+      "excitement": 4.1,
       "breakdown": {
         "tension": 3.3458317994660325,
-        "drama": 4.7194812692958426,
-        "finish": 1.109033030113463
+        "drama": 3.865582378528021,
+        "finish": 2.909334489228455
       },
       "overtime": false,
       "bowlName": null,
@@ -167,11 +167,11 @@
       "awayTeam": "Tennessee",
       "homeScore": 34,
       "awayScore": 56,
-      "excitement": 3.1,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 0.1519779695033996,
-        "drama": 2.6377916761086815,
-        "finish": 2.50902387934
+        "drama": 2.1526431007907805,
+        "finish": 4.894201509654218
       },
       "overtime": false,
       "bowlName": null,
@@ -183,11 +183,11 @@
       "awayTeam": "Michigan",
       "homeScore": 20,
       "awayScore": 31,
-      "excitement": 2.9,
+      "excitement": 3.4,
       "breakdown": {
         "tension": 0.23453635610791168,
-        "drama": 1.7850805903250735,
-        "finish": 2.521761858394
+        "drama": 1.4601294658949624,
+        "finish": 4.908328457550816
       },
       "overtime": false,
       "bowlName": null,
@@ -199,11 +199,11 @@
       "awayTeam": "Baylor",
       "homeScore": 41,
       "awayScore": 20,
-      "excitement": 2.6,
+      "excitement": 3,
       "breakdown": {
         "tension": 0.2722672988338293,
-        "drama": 1.9316007102113104,
-        "finish": 1.3827799359798483
+        "drama": 1.5794526732465108,
+        "finish": 3.385126664808607
       },
       "overtime": false,
       "bowlName": null,
@@ -215,11 +215,11 @@
       "awayTeam": "Boston College",
       "homeScore": 38,
       "awayScore": 24,
-      "excitement": 2.5,
+      "excitement": 2.7,
       "breakdown": {
         "tension": 0,
-        "drama": 1.8624050799347223,
-        "finish": 0.8674633786621901
+        "drama": 1.5231010640222957,
+        "finish": 2.4350618315179866
       },
       "overtime": false,
       "bowlName": null,
@@ -231,11 +231,11 @@
       "awayTeam": "Syracuse",
       "homeScore": 41,
       "awayScore": 16,
-      "excitement": 2.3,
+      "excitement": 2.5,
       "breakdown": {
         "tension": 0,
-        "drama": 1.0327382269342833,
-        "finish": 0.6172034929849206
+        "drama": 0.8455180064702403,
+        "finish": 1.8741049108063748
       },
       "overtime": false,
       "bowlName": null,
@@ -247,11 +247,11 @@
       "awayTeam": "Stanford",
       "homeScore": 42,
       "awayScore": 7,
-      "excitement": 2.2721457095710367,
+      "excitement": 2.4484083293514693,
       "breakdown": {
         "tension": 0,
-        "drama": 0.7971805939670263,
-        "finish": 0.6019177484090692
+        "drama": 0.6536843367761704,
+        "finish": 1.8370791723112345
       },
       "overtime": false,
       "bowlName": null,
@@ -263,11 +263,11 @@
       "awayTeam": "Wisconsin",
       "homeScore": 21,
       "awayScore": 7,
-      "excitement": 2.2,
+      "excitement": 2.4,
       "breakdown": {
         "tension": 0,
-        "drama": 0.30028582210615545,
-        "finish": 0.6608286921558241
+        "drama": 0.25094076102466256,
+        "finish": 1.9778818964584386
       },
       "overtime": false,
       "bowlName": null,
@@ -279,11 +279,11 @@
       "awayTeam": "UCLA",
       "homeScore": 56,
       "awayScore": 6,
-      "excitement": 2.154654240772696,
+      "excitement": 2.3267274210579303,
       "breakdown": {
         "tension": 0,
-        "drama": 0.05110131886173217,
-        "finish": 0.5480449773592573
+        "drama": 0.04609152212925769,
+        "finish": 1.7037093875395746
       },
       "overtime": false,
       "bowlName": null,
@@ -295,11 +295,11 @@
       "awayTeam": "Oklahoma St",
       "homeScore": 42,
       "awayScore": 0,
-      "excitement": 2.1515881146196927,
+      "excitement": 2.323920514423711,
       "breakdown": {
         "tension": 0,
-        "drama": 0.029317559898697044,
-        "finish": 0.5480449773592573
+        "drama": 0.02835124188883353,
+        "finish": 1.7037093875395746
       },
       "overtime": false,
       "bowlName": null,
@@ -312,8 +312,8 @@
     "count": 19,
     "totalGames": 19,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:31:08.675Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:25:02.264Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "week": 9
   }

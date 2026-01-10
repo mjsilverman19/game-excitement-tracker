@@ -7,11 +7,11 @@
       "awayTeam": "Bulls",
       "homeScore": 117,
       "awayScore": 118,
-      "excitement": 8,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 5.434155393424439,
-        "drama": 10,
-        "finish": 4.449168126875856
+        "drama": 8.965351012733594,
+        "finish": 6.91611820811511
       },
       "overtime": false,
       "bowlName": null,
@@ -25,9 +25,9 @@
       "awayScore": 135,
       "excitement": 6.3,
       "breakdown": {
-        "tension": 3.648645894437893,
-        "drama": 7.927562498452066,
-        "finish": 1.6037592308740585
+        "tension": 4,
+        "drama": 6.6383369581315534,
+        "finish": 3.730897282731185
       },
       "overtime": true,
       "bowlName": null,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:32:52.902Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:28:13.856Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-07"
   }

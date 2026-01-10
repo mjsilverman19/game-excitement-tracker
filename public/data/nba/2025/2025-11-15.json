@@ -10,8 +10,8 @@
       "excitement": 9,
       "breakdown": {
         "tension": 9.065762993840467,
-        "drama": 10,
-        "finish": 8.689494361000717
+        "drama": 8.890440843229976,
+        "finish": 9.642798108579424
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 112,
       "awayScore": 123,
-      "excitement": 8.5,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 8.313952434427843,
-        "drama": 9.576695952631571,
-        "finish": 8.956643159348221
+        "drama": 7.997841631872243,
+        "finish": 9.751038345890239
       },
       "overtime": false,
       "bowlName": null,
@@ -39,27 +39,11 @@
       "awayTeam": "Raptors",
       "homeScore": 111,
       "awayScore": 129,
-      "excitement": 5.5,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 5.618680304959707,
-        "drama": 7.2976509400790395,
-        "finish": 1.6693005175940399
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810086",
-      "homeTeam": "Bucks",
-      "awayTeam": "Lakers",
-      "homeScore": 95,
-      "awayScore": 119,
-      "excitement": 3.661193607911317,
-      "breakdown": {
-        "tension": 2.0174473743502297,
-        "drama": 4.773871516867329,
-        "finish": 0.848084385849928
+        "drama": 6.0060385996965024,
+        "finish": 3.827820057360876
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +55,27 @@
       "awayTeam": "Thunder",
       "homeScore": 96,
       "awayScore": 109,
-      "excitement": 3.6,
+      "excitement": 4.1,
       "breakdown": {
-        "tension": 0.35498812564241033,
-        "drama": 5.24577094578475,
-        "finish": 1.2353363384483287
+        "tension": 2.5,
+        "drama": 4.278450070496152,
+        "finish": 3.1360919520885746
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810086",
+      "homeTeam": "Bucks",
+      "awayTeam": "Lakers",
+      "homeScore": 95,
+      "awayScore": 119,
+      "excitement": 3.8637679012635844,
+      "breakdown": {
+        "tension": 2.0174473743502297,
+        "drama": 3.914855630969657,
+        "finish": 2.3943928316911
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:34:25.189Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:29:33.686Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-15"
   }

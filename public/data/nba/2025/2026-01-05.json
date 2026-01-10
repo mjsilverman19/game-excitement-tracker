@@ -7,11 +7,11 @@
       "awayTeam": "Suns",
       "homeScore": 100,
       "awayScore": 97,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
         "tension": 9.368650166278199,
-        "drama": 10,
-        "finish": 8.871809058758487
+        "drama": 9.82095824880978,
+        "finish": 9.716990768379826
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 124,
       "awayScore": 125,
-      "excitement": 8.1,
+      "excitement": 8,
       "breakdown": {
         "tension": 5.996184142428181,
-        "drama": 9.145706457925593,
-        "finish": 4.0099918233780105
+        "drama": 7.470216242993787,
+        "finish": 6.582711863395382
       },
       "overtime": true,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Warriors",
       "homeScore": 103,
       "awayScore": 102,
-      "excitement": 7.8,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 6.76198673220381,
-        "drama": 9.106583264970267,
-        "finish": 3.6116609070219945
+        "drama": 7.53728117101669,
+        "finish": 5.959525365263777
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Hornets",
       "homeScore": 97,
       "awayScore": 124,
-      "excitement": 5.771782680246549,
+      "excitement": 6.10263321413348,
       "breakdown": {
         "tension": 3.600519822494619,
-        "drama": 8.297204949439653,
-        "finish": 1.7308732800881432
+        "drama": 7.029655916258621,
+        "finish": 3.9167301215478405
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Hawks",
       "homeScore": 118,
       "awayScore": 100,
-      "excitement": 4.7,
+      "excitement": 5,
       "breakdown": {
         "tension": 3.5472699571994513,
-        "drama": 6.3980390838059025,
-        "finish": 1.8680432956328943
+        "drama": 5.216835393033657,
+        "finish": 4.107800474362924
       },
       "overtime": false,
       "bowlName": null,
@@ -87,27 +87,11 @@
       "awayTeam": "Knicks",
       "homeScore": 121,
       "awayScore": 90,
-      "excitement": 4.407388185958258,
+      "excitement": 4.641266644299604,
       "breakdown": {
         "tension": 4.153532373554818,
-        "drama": 5.970061652155087,
-        "finish": 1.037389736357974
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810364",
-      "homeTeam": "Trail Blazers",
-      "awayTeam": "Jazz",
-      "homeScore": 137,
-      "awayScore": 117,
-      "excitement": 2.9,
-      "breakdown": {
-        "tension": 0.6344634133698419,
-        "drama": 2.7895863962542764,
-        "finish": 1.005398822357974
+        "drama": 4.999206677958085,
+        "finish": 2.774594537211043
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +103,27 @@
       "awayTeam": "Bulls",
       "homeScore": 115,
       "awayScore": 101,
-      "excitement": 2.7,
+      "excitement": 3.1,
       "breakdown": {
-        "tension": 0,
-        "drama": 2.385212664103577,
-        "finish": 0.9165327792854588
+        "tension": 1.25,
+        "drama": 1.9488656472015786,
+        "finish": 2.5361814942778365
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810364",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Jazz",
+      "homeScore": 137,
+      "awayScore": 117,
+      "excitement": 3.1,
+      "breakdown": {
+        "tension": 0.8999999999999999,
+        "drama": 2.2762618425776853,
+        "finish": 2.712891593152919
       },
       "overtime": false,
       "bowlName": null,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:36:30.724Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:32:19.495Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-05"
   }

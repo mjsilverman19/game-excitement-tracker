@@ -7,11 +7,11 @@
       "awayTeam": "Magic",
       "homeScore": 117,
       "awayScore": 113,
-      "excitement": 9.1,
+      "excitement": 9,
       "breakdown": {
         "tension": 9.331352902984417,
-        "drama": 10,
-        "finish": 4.424649710431421
+        "drama": 8.655357953451428,
+        "finish": 6.898237469966185
       },
       "overtime": true,
       "bowlName": null,
@@ -26,8 +26,8 @@
       "excitement": 8.8,
       "breakdown": {
         "tension": 7.183764355375376,
-        "drama": 10,
-        "finish": 8.946965262885263
+        "drama": 9.57428684315772,
+        "finish": 9.747169180991701
       },
       "overtime": false,
       "bowlName": null,
@@ -42,8 +42,8 @@
       "excitement": 8.5,
       "breakdown": {
         "tension": 8.90590738349507,
-        "drama": 9.113520146517711,
-        "finish": 3.626905013452144
+        "drama": 7.544526909831879,
+        "finish": 6.266614358849826
       },
       "overtime": true,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Bulls",
       "homeScore": 150,
       "awayScore": 147,
-      "excitement": 7.8,
+      "excitement": 8,
       "breakdown": {
         "tension": 7.4722187316990185,
-        "drama": 8.69466458811864,
-        "finish": 2.176238767819844
+        "drama": 7.266372523672135,
+        "finish": 4.5057330897458945
       },
       "overtime": true,
       "bowlName": null,
@@ -74,24 +74,8 @@
       "excitement": 6.5,
       "breakdown": {
         "tension": 6.749083633836684,
-        "drama": 9.603169625307281,
-        "finish": 3.271300438021358
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810088",
-      "homeTeam": "Celtics",
-      "awayTeam": "Clippers",
-      "homeScore": 121,
-      "awayScore": 118,
-      "excitement": 3.5,
-      "breakdown": {
-        "tension": 0,
-        "drama": 3.725575682632023,
-        "finish": 1.208396079559789
+        "drama": 8.068900983349065,
+        "finish": 5.660612085303191
       },
       "overtime": false,
       "bowlName": null,
@@ -103,11 +87,27 @@
       "awayTeam": "Warriors",
       "homeScore": 106,
       "awayScore": 124,
-      "excitement": 3.5,
+      "excitement": 3.9,
       "breakdown": {
-        "tension": 0.9072149955346975,
-        "drama": 5.031128322194079,
-        "finish": 1.3794091515910147
+        "tension": 1.5,
+        "drama": 4.10364918785235,
+        "finish": 3.3796074714189523
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810088",
+      "homeTeam": "Celtics",
+      "awayTeam": "Clippers",
+      "homeScore": 121,
+      "awayScore": 118,
+      "excitement": 3.8,
+      "breakdown": {
+        "tension": 2,
+        "drama": 3.040431873808523,
+        "finish": 3.088819254389388
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +119,11 @@
       "awayTeam": "Kings",
       "homeScore": 123,
       "awayScore": 110,
-      "excitement": 3,
+      "excitement": 3.3,
       "breakdown": {
-        "tension": 0,
-        "drama": 3.406578785279657,
-        "finish": 0.955497990849928
+        "tension": 1.25,
+        "drama": 2.780646849357063,
+        "finish": 2.614651575191911
       },
       "overtime": false,
       "bowlName": null,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:34:28.527Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:29:36.145Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-16"
   }

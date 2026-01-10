@@ -7,11 +7,11 @@
       "awayTeam": "Clippers",
       "homeScore": 115,
       "awayScore": 113,
-      "excitement": 8.7,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 5.5019597921598296,
-        "drama": 10,
-        "finish": 8.864054007766784
+        "drama": 8.701169456073828,
+        "finish": 9.713863448395362
       },
       "overtime": false,
       "bowlName": null,
@@ -26,8 +26,8 @@
       "excitement": 7.9,
       "breakdown": {
         "tension": 2.2002265897838247,
-        "drama": 9.189142589548144,
-        "finish": 8.646308674536334
+        "drama": 7.970001717678518,
+        "finish": 9.62501498470705
       },
       "overtime": false,
       "bowlName": null,
@@ -42,8 +42,8 @@
       "excitement": 6.5,
       "breakdown": {
         "tension": 9.9929797959488,
-        "drama": 10,
-        "finish": 8.985582671441104
+        "drama": 8.676716753479626,
+        "finish": 9.762585333384786
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 105,
       "awayScore": 136,
-      "excitement": 2.4360208339736857,
+      "excitement": 2.596536735096037,
       "breakdown": {
         "tension": 0,
-        "drama": 1.8111569556048104,
-        "finish": 0.6065472045800693
+        "drama": 1.4794474588867383,
+        "finish": 1.848329992383897
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-09T22:35:28.835Z",
-    "algorithmVersion": "2.5",
+    "generatedAt": "2026-01-10T04:30:27.921Z",
+    "algorithmVersion": "3.0",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-11"
   }
