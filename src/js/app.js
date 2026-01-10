@@ -526,7 +526,10 @@ window.getTier = getTier;
             });
 
             // Team search input
-            document.getElementById('teamSearchInput').addEventListener('input', (e) => {
+            const searchInput = document.getElementById('teamSearchInput');
+            console.log('Attaching search input listener, element:', searchInput);
+            searchInput.addEventListener('input', (e) => {
+                console.log('Search input event fired, value:', e.target.value);
                 filterTeams(e.target.value);
             });
 
