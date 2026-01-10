@@ -9,10 +9,22 @@
  * Load all teams for the current sport
  */
 export async function loadTeams() {
+    console.log('loadTeams called:', { sport: window.selectedSport, cached: window.allTeams.length > 0 });
+
     if (window.allTeams.length > 0) {
-        displayTeams(window.allTeams);
+        // Check if search input has text, filter if so
+        const searchInput = document.getElementById('teamSearchInput');
+        if (searchInput && searchInput.value) {
+            console.log('loadTeams: cached teams, applying existing filter:', searchInput.value);
+            filterTeams(searchInput.value);
+        } else {
+            displayTeams(window.allTeams);
+        }
         return;
     }
+
+    // Show loading state
+    document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Loading teams...</div>';
 
     try {
         const response = await fetch(`/api/teams?sport=${window.selectedSport}`);
@@ -20,7 +32,15 @@ export async function loadTeams() {
 
         if (data.success && data.teams) {
             window.allTeams = data.teams;
-            displayTeams(window.allTeams);
+            console.log('loadTeams: loaded', window.allTeams.length, 'teams');
+
+            // If user has already typed in search box, filter; otherwise show all
+            const searchInput = document.getElementById('teamSearchInput');
+            if (searchInput && searchInput.value) {
+                filterTeams(searchInput.value);
+            } else {
+                displayTeams(window.allTeams);
+            }
         }
     } catch (error) {
         console.error('Error loading teams:', error);
@@ -44,7 +64,9 @@ export function displayTeams(teams) {
         const teamItem = document.createElement('div');
         teamItem.className = 'team-item';
         teamItem.textContent = team.displayName;
-        teamItem.addEventListener('click', () => {
+        teamItem.addEventListener('click', (e) => {
+            console.log('Team item clicked:', team.displayName, e);
+            e.stopPropagation(); // Prevent picker from closing via document click handler
             selectTeam(team);
         });
         teamList.appendChild(teamItem);
@@ -55,6 +77,14 @@ export function displayTeams(teams) {
  * Filter teams based on search query
  */
 export function filterTeams(query) {
+    console.log('filterTeams called:', { query, allTeamsCount: window.allTeams?.length });
+
+    // Guard: If teams aren't loaded yet, don't filter
+    if (!window.allTeams || window.allTeams.length === 0) {
+        console.warn('filterTeams: allTeams not loaded yet, skipping filter');
+        return;
+    }
+
     if (!query) {
         displayTeams(window.allTeams);
         return;
@@ -66,6 +96,7 @@ export function filterTeams(query) {
         team.abbreviation.toLowerCase().includes(query.toLowerCase())
     );
 
+    console.log('filterTeams: filtered results:', filtered.length);
     displayTeams(filtered);
 }
 
@@ -73,9 +104,11 @@ export function filterTeams(query) {
  * Handle team selection
  */
 export function selectTeam(team) {
+    console.log('selectTeam called:', team);
     window.selectedTeam = team;
     document.getElementById('teamPicker').classList.remove('visible');
     document.getElementById('teamSearchInput').value = '';
+    console.log('Calling loadSchedule for:', team.displayName);
     loadSchedule(team);
 }
 
@@ -83,19 +116,27 @@ export function selectTeam(team) {
  * Load schedule for selected team
  */
 export async function loadSchedule(team) {
+    console.log('loadSchedule called:', { team, sport: window.selectedSport, season: window.selectedSeason });
     window.viewMode = 'schedule';
     window.periodAverages = null;
     window.isLoading = true;
     window.showLoading(`loading ${team.displayName} schedule...`);
 
-    try {
-        const response = await fetch(`/api/schedule?sport=${window.selectedSport}&teamId=${team.id}&season=${window.selectedSeason}`);
-        const data = await response.json();
+    const url = `/api/schedule?sport=${window.selectedSport}&teamId=${team.id}&season=${window.selectedSeason}`;
+    console.log('Fetching schedule from:', url);
 
-        if (data.success && data.games) {
+    try {
+        const response = await fetch(url);
+        console.log('Schedule API response status:', response.status);
+        const data = await response.json();
+        console.log('Schedule API response data:', data);
+
+        if (data.success && data.games && data.games.length > 0) {
             window.currentSchedule = data.games;
+            console.log('Displaying schedule with', data.games.length, 'games');
             displaySchedule(data.team, data.games);
         } else {
+            console.log('No games found, showing empty state');
             window.showEmpty(`No completed games found for ${team.displayName} in ${window.selectedSeason}.`);
         }
     } catch (error) {

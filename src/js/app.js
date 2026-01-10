@@ -521,11 +521,15 @@ window.getTier = getTier;
                     document.getElementById('teamSearchInput').focus();
                 } else {
                     picker.classList.remove('visible');
+                    document.getElementById('teamSearchInput').value = '';
                 }
             });
 
             // Team search input
-            document.getElementById('teamSearchInput').addEventListener('input', (e) => {
+            const searchInput = document.getElementById('teamSearchInput');
+            console.log('Attaching search input listener, element:', searchInput);
+            searchInput.addEventListener('input', (e) => {
+                console.log('Search input event fired, value:', e.target.value);
                 filterTeams(e.target.value);
             });
 
@@ -536,6 +540,7 @@ window.getTier = getTier;
 
                 if (!picker.contains(e.target) && e.target !== findGameLink) {
                     picker.classList.remove('visible');
+                    document.getElementById('teamSearchInput').value = '';
                 }
             });
         }
