@@ -1,30 +1,23 @@
 # Dependencies
 node_modules/
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Build outputs
+/build
+/dist
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment variables
-.env
-.env.local
-.env.production.local
-.env.development.local
-.env.test.local
-
-# Production
-/build
-/dist
-
-# Misc
-.DS_Store
-*.pem
-
-# Debug
-npm-debug.log*
-
-# IDE
-.idea
-.vscode
+# IDE/Editor
+.idea/
+.vscode/
 *.swp
 *.swo
 *~
@@ -33,15 +26,15 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Sync progress
+# Security
+*.pem
+
+# Project-specific
 nfl-sync-progress.json
-
-# Backup files
 backup/
-
-# Vercel
 .vercel
-.env*.local
 
-# Static data is now committed to repo
-# Generated via: node scripts/generate-static.js --sport <SPORT> --season <YEAR> --all
+# Analysis outputs (regenerate with scripts)
+analysis/*-report.json
+analysis/*-summary.json
+!analysis/canonical-games.json

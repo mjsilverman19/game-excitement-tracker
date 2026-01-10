@@ -34,6 +34,29 @@ Games are scored based on three metrics derived from win probability data:
 
 Games are categorized as **must watch** (8+), **recommended** (6-7.9), or **skip** (<6). Overtime games receive a bonus.
 
+## NFL Playoff Rounds
+
+For NFL postseason queries, the `week` value can be a round name instead of a number:
+
+- `wild-card`
+- `divisional`
+- `conference`
+- `super-bowl`
+
+These map to ESPN's postseason week values in the backend, keeping navigation consistent across playoff rounds.
+
+## Exporting Results
+
+Use the Export Season flow in the UI to download an Excel file for a full season or custom range. The export is generated client-side using SheetJS and includes the ranked games plus score breakdowns.
+
+## Static Data Generation
+
+Static JSON datasets can be generated with `scripts/generate-static.js` to populate `public/data/` for offline or faster loads. Example:
+
+```bash
+node scripts/generate-static.js --sport NFL --season 2025 --all
+```
+
 ## Tech Stack
 
 - **Frontend**: Vanilla HTML/CSS/JavaScript (modular structure, no build step)
@@ -184,21 +207,39 @@ GET /api/schedule?sport=NFL&teamId=12&season=2024
 ## File Structure
 
 ```
-├── index.html           # Frontend application (HTML only)
-├── css/
-│   └── styles.css       # All application styles
-├── js/
-│   ├── config.js        # Configuration (Supabase credentials)
-│   ├── supabase.js      # Supabase client and vote storage
-│   └── votes.js         # Vote management utilities
+├── src/
+│   ├── index.html
+│   ├── css/styles.css
+│   └── js/
+│       ├── app.js
+│       ├── config.js
+│       ├── components/
+│       │   ├── date-picker.js
+│       │   ├── export-modal.js
+│       │   ├── game-list.js
+│       │   ├── radar-chart.js
+│       │   ├── team-picker.js
+│       │   └── week-picker.js
+│       ├── services/
+│       │   ├── api.js
+│       │   ├── storage.js
+│       │   └── supabase.js
+│       └── utils/
+│           └── dates.js
 ├── api/
-│   ├── games.js         # Main games analysis endpoint
-│   ├── calculator.js    # Entertainment scoring algorithm
-│   ├── fetcher.js       # ESPN data fetcher
-│   ├── teams.js         # Teams list endpoint
-│   └── schedule.js      # Team schedule endpoint
-├── vercel.json          # Vercel configuration
-└── package.json
+│   ├── calculator.js
+│   ├── fetcher.js
+│   ├── games.js
+│   ├── schedule.js
+│   └── teams.js
+├── shared/
+│   └── algorithm-config.js
+├── scripts/
+│   └── [analysis and generation scripts]
+├── public/data/
+│   └── [static JSON game data]
+└── analysis/
+    └── [benchmark results and reports]
 ```
 
 ## License

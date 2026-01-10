@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-// Debug script to show full score calculation breakdown including raw scores
+/**
+ * Purpose: Show full score calculation breakdown for a single game.
+ * Usage: node scripts/debug-score-calculation.js <gameId> [sport]
+ * Output: Console report of component scores, weights, and raw/normalized totals.
+ */
 
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
 

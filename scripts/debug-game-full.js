@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-// Full probability trace dump
+/**
+ * Purpose: Dump full win probability trace highlights for a single game.
+ * Usage: node scripts/debug-game-full.js <gameId> [sport]
+ * Output: Console report with competitive-range points and swing list.
+ */
 
 const gameId = process.argv[2];
 const sport = process.argv[3] || 'NFL';

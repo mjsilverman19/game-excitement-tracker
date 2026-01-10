@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-// Debug script to inspect raw probability data for a single game
+/**
+ * Purpose: Inspect raw win probability points for a single game.
+ * Usage: node scripts/debug-game-probs.js <gameId> [sport]
+ * Output: Console dump of first/last points plus final-moment swings.
+ */
 
 const gameId = process.argv[2];
 const sport = process.argv[3] || 'NFL';
