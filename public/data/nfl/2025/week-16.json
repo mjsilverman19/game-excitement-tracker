@@ -87,7 +87,7 @@
       "awayTeam": "Buccaneers",
       "homeScore": 23,
       "awayScore": 20,
-      "excitement": 8.3,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 8.8701578664999,
         "drama": 8.060428012112213,
@@ -178,32 +178,32 @@
       "playoffRound": null
     },
     {
-      "id": "401772803",
-      "homeTeam": "Titans",
-      "awayTeam": "Chiefs",
-      "homeScore": 26,
-      "awayScore": 9,
-      "excitement": 5.9,
+      "id": "401772805",
+      "homeTeam": "Texans",
+      "awayTeam": "Raiders",
+      "homeScore": 23,
+      "awayScore": 21,
+      "excitement": 5.3,
       "breakdown": {
-        "tension": 6.639243839195549,
-        "drama": 5.470682048546567,
-        "finish": 3.747212715469767
+        "tension": 4,
+        "drama": 4.340309934936676,
+        "finish": 4.3017032690953245
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401772805",
-      "homeTeam": "Texans",
-      "awayTeam": "Raiders",
-      "homeScore": 23,
-      "awayScore": 21,
-      "excitement": 5.4,
+      "id": "401772803",
+      "homeTeam": "Titans",
+      "awayTeam": "Chiefs",
+      "homeScore": 26,
+      "awayScore": 9,
+      "excitement": 5.2,
       "breakdown": {
-        "tension": 4,
-        "drama": 4.340309934936676,
-        "finish": 4.3017032690953245
+        "tension": 6.639243839195549,
+        "drama": 5.470682048546567,
+        "finish": 3.747212715469767
       },
       "overtime": false,
       "bowlName": null,
@@ -247,7 +247,7 @@
       "awayTeam": "Jets",
       "homeScore": 29,
       "awayScore": 6,
-      "excitement": 3,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 0.1463122970076347,
         "drama": 2.3585394920433176,
@@ -264,8 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:23:53.713Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:12:53.286Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 16
   }

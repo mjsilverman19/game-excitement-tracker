@@ -39,7 +39,7 @@
       "awayTeam": "Grizzlies",
       "homeScore": 145,
       "awayScore": 116,
-      "excitement": 5.584553220046371,
+      "excitement": 5.499441515464012,
       "breakdown": {
         "tension": 3.6191756504760564,
         "drama": 6.404196012477622,
@@ -55,7 +55,7 @@
       "awayTeam": "Clippers",
       "homeScore": 91,
       "awayScore": 109,
-      "excitement": 4.6,
+      "excitement": 3.4,
       "breakdown": {
         "tension": 3.8711530917884462,
         "drama": 5.326430453518266,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:28:27.918Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:15:18.901Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-15"
   }

@@ -103,7 +103,7 @@
       "awayTeam": "Rams",
       "homeScore": 27,
       "awayScore": 24,
-      "excitement": 7.5,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 4.605607179637024,
         "drama": 6.488916232829373,
@@ -119,27 +119,11 @@
       "awayTeam": "Lions",
       "homeScore": 23,
       "awayScore": 10,
-      "excitement": 7.2,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 7.44840631000415,
         "drama": 6.863562134493728,
         "finish": 5.362816297398968
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772916",
-      "homeTeam": "Dolphins",
-      "awayTeam": "Buccaneers",
-      "homeScore": 20,
-      "awayScore": 17,
-      "excitement": 6.4,
-      "breakdown": {
-        "tension": 5.100299631766423,
-        "drama": 5.666687637598791,
-        "finish": 2.887657992239587
       },
       "overtime": false,
       "bowlName": null,
@@ -172,6 +156,22 @@
         "tension": 2.5,
         "drama": 4.282992810129722,
         "finish": 6.181748356721801
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772916",
+      "homeTeam": "Dolphins",
+      "awayTeam": "Buccaneers",
+      "homeScore": 20,
+      "awayScore": 17,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 5.100299631766423,
+        "drama": 5.666687637598791,
+        "finish": 2.887657992239587
       },
       "overtime": false,
       "bowlName": null,
@@ -247,7 +247,7 @@
       "awayTeam": "Cardinals",
       "homeScore": 37,
       "awayScore": 14,
-      "excitement": 2.7,
+      "excitement": 2.3,
       "breakdown": {
         "tension": 0.3044247404547933,
         "drama": 1.6531901250310128,
@@ -264,8 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:23:59.168Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:12:58.888Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 17
   }

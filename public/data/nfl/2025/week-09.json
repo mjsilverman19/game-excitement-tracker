@@ -98,22 +98,6 @@
       "playoffRound": null
     },
     {
-      "id": "401772763",
-      "homeTeam": "Patriots",
-      "awayTeam": "Falcons",
-      "homeScore": 24,
-      "awayScore": 23,
-      "excitement": 6.1,
-      "breakdown": {
-        "tension": 4,
-        "drama": 5.511511373917405,
-        "finish": 5.615714215295857
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772767",
       "homeTeam": "Giants",
       "awayTeam": "49ers",
@@ -124,6 +108,22 @@
         "tension": 4.462701494884947,
         "drama": 4.944372387470634,
         "finish": 4.972985493949716
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772763",
+      "homeTeam": "Patriots",
+      "awayTeam": "Falcons",
+      "homeScore": 24,
+      "awayScore": 23,
+      "excitement": 6,
+      "breakdown": {
+        "tension": 4,
+        "drama": 5.511511373917405,
+        "finish": 5.615714215295857
       },
       "overtime": false,
       "bowlName": null,
@@ -151,27 +151,11 @@
       "awayTeam": "Chiefs",
       "homeScore": 28,
       "awayScore": 21,
-      "excitement": 5.6,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 5.569664682740139,
         "drama": 5.51560959450382,
         "finish": 3.231470988254463
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772766",
-      "homeTeam": "Steelers",
-      "awayTeam": "Colts",
-      "homeScore": 27,
-      "awayScore": 20,
-      "excitement": 4.4,
-      "breakdown": {
-        "tension": 2.9015415155105106,
-        "drama": 5.3852056546876526,
-        "finish": 2.5027382301761296
       },
       "overtime": false,
       "bowlName": null,
@@ -210,12 +194,28 @@
       "playoffRound": null
     },
     {
+      "id": "401772766",
+      "homeTeam": "Steelers",
+      "awayTeam": "Colts",
+      "homeScore": 27,
+      "awayScore": 20,
+      "excitement": 3.8,
+      "breakdown": {
+        "tension": 2.9015415155105106,
+        "drama": 5.3852056546876526,
+        "finish": 2.5027382301761296
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772874",
       "homeTeam": "Rams",
       "awayTeam": "Saints",
       "homeScore": 34,
       "awayScore": 10,
-      "excitement": 2.5,
+      "excitement": 2.1,
       "breakdown": {
         "tension": 0,
         "drama": 0.4195525016784112,
@@ -232,8 +232,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:23:17.195Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:12:15.337Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 9
   }

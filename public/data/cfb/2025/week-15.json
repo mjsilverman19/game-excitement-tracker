@@ -55,7 +55,7 @@
       "awayTeam": "North Texas",
       "homeScore": 34,
       "awayScore": 21,
-      "excitement": 4,
+      "excitement": 3.2,
       "breakdown": {
         "tension": 3.0283885477659913,
         "drama": 4.0479308333870225,
@@ -71,7 +71,7 @@
       "awayTeam": "BYU",
       "homeScore": 34,
       "awayScore": 7,
-      "excitement": 3.5,
+      "excitement": 3.1,
       "breakdown": {
         "tension": 2.422173025735693,
         "drama": 2.637270946140574,
@@ -87,7 +87,7 @@
       "awayTeam": "Troy",
       "homeScore": 31,
       "awayScore": 14,
-      "excitement": 3.3,
+      "excitement": 2.1,
       "breakdown": {
         "tension": 0,
         "drama": 2.3739523218713843,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:25:31.688Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:14:30.122Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 15
   }

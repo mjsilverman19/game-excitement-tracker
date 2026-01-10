@@ -7,29 +7,13 @@
       "awayTeam": "Eagles",
       "homeScore": 22,
       "awayScore": 19,
-      "excitement": 9.6,
+      "excitement": 9.5,
       "breakdown": {
         "tension": 9.056343180334288,
         "drama": 10,
         "finish": 10
       },
       "overtime": true,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772902",
-      "homeTeam": "Bills",
-      "awayTeam": "Bengals",
-      "homeScore": 39,
-      "awayScore": 34,
-      "excitement": 8.4,
-      "breakdown": {
-        "tension": 7.233790516375733,
-        "drama": 9.4138775663909,
-        "finish": 5.193183690513625
-      },
-      "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
@@ -44,6 +28,22 @@
         "tension": 5.897800815346486,
         "drama": 7.6375832197649185,
         "finish": 7.889857075324284
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772902",
+      "homeTeam": "Bills",
+      "awayTeam": "Bengals",
+      "homeScore": 39,
+      "awayScore": 34,
+      "excitement": 8.1,
+      "breakdown": {
+        "tension": 7.233790516375733,
+        "drama": 9.4138775663909,
+        "finish": 5.193183690513625
       },
       "overtime": false,
       "bowlName": null,
@@ -130,22 +130,6 @@
       "playoffRound": null
     },
     {
-      "id": "401772947",
-      "homeTeam": "Lions",
-      "awayTeam": "Cowboys",
-      "homeScore": 44,
-      "awayScore": 30,
-      "excitement": 4.3,
-      "breakdown": {
-        "tension": 2.4264156975857096,
-        "drama": 4.339432906865944,
-        "finish": 4.125782637295331
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772794",
       "homeTeam": "Raiders",
       "awayTeam": "Broncos",
@@ -156,6 +140,22 @@
         "tension": 1.2809178738245641,
         "drama": 2.754276347862193,
         "finish": 4.88918239005602
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772947",
+      "homeTeam": "Lions",
+      "awayTeam": "Cowboys",
+      "homeScore": 44,
+      "awayScore": 30,
+      "excitement": 4,
+      "breakdown": {
+        "tension": 2.4264156975857096,
+        "drama": 4.339432906865944,
+        "finish": 4.125782637295331
       },
       "overtime": false,
       "bowlName": null,
@@ -178,22 +178,6 @@
       "playoffRound": null
     },
     {
-      "id": "401772793",
-      "homeTeam": "Jaguars",
-      "awayTeam": "Colts",
-      "homeScore": 36,
-      "awayScore": 19,
-      "excitement": 3.9,
-      "breakdown": {
-        "tension": 3.1302144716222404,
-        "drama": 3.6772340619085186,
-        "finish": 2.5496222351997733
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772790",
       "homeTeam": "Jets",
       "awayTeam": "Dolphins",
@@ -210,12 +194,28 @@
       "playoffRound": null
     },
     {
+      "id": "401772793",
+      "homeTeam": "Jaguars",
+      "awayTeam": "Colts",
+      "homeScore": 36,
+      "awayScore": 19,
+      "excitement": 3.1,
+      "breakdown": {
+        "tension": 3.1302144716222404,
+        "drama": 3.6772340619085186,
+        "finish": 2.5496222351997733
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772899",
       "homeTeam": "Vikings",
       "awayTeam": "Commanders",
       "homeScore": 31,
       "awayScore": 0,
-      "excitement": 3.1032893843154823,
+      "excitement": 2.5526808515995394,
       "breakdown": {
         "tension": 1.8600693644224775,
         "drama": 2.2985034831854403,
@@ -232,8 +232,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:23:42.676Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:12:40.930Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 14
   }

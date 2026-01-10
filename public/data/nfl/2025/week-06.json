@@ -55,7 +55,7 @@
       "awayTeam": "Cowboys",
       "homeScore": 30,
       "awayScore": 27,
-      "excitement": 8.3,
+      "excitement": 8.1,
       "breakdown": {
         "tension": 8.83295709984765,
         "drama": 7.882002996914013,
@@ -71,7 +71,7 @@
       "awayTeam": "Cardinals",
       "homeScore": 31,
       "awayScore": 27,
-      "excitement": 7.1,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 5.4995659080048735,
         "drama": 7.455248662165063,
@@ -135,7 +135,7 @@
       "awayTeam": "Eagles",
       "homeScore": 34,
       "awayScore": 17,
-      "excitement": 6.1,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 5.241560434227837,
         "drama": 5.900085967125859,
@@ -151,7 +151,7 @@
       "awayTeam": "Lions",
       "homeScore": 30,
       "awayScore": 17,
-      "excitement": 5.7,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 6.240858638170208,
         "drama": 5.40639267796106,
@@ -167,7 +167,7 @@
       "awayTeam": "49ers",
       "homeScore": 30,
       "awayScore": 19,
-      "excitement": 5.4,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 5.106429470703184,
         "drama": 5.051261658943308,
@@ -183,7 +183,7 @@
       "awayTeam": "Bills",
       "homeScore": 24,
       "awayScore": 14,
-      "excitement": 4.5,
+      "excitement": 4.1,
       "breakdown": {
         "tension": 3.839071610644189,
         "drama": 4.95404822869245,
@@ -199,7 +199,7 @@
       "awayTeam": "Bengals",
       "homeScore": 27,
       "awayScore": 18,
-      "excitement": 3.6,
+      "excitement": 3.2,
       "breakdown": {
         "tension": 1.5,
         "drama": 2.8812396296338356,
@@ -215,7 +215,7 @@
       "awayTeam": "Browns",
       "homeScore": 23,
       "awayScore": 9,
-      "excitement": 3.5,
+      "excitement": 3,
       "breakdown": {
         "tension": 1.7805671026604641,
         "drama": 3.4340222413274373,
@@ -231,7 +231,7 @@
       "awayTeam": "Titans",
       "homeScore": 20,
       "awayScore": 10,
-      "excitement": 3.5,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 2.5095381282495066,
         "drama": 2.8782434397691663,
@@ -248,8 +248,8 @@
     "count": 15,
     "totalGames": 15,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:23:02.971Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:12:01.904Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 6
   }

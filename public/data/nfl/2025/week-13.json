@@ -55,27 +55,11 @@
       "awayTeam": "Rams",
       "homeScore": 31,
       "awayScore": 28,
-      "excitement": 8,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 6.080135980875707,
         "drama": 7.830983830544009,
         "finish": 6.19402351989773
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772694",
-      "homeTeam": "Cowboys",
-      "awayTeam": "Chiefs",
-      "homeScore": 31,
-      "awayScore": 28,
-      "excitement": 7.7,
-      "breakdown": {
-        "tension": 6.0875042689684955,
-        "drama": 7.678082498699587,
-        "finish": 4.5000883886622605
       },
       "overtime": false,
       "bowlName": null,
@@ -92,6 +76,22 @@
         "tension": 7.669627211066522,
         "drama": 6.7443862599150535,
         "finish": 5.008706959431608
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772694",
+      "homeTeam": "Cowboys",
+      "awayTeam": "Chiefs",
+      "homeScore": 31,
+      "awayScore": 28,
+      "excitement": 7.1,
+      "breakdown": {
+        "tension": 6.0875042689684955,
+        "drama": 7.678082498699587,
+        "finish": 4.5000883886622605
       },
       "overtime": false,
       "bowlName": null,
@@ -146,32 +146,32 @@
       "playoffRound": null
     },
     {
-      "id": "401772895",
-      "homeTeam": "Buccaneers",
-      "awayTeam": "Cardinals",
-      "homeScore": 20,
+      "id": "401772892",
+      "homeTeam": "Dolphins",
+      "awayTeam": "Saints",
+      "homeScore": 21,
       "awayScore": 17,
-      "excitement": 5.4,
+      "excitement": 4.6,
       "breakdown": {
-        "tension": 4,
-        "drama": 4.377176796911619,
-        "finish": 4.244742931988315
+        "tension": 2.5,
+        "drama": 3.9803550757257087,
+        "finish": 5.2103408839698515
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401772892",
-      "homeTeam": "Dolphins",
-      "awayTeam": "Saints",
-      "homeScore": 21,
+      "id": "401772895",
+      "homeTeam": "Buccaneers",
+      "awayTeam": "Cardinals",
+      "homeScore": 20,
       "awayScore": 17,
-      "excitement": 4.7,
+      "excitement": 4.4,
       "breakdown": {
-        "tension": 2.5,
-        "drama": 3.9803550757257087,
-        "finish": 5.2103408839698515
+        "tension": 4,
+        "drama": 4.377176796911619,
+        "finish": 4.244742931988315
       },
       "overtime": false,
       "bowlName": null,
@@ -215,27 +215,11 @@
       "awayTeam": "Raiders",
       "homeScore": 31,
       "awayScore": 14,
-      "excitement": 3.1,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 0.8479158275459575,
         "drama": 2.5568351499933613,
         "finish": 2.6041413581336297
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772821",
-      "homeTeam": "Patriots",
-      "awayTeam": "Giants",
-      "homeScore": 33,
-      "awayScore": 15,
-      "excitement": 3.1,
-      "breakdown": {
-        "tension": 1.3729224569935505,
-        "drama": 2.33046301512502,
-        "finish": 2.3671692956919546
       },
       "overtime": false,
       "bowlName": null,
@@ -247,11 +231,27 @@
       "awayTeam": "Vikings",
       "homeScore": 26,
       "awayScore": 0,
-      "excitement": 3,
+      "excitement": 2.6,
       "breakdown": {
         "tension": 1.3394735770804846,
         "drama": 1.9256847597393516,
         "finish": 2.086345515918326
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772821",
+      "homeTeam": "Patriots",
+      "awayTeam": "Giants",
+      "homeScore": 33,
+      "awayScore": 15,
+      "excitement": 2.6,
+      "breakdown": {
+        "tension": 1.3729224569935505,
+        "drama": 2.33046301512502,
+        "finish": 2.3671692956919546
       },
       "overtime": false,
       "bowlName": null,
@@ -264,8 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:23:37.825Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:12:36.264Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "week": 13
   }

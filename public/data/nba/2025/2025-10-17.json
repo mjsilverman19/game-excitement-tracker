@@ -7,7 +7,7 @@
       "awayTeam": "Kings",
       "homeScore": 116,
       "awayScore": 117,
-      "excitement": 8.4,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 8.687269730285205,
         "drama": 8.593952532000655,
@@ -71,7 +71,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 94,
       "awayScore": 91,
-      "excitement": 7,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 4.756635845842066,
         "drama": 6.889218524654306,
@@ -87,27 +87,11 @@
       "awayTeam": "Pacers",
       "homeScore": 133,
       "awayScore": 104,
-      "excitement": 6.422419488644417,
+      "excitement": 6.1039683148662505,
       "breakdown": {
         "tension": 6.743762020913206,
         "drama": 7.378583281690017,
         "finish": 4.097159120720988
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401812731",
-      "homeTeam": "Raptors",
-      "awayTeam": "Nets",
-      "homeScore": 119,
-      "awayScore": 114,
-      "excitement": 5.7,
-      "breakdown": {
-        "tension": 4,
-        "drama": 5.566685904352246,
-        "finish": 3.970009321403045
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +103,27 @@
       "awayTeam": "Timberwolves",
       "homeScore": 126,
       "awayScore": 110,
-      "excitement": 5.2,
+      "excitement": 5,
       "breakdown": {
         "tension": 3.054254141979488,
         "drama": 5.592806877585845,
         "finish": 4.990969953956666
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812731",
+      "homeTeam": "Raptors",
+      "awayTeam": "Nets",
+      "homeScore": 119,
+      "awayScore": 114,
+      "excitement": 4.8,
+      "breakdown": {
+        "tension": 4,
+        "drama": 5.566685904352246,
+        "finish": 3.970009321403045
       },
       "overtime": false,
       "bowlName": null,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:28:32.742Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:15:23.259Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-17"
   }

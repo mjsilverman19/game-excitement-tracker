@@ -71,7 +71,7 @@
       "awayTeam": "Lakers",
       "homeScore": 113,
       "awayScore": 104,
-      "excitement": 6.7,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 5.218642936338217,
         "drama": 7.2016683069482585,
@@ -87,7 +87,7 @@
       "awayTeam": "Bulls",
       "homeScore": 124,
       "awayScore": 117,
-      "excitement": 4.3,
+      "excitement": 3.7,
       "breakdown": {
         "tension": 2.5,
         "drama": 4.9621003138690245,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:28:26.236Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T16:15:17.661Z",
+    "algorithmVersion": "3.1",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-14"
   }
