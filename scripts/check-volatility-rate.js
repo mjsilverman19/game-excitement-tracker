@@ -16,7 +16,7 @@ let extremeRecCount = 0;
 for (let week = 1; week <= 10; week++) {
   const games = await fetchGames('NFL', 2025, week, '2');
   for (const game of games) {
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
+    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/probabilities?limit=1000`;
     try {
       const resp = await fetch(probUrl);
       if (!resp.ok) continue;

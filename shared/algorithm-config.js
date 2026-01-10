@@ -36,11 +36,13 @@ export function getPrevNFLPlayoffRound(currentRound) {
 }
 
 export const ALGORITHM_CONFIG = {
-  // Version 3.1: Add decision point adjustment
-  // - Penalizes games decided early even if they had early excitement
-  // - Uses Option A (multiplier) with exponent 0.5
-  // - Games with 100% lateness unaffected; early-decided games penalized
-  version: '3.1',
+  // Version 3.2: Fix data truncation bug and simplify algorithm
+  // - Fixed ESPN API limit from 300 to 1000 with pagination support
+  // - NBA games were missing 100-300 data points (now complete)
+  // - Removed decision point adjustment (was compensating for truncated data)
+  // - Re-baselined canonical games with corrected expected tiers
+  // - New accuracy: 88.7% (47/53 valid games)
+  version: '3.2',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -132,7 +134,8 @@ export const ALGORITHM_CONFIG = {
       competitiveBandLow: 0.25,
       competitiveBandHigh: 0.75,
       // Adjustment method: 'A' (multiplier), 'C' (blend), or 'none'
-      adjustmentMethod: 'A',
+      // v3.2: Set to 'none' - adjustment was compensating for truncated data bug
+      adjustmentMethod: 'none',
       // Option A parameters: multiplier = lateness ^ exponent
       multiplierExponent: 0.5, // sqrt softens penalty
       // Option C parameters: blend between raw score and lateness-based score

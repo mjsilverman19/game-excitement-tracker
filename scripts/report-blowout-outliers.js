@@ -11,7 +11,7 @@ import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { analyzeGameEntertainmentDetailed } from '../api/calculator.js';
+import { analyzeGameEntertainmentDetailed, fetchAllProbabilities } from '../api/calculator.js';
 import { fetchSingleGame } from '../api/fetcher.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -54,21 +54,9 @@ function summarizeFlag(margin, lateCloseness, breakdown) {
 }
 
 async function fetchProbabilities(gameId, sport) {
-  let sportType;
-  let league;
-  if (sport === 'NBA') {
-    sportType = 'basketball';
-    league = 'nba';
-  } else {
-    sportType = 'football';
-    league = sport === 'CFB' ? 'college-football' : 'nfl';
-  }
-
-  const url = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=300`;
-  const response = await fetch(url);
-  if (!response.ok) return [];
-  const data = await response.json();
-  return (data.items || []).map(p => ({
+  const items = await fetchAllProbabilities(gameId, sport);
+  if (!items) return [];
+  return items.map(p => ({
     value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
     period: p.period || 1
   }));

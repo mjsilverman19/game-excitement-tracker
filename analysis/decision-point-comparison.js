@@ -21,7 +21,8 @@ import { fileURLToPath } from 'url';
 import {
   findDecisionPoint,
   applyDecisionAdjustmentA,
-  applyDecisionAdjustmentC
+  applyDecisionAdjustmentC,
+  fetchAllProbabilities
 } from '../api/calculator.js';
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
 
@@ -65,25 +66,11 @@ const CURATED_TEST_CASES = [
 ];
 
 async function fetchProbabilities(gameId, sport) {
-  let sportType, league;
-  if (sport === 'NBA') {
-    sportType = 'basketball';
-    league = 'nba';
-  } else {
-    sportType = 'football';
-    league = sport === 'CFB' ? 'college-football' : 'nfl';
-  }
-
-  const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=300`;
-
   try {
-    const response = await fetch(probUrl);
-    if (!response.ok) return null;
+    const items = await fetchAllProbabilities(gameId, sport);
+    if (!items || items.length < 10) return null;
 
-    const data = await response.json();
-    if (!data.items || data.items.length < 10) return null;
-
-    return data.items.map(p => ({
+    return items.map(p => ({
       value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
       period: p.period || 1,
       clock: p.clock

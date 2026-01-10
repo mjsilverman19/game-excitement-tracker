@@ -29,33 +29,76 @@ const SCORING_CONFIG = {
   bonuses: ALGORITHM_CONFIG.bonuses
 };
 
+/**
+ * Fetches all probability data for a game, handling pagination if needed.
+ * ESPN API typically returns 400-600 data points for a full game.
+ *
+ * @param {string} gameId - ESPN game ID
+ * @param {string} sport - Sport type (NFL, CFB, NBA)
+ * @returns {Promise<Array|null>} Array of probability items or null on error
+ */
+export async function fetchAllProbabilities(gameId, sport) {
+  let sportType, league;
+  if (sport === 'NBA') {
+    sportType = 'basketball';
+    league = 'nba';
+  } else {
+    sportType = 'football';
+    league = sport === 'CFB' ? 'college-football' : 'nfl';
+  }
+
+  const baseUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities`;
+
+  // Use limit=1000 to capture all data points (games typically have 400-600)
+  // This prevents the truncation bug that was causing missing game-ending sequences
+  let allItems = [];
+  let page = 1;
+  let hasMore = true;
+
+  while (hasMore) {
+    const url = `${baseUrl}?limit=1000&page=${page}`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        if (page === 1) return null; // First page failed
+        break; // Subsequent pages may not exist
+      }
+
+      const data = await response.json();
+
+      if (!data.items || data.items.length === 0) {
+        break;
+      }
+
+      allItems = allItems.concat(data.items);
+
+      // Check if there are more pages
+      // ESPN uses pageCount to indicate total pages
+      const pageCount = data.pageCount || 1;
+      hasMore = page < pageCount;
+      page++;
+
+      // Safety limit to prevent infinite loops
+      if (page > 10) break;
+    } catch (error) {
+      if (page === 1) return null;
+      break;
+    }
+  }
+
+  return allItems.length > 0 ? allItems : null;
+}
+
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
   try {
-    // Determine the correct sport type and league for ESPN API
-    let sportType, league;
-    if (sport === 'NBA') {
-      sportType = 'basketball';
-      league = 'nba';
-    } else {
-      sportType = 'football';
-      league = sport === 'CFB' ? 'college-football' : 'nfl';
-    }
+    const probItems = await fetchAllProbabilities(game.id, sport);
 
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
-
-    const response = await fetch(probUrl);
-
-    if (!response.ok) {
+    if (!probItems || probItems.length < SCORING_CONFIG.thresholds.minDataPoints) {
       return null;
     }
 
-    const probData = await response.json();
-
-    if (!probData.items || probData.items.length < SCORING_CONFIG.thresholds.minDataPoints) {
-      return null;
-    }
-
-    const excitement = calculateExcitement(probData.items, game, sport);
+    const excitement = calculateExcitement(probItems, game, sport);
 
     return {
       id: game.id,
@@ -77,27 +120,13 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 
 export async function analyzeGameEntertainmentDetailed(game, sport = 'NFL') {
   try {
-    let sportType, league;
-    if (sport === 'NBA') {
-      sportType = 'basketball';
-      league = 'nba';
-    } else {
-      sportType = 'football';
-      league = sport === 'CFB' ? 'college-football' : 'nfl';
-    }
+    const probItems = await fetchAllProbabilities(game.id, sport);
 
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${game.id}/competitions/${game.id}/probabilities?limit=300`;
-    const response = await fetch(probUrl);
-    if (!response.ok) {
+    if (!probItems || probItems.length < SCORING_CONFIG.thresholds.minDataPoints) {
       return null;
     }
 
-    const probData = await response.json();
-    if (!probData.items || probData.items.length < SCORING_CONFIG.thresholds.minDataPoints) {
-      return null;
-    }
-
-    const excitement = calculateExcitementDetailed(probData.items, game, sport);
+    const excitement = calculateExcitementDetailed(probItems, game, sport);
     if (!excitement) return null;
 
     return {
@@ -440,9 +469,15 @@ function calculateLateCloseness(probs) {
 }
 
 /**
- * Detects truncated OT/late-game data and returns an adjusted probability array
- * If the final N points are all stuck at an extreme (<2% or >98%), trim them
- * to find the actual competitive finish window
+ * Detects when game data ends with an extended decisive stretch and trims it
+ * for finish quality evaluation. If the final N points are all at an extreme
+ * (<2% or >98%), trim them to find the actual competitive finish window.
+ *
+ * Note (v3.2): With complete data fetching (limit=1000), this function still
+ * triggers on ~10 canonical games where the game became decisive and stayed
+ * that way. This helps the finish metric focus on the last competitive moment
+ * rather than the decisive "mop-up" period. Kept for finish quality accuracy.
+ *
  * @param {Array} probs - Array of probability objects with value property
  * @returns {Array} Adjusted probability array for finish evaluation
  */

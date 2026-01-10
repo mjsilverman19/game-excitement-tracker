@@ -23,7 +23,7 @@ if (sport === 'NBA') {
   league = sport === 'CFB' ? 'college-football' : 'nfl';
 }
 
-const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=300`;
+const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=1000`;
 
 async function main() {
   const response = await fetch(probUrl);
