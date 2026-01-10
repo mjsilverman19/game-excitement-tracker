@@ -54,8 +54,8 @@ export default async function handler(req, res) {
 
     let data;
 
-    // For CFB, fetch both regular season and postseason
-    if (sport === 'CFB') {
+    // For CFB and NFL, fetch both regular season and postseason
+    if (sport === 'CFB' || sport === 'NFL') {
       const regularSeasonUrl = `${baseUrl}?season=${season}&seasontype=2`;
       const postseasonUrl = `${baseUrl}?season=${season}&seasontype=3`;
 
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
         ]
       };
     } else {
-      // For NFL and NBA, single fetch is sufficient
+      // For NBA, single fetch is sufficient
       const url = `${baseUrl}?season=${season}`;
       const response = await fetch(url);
       if (!response.ok) throw new Error(`ESPN API error: ${response.status}`);
