@@ -36,9 +36,11 @@ export function getPrevNFLPlayoffRound(currentRound) {
 }
 
 export const ALGORITHM_CONFIG = {
-  // Version 3.0: Raise finish ceiling and add exceptional finish detection
-  // - Adds finishLogBase and exceptionalFinish thresholds
-  version: '3.0',
+  // Version 3.1: Add decision point adjustment
+  // - Penalizes games decided early even if they had early excitement
+  // - Uses Option A (multiplier) with exponent 0.5
+  // - Games with 100% lateness unaffected; early-decided games penalized
+  version: '3.1',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -116,6 +118,37 @@ export const ALGORITHM_CONFIG = {
         min: 0.5,
         max: 1.0
       }
+    },
+    // Decision Point: When was the game truly decided?
+    // Games decided early should score lower even if they had early excitement
+    //
+    // KNOWN LIMITATION: Low-scoring defensive games may show artificially early
+    // decision points due to ESPN's probability model being overconfident when
+    // one team has a modest lead. Example: Miami(OH) at Northwestern 2024 showed
+    // 89% win probability in Q3 despite only a 7-point lead that held until a
+    // game-sealing INT with 3 minutes left. This is an upstream data limitation.
+    decisionPoint: {
+      // Competitive band: game is "in doubt" when probability is within this range
+      competitiveBandLow: 0.25,
+      competitiveBandHigh: 0.75,
+      // Adjustment method: 'A' (multiplier), 'C' (blend), or 'none'
+      adjustmentMethod: 'A',
+      // Option A parameters: multiplier = lateness ^ exponent
+      multiplierExponent: 0.5, // sqrt softens penalty
+      // Option C parameters: blend between raw score and lateness-based score
+      blendWeightLateness: 0.6, // 60% weight to lateness score
+      // Lateness-to-score mapping for Option C (non-linear tiers)
+      latenessScoreMap: [
+        { minLateness: 0.95, score: 10 },
+        { minLateness: 0.90, score: 9 },
+        { minLateness: 0.80, score: 8 },
+        { minLateness: 0.70, score: 7 },
+        { minLateness: 0.60, score: 6 },
+        { minLateness: 0.50, score: 5 },
+        { minLateness: 0.35, score: 4 },
+        { minLateness: 0.20, score: 3 },
+        { minLateness: 0.00, score: 2 }
+      ]
     }
   },
 

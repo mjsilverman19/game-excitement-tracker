@@ -23,7 +23,8 @@ const SCORING_CONFIG = {
     competitiveBand: ALGORITHM_CONFIG.thresholds.competitiveBand,
     dramaTimeWeight: ALGORITHM_CONFIG.thresholds.dramaTimeWeight,
     leadChangeSigmoid: ALGORITHM_CONFIG.thresholds.leadChangeSigmoid,
-    comeback: ALGORITHM_CONFIG.thresholds.comeback
+    comeback: ALGORITHM_CONFIG.thresholds.comeback,
+    decisionPoint: ALGORITHM_CONFIG.thresholds.decisionPoint
   },
   bonuses: ALGORITHM_CONFIG.bonuses
 };
@@ -226,6 +227,15 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
     rawScore *= (1 + (closeGameBonus * 0.5) / 10);
   }
 
+  // Store pre-adjustment score for diagnostics
+  const rawScoreBeforeDecision = rawScore;
+
+  // DECISION POINT ADJUSTMENT
+  // Penalize games that were decided early, even if they had excitement before that
+  const decisionAdjustment = applyDecisionAdjustment(rawScore, probs);
+  rawScore = decisionAdjustment.adjustedScore;
+  const decisionPointInfo = decisionAdjustment.decisionPointInfo;
+
   // Normalize to 1-10 range with better distribution
   const finalScore = normalizeScore(rawScore);
 
@@ -237,12 +247,14 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
         score: Math.min(finalScore, 6.5),
         breakdown,
         rawScore,
+        rawScoreBeforeDecision,
         finalScore,
         tensionScore,
         dramaScore,
         finishScore,
         overtimeFloorApplied: false,
-        overtimeDetected
+        overtimeDetected,
+        decisionPointInfo
       };
     }
   }
@@ -253,12 +265,14 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
       score: 6.0,
       breakdown,
       rawScore,
+      rawScoreBeforeDecision,
       finalScore,
       tensionScore,
       dramaScore,
       finishScore,
       overtimeFloorApplied: true,
-      overtimeDetected
+      overtimeDetected,
+      decisionPointInfo
     };
   }
 
@@ -266,12 +280,14 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
     score: Math.max(1, Math.min(10, Math.round(finalScore * 10) / 10)),
     breakdown,
     rawScore,
+    rawScoreBeforeDecision,
     finalScore,
     tensionScore,
     dramaScore,
     finishScore,
     overtimeFloorApplied: false,
-    overtimeDetected
+    overtimeDetected,
+    decisionPointInfo
   };
 }
 
@@ -984,4 +1000,214 @@ function calculateVolatilityBonus(probs) {
   }
 
   return Math.min(maxBonus, bonus);
+}
+
+/**
+ * DECISION POINT DETECTION
+ *
+ * Finds the last moment a game was truly competitive before the outcome became inevitable.
+ * This helps identify games that were decided early despite having late-game "movement"
+ * (which is usually garbage time and emotionally irrelevant).
+ *
+ * Logic: Find the LAST index where probability was inside the competitive band (25-75%)
+ * AND the game subsequently stayed outside this band for the remainder.
+ *
+ * @param {Array} probs - Array of probability objects with value property (0-1)
+ * @returns {Object} { decisionPointIndex, decisionLateness, wasEverCompetitive, wasAlwaysCompetitive }
+ */
+export function findDecisionPoint(probs) {
+  const config = SCORING_CONFIG.thresholds.decisionPoint;
+  const bandLow = config?.competitiveBandLow ?? 0.25;
+  const bandHigh = config?.competitiveBandHigh ?? 0.75;
+
+  if (!probs || probs.length < 2) {
+    return {
+      decisionPointIndex: 0,
+      decisionLateness: 1.0,
+      wasEverCompetitive: true,
+      wasAlwaysCompetitive: true
+    };
+  }
+
+  // Check if each point is in the competitive band
+  const inBand = probs.map(p => p.value >= bandLow && p.value <= bandHigh);
+
+  // Edge case: game was never competitive (never entered the band)
+  const wasEverCompetitive = inBand.some(b => b);
+  if (!wasEverCompetitive) {
+    return {
+      decisionPointIndex: 0,
+      decisionLateness: 0.0,
+      wasEverCompetitive: false,
+      wasAlwaysCompetitive: false
+    };
+  }
+
+  // Edge case: game never left competitive band (always in doubt)
+  const wasAlwaysCompetitive = inBand.every(b => b);
+  if (wasAlwaysCompetitive) {
+    return {
+      decisionPointIndex: probs.length - 1,
+      decisionLateness: 1.0,
+      wasEverCompetitive: true,
+      wasAlwaysCompetitive: true
+    };
+  }
+
+  // Find the LAST index where:
+  // 1. The game was in the competitive band at this point
+  // 2. The game stayed OUTSIDE the band for all remaining points
+  //
+  // Walk backwards from the end to find the first point (from the end) that's in the band
+  // That point + 1 is where the game "left" the competitive zone for good
+  let decisionPointIndex = probs.length - 1;
+
+  for (let i = probs.length - 1; i >= 0; i--) {
+    if (inBand[i]) {
+      // This is the last time the game was in the competitive band
+      decisionPointIndex = i;
+      break;
+    }
+  }
+
+  // Calculate decision lateness (0.0 = decided at start, 1.0 = decided at end)
+  const decisionLateness = probs.length > 1
+    ? decisionPointIndex / (probs.length - 1)
+    : 1.0;
+
+  return {
+    decisionPointIndex,
+    decisionLateness,
+    wasEverCompetitive: true,
+    wasAlwaysCompetitive: false
+  };
+}
+
+/**
+ * Maps decision lateness to a 1-10 score for Option C blend
+ * Non-linear mapping that rewards late decisions
+ *
+ * @param {number} lateness - Value from 0.0 to 1.0
+ * @returns {number} Score from 2-10 based on lateness tier
+ */
+function decisionLatenessToScore(lateness) {
+  const config = SCORING_CONFIG.thresholds.decisionPoint;
+  const scoreMap = config?.latenessScoreMap ?? [
+    { minLateness: 0.95, score: 10 },
+    { minLateness: 0.90, score: 9 },
+    { minLateness: 0.80, score: 8 },
+    { minLateness: 0.70, score: 7 },
+    { minLateness: 0.60, score: 6 },
+    { minLateness: 0.50, score: 5 },
+    { minLateness: 0.35, score: 4 },
+    { minLateness: 0.20, score: 3 },
+    { minLateness: 0.00, score: 2 }
+  ];
+
+  // Find the tier for this lateness value
+  for (const tier of scoreMap) {
+    if (lateness >= tier.minLateness) {
+      return tier.score;
+    }
+  }
+
+  return 2; // Fallback for very early decisions
+}
+
+/**
+ * Option A: Multiplier Approach
+ *
+ * Applies a multiplier based on decision lateness using a power function.
+ * sqrt(lateness) softens the penalty while still penalizing early decisions.
+ *
+ * Examples:
+ * - Game decided at 100% (final play): multiplier = 1.0 (no penalty)
+ * - Game decided at 90%: multiplier = 0.95 (5% penalty)
+ * - Game decided at 60%: multiplier = 0.77 (23% penalty)
+ * - Game decided at 25%: multiplier = 0.50 (50% penalty)
+ *
+ * @param {number} rawScore - The raw weighted score before decision adjustment
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {Object} { adjustedScore, decisionPointInfo }
+ */
+export function applyDecisionAdjustmentA(rawScore, probs) {
+  const config = SCORING_CONFIG.thresholds.decisionPoint;
+  const exponent = config?.multiplierExponent ?? 0.5;
+
+  const decisionInfo = findDecisionPoint(probs);
+  const multiplier = Math.pow(decisionInfo.decisionLateness, exponent);
+  const adjustedScore = rawScore * multiplier;
+
+  return {
+    adjustedScore,
+    decisionPointInfo: {
+      ...decisionInfo,
+      multiplier,
+      method: 'A'
+    }
+  };
+}
+
+/**
+ * Option C: Blend Approach
+ *
+ * Blends the raw score with a lateness-derived score.
+ * Default: 40% raw score + 60% lateness score
+ *
+ * This approach weights "when was it decided" heavily while still
+ * preserving some credit for early-game excitement.
+ *
+ * Example (76ers game with lateness ~0.6):
+ * - Raw score: 8.6
+ * - Lateness score: 6 (from 60% lateness)
+ * - Blended: (8.6 × 0.4) + (6 × 0.6) = 3.44 + 3.6 = 7.04
+ *
+ * @param {number} rawScore - The raw weighted score before decision adjustment
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {Object} { adjustedScore, decisionPointInfo }
+ */
+export function applyDecisionAdjustmentC(rawScore, probs) {
+  const config = SCORING_CONFIG.thresholds.decisionPoint;
+  const blendWeightLateness = config?.blendWeightLateness ?? 0.6;
+  const blendWeightRaw = 1 - blendWeightLateness;
+
+  const decisionInfo = findDecisionPoint(probs);
+  const latenessScore = decisionLatenessToScore(decisionInfo.decisionLateness);
+  const adjustedScore = (rawScore * blendWeightRaw) + (latenessScore * blendWeightLateness);
+
+  return {
+    adjustedScore,
+    decisionPointInfo: {
+      ...decisionInfo,
+      latenessScore,
+      blendWeightRaw,
+      blendWeightLateness,
+      method: 'C'
+    }
+  };
+}
+
+/**
+ * Applies decision point adjustment based on configured method
+ *
+ * @param {number} rawScore - The raw weighted score before decision adjustment
+ * @param {Array} probs - Array of probability objects with value property
+ * @returns {Object} { adjustedScore, decisionPointInfo } or { adjustedScore: rawScore, decisionPointInfo: null } if disabled
+ */
+export function applyDecisionAdjustment(rawScore, probs) {
+  const config = SCORING_CONFIG.thresholds.decisionPoint;
+  const method = config?.adjustmentMethod ?? 'none';
+
+  switch (method) {
+    case 'A':
+      return applyDecisionAdjustmentA(rawScore, probs);
+    case 'C':
+      return applyDecisionAdjustmentC(rawScore, probs);
+    case 'none':
+    default:
+      return {
+        adjustedScore: rawScore,
+        decisionPointInfo: null
+      };
+  }
 }
