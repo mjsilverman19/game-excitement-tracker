@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/**
+ * Purpose: Measure how often volatility bonus triggers across a sample of weeks.
+ * Usage: node scripts/check-volatility-rate.js
+ * Output: Console summary of swing trigger rates for the sample.
+ */
+
 import { fetchGames } from '../api/fetcher.js';
 
 let totalGames = 0;

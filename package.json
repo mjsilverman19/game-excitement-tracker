@@ -1,4 +1,16 @@
 {
+  "name": "game-entertainment-index",
+  "version": "2.5.0",
+  "description": "Ranks NFL, CFB, and NBA games by entertainment value using win probability data",
+  "author": "Matthew Silverman",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/[username]/game-entertainment-index"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "type": "module",
   "scripts": {
     "generate": "node scripts/generate-static.js",

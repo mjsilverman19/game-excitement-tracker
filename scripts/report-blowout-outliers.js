@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/**
+ * Purpose: Inspect high-tension blowouts from an outliers report.
+ * Usage: node scripts/report-blowout-outliers.js
+ * Output: Console report with margins, breakdowns, and diagnostic notes.
+ */
+
 import { readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
