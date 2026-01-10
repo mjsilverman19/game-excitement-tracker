@@ -2,32 +2,32 @@
   "success": true,
   "games": [
     {
-      "id": "401809837",
-      "homeTeam": "Magic",
-      "awayTeam": "Knicks",
-      "homeScore": 120,
-      "awayScore": 132,
-      "excitement": 8.4,
+      "id": "401809838",
+      "homeTeam": "Thunder",
+      "awayTeam": "Spurs",
+      "homeScore": 109,
+      "awayScore": 111,
+      "excitement": 9.1,
       "breakdown": {
-        "tension": 6.292443454379583,
-        "drama": 9.184251524047816,
-        "finish": 9.735500303655163
+        "tension": 4.699937582095285,
+        "drama": 10,
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809838",
-      "homeTeam": "Thunder",
-      "awayTeam": "Spurs",
-      "homeScore": 109,
-      "awayScore": 111,
-      "excitement": 8.4,
+      "id": "401809837",
+      "homeTeam": "Magic",
+      "awayTeam": "Knicks",
+      "homeScore": 120,
+      "awayScore": 132,
+      "excitement": 7.4,
       "breakdown": {
-        "tension": 4,
-        "drama": 7.343413670323653,
-        "finish": 9.16440737525602
+        "tension": 4.670341908084224,
+        "drama": 8.498281863303996,
+        "finish": 5.422001372760985
       },
       "overtime": false,
       "bowlName": null,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:30:31.491Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:50:31.408Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-13"
   }

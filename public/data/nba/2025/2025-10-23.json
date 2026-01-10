@@ -2,32 +2,32 @@
   "success": true,
   "games": [
     {
-      "id": "401809237",
-      "homeTeam": "Warriors",
-      "awayTeam": "Nuggets",
-      "homeScore": 137,
-      "awayScore": 131,
-      "excitement": 8.7,
+      "id": "401809236",
+      "homeTeam": "Pacers",
+      "awayTeam": "Thunder",
+      "homeScore": 135,
+      "awayScore": 141,
+      "excitement": 9.2,
       "breakdown": {
-        "tension": 6.7403004411164025,
-        "drama": 9.082142880826895,
-        "finish": 7.193114632696124
+        "tension": 8.23220062027865,
+        "drama": 10,
+        "finish": 7.371881890656942
       },
       "overtime": true,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809236",
-      "homeTeam": "Pacers",
-      "awayTeam": "Thunder",
-      "homeScore": 135,
-      "awayScore": 141,
-      "excitement": 8.4,
+      "id": "401809237",
+      "homeTeam": "Warriors",
+      "awayTeam": "Nuggets",
+      "homeScore": 137,
+      "awayScore": 131,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 8.607001614240897,
-        "drama": 7.391803498608777,
-        "finish": 5.662527165115424
+        "tension": 6.24822582833602,
+        "drama": 10,
+        "finish": 6.4672567108032055
       },
       "overtime": true,
       "bowlName": null,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:28:38.656Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:48:21.743Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-23"
   }

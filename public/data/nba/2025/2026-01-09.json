@@ -1,0 +1,176 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810395",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Rockets",
+      "homeScore": 111,
+      "awayScore": 105,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 6.921009703611645,
+        "drama": 10,
+        "finish": 5.6261492241263955
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810396",
+      "homeTeam": "Lakers",
+      "awayTeam": "Bucks",
+      "homeScore": 101,
+      "awayScore": 105,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 6.6818943304331,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810391",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Thunder",
+      "homeScore": 116,
+      "awayScore": 117,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810388",
+      "homeTeam": "Magic",
+      "awayTeam": "76ers",
+      "homeScore": 91,
+      "awayScore": 103,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 7.566694384463277,
+        "drama": 9.529073773083981,
+        "finish": 5.817874833834381
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810393",
+      "homeTeam": "Suns",
+      "awayTeam": "Knicks",
+      "homeScore": 112,
+      "awayScore": 107,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 6.924509043902855,
+        "drama": 9.734758948398978,
+        "finish": 5.480416300811363
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810392",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Hawks",
+      "homeScore": 87,
+      "awayScore": 110,
+      "excitement": 6.467138699263017,
+      "breakdown": {
+        "tension": 3.181671761099512,
+        "drama": 6.100498920416706,
+        "finish": 6.978070946761159
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810389",
+      "homeTeam": "Wizards",
+      "awayTeam": "Pelicans",
+      "homeScore": 107,
+      "awayScore": 128,
+      "excitement": 6.2,
+      "breakdown": {
+        "tension": 3.010040008850237,
+        "drama": 5.021133540469336,
+        "finish": 6.721842662308177
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810387",
+      "homeTeam": "Celtics",
+      "awayTeam": "Raptors",
+      "homeScore": 125,
+      "awayScore": 117,
+      "excitement": 4.4,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 5.1469399274735945,
+        "finish": 4.17819937002717
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810390",
+      "homeTeam": "Nets",
+      "awayTeam": "Clippers",
+      "homeScore": 105,
+      "awayScore": 121,
+      "excitement": 4.2,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 2.860117763180156,
+        "finish": 4.896950484514368
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810394",
+      "homeTeam": "Warriors",
+      "awayTeam": "Kings",
+      "homeScore": 137,
+      "awayScore": 103,
+      "excitement": 3.7320462396324703,
+      "breakdown": {
+        "tension": 0.3780214318639845,
+        "drama": 3.6482982076268224,
+        "finish": 4.381975703552713
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 10,
+    "totalGames": 10,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-10T17:51:33.451Z",
+    "algorithmVersion": "3.2",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-01-09"
+  }
+}

@@ -23,7 +23,7 @@
       "awayTeam": "South Florida",
       "homeScore": 34,
       "awayScore": 31,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -82,6 +82,22 @@
       "playoffRound": null
     },
     {
+      "id": "401752752",
+      "homeTeam": "Vanderbilt",
+      "awayTeam": "Missouri",
+      "homeScore": 17,
+      "awayScore": 10,
+      "excitement": 7.1,
+      "breakdown": {
+        "tension": 7.936614263019505,
+        "drama": 7.25749427173356,
+        "finish": 4.2668603306165584
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401752751",
       "homeTeam": "South Carolina",
       "awayTeam": "Alabama",
@@ -92,22 +108,6 @@
         "tension": 2.5,
         "drama": 7.232002470676253,
         "finish": 6.9529295553909645
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752752",
-      "homeTeam": "Vanderbilt",
-      "awayTeam": "Missouri",
-      "homeScore": 17,
-      "awayScore": 10,
-      "excitement": 6.6,
-      "breakdown": {
-        "tension": 7.936614263019505,
-        "drama": 7.25749427173356,
-        "finish": 4.2668603306165584
       },
       "overtime": false,
       "bowlName": null,
@@ -146,6 +146,22 @@
       "playoffRound": null
     },
     {
+      "id": "401752880",
+      "homeTeam": "Washington",
+      "awayTeam": "Illinois",
+      "homeScore": 42,
+      "awayScore": 25,
+      "excitement": 4.1,
+      "breakdown": {
+        "tension": 3.3458317994660325,
+        "drama": 3.865582378528021,
+        "finish": 2.909334489228455
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401752747",
       "homeTeam": "Kentucky",
       "awayTeam": "Tennessee",
@@ -156,22 +172,6 @@
         "tension": 0.1519779695033996,
         "drama": 2.1526431007907805,
         "finish": 4.894201509654218
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752880",
-      "homeTeam": "Washington",
-      "awayTeam": "Illinois",
-      "homeScore": 42,
-      "awayScore": 25,
-      "excitement": 3.5,
-      "breakdown": {
-        "tension": 3.3458317994660325,
-        "drama": 3.865582378528021,
-        "finish": 2.909334489228455
       },
       "overtime": false,
       "bowlName": null,
@@ -199,43 +199,11 @@
       "awayTeam": "Baylor",
       "homeScore": 41,
       "awayScore": 20,
-      "excitement": 2.3,
+      "excitement": 3,
       "breakdown": {
         "tension": 0.2722672988338293,
         "drama": 1.5794526732465108,
         "finish": 3.385126664808607
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752886",
-      "homeTeam": "Oregon",
-      "awayTeam": "Wisconsin",
-      "homeScore": 21,
-      "awayScore": 7,
-      "excitement": 2.1,
-      "breakdown": {
-        "tension": 0,
-        "drama": 0.25094076102466256,
-        "finish": 1.9778818964584386
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401754571",
-      "homeTeam": "Georgia Tech",
-      "awayTeam": "Syracuse",
-      "homeScore": 41,
-      "awayScore": 16,
-      "excitement": 2.1,
-      "breakdown": {
-        "tension": 0,
-        "drama": 0.8455180064702403,
-        "finish": 1.8741049108063748
       },
       "overtime": false,
       "bowlName": null,
@@ -247,7 +215,7 @@
       "awayTeam": "Boston College",
       "homeScore": 38,
       "awayScore": 24,
-      "excitement": 2.1,
+      "excitement": 2.7,
       "breakdown": {
         "tension": 0,
         "drama": 1.5231010640222957,
@@ -258,16 +226,16 @@
       "playoffRound": null
     },
     {
-      "id": "401752885",
-      "homeTeam": "Indiana",
-      "awayTeam": "UCLA",
-      "homeScore": 56,
-      "awayScore": 6,
-      "excitement": 2.072826298199058,
+      "id": "401754571",
+      "homeTeam": "Georgia Tech",
+      "awayTeam": "Syracuse",
+      "homeScore": 41,
+      "awayScore": 16,
+      "excitement": 2.5,
       "breakdown": {
         "tension": 0,
-        "drama": 0.04609152212925769,
-        "finish": 1.7037093875395746
+        "drama": 0.8455180064702403,
+        "finish": 1.8741049108063748
       },
       "overtime": false,
       "bowlName": null,
@@ -279,11 +247,43 @@
       "awayTeam": "Stanford",
       "homeScore": 42,
       "awayScore": 7,
-      "excitement": 2.072826298199058,
+      "excitement": 2.4484083293514693,
       "breakdown": {
         "tension": 0,
         "drama": 0.6536843367761704,
         "finish": 1.8370791723112345
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752886",
+      "homeTeam": "Oregon",
+      "awayTeam": "Wisconsin",
+      "homeScore": 21,
+      "awayScore": 7,
+      "excitement": 2.4,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.25094076102466256,
+        "finish": 1.9778818964584386
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752885",
+      "homeTeam": "Indiana",
+      "awayTeam": "UCLA",
+      "homeScore": 56,
+      "awayScore": 6,
+      "excitement": 2.3267274210579303,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.04609152212925769,
+        "finish": 1.7037093875395746
       },
       "overtime": false,
       "bowlName": null,
@@ -295,7 +295,7 @@
       "awayTeam": "Oklahoma St",
       "homeScore": 42,
       "awayScore": 0,
-      "excitement": 2.072826298199058,
+      "excitement": 2.323920514423711,
       "breakdown": {
         "tension": 0,
         "drama": 0.02835124188883353,
@@ -312,8 +312,8 @@
     "count": 19,
     "totalGames": 19,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T16:14:00.078Z",
-    "algorithmVersion": "3.1",
+    "generatedAt": "2026-01-10T17:46:47.695Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "week": 9
   }

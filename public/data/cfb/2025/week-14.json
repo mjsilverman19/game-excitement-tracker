@@ -7,11 +7,27 @@
       "awayTeam": "SMU",
       "homeScore": 38,
       "awayScore": 35,
-      "excitement": 8.2,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 4.227832084897089,
         "drama": 9.61179213073686,
         "finish": 6.4365460015579945
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752789",
+      "homeTeam": "Oklahoma",
+      "awayTeam": "LSU",
+      "homeScore": 17,
+      "awayScore": 13,
+      "excitement": 7.3,
+      "breakdown": {
+        "tension": 6.1039075000580345,
+        "drama": 7.673221049814833,
+        "finish": 6.5169630146621085
       },
       "overtime": false,
       "bowlName": null,
@@ -34,22 +50,6 @@
       "playoffRound": null
     },
     {
-      "id": "401752789",
-      "homeTeam": "Oklahoma",
-      "awayTeam": "LSU",
-      "homeScore": 17,
-      "awayScore": 13,
-      "excitement": 7.1,
-      "breakdown": {
-        "tension": 6.1039075000580345,
-        "drama": 7.673221049814833,
-        "finish": 6.5169630146621085
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401752791",
       "homeTeam": "Tennessee",
       "awayTeam": "Vanderbilt",
@@ -66,6 +66,22 @@
       "playoffRound": null
     },
     {
+      "id": "401752792",
+      "homeTeam": "Texas",
+      "awayTeam": "Texas A&M",
+      "homeScore": 27,
+      "awayScore": 17,
+      "excitement": 6.3,
+      "breakdown": {
+        "tension": 7.104133004404519,
+        "drama": 6.769110410567185,
+        "finish": 3.59522671639338
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401756964",
       "homeTeam": "Kansas",
       "awayTeam": "Utah",
@@ -76,22 +92,6 @@
         "tension": 3.05055127322863,
         "drama": 6.202507368774965,
         "finish": 5.512614483571696
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752792",
-      "homeTeam": "Texas",
-      "awayTeam": "Texas A&M",
-      "homeScore": 27,
-      "awayScore": 17,
-      "excitement": 5.9,
-      "breakdown": {
-        "tension": 7.104133004404519,
-        "drama": 6.769110410567185,
-        "finish": 3.59522671639338
       },
       "overtime": false,
       "bowlName": null,
@@ -247,7 +247,7 @@
       "awayTeam": "UCLA",
       "homeScore": 29,
       "awayScore": 10,
-      "excitement": 2.6,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 0,
         "drama": 1.5555770385629075,
@@ -263,7 +263,7 @@
       "awayTeam": "UCF",
       "homeScore": 41,
       "awayScore": 21,
-      "excitement": 2.3,
+      "excitement": 2.6,
       "breakdown": {
         "tension": 0,
         "drama": 1.4938362114250414,
@@ -279,7 +279,7 @@
       "awayTeam": "Virginia Tech",
       "homeScore": 27,
       "awayScore": 7,
-      "excitement": 2.1,
+      "excitement": 2.5,
       "breakdown": {
         "tension": 0,
         "drama": 1.0595229952495309,
@@ -295,7 +295,7 @@
       "awayTeam": "Charlotte",
       "homeScore": 27,
       "awayScore": 0,
-      "excitement": 2.1,
+      "excitement": 2.3,
       "breakdown": {
         "tension": 0,
         "drama": 0.042182483628144765,
@@ -312,8 +312,8 @@
     "count": 19,
     "totalGames": 19,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T16:14:28.408Z",
-    "algorithmVersion": "3.1",
+    "generatedAt": "2026-01-10T17:47:18.530Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "week": 14
   }

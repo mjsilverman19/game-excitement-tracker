@@ -7,11 +7,11 @@
       "awayTeam": "Cavaliers",
       "homeScore": 126,
       "awayScore": 124,
-      "excitement": 8.4,
+      "excitement": 9.1,
       "breakdown": {
-        "tension": 7.876108015935013,
-        "drama": 8.694138030268757,
-        "finish": 6.426125425820711
+        "tension": 5.714130997286949,
+        "drama": 10,
+        "finish": 5.79440610490186
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Timberwolves",
       "homeScore": 142,
       "awayScore": 138,
-      "excitement": 8,
+      "excitement": 9.1,
       "breakdown": {
-        "tension": 7.880508087145244,
-        "drama": 7.348546143559673,
-        "finish": 4.0837708391020575
+        "tension": 4.933456822593856,
+        "drama": 10,
+        "finish": 5.96930864295083
       },
       "overtime": true,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Spurs",
       "homeScore": 102,
       "awayScore": 117,
-      "excitement": 7.2,
+      "excitement": 6.9,
       "breakdown": {
-        "tension": 5.073311141159009,
-        "drama": 8.218538661482603,
-        "finish": 5.319005951317436
+        "tension": 3.0817647421679686,
+        "drama": 8.1350842682161,
+        "finish": 5.043999799744761
       },
       "overtime": false,
       "bowlName": null,
@@ -57,9 +57,9 @@
       "awayScore": 116,
       "excitement": 4.2,
       "breakdown": {
-        "tension": 2.5,
-        "drama": 4.1499811380131435,
-        "finish": 3.6138908044655063
+        "tension": 1.25,
+        "drama": 5.109661931324602,
+        "finish": 3.500913293463819
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +71,11 @@
       "awayTeam": "Rockets",
       "homeScore": 96,
       "awayScore": 119,
-      "excitement": 3.5592207887052854,
+      "excitement": 4.103884713871192,
       "breakdown": {
-        "tension": 1.0617222402822608,
-        "drama": 3.3292642955994154,
-        "finish": 3.453925958495136
+        "tension": 0.7690495173141696,
+        "drama": 3.26965521102561,
+        "finish": 4.891683855349995
       },
       "overtime": false,
       "bowlName": null,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:30:55.770Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:50:57.072Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-25"
   }

@@ -7,11 +7,11 @@
       "awayTeam": "Clippers",
       "homeScore": 115,
       "awayScore": 102,
-      "excitement": 7.3,
+      "excitement": 5.8,
       "breakdown": {
-        "tension": 8.35660392959264,
-        "drama": 7.466320911101271,
-        "finish": 4.34279262576855
+        "tension": 5.397507248543798,
+        "drama": 7.275203853708495,
+        "finish": 2.162309695958685
       },
       "overtime": false,
       "bowlName": null,
@@ -24,8 +24,8 @@
     "count": 1,
     "totalGames": 1,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:29:13.159Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:48:57.479Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-06"
   }

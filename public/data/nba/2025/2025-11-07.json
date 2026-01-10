@@ -2,16 +2,16 @@
   "success": true,
   "games": [
     {
-      "id": "401809774",
-      "homeTeam": "Spurs",
-      "awayTeam": "Rockets",
-      "homeScore": 121,
-      "awayScore": 110,
-      "excitement": 7.7,
+      "id": "401809512",
+      "homeTeam": "Hawks",
+      "awayTeam": "Raptors",
+      "homeScore": 97,
+      "awayScore": 109,
+      "excitement": 8.2,
       "breakdown": {
-        "tension": 6.172300964644782,
-        "drama": 9.073902676089295,
-        "finish": 6.104009347733422
+        "tension": 3.4282926852170514,
+        "drama": 9.60363597961518,
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
@@ -23,27 +23,27 @@
       "awayTeam": "Bulls",
       "homeScore": 126,
       "awayScore": 110,
-      "excitement": 7.7,
+      "excitement": 7.6,
       "breakdown": {
-        "tension": 8.91873440744223,
-        "drama": 7.89213145165647,
-        "finish": 6.033874542807338
+        "tension": 5.957853689807731,
+        "drama": 8.667027150587646,
+        "finish": 5.218927208892169
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809773",
-      "homeTeam": "Nets",
-      "awayTeam": "Pistons",
-      "homeScore": 107,
-      "awayScore": 125,
-      "excitement": 6.1,
+      "id": "401809774",
+      "homeTeam": "Spurs",
+      "awayTeam": "Rockets",
+      "homeScore": 121,
+      "awayScore": 110,
+      "excitement": 7.3,
       "breakdown": {
-        "tension": 6.273911488701465,
-        "drama": 7.143280472198541,
-        "finish": 3.2756328799185956
+        "tension": 4.072361037388826,
+        "drama": 10,
+        "finish": 5.494786345510723
       },
       "overtime": false,
       "bowlName": null,
@@ -55,27 +55,27 @@
       "awayTeam": "Celtics",
       "homeScore": 123,
       "awayScore": 110,
-      "excitement": 5.9,
+      "excitement": 6.9,
       "breakdown": {
-        "tension": 3.2481693831201017,
-        "drama": 6.276580616734744,
-        "finish": 6.252137917091753
+        "tension": 3.9171760347309084,
+        "drama": 8.988478202403506,
+        "finish": 5.984865230700043
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809512",
-      "homeTeam": "Hawks",
-      "awayTeam": "Raptors",
-      "homeScore": 97,
-      "awayScore": 109,
-      "excitement": 5.8,
+      "id": "401809773",
+      "homeTeam": "Nets",
+      "awayTeam": "Pistons",
+      "homeScore": 107,
+      "awayScore": 125,
+      "excitement": 6.4,
       "breakdown": {
-        "tension": 4.246386185796953,
-        "drama": 5.517764571228789,
-        "finish": 5.198232317195845
+        "tension": 4.045686196786456,
+        "drama": 6.994531372905824,
+        "finish": 4.8892170013922405
       },
       "overtime": false,
       "bowlName": null,
@@ -87,11 +87,11 @@
       "awayTeam": "Hornets",
       "homeScore": 126,
       "awayScore": 108,
-      "excitement": 4.7,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 1.5,
-        "drama": 4.3944953252764,
-        "finish": 5.980949914544396
+        "drama": 5.592213926641448,
+        "finish": 3.371984698764376
       },
       "overtime": false,
       "bowlName": null,
@@ -103,43 +103,11 @@
       "awayTeam": "Thunder",
       "homeScore": 101,
       "awayScore": 132,
-      "excitement": 3.5365804448390428,
+      "excitement": 3.990476996238335,
       "breakdown": {
-        "tension": 0.6418433096774976,
-        "drama": 3.1040393650853204,
-        "finish": 3.9505118821457916
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401809776",
-      "homeTeam": "Grizzlies",
-      "awayTeam": "Mavericks",
-      "homeScore": 118,
-      "awayScore": 104,
-      "excitement": 3.3,
-      "breakdown": {
-        "tension": 1.25,
-        "drama": 3.1153771083292403,
-        "finish": 2.3951823542871904
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401809779",
-      "homeTeam": "Nuggets",
-      "awayTeam": "Warriors",
-      "homeScore": 129,
-      "awayScore": 104,
-      "excitement": 2.934192614541753,
-      "breakdown": {
-        "tension": 0.30347628151429307,
-        "drama": 2.053331234627193,
-        "finish": 2.718136929228433
+        "tension": 0.42673009629888004,
+        "drama": 3.197968345980943,
+        "finish": 4.89137681102672
       },
       "overtime": false,
       "bowlName": null,
@@ -151,11 +119,43 @@
       "awayTeam": "Cavaliers",
       "homeScore": 115,
       "awayScore": 148,
-      "excitement": 2.7501156323024265,
+      "excitement": 3.3756817412064057,
       "breakdown": {
-        "tension": 0,
-        "drama": 1.4187518777433186,
-        "finish": 2.71479342152535
+        "tension": 0.04991240932502938,
+        "drama": 1.3962231746395288,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809776",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Mavericks",
+      "homeScore": 118,
+      "awayScore": 104,
+      "excitement": 3.2,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 3.0563485878223804,
+        "finish": 1.9311491615264422
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809779",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Warriors",
+      "homeScore": 129,
+      "awayScore": 104,
+      "excitement": 2.7054077513699353,
+      "breakdown": {
+        "tension": 0.2048632867734712,
+        "drama": 2.0058203609655827,
+        "finish": 1.7233750127332024
       },
       "overtime": false,
       "bowlName": null,
@@ -167,11 +167,11 @@
       "awayTeam": "Jazz",
       "homeScore": 137,
       "awayScore": 97,
-      "excitement": 2.393056582553308,
+      "excitement": 2.372972292423599,
       "breakdown": {
         "tension": 0,
-        "drama": 0.3368947983585082,
-        "finish": 1.8233828831598755
+        "drama": 0.33400297146915353,
+        "finish": 1.7037093875395746
       },
       "overtime": false,
       "bowlName": null,
@@ -184,8 +184,8 @@
     "count": 11,
     "totalGames": 11,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:29:16.313Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:49:00.623Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-07"
   }

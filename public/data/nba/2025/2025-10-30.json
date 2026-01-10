@@ -7,11 +7,11 @@
       "awayTeam": "Warriors",
       "homeScore": 120,
       "awayScore": 110,
-      "excitement": 8.3,
+      "excitement": 8.2,
       "breakdown": {
-        "tension": 9.619350543055603,
-        "drama": 8.870203867917503,
-        "finish": 6.727692487128293
+        "tension": 8.112771652526627,
+        "drama": 10,
+        "finish": 5.338707803412542
       },
       "overtime": false,
       "bowlName": null,
@@ -25,9 +25,9 @@
       "awayScore": 101,
       "excitement": 8.1,
       "breakdown": {
-        "tension": 8.455701624151153,
-        "drama": 7.508576705732944,
-        "finish": 5.687754497359948
+        "tension": 6.626831680464048,
+        "drama": 9.034986596842478,
+        "finish": 5.61911570261568
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 123,
-      "excitement": 4.2,
+      "excitement": 5.2,
       "breakdown": {
         "tension": 1.5,
-        "drama": 4.757918277610614,
-        "finish": 4.0484902987311
+        "drama": 5.604223034093691,
+        "finish": 4.995296117908785
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Wizards",
       "homeScore": 127,
       "awayScore": 108,
-      "excitement": 3,
+      "excitement": 3.1,
       "breakdown": {
         "tension": 0.8999999999999999,
-        "drama": 1.2349600064186825,
-        "finish": 3.0989332464718293
+        "drama": 1.782269060437655,
+        "finish": 3.0725816696957766
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:28:56.213Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:48:40.031Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-30"
   }

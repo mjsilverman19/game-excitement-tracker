@@ -55,7 +55,7 @@
       "awayTeam": "Jaguars",
       "homeScore": 31,
       "awayScore": 27,
-      "excitement": 8.2,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 8.853163905265525,
         "drama": 9.546339740533904,
@@ -183,11 +183,27 @@
       "awayTeam": "Panthers",
       "homeScore": 27,
       "awayScore": 22,
-      "excitement": 4.8,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.893961490875177,
         "finish": 4.9847352929255715
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772936",
+      "homeTeam": "Packers",
+      "awayTeam": "Commanders",
+      "homeScore": 27,
+      "awayScore": 18,
+      "excitement": 3.8,
+      "breakdown": {
+        "tension": 1.7649401988464641,
+        "drama": 3.3344815014967715,
+        "finish": 3.8053694916715504
       },
       "overtime": false,
       "bowlName": null,
@@ -210,28 +226,12 @@
       "playoffRound": null
     },
     {
-      "id": "401772936",
-      "homeTeam": "Packers",
-      "awayTeam": "Commanders",
-      "homeScore": 27,
-      "awayScore": 18,
-      "excitement": 2.8,
-      "breakdown": {
-        "tension": 1.7649401988464641,
-        "drama": 3.3344815014967715,
-        "finish": 3.8053694916715504
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772835",
       "homeTeam": "Lions",
       "awayTeam": "Bears",
       "homeScore": 52,
       "awayScore": 21,
-      "excitement": 2.5072799518315856,
+      "excitement": 2.8724228527464994,
       "breakdown": {
         "tension": 0.9031725934371593,
         "drama": 2.0735477247201843,
@@ -247,7 +247,7 @@
       "awayTeam": "Browns",
       "homeScore": 41,
       "awayScore": 17,
-      "excitement": 2.2,
+      "excitement": 2.7,
       "breakdown": {
         "tension": 0,
         "drama": 1.5046092904609152,
@@ -264,8 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T16:11:42.444Z",
-    "algorithmVersion": "3.1",
+    "generatedAt": "2026-01-10T17:44:27.671Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "week": 2
   }

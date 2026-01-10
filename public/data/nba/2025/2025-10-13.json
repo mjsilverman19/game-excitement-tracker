@@ -7,11 +7,11 @@
       "awayTeam": "Heat",
       "homeScore": 119,
       "awayScore": 118,
-      "excitement": 9,
+      "excitement": 9.3,
       "breakdown": {
-        "tension": 8.247111866453565,
-        "drama": 9.084377506447307,
-        "finish": 10
+        "tension": 7.350706931956808,
+        "drama": 10,
+        "finish": 6.301738306450958
       },
       "overtime": true,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Spurs",
       "homeScore": 108,
       "awayScore": 124,
-      "excitement": 8,
+      "excitement": 7.9,
       "breakdown": {
-        "tension": 9.016431415470949,
-        "drama": 8.930452289549322,
-        "finish": 6.4370853068721186
+        "tension": 6.239627544264447,
+        "drama": 9.441430976407668,
+        "finish": 5.433786221658398
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 101,
       "awayScore": 114,
-      "excitement": 7.1,
+      "excitement": 7.2,
       "breakdown": {
-        "tension": 7.818265622998625,
-        "drama": 7.644695278933714,
-        "finish": 5.0107691207026575
+        "tension": 4.710918980247806,
+        "drama": 8.079454636798898,
+        "finish": 5.100714228291864
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Wizards",
       "homeScore": 103,
       "awayScore": 120,
-      "excitement": 3.5,
+      "excitement": 5,
       "breakdown": {
-        "tension": 3.2065309228671968,
-        "drama": 4.921114100780557,
-        "finish": 2.332560892468773
+        "tension": 2.0729712415767665,
+        "drama": 4.86801179447163,
+        "finish": 4.8893466481459935
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 5,
     "insufficientData": 1,
-    "generatedAt": "2026-01-10T16:15:15.589Z",
-    "algorithmVersion": "3.1",
+    "generatedAt": "2026-01-10T17:48:08.693Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-13"
   }

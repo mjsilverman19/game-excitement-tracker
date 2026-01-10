@@ -7,11 +7,11 @@
       "awayTeam": "Raptors",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 8.1,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 8.208896152175315,
-        "drama": 7.7159181963621215,
-        "finish": 6.3736587916154885
+        "tension": 7.593977617716905,
+        "drama": 10,
+        "finish": 6.924972138275801
       },
       "overtime": false,
       "bowlName": null,
@@ -23,27 +23,11 @@
       "awayTeam": "Mavericks",
       "homeScore": 94,
       "awayScore": 121,
-      "excitement": 5.9356073806575615,
+      "excitement": 6.5,
       "breakdown": {
-        "tension": 5.079678564486832,
-        "drama": 5.831202730482677,
-        "finish": 5.4877258337664445
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401812722",
-      "homeTeam": "Hornets",
-      "awayTeam": "Grizzlies",
-      "homeScore": 145,
-      "awayScore": 116,
-      "excitement": 5.499441515464012,
-      "breakdown": {
-        "tension": 3.6191756504760564,
-        "drama": 6.404196012477622,
-        "finish": 5.0478222319966894
+        "tension": 5.067123636348182,
+        "drama": 9.49479648871621,
+        "finish": 5.644983158747713
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +39,27 @@
       "awayTeam": "Clippers",
       "homeScore": 91,
       "awayScore": 109,
-      "excitement": 3.4,
+      "excitement": 5.4,
       "breakdown": {
-        "tension": 3.8711530917884462,
-        "drama": 5.326430453518266,
-        "finish": 2.5584758412103588
+        "tension": 2.7340649337603806,
+        "drama": 5.289896012056964,
+        "finish": 4.889166989773115
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812722",
+      "homeTeam": "Hornets",
+      "awayTeam": "Grizzlies",
+      "homeScore": 145,
+      "awayScore": 116,
+      "excitement": 3.4467740813893095,
+      "breakdown": {
+        "tension": 1.2337888252232867,
+        "drama": 4.366601047527909,
+        "finish": 1.8245301051817036
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T16:15:18.901Z",
-    "algorithmVersion": "3.1",
+    "generatedAt": "2026-01-10T17:48:11.902Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-15"
   }

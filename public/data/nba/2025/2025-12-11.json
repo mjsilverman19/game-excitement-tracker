@@ -7,11 +7,11 @@
       "awayTeam": "Clippers",
       "homeScore": 115,
       "awayScore": 113,
-      "excitement": 8.6,
+      "excitement": 8.3,
       "breakdown": {
-        "tension": 5.5019597921598296,
-        "drama": 8.701169456073828,
-        "finish": 9.713863448395362
+        "tension": 5.13008900717026,
+        "drama": 10,
+        "finish": 5.752033479626415
       },
       "overtime": false,
       "bowlName": null,
@@ -23,11 +23,11 @@
       "awayTeam": "Celtics",
       "homeScore": 116,
       "awayScore": 101,
-      "excitement": 7.9,
+      "excitement": 6.8,
       "breakdown": {
-        "tension": 2.2002265897838247,
-        "drama": 7.970001717678518,
-        "finish": 9.62501498470705
+        "tension": 2.237622450854518,
+        "drama": 8.614397699859907,
+        "finish": 5.37222794350451
       },
       "overtime": false,
       "bowlName": null,
@@ -39,11 +39,11 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 143,
       "awayScore": 120,
-      "excitement": 6.5,
+      "excitement": 5.62473673868585,
       "breakdown": {
-        "tension": 9.9929797959488,
-        "drama": 8.676716753479626,
-        "finish": 9.762585333384786
+        "tension": 4.920696595253553,
+        "drama": 6.627436273964838,
+        "finish": 3.7351501157516314
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +55,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 105,
       "awayScore": 136,
-      "excitement": 2.596536735096037,
+      "excitement": 3.3998960806443836,
       "breakdown": {
-        "tension": 0,
-        "drama": 1.4794474588867383,
-        "finish": 1.848329992383897
+        "tension": 0.03895586516962468,
+        "drama": 1.4952447542978735,
+        "finish": 4.8891569873723055
       },
       "overtime": false,
       "bowlName": null,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T04:30:27.921Z",
-    "algorithmVersion": "3.0",
+    "generatedAt": "2026-01-10T17:50:27.614Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-11"
   }

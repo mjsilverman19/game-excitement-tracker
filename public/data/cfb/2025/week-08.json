@@ -23,7 +23,7 @@
       "awayTeam": "Texas Tech",
       "homeScore": 26,
       "awayScore": 22,
-      "excitement": 8.7,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 5.525479403924219,
         "drama": 10,
@@ -44,6 +44,38 @@
         "tension": 7.3084127313032905,
         "drama": 7.669176067427482,
         "finish": 5.786724806436081
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401756924",
+      "homeTeam": "BYU",
+      "awayTeam": "Utah",
+      "homeScore": 24,
+      "awayScore": 21,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 8.07946853999006,
+        "drama": 7.575327784060391,
+        "finish": 4.0650851447916825
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752951",
+      "homeTeam": "Virginia",
+      "awayTeam": "Washington St",
+      "homeScore": 22,
+      "awayScore": 20,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 5.267847416845638,
+        "drama": 8.535855774124457,
+        "finish": 6.74334716997052
       },
       "overtime": false,
       "bowlName": null,
@@ -82,38 +114,6 @@
       "playoffRound": null
     },
     {
-      "id": "401752951",
-      "homeTeam": "Virginia",
-      "awayTeam": "Washington St",
-      "homeScore": 22,
-      "awayScore": 20,
-      "excitement": 7.7,
-      "breakdown": {
-        "tension": 5.267847416845638,
-        "drama": 8.535855774124457,
-        "finish": 6.74334716997052
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401756924",
-      "homeTeam": "BYU",
-      "awayTeam": "Utah",
-      "homeScore": 24,
-      "awayScore": 21,
-      "excitement": 7.2,
-      "breakdown": {
-        "tension": 8.07946853999006,
-        "drama": 7.575327784060391,
-        "finish": 4.0650851447916825
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401762487",
       "homeTeam": "UAB",
       "awayTeam": "Memphis",
@@ -135,11 +135,27 @@
       "awayTeam": "Ole Miss",
       "homeScore": 43,
       "awayScore": 35,
-      "excitement": 6.4,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 7.841690780574869,
         "drama": 7.791199215272188,
         "finish": 3.75664577752689
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752871",
+      "homeTeam": "Notre Dame",
+      "awayTeam": "USC",
+      "homeScore": 34,
+      "awayScore": 24,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 6.028533732834813,
+        "drama": 5.961482865909451,
+        "finish": 5.926652471350962
       },
       "overtime": false,
       "bowlName": null,
@@ -162,28 +178,12 @@
       "playoffRound": null
     },
     {
-      "id": "401752871",
-      "homeTeam": "Notre Dame",
-      "awayTeam": "USC",
-      "homeScore": 34,
-      "awayScore": 24,
-      "excitement": 5.9,
-      "breakdown": {
-        "tension": 6.028533732834813,
-        "drama": 5.961482865909451,
-        "finish": 5.926652471350962
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401752745",
       "homeTeam": "Vanderbilt",
       "awayTeam": "LSU",
       "homeScore": 31,
       "awayScore": 24,
-      "excitement": 5.1,
+      "excitement": 5.7,
       "breakdown": {
         "tension": 6.162753719070665,
         "drama": 4.915714417015521,
@@ -199,7 +199,7 @@
       "awayTeam": "Nebraska",
       "homeScore": 24,
       "awayScore": 6,
-      "excitement": 4.8,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 5.0783988330105245,
         "drama": 4.978403183199891,
@@ -220,6 +220,22 @@
         "tension": 1.8274977413255789,
         "drama": 3.7902672121746814,
         "finish": 4.889781513147814
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752738",
+      "homeTeam": "Alabama",
+      "awayTeam": "Tennessee",
+      "homeScore": 37,
+      "awayScore": 20,
+      "excitement": 3.3,
+      "breakdown": {
+        "tension": 0.7196282759529982,
+        "drama": 3.0823694438058205,
+        "finish": 3.06562099570891
       },
       "overtime": false,
       "bowlName": null,
@@ -274,16 +290,16 @@
       "playoffRound": null
     },
     {
-      "id": "401752738",
-      "homeTeam": "Alabama",
-      "awayTeam": "Tennessee",
-      "homeScore": 37,
-      "awayScore": 20,
-      "excitement": 2.7,
+      "id": "401762490",
+      "homeTeam": "South Florida",
+      "awayTeam": "FAU",
+      "homeScore": 48,
+      "awayScore": 13,
+      "excitement": 2.451430080825981,
       "breakdown": {
-        "tension": 0.7196282759529982,
-        "drama": 3.0823694438058205,
-        "finish": 3.06562099570891
+        "tension": 0,
+        "drama": 0.4867135837680689,
+        "finish": 2.021795004752448
       },
       "overtime": false,
       "bowlName": null,
@@ -295,27 +311,11 @@
       "awayTeam": "Michigan St",
       "homeScore": 38,
       "awayScore": 13,
-      "excitement": 2.1,
+      "excitement": 2.4,
       "breakdown": {
         "tension": 0,
         "drama": 0.4592955581403286,
         "finish": 1.703895188037039
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401762490",
-      "homeTeam": "South Florida",
-      "awayTeam": "FAU",
-      "homeScore": 48,
-      "awayScore": 13,
-      "excitement": 2.072826298199058,
-      "breakdown": {
-        "tension": 0,
-        "drama": 0.4867135837680689,
-        "finish": 2.021795004752448
       },
       "overtime": false,
       "bowlName": null,
@@ -328,8 +328,8 @@
     "count": 20,
     "totalGames": 20,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T16:13:53.409Z",
-    "algorithmVersion": "3.1",
+    "generatedAt": "2026-01-10T17:46:42.016Z",
+    "algorithmVersion": "3.2",
     "source": "ESPN Win Probability Analysis",
     "week": 8
   }
