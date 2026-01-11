@@ -1,0 +1,47 @@
+{
+  "generated": "2026-01-11T00:00:00.000Z",
+  "description": "Default normalizer values for vNext scoring algorithm. These are estimated values; run calibrate-vnext.js with real game data to generate sport-specific normalizers.",
+  "note": "These defaults are based on algorithm design expectations. For production use, calibrate against actual historical game data.",
+  "NFL": {
+    "volatility": {
+      "p50": 1.2,
+      "p95": 2.8
+    },
+    "surprise": {
+      "p50": 8.5,
+      "p95": 18.0
+    },
+    "finish": {
+      "p50": 0.5,
+      "p95": 1.2
+    }
+  },
+  "CFB": {
+    "volatility": {
+      "p50": 1.3,
+      "p95": 3.0
+    },
+    "surprise": {
+      "p50": 9.0,
+      "p95": 19.0
+    },
+    "finish": {
+      "p50": 0.5,
+      "p95": 1.3
+    }
+  },
+  "NBA": {
+    "volatility": {
+      "p50": 1.5,
+      "p95": 3.5
+    },
+    "surprise": {
+      "p50": 10.0,
+      "p95": 22.0
+    },
+    "finish": {
+      "p50": 0.6,
+      "p95": 1.4
+    }
+  }
+}
