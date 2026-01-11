@@ -36,13 +36,12 @@ export function getPrevNFLPlayoffRound(currentRound) {
 }
 
 export const ALGORITHM_CONFIG = {
-  // Version 3.2: Fix data truncation bug and simplify algorithm
-  // - Fixed ESPN API limit from 300 to 1000 with pagination support
-  // - NBA games were missing 100-300 data points (now complete)
-  // - Removed decision point adjustment (was compensating for truncated data)
-  // - Re-baselined canonical games with corrected expected tiers
-  // - New accuracy: 88.7% (47/53 valid games)
-  version: '3.2',
+  // Version 3.3: Reweight to emphasize drama over tension
+  // - Reduced tension weight: 0.30 → 0.20
+  // - Increased drama weight: 0.35 → 0.45
+  // - Finish weight unchanged: 0.35
+  // - Games with high volatility and momentum swings now score higher
+  version: '3.3',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -57,8 +56,8 @@ export const ALGORITHM_CONFIG = {
   // Tension and Drama are correlated by design (close games have more swings)
   // but they tell users different parts of the story
   weights: {
-    tension: 0.30,
-    drama: 0.35,
+    tension: 0.20,
+    drama: 0.45,
     finish: 0.35
   },
 
