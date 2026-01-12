@@ -2,6 +2,38 @@
   "success": true,
   "games": [
     {
+      "id": "401772977",
+      "homeTeam": "Jaguars",
+      "awayTeam": "Bills",
+      "homeScore": 24,
+      "awayScore": 27,
+      "excitement": 9.1,
+      "breakdown": {
+        "tension": 9.643590567174629,
+        "drama": 8.099643804948391,
+        "finish": 10
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Wild Card Round"
+    },
+    {
+      "id": "401772980",
+      "homeTeam": "Eagles",
+      "awayTeam": "49ers",
+      "homeScore": 19,
+      "awayScore": 23,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 8.881076522802605,
+        "drama": 7.874998717732039,
+        "finish": 7.290624499303058
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Wild Card Round"
+    },
+    {
       "id": "401772981",
       "homeTeam": "Bears",
       "awayTeam": "Packers",
@@ -32,15 +64,31 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": "Wild Card Round"
+    },
+    {
+      "id": "401772978",
+      "homeTeam": "Patriots",
+      "awayTeam": "Chargers",
+      "homeScore": 16,
+      "awayScore": 3,
+      "excitement": 5.4,
+      "breakdown": {
+        "tension": 6.848436727739436,
+        "drama": 5.80874489888399,
+        "finish": 2.637436018146201
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Wild Card Round"
     }
   ],
   "metadata": {
     "sport": "NFL",
     "season": 2024,
-    "count": 2,
-    "totalGames": 2,
+    "count": 5,
+    "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-11T10:27:32.302Z",
+    "generatedAt": "2026-01-12T10:22:41.357Z",
     "algorithmVersion": "3.3",
     "source": "ESPN Win Probability Analysis",
     "week": "wild-card",
