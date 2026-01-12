@@ -137,6 +137,14 @@ export function createGameRow(game, index) {
     }
     const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
 
+    // Data quality warning
+    let dataQualityWarning = '';
+    if (game.dataQuality?.warning) {
+        const icon = game.dataQuality.severity === 'high' ? '⚠️' : game.dataQuality.severity === 'medium' ? '⚡' : 'ℹ️';
+        const tooltip = game.dataQuality.issues?.join('; ') || 'Data quality issue detected';
+        dataQualityWarning = `<span class="data-quality-warning" title="${tooltip}">${icon}</span>`;
+    }
+
     // Build bowl/playoff info for postseason games
     let bowlInfo = '';
     if (window.selectedSport === 'CFB' && (game.bowlName || game.playoffRound)) {
@@ -169,6 +177,7 @@ export function createGameRow(game, index) {
                 <span class="score-value">${displayScore}</span>
                 <span class="score-separator"> · </span>
                 <span class="rating-text">${ratingText}</span>
+                ${dataQualityWarning}
             </div>
             <div class="matchup-wrapper">
                 <div class="score-pie">

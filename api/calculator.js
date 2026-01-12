@@ -2,6 +2,7 @@
 // Analyzes NFL/CFB games using ESPN win probability data to rank entertainment value
 
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
+import { detectDataQualityIssues } from './data-quality.js';
 
 const SCORING_CONFIG = {
   weights: ALGORITHM_CONFIG.weights,
@@ -100,6 +101,9 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
 
     const excitement = calculateExcitement(probItems, game, sport);
 
+    // Check for data quality issues
+    const dataQuality = detectDataQualityIssues(probItems, game, sport);
+
     return {
       id: game.id,
       homeTeam: game.homeTeam,
@@ -110,7 +114,12 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       breakdown: excitement.breakdown,
       overtime: excitement.overtimeDetected ?? game.overtime,
       bowlName: game.bowlName,
-      playoffRound: game.playoffRound
+      playoffRound: game.playoffRound,
+      dataQuality: dataQuality.hasIssues ? {
+        warning: true,
+        severity: dataQuality.severity,
+        issues: dataQuality.issues.map(i => i.message)
+      } : undefined
     };
   } catch (error) {
     console.error(`Error analyzing game ${game.id}:`, error);
@@ -129,6 +138,9 @@ export async function analyzeGameEntertainmentDetailed(game, sport = 'NFL') {
     const excitement = calculateExcitementDetailed(probItems, game, sport);
     if (!excitement) return null;
 
+    // Check for data quality issues
+    const dataQuality = detectDataQualityIssues(probItems, game, sport);
+
     return {
       id: game.id,
       homeTeam: game.homeTeam,
@@ -138,7 +150,12 @@ export async function analyzeGameEntertainmentDetailed(game, sport = 'NFL') {
       overtime: game.overtime,
       bowlName: game.bowlName,
       playoffRound: game.playoffRound,
-      ...excitement
+      ...excitement,
+      dataQuality: dataQuality.hasIssues ? {
+        warning: true,
+        severity: dataQuality.severity,
+        issues: dataQuality.issues.map(i => i.message)
+      } : undefined
     };
   } catch (error) {
     console.error(`Error analyzing game ${game.id}:`, error);

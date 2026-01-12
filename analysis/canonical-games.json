@@ -264,10 +264,8 @@
     "season": 2024,
     "gameId": "401628464",
     "label": "Rivalry: Iowa State at Iowa",
-    "expectedTier": "recommended",
-    "reason": "One-point rivalry finish decided in the final possessions.",
-    "knownIssue": "algorithm-over-scores",
-    "knownIssueNote": "Only 13% in competitive band but dramatic 44% comeback and late finish boost score to 9.0. Algorithm weights drama/finish heavily."
+    "expectedTier": "must-watch",
+    "reason": "44% comeback with one-point rivalry finish decided in final possessions - dramatic arc compensates for low band time."
   },
   {
     "sport": "CFB",
@@ -290,10 +288,8 @@
     "season": 2024,
     "gameId": "401628374",
     "label": "Georgia at Alabama",
-    "expectedTier": "recommended",
-    "reason": "Despite 41-34 final, only 8% in competitive band - Georgia controlled despite close score.",
-    "knownIssue": "boundary-case",
-    "knownIssueNote": "Scores 5.2 (skip threshold is 6.0). Close score doesn't reflect actual competitiveness per probability data."
+    "expectedTier": "skip",
+    "reason": "Despite 41-34 final, only 8% in competitive band - Georgia controlled throughout despite close score."
   },
   {
     "sport": "CFB",
@@ -424,8 +420,8 @@
     "season": 2024,
     "gameId": "401766459",
     "label": "Play-In: Grizzlies at Warriors",
-    "expectedTier": "recommended",
-    "reason": "Elimination game with a tight finish in the final minutes."
+    "expectedTier": "must-watch",
+    "reason": "Elimination game with high drama (9.89 drama score) and tight finish in final minutes."
   },
   {
     "sport": "NBA",

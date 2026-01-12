@@ -86,6 +86,8 @@ async function evaluateGame(entry) {
     actualTier: '',
     status: '',
     rankPercentile: '',
+    dataQualityWarning: '',
+    knownIssue: entry.knownIssue || '',
     note: ''
   };
 
@@ -109,6 +111,11 @@ async function evaluateGame(entry) {
         ? 'PASS'
         : 'FAIL'
       : '';
+
+    // Capture data quality warnings
+    if (analysis.dataQuality?.warning) {
+      row.dataQualityWarning = `${analysis.dataQuality.severity}: ${analysis.dataQuality.issues.join('; ')}`;
+    }
 
     const seasonScores = await loadSeasonScores(entry.sport, entry.season);
     const pct = percentile(analysis.excitement, seasonScores);
@@ -187,6 +194,17 @@ function summarizeResults(rows) {
   const total = scored.length;
   const accuracy = total ? Math.round((passes / total) * 1000) / 10 : 0;
 
+  // Calculate accuracy excluding known data quality issues
+  const scoredExcludingDataIssues = scored.filter(r => r.knownIssue !== 'espn-data-quality');
+  const passesExcludingDataIssues = scoredExcludingDataIssues.filter(r => r.status === 'PASS').length;
+  const totalExcludingDataIssues = scoredExcludingDataIssues.length;
+  const accuracyExcludingDataIssues = totalExcludingDataIssues
+    ? Math.round((passesExcludingDataIssues / totalExcludingDataIssues) * 1000) / 10
+    : 0;
+
+  // Count detected data quality warnings
+  const detectedDataQualityIssues = scored.filter(r => r.dataQualityWarning).length;
+
   const discrepancies = rows.filter(r => {
     if (typeof r.excitement !== 'number') return false;
     if (r.expectedTier === 'must-watch' && r.excitement < 7) return true;
@@ -195,7 +213,16 @@ function summarizeResults(rows) {
     return false;
   });
 
-  return { passes, total, accuracy, discrepancies };
+  return {
+    passes,
+    total,
+    accuracy,
+    passesExcludingDataIssues,
+    totalExcludingDataIssues,
+    accuracyExcludingDataIssues,
+    detectedDataQualityIssues,
+    discrepancies
+  };
 }
 
 async function main() {
@@ -212,8 +239,31 @@ async function main() {
   console.log('\nSummary Table:\n');
   printSummaryTable(results);
 
-  const { passes, total, accuracy, discrepancies } = summarizeResults(results);
+  const {
+    passes,
+    total,
+    accuracy,
+    passesExcludingDataIssues,
+    totalExcludingDataIssues,
+    accuracyExcludingDataIssues,
+    detectedDataQualityIssues,
+    discrepancies
+  } = summarizeResults(results);
+
   console.log(`\nAccuracy: ${passes}/${total} (${accuracy}%)`);
+  console.log(`Accuracy (excluding known data issues): ${passesExcludingDataIssues}/${totalExcludingDataIssues} (${accuracyExcludingDataIssues}%)`);
+  console.log(`Data quality warnings detected: ${detectedDataQualityIssues}`);
+
+  // Show games with data quality warnings
+  const gamesWithWarnings = results.filter(r => r.dataQualityWarning);
+  if (gamesWithWarnings.length > 0) {
+    console.log('\nGames with Data Quality Warnings:');
+    for (const entry of gamesWithWarnings) {
+      const icon = entry.dataQualityWarning.startsWith('high') ? '⚠️' : '⚡';
+      console.log(`${icon} ${entry.label}: ${entry.dataQualityWarning}`);
+    }
+  }
+
   if (discrepancies.length > 0) {
     console.log('\nLargest Discrepancies:');
     for (const entry of discrepancies) {

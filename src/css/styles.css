@@ -538,6 +538,15 @@
             color: var(--accent-recommended);
         }
 
+        /* Data quality warning indicator */
+        .data-quality-warning {
+            display: inline-block;
+            margin-left: 8px;
+            cursor: help;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
         .rating.skip {
             color: var(--accent-skip);
         }
@@ -958,6 +967,13 @@
 
             .score-rating-line.skip .rating-text {
                 color: var(--accent-skip);
+            }
+
+            /* Data quality warning indicator */
+            .data-quality-warning {
+                margin-left: 8px;
+                cursor: help;
+                font-size: 14px;
             }
 
             /* Hide desktop-only elements */
