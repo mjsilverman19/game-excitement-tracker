@@ -149,30 +149,16 @@
                         <thead>
                             <tr>
                                 <th>Metric</th>
+                                <th>Weight</th>
                                 <th>Description</th>
-                                <th>Calculation</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tension</td>
-                                <td>Was there reason to keep watching?</td>
-                                <td>Measures sustained closeness plus comeback potential. Games that stayed competitive or featured meaningful comebacks score higher.</td>
-                            </tr>
-                            <tr>
-                                <td>Drama</td>
-                                <td>How big were the swings, when they mattered?</td>
-                                <td>Leverage-weighted movement: <code>Σ(|Δprob| × p × (1-p))</code>. Swings near 50/50 count fully; swings when the game is decided contribute almost nothing.</td>
-                            </tr>
-                            <tr>
-                                <td>Finish</td>
-                                <td>How did it end?</td>
-                                <td>Final-period volatility plus proximity to 0.5 at game end, with a bonus for walk-off moments (swing > 0.15 in final data points).</td>
-                            </tr>
+                        <tbody id="algorithmMetricsTable">
+                            <!-- Populated dynamically from ALGORITHM_CONFIG -->
                         </tbody>
                     </table>
 
-                    <p>Drama and Finish each carry 35% weight, with Tension at 30%. Finish is weighted heavily because a boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
+                    <p>These weights reflect what makes games entertaining: big momentum swings and dramatic endings matter more than sustained closeness alone. A boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
                 </section>
 
                 <section class="about-section">
