@@ -378,6 +378,33 @@ window.getTier = getTier;
             }
         }
 
+        // Populate algorithm metrics table in about page
+        function populateAlgorithmMetricsTable() {
+            const tableBody = document.getElementById('algorithmMetricsTable');
+            if (!tableBody) return;
+
+            // Clear existing content
+            tableBody.innerHTML = '';
+
+            // Get metrics and weights from config
+            const metrics = ALGORITHM_CONFIG.metrics;
+            const weights = ALGORITHM_CONFIG.weights;
+
+            // Populate table rows
+            metrics.forEach(metric => {
+                const row = document.createElement('tr');
+                const weight = weights[metric.key];
+                const weightPercent = Math.round(weight * 100);
+
+                row.innerHTML = `
+                    <td style="text-transform: capitalize;">${metric.label}</td>
+                    <td>${weightPercent}%</td>
+                    <td>${metric.description}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
         // Attach event listeners
         function attachEventListeners() {
             // Sport selector
@@ -472,6 +499,8 @@ window.getTier = getTier;
                     mainContent.classList.add('hidden');
                     aboutContent.classList.remove('hidden');
                     e.target.textContent = 'home';
+                    // Populate algorithm metrics table
+                    populateAlgorithmMetricsTable();
                 } else {
                     aboutContent.classList.add('hidden');
                     mainContent.classList.remove('hidden');
