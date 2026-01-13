@@ -164,13 +164,15 @@ jobs:
       - name: Check for generated files
         id: check_files
         run: |
-          if [ -n "$(find public/data -name '*.json' -newer .git/index 2>/dev/null)" ]; then
-            echo "has_new_files=true" >> $GITHUB_OUTPUT
-            echo "New files detected:"
-            find public/data -name '*.json' -newer .git/index
-          else
+          # Add all data files first, then check if there are changes
+          git add public/data/
+          if git diff --staged --quiet; then
             echo "has_new_files=false" >> $GITHUB_OUTPUT
             echo "No new files generated"
+          else
+            echo "has_new_files=true" >> $GITHUB_OUTPUT
+            echo "New/modified files detected:"
+            git diff --staged --name-only
           fi
 
       - name: Commit and push changes
@@ -178,20 +180,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data/
 
-          # Check if there are staged changes
-          if git diff --staged --quiet; then
-            echo "No changes to commit (files may already exist)"
-          else
-            git commit -m "Auto-generate static game data [skip ci]"
+          git commit -m "Auto-generate static game data [skip ci]"
 
-            # Pull with rebase to handle any new commits, then push with retry
-            for i in 1 2 3; do
-              echo "Push attempt $i..."
-              git pull --rebase origin main && git push && break
-              echo "Push failed, retrying in 5 seconds..."
-              sleep 5
-            done
-            echo "Successfully committed and pushed new data"
-          fi
+          # Pull with rebase to handle any new commits, then push with retry
+          for i in 1 2 3; do
+            echo "Push attempt $i..."
+            git pull --rebase origin main && git push && break
+            echo "Push failed, retrying in 5 seconds..."
+            sleep 5
+          done
+          echo "Successfully committed and pushed new data"
