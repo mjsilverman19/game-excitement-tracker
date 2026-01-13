@@ -7,7 +7,7 @@
       "awayTeam": "Indiana",
       "homeScore": 10,
       "awayScore": 13,
-      "excitement": 8.6,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 8.932705198809197,
         "drama": 7.454747725321524,
@@ -39,7 +39,7 @@
       "awayTeam": "Georgia",
       "homeScore": 7,
       "awayScore": 28,
-      "excitement": 4.8,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 2.5191274532888275,
         "drama": 3.9190640759350766,
@@ -55,7 +55,7 @@
       "awayTeam": "North Texas",
       "homeScore": 34,
       "awayScore": 21,
-      "excitement": 4,
+      "excitement": 4.1,
       "breakdown": {
         "tension": 3.0283885477659913,
         "drama": 4.0479308333870225,
@@ -71,7 +71,7 @@
       "awayTeam": "BYU",
       "homeScore": 34,
       "awayScore": 7,
-      "excitement": 3.5,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 2.422173025735693,
         "drama": 2.637270946140574,
@@ -87,7 +87,7 @@
       "awayTeam": "Troy",
       "homeScore": 31,
       "awayScore": 14,
-      "excitement": 3.3,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 0,
         "drama": 2.3739523218713843,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:47:21.190Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-13T13:06:35.917Z",
+    "algorithmVersion": "3.3",
     "source": "ESPN Win Probability Analysis",
     "week": 15
   }
