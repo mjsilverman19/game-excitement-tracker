@@ -183,11 +183,11 @@ jobs:
 
           git commit -m "Auto-generate static game data [skip ci]"
 
-          # Pull with rebase to handle any new commits, then push with retry
-          for i in 1 2 3; do
-            echo "Push attempt $i..."
-            git pull --rebase origin main && git push && break
-            echo "Push failed, retrying in 5 seconds..."
-            sleep 5
-          done
+          # Try to push, if it fails (remote has new commits), pull and retry
+          # Use --autostash to handle any unstaged changes (e.g., package-lock.json)
+          if ! git push; then
+            echo "Push failed, pulling latest changes..."
+            git pull --rebase --autostash origin main
+            git push
+          fi
           echo "Successfully committed and pushed new data"
