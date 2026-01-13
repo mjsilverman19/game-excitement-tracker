@@ -172,6 +172,13 @@ jobs:
             echo "No changes to commit (files may already exist)"
           else
             git commit -m "Auto-generate static game data [skip ci]"
-            git push
+
+            # Pull with rebase to handle any new commits, then push with retry
+            for i in 1 2 3; do
+              echo "Push attempt $i..."
+              git pull --rebase origin main && git push && break
+              echo "Push failed, retrying in 5 seconds..."
+              sleep 5
+            done
             echo "Successfully committed and pushed new data"
           fi
