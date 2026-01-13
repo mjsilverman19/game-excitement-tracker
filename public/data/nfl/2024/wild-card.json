@@ -66,6 +66,22 @@
       "playoffRound": "Wild Card Round"
     },
     {
+      "id": "401772976",
+      "homeTeam": "Steelers",
+      "awayTeam": "Texans",
+      "homeScore": 6,
+      "awayScore": 30,
+      "excitement": 5.6,
+      "breakdown": {
+        "tension": 5.048000610905385,
+        "drama": 4.147927482575369,
+        "finish": 5.07537710054933
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Wild Card Round"
+    },
+    {
       "id": "401772978",
       "homeTeam": "Patriots",
       "awayTeam": "Chargers",
@@ -85,10 +101,10 @@
   "metadata": {
     "sport": "NFL",
     "season": 2024,
-    "count": 5,
-    "totalGames": 5,
+    "count": 6,
+    "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-12T10:32:54.781Z",
+    "generatedAt": "2026-01-13T10:15:25.416Z",
     "algorithmVersion": "3.3",
     "source": "ESPN Win Probability Analysis",
     "week": "wild-card",
