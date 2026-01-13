@@ -41,9 +41,11 @@ jobs:
         run: |
           DAY_OF_WEEK=$(date +%u)
           MONTH=$(date +%-m)
+          echo "Debug: DAY_OF_WEEK=$DAY_OF_WEEK, MONTH=$MONTH, event=${{ github.event_name }}"
 
           # Manual trigger
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual trigger detected, sport=${{ github.event.inputs.sport }}"
             echo "sport=${{ github.event.inputs.sport }}" >> $GITHUB_OUTPUT
             echo "force=${{ github.event.inputs.force }}" >> $GITHUB_OUTPUT
             exit 0
@@ -55,20 +57,25 @@ jobs:
           # NFL: Tuesday during season (Sept-Feb), or Sunday/Monday during playoffs (Jan-Feb)
           if [ "$DAY_OF_WEEK" = "2" ] && ([ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]); then
             SPORTS="NFL"
+            echo "Added NFL (Tuesday during season)"
           elif ([ "$DAY_OF_WEEK" = "7" ] || [ "$DAY_OF_WEEK" = "1" ]) && ([ "$MONTH" = "1" ] || [ "$MONTH" = "2" ]); then
             SPORTS="NFL"
+            echo "Added NFL (playoff weekend)"
           fi
 
           # CFB: Sunday during regular season (Aug-Nov), or daily during bowl/playoff season (Dec-Jan)
           if [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
             SPORTS="${SPORTS:+$SPORTS,}CFB"
+            echo "Added CFB (Sunday regular season)"
           elif [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
             SPORTS="${SPORTS:+$SPORTS,}CFB"
+            echo "Added CFB (bowl/playoff season)"
           fi
 
           # NBA: Daily during season (October through June)
           if [ "$MONTH" -ge 10 ] || [ "$MONTH" -le 6 ]; then
             SPORTS="${SPORTS:+$SPORTS,}NBA"
+            echo "Added NBA (daily during season)"
           fi
 
           # Default to none if no sports matched
@@ -76,6 +83,7 @@ jobs:
             SPORTS="none"
           fi
 
+          echo "Final SPORTS=$SPORTS"
           echo "sport=$SPORTS" >> $GITHUB_OUTPUT
           echo "force=false" >> $GITHUB_OUTPUT
 
