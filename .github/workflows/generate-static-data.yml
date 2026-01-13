@@ -49,28 +49,38 @@ jobs:
             exit 0
           fi
 
-          # Tuesday = NFL (day 2) during regular season
+          # Build a list of sports to generate (can be multiple)
+          SPORTS=""
+
+          # NFL: Tuesday during season (Sept-Feb), or Sunday/Monday during playoffs (Jan-Feb)
           if [ "$DAY_OF_WEEK" = "2" ] && ([ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]); then
-            echo "sport=NFL" >> $GITHUB_OUTPUT
-          # Sunday/Monday = NFL during playoffs (Jan-Feb) - games are on weekends
+            SPORTS="NFL"
           elif ([ "$DAY_OF_WEEK" = "7" ] || [ "$DAY_OF_WEEK" = "1" ]) && ([ "$MONTH" = "1" ] || [ "$MONTH" = "2" ]); then
-            echo "sport=NFL" >> $GITHUB_OUTPUT
-          # Sunday = CFB (day 7) during regular season (Aug-Nov)
-          elif [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
-            echo "sport=CFB" >> $GITHUB_OUTPUT
-          # Daily = CFB during bowl/playoff season (Dec-Jan)
-          elif [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
-            echo "sport=CFB" >> $GITHUB_OUTPUT
-          # Daily = NBA (October through June)
-          elif [ "$MONTH" -ge 10 ] || [ "$MONTH" -le 6 ]; then
-            echo "sport=NBA" >> $GITHUB_OUTPUT
-          else
-            echo "sport=none" >> $GITHUB_OUTPUT
+            SPORTS="NFL"
           fi
+
+          # CFB: Sunday during regular season (Aug-Nov), or daily during bowl/playoff season (Dec-Jan)
+          if [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
+            SPORTS="${SPORTS:+$SPORTS,}CFB"
+          elif [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
+            SPORTS="${SPORTS:+$SPORTS,}CFB"
+          fi
+
+          # NBA: Daily during season (October through June)
+          if [ "$MONTH" -ge 10 ] || [ "$MONTH" -le 6 ]; then
+            SPORTS="${SPORTS:+$SPORTS,}NBA"
+          fi
+
+          # Default to none if no sports matched
+          if [ -z "$SPORTS" ]; then
+            SPORTS="none"
+          fi
+
+          echo "sport=$SPORTS" >> $GITHUB_OUTPUT
           echo "force=false" >> $GITHUB_OUTPUT
 
       - name: Generate NFL data
-        if: steps.determine.outputs.sport == 'NFL' || steps.determine.outputs.sport == 'all'
+        if: contains(steps.determine.outputs.sport, 'NFL') || steps.determine.outputs.sport == 'all'
         run: |
           CURRENT_WEEK=$(node -e "
             const now = new Date();
@@ -110,7 +120,7 @@ jobs:
           fi
 
       - name: Generate CFB data
-        if: steps.determine.outputs.sport == 'CFB' || steps.determine.outputs.sport == 'all'
+        if: contains(steps.determine.outputs.sport, 'CFB') || steps.determine.outputs.sport == 'all'
         run: |
           CURRENT_WEEK=$(node -e "
             const now = new Date();
@@ -131,7 +141,7 @@ jobs:
           fi
 
       - name: Generate NBA data
-        if: steps.determine.outputs.sport == 'NBA' || steps.determine.outputs.sport == 'all'
+        if: contains(steps.determine.outputs.sport, 'NBA') || steps.determine.outputs.sport == 'all'
         run: |
           # Generate yesterday's games only (not future dates)
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
