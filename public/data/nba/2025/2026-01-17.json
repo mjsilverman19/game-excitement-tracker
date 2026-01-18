@@ -1,0 +1,160 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810453",
+      "homeTeam": "Spurs",
+      "awayTeam": "Timberwolves",
+      "homeScore": 126,
+      "awayScore": 123,
+      "excitement": 9.3,
+      "breakdown": {
+        "tension": 4.824928678160659,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810451",
+      "homeTeam": "Knicks",
+      "awayTeam": "Suns",
+      "homeScore": 99,
+      "awayScore": 106,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 6.221401533026134,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810452",
+      "homeTeam": "Heat",
+      "awayTeam": "Thunder",
+      "homeScore": 122,
+      "awayScore": 120,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 6.142303426027571,
+        "drama": 10,
+        "finish": 6.281058277776944
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810455",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Wizards",
+      "homeScore": 121,
+      "awayScore": 115,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 5.091647724427146,
+        "drama": 10,
+        "finish": 6.900036068285395
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810456",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Lakers",
+      "homeScore": 132,
+      "awayScore": 116,
+      "excitement": 5.1,
+      "breakdown": {
+        "tension": 2.9443572633884396,
+        "drama": 6.922633705682311,
+        "finish": 2.34951543118276
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810449",
+      "homeTeam": "Hawks",
+      "awayTeam": "Celtics",
+      "homeScore": 106,
+      "awayScore": 132,
+      "excitement": 4.440622135362375,
+      "breakdown": {
+        "tension": 1.171457339113259,
+        "drama": 3.354281208518113,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810454",
+      "homeTeam": "Warriors",
+      "awayTeam": "Hornets",
+      "homeScore": 136,
+      "awayScore": 116,
+      "excitement": 3.6,
+      "breakdown": {
+        "tension": 0.8999999999999999,
+        "drama": 3.29789552669435,
+        "finish": 2.8247676821227174
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810448",
+      "homeTeam": "Mavericks",
+      "awayTeam": "Jazz",
+      "homeScore": 138,
+      "awayScore": 120,
+      "excitement": 3.5,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 3.0510470007110624,
+        "finish": 2.6123081539265853
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810450",
+      "homeTeam": "Pistons",
+      "awayTeam": "Pacers",
+      "homeScore": 121,
+      "awayScore": 78,
+      "excitement": 2.3876099571719305,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.32936838341837954,
+        "finish": 1.7037093875395746
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 9,
+    "totalGames": 9,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-18T10:19:09.648Z",
+    "algorithmVersion": "3.3",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-01-17"
+  }
+}

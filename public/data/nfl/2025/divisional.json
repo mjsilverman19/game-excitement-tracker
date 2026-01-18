@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401772982",
+      "homeTeam": "Broncos",
+      "awayTeam": "Bills",
+      "homeScore": 33,
+      "awayScore": 30,
+      "excitement": 9.3,
+      "breakdown": {
+        "tension": 7.482522069337247,
+        "drama": 9.595523377281806,
+        "finish": 10
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": "Divisional Round"
+    },
+    {
+      "id": "401772984",
+      "homeTeam": "Seahawks",
+      "awayTeam": "49ers",
+      "homeScore": 41,
+      "awayScore": 6,
+      "excitement": 2.633004067035003,
+      "breakdown": {
+        "tension": 0.1255232587357269,
+        "drama": 1.334710101286707,
+        "finish": 1.7365829281797018
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Divisional Round"
+    }
+  ],
+  "metadata": {
+    "sport": "NFL",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-18T10:18:52.864Z",
+    "algorithmVersion": "3.3",
+    "source": "ESPN Win Probability Analysis",
+    "week": "divisional",
+    "playoffRound": "Divisional Round",
+    "seasonType": "3"
+  }
+}
