@@ -18,6 +18,38 @@
       "playoffRound": "Divisional Round"
     },
     {
+      "id": "401772985",
+      "homeTeam": "Bears",
+      "awayTeam": "Rams",
+      "homeScore": 17,
+      "awayScore": 20,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 8.161822768363297,
+        "drama": 8.77877776859181,
+        "finish": 7.979463290133136
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": "Divisional Round"
+    },
+    {
+      "id": "401772983",
+      "homeTeam": "Patriots",
+      "awayTeam": "Texans",
+      "homeScore": 28,
+      "awayScore": 16,
+      "excitement": 5.2,
+      "breakdown": {
+        "tension": 4.774600922844727,
+        "drama": 5.712532034696398,
+        "finish": 3.2494793559955415
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Divisional Round"
+    },
+    {
       "id": "401772984",
       "homeTeam": "Seahawks",
       "awayTeam": "49ers",
@@ -37,10 +69,10 @@
   "metadata": {
     "sport": "NFL",
     "season": 2025,
-    "count": 2,
-    "totalGames": 2,
+    "count": 4,
+    "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-18T10:27:40.751Z",
+    "generatedAt": "2026-01-19T10:25:11.646Z",
     "algorithmVersion": "3.3",
     "source": "ESPN Win Probability Analysis",
     "week": "divisional",
