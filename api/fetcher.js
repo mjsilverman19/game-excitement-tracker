@@ -47,9 +47,9 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
   // For CFB postseason (bowls or playoffs), fetch all postseason games
   else if (league === 'college-football' && (week === 'bowls' || week === 'playoffs' || seasonType === '3')) {
     // Fetch all postseason games for the season
-    // Bowl season spans mid-December through mid-January
+    // Bowl season spans mid-December through late January (includes national championship)
     const bowlStartDate = `${season}1214`; // December 14
-    const bowlEndDate = `${season + 1}0115`; // January 15 of next year
+    const bowlEndDate = `${season + 1}0125`; // January 25 of next year
 
     url = `${baseUrl}?limit=100&seasontype=3&dates=${bowlStartDate}-${bowlEndDate}`;
   } else {
