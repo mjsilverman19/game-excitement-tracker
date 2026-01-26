@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401772986",
+      "homeTeam": "Broncos",
+      "awayTeam": "Patriots",
+      "homeScore": 7,
+      "awayScore": 10,
+      "excitement": 8.3,
+      "breakdown": {
+        "tension": 9.002975334563425,
+        "drama": 6.721671287549109,
+        "finish": 6.779472518023572
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Conference Championships"
+    },
+    {
+      "id": "401772987",
+      "homeTeam": "Seahawks",
+      "awayTeam": "Rams",
+      "homeScore": 31,
+      "awayScore": 27,
+      "excitement": 6.4,
+      "breakdown": {
+        "tension": 6.571987510427176,
+        "drama": 6.084574100099706,
+        "finish": 4.5389025406467844
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": "Conference Championships"
+    }
+  ],
+  "metadata": {
+    "sport": "NFL",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-26T10:23:44.769Z",
+    "algorithmVersion": "3.3",
+    "source": "ESPN Win Probability Analysis",
+    "week": "conference",
+    "playoffRound": "Conference Championships",
+    "seasonType": "3"
+  }
+}
