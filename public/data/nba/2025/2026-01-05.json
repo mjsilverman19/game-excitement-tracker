@@ -39,7 +39,7 @@
       "awayTeam": "Warriors",
       "homeScore": 103,
       "awayScore": 102,
-      "excitement": 7.5,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 4.641534335884776,
         "drama": 8.755090683318036,
@@ -55,7 +55,7 @@
       "awayTeam": "Hornets",
       "homeScore": 97,
       "awayScore": 124,
-      "excitement": 6.105874812673415,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 1.326609905941201,
         "drama": 5.136346148242173,
@@ -71,7 +71,7 @@
       "awayTeam": "Hawks",
       "homeScore": 118,
       "awayScore": 100,
-      "excitement": 4.6,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 2.1831163557594424,
         "drama": 5.64857135604909,
@@ -87,7 +87,7 @@
       "awayTeam": "Knicks",
       "homeScore": 121,
       "awayScore": 90,
-      "excitement": 4.251101809535541,
+      "excitement": 4.4199267260028074,
       "breakdown": {
         "tension": 2.9387772126414418,
         "drama": 4.916107731356589,
@@ -119,7 +119,7 @@
       "awayTeam": "Jazz",
       "homeScore": 137,
       "awayScore": 117,
-      "excitement": 2.9,
+      "excitement": 3,
       "breakdown": {
         "tension": 0.8999999999999999,
         "drama": 2.240557144411715,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:51:24.806Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:02:45.931Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-05"
   }

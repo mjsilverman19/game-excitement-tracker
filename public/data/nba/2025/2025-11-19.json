@@ -7,7 +7,7 @@
       "awayTeam": "Bulls",
       "homeScore": 121,
       "awayScore": 122,
-      "excitement": 9.4,
+      "excitement": 9.5,
       "breakdown": {
         "tension": 5.453828329324056,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Knicks",
       "homeScore": 111,
       "awayScore": 113,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
         "tension": 8.133236617409825,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Raptors",
       "homeScore": 112,
       "awayScore": 121,
-      "excitement": 8.1,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 6.782374787903349,
         "drama": 8.779944677690107,
@@ -55,7 +55,7 @@
       "awayTeam": "Rockets",
       "homeScore": 104,
       "awayScore": 114,
-      "excitement": 6.7,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 2.668081021412023,
         "drama": 7.497667377776472,
@@ -71,7 +71,7 @@
       "awayTeam": "Warriors",
       "homeScore": 110,
       "awayScore": 96,
-      "excitement": 6.1,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 2.7329343368540693,
         "drama": 8.23135046421938,
@@ -87,7 +87,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 118,
       "awayScore": 125,
-      "excitement": 6.1,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 3.346078475471982,
         "drama": 6.7065779032199915,
@@ -103,7 +103,7 @@
       "awayTeam": "Hornets",
       "homeScore": 127,
       "awayScore": 118,
-      "excitement": 5.4,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 4.243702860036569,
         "drama": 6.872706968429067,
@@ -119,7 +119,7 @@
       "awayTeam": "Wizards",
       "homeScore": 120,
       "awayScore": 109,
-      "excitement": 4,
+      "excitement": 4.1,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.180725619490172,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:49:29.377Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:56.656Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-19"
   }

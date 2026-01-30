@@ -7,7 +7,7 @@
       "awayTeam": "Suns",
       "homeScore": 127,
       "awayScore": 132,
-      "excitement": 9.1,
+      "excitement": 9.3,
       "breakdown": {
         "tension": 4.635977184375526,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Celtics",
       "homeScore": 107,
       "awayScore": 105,
-      "excitement": 8.9,
+      "excitement": 9.1,
       "breakdown": {
         "tension": 4.287218516238145,
         "drama": 10,
@@ -39,11 +39,11 @@
       "awayTeam": "Jazz",
       "homeScore": 134,
       "awayScore": 130,
-      "excitement": 8.7,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 6.361561160848142,
+        "tension": 6.384981670479188,
         "drama": 10,
-        "finish": 6.551532648281562
+        "finish": 6.5549986474479045
       },
       "overtime": true,
       "bowlName": null,
@@ -55,7 +55,7 @@
       "awayTeam": "Kings",
       "homeScore": 124,
       "awayScore": 123,
-      "excitement": 8.5,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 7.699960653593423,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Magic",
       "homeScore": 98,
       "awayScore": 128,
-      "excitement": 6.3336890186451065,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 4.297539851882543,
         "drama": 6.406704506720865,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:03.462Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:04.359Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-10"
   }

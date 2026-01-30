@@ -7,7 +7,7 @@
       "awayTeam": "Bulls",
       "homeScore": 127,
       "awayScore": 130,
-      "excitement": 9.4,
+      "excitement": 9.5,
       "breakdown": {
         "tension": 4.939516827074144,
         "drama": 10,
@@ -39,9 +39,9 @@
       "awayTeam": "Clippers",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 9.1,
+      "excitement": 9,
       "breakdown": {
-        "tension": 6.704721354829188,
+        "tension": 6.731312871334073,
         "drama": 10,
         "finish": 6.550165047530835
       },
@@ -55,7 +55,7 @@
       "awayTeam": "Bucks",
       "homeScore": 118,
       "awayScore": 106,
-      "excitement": 7.8,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 7.655166966601455,
         "drama": 9.173748915295542,
@@ -71,7 +71,7 @@
       "awayTeam": "Hornets",
       "homeScore": 110,
       "awayScore": 108,
-      "excitement": 7.3,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 4,
         "drama": 9.082190161425016,
@@ -103,7 +103,7 @@
       "awayTeam": "Pacers",
       "homeScore": 127,
       "awayScore": 112,
-      "excitement": 3.2,
+      "excitement": 3.3,
       "breakdown": {
         "tension": 1.5,
         "drama": 2.9744201688524012,
@@ -111,7 +111,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 94% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
     },
     {
       "id": "401810101",
@@ -119,7 +126,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 120,
       "awayScore": 96,
-      "excitement": 2.5062894188198546,
+      "excitement": 2.563396789179675,
       "breakdown": {
         "tension": 0,
         "drama": 1.1215371905748668,
@@ -136,8 +143,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:49:24.658Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:51.223Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-17"
   }

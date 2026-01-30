@@ -192,8 +192,8 @@ async function main() {
       ? Math.round((analysis.excitement - priorExcitement) * 100) / 100
       : null;
 
-    const priorTier = typeof priorExcitement === 'number' ? getTier(priorExcitement)?.cssClass : '';
-    const newTier = getTier(analysis.excitement)?.cssClass || '';
+    const priorTier = typeof priorExcitement === 'number' ? getTier(priorExcitement, entry.sport)?.cssClass : '';
+    const newTier = getTier(analysis.excitement, entry.sport)?.cssClass || '';
 
     results.push({
       ...entry,

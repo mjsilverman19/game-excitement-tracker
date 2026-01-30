@@ -41,15 +41,28 @@ export const ALGORITHM_CONFIG = {
   // - Increased drama weight: 0.35 → 0.45
   // - Finish weight unchanged: 0.35
   // - Games with high volatility and momentum swings now score higher
-  version: '3.3',
+  // Version 3.4: Add sport-specific tier thresholds
+  // NBA games score higher on average (mean 6.7, 39% must-watch at 8.0)
+  // CFB games score lower (mean 4.9, 16% must-watch at 8.0)
+  // Sport-specific thresholds normalize must-watch rate to ~20% per sport
+  version: '3.4',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
 
   tiers: {
+    // Default thresholds (used when sport is not specified)
     mustWatch: { min: 8, label: 'must watch', cssClass: 'must-watch' },
     recommended: { min: 6, label: 'recommended', cssClass: 'recommended' },
-    skip: { min: 0, label: 'skip', cssClass: 'skip' }
+    skip: { min: 0, label: 'skip', cssClass: 'skip' },
+    // Sport-specific overrides (derived from 2024-25 season score distributions)
+    // Target: ~20% must-watch, ~35% recommended, ~45% skip per sport
+    // Tuned against canonical game set to avoid regressions
+    bySport: {
+      NFL: { mustWatch: 8.3, recommended: 6.0 },
+      CFB: { mustWatch: 7.7, recommended: 5.8 },
+      NBA: { mustWatch: 8.5, recommended: 6.5 }
+    }
   },
 
   // Weights for 3-factor model
@@ -192,8 +205,12 @@ export const ALGORITHM_CONFIG = {
   ]
 };
 
-export function getTier(score) {
-  if (score >= ALGORITHM_CONFIG.tiers.mustWatch.min) return ALGORITHM_CONFIG.tiers.mustWatch;
-  if (score >= ALGORITHM_CONFIG.tiers.recommended.min) return ALGORITHM_CONFIG.tiers.recommended;
+export function getTier(score, sport) {
+  const sportThresholds = sport && ALGORITHM_CONFIG.tiers.bySport?.[sport];
+  const mustWatchMin = sportThresholds?.mustWatch ?? ALGORITHM_CONFIG.tiers.mustWatch.min;
+  const recommendedMin = sportThresholds?.recommended ?? ALGORITHM_CONFIG.tiers.recommended.min;
+
+  if (score >= mustWatchMin) return ALGORITHM_CONFIG.tiers.mustWatch;
+  if (score >= recommendedMin) return ALGORITHM_CONFIG.tiers.recommended;
   return ALGORITHM_CONFIG.tiers.skip;
 }

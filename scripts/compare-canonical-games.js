@@ -88,6 +88,7 @@ async function evaluateGame(entry) {
     rankPercentile: '',
     dataQualityWarning: '',
     knownIssue: entry.knownIssue || '',
+    dataQuality: entry.dataQuality || '',
     note: ''
   };
 
@@ -104,7 +105,7 @@ async function evaluateGame(entry) {
     row.tension = analysis.breakdown?.tension ?? '';
     row.drama = analysis.breakdown?.drama ?? '';
     row.finish = analysis.breakdown?.finish ?? '';
-    const actualTier = getTier(analysis.excitement);
+    const actualTier = getTier(analysis.excitement, entry.sport);
     row.actualTier = actualTier?.cssClass || '';
     row.status = row.expectedTier && row.actualTier
       ? row.expectedTier === row.actualTier
@@ -188,11 +189,16 @@ function printSummaryTable(rows) {
   }
 }
 
+function calcAccuracy(subset) {
+  const total = subset.length;
+  const passes = subset.filter(r => r.status === 'PASS').length;
+  const accuracy = total ? Math.round((passes / total) * 1000) / 10 : 0;
+  return { passes, total, accuracy };
+}
+
 function summarizeResults(rows) {
   const scored = rows.filter(r => typeof r.excitement === 'number');
-  const passes = scored.filter(r => r.status === 'PASS').length;
-  const total = scored.length;
-  const accuracy = total ? Math.round((passes / total) * 1000) / 10 : 0;
+  const { passes, total, accuracy } = calcAccuracy(scored);
 
   // Calculate accuracy excluding known data quality issues
   const scoredExcludingDataIssues = scored.filter(r => r.knownIssue !== 'espn-data-quality');
@@ -204,6 +210,30 @@ function summarizeResults(rows) {
 
   // Count detected data quality warnings
   const detectedDataQualityIssues = scored.filter(r => r.dataQualityWarning).length;
+
+  // Accuracy by sport
+  const sports = ['NFL', 'CFB', 'NBA'];
+  const bySport = {};
+  for (const sport of sports) {
+    const subset = scored.filter(r => r.sport === sport);
+    bySport[sport] = calcAccuracy(subset);
+  }
+
+  // Accuracy by data quality tier
+  const qualityTiers = ['gold', 'silver', 'excluded'];
+  const byQuality = {};
+  for (const tier of qualityTiers) {
+    const subset = scored.filter(r => r.dataQuality === tier);
+    byQuality[tier] = calcAccuracy(subset);
+  }
+
+  // Accuracy by expected tier (game type)
+  const expectedTiers = ['must-watch', 'recommended', 'skip'];
+  const byExpectedTier = {};
+  for (const tier of expectedTiers) {
+    const subset = scored.filter(r => r.expectedTier === tier);
+    byExpectedTier[tier] = calcAccuracy(subset);
+  }
 
   const discrepancies = rows.filter(r => {
     if (typeof r.excitement !== 'number') return false;
@@ -221,6 +251,9 @@ function summarizeResults(rows) {
     totalExcludingDataIssues,
     accuracyExcludingDataIssues,
     detectedDataQualityIssues,
+    bySport,
+    byQuality,
+    byExpectedTier,
     discrepancies
   };
 }
@@ -247,12 +280,39 @@ async function main() {
     totalExcludingDataIssues,
     accuracyExcludingDataIssues,
     detectedDataQualityIssues,
+    bySport,
+    byQuality,
+    byExpectedTier,
     discrepancies
   } = summarizeResults(results);
 
   console.log(`\nAccuracy: ${passes}/${total} (${accuracy}%)`);
   console.log(`Accuracy (excluding known data issues): ${passesExcludingDataIssues}/${totalExcludingDataIssues} (${accuracyExcludingDataIssues}%)`);
   console.log(`Data quality warnings detected: ${detectedDataQualityIssues}`);
+
+  // Sport-specific breakdown
+  console.log('\nAccuracy by Sport:');
+  for (const [sport, stats] of Object.entries(bySport)) {
+    if (stats.total > 0) {
+      console.log(`  ${sport}: ${stats.passes}/${stats.total} (${stats.accuracy}%)`);
+    }
+  }
+
+  // Data quality tier breakdown
+  console.log('\nAccuracy by Data Quality:');
+  for (const [tier, stats] of Object.entries(byQuality)) {
+    if (stats.total > 0) {
+      console.log(`  ${tier}: ${stats.passes}/${stats.total} (${stats.accuracy}%)`);
+    }
+  }
+
+  // Expected tier breakdown
+  console.log('\nAccuracy by Expected Tier:');
+  for (const [tier, stats] of Object.entries(byExpectedTier)) {
+    if (stats.total > 0) {
+      console.log(`  ${tier}: ${stats.passes}/${stats.total} (${stats.accuracy}%)`);
+    }
+  }
 
   // Show games with data quality warnings
   const gamesWithWarnings = results.filter(r => r.dataQualityWarning);

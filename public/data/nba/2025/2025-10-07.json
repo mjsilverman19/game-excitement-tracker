@@ -9,9 +9,9 @@
       "awayScore": 118,
       "excitement": 9,
       "breakdown": {
-        "tension": 4.666810596644276,
+        "tension": 4.676428005139601,
         "drama": 10,
-        "finish": 7.944233031582554
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
@@ -23,7 +23,7 @@
       "awayTeam": "Pacers",
       "homeScore": 134,
       "awayScore": 135,
-      "excitement": 8.4,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 4.108249815274433,
         "drama": 9.859436791366546,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:47:58.559Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:58:59.306Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-07"
   }

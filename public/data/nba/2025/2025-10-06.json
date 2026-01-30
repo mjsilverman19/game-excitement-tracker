@@ -7,11 +7,27 @@
       "awayTeam": "Hawks",
       "homeScore": 122,
       "awayScore": 113,
-      "excitement": 9,
+      "excitement": 9.1,
       "breakdown": {
         "tension": 7.428115184284194,
         "drama": 10,
         "finish": 8.157890879170912
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812683",
+      "homeTeam": "Raptors",
+      "awayTeam": "Nuggets",
+      "homeScore": 108,
+      "awayScore": 112,
+      "excitement": 8.9,
+      "breakdown": {
+        "tension": 6.889612998274693,
+        "drama": 10,
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
@@ -25,23 +41,7 @@
       "awayScore": 103,
       "excitement": 8.8,
       "breakdown": {
-        "tension": 8.004174579592892,
-        "drama": 10,
-        "finish": 7.64821047227907
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401812683",
-      "homeTeam": "Raptors",
-      "awayTeam": "Nuggets",
-      "homeScore": 108,
-      "awayScore": 112,
-      "excitement": 8.7,
-      "breakdown": {
-        "tension": 6.889612998274693,
+        "tension": 7.9979800839418544,
         "drama": 10,
         "finish": 6.9529295553909645
       },
@@ -55,7 +55,7 @@
       "awayTeam": "Pistons",
       "homeScore": 112,
       "awayScore": 128,
-      "excitement": 7.9,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 3.8014252376150584,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Thunder",
       "homeScore": 106,
       "awayScore": 89,
-      "excitement": 4.6,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 2.324520700039001,
         "drama": 5.613869486821325,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 6,
     "insufficientData": 1,
-    "generatedAt": "2026-01-10T17:47:57.812Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:58:58.269Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-06"
   }

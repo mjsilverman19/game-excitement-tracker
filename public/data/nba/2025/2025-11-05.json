@@ -23,7 +23,7 @@
       "awayTeam": "Spurs",
       "homeScore": 118,
       "awayScore": 116,
-      "excitement": 9.1,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 7.37535242781298,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Nets",
       "homeScore": 103,
       "awayScore": 112,
-      "excitement": 8.8,
+      "excitement": 8.9,
       "breakdown": {
         "tension": 7.615073380844887,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Thunder",
       "homeScore": 121,
       "awayScore": 119,
-      "excitement": 8.4,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Warriors",
       "homeScore": 121,
       "awayScore": 116,
-      "excitement": 8.1,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 5.868748718399436,
         "drama": 10,
@@ -87,7 +87,7 @@
       "awayTeam": "Jazz",
       "homeScore": 114,
       "awayScore": 103,
-      "excitement": 5.7,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 2.806960139205046,
         "drama": 7.613512352768933,
@@ -103,7 +103,7 @@
       "awayTeam": "Heat",
       "homeScore": 122,
       "awayScore": 112,
-      "excitement": 5.1,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 4.220458270190203,
         "drama": 6.255367657516621,
@@ -119,7 +119,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 137,
       "awayScore": 114,
-      "excitement": 4.9208837673137555,
+      "excitement": 5.114893442119629,
       "breakdown": {
         "tension": 3.6142714356160472,
         "drama": 5.795322374139163,
@@ -135,7 +135,7 @@
       "awayTeam": "Rockets",
       "homeScore": 109,
       "awayScore": 124,
-      "excitement": 4.6,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 1.5,
         "drama": 4.153381579635547,
@@ -151,7 +151,7 @@
       "awayTeam": "76ers",
       "homeScore": 132,
       "awayScore": 121,
-      "excitement": 3.4,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 1.25,
         "drama": 3.4951766056095424,
@@ -167,7 +167,7 @@
       "awayTeam": "Wizards",
       "homeScore": 136,
       "awayScore": 107,
-      "excitement": 3.1062779884224696,
+      "excitement": 3.25045562111496,
       "breakdown": {
         "tension": 0.9095645126421035,
         "drama": 3.0932253013069926,
@@ -184,8 +184,8 @@
     "count": 11,
     "totalGames": 11,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:57.044Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:04.380Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-05"
   }

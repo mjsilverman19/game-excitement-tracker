@@ -6,6 +6,8 @@
  * Output: Console report with competitive-range points and swing list.
  */
 
+import { fetchAllProbabilities } from '../shared/espn-api.js';
+
 const gameId = process.argv[2];
 const sport = process.argv[3] || 'NFL';
 
@@ -14,24 +16,16 @@ if (!gameId) {
   process.exit(1);
 }
 
-let sportType, league;
-if (sport === 'NBA') {
-  sportType = 'basketball';
-  league = 'nba';
-} else {
-  sportType = 'football';
-  league = sport === 'CFB' ? 'college-football' : 'nfl';
-}
-
-const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=1000`;
-
 async function main() {
-  const response = await fetch(probUrl);
-  const data = await response.json();
-  const items = data.items || [];
-  
+  const items = await fetchAllProbabilities(gameId, sport);
+
+  if (!items || items.length === 0) {
+    console.error('No probability data available.');
+    process.exit(1);
+  }
+
   console.log(`Total: ${items.length} points\n`);
-  
+
   // Find points near 50%
   const closePoints = [];
   items.forEach((p, i) => {
@@ -40,13 +34,13 @@ async function main() {
       closePoints.push({ index: i, wp: (wp * 100).toFixed(1) });
     }
   });
-  
+
   console.log(`Points in competitive range (35-65%): ${closePoints.length}`);
   if (closePoints.length > 0) {
     console.log(`First competitive: index ${closePoints[0].index} (${closePoints[0].wp}%)`);
     console.log(`Last competitive: index ${closePoints[closePoints.length-1].index} (${closePoints[closePoints.length-1].wp}%)`);
   }
-  
+
   // Find big swings
   console.log('\n=== SWINGS > 10% ===');
   for (let i = 1; i < items.length; i++) {

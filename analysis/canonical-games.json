@@ -5,7 +5,8 @@
     "gameId": "400927752",
     "label": "Super Bowl LI: Patriots vs Falcons",
     "expectedTier": "must-watch",
-    "reason": "28–3 comeback and first overtime Super Bowl decided on last-possession TD."
+    "reason": "28–3 comeback and first overtime Super Bowl decided on last-possession TD.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -15,7 +16,9 @@
     "expectedTier": "must-watch",
     "reason": "13 seconds duel with four lead changes in final two minutes and overtime finish.",
     "knownIssue": "espn-data-quality",
-    "knownIssueNote": "ESPN probability data shows 0 lead changes - missing the famous final 13-second drama. Excluded from accuracy calculations."
+    "knownIssueNote": "ESPN probability data shows 0 lead changes - missing the famous final 13-second drama. Excluded from accuracy calculations.",
+    "dataQuality": "excluded",
+    "dataQualityNote": "ESPN probability data does not capture the final 13-second drama sequence. Only 158 data points with no lead changes detected."
   },
   {
     "sport": "NFL",
@@ -23,7 +26,8 @@
     "gameId": "401437833",
     "label": "Vikings at Bills",
     "expectedTier": "must-watch",
-    "reason": "Justin Jefferson’s one-handed 4th-and-18 catch sparks OT win after goal-line fumble swing."
+    "reason": "Justin Jefferson's one-handed 4th-and-18 catch sparks OT win after goal-line fumble swing.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -31,7 +35,8 @@
     "gameId": "401437904",
     "label": "Colts at Vikings",
     "expectedTier": "must-watch",
-    "reason": "Largest comeback in NFL history (33 points) with OT walk-off field goal."
+    "reason": "Largest comeback in NFL history (33 points) with OT walk-off field goal.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -39,7 +44,8 @@
     "gameId": "401030972",
     "label": "Chiefs at Rams (MNF)",
     "expectedTier": "must-watch",
-    "reason": "54–51 track meet with three defensive TDs and late lead swaps in final minute."
+    "reason": "54–51 track meet with three defensive TDs and late lead swaps in final minute.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -47,7 +53,8 @@
     "gameId": "401438030",
     "label": "Super Bowl LVII: Chiefs vs Eagles",
     "expectedTier": "must-watch",
-    "reason": "38–35 thriller with second-half comeback and game-winning drive in final minutes."
+    "reason": "38–35 thriller with second-half comeback and game-winning drive in final minutes.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -55,7 +62,8 @@
     "gameId": "401038850",
     "label": "Patriots at Chiefs (AFC Championship)",
     "expectedTier": "must-watch",
-    "reason": "Overtime classic with multiple 4Q lead changes decided on opening OT drive."
+    "reason": "Overtime classic with multiple 4Q lead changes decided on opening OT drive.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -63,7 +71,8 @@
     "gameId": "401671789",
     "label": "Week 1 (TNF): Ravens at Chiefs",
     "expectedTier": "recommended",
-    "reason": "Season opener stayed one-score throughout and ended with a dramatic final-play review."
+    "reason": "Season opener stayed one-score throughout and ended with a dramatic final-play review.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -71,7 +80,8 @@
     "gameId": "401671792",
     "label": "Week 1 (MNF): Rams at Lions",
     "expectedTier": "must-watch",
-    "reason": "Monday night opener went to overtime with both teams trading late drives."
+    "reason": "Monday night opener went to overtime with both teams trading late drives.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -79,7 +89,8 @@
     "gameId": "401671626",
     "label": "Week 5: Ravens at Bengals",
     "expectedTier": "must-watch",
-    "reason": "41–38 shootout needed overtime after late lead swings."
+    "reason": "41–38 shootout needed overtime after late lead swings.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -87,7 +98,8 @@
     "gameId": "401671622",
     "label": "Week 4: Broncos at Jets",
     "expectedTier": "must-watch",
-    "reason": "15 lead changes, 62% time in competitive band, decided at 98% - truly competitive despite low score."
+    "reason": "15 lead changes, 62% time in competitive band, decided at 98% - truly competitive despite low score.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -95,7 +107,8 @@
     "gameId": "401671668",
     "label": "Week 2: Steelers at Broncos",
     "expectedTier": "skip",
-    "reason": "Only 15% time in competitive band, 0 lead changes - never truly competitive despite close final."
+    "reason": "Only 15% time in competitive band, 0 lead changes - never truly competitive despite close final.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -103,7 +116,8 @@
     "gameId": "401671702",
     "label": "Week 2: Seahawks at Patriots",
     "expectedTier": "must-watch",
-    "reason": "18 lead changes, 89% time in competitive band - classic back-and-forth OT thriller."
+    "reason": "18 lead changes, 89% time in competitive band - classic back-and-forth OT thriller.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -111,7 +125,8 @@
     "gameId": "401671869",
     "label": "Week 11: Packers at Bears",
     "expectedTier": "must-watch",
-    "reason": "8 lead changes, 59% in competitive band, decided at 99% - genuine rivalry thriller."
+    "reason": "8 lead changes, 59% in competitive band, decided at 99% - genuine rivalry thriller.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -119,7 +134,8 @@
     "gameId": "401671492",
     "label": "Thanksgiving: Bears at Lions",
     "expectedTier": "skip",
-    "reason": "Only 4% time in competitive band, 0 lead changes - Lions dominated throughout despite close final."
+    "reason": "Only 4% time in competitive band, 0 lead changes - Lions dominated throughout despite close final.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -127,7 +143,8 @@
     "gameId": "401671784",
     "label": "Week 5 (MNF): Cowboys at Steelers",
     "expectedTier": "must-watch",
-    "reason": "26 lead changes, 91% in competitive band - one of the most back-and-forth games of the season."
+    "reason": "26 lead changes, 91% in competitive band - one of the most back-and-forth games of the season.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -135,7 +152,8 @@
     "gameId": "401671790",
     "label": "Week 16 (MNF): Buccaneers at Cowboys",
     "expectedTier": "recommended",
-    "reason": "Primetime matchup decided by two points with late lead changes."
+    "reason": "Primetime matchup decided by two points with late lead changes.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -143,7 +161,8 @@
     "gameId": "401671883",
     "label": "Wild Card: Commanders at Buccaneers",
     "expectedTier": "must-watch",
-    "reason": "15 lead changes, 92% in competitive band - playoff intensity with sustained uncertainty."
+    "reason": "15 lead changes, 92% in competitive band - playoff intensity with sustained uncertainty.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NFL",
@@ -151,7 +170,8 @@
     "gameId": "401671735",
     "label": "Week 6: Buccaneers at Saints",
     "expectedTier": "skip",
-    "reason": "High-scoring final masked a lopsided game that was never truly competitive."
+    "reason": "High-scoring final masked a lopsided game that was never truly competitive.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -159,7 +179,8 @@
     "gameId": "400876570",
     "label": "CFP National Championship: Clemson vs Alabama",
     "expectedTier": "must-watch",
-    "reason": "Deshaun Watson’s last-second TD completes 14-point comeback in rematch title game."
+    "reason": "Deshaun Watson's last-second TD completes 14-point comeback in rematch title game.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -167,7 +188,8 @@
     "gameId": "400953412",
     "label": "Rose Bowl (CFP Semifinal): Georgia vs Oklahoma",
     "expectedTier": "must-watch",
-    "reason": "Double-OT shootout after 17-point comeback sends Georgia to title game."
+    "reason": "Double-OT shootout after 17-point comeback sends Georgia to title game.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -175,7 +197,8 @@
     "gameId": "401442015",
     "label": "Peach Bowl (CFP Semifinal): Ohio State vs Georgia",
     "expectedTier": "must-watch",
-    "reason": "Back-and-forth semifinal decided by missed FG as clock struck midnight."
+    "reason": "Back-and-forth semifinal decided by missed FG as clock struck midnight.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -185,7 +208,9 @@
     "expectedTier": "must-watch",
     "reason": "96-point upset semifinal with multiple defensive scores and late goal-line stand.",
     "knownIssue": "subjective-disagreement",
-    "knownIssueNote": "High final score but only 22% in competitive band per probability data. Algorithm sees one-sided game despite dramatic moments."
+    "knownIssueNote": "High final score but only 22% in competitive band per probability data. Algorithm sees one-sided game despite dramatic moments.",
+    "dataQuality": "silver",
+    "dataQualityNote": "Subjective disagreement - ESPN probability data shows a one-sided game (22% in competitive band) despite dramatic real-world moments. Algorithm scores 6.1 (recommended) vs expected must-watch."
   },
   {
     "sport": "CFB",
@@ -193,7 +218,8 @@
     "gameId": "401331242",
     "label": "Rose Bowl: Ohio State vs Utah",
     "expectedTier": "must-watch",
-    "reason": "Jackson Smith-Njigba’s record day in 48–45 shootout with last-minute game winner."
+    "reason": "Jackson Smith-Njigba's record day in 48–45 shootout with last-minute game winner.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -201,7 +227,9 @@
     "gameId": "401110192",
     "label": "LSU vs Texas A&M (7OT)",
     "expectedTier": "must-watch",
-    "reason": "Seven-overtime marathon ending 74–72, highest-scoring FBS game ever."
+    "reason": "Seven-overtime marathon ending 74–72, highest-scoring FBS game ever.",
+    "dataQuality": "excluded",
+    "dataQualityNote": "No probability data available in ESPN API (404 error). Cannot be scored."
   },
   {
     "sport": "CFB",
@@ -209,7 +237,8 @@
     "gameId": "400876090",
     "label": "Rose Bowl: USC vs Penn State",
     "expectedTier": "must-watch",
-    "reason": "52–49 classic with 21-point USC rally and walk-off field goal."
+    "reason": "52–49 classic with 21-point USC rally and walk-off field goal.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -217,7 +246,8 @@
     "gameId": "401677179",
     "label": "CFP First Round: Indiana at Notre Dame",
     "expectedTier": "skip",
-    "reason": "Only 4% in competitive band, 0 lead changes, decided at 7% - Notre Dame controlled from start."
+    "reason": "Only 4% in competitive band, 0 lead changes, decided at 7% - Notre Dame controlled from start.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -225,7 +255,8 @@
     "gameId": "401677176",
     "label": "CFP First Round: Clemson at Texas",
     "expectedTier": "skip",
-    "reason": "Only 6% in competitive band, 0 lead changes, decided at 16% - Texas dominated early."
+    "reason": "Only 6% in competitive band, 0 lead changes, decided at 16% - Texas dominated early.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -233,7 +264,8 @@
     "gameId": "401677182",
     "label": "CFP Quarterfinal: Texas at Arizona State",
     "expectedTier": "must-watch",
-    "reason": "Two-overtime quarterfinal with a one-score finish."
+    "reason": "Two-overtime quarterfinal with a one-score finish.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -241,7 +273,8 @@
     "gameId": "401677184",
     "label": "CFP Quarterfinal: Notre Dame at Georgia",
     "expectedTier": "recommended",
-    "reason": "Low-scoring playoff game defined by defense and field position."
+    "reason": "Low-scoring playoff game defined by defense and field position.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -249,7 +282,8 @@
     "gameId": "401628566",
     "label": "Rivalry: Michigan at Ohio State",
     "expectedTier": "must-watch",
-    "reason": "13–10 rivalry clash with playoff stakes and late defensive stops."
+    "reason": "13–10 rivalry clash with playoff stakes and late defensive stops.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -257,7 +291,8 @@
     "gameId": "401645383",
     "label": "Army-Navy: Navy at Army",
     "expectedTier": "recommended",
-    "reason": "Rivalry game with option-heavy offenses and sustained drives."
+    "reason": "Rivalry game with option-heavy offenses and sustained drives.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -265,7 +300,8 @@
     "gameId": "401628464",
     "label": "Rivalry: Iowa State at Iowa",
     "expectedTier": "must-watch",
-    "reason": "44% comeback with one-point rivalry finish decided in final possessions - dramatic arc compensates for low band time."
+    "reason": "44% comeback with one-point rivalry finish decided in final possessions - dramatic arc compensates for low band time.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -273,7 +309,8 @@
     "gameId": "401636922",
     "label": "Rivalry: BYU at Utah",
     "expectedTier": "must-watch",
-    "reason": "Rivalry thriller decided by a single point late in the fourth quarter."
+    "reason": "Rivalry thriller decided by a single point late in the fourth quarter.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -281,7 +318,8 @@
     "gameId": "401628354",
     "label": "Georgia at Kentucky",
     "expectedTier": "recommended",
-    "reason": "13–12 defensive grinder that looked dull on paper but stayed tense throughout."
+    "reason": "13–12 defensive grinder that looked dull on paper but stayed tense throughout.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -289,7 +327,8 @@
     "gameId": "401628374",
     "label": "Georgia at Alabama",
     "expectedTier": "skip",
-    "reason": "Despite 41-34 final, only 8% in competitive band - Georgia controlled throughout despite close score."
+    "reason": "Despite 41-34 final, only 8% in competitive band - Georgia controlled throughout despite close score.",
+    "dataQuality": "gold"
   },
   {
     "sport": "CFB",
@@ -299,7 +338,9 @@
     "expectedTier": "recommended",
     "reason": "Under-20 defensive battle decided by a single touchdown.",
     "knownIssue": "boundary-case",
-    "knownIssueNote": "Scores 4.3 (skip threshold is 6.0). ESPN probability model shows early decision despite 46% in competitive band - low-scoring games may be overconfidently modeled."
+    "knownIssueNote": "Scores 5.2 (skip threshold is 6.0). ESPN probability model shows early decision despite 46% in competitive band - low-scoring games may be overconfidently modeled.",
+    "dataQuality": "silver",
+    "dataQualityNote": "Boundary case - ESPN probability model may be overconfident in low-scoring defensive games, showing early decision points despite sustained competitive play."
   },
   {
     "sport": "CFB",
@@ -307,7 +348,8 @@
     "gameId": "401628390",
     "label": "Rivalry: Texas at Oklahoma",
     "expectedTier": "skip",
-    "reason": "Red River matchup turned into a one-sided blowout despite the hype."
+    "reason": "Red River matchup turned into a one-sided blowout despite the hype.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -315,7 +357,9 @@
     "gameId": "400878160",
     "label": "NBA Finals Game 7: Cavaliers at Warriors",
     "expectedTier": "must-watch",
-    "reason": "LeBron’s chase-down block and Kyrie’s late three seal historic 3–1 comeback."
+    "reason": "LeBron's chase-down block and Kyrie's late three seal historic 3–1 comeback.",
+    "dataQuality": "excluded",
+    "dataQualityNote": "No probability data available in ESPN API. Cannot be scored."
   },
   {
     "sport": "NBA",
@@ -323,7 +367,8 @@
     "gameId": "401129105",
     "label": "East Semis Game 7: 76ers at Raptors",
     "expectedTier": "must-watch",
-    "reason": "Kawhi Leonard’s four-bounce buzzer-beater sends Toronto to conference finals."
+    "reason": "Kawhi Leonard's four-bounce buzzer-beater sends Toronto to conference finals.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -331,7 +376,9 @@
     "gameId": "401547676",
     "label": "East Finals Game 6: Celtics at Heat",
     "expectedTier": "must-watch",
-    "reason": "Derrick White tip-in at the horn forces Game 7 after Miami’s late surge."
+    "reason": "Derrick White tip-in at the horn forces Game 7 after Miami's late surge.",
+    "dataQuality": "silver",
+    "dataQualityNote": "ESPN trailing noise - final WP shows 32.1% instead of near 0/100%. Data includes post-game noise points that may inflate Finish metric."
   },
   {
     "sport": "NBA",
@@ -339,7 +386,8 @@
     "gameId": "401344139",
     "label": "NBA Finals Game 5: Bucks at Suns",
     "expectedTier": "must-watch",
-    "reason": "Holiday steal to Giannis alley-oop caps furious Bucks road win for 3–2 lead."
+    "reason": "Holiday steal to Giannis alley-oop caps furious Bucks road win for 3–2 lead.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -347,7 +395,8 @@
     "gameId": "401248437",
     "label": "NBA Finals Game 5: Heat at Lakers",
     "expectedTier": "must-watch",
-    "reason": "Jimmy Butler vs LeBron duel; Heat survive elimination by one possession."
+    "reason": "Jimmy Butler vs LeBron duel; Heat survive elimination by one possession.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -355,7 +404,8 @@
     "gameId": "401129362",
     "label": "West Semis Game 3: Nuggets at Trail Blazers",
     "expectedTier": "must-watch",
-    "reason": "Four-overtime epic decided by Rodney Hood’s late three."
+    "reason": "Four-overtime epic decided by Rodney Hood's late three.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -363,7 +413,8 @@
     "gameId": "401704974",
     "label": "Christmas Day: Lakers at Warriors",
     "expectedTier": "must-watch",
-    "reason": "Holiday showcase decided by two points in the final minute."
+    "reason": "Holiday showcase decided by two points in the final minute.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -371,7 +422,8 @@
     "gameId": "401704973",
     "label": "Christmas Day: 76ers at Celtics",
     "expectedTier": "must-watch",
-    "reason": "16 lead changes, 63% in competitive band - genuine battle worthy of the holiday spotlight."
+    "reason": "16 lead changes, 63% in competitive band - genuine battle worthy of the holiday spotlight.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -379,7 +431,8 @@
     "gameId": "401704637",
     "label": "Suns at Clippers",
     "expectedTier": "must-watch",
-    "reason": "Early-season overtime duel with stars trading clutch buckets."
+    "reason": "Early-season overtime duel with stars trading clutch buckets.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -387,7 +440,8 @@
     "gameId": "401704685",
     "label": "Celtics at Pacers",
     "expectedTier": "must-watch",
-    "reason": "135–132 overtime shootout with a game-winning possession."
+    "reason": "135–132 overtime shootout with a game-winning possession.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -395,7 +449,8 @@
     "gameId": "401704693",
     "label": "Trail Blazers at Clippers",
     "expectedTier": "must-watch",
-    "reason": "25 lead changes, 50% in competitive band, decided at 99% - thrilling back-and-forth."
+    "reason": "25 lead changes, 50% in competitive band, decided at 99% - thrilling back-and-forth.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -403,7 +458,8 @@
     "gameId": "401704711",
     "label": "Cavaliers at Bucks",
     "expectedTier": "must-watch",
-    "reason": "19 lead changes, 68% in competitive band, decided at 98% - premium matchup delivered."
+    "reason": "19 lead changes, 68% in competitive band, decided at 98% - premium matchup delivered.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -413,15 +469,19 @@
     "expectedTier": "recommended",
     "reason": "89–88 defensive slugfest that stayed tense to the final possession.",
     "knownIssue": "espn-data-quality",
-    "knownIssueNote": "ESPN data has trailing noise after game ended (final WP shows 61% instead of 0/100%). Excluded from accuracy calculations."
+    "knownIssueNote": "ESPN data has trailing noise after game ended (final WP shows 61% instead of 0/100%). Excluded from accuracy calculations.",
+    "dataQuality": "silver",
+    "dataQualityNote": "ESPN trailing noise - final WP shows 61.0% instead of near 0/100%. Trailing noise inflates Drama and Finish scores, causing over-classification as must-watch (9.5) vs expected recommended."
   },
   {
     "sport": "NBA",
     "season": 2024,
     "gameId": "401766459",
     "label": "Play-In: Grizzlies at Warriors",
-    "expectedTier": "must-watch",
-    "reason": "Elimination game with high drama (9.89 drama score) and tight finish in final minutes."
+    "expectedTier": "recommended",
+    "reason": "Elimination game with high drama (9.89) but low tension (4.48) and mediocre finish (5.65). Score of 8.1 is below NBA must-watch threshold (8.5). Reclassified from must-watch with v3.4 sport-specific thresholds.",
+    "dataQuality": "silver",
+    "dataQualityNote": "Boundary case under sport-specific NBA threshold (8.1 vs 8.5). Was must-watch under universal 8.0 threshold."
   },
   {
     "sport": "NBA",
@@ -429,7 +489,8 @@
     "gameId": "401766462",
     "label": "Play-In: Heat at Hawks",
     "expectedTier": "must-watch",
-    "reason": "8 lead changes, 43% in competitive band, OT finish - elimination stakes with drama."
+    "reason": "8 lead changes, 43% in competitive band, OT finish - elimination stakes with drama.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -437,7 +498,8 @@
     "gameId": "401704905",
     "label": "Jazz at Trail Blazers",
     "expectedTier": "skip",
-    "reason": "High-scoring blowout that never felt competitive despite the total."
+    "reason": "High-scoring blowout that never felt competitive despite the total.",
+    "dataQuality": "gold"
   },
   {
     "sport": "NBA",
@@ -445,6 +507,191 @@
     "gameId": "401704933",
     "label": "Knicks at Timberwolves",
     "expectedTier": "skip",
-    "reason": "Track-meet final score but the margin stayed comfortable most of the night."
+    "reason": "Track-meet final score but the margin stayed comfortable most of the night.",
+    "dataQuality": "gold"
+  },
+
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772880",
+    "label": "NFL 2025 Week 11: Bears at Vikings",
+    "expectedTier": "recommended",
+    "reason": "19-17 final with great finish (10.0) but only moderate tension (5.8) and drama (7.5). Score 8.1 — exciting finish doesn't compensate for a game that wasn't competitive throughout. Correctly recommended under NFL 8.3 threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772837",
+    "label": "NFL 2025 Week 2: Eagles at Chiefs",
+    "expectedTier": "recommended",
+    "reason": "20-17 defensive game with high tension (8.1) but modest drama (6.4) and finish (6.0). Score 8.1 — tense but not dramatic enough for must-watch. Validates NFL 8.3 threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772728",
+    "label": "NFL 2025 Week 2: Patriots at Dolphins",
+    "expectedTier": "recommended",
+    "reason": "33-27 with balanced components (T:7.3 D:7.8 F:7.3). Score 8.2 — solid game but not the 'you have to see this' level for NFL. Boundary test for 8.3 threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772832",
+    "label": "NFL 2025 Week 1: Titans at Broncos",
+    "expectedTier": "recommended",
+    "reason": "12-20 low-scoring affair with high tension (8.5) but only moderate drama (6.7) and weak finish (3.9). Competitive but unspectacular.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772860",
+    "label": "NFL 2025 Week 7: Panthers at Jets",
+    "expectedTier": "recommended",
+    "reason": "13-6 defensive game. Moderate across all components (T:5.2 D:5.2 F:5.6). Close but not entertaining.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772716",
+    "label": "NFL 2025 Week 4: Bengals at Broncos",
+    "expectedTier": "skip",
+    "reason": "3-28 blowout. Tension 1.3, drama 1.8, finish 2.4. Never competitive.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NFL",
+    "season": 2025,
+    "gameId": "401772896",
+    "label": "NFL 2025 Week 13: Vikings at Seahawks",
+    "expectedTier": "skip",
+    "reason": "0-26 shutout. Tension 1.3, drama 1.9, finish 2.1. Completely one-sided.",
+    "dataQuality": "gold"
+  },
+
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401752718",
+    "label": "CFB 2025 Week 5: Alabama at Georgia",
+    "expectedTier": "must-watch",
+    "reason": "24-21 rivalry classic with tension (7.0), drama (6.1), and a close finish (5.9). Score 7.8 — under universal 8.0 threshold but genuinely compelling CFB matchup. Validates CFB 7.7 must-watch threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401752671",
+    "label": "CFB 2025 Week 1: LSU at Clemson",
+    "expectedTier": "must-watch",
+    "reason": "17-10 defensive battle with high tension (7.1) and drama (7.7). Score 7.8 — competitive, well-matched teams. Validates CFB 7.7 must-watch threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401756957",
+    "label": "CFB 2025 Week 13: TCU at Houston",
+    "expectedTier": "must-watch",
+    "reason": "17-14 close finish with moderate components (T:5.5 D:7.1 F:6.4). Score 7.8 — 3-point CFB game with decent drama throughout. Boundary test for 7.7 threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401752852",
+    "label": "CFB 2025 Week 5: Ohio State at Washington",
+    "expectedTier": "skip",
+    "reason": "24-6 blowout. Score 5.5 — below CFB recommended threshold of 5.8. Moderate tension (4.5) from early competitive period but game was decided early.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401752686",
+    "label": "CFB 2025 Week 2: Ole Miss at Kentucky",
+    "expectedTier": "skip",
+    "reason": "30-23 looks close but score 5.5 with low tension (2.5) and moderate drama (4.8). Ole Miss led comfortably despite the final margin. Below CFB recommended threshold of 5.8.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401752825",
+    "label": "CFB 2025 Week 2: Illinois at Duke",
+    "expectedTier": "skip",
+    "reason": "45-19 blowout. Score 5.3. Moderate tension early (3.6) but never truly competitive. CFB skip game.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "CFB",
+    "season": 2025,
+    "gameId": "401754566",
+    "label": "CFB 2025 Week 8: Georgia Tech at Duke",
+    "expectedTier": "recommended",
+    "reason": "27-18 with good tension (7.9) and drama (7.3) but weak finish (5.0). Score 7.7 — right at the CFB must-watch threshold. Competitive game but finish was anticlimactic. Boundary test.",
+    "dataQuality": "silver",
+    "dataQualityNote": "Boundary case at exactly 7.7 CFB must-watch threshold. Could reasonably be classified either way."
+  },
+
+  {
+    "sport": "NBA",
+    "season": 2025,
+    "gameId": "401809811",
+    "label": "NBA 2025 Cavaliers at Hawks",
+    "expectedTier": "recommended",
+    "reason": "123-130 with tension 6.3, drama 10.0, finish 6.1. Score 8.0 — high drama but no standout tension or finish. For NBA standards, an 8.0 is good but not must-watch given how frequently NBA games reach this score. Validates NBA 8.5 threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NBA",
+    "season": 2025,
+    "gameId": "401810282",
+    "label": "NBA 2025 76ers at Bulls",
+    "expectedTier": "recommended",
+    "reason": "102-109 with tension 7.2, drama 10.0, finish 5.9. Score 8.0 — strong NBA game but the finish was mediocre (5.9). Validates NBA 8.5 threshold — an 8.0 in NBA is solid but not exceptional.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NBA",
+    "season": 2025,
+    "gameId": "401810258",
+    "label": "NBA 2025 Pacers at Celtics",
+    "expectedTier": "recommended",
+    "reason": "95-103 with tension 4.8, drama 10.0, finish 5.7. Score 8.0 — great drama but low tension and finish for an NBA game. Below 8.5 threshold.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NBA",
+    "season": 2025,
+    "gameId": "401809962",
+    "label": "NBA 2025 Bucks at Cavaliers",
+    "expectedTier": "recommended",
+    "reason": "113-118 with moderate tension (4.0) and drama (7.5). Score 7.0 — good but not compelling NBA game. Clearly recommended tier.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NBA",
+    "season": 2025,
+    "gameId": "401812694",
+    "label": "NBA 2025 Hornets at Thunder",
+    "expectedTier": "recommended",
+    "reason": "116-122 preseason-level interest. Tension 4.0, drama 7.5, finish 5.3. Score 7.0 — middling NBA game.",
+    "dataQuality": "gold"
+  },
+  {
+    "sport": "NBA",
+    "season": 2025,
+    "gameId": "401809959",
+    "label": "NBA 2025 Suns at Nuggets",
+    "expectedTier": "skip",
+    "reason": "111-133 blowout. Score 3.0, tension 0.0, drama 2.0, finish 2.6. Never competitive.",
+    "dataQuality": "gold"
   }
 ]

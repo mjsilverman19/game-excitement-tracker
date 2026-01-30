@@ -2,29 +2,6 @@
   "success": true,
   "games": [
     {
-      "id": "401810524",
-      "homeTeam": "Suns",
-      "awayTeam": "Nets",
-      "homeScore": 106,
-      "awayScore": 102,
-      "excitement": 9.6,
-      "breakdown": {
-        "tension": 4,
-        "drama": 10,
-        "finish": 10
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Final win probability is 38% instead of near 0% or 100% - data may include post-game noise"
-        ]
-      }
-    },
-    {
       "id": "401810519",
       "homeTeam": "Wizards",
       "awayTeam": "Trail Blazers",
@@ -35,6 +12,22 @@
         "tension": 8.138156191572797,
         "drama": 10,
         "finish": 5.752033479626415
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810524",
+      "homeTeam": "Suns",
+      "awayTeam": "Nets",
+      "homeScore": 106,
+      "awayScore": 102,
+      "excitement": 7.8,
+      "breakdown": {
+        "tension": 4,
+        "drama": 9.29601680417071,
+        "finish": 6.365261291704046
       },
       "overtime": false,
       "bowlName": null,
@@ -141,8 +134,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-28T10:25:27.595Z",
-    "algorithmVersion": "3.3",
+    "generatedAt": "2026-01-30T03:03:40.684Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-27"
   }

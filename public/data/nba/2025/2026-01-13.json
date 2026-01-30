@@ -7,22 +7,15 @@
       "awayTeam": "Nuggets",
       "homeScore": 116,
       "awayScore": 122,
-      "excitement": 9.5,
+      "excitement": 9,
       "breakdown": {
-        "tension": 7.833675622831894,
+        "tension": 7.8281446751247135,
         "drama": 10,
         "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Final win probability is 53% instead of near 0% or 100% - data may include post-game noise"
-        ]
-      }
+      "playoffRound": null
     },
     {
       "id": "401810420",
@@ -32,20 +25,13 @@
       "awayScore": 113,
       "excitement": 8.3,
       "breakdown": {
-        "tension": 5.475996533075781,
-        "drama": 9.695274861122227,
-        "finish": 5.207707683225019
+        "tension": 5.487608315536181,
+        "drama": 9.695145073983326,
+        "finish": 6.035990404441636
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Final win probability is 83% instead of near 0% or 100% - data may include post-game noise"
-        ]
-      }
+      "playoffRound": null
     },
     {
       "id": "401810419",
@@ -134,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-14T10:22:05.351Z",
-    "algorithmVersion": "3.3",
+    "generatedAt": "2026-01-30T03:03:07.583Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-13"
   }

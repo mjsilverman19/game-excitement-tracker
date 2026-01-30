@@ -2,14 +2,14 @@
   "success": true,
   "games": [
     {
-      "id": "401810019",
-      "homeTeam": "Clippers",
-      "awayTeam": "Heat",
-      "homeScore": 119,
-      "awayScore": 120,
-      "excitement": 8.9,
+      "id": "401810013",
+      "homeTeam": "Celtics",
+      "awayTeam": "Jazz",
+      "homeScore": 103,
+      "awayScore": 105,
+      "excitement": 9.1,
       "breakdown": {
-        "tension": 6.653457162666613,
+        "tension": 4,
         "drama": 10,
         "finish": 6.9529295553909645
       },
@@ -18,14 +18,14 @@
       "playoffRound": null
     },
     {
-      "id": "401810013",
-      "homeTeam": "Celtics",
-      "awayTeam": "Jazz",
-      "homeScore": 103,
-      "awayScore": 105,
-      "excitement": 8.8,
+      "id": "401810019",
+      "homeTeam": "Clippers",
+      "awayTeam": "Heat",
+      "homeScore": 119,
+      "awayScore": 120,
+      "excitement": 9,
       "breakdown": {
-        "tension": 4,
+        "tension": 6.653457162666613,
         "drama": 10,
         "finish": 6.9529295553909645
       },
@@ -39,7 +39,7 @@
       "awayTeam": "Lakers",
       "homeScore": 115,
       "awayScore": 123,
-      "excitement": 8.5,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 4.167093088464676,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Bucks",
       "homeScore": 115,
       "awayScore": 117,
-      "excitement": 8.3,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 4.825699537528903,
         "drama": 9.56359022142332,
@@ -71,11 +71,34 @@
       "awayTeam": "Pistons",
       "homeScore": 106,
       "awayScore": 114,
-      "excitement": 6.8,
+      "excitement": 7,
       "breakdown": {
         "tension": 4.369639305283797,
         "drama": 6.879273447100786,
         "finish": 5.529882211760367
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (8-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401810015",
+      "homeTeam": "Rockets",
+      "awayTeam": "Mavericks",
+      "homeScore": 110,
+      "awayScore": 102,
+      "excitement": 6.7,
+      "breakdown": {
+        "tension": 2.5,
+        "drama": 8.341714946740614,
+        "finish": 5.6455243854378
       },
       "overtime": false,
       "bowlName": null,
@@ -87,27 +110,11 @@
       "awayTeam": "Timberwolves",
       "homeScore": 109,
       "awayScore": 125,
-      "excitement": 6.3,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 3.316724378285787,
         "drama": 7.140874258810125,
         "finish": 5.136347323508329
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810015",
-      "homeTeam": "Rockets",
-      "awayTeam": "Mavericks",
-      "homeScore": 110,
-      "awayScore": 102,
-      "excitement": 6.2,
-      "breakdown": {
-        "tension": 2.5,
-        "drama": 8.341714946740614,
-        "finish": 5.6455243854378
       },
       "overtime": false,
       "bowlName": null,
@@ -119,7 +126,7 @@
       "awayTeam": "Kings",
       "homeScore": 130,
       "awayScore": 124,
-      "excitement": 4.1,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 2,
         "drama": 3.8317267780006508,
@@ -127,7 +134,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401810014",
@@ -135,7 +149,7 @@
       "awayTeam": "Wizards",
       "homeScore": 119,
       "awayScore": 102,
-      "excitement": 3.4,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 1.5,
         "drama": 3.890834604820231,
@@ -152,8 +166,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:50.744Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:54.501Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-03"
   }

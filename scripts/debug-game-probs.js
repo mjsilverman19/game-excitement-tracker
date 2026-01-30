@@ -6,6 +6,8 @@
  * Output: Console dump of first/last points plus final-moment swings.
  */
 
+import { fetchAllProbabilities, buildProbabilityUrl } from '../shared/espn-api.js';
+
 const gameId = process.argv[2];
 const sport = process.argv[3] || 'NFL';
 
@@ -14,49 +16,31 @@ if (!gameId) {
   process.exit(1);
 }
 
-let sportType, league;
-if (sport === 'NBA') {
-  sportType = 'basketball';
-  league = 'nba';
-} else {
-  sportType = 'football';
-  league = sport === 'CFB' ? 'college-football' : 'nfl';
-}
-
-const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=1000`;
-
 async function main() {
-  console.log(`Fetching: ${probUrl}\n`);
-  
-  const response = await fetch(probUrl);
-  if (!response.ok) {
-    console.error(`Error: ${response.status}`);
-    process.exit(1);
-  }
-  
-  const data = await response.json();
-  const items = data.items || [];
-  
-  console.log(`Total probability data points: ${items.length}\n`);
-  
-  if (items.length === 0) {
+  console.log(`Fetching: ${buildProbabilityUrl(gameId, sport)}?limit=1000\n`);
+
+  const items = await fetchAllProbabilities(gameId, sport);
+
+  if (!items || items.length === 0) {
     console.log('No probability data available.');
     return;
   }
-  
+
+  console.log(`Total probability data points: ${items.length}\n`);
+
   // Show first 10 and last 20 data points
   console.log('=== FIRST 10 DATA POINTS ===');
   items.slice(0, 10).forEach((p, i) => {
     console.log(`${i}: period=${p.period}, clock=${p.clock?.displayValue || 'N/A'}, homeWP=${(p.homeWinPercentage * 100).toFixed(1)}%`);
   });
-  
+
   console.log('\n=== LAST 20 DATA POINTS ===');
   const last20 = items.slice(-20);
   last20.forEach((p, i) => {
     const idx = items.length - 20 + i;
     console.log(`${idx}: period=${p.period}, clock=${p.clock?.displayValue || 'N/A'}, homeWP=${(p.homeWinPercentage * 100).toFixed(1)}%`);
   });
-  
+
   // Analyze swings in final moments
   console.log('\n=== FINAL 10 SWINGS ===');
   const final10 = items.slice(-10);
@@ -67,7 +51,7 @@ async function main() {
     const crossed50 = (prev - 0.5) * (curr - 0.5) < 0;
     console.log(`Swing: ${(swing * 100).toFixed(1)}% (${(prev*100).toFixed(1)}% → ${(curr*100).toFixed(1)}%)${crossed50 ? ' [CROSSED 50%]' : ''}`);
   }
-  
+
   // Check if game ended near 50/50
   const lastProb = items[items.length - 1].homeWinPercentage;
   const secondToLast = items.length > 1 ? items[items.length - 2].homeWinPercentage : lastProb;

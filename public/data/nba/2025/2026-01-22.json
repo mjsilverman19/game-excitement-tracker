@@ -7,22 +7,15 @@
       "awayTeam": "Rockets",
       "homeScore": 128,
       "awayScore": 122,
-      "excitement": 9.5,
+      "excitement": 9.2,
       "breakdown": {
-        "tension": 7.7490172964293125,
+        "tension": 7.742199244305433,
         "drama": 10,
-        "finish": 7.704900622376859
+        "finish": 6.287007666825097
       },
       "overtime": true,
       "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Final win probability is 54% instead of near 0% or 100% - data may include post-game noise"
-        ]
-      }
+      "playoffRound": null
     },
     {
       "id": "401810486",
@@ -143,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-23T10:22:02.851Z",
-    "algorithmVersion": "3.3",
+    "generatedAt": "2026-01-30T03:03:28.739Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-22"
   }

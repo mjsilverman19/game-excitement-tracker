@@ -7,7 +7,7 @@
       "awayTeam": "Jazz",
       "homeScore": 105,
       "awayScore": 104,
-      "excitement": 9.3,
+      "excitement": 9.4,
       "breakdown": {
         "tension": 7.27479555353513,
         "drama": 10,
@@ -23,9 +23,9 @@
       "awayTeam": "Pistons",
       "homeScore": 111,
       "awayScore": 115,
-      "excitement": 9.2,
+      "excitement": 9.3,
       "breakdown": {
-        "tension": 8.839438682598365,
+        "tension": 8.892117692980593,
         "drama": 10,
         "finish": 6.9529295553909645
       },
@@ -39,9 +39,9 @@
       "awayTeam": "Spurs",
       "homeScore": 116,
       "awayScore": 120,
-      "excitement": 9.2,
+      "excitement": 9.3,
       "breakdown": {
-        "tension": 6.67546888239118,
+        "tension": 6.666597997690742,
         "drama": 10,
         "finish": 6.9529295553909645
       },
@@ -55,7 +55,7 @@
       "awayTeam": "Bucks",
       "homeScore": 116,
       "awayScore": 122,
-      "excitement": 9,
+      "excitement": 9.1,
       "breakdown": {
         "tension": 8.754795313336157,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Hawks",
       "homeScore": 107,
       "awayScore": 111,
-      "excitement": 8.7,
+      "excitement": 9,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -87,7 +87,7 @@
       "awayTeam": "Wizards",
       "homeScore": 107,
       "awayScore": 117,
-      "excitement": 8,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 2.898773590750654,
         "drama": 9.793359017895968,
@@ -103,7 +103,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 128,
       "awayScore": 110,
-      "excitement": 6.3,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 5.5954283545844135,
         "drama": 8.37140954232368,
@@ -119,7 +119,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 124,
       "awayScore": 131,
-      "excitement": 5.2,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.817283221346261,
@@ -127,7 +127,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401809945",
@@ -135,7 +142,7 @@
       "awayTeam": "Celtics",
       "homeScore": 105,
       "awayScore": 95,
-      "excitement": 5.1,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 4.057797570867006,
         "drama": 6.483136335067976,
@@ -151,7 +158,7 @@
       "awayTeam": "Warriors",
       "homeScore": 139,
       "awayScore": 119,
-      "excitement": 4.5,
+      "excitement": 4.8,
       "breakdown": {
         "tension": 2.563466728673789,
         "drama": 5.809446100399254,
@@ -167,7 +174,7 @@
       "awayTeam": "Heat",
       "homeScore": 114,
       "awayScore": 146,
-      "excitement": 4.307942842104326,
+      "excitement": 4.480933867605966,
       "breakdown": {
         "tension": 1.3100574456059921,
         "drama": 3.1013381578207313,
@@ -183,7 +190,7 @@
       "awayTeam": "Suns",
       "homeScore": 129,
       "awayScore": 102,
-      "excitement": 3.262723986194455,
+      "excitement": 3.4248050511695682,
       "breakdown": {
         "tension": 1.319168676640984,
         "drama": 3.657498729506717,
@@ -200,8 +207,8 @@
     "count": 12,
     "totalGames": 12,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:25.397Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:30.313Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-24"
   }

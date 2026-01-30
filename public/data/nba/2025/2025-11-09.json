@@ -7,7 +7,7 @@
       "awayTeam": "Celtics",
       "homeScore": 107,
       "awayScore": 111,
-      "excitement": 9.1,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 7.207585263344075,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Pistons",
       "homeScore": 108,
       "awayScore": 111,
-      "excitement": 9,
+      "excitement": 9.1,
       "breakdown": {
         "tension": 8.06695483266849,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Rockets",
       "homeScore": 115,
       "awayScore": 122,
-      "excitement": 8.6,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 5.949915857691879,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Thunder",
       "homeScore": 100,
       "awayScore": 114,
-      "excitement": 8,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 4.059058004952625,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 117,
       "awayScore": 144,
-      "excitement": 4.388868146113563,
+      "excitement": 4.68201283398011,
       "breakdown": {
         "tension": 0.9253122264567977,
         "drama": 4.030338570268408,
@@ -87,7 +87,7 @@
       "awayTeam": "Pacers",
       "homeScore": 114,
       "awayScore": 83,
-      "excitement": 4.200207758630757,
+      "excitement": 4.461675268878844,
       "breakdown": {
         "tension": 1.3445221688736293,
         "drama": 4.461196116653972,
@@ -103,7 +103,7 @@
       "awayTeam": "Nets",
       "homeScore": 134,
       "awayScore": 98,
-      "excitement": 2.3615017086790364,
+      "excitement": 2.373718546617122,
       "breakdown": {
         "tension": 0,
         "drama": 0.263342491015695,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:49:05.072Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:31.534Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-09"
   }

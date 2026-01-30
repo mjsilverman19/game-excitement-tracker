@@ -7,29 +7,13 @@
       "awayTeam": "Bears",
       "homeScore": 42,
       "awayScore": 47,
-      "excitement": 9.2,
+      "excitement": 9.3,
       "breakdown": {
         "tension": 7.726665246457123,
         "drama": 9.78669371894828,
         "finish": 9.749689274688855
       },
       "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772873",
-      "homeTeam": "Raiders",
-      "awayTeam": "Jaguars",
-      "homeScore": 29,
-      "awayScore": 30,
-      "excitement": 8.9,
-      "breakdown": {
-        "tension": 9.367841951167708,
-        "drama": 8.959878443858605,
-        "finish": 7.371881890656942
-      },
-      "overtime": true,
       "bowlName": null,
       "playoffRound": null
     },
@@ -50,6 +34,22 @@
       "playoffRound": null
     },
     {
+      "id": "401772873",
+      "homeTeam": "Raiders",
+      "awayTeam": "Jaguars",
+      "homeScore": 29,
+      "awayScore": 30,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 9.367841951167708,
+        "drama": 8.959878443858605,
+        "finish": 7.371881890656942
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772871",
       "homeTeam": "Lions",
       "awayTeam": "Vikings",
@@ -63,7 +63,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "medium",
+        "issues": [
+          "One-possession game (3 pts) but only 1 lead change - data may be incomplete"
+        ]
+      }
     },
     {
       "id": "401772872",
@@ -71,7 +78,7 @@
       "awayTeam": "Panthers",
       "homeScore": 13,
       "awayScore": 16,
-      "excitement": 8.1,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 6.3117451918070255,
         "drama": 7.940932946260736,
@@ -103,7 +110,7 @@
       "awayTeam": "Falcons",
       "homeScore": 24,
       "awayScore": 23,
-      "excitement": 6.1,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 4,
         "drama": 5.511511373917405,
@@ -111,7 +118,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (1-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401772767",
@@ -143,7 +157,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401772768",
@@ -167,7 +188,7 @@
       "awayTeam": "Colts",
       "homeScore": 27,
       "awayScore": 20,
-      "excitement": 4.4,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 2.9015415155105106,
         "drama": 5.3852056546876526,
@@ -183,7 +204,7 @@
       "awayTeam": "Ravens",
       "homeScore": 6,
       "awayScore": 28,
-      "excitement": 4.1,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 1.459608544362779,
         "drama": 2.4842949884982417,
@@ -232,8 +253,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:45:02.586Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:31.106Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 9
   }

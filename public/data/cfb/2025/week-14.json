@@ -7,7 +7,7 @@
       "awayTeam": "SMU",
       "homeScore": 38,
       "awayScore": 35,
-      "excitement": 8.3,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 4.227832084897089,
         "drama": 9.61179213073686,
@@ -23,7 +23,7 @@
       "awayTeam": "LSU",
       "homeScore": 17,
       "awayScore": 13,
-      "excitement": 7.3,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 6.1039075000580345,
         "drama": 7.673221049814833,
@@ -39,7 +39,7 @@
       "awayTeam": "Arizona",
       "homeScore": 7,
       "awayScore": 23,
-      "excitement": 7.2,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 6.756587628110369,
         "drama": 7.26163411482251,
@@ -55,7 +55,7 @@
       "awayTeam": "Vanderbilt",
       "homeScore": 24,
       "awayScore": 45,
-      "excitement": 6.7,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 5.569538914744852,
         "drama": 6.625904757129351,
@@ -87,7 +87,7 @@
       "awayTeam": "Utah",
       "homeScore": 21,
       "awayScore": 31,
-      "excitement": 6,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 3.05055127322863,
         "drama": 6.202507368774965,
@@ -103,11 +103,34 @@
       "awayTeam": "Alabama",
       "homeScore": 20,
       "awayScore": 27,
-      "excitement": 5.2,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.998490534149953,
         "finish": 5.909963600861607
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401752917",
+      "homeTeam": "Washington",
+      "awayTeam": "Oregon",
+      "homeScore": 14,
+      "awayScore": 26,
+      "excitement": 4.4,
+      "breakdown": {
+        "tension": 0.24622358807049327,
+        "drama": 3.528385488776283,
+        "finish": 5.016174827284104
       },
       "overtime": false,
       "bowlName": null,
@@ -119,27 +142,11 @@
       "awayTeam": "Ohio State",
       "homeScore": 9,
       "awayScore": 27,
-      "excitement": 4.2,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 1.6956590772741331,
         "drama": 2.7661550714373733,
         "finish": 4.88929331151891
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752917",
-      "homeTeam": "Washington",
-      "awayTeam": "Oregon",
-      "homeScore": 14,
-      "awayScore": 26,
-      "excitement": 4.1,
-      "breakdown": {
-        "tension": 0.24622358807049327,
-        "drama": 3.528385488776283,
-        "finish": 5.016174827284104
       },
       "overtime": false,
       "bowlName": null,
@@ -151,7 +158,7 @@
       "awayTeam": "Miami",
       "homeScore": 7,
       "awayScore": 38,
-      "excitement": 3.871445505742823,
+      "excitement": 3.923351680695821,
       "breakdown": {
         "tension": 1.386200881164806,
         "drama": 1.9866750483480022,
@@ -175,7 +182,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401752788",
@@ -183,7 +197,7 @@
       "awayTeam": "Ole Miss",
       "homeScore": 19,
       "awayScore": 38,
-      "excitement": 3.6,
+      "excitement": 3.7,
       "breakdown": {
         "tension": 0.22845964128768936,
         "drama": 1.9082569261387445,
@@ -199,7 +213,7 @@
       "awayTeam": "Texas Tech",
       "homeScore": 0,
       "awayScore": 49,
-      "excitement": 3.4187388332371627,
+      "excitement": 3.5237826144185735,
       "breakdown": {
         "tension": 0.14060607266737812,
         "drama": 1.472477505549205,
@@ -215,7 +229,7 @@
       "awayTeam": "Indiana",
       "homeScore": 3,
       "awayScore": 56,
-      "excitement": 3.0607706470933485,
+      "excitement": 3.0622403409687666,
       "breakdown": {
         "tension": 0.10392490584194869,
         "drama": 0.12494172496448384,
@@ -231,7 +245,7 @@
       "awayTeam": "Notre Dame",
       "homeScore": 20,
       "awayScore": 49,
-      "excitement": 3.057904520679629,
+      "excitement": 3.059782010869595,
       "breakdown": {
         "tension": 0.09446149873069554,
         "drama": 0.12133426630997246,
@@ -263,7 +277,7 @@
       "awayTeam": "UCF",
       "homeScore": 41,
       "awayScore": 21,
-      "excitement": 2.6,
+      "excitement": 2.7,
       "breakdown": {
         "tension": 0,
         "drama": 1.4938362114250414,
@@ -279,7 +293,7 @@
       "awayTeam": "Virginia Tech",
       "homeScore": 27,
       "awayScore": 7,
-      "excitement": 2.5,
+      "excitement": 2.6,
       "breakdown": {
         "tension": 0,
         "drama": 1.0595229952495309,
@@ -312,8 +326,8 @@
     "count": 19,
     "totalGames": 19,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:47:18.530Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:19.412Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 14
   }

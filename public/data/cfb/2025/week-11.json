@@ -2,31 +2,31 @@
   "success": true,
   "games": [
     {
-      "id": "401752764",
-      "homeTeam": "Vanderbilt",
-      "awayTeam": "Auburn",
-      "homeScore": 45,
-      "awayScore": 38,
+      "id": "401754585",
+      "homeTeam": "Louisville",
+      "awayTeam": "California",
+      "homeScore": 26,
+      "awayScore": 29,
       "excitement": 9.4,
       "breakdown": {
-        "tension": 7.9944337399857375,
-        "drama": 10,
-        "finish": 9.916485387242794
+        "tension": 4.2451131890754645,
+        "drama": 9.472087011866883,
+        "finish": 10
       },
       "overtime": true,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401754585",
-      "homeTeam": "Louisville",
-      "awayTeam": "California",
-      "homeScore": 26,
-      "awayScore": 29,
-      "excitement": 9.2,
+      "id": "401752764",
+      "homeTeam": "Vanderbilt",
+      "awayTeam": "Auburn",
+      "homeScore": 45,
+      "awayScore": 38,
+      "excitement": 9.3,
       "breakdown": {
-        "tension": 4.2451131890754645,
-        "drama": 9.472087011866883,
+        "tension": 7.979392433841513,
+        "drama": 10,
         "finish": 10
       },
       "overtime": true,
@@ -39,7 +39,7 @@
       "awayTeam": "Indiana",
       "homeScore": 24,
       "awayScore": 27,
-      "excitement": 8.4,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 4,
         "drama": 8.88708242840465,
@@ -55,7 +55,7 @@
       "awayTeam": "Washington",
       "homeScore": 13,
       "awayScore": 10,
-      "excitement": 8.2,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 5.624055280026798,
         "drama": 8.330556161903472,
@@ -71,7 +71,7 @@
       "awayTeam": "Wake Forest",
       "homeScore": 9,
       "awayScore": 16,
-      "excitement": 8.1,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 5.078516624653043,
         "drama": 8.197573182343083,
@@ -87,7 +87,7 @@
       "awayTeam": "Oregon",
       "homeScore": 16,
       "awayScore": 18,
-      "excitement": 7.2,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 4,
         "drama": 5.9932394336028825,
@@ -119,11 +119,27 @@
       "awayTeam": "Georgia",
       "homeScore": 21,
       "awayScore": 41,
-      "excitement": 4.4,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 1.4529316701970663,
         "drama": 3.746974555135904,
         "finish": 4.894150491626419
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752759",
+      "homeTeam": "Alabama",
+      "awayTeam": "LSU",
+      "homeScore": 20,
+      "awayScore": 9,
+      "excitement": 3.2,
+      "breakdown": {
+        "tension": 0,
+        "drama": 2.331657122592502,
+        "finish": 3.2336252204385127
       },
       "overtime": false,
       "bowlName": null,
@@ -140,22 +156,6 @@
         "tension": 0.11400227952201525,
         "drama": 0.16520696984419123,
         "finish": 4.8891569873723055
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752759",
-      "homeTeam": "Alabama",
-      "awayTeam": "LSU",
-      "homeScore": 20,
-      "awayScore": 9,
-      "excitement": 3.1,
-      "breakdown": {
-        "tension": 0,
-        "drama": 2.331657122592502,
-        "finish": 3.2336252204385127
       },
       "overtime": false,
       "bowlName": null,
@@ -215,7 +215,7 @@
       "awayTeam": "Navy",
       "homeScore": 49,
       "awayScore": 10,
-      "excitement": 2.338567457680891,
+      "excitement": 2.3440714049830462,
       "breakdown": {
         "tension": 0,
         "drama": 0.12055108796724326,
@@ -223,7 +223,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "low",
+        "issues": [
+          "Only 146 data points (expected 150+) - score may not capture all moments"
+        ]
+      }
     },
     {
       "id": "401752761",
@@ -231,7 +238,7 @@
       "awayTeam": "The Citadel",
       "homeScore": 49,
       "awayScore": 0,
-      "excitement": 2.323448320270927,
+      "excitement": 2.324593993244341,
       "breakdown": {
         "tension": 0,
         "drama": 0.025363811423930124,
@@ -248,8 +255,8 @@
     "count": 15,
     "totalGames": 15,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:46:58.076Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:55.612Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 11
   }

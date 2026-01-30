@@ -7,7 +7,7 @@
       "awayTeam": "Thunder",
       "homeScore": 112,
       "awayScore": 116,
-      "excitement": 9.1,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 8.32980283294896,
         "drama": 10,
@@ -23,27 +23,11 @@
       "awayTeam": "Warriors",
       "homeScore": 111,
       "awayScore": 118,
-      "excitement": 8.8,
+      "excitement": 9,
       "breakdown": {
         "tension": 6.474988686050538,
         "drama": 10,
         "finish": 6.64632261560739
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401812717",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Rockets",
-      "homeScore": 128,
-      "awayScore": 130,
-      "excitement": 8.4,
-      "breakdown": {
-        "tension": 5.800294625234763,
-        "drama": 9.069287484841132,
-        "finish": 6.543568398907488
       },
       "overtime": false,
       "bowlName": null,
@@ -55,11 +39,27 @@
       "awayTeam": "Lakers",
       "homeScore": 113,
       "awayScore": 104,
-      "excitement": 8.4,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 4.8153326133574526,
         "drama": 10,
         "finish": 5.976730141031405
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401812717",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Rockets",
+      "homeScore": 128,
+      "awayScore": 130,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 5.800294625234763,
+        "drama": 9.069287484841132,
+        "finish": 6.543568398907488
       },
       "overtime": false,
       "bowlName": null,
@@ -71,7 +71,7 @@
       "awayTeam": "Pistons",
       "homeScore": 118,
       "awayScore": 100,
-      "excitement": 7.2,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 6.895607618558868,
         "drama": 9.413579387572414,
@@ -87,7 +87,7 @@
       "awayTeam": "Bulls",
       "homeScore": 124,
       "awayScore": 117,
-      "excitement": 3.7,
+      "excitement": 4,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.838842063176324,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:10.820Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:14.690Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-14"
   }

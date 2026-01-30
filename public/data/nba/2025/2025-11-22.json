@@ -2,6 +2,29 @@
   "success": true,
   "games": [
     {
+      "id": "401810129",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Kings",
+      "homeScore": 123,
+      "awayScore": 128,
+      "excitement": 9.1,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 8% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
+    },
+    {
       "id": "401810128",
       "homeTeam": "Mavericks",
       "awayTeam": "Grizzlies",
@@ -18,28 +41,12 @@
       "playoffRound": null
     },
     {
-      "id": "401810129",
-      "homeTeam": "Nuggets",
-      "awayTeam": "Kings",
-      "homeScore": 123,
-      "awayScore": 128,
-      "excitement": 8.9,
-      "breakdown": {
-        "tension": 4,
-        "drama": 10,
-        "finish": 6.9529295553909645
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810126",
       "homeTeam": "Bulls",
       "awayTeam": "Wizards",
       "homeScore": 121,
       "awayScore": 120,
-      "excitement": 8.3,
+      "excitement": 8.5,
       "breakdown": {
         "tension": 6.904987311081541,
         "drama": 10,
@@ -55,7 +62,7 @@
       "awayTeam": "Knicks",
       "homeScore": 133,
       "awayScore": 121,
-      "excitement": 7.9,
+      "excitement": 8,
       "breakdown": {
         "tension": 7.606538119116728,
         "drama": 9.378586463251484,
@@ -71,7 +78,7 @@
       "awayTeam": "Clippers",
       "homeScore": 116,
       "awayScore": 131,
-      "excitement": 6.1,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 3.0337288752735025,
         "drama": 7.0583611922797305,
@@ -87,7 +94,7 @@
       "awayTeam": "Hawks",
       "homeScore": 98,
       "awayScore": 115,
-      "excitement": 5.9,
+      "excitement": 6,
       "breakdown": {
         "tension": 4.027117806540412,
         "drama": 5.417927026854036,
@@ -103,7 +110,7 @@
       "awayTeam": "Pistons",
       "homeScore": 116,
       "awayScore": 129,
-      "excitement": 4.5,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 1.25,
         "drama": 3.7145448247000497,
@@ -120,8 +127,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:49:39.629Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:01:06.961Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-22"
   }

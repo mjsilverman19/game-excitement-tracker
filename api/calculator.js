@@ -3,6 +3,7 @@
 
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
 import { detectDataQualityIssues } from './data-quality.js';
+import { fetchAllProbabilities } from '../shared/espn-api.js';
 
 const SCORING_CONFIG = {
   weights: ALGORITHM_CONFIG.weights,
@@ -30,66 +31,8 @@ const SCORING_CONFIG = {
   bonuses: ALGORITHM_CONFIG.bonuses
 };
 
-/**
- * Fetches all probability data for a game, handling pagination if needed.
- * ESPN API typically returns 400-600 data points for a full game.
- *
- * @param {string} gameId - ESPN game ID
- * @param {string} sport - Sport type (NFL, CFB, NBA)
- * @returns {Promise<Array|null>} Array of probability items or null on error
- */
-export async function fetchAllProbabilities(gameId, sport) {
-  let sportType, league;
-  if (sport === 'NBA') {
-    sportType = 'basketball';
-    league = 'nba';
-  } else {
-    sportType = 'football';
-    league = sport === 'CFB' ? 'college-football' : 'nfl';
-  }
-
-  const baseUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities`;
-
-  // Use limit=1000 to capture all data points (games typically have 400-600)
-  // This prevents the truncation bug that was causing missing game-ending sequences
-  let allItems = [];
-  let page = 1;
-  let hasMore = true;
-
-  while (hasMore) {
-    const url = `${baseUrl}?limit=1000&page=${page}`;
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        if (page === 1) return null; // First page failed
-        break; // Subsequent pages may not exist
-      }
-
-      const data = await response.json();
-
-      if (!data.items || data.items.length === 0) {
-        break;
-      }
-
-      allItems = allItems.concat(data.items);
-
-      // Check if there are more pages
-      // ESPN uses pageCount to indicate total pages
-      const pageCount = data.pageCount || 1;
-      hasMore = page < pageCount;
-      page++;
-
-      // Safety limit to prevent infinite loops
-      if (page > 10) break;
-    } catch (error) {
-      if (page === 1) return null;
-      break;
-    }
-  }
-
-  return allItems.length > 0 ? allItems : null;
-}
+// Re-export for backward compatibility - new code should import from '../shared/espn-api.js'
+export { fetchAllProbabilities };
 
 export async function analyzeGameEntertainment(game, sport = 'NFL') {
   try {

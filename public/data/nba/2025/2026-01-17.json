@@ -9,9 +9,9 @@
       "awayScore": 123,
       "excitement": 9.3,
       "breakdown": {
-        "tension": 4.824928678160659,
+        "tension": 4.725033537204382,
         "drama": 10,
-        "finish": 6.9529295553909645
+        "finish": 6.016672047519545
       },
       "overtime": false,
       "bowlName": null,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-18T10:19:09.648Z",
-    "algorithmVersion": "3.3",
+    "generatedAt": "2026-01-30T03:03:16.927Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-17"
   }

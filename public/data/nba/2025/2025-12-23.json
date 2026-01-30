@@ -7,7 +7,7 @@
       "awayTeam": "Bulls",
       "homeScore": 123,
       "awayScore": 126,
-      "excitement": 8.9,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -15,7 +15,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "medium",
+        "issues": [
+          "One-possession game (3 pts) but only 1 lead change - data may be incomplete"
+        ]
+      }
     },
     {
       "id": "401810270",
@@ -23,7 +30,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 131,
       "awayScore": 130,
-      "excitement": 8.8,
+      "excitement": 9,
       "breakdown": {
         "tension": 5.294503619997993,
         "drama": 10,
@@ -39,7 +46,7 @@
       "awayTeam": "Nets",
       "homeScore": 106,
       "awayScore": 114,
-      "excitement": 7.7,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 3.811078676466498,
         "drama": 9.254710085336198,
@@ -55,7 +62,7 @@
       "awayTeam": "Magic",
       "homeScore": 106,
       "awayScore": 110,
-      "excitement": 7.5,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 4,
         "drama": 7.973145050931143,
@@ -71,7 +78,7 @@
       "awayTeam": "Wizards",
       "homeScore": 126,
       "awayScore": 109,
-      "excitement": 7.4,
+      "excitement": 7.6,
       "breakdown": {
         "tension": 7.656939084113171,
         "drama": 9.149515267013715,
@@ -87,27 +94,11 @@
       "awayTeam": "Knicks",
       "homeScore": 115,
       "awayScore": 104,
-      "excitement": 6.6,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 5.220308636984337,
         "drama": 8.309195458071146,
         "finish": 3.9390470259437027
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810272",
-      "homeTeam": "Spurs",
-      "awayTeam": "Thunder",
-      "homeScore": 130,
-      "awayScore": 110,
-      "excitement": 6,
-      "breakdown": {
-        "tension": 4.247932102282419,
-        "drama": 6.25334430660743,
-        "finish": 4.521648642959761
       },
       "overtime": false,
       "bowlName": null,
@@ -119,11 +110,27 @@
       "awayTeam": "Grizzlies",
       "homeScore": 128,
       "awayScore": 137,
-      "excitement": 6,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 2.010388439969425,
         "drama": 7.3927157793511675,
         "finish": 5.139690478195481
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810272",
+      "homeTeam": "Spurs",
+      "awayTeam": "Thunder",
+      "homeScore": 130,
+      "awayScore": 110,
+      "excitement": 6.2,
+      "breakdown": {
+        "tension": 4.247932102282419,
+        "drama": 6.25334430660743,
+        "finish": 4.521648642959761
       },
       "overtime": false,
       "bowlName": null,
@@ -135,7 +142,7 @@
       "awayTeam": "Bucks",
       "homeScore": 94,
       "awayScore": 111,
-      "excitement": 5.8,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 3.3022592507147133,
         "drama": 6.016579914872125,
@@ -151,7 +158,7 @@
       "awayTeam": "Raptors",
       "homeScore": 91,
       "awayScore": 112,
-      "excitement": 5.8,
+      "excitement": 6,
       "breakdown": {
         "tension": 3.545758571246341,
         "drama": 5.601867251712293,
@@ -167,7 +174,7 @@
       "awayTeam": "Pistons",
       "homeScore": 127,
       "awayScore": 136,
-      "excitement": 4.7,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.509502696178726,
@@ -175,7 +182,15 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 5% instead of near 0% or 100% - data may include post-game noise",
+          "Close game (9-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401810277",
@@ -183,7 +198,7 @@
       "awayTeam": "Rockets",
       "homeScore": 128,
       "awayScore": 108,
-      "excitement": 4.4,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 2.105237305168277,
         "drama": 5.147261666205926,
@@ -199,7 +214,7 @@
       "awayTeam": "Lakers",
       "homeScore": 132,
       "awayScore": 108,
-      "excitement": 3.815245436462467,
+      "excitement": 3.9945726512335797,
       "breakdown": {
         "tension": 2.518277454699511,
         "drama": 4.797216452725544,
@@ -215,7 +230,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 141,
       "awayScore": 118,
-      "excitement": 2.830185009270178,
+      "excitement": 2.9935033300420444,
       "breakdown": {
         "tension": 0.013912151363605796,
         "drama": 2.7268755330338035,
@@ -232,8 +247,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:55.288Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:02:15.996Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-23"
   }

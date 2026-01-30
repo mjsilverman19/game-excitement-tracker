@@ -21,11 +21,11 @@ export function displayResults() {
     const sortedGames = [...filteredGames].sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
     console.log('🎯 sortedGames length:', sortedGames.length);
 
-    // Calculate statistics
+    // Calculate statistics using sport-specific tier thresholds
     const stats = {
-        mustWatch: sortedGames.filter(g => (g.excitement || 0) >= 8).length,
-        recommended: sortedGames.filter(g => (g.excitement || 0) >= 6 && (g.excitement || 0) < 8).length,
-        skip: sortedGames.filter(g => (g.excitement || 0) < 6).length
+        mustWatch: sortedGames.filter(g => window.getTier(g.excitement || 0, window.selectedSport)?.cssClass === 'must-watch').length,
+        recommended: sortedGames.filter(g => window.getTier(g.excitement || 0, window.selectedSport)?.cssClass === 'recommended').length,
+        skip: sortedGames.filter(g => window.getTier(g.excitement || 0, window.selectedSport)?.cssClass === 'skip').length
     };
 
     // Build HTML
@@ -101,18 +101,9 @@ export function calculatePeriodAverages(games) {
 export function createGameRow(game, index) {
     console.log(`🎮 createGameRow called for game ${index}: ${game.homeTeam} v ${game.awayTeam}`);
     const score = game.excitement || 0;
-    let ratingClass, ratingText;
-
-    if (score >= 8) {
-        ratingClass = 'must-watch';
-        ratingText = 'must watch';
-    } else if (score >= 6) {
-        ratingClass = 'recommended';
-        ratingText = 'recommended';
-    } else {
-        ratingClass = 'skip';
-        ratingText = 'skip';
-    }
+    const tier = window.getTier(score, window.selectedSport);
+    const ratingClass = tier.cssClass;
+    const ratingText = tier.label;
 
     const shouldShowGameScore = !window.spoilerFree;
 

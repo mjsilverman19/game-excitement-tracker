@@ -7,7 +7,7 @@
       "awayTeam": "Jets",
       "homeScore": 38,
       "awayScore": 39,
-      "excitement": 9,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 4,
         "drama": 8.925027419676182,
@@ -39,7 +39,7 @@
       "awayTeam": "Bears",
       "homeScore": 30,
       "awayScore": 16,
-      "excitement": 5.1,
+      "excitement": 5,
       "breakdown": {
         "tension": 5.859496985711827,
         "drama": 5.083369844365505,
@@ -103,7 +103,7 @@
       "awayTeam": "Bills",
       "homeScore": 9,
       "awayScore": 40,
-      "excitement": 4.181939963495917,
+      "excitement": 4.205178448598188,
       "breakdown": {
         "tension": 2.0837033173187534,
         "drama": 2.3400419799753274,
@@ -130,32 +130,32 @@
       "playoffRound": null
     },
     {
-      "id": "401772762",
-      "homeTeam": "Broncos",
-      "awayTeam": "Cowboys",
-      "homeScore": 44,
-      "awayScore": 24,
-      "excitement": 3.6,
+      "id": "401772867",
+      "homeTeam": "Eagles",
+      "awayTeam": "Giants",
+      "homeScore": 38,
+      "awayScore": 20,
+      "excitement": 3.7,
       "breakdown": {
-        "tension": 2.2428784011493894,
-        "drama": 3.403987618088321,
-        "finish": 2.4737432166852136
+        "tension": 1.2040956570861294,
+        "drama": 3.1706515141177127,
+        "finish": 3.3117856234611525
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401772867",
-      "homeTeam": "Eagles",
-      "awayTeam": "Giants",
-      "homeScore": 38,
-      "awayScore": 20,
-      "excitement": 3.5,
+      "id": "401772762",
+      "homeTeam": "Broncos",
+      "awayTeam": "Cowboys",
+      "homeScore": 44,
+      "awayScore": 24,
+      "excitement": 3.7,
       "breakdown": {
-        "tension": 1.2040956570861294,
-        "drama": 3.1706515141177127,
-        "finish": 3.3117856234611525
+        "tension": 2.2428784011493894,
+        "drama": 3.403987618088321,
+        "finish": 2.4737432166852136
       },
       "overtime": false,
       "bowlName": null,
@@ -167,7 +167,7 @@
       "awayTeam": "49ers",
       "homeScore": 26,
       "awayScore": 15,
-      "excitement": 3.4,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 1.7056939213945366,
         "drama": 3.0737161879726616,
@@ -183,7 +183,7 @@
       "awayTeam": "Vikings",
       "homeScore": 37,
       "awayScore": 10,
-      "excitement": 3,
+      "excitement": 3.1,
       "breakdown": {
         "tension": 1.0098370927123297,
         "drama": 2.0525452240518667,
@@ -216,8 +216,8 @@
     "count": 13,
     "totalGames": 13,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:44:57.398Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:26.483Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 8
   }

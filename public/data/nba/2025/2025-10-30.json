@@ -7,7 +7,7 @@
       "awayTeam": "Warriors",
       "homeScore": 120,
       "awayScore": 110,
-      "excitement": 8.2,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 8.112771652526627,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Heat",
       "homeScore": 107,
       "awayScore": 101,
-      "excitement": 8.1,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 6.626831680464048,
         "drama": 9.034986596842478,
@@ -39,7 +39,7 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 123,
-      "excitement": 5.2,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 1.5,
         "drama": 5.604223034093691,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 4,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:40.031Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:45.414Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-30"
   }

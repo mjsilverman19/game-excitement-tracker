@@ -2,28 +2,12 @@
   "success": true,
   "games": [
     {
-      "id": "401809980",
-      "homeTeam": "Bucks",
-      "awayTeam": "Knicks",
-      "homeScore": 121,
-      "awayScore": 111,
-      "excitement": 9.4,
-      "breakdown": {
-        "tension": 7.350987463620941,
-        "drama": 10,
-        "finish": 10
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401809978",
       "homeTeam": "Wizards",
       "awayTeam": "76ers",
       "homeScore": 134,
       "awayScore": 139,
-      "excitement": 9.1,
+      "excitement": 9.3,
       "breakdown": {
         "tension": 4.35616493656245,
         "drama": 10,
@@ -34,14 +18,30 @@
       "playoffRound": null
     },
     {
+      "id": "401809980",
+      "homeTeam": "Bucks",
+      "awayTeam": "Knicks",
+      "homeScore": 121,
+      "awayScore": 111,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 7.298637306811544,
+        "drama": 10,
+        "finish": 5.506513873791578
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401809981",
       "homeTeam": "Thunder",
       "awayTeam": "Kings",
       "homeScore": 107,
       "awayScore": 101,
-      "excitement": 8.9,
+      "excitement": 8.7,
       "breakdown": {
-        "tension": 7.395856862460253,
+        "tension": 7.410859828613954,
         "drama": 10,
         "finish": 5.79027036844999
       },
@@ -55,7 +55,7 @@
       "awayTeam": "Clippers",
       "homeScore": 98,
       "awayScore": 79,
-      "excitement": 4.4,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 2.47320868170213,
         "drama": 4.648067979170745,
@@ -71,7 +71,7 @@
       "awayTeam": "Hornets",
       "homeScore": 144,
       "awayScore": 117,
-      "excitement": 4.233094722423214,
+      "excitement": 4.491999753870314,
       "breakdown": {
         "tension": 1.9983847239857755,
         "drama": 4.671618084983568,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:35.725Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:40.401Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-28"
   }

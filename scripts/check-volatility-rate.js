@@ -7,6 +7,7 @@
  */
 
 import { fetchGames } from '../api/fetcher.js';
+import { fetchAllProbabilities } from '../shared/espn-api.js';
 
 let totalGames = 0;
 let massiveCount = 0;
@@ -16,13 +17,9 @@ let extremeRecCount = 0;
 for (let week = 1; week <= 10; week++) {
   const games = await fetchGames('NFL', 2025, week, '2');
   for (const game of games) {
-    const probUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/probabilities?limit=1000`;
     try {
-      const resp = await fetch(probUrl);
-      if (!resp.ok) continue;
-      const data = await resp.json();
-      const items = data.items || [];
-      if (items.length < 10) continue;
+      const items = await fetchAllProbabilities(game.id, 'NFL');
+      if (!items || items.length < 10) continue;
       
       totalGames++;
       let largeSwings = 0;

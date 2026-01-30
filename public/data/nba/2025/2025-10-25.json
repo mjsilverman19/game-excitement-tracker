@@ -7,7 +7,7 @@
       "awayTeam": "Hornets",
       "homeScore": 125,
       "awayScore": 121,
-      "excitement": 8.6,
+      "excitement": 9,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Bulls",
       "homeScore": 98,
       "awayScore": 110,
-      "excitement": 8.5,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 6.95423622916843,
         "drama": 9.831205556360633,
@@ -39,7 +39,7 @@
       "awayTeam": "Thunder",
       "homeScore": 100,
       "awayScore": 117,
-      "excitement": 4.9,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 1.5006484022260325,
         "drama": 5.116658481563518,
@@ -55,7 +55,7 @@
       "awayTeam": "Pacers",
       "homeScore": 128,
       "awayScore": 103,
-      "excitement": 3.8551058489473657,
+      "excitement": 4.014654266222243,
       "breakdown": {
         "tension": 2.2049596251478305,
         "drama": 4.22205084036955,
@@ -71,7 +71,7 @@
       "awayTeam": "Suns",
       "homeScore": 133,
       "awayScore": 111,
-      "excitement": 2.8,
+      "excitement": 3,
       "breakdown": {
         "tension": 0,
         "drama": 1.9884705894716252,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:26.876Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:32.000Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-25"
   }

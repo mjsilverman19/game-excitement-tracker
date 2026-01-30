@@ -23,7 +23,7 @@
       "awayTeam": "Penn State",
       "homeScore": 42,
       "awayScore": 37,
-      "excitement": 6.3,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 2.5,
         "drama": 7.517161851375152,
@@ -50,6 +50,22 @@
       "playoffRound": null
     },
     {
+      "id": "401752727",
+      "homeTeam": "Florida",
+      "awayTeam": "Texas",
+      "homeScore": 29,
+      "awayScore": 21,
+      "excitement": 4.7,
+      "breakdown": {
+        "tension": 3.7120649796679253,
+        "drama": 4.966925683066761,
+        "finish": 2.3863490635138755
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401754553",
       "homeTeam": "Florida St",
       "awayTeam": "Miami",
@@ -63,23 +79,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752727",
-      "homeTeam": "Florida",
-      "awayTeam": "Texas",
-      "homeScore": 29,
-      "awayScore": 21,
-      "excitement": 4.6,
-      "breakdown": {
-        "tension": 3.7120649796679253,
-        "drama": 4.966925683066761,
-        "finish": 2.3863490635138755
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401752861",
@@ -87,7 +94,7 @@
       "awayTeam": "Illinois",
       "homeScore": 27,
       "awayScore": 43,
-      "excitement": 4.5,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 2.0470941957111686,
         "drama": 3.4249277265818123,
@@ -103,7 +110,7 @@
       "awayTeam": "Iowa State",
       "homeScore": 38,
       "awayScore": 30,
-      "excitement": 4.2,
+      "excitement": 4.4,
       "breakdown": {
         "tension": 1.5,
         "drama": 3.9902310571387654,
@@ -119,7 +126,7 @@
       "awayTeam": "Mississippi St",
       "homeScore": 31,
       "awayScore": 9,
-      "excitement": 3.4,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 1.7669070458290008,
         "drama": 2.4987890762465312,
@@ -135,7 +142,7 @@
       "awayTeam": "Texas Tech",
       "homeScore": 11,
       "awayScore": 35,
-      "excitement": 3.4,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 0.09011710217721847,
         "drama": 1.2907300338818373,
@@ -151,7 +158,7 @@
       "awayTeam": "Wisconsin",
       "homeScore": 24,
       "awayScore": 10,
-      "excitement": 3.2,
+      "excitement": 3.4,
       "breakdown": {
         "tension": 0,
         "drama": 2.762664773205142,
@@ -167,7 +174,7 @@
       "awayTeam": "Boise St",
       "homeScore": 28,
       "awayScore": 7,
-      "excitement": 2.7,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 0,
         "drama": 1.3623255954781048,
@@ -215,7 +222,7 @@
       "awayTeam": "Minnesota",
       "homeScore": 42,
       "awayScore": 3,
-      "excitement": 2.3627872992783563,
+      "excitement": 2.37526141280125,
       "breakdown": {
         "tension": 0,
         "drama": 0.2686603217552133,
@@ -223,7 +230,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "low",
+        "issues": [
+          "Only 146 data points (expected 150+) - score may not capture all moments"
+        ]
+      }
     },
     {
       "id": "401752729",
@@ -231,7 +245,7 @@
       "awayTeam": "Kent State",
       "homeScore": 44,
       "awayScore": 0,
-      "excitement": 2.3237710892290364,
+      "excitement": 2.325009291114707,
       "breakdown": {
         "tension": 0,
         "drama": 0.02740596897925646,
@@ -248,8 +262,8 @@
     "count": 15,
     "totalGames": 15,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:46:30.653Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:27.311Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 6
   }

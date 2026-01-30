@@ -7,6 +7,7 @@
  */
 
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
+import { fetchAllProbabilities } from '../shared/espn-api.js';
 
 const gameId = process.argv[2];
 const sport = process.argv[3] || 'NFL';
@@ -16,23 +17,10 @@ if (!gameId) {
   process.exit(1);
 }
 
-let sportType, league;
-if (sport === 'NBA') {
-  sportType = 'basketball';
-  league = 'nba';
-} else {
-  sportType = 'football';
-  league = sport === 'CFB' ? 'college-football' : 'nfl';
-}
-
-const probUrl = `https://sports.core.api.espn.com/v2/sports/${sportType}/leagues/${league}/events/${gameId}/competitions/${gameId}/probabilities?limit=1000`;
-
 async function main() {
-  const response = await fetch(probUrl);
-  const data = await response.json();
-  const items = data.items || [];
-  
-  if (items.length < 10) {
+  const items = await fetchAllProbabilities(gameId, sport);
+
+  if (!items || items.length < 10) {
     console.error('Not enough data points');
     process.exit(1);
   }

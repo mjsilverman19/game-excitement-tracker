@@ -7,9 +7,9 @@
       "awayTeam": "Grizzlies",
       "homeScore": 113,
       "awayScore": 114,
-      "excitement": 9.2,
+      "excitement": 9.3,
       "breakdown": {
-        "tension": 8.8058354749394,
+        "tension": 8.798209033859926,
         "drama": 10,
         "finish": 9.806204720054755
       },
@@ -23,7 +23,7 @@
       "awayTeam": "Lakers",
       "homeScore": 115,
       "awayScore": 116,
-      "excitement": 8.9,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 4,
         "drama": 9.442739229459118,
@@ -39,7 +39,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 134,
       "awayScore": 136,
-      "excitement": 8.3,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 4.729730350714468,
         "drama": 9.28152533033355,
@@ -55,7 +55,7 @@
       "awayTeam": "Pacers",
       "homeScore": 107,
       "awayScore": 105,
-      "excitement": 8.2,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 6.665672567093608,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Hawks",
       "homeScore": 112,
       "awayScore": 117,
-      "excitement": 7.1,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 4,
         "drama": 7.10932288658288,
@@ -87,7 +87,7 @@
       "awayTeam": "Rockets",
       "homeScore": 121,
       "awayScore": 139,
-      "excitement": 5.8,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 2.434085575914593,
         "drama": 6.604569926437182,
@@ -103,7 +103,7 @@
       "awayTeam": "Magic",
       "homeScore": 135,
       "awayScore": 116,
-      "excitement": 5.7,
+      "excitement": 5.9,
       "breakdown": {
         "tension": 3.421967440101267,
         "drama": 6.3095816815679395,
@@ -119,7 +119,7 @@
       "awayTeam": "Kings",
       "homeScore": 126,
       "awayScore": 113,
-      "excitement": 5.5,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 3.5663482246899667,
         "drama": 7.461597804912769,
@@ -135,7 +135,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 125,
       "awayScore": 105,
-      "excitement": 4.5,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 2.8155420502633506,
         "drama": 5.4110669296142335,
@@ -151,11 +151,11 @@
       "awayTeam": "Pelicans",
       "homeScore": 122,
       "awayScore": 88,
-      "excitement": 2.5834567970194176,
+      "excitement": 2.6621657187589918,
       "breakdown": {
         "tension": 0,
-        "drama": 1.548897129501837,
-        "finish": 1.7075116589755703
+        "drama": 1.5364352534150312,
+        "finish": 1.7037093875395746
       },
       "overtime": false,
       "bowlName": null,
@@ -168,8 +168,8 @@
     "count": 10,
     "totalGames": 10,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:38.887Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:43.909Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-29"
   }

@@ -18,16 +18,32 @@
       "playoffRound": null
     },
     {
+      "id": "401836753",
+      "homeTeam": "Wizards",
+      "awayTeam": "Cavaliers",
+      "homeScore": 126,
+      "awayScore": 130,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401836754",
       "homeTeam": "Grizzlies",
       "awayTeam": "Jazz",
       "homeScore": 126,
       "awayScore": 130,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
-        "tension": 4.098915304769051,
+        "tension": 4.106942781729085,
         "drama": 10,
-        "finish": 7.8555274967937825
+        "finish": 6.64632261560739
       },
       "overtime": false,
       "bowlName": null,
@@ -50,28 +66,12 @@
       "playoffRound": null
     },
     {
-      "id": "401836753",
-      "homeTeam": "Wizards",
-      "awayTeam": "Cavaliers",
-      "homeScore": 126,
-      "awayScore": 130,
-      "excitement": 8.7,
-      "breakdown": {
-        "tension": 4,
-        "drama": 10,
-        "finish": 6.9529295553909645
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401836795",
       "homeTeam": "Mavericks",
       "awayTeam": "Nets",
       "homeScore": 119,
       "awayScore": 111,
-      "excitement": 8,
+      "excitement": 8.1,
       "breakdown": {
         "tension": 7.7266881643214145,
         "drama": 9.797971616022362,
@@ -87,7 +87,7 @@
       "awayTeam": "Pacers",
       "homeScore": 115,
       "awayScore": 105,
-      "excitement": 7.7,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 5.990600961169883,
         "drama": 10,
@@ -103,7 +103,7 @@
       "awayTeam": "Hawks",
       "homeScore": 142,
       "awayScore": 115,
-      "excitement": 3.3394401635139657,
+      "excitement": 3.485012293713267,
       "breakdown": {
         "tension": 1.6377076692904589,
         "drama": 3.6993119013757894,
@@ -111,7 +111,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 92% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
     }
   ],
   "metadata": {
@@ -120,8 +127,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:30.608Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:01:50.216Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-12"
   }

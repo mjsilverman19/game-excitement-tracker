@@ -2,29 +2,6 @@
   "success": true,
   "games": [
     {
-      "id": "401809250",
-      "homeTeam": "Pistons",
-      "awayTeam": "Celtics",
-      "homeScore": 104,
-      "awayScore": 103,
-      "excitement": 9.3,
-      "breakdown": {
-        "tension": 8.945894156347544,
-        "drama": 10,
-        "finish": 9.598829242468033
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Final win probability is 60% instead of near 0% or 100% - data may include post-game noise"
-        ]
-      }
-    },
-    {
       "id": "401810463",
       "homeTeam": "Wizards",
       "awayTeam": "Clippers",
@@ -35,6 +12,22 @@
         "tension": 7.086693268775179,
         "drama": 10,
         "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401809250",
+      "homeTeam": "Pistons",
+      "awayTeam": "Celtics",
+      "homeScore": 104,
+      "awayScore": 103,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 8.936022809993938,
+        "drama": 10,
+        "finish": 6.6712487891130765
       },
       "overtime": false,
       "bowlName": null,
@@ -166,8 +159,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-20T10:19:24.139Z",
-    "algorithmVersion": "3.3",
+    "generatedAt": "2026-01-30T03:03:21.710Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-19"
   }

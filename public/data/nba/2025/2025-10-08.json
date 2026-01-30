@@ -7,7 +7,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 129,
       "awayScore": 123,
-      "excitement": 8.9,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -23,9 +23,9 @@
       "awayTeam": "Spurs",
       "homeScore": 107,
       "awayScore": 112,
-      "excitement": 8.8,
+      "excitement": 8.9,
       "breakdown": {
-        "tension": 7.464509938695887,
+        "tension": 7.448825978565948,
         "drama": 10,
         "finish": 6.9529295553909645
       },
@@ -39,7 +39,7 @@
       "awayTeam": "Jazz",
       "homeScore": 140,
       "awayScore": 127,
-      "excitement": 6.8,
+      "excitement": 7.1,
       "breakdown": {
         "tension": 4.946731660469435,
         "drama": 8.75701104420193,
@@ -55,7 +55,7 @@
       "awayTeam": "Raptors",
       "homeScore": 122,
       "awayScore": 130,
-      "excitement": 6.4,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 2.517683244985638,
         "drama": 6.586354389387983,
@@ -71,7 +71,7 @@
       "awayTeam": "Celtics",
       "homeScore": 103,
       "awayScore": 121,
-      "excitement": 5.5,
+      "excitement": 5.9,
       "breakdown": {
         "tension": 1.5,
         "drama": 5.057954769418036,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:00.039Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:00.774Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-08"
   }

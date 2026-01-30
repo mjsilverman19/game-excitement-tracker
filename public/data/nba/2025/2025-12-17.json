@@ -7,7 +7,7 @@
       "awayTeam": "Grizzlies",
       "homeScore": 110,
       "awayScore": 116,
-      "excitement": 8.8,
+      "excitement": 9,
       "breakdown": {
         "tension": 5.159056863659685,
         "drama": 10,
@@ -15,7 +15,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401810222",
@@ -23,7 +30,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 127,
       "awayScore": 111,
-      "excitement": 6.5,
+      "excitement": 7,
       "breakdown": {
         "tension": 3.5695805985559135,
         "drama": 8.366425529911263,
@@ -40,8 +47,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:36.928Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:01:56.337Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-17"
   }

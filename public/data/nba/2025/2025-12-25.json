@@ -7,7 +7,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 126,
       "awayScore": 124,
-      "excitement": 9.1,
+      "excitement": 9.3,
       "breakdown": {
         "tension": 5.714130997286949,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 142,
       "awayScore": 138,
-      "excitement": 9.1,
+      "excitement": 9.3,
       "breakdown": {
         "tension": 4.933456822593856,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Spurs",
       "homeScore": 102,
       "awayScore": 117,
-      "excitement": 6.9,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 3.0817647421679686,
         "drama": 8.1350842682161,
@@ -55,7 +55,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 126,
       "awayScore": 116,
-      "excitement": 4.2,
+      "excitement": 4.5,
       "breakdown": {
         "tension": 1.25,
         "drama": 5.109661931324602,
@@ -63,7 +63,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (10-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401809241",
@@ -71,7 +78,7 @@
       "awayTeam": "Rockets",
       "homeScore": 96,
       "awayScore": 119,
-      "excitement": 4.103884713871192,
+      "excitement": 4.331267685914265,
       "breakdown": {
         "tension": 0.7690495173141696,
         "drama": 3.26965521102561,
@@ -88,8 +95,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:57.072Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:02:17.680Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-25"
   }

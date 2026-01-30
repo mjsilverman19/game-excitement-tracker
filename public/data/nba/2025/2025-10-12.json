@@ -7,7 +7,7 @@
       "awayTeam": "Raptors",
       "homeScore": 112,
       "awayScore": 113,
-      "excitement": 9.4,
+      "excitement": 9.5,
       "breakdown": {
         "tension": 6.039978065610643,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Nets",
       "homeScore": 109,
       "awayScore": 111,
-      "excitement": 9,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 5.290750720752775,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Bucks",
       "homeScore": 121,
       "awayScore": 127,
-      "excitement": 8.4,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 5.7441969195118165,
         "drama": 9.431470601831709,
@@ -71,7 +71,7 @@
       "awayTeam": "Heat",
       "homeScore": 120,
       "awayScore": 104,
-      "excitement": 5.5,
+      "excitement": 5.7,
       "breakdown": {
         "tension": 4.617858731132745,
         "drama": 6.884796742391019,
@@ -87,7 +87,7 @@
       "awayTeam": "Warriors",
       "homeScore": 126,
       "awayScore": 116,
-      "excitement": 5.3,
+      "excitement": 5.7,
       "breakdown": {
         "tension": 2.5,
         "drama": 6.586649719405973,
@@ -103,7 +103,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 138,
       "awayScore": 107,
-      "excitement": 2.925726580088328,
+      "excitement": 3.0440493993438835,
       "breakdown": {
         "tension": 0.7406096513347018,
         "drama": 2.653028299919267,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:06.923Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:08.163Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-12"
   }

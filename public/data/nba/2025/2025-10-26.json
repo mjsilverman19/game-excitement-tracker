@@ -23,7 +23,7 @@
       "awayTeam": "Celtics",
       "homeScore": 119,
       "awayScore": 113,
-      "excitement": 7.7,
+      "excitement": 8,
       "breakdown": {
         "tension": 4.628405081601946,
         "drama": 9.576608480515494,
@@ -39,7 +39,7 @@
       "awayTeam": "Knicks",
       "homeScore": 115,
       "awayScore": 107,
-      "excitement": 7.6,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 8.000979661477778,
         "drama": 9.357962563771364,
@@ -55,7 +55,7 @@
       "awayTeam": "Pacers",
       "homeScore": 114,
       "awayScore": 110,
-      "excitement": 7,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 4.08736596718617,
         "drama": 8.77798872018977,
@@ -63,19 +63,26 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 91% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
     },
     {
-      "id": "401809966",
-      "homeTeam": "Mavericks",
-      "awayTeam": "Raptors",
-      "homeScore": 139,
-      "awayScore": 129,
-      "excitement": 6.8,
+      "id": "401809967",
+      "homeTeam": "Clippers",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 114,
+      "awayScore": 107,
+      "excitement": 7.2,
       "breakdown": {
-        "tension": 6.782236846934177,
-        "drama": 9.161213339035845,
-        "finish": 2.2662596328729454
+        "tension": 3.959541950686889,
+        "drama": 9.224754847048652,
+        "finish": 4.985766402238258
       },
       "overtime": false,
       "bowlName": null,
@@ -87,7 +94,7 @@
       "awayTeam": "Bucks",
       "homeScore": 118,
       "awayScore": 113,
-      "excitement": 6.7,
+      "excitement": 7,
       "breakdown": {
         "tension": 4,
         "drama": 7.4668820372618425,
@@ -95,19 +102,42 @@
       },
       "overtime": false,
       "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401809966",
+      "homeTeam": "Mavericks",
+      "awayTeam": "Raptors",
+      "homeScore": 139,
+      "awayScore": 129,
+      "excitement": 7,
+      "breakdown": {
+        "tension": 6.782236846934177,
+        "drama": 9.161213339035845,
+        "finish": 2.2662596328729454
+      },
+      "overtime": false,
+      "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401809967",
-      "homeTeam": "Clippers",
-      "awayTeam": "Trail Blazers",
-      "homeScore": 114,
+      "id": "401809960",
+      "homeTeam": "Spurs",
+      "awayTeam": "Nets",
+      "homeScore": 118,
       "awayScore": 107,
-      "excitement": 6.7,
+      "excitement": 6.6,
       "breakdown": {
-        "tension": 3.959541950686889,
-        "drama": 9.224754847048652,
-        "finish": 4.985766402238258
+        "tension": 2.5,
+        "drama": 7.767247499348239,
+        "finish": 6.177675782442687
       },
       "overtime": false,
       "bowlName": null,
@@ -128,22 +158,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401809960",
-      "homeTeam": "Spurs",
-      "awayTeam": "Nets",
-      "homeScore": 118,
-      "awayScore": 107,
-      "excitement": 6.1,
-      "breakdown": {
-        "tension": 2.5,
-        "drama": 7.767247499348239,
-        "finish": 6.177675782442687
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
     }
   ],
   "metadata": {
@@ -152,8 +166,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:30.010Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:35.662Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-26"
   }

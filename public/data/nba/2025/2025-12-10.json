@@ -7,7 +7,7 @@
       "awayTeam": "Spurs",
       "homeScore": 119,
       "awayScore": 132,
-      "excitement": 5.6,
+      "excitement": 6,
       "breakdown": {
         "tension": 2.159245433023065,
         "drama": 5.741007216411227,
@@ -23,7 +23,7 @@
       "awayTeam": "Suns",
       "homeScore": 138,
       "awayScore": 89,
-      "excitement": 2.36891181867385,
+      "excitement": 2.3833219523184046,
       "breakdown": {
         "tension": 0,
         "drama": 0.30904545082923857,
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:26.080Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:01:45.712Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-10"
   }

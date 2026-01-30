@@ -7,7 +7,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 116,
       "awayScore": 130,
-      "excitement": 8.6,
+      "excitement": 8.9,
       "breakdown": {
         "tension": 4.540538377549761,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Warriors",
       "homeScore": 120,
       "awayScore": 125,
-      "excitement": 8.5,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 117,
       "awayScore": 125,
-      "excitement": 7.6,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 5.562452013798471,
         "drama": 8.280301206085264,
@@ -55,7 +55,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 116,
       "awayScore": 130,
-      "excitement": 7.3,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 5.106552837695948,
         "drama": 8.07470589390035,
@@ -71,7 +71,7 @@
       "awayTeam": "Suns",
       "homeScore": 114,
       "awayScore": 123,
-      "excitement": 6.7,
+      "excitement": 7,
       "breakdown": {
         "tension": 4.120983697303626,
         "drama": 7.054566829605655,
@@ -87,7 +87,7 @@
       "awayTeam": "Magic",
       "homeScore": 107,
       "awayScore": 124,
-      "excitement": 6.4,
+      "excitement": 6.7,
       "breakdown": {
         "tension": 3.6543591802276456,
         "drama": 6.676891449297147,
@@ -103,7 +103,7 @@
       "awayTeam": "Bulls",
       "homeScore": 124,
       "awayScore": 113,
-      "excitement": 5.3,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 2.5,
         "drama": 5.836350079026753,
@@ -119,7 +119,7 @@
       "awayTeam": "Bucks",
       "homeScore": 111,
       "awayScore": 100,
-      "excitement": 4.7,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 2.3414262448796794,
         "drama": 6.806823678216081,
@@ -135,7 +135,7 @@
       "awayTeam": "Hawks",
       "homeScore": 100,
       "awayScore": 133,
-      "excitement": 4.05843003150631,
+      "excitement": 4.349818356271809,
       "breakdown": {
         "tension": 0.1814671061827413,
         "drama": 3.2529912060325903,
@@ -151,7 +151,7 @@
       "awayTeam": "Grizzlies",
       "homeScore": 131,
       "awayScore": 95,
-      "excitement": 2.6644047837032017,
+      "excitement": 2.7749259365585335,
       "breakdown": {
         "tension": 0,
         "drama": 1.986804867461857,
@@ -167,7 +167,7 @@
       "awayTeam": "Lakers",
       "homeScore": 121,
       "awayScore": 92,
-      "excitement": 2.5412912535002823,
+      "excitement": 2.604104498410826,
       "breakdown": {
         "tension": 0.05870611095248157,
         "drama": 1.2687620891845943,
@@ -183,7 +183,7 @@
       "awayTeam": "Wizards",
       "homeScore": 135,
       "awayScore": 112,
-      "excitement": 2.4697370780012458,
+      "excitement": 2.4968876305201606,
       "breakdown": {
         "tension": 0,
         "drama": 0.5479138490136799,
@@ -200,8 +200,8 @@
     "count": 12,
     "totalGames": 12,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:49:14.249Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:40.555Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-12"
   }

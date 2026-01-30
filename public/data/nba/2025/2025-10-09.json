@@ -7,7 +7,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 100,
       "awayScore": 95,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
         "tension": 6.757340439427127,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Pistons",
       "homeScore": 117,
       "awayScore": 111,
-      "excitement": 8.6,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 7.80341928295842,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 119,
       "awayScore": 112,
-      "excitement": 8.2,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 8.200710674839634,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Hornets",
       "homeScore": 122,
       "awayScore": 116,
-      "excitement": 6.7,
+      "excitement": 7,
       "breakdown": {
         "tension": 4,
         "drama": 7.520120874240487,
@@ -72,8 +72,8 @@
     "count": 4,
     "totalGames": 5,
     "insufficientData": 1,
-    "generatedAt": "2026-01-10T17:48:01.932Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:02.477Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-09"
   }

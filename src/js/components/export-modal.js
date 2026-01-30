@@ -600,10 +600,8 @@ export async function exportFullSeason() {
         // Prepare data for Excel
         const excelData = allGames.map((game, index) => {
             const rating = game.excitement || 0;
-            let tier;
-            if (rating >= 8) tier = 'Must Watch';
-            else if (rating >= 6) tier = 'Recommended';
-            else tier = 'Skip';
+            const tierObj = window.getTier(rating, sport);
+            const tier = tierObj.label.replace(/\b\w/g, c => c.toUpperCase());
 
             // Format week - handle bowls, playoffs, and dates
             let weekDisplay;

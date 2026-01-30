@@ -7,11 +7,11 @@
       "awayTeam": "Bulls",
       "homeScore": 125,
       "awayScore": 136,
-      "excitement": 9,
+      "excitement": 9.1,
       "breakdown": {
-        "tension": 5.930087910285283,
+        "tension": 5.94227070070626,
         "drama": 10,
-        "finish": 7.940877900895971
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
@@ -23,7 +23,7 @@
       "awayTeam": "76ers",
       "homeScore": 107,
       "awayScore": 116,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
         "tension": 8.581968133916465,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Thunder",
       "homeScore": 112,
       "awayScore": 107,
-      "excitement": 8.6,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 6.051639578361478,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Heat",
       "homeScore": 129,
       "awayScore": 116,
-      "excitement": 7.9,
+      "excitement": 8.1,
       "breakdown": {
         "tension": 7.508355587504603,
         "drama": 9.569866784785177,
@@ -71,7 +71,7 @@
       "awayTeam": "Spurs",
       "homeScore": 98,
       "awayScore": 126,
-      "excitement": 4.019780554984353,
+      "excitement": 4.188876649685978,
       "breakdown": {
         "tension": 0.9535281561182518,
         "drama": 2.8437078466952364,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:42.876Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:02:03.453Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-19"
   }

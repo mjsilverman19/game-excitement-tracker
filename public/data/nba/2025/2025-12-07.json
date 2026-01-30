@@ -7,7 +7,7 @@
       "awayTeam": "Lakers",
       "homeScore": 108,
       "awayScore": 112,
-      "excitement": 8.8,
+      "excitement": 8.9,
       "breakdown": {
         "tension": 7.592042144112091,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Magic",
       "homeScore": 106,
       "awayScore": 100,
-      "excitement": 7.1,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 5.793836524602607,
         "drama": 8.177345270429202,
@@ -39,7 +39,7 @@
       "awayTeam": "Celtics",
       "homeScore": 113,
       "awayScore": 121,
-      "excitement": 6.5,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 2.5,
         "drama": 6.6624587925986365,
@@ -55,7 +55,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 106,
       "awayScore": 115,
-      "excitement": 5.7,
+      "excitement": 6.1,
       "breakdown": {
         "tension": 2.179968110526537,
         "drama": 6.399813642635297,
@@ -71,7 +71,7 @@
       "awayTeam": "Warriors",
       "homeScore": 91,
       "awayScore": 123,
-      "excitement": 3.9077110495026077,
+      "excitement": 4.1628960342049055,
       "breakdown": {
         "tension": 0.16411274017997757,
         "drama": 3.0484529936542986,
@@ -87,7 +87,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 119,
       "awayScore": 96,
-      "excitement": 3.2097070057966075,
+      "excitement": 3.3934273701727444,
       "breakdown": {
         "tension": 0.3270164374872393,
         "drama": 3.009404926897793,
@@ -103,7 +103,7 @@
       "awayTeam": "Thunder",
       "homeScore": 101,
       "awayScore": 131,
-      "excitement": 3.172991844655716,
+      "excitement": 3.2160984439394893,
       "breakdown": {
         "tension": 0.03974606789503565,
         "drama": 0.6301412870617775,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:50:23.148Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:01:42.991Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-07"
   }

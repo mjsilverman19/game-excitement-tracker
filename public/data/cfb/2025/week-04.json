@@ -23,7 +23,7 @@
       "awayTeam": "Auburn",
       "homeScore": 24,
       "awayScore": 17,
-      "excitement": 6.6,
+      "excitement": 6.5,
       "breakdown": {
         "tension": 6.820574115475999,
         "drama": 6.078646620809602,
@@ -39,7 +39,7 @@
       "awayTeam": "South Carolina",
       "homeScore": 29,
       "awayScore": 20,
-      "excitement": 6.1,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 4.721562775031305,
         "drama": 6.081237695478114,
@@ -71,7 +71,7 @@
       "awayTeam": "Florida",
       "homeScore": 26,
       "awayScore": 7,
-      "excitement": 3.3,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 0,
         "drama": 2.5371678956903594,
@@ -87,7 +87,7 @@
       "awayTeam": "Illinois",
       "homeScore": 63,
       "awayScore": 10,
-      "excitement": 2.7691917602801803,
+      "excitement": 2.8009102416649885,
       "breakdown": {
         "tension": 1.0227097618829646,
         "drama": 1.5768507939575247,
@@ -103,7 +103,7 @@
       "awayTeam": "Michigan St",
       "homeScore": 45,
       "awayScore": 31,
-      "excitement": 2.7,
+      "excitement": 2.8,
       "breakdown": {
         "tension": 0,
         "drama": 0.7477738764453187,
@@ -151,7 +151,7 @@
       "awayTeam": "Tulane",
       "homeScore": 45,
       "awayScore": 10,
-      "excitement": 2.3716920704982813,
+      "excitement": 2.3867999543025014,
       "breakdown": {
         "tension": 0,
         "drama": 0.32340756448775687,
@@ -167,7 +167,7 @@
       "awayTeam": "Oregon St",
       "homeScore": 41,
       "awayScore": 7,
-      "excitement": 2.334927970573304,
+      "excitement": 2.339376490310472,
       "breakdown": {
         "tension": 0,
         "drama": 0.09768487649116704,
@@ -183,7 +183,7 @@
       "awayTeam": "Georgia St",
       "homeScore": 70,
       "awayScore": 21,
-      "excitement": 2.3299121728576075,
+      "excitement": 2.332913442437751,
       "breakdown": {
         "tension": 0,
         "drama": 0.0661392996348463,
@@ -199,7 +199,7 @@
       "awayTeam": "SE Louisiana",
       "homeScore": 56,
       "awayScore": 10,
-      "excitement": 2.3253096380623575,
+      "excitement": 2.326987291145488,
       "breakdown": {
         "tension": 0,
         "drama": 0.03709190916288671,
@@ -215,7 +215,7 @@
       "awayTeam": "Sam Houston",
       "homeScore": 55,
       "awayScore": 0,
-      "excitement": 2.3242496779936257,
+      "excitement": 2.325625122001277,
       "breakdown": {
         "tension": 0,
         "drama": 0.030433239327085772,
@@ -231,7 +231,7 @@
       "awayTeam": "UAB",
       "homeScore": 56,
       "awayScore": 24,
-      "excitement": 2.324151416453737,
+      "excitement": 2.325498678284519,
       "breakdown": {
         "tension": 0,
         "drama": 0.029811768628065616,
@@ -247,7 +247,7 @@
       "awayTeam": "Kent State",
       "homeScore": 66,
       "awayScore": 10,
-      "excitement": 2.323720445488792,
+      "excitement": 2.3249441276370195,
       "breakdown": {
         "tension": 0,
         "drama": 0.027085573549828414,
@@ -264,8 +264,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:46:21.053Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:16.876Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 4
   }

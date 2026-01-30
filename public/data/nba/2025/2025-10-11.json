@@ -7,7 +7,7 @@
       "awayTeam": "Hornets",
       "homeScore": 116,
       "awayScore": 120,
-      "excitement": 8.1,
+      "excitement": 8.4,
       "breakdown": {
         "tension": 5.377249851152146,
         "drama": 8.570340483995915,
@@ -23,10 +23,10 @@
       "awayTeam": "Hawks",
       "homeScore": 116,
       "awayScore": 122,
-      "excitement": 7.5,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 4,
-        "drama": 8.327461572008506,
+        "drama": 8.114529558539292,
         "finish": 5.995568890493942
       },
       "overtime": false,
@@ -39,7 +39,7 @@
       "awayTeam": "Thunder",
       "homeScore": 116,
       "awayScore": 101,
-      "excitement": 6.2,
+      "excitement": 6.4,
       "breakdown": {
         "tension": 6.048048427221053,
         "drama": 8.078842629120492,
@@ -56,8 +56,8 @@
     "count": 3,
     "totalGames": 3,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:04.375Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:05.637Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-11"
   }

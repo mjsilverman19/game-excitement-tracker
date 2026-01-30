@@ -7,7 +7,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 98,
       "awayScore": 100,
-      "excitement": 9.1,
+      "excitement": 9.2,
       "breakdown": {
         "tension": 8.247361169197786,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 116,
       "awayScore": 120,
-      "excitement": 8.9,
+      "excitement": 9,
       "breakdown": {
         "tension": 7.708358216378423,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Spurs",
       "homeScore": 106,
       "awayScore": 105,
-      "excitement": 8.5,
+      "excitement": 8.7,
       "breakdown": {
         "tension": 5.4599658740317984,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Lakers",
       "homeScore": 103,
       "awayScore": 111,
-      "excitement": 8.4,
+      "excitement": 8.6,
       "breakdown": {
         "tension": 6.260643190552861,
         "drama": 10,
@@ -71,7 +71,7 @@
       "awayTeam": "Magic",
       "homeScore": 120,
       "awayScore": 112,
-      "excitement": 6.6,
+      "excitement": 7,
       "breakdown": {
         "tension": 3.760907055078696,
         "drama": 8.253897459063303,
@@ -87,7 +87,7 @@
       "awayTeam": "Heat",
       "homeScore": 122,
       "awayScore": 94,
-      "excitement": 4.143713426982544,
+      "excitement": 4.347585800015778,
       "breakdown": {
         "tension": 2.675498728516964,
         "drama": 5.132190585428213,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:51:26.307Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:02:47.763Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-06"
   }

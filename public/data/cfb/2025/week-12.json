@@ -39,7 +39,7 @@
       "awayTeam": "South Carolina",
       "homeScore": 31,
       "awayScore": 30,
-      "excitement": 8.5,
+      "excitement": 8.8,
       "breakdown": {
         "tension": 4,
         "drama": 9.208266488951654,
@@ -55,7 +55,7 @@
       "awayTeam": "Georgia Tech",
       "homeScore": 34,
       "awayScore": 36,
-      "excitement": 7.9,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 4,
         "drama": 8.298160114163915,
@@ -71,7 +71,7 @@
       "awayTeam": "South Florida",
       "homeScore": 41,
       "awayScore": 38,
-      "excitement": 7.6,
+      "excitement": 7.8,
       "breakdown": {
         "tension": 5.167107567142656,
         "drama": 8.022738351275606,
@@ -87,7 +87,7 @@
       "awayTeam": "Arizona",
       "homeScore": 24,
       "awayScore": 30,
-      "excitement": 7.1,
+      "excitement": 7.4,
       "breakdown": {
         "tension": 4.25486018705544,
         "drama": 7.559789708274032,
@@ -103,7 +103,7 @@
       "awayTeam": "Michigan",
       "homeScore": 22,
       "awayScore": 24,
-      "excitement": 6.7,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 4,
         "drama": 6.6576085134422724,
@@ -135,7 +135,7 @@
       "awayTeam": "Florida",
       "homeScore": 34,
       "awayScore": 24,
-      "excitement": 5.6,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 4.380174522950671,
         "drama": 6.216729544926537,
@@ -151,7 +151,7 @@
       "awayTeam": "Virginia",
       "homeScore": 17,
       "awayScore": 34,
-      "excitement": 5.5,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 4.998581493867011,
         "drama": 3.775033565689107,
@@ -167,7 +167,7 @@
       "awayTeam": "Texas",
       "homeScore": 35,
       "awayScore": 10,
-      "excitement": 3.5,
+      "excitement": 3.7,
       "breakdown": {
         "tension": 1.2071784735976463,
         "drama": 2.8478028243049667,
@@ -183,7 +183,7 @@
       "awayTeam": "Notre Dame",
       "homeScore": 15,
       "awayScore": 37,
-      "excitement": 3.4,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 0.1003757626976538,
         "drama": 1.320266663721402,
@@ -199,7 +199,7 @@
       "awayTeam": "Utah",
       "homeScore": 28,
       "awayScore": 55,
-      "excitement": 3.4,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 0.13497746515278353,
         "drama": 1.396502647101171,
@@ -215,11 +215,27 @@
       "awayTeam": "TCU",
       "homeScore": 44,
       "awayScore": 13,
-      "excitement": 2.593168037674163,
+      "excitement": 2.667261141902344,
       "breakdown": {
         "tension": 0,
         "drama": 1.3877862685710616,
         "finish": 1.9216544312012196
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401754595",
+      "homeTeam": "Miami",
+      "awayTeam": "NC State",
+      "homeScore": 41,
+      "awayScore": 7,
+      "excitement": 2.4007380270842678,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.3912711773194416,
+        "finish": 1.7037093875395746
       },
       "overtime": false,
       "bowlName": null,
@@ -239,23 +255,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401754595",
-      "homeTeam": "Miami",
-      "awayTeam": "NC State",
-      "homeScore": 41,
-      "awayScore": 7,
-      "excitement": 2.3823268954042276,
-      "breakdown": {
-        "tension": 0,
-        "drama": 0.3912711773194416,
-        "finish": 1.7037093875395746
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "low",
+        "issues": [
+          "Only 147 data points (expected 150+) - score may not capture all moments"
+        ]
+      }
     },
     {
       "id": "401756953",
@@ -263,7 +270,7 @@
       "awayTeam": "UCF",
       "homeScore": 48,
       "awayScore": 9,
-      "excitement": 2.3340939156590004,
+      "excitement": 2.3383003637836426,
       "breakdown": {
         "tension": 0,
         "drama": 0.0924237318165638,
@@ -279,7 +286,7 @@
       "awayTeam": "Minnesota",
       "homeScore": 42,
       "awayScore": 13,
-      "excitement": 2.32937993950975,
+      "excitement": 2.332148049411899,
       "breakdown": {
         "tension": 0,
         "drama": 0.06102570940582174,
@@ -295,7 +302,7 @@
       "awayTeam": "UCLA",
       "homeScore": 48,
       "awayScore": 10,
-      "excitement": 2.324713304252702,
+      "excitement": 2.3262217497531057,
       "breakdown": {
         "tension": 0,
         "drama": 0.03336500250797571,
@@ -311,7 +318,7 @@
       "awayTeam": "New Mexico St",
       "homeScore": 42,
       "awayScore": 9,
-      "excitement": 2.324194703020205,
+      "excitement": 2.325554379503397,
       "breakdown": {
         "tension": 0,
         "drama": 0.03008554608799815,
@@ -328,8 +335,8 @@
     "count": 20,
     "totalGames": 20,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:47:05.304Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:00:07.221Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "week": 12
   }

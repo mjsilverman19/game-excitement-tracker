@@ -7,7 +7,7 @@
       "awayTeam": "Kings",
       "homeScore": 133,
       "awayScore": 135,
-      "excitement": 8.6,
+      "excitement": 8.9,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Warriors",
       "homeScore": 114,
       "awayScore": 109,
-      "excitement": 8.5,
+      "excitement": 8.9,
       "breakdown": {
         "tension": 4.054028104481877,
         "drama": 10,
@@ -39,7 +39,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 122,
       "awayScore": 110,
-      "excitement": 8.1,
+      "excitement": 8.3,
       "breakdown": {
         "tension": 7.822639720280199,
         "drama": 10,
@@ -55,7 +55,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 105,
       "awayScore": 122,
-      "excitement": 7.9,
+      "excitement": 8.1,
       "breakdown": {
         "tension": 6.374106677977645,
         "drama": 9.136614160930415,
@@ -71,7 +71,7 @@
       "awayTeam": "Magic",
       "homeScore": 94,
       "awayScore": 125,
-      "excitement": 4.042421631556583,
+      "excitement": 4.243350603002853,
       "breakdown": {
         "tension": 0.8079582704227493,
         "drama": 3.0411770316005935,
@@ -87,7 +87,7 @@
       "awayTeam": "Rockets",
       "homeScore": 101,
       "awayScore": 128,
-      "excitement": 3.774505784199933,
+      "excitement": 3.9427430954381424,
       "breakdown": {
         "tension": 0.4788845686141421,
         "drama": 2.439460163282266,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:48:44.836Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T02:59:49.826Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-01"
   }

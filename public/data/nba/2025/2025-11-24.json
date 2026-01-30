@@ -7,7 +7,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 117,
       "awayScore": 112,
-      "excitement": 9.2,
+      "excitement": 9.4,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -23,7 +23,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 103,
       "awayScore": 115,
-      "excitement": 7.1,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 3.648078089705936,
         "drama": 7.725701776849834,
@@ -39,7 +39,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 106,
       "awayScore": 102,
-      "excitement": 7,
+      "excitement": 7.3,
       "breakdown": {
         "tension": 4,
         "drama": 8.0237697045436,
@@ -55,7 +55,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 110,
       "awayScore": 99,
-      "excitement": 6.8,
+      "excitement": 7,
       "breakdown": {
         "tension": 6.101625813039995,
         "drama": 8.382189554237394,
@@ -71,7 +71,7 @@
       "awayTeam": "Pistons",
       "homeScore": 117,
       "awayScore": 122,
-      "excitement": 5.6,
+      "excitement": 5.9,
       "breakdown": {
         "tension": 2,
         "drama": 5.3117296370234355,
@@ -79,7 +79,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401810142",
@@ -87,7 +94,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 115,
       "awayScore": 125,
-      "excitement": 5.6,
+      "excitement": 5.9,
       "breakdown": {
         "tension": 2.119619789605159,
         "drama": 5.947971895788796,
@@ -95,7 +102,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (10-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401810140",
@@ -103,7 +117,7 @@
       "awayTeam": "Knicks",
       "homeScore": 100,
       "awayScore": 113,
-      "excitement": 4.9,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 1.25,
         "drama": 5.076846439238628,
@@ -119,7 +133,7 @@
       "awayTeam": "Bulls",
       "homeScore": 143,
       "awayScore": 130,
-      "excitement": 4.8,
+      "excitement": 5.2,
       "breakdown": {
         "tension": 2.952245897681225,
         "drama": 6.658554294698324,
@@ -135,7 +149,7 @@
       "awayTeam": "Rockets",
       "homeScore": 92,
       "awayScore": 114,
-      "excitement": 4.3,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 0.5290044972208707,
         "drama": 4.018360962731455,
@@ -143,7 +157,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 10% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
     },
     {
       "id": "401810146",
@@ -151,11 +172,11 @@
       "awayTeam": "Jazz",
       "homeScore": 134,
       "awayScore": 117,
-      "excitement": 4.2,
+      "excitement": 3.5,
       "breakdown": {
         "tension": 1.5,
-        "drama": 3.8298823434686327,
-        "finish": 3.9007920601765997
+        "drama": 3.810266840349246,
+        "finish": 1.7642646142903917
       },
       "overtime": false,
       "bowlName": null,
@@ -168,8 +189,8 @@
     "count": 10,
     "totalGames": 10,
     "insufficientData": 0,
-    "generatedAt": "2026-01-10T17:49:47.912Z",
-    "algorithmVersion": "3.2",
+    "generatedAt": "2026-01-30T03:01:12.901Z",
+    "algorithmVersion": "3.4",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-24"
   }
