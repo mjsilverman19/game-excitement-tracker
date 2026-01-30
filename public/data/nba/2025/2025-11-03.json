@@ -94,7 +94,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 110,
       "awayScore": 102,
-      "excitement": 6.7,
+      "excitement": 6.8,
       "breakdown": {
         "tension": 2.5,
         "drama": 8.341714946740614,
@@ -126,7 +126,7 @@
       "awayTeam": "Kings",
       "homeScore": 130,
       "awayScore": 124,
-      "excitement": 4.2,
+      "excitement": 5.7,
       "breakdown": {
         "tension": 2,
         "drama": 3.8317267780006508,
@@ -149,7 +149,7 @@
       "awayTeam": "Wizards",
       "homeScore": 119,
       "awayScore": 102,
-      "excitement": 3.6,
+      "excitement": 3.8,
       "breakdown": {
         "tension": 1.5,
         "drama": 3.890834604820231,
@@ -166,8 +166,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:54.501Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:27.279Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-03"
   }

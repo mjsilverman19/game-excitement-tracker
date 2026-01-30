@@ -2,6 +2,22 @@
   "success": true,
   "games": [
     {
+      "id": "401812481",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Melbourne United",
+      "homeScore": 107,
+      "awayScore": 97,
+      "excitement": 6.1,
+      "breakdown": {
+        "tension": 2.51350576366403,
+        "drama": 7.312624171991668,
+        "finish": 4.495724722385702
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401812480",
       "homeTeam": "Knicks",
       "awayTeam": "76ers",
@@ -16,22 +32,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401812481",
-      "homeTeam": "Pelicans",
-      "awayTeam": "Melbourne United",
-      "homeScore": 107,
-      "awayScore": 97,
-      "excitement": 5.9,
-      "breakdown": {
-        "tension": 2.51350576366403,
-        "drama": 7.312624171991668,
-        "finish": 4.495724722385702
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
     }
   ],
   "metadata": {
@@ -40,8 +40,8 @@
     "count": 2,
     "totalGames": 2,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:58:52.856Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:35:18.872Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-02"
   }

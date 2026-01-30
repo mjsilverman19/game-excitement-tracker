@@ -135,7 +135,7 @@
       "awayTeam": "Buccaneers",
       "homeScore": 20,
       "awayScore": 17,
-      "excitement": 6.4,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 5.100299631766423,
         "drama": 5.666687637598791,
@@ -151,6 +151,22 @@
           "One-possession game (3 pts) but only 1 lead change - data may be incomplete"
         ]
       }
+    },
+    {
+      "id": "401772951",
+      "homeTeam": "Chargers",
+      "awayTeam": "Texans",
+      "homeScore": 16,
+      "awayScore": 20,
+      "excitement": 6.3,
+      "breakdown": {
+        "tension": 2.5,
+        "drama": 4.282992810129722,
+        "finish": 6.181748356721801
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401772953",
@@ -169,28 +185,12 @@
       "playoffRound": null
     },
     {
-      "id": "401772951",
-      "homeTeam": "Chargers",
-      "awayTeam": "Texans",
-      "homeScore": 16,
-      "awayScore": 20,
-      "excitement": 5.6,
-      "breakdown": {
-        "tension": 2.5,
-        "drama": 4.282992810129722,
-        "finish": 6.181748356721801
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772710",
       "homeTeam": "Commanders",
       "awayTeam": "Cowboys",
       "homeScore": 23,
       "awayScore": 30,
-      "excitement": 5.4,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 2.5,
         "drama": 4.357584189396183,
@@ -278,8 +278,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:15.522Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:54.540Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 17
   }

@@ -226,7 +226,18 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
   const decisionPointInfo = decisionAdjustment.decisionPointInfo;
 
   // Normalize to 1-10 range with better distribution
-  const finalScore = normalizeScore(rawScore);
+  let finalScore = normalizeScore(rawScore);
+
+  // BAYESIAN MARGIN CORRECTION
+  // When ESPN WP data is overconfident, all three components (tension, drama,
+  // finish) collapse simultaneously since they share the same data source.
+  // The final score margin is an independent signal: if it says the game was
+  // close but the WP-derived score is low, ESPN likely had overconfident
+  // probabilities. Blend toward the margin-predicted score proportionally.
+  const marginCorrectionInfo = applyMarginCorrection(
+    finalScore, margin, sport, tensionScore, dramaScore
+  );
+  finalScore = marginCorrectionInfo.correctedScore;
 
   // Hard margin cap for extreme blowouts (data quality guardrail)
   if (margin != null) {
@@ -243,7 +254,8 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
         finishScore,
         overtimeFloorApplied: false,
         overtimeDetected,
-        decisionPointInfo
+        decisionPointInfo,
+        marginCorrectionInfo
       };
     }
   }
@@ -261,7 +273,8 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
       finishScore,
       overtimeFloorApplied: true,
       overtimeDetected,
-      decisionPointInfo
+      decisionPointInfo,
+      marginCorrectionInfo
     };
   }
 
@@ -276,7 +289,8 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
     finishScore,
     overtimeFloorApplied: false,
     overtimeDetected,
-    decisionPointInfo
+    decisionPointInfo,
+    marginCorrectionInfo
   };
 }
 
@@ -1125,6 +1139,93 @@ function decisionLatenessToScore(lateness) {
  * @param {Array} probs - Array of probability objects with value property
  * @returns {Object} { adjustedScore, decisionPointInfo }
  */
+/**
+ * Bayesian margin correction: adjusts the normalized GEI score when the
+ * final score margin disagrees with the WP-derived score.
+ *
+ * When ESPN's win probability model is overconfident (e.g., treating a 7-point
+ * football lead as 85%+ WP), all three components (tension, drama, finish)
+ * are suppressed because they all derive from the same WP data. The final
+ * margin is an independent signal — a 4-point game was objectively close
+ * regardless of what ESPN's model thought during the game.
+ *
+ * The correction uses per-sport linear regressions (GEI = a + b*margin) to
+ * compute an "expected" GEI from margin alone, then blends the actual score
+ * toward this expectation when both:
+ *   1. The margin suggests a closer game than the GEI reflects (negative residual)
+ *   2. The tension+drama deficit confirms ESPN was overconfident
+ *
+ * The blend factor (alpha) is proportional to margin closeness × component deficit,
+ * ensuring the correction is strongest for games that are both close AND have
+ * unexpectedly flat WP data.
+ *
+ * Only applies upward corrections — exciting games with wide margins (mid-game
+ * comebacks, etc.) are never penalized.
+ *
+ * @param {number} normalizedScore - The normalized GEI score (1-10)
+ * @param {number|null} margin - Final score margin, or null if unavailable
+ * @param {string} sport - Sport type (NFL, CFB, NBA)
+ * @param {number} tensionScore - Tension component score (0-10)
+ * @param {number} dramaScore - Drama component score (0-10)
+ * @returns {Object} { correctedScore, applied, alpha, marginPredicted, residual }
+ */
+function applyMarginCorrection(normalizedScore, margin, sport, tensionScore, dramaScore) {
+  const config = SCORING_CONFIG.bonuses.marginCorrection;
+  const noCorrection = {
+    correctedScore: normalizedScore,
+    applied: false,
+    alpha: 0,
+    marginPredicted: null,
+    residual: null
+  };
+
+  if (margin == null || !config) return noCorrection;
+
+  const regression = config.regression?.[sport];
+  if (!regression) return noCorrection;
+
+  // Margin-predicted score from regression
+  const marginPredicted = regression.intercept + regression.slope * margin;
+  const residual = normalizedScore - marginPredicted;
+
+  // Only correct upward (negative residual = WP underrates relative to margin)
+  if (residual >= 0) return { ...noCorrection, marginPredicted, residual };
+
+  // Sport-adjusted maximum margin for correction eligibility
+  const f = sport === 'NBA' ? 2 : 1;
+  const maxCloseMargin = config.maxCloseMargin * f;
+  if (margin > maxCloseMargin) return { ...noCorrection, marginPredicted, residual };
+
+  // Margin closeness: 1.0 at margin=0, 0.0 at maxCloseMargin
+  const marginCloseness = 1 - (margin / maxCloseMargin);
+
+  // Component deficit: how much are tension and drama below expected for this margin?
+  // Expected values derived from well-rated close games in each sport:
+  //   NFL close (≤7pt): T=6.8, D=8.0 | CFB close (≤7pt): T=6.0, D=8.1 | NBA close (≤14pt): T=5.6, D=9.3
+  // Scale expected values down proportionally with margin (further margin → lower expectation)
+  const expectedTension = Math.max(3, 6.5 - margin / (2 * f));
+  const expectedDrama = Math.max(4, 8.5 - margin / (2 * f));
+  const tensionDeficit = Math.max(0, expectedTension - tensionScore) / config.maxTensionDeficit;
+  const dramaDeficit = Math.max(0, expectedDrama - dramaScore) / config.maxDramaDeficit;
+  const combinedDeficit = Math.min(1, (tensionDeficit + dramaDeficit));
+
+  // Blend factor: strongest when margin is close AND components are unexpectedly low
+  const alpha = marginCloseness * combinedDeficit * config.maxAlpha;
+
+  if (alpha <= 0) return { ...noCorrection, marginPredicted, residual };
+
+  // Correct: close the gap between actual and margin-predicted by alpha fraction
+  const correctedScore = Math.min(10, normalizedScore + alpha * Math.abs(residual));
+
+  return {
+    correctedScore,
+    applied: true,
+    alpha: Math.round(alpha * 1000) / 1000,
+    marginPredicted: Math.round(marginPredicted * 10) / 10,
+    residual: Math.round(residual * 10) / 10
+  };
+}
+
 export function applyDecisionAdjustmentA(rawScore, probs) {
   const config = SCORING_CONFIG.thresholds.decisionPoint;
   const exponent = config?.multiplierExponent ?? 0.5;

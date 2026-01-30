@@ -105,6 +105,22 @@
       "playoffRound": null
     },
     {
+      "id": "401810287",
+      "homeTeam": "Kings",
+      "awayTeam": "Mavericks",
+      "homeScore": 113,
+      "awayScore": 107,
+      "excitement": 6.3,
+      "breakdown": {
+        "tension": 2.1017747608139503,
+        "drama": 5.884966108445438,
+        "finish": 3.926264702447049
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401810291",
       "homeTeam": "Heat",
       "awayTeam": "Pacers",
@@ -121,28 +137,12 @@
       "playoffRound": null
     },
     {
-      "id": "401810287",
-      "homeTeam": "Kings",
-      "awayTeam": "Mavericks",
-      "homeScore": 113,
-      "awayScore": 107,
-      "excitement": 5.3,
-      "breakdown": {
-        "tension": 2.1017747608139503,
-        "drama": 5.884966108445438,
-        "finish": 3.926264702447049
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810293",
       "homeTeam": "Rockets",
       "awayTeam": "Cavaliers",
       "homeScore": 117,
       "awayScore": 100,
-      "excitement": 3.8,
+      "excitement": 4,
       "breakdown": {
         "tension": 1.6784269487328551,
         "drama": 4.576800644287893,
@@ -159,8 +159,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:23.197Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:29.776Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-27"
   }

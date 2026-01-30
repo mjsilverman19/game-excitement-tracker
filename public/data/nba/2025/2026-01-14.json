@@ -39,7 +39,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 109,
       "awayScore": 118,
-      "excitement": 6.2,
+      "excitement": 6.4,
       "breakdown": {
         "tension": 2.688851886876369,
         "drama": 5.955748954496275,
@@ -71,7 +71,7 @@
       "awayTeam": "Knicks",
       "homeScore": 112,
       "awayScore": 101,
-      "excitement": 5.3,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 2.2826303273076864,
         "drama": 6.886670679833347,
@@ -103,7 +103,7 @@
       "awayTeam": "Wizards",
       "homeScore": 119,
       "awayScore": 105,
-      "excitement": 3.9,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 1.25,
         "drama": 3.8447122301850443,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:09.457Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:13.479Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-14"
   }

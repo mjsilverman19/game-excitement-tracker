@@ -119,7 +119,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 124,
       "awayScore": 131,
-      "excitement": 5.3,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.817283221346261,
@@ -190,7 +190,7 @@
       "awayTeam": "Suns",
       "homeScore": 129,
       "awayScore": 102,
-      "excitement": 3.4248050511695682,
+      "excitement": 3.4315177617121972,
       "breakdown": {
         "tension": 1.319168676640984,
         "drama": 3.657498729506717,
@@ -207,8 +207,8 @@
     "count": 12,
     "totalGames": 12,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:30.313Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:03.526Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-24"
   }

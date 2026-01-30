@@ -174,7 +174,7 @@
       "awayTeam": "Texas A&M",
       "homeScore": 42,
       "awayScore": 45,
-      "excitement": 6.1,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 4,
         "drama": 4.164730596617695,
@@ -213,7 +213,7 @@
       "awayTeam": "LSU",
       "homeScore": 31,
       "awayScore": 24,
-      "excitement": 5.5,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 6.162753719070665,
         "drama": 4.915714417015521,
@@ -349,8 +349,8 @@
     "count": 20,
     "totalGames": 20,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:39.175Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:07.415Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 8
   }

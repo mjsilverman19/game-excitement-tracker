@@ -66,6 +66,22 @@
       "playoffRound": null
     },
     {
+      "id": "401812710",
+      "homeTeam": "Lakers",
+      "awayTeam": "Warriors",
+      "homeScore": 126,
+      "awayScore": 116,
+      "excitement": 5.9,
+      "breakdown": {
+        "tension": 2.5,
+        "drama": 6.586649719405973,
+        "finish": 4.636682629197055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401812706",
       "homeTeam": "Magic",
       "awayTeam": "Heat",
@@ -76,22 +92,6 @@
         "tension": 4.617858731132745,
         "drama": 6.884796742391019,
         "finish": 3.1177454434182703
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401812710",
-      "homeTeam": "Lakers",
-      "awayTeam": "Warriors",
-      "homeScore": 126,
-      "awayScore": 116,
-      "excitement": 5.7,
-      "breakdown": {
-        "tension": 2.5,
-        "drama": 6.586649719405973,
-        "finish": 4.636682629197055
       },
       "overtime": false,
       "bowlName": null,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:08.163Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:35:33.910Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-12"
   }

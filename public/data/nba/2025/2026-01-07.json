@@ -114,32 +114,32 @@
       "playoffRound": null
     },
     {
-      "id": "401810378",
-      "homeTeam": "Spurs",
-      "awayTeam": "Lakers",
-      "homeScore": 107,
-      "awayScore": 91,
-      "excitement": 5,
+      "id": "401810381",
+      "homeTeam": "Warriors",
+      "awayTeam": "Bucks",
+      "homeScore": 120,
+      "awayScore": 113,
+      "excitement": 5.6,
       "breakdown": {
-        "tension": 2.1806285039041984,
-        "drama": 6.4028493283174095,
-        "finish": 3.219491692054527
+        "tension": 2.7545093391949904,
+        "drama": 6.157639520112639,
+        "finish": 2.834525550274009
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401810381",
-      "homeTeam": "Warriors",
-      "awayTeam": "Bucks",
-      "homeScore": 120,
-      "awayScore": 113,
-      "excitement": 5,
+      "id": "401810378",
+      "homeTeam": "Spurs",
+      "awayTeam": "Lakers",
+      "homeScore": 107,
+      "awayScore": 91,
+      "excitement": 5.1,
       "breakdown": {
-        "tension": 2.7545093391949904,
-        "drama": 6.157639520112639,
-        "finish": 2.834525550274009
+        "tension": 2.1806285039041984,
+        "drama": 6.4028493283174095,
+        "finish": 3.219491692054527
       },
       "overtime": false,
       "bowlName": null,
@@ -167,7 +167,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 117,
       "awayScore": 100,
-      "excitement": 3.2,
+      "excitement": 3.6,
       "breakdown": {
         "tension": 1.5,
         "drama": 2.7495439561022295,
@@ -183,7 +183,7 @@
       "awayTeam": "Wizards",
       "homeScore": 131,
       "awayScore": 110,
-      "excitement": 3,
+      "excitement": 3.3,
       "breakdown": {
         "tension": 0.15713627657810414,
         "drama": 2.1891679361694405,
@@ -200,8 +200,8 @@
     "count": 12,
     "totalGames": 12,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:51.740Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:56.355Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-07"
   }

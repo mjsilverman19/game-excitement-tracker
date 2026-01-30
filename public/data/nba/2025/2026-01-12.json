@@ -71,7 +71,7 @@
       "awayTeam": "Nets",
       "homeScore": 113,
       "awayScore": 105,
-      "excitement": 5.6,
+      "excitement": 6,
       "breakdown": {
         "tension": 2.5,
         "drama": 6.578739440770298,
@@ -94,7 +94,7 @@
       "awayTeam": "76ers",
       "homeScore": 102,
       "awayScore": 115,
-      "excitement": 5.2,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 2.0144706609289456,
         "drama": 4.498124693034903,
@@ -111,8 +111,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:05.614Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:09.293Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-12"
   }

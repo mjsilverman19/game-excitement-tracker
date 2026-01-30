@@ -73,6 +73,22 @@
       "playoffRound": null
     },
     {
+      "id": "401772840",
+      "homeTeam": "Buccaneers",
+      "awayTeam": "Jets",
+      "homeScore": 29,
+      "awayScore": 27,
+      "excitement": 7.7,
+      "breakdown": {
+        "tension": 4,
+        "drama": 5.200692378623278,
+        "finish": 9.006731824300147
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772812",
       "homeTeam": "Ravens",
       "awayTeam": "Lions",
@@ -83,22 +99,6 @@
         "tension": 7.857483500779261,
         "drama": 7.131051935241622,
         "finish": 5.348641398948818
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772840",
-      "homeTeam": "Buccaneers",
-      "awayTeam": "Jets",
-      "homeScore": 29,
-      "awayScore": 27,
-      "excitement": 7.5,
-      "breakdown": {
-        "tension": 4,
-        "drama": 5.200692378623278,
-        "finish": 9.006731824300147
       },
       "overtime": false,
       "bowlName": null,
@@ -271,8 +271,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:03.683Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:33:47.771Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 3
   }

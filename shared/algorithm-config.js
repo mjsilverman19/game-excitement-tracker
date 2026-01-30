@@ -45,7 +45,14 @@ export const ALGORITHM_CONFIG = {
   // NBA games score higher on average (mean 6.7, 39% must-watch at 8.0)
   // CFB games score lower (mean 4.9, 16% must-watch at 8.0)
   // Sport-specific thresholds normalize must-watch rate to ~20% per sport
-  version: '3.4',
+  // Version 3.5: Bayesian margin correction
+  // When ESPN WP data is overconfident, all three components (tension, drama,
+  // finish) are suppressed simultaneously since they share the same data source.
+  // The final score margin is an independent signal. When it disagrees with
+  // the WP-derived score (close margin but low GEI), we blend toward the
+  // margin-predicted score proportional to the tension+drama deficit.
+  // Derived from regression analysis on 1410 games across 3 sports.
+  version: '3.5',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -195,6 +202,30 @@ export const ALGORITHM_CONFIG = {
       margin10orLess: 0.2, // 8-10 point games
       tensionFloor: 3.0,   // Below this, 75% reduction
       tensionFullCredit: 5.0 // Above this, full bonus
+    },
+    marginCorrection: {
+      // Bayesian margin correction: blend WP-derived score toward margin-predicted
+      // score when ESPN WP data appears overconfident (close margin but flat WP).
+      // Only applies upward corrections (never penalizes exciting blowouts).
+      //
+      // Per-sport regression parameters (GEI = a + b * margin):
+      // Derived from 2024-25 season data (1410 games)
+      regression: {
+        NFL: { intercept: 8.37, slope: -0.199 },
+        CFB: { intercept: 7.13, slope: -0.114 },
+        NBA: { intercept: 9.00, slope: -0.178 }
+      },
+      // Maximum margin (sport-adjusted) eligible for correction
+      // Beyond this, margin is too large for ESPN overconfidence to be the issue
+      maxCloseMargin: 14, // multiplied by 2 for NBA
+      // Maximum correction blend factor (0-1)
+      // At alpha=0.5, the correction closes at most 50% of the residual gap
+      maxAlpha: 0.5,
+      // Tension + Drama deficit detection
+      // Expected values: T = max(3, 6.5 - margin/(2*f)), D = max(4, 8.5 - margin/(2*f))
+      // Based on well-rated close game averages: NFL T=6.8 D=8.0, CFB T=6.0 D=8.1, NBA T=5.6 D=9.3
+      maxTensionDeficit: 4,
+      maxDramaDeficit: 5
     }
   },
 

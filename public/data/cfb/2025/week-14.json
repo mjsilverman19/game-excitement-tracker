@@ -103,11 +103,34 @@
       "awayTeam": "Alabama",
       "homeScore": 20,
       "awayScore": 27,
-      "excitement": 5.4,
+      "excitement": 5.5,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.998490534149953,
         "finish": 5.909963600861607
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401752786",
+      "homeTeam": "Georgia Tech",
+      "awayTeam": "Georgia",
+      "homeScore": 9,
+      "awayScore": 16,
+      "excitement": 4.5,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 1.6228850625397824,
+        "finish": 4.945257377281242
       },
       "overtime": false,
       "bowlName": null,
@@ -126,7 +149,7 @@
       "awayTeam": "Oregon",
       "homeScore": 14,
       "awayScore": 26,
-      "excitement": 4.4,
+      "excitement": 4.5,
       "breakdown": {
         "tension": 0.24622358807049327,
         "drama": 3.528385488776283,
@@ -167,29 +190,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401752786",
-      "homeTeam": "Georgia Tech",
-      "awayTeam": "Georgia",
-      "homeScore": 9,
-      "awayScore": 16,
-      "excitement": 3.8,
-      "breakdown": {
-        "tension": 1.25,
-        "drama": 1.6228850625397824,
-        "finish": 4.945257377281242
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
     },
     {
       "id": "401752788",
@@ -326,8 +326,8 @@
     "count": 19,
     "totalGames": 19,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:19.412Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:39.309Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 14
   }

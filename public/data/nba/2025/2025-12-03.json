@@ -103,27 +103,11 @@
       "awayTeam": "Nuggets",
       "homeScore": 120,
       "awayScore": 135,
-      "excitement": 4.6,
+      "excitement": 4.8,
       "breakdown": {
         "tension": 1.5,
         "drama": 3.4856161758701365,
         "finish": 4.895202266494958
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810185",
-      "homeTeam": "Rockets",
-      "awayTeam": "Kings",
-      "homeScore": 121,
-      "awayScore": 95,
-      "excitement": 3.670210363286439,
-      "breakdown": {
-        "tension": 0.6070038091186569,
-        "drama": 3.9020732383084447,
-        "finish": 2.7568340469577994
       },
       "overtime": false,
       "bowlName": null,
@@ -135,11 +119,27 @@
       "awayTeam": "Hornets",
       "homeScore": 119,
       "awayScore": 104,
-      "excitement": 3.5,
+      "excitement": 4,
       "breakdown": {
         "tension": 1.5,
         "drama": 2.8269107504952533,
         "finish": 2.865131925818579
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810185",
+      "homeTeam": "Rockets",
+      "awayTeam": "Kings",
+      "homeScore": 121,
+      "awayScore": 95,
+      "excitement": 3.6856957125423784,
+      "breakdown": {
+        "tension": 0.6070038091186569,
+        "drama": 3.9020732383084447,
+        "finish": 2.7568340469577994
       },
       "overtime": false,
       "bowlName": null,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:01:33.392Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:42.063Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-03"
   }

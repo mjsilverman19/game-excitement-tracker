@@ -151,7 +151,7 @@
       "awayTeam": "Seahawks",
       "homeScore": 24,
       "awayScore": 30,
-      "excitement": 4.3,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 1.25,
         "drama": 2.483714680033245,
@@ -185,6 +185,22 @@
       "playoffRound": null
     },
     {
+      "id": "401772820",
+      "homeTeam": "49ers",
+      "awayTeam": "Panthers",
+      "homeScore": 20,
+      "awayScore": 9,
+      "excitement": 3.5,
+      "breakdown": {
+        "tension": 0,
+        "drama": 2.478351006874836,
+        "finish": 2.7540154251658286
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772887",
       "homeTeam": "Packers",
       "awayTeam": "Vikings",
@@ -195,22 +211,6 @@
         "tension": 1.2007894020178767,
         "drama": 2.663137978252725,
         "finish": 2.6197112333812234
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772820",
-      "homeTeam": "49ers",
-      "awayTeam": "Panthers",
-      "homeScore": 20,
-      "awayScore": 9,
-      "excitement": 3.1,
-      "breakdown": {
-        "tension": 0,
-        "drama": 2.478351006874836,
-        "finish": 2.7540154251658286
       },
       "overtime": false,
       "bowlName": null,
@@ -239,8 +239,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:44.434Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:29.648Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 12
   }

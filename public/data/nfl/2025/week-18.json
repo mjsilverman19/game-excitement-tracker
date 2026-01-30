@@ -71,11 +71,27 @@
       "awayTeam": "Saints",
       "homeScore": 19,
       "awayScore": 17,
-      "excitement": 6.7,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 6.520879748565007,
         "drama": 5.618741144499107,
         "finish": 3.6801833221150337
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772965",
+      "homeTeam": "Bears",
+      "awayTeam": "Lions",
+      "homeScore": 16,
+      "awayScore": 19,
+      "excitement": 6.8,
+      "breakdown": {
+        "tension": 4.120808431808836,
+        "drama": 5.722041406734522,
+        "finish": 6.9529295553909645
       },
       "overtime": false,
       "bowlName": null,
@@ -98,20 +114,27 @@
       "playoffRound": null
     },
     {
-      "id": "401772965",
-      "homeTeam": "Bears",
-      "awayTeam": "Lions",
+      "id": "401772969",
+      "homeTeam": "Buccaneers",
+      "awayTeam": "Panthers",
       "homeScore": 16,
-      "awayScore": 19,
-      "excitement": 6.6,
+      "awayScore": 14,
+      "excitement": 6.4,
       "breakdown": {
-        "tension": 4.120808431808836,
-        "drama": 5.722041406734522,
-        "finish": 6.9529295553909645
+        "tension": 4,
+        "drama": 4.151907268716084,
+        "finish": 3.898417983271912
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (2-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401772963",
@@ -128,29 +151,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401772969",
-      "homeTeam": "Buccaneers",
-      "awayTeam": "Panthers",
-      "homeScore": 16,
-      "awayScore": 14,
-      "excitement": 5.2,
-      "breakdown": {
-        "tension": 4,
-        "drama": 4.151907268716084,
-        "finish": 3.898417983271912
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (2-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
     },
     {
       "id": "401772961",
@@ -271,8 +271,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:20.582Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:59.551Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 18
   }

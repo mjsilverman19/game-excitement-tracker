@@ -50,28 +50,12 @@
       "playoffRound": null
     },
     {
-      "id": "401752727",
-      "homeTeam": "Florida",
-      "awayTeam": "Texas",
-      "homeScore": 29,
-      "awayScore": 21,
-      "excitement": 4.7,
-      "breakdown": {
-        "tension": 3.7120649796679253,
-        "drama": 4.966925683066761,
-        "finish": 2.3863490635138755
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401754553",
       "homeTeam": "Florida St",
       "awayTeam": "Miami",
       "homeScore": 22,
       "awayScore": 28,
-      "excitement": 4.6,
+      "excitement": 5,
       "breakdown": {
         "tension": 2.5207993264317796,
         "drama": 2.9335487477039104,
@@ -89,16 +73,16 @@
       }
     },
     {
-      "id": "401752861",
-      "homeTeam": "Purdue",
-      "awayTeam": "Illinois",
-      "homeScore": 27,
-      "awayScore": 43,
-      "excitement": 4.6,
+      "id": "401752727",
+      "homeTeam": "Florida",
+      "awayTeam": "Texas",
+      "homeScore": 29,
+      "awayScore": 21,
+      "excitement": 4.7,
       "breakdown": {
-        "tension": 2.0470941957111686,
-        "drama": 3.4249277265818123,
-        "finish": 4.893249277073357
+        "tension": 3.7120649796679253,
+        "drama": 4.966925683066761,
+        "finish": 2.3863490635138755
       },
       "overtime": false,
       "bowlName": null,
@@ -110,11 +94,27 @@
       "awayTeam": "Iowa State",
       "homeScore": 38,
       "awayScore": 30,
-      "excitement": 4.4,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 1.5,
         "drama": 3.9902310571387654,
         "finish": 4.622554508490557
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401752861",
+      "homeTeam": "Purdue",
+      "awayTeam": "Illinois",
+      "homeScore": 27,
+      "awayScore": 43,
+      "excitement": 4.6,
+      "breakdown": {
+        "tension": 2.0470941957111686,
+        "drama": 3.4249277265818123,
+        "finish": 4.893249277073357
       },
       "overtime": false,
       "bowlName": null,
@@ -262,8 +262,8 @@
     "count": 15,
     "totalGames": 15,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:27.311Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:35:53.163Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 6
   }

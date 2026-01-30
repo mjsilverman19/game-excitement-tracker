@@ -39,7 +39,7 @@
       "awayTeam": "Celtics",
       "homeScore": 113,
       "awayScore": 121,
-      "excitement": 6.9,
+      "excitement": 7,
       "breakdown": {
         "tension": 2.5,
         "drama": 6.6624587925986365,
@@ -55,7 +55,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 106,
       "awayScore": 115,
-      "excitement": 6.1,
+      "excitement": 6.4,
       "breakdown": {
         "tension": 2.179968110526537,
         "drama": 6.399813642635297,
@@ -87,7 +87,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 119,
       "awayScore": 96,
-      "excitement": 3.3934273701727444,
+      "excitement": 3.5104309275943484,
       "breakdown": {
         "tension": 0.3270164374872393,
         "drama": 3.009404926897793,
@@ -120,8 +120,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:01:42.991Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:51.557Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-07"
   }

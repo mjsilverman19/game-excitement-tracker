@@ -39,7 +39,7 @@
       "awayTeam": "Warriors",
       "homeScore": 103,
       "awayScore": 102,
-      "excitement": 7.8,
+      "excitement": 8,
       "breakdown": {
         "tension": 4.641534335884776,
         "drama": 8.755090683318036,
@@ -103,7 +103,7 @@
       "awayTeam": "Bulls",
       "homeScore": 115,
       "awayScore": 101,
-      "excitement": 3.1,
+      "excitement": 4,
       "breakdown": {
         "tension": 1.25,
         "drama": 1.9772957589446618,
@@ -119,7 +119,7 @@
       "awayTeam": "Jazz",
       "homeScore": 137,
       "awayScore": 117,
-      "excitement": 3,
+      "excitement": 3.3,
       "breakdown": {
         "tension": 0.8999999999999999,
         "drama": 2.240557144411715,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:45.931Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:51.252Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-05"
   }

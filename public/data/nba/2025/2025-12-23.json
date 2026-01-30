@@ -62,7 +62,7 @@
       "awayTeam": "Magic",
       "homeScore": 106,
       "awayScore": 110,
-      "excitement": 7.8,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 4,
         "drama": 7.973145050931143,
@@ -110,7 +110,7 @@
       "awayTeam": "Grizzlies",
       "homeScore": 128,
       "awayScore": 137,
-      "excitement": 6.5,
+      "excitement": 6.7,
       "breakdown": {
         "tension": 2.010388439969425,
         "drama": 7.3927157793511675,
@@ -174,7 +174,7 @@
       "awayTeam": "Pistons",
       "homeScore": 127,
       "awayScore": 136,
-      "excitement": 5.1,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.509502696178726,
@@ -198,7 +198,7 @@
       "awayTeam": "Rockets",
       "homeScore": 128,
       "awayScore": 108,
-      "excitement": 4.6,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 2.105237305168277,
         "drama": 5.147261666205926,
@@ -214,7 +214,7 @@
       "awayTeam": "Lakers",
       "homeScore": 132,
       "awayScore": 108,
-      "excitement": 3.9945726512335797,
+      "excitement": 4.000881731398593,
       "breakdown": {
         "tension": 2.518277454699511,
         "drama": 4.797216452725544,
@@ -230,7 +230,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 141,
       "awayScore": 118,
-      "excitement": 2.9935033300420444,
+      "excitement": 3.1642619612882905,
       "breakdown": {
         "tension": 0.013912151363605796,
         "drama": 2.7268755330338035,
@@ -247,8 +247,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:15.996Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:22.283Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-23"
   }

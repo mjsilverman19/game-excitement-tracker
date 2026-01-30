@@ -30,7 +30,7 @@
       "awayTeam": "Clippers",
       "homeScore": 109,
       "awayScore": 106,
-      "excitement": 8.1,
+      "excitement": 8.2,
       "breakdown": {
         "tension": 4,
         "drama": 10,
@@ -78,7 +78,7 @@
       "awayTeam": "Hawks",
       "homeScore": 116,
       "awayScore": 131,
-      "excitement": 5.1,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 1.5,
         "drama": 4.172763965728072,
@@ -94,7 +94,7 @@
       "awayTeam": "Bucks",
       "homeScore": 124,
       "awayScore": 112,
-      "excitement": 4.1,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.886042333443223,
@@ -110,7 +110,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 119,
       "awayScore": 101,
-      "excitement": 3.7,
+      "excitement": 3.8,
       "breakdown": {
         "tension": 1.5361450100115837,
         "drama": 4.137579226734102,
@@ -127,8 +127,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:01:40.732Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:49.541Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-06"
   }

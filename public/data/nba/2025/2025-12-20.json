@@ -133,7 +133,7 @@
       "awayTeam": "Lakers",
       "homeScore": 103,
       "awayScore": 88,
-      "excitement": 4.1,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 1.5,
         "drama": 4.579654422055417,
@@ -149,7 +149,7 @@
       "awayTeam": "Hornets",
       "homeScore": 112,
       "awayScore": 86,
-      "excitement": 3.956936115500153,
+      "excitement": 3.965640104362038,
       "breakdown": {
         "tension": 0.7290109600663988,
         "drama": 3.902902838684045,
@@ -165,7 +165,7 @@
       "awayTeam": "Pacers",
       "homeScore": 128,
       "awayScore": 109,
-      "excitement": 3.4,
+      "excitement": 3.7,
       "breakdown": {
         "tension": 0.8999999999999999,
         "drama": 2.955717590889185,
@@ -182,8 +182,8 @@
     "count": 10,
     "totalGames": 10,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:07.144Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:14.327Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-20"
   }

@@ -98,32 +98,32 @@
       "playoffRound": null
     },
     {
-      "id": "401810454",
-      "homeTeam": "Warriors",
-      "awayTeam": "Hornets",
-      "homeScore": 136,
-      "awayScore": 116,
-      "excitement": 3.6,
+      "id": "401810448",
+      "homeTeam": "Mavericks",
+      "awayTeam": "Jazz",
+      "homeScore": 138,
+      "awayScore": 120,
+      "excitement": 3.7,
       "breakdown": {
-        "tension": 0.8999999999999999,
-        "drama": 3.29789552669435,
-        "finish": 2.8247676821227174
+        "tension": 1.5,
+        "drama": 3.0510470007110624,
+        "finish": 2.6123081539265853
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401810448",
-      "homeTeam": "Mavericks",
-      "awayTeam": "Jazz",
-      "homeScore": 138,
-      "awayScore": 120,
-      "excitement": 3.5,
+      "id": "401810454",
+      "homeTeam": "Warriors",
+      "awayTeam": "Hornets",
+      "homeScore": 136,
+      "awayScore": 116,
+      "excitement": 3.7,
       "breakdown": {
-        "tension": 1.5,
-        "drama": 3.0510470007110624,
-        "finish": 2.6123081539265853
+        "tension": 0.8999999999999999,
+        "drama": 3.29789552669435,
+        "finish": 2.8247676821227174
       },
       "overtime": false,
       "bowlName": null,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:16.927Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:21.448Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-17"
   }

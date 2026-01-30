@@ -338,6 +338,22 @@
       "playoffRound": null
     },
     {
+      "id": "401778321",
+      "homeTeam": "San Diego St",
+      "awayTeam": "North Texas",
+      "homeScore": 47,
+      "awayScore": 49,
+      "excitement": 6,
+      "breakdown": {
+        "tension": 2,
+        "drama": 4.220346206280195,
+        "finish": 5.218447399881919
+      },
+      "overtime": false,
+      "bowlName": "Isleta New Mexico Bowl",
+      "playoffRound": null
+    },
+    {
       "id": "401778317",
       "homeTeam": "Clemson",
       "awayTeam": "Penn State",
@@ -367,22 +383,6 @@
       },
       "overtime": false,
       "bowlName": "Scooter's Coffee Frisco Bowl",
-      "playoffRound": null
-    },
-    {
-      "id": "401778321",
-      "homeTeam": "San Diego St",
-      "awayTeam": "North Texas",
-      "homeScore": 47,
-      "awayScore": 49,
-      "excitement": 5.3,
-      "breakdown": {
-        "tension": 2,
-        "drama": 4.220346206280195,
-        "finish": 5.218447399881919
-      },
-      "overtime": false,
-      "bowlName": "Isleta New Mexico Bowl",
       "playoffRound": null
     },
     {
@@ -434,6 +434,29 @@
       "playoffRound": null
     },
     {
+      "id": "401778309",
+      "homeTeam": "Louisville",
+      "awayTeam": "Toledo",
+      "homeScore": 27,
+      "awayScore": 22,
+      "excitement": 4.7,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 3.415768887276183,
+        "finish": 3.1378634149282063
+      },
+      "overtime": false,
+      "bowlName": "Bush's Boca Raton Bowl",
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
       "id": "401778324",
       "homeTeam": "App State",
       "awayTeam": "GA Southern",
@@ -448,6 +471,29 @@
       "overtime": false,
       "bowlName": "JLab Birmingham Bowl",
       "playoffRound": null
+    },
+    {
+      "id": "401769076",
+      "homeTeam": "Indiana",
+      "awayTeam": "Miami",
+      "homeScore": 27,
+      "awayScore": 21,
+      "excitement": 4.7,
+      "breakdown": {
+        "tension": 2.5,
+        "drama": 4.1748762462397435,
+        "finish": 3.568295516284442
+      },
+      "overtime": false,
+      "bowlName": "College Football Playoff National Championship Presented by AT&T",
+      "playoffRound": "Championship",
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401778308",
@@ -466,48 +512,48 @@
       "playoffRound": null
     },
     {
-      "id": "401769076",
-      "homeTeam": "Indiana",
-      "awayTeam": "Miami",
-      "homeScore": 27,
-      "awayScore": 21,
-      "excitement": 4.4,
+      "id": "401831583",
+      "homeTeam": "SMU",
+      "awayTeam": "Arizona",
+      "homeScore": 24,
+      "awayScore": 19,
+      "excitement": 4.3,
       "breakdown": {
-        "tension": 2.5,
-        "drama": 4.1748762462397435,
-        "finish": 3.568295516284442
+        "tension": 1.4854589013960995,
+        "drama": 2.0152553979125347,
+        "finish": 2.45943354791937
       },
       "overtime": false,
-      "bowlName": "College Football Playoff National Championship Presented by AT&T",
-      "playoffRound": "Championship",
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
-    },
-    {
-      "id": "401778309",
-      "homeTeam": "Louisville",
-      "awayTeam": "Toledo",
-      "homeScore": 27,
-      "awayScore": 22,
-      "excitement": 3.8,
-      "breakdown": {
-        "tension": 1.25,
-        "drama": 3.415768887276183,
-        "finish": 3.1378634149282063
-      },
-      "overtime": false,
-      "bowlName": "Bush's Boca Raton Bowl",
+      "bowlName": "Trust & Will Holiday Bowl",
       "playoffRound": null,
       "dataQuality": {
         "warning": true,
         "severity": "high",
         "issues": [
           "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401838053",
+      "homeTeam": "Arkansas St",
+      "awayTeam": "Missouri St",
+      "homeScore": 34,
+      "awayScore": 28,
+      "excitement": 4.2,
+      "breakdown": {
+        "tension": 1.590055548848266,
+        "drama": 2.416824141741828,
+        "finish": 2.6552848821332526
+      },
+      "overtime": false,
+      "bowlName": "Xbox Bowl",
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
         ]
       }
     },
@@ -526,52 +572,6 @@
       "overtime": false,
       "bowlName": "Wasabi Fenway Bowl",
       "playoffRound": null
-    },
-    {
-      "id": "401838053",
-      "homeTeam": "Arkansas St",
-      "awayTeam": "Missouri St",
-      "homeScore": 34,
-      "awayScore": 28,
-      "excitement": 3.4,
-      "breakdown": {
-        "tension": 1.590055548848266,
-        "drama": 2.416824141741828,
-        "finish": 2.6552848821332526
-      },
-      "overtime": false,
-      "bowlName": "Xbox Bowl",
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
-    },
-    {
-      "id": "401831583",
-      "homeTeam": "SMU",
-      "awayTeam": "Arizona",
-      "homeScore": 24,
-      "awayScore": 19,
-      "excitement": 3.2,
-      "breakdown": {
-        "tension": 1.4854589013960995,
-        "drama": 2.0152553979125347,
-        "finish": 2.45943354791937
-      },
-      "overtime": false,
-      "bowlName": "Trust & Will Holiday Bowl",
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
     },
     {
       "id": "401778315",
@@ -747,8 +747,8 @@
     "count": 44,
     "totalGames": 45,
     "insufficientData": 1,
-    "generatedAt": "2026-01-30T03:00:48.203Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:09.871Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": "playoffs",
     "playoffGames": 11,

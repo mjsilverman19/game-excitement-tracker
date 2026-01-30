@@ -66,28 +66,12 @@
       "playoffRound": null
     },
     {
-      "id": "401810090",
-      "homeTeam": "Wizards",
-      "awayTeam": "Nets",
-      "homeScore": 106,
-      "awayScore": 129,
-      "excitement": 6.092488118534668,
-      "breakdown": {
-        "tension": 3.1399262573242277,
-        "drama": 5.955457716443762,
-        "finish": 4.960095749832109
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810088",
       "homeTeam": "Celtics",
       "awayTeam": "Clippers",
       "homeScore": 121,
       "awayScore": 118,
-      "excitement": 5.6,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 4,
         "drama": 5.011607750014337,
@@ -103,6 +87,22 @@
           "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
         ]
       }
+    },
+    {
+      "id": "401810090",
+      "homeTeam": "Wizards",
+      "awayTeam": "Nets",
+      "homeScore": 106,
+      "awayScore": 129,
+      "excitement": 6.092488118534668,
+      "breakdown": {
+        "tension": 3.1399262573242277,
+        "drama": 5.955457716443762,
+        "finish": 4.960095749832109
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810092",
@@ -126,7 +126,7 @@
       "awayTeam": "Kings",
       "homeScore": 123,
       "awayScore": 110,
-      "excitement": 3.6,
+      "excitement": 4.4,
       "breakdown": {
         "tension": 1.25,
         "drama": 3.0995017212587928,
@@ -143,8 +143,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:48.975Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:58.075Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-16"
   }

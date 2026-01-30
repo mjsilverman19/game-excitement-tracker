@@ -39,7 +39,7 @@
       "awayTeam": "Lakers",
       "homeScore": 106,
       "awayScore": 108,
-      "excitement": 7.8,
+      "excitement": 8,
       "breakdown": {
         "tension": 4,
         "drama": 7.889513469724095,
@@ -71,7 +71,7 @@
       "awayTeam": "Nets",
       "homeScore": 119,
       "awayScore": 109,
-      "excitement": 6,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 2.5,
         "drama": 6.878192077021666,
@@ -110,7 +110,7 @@
       "awayTeam": "Magic",
       "homeScore": 138,
       "awayScore": 129,
-      "excitement": 4.6,
+      "excitement": 5.2,
       "breakdown": {
         "tension": 2.4001164856353165,
         "drama": 5.366712606853539,
@@ -133,7 +133,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 122,
       "awayScore": 95,
-      "excitement": 2.3719950297304733,
+      "excitement": 2.4045308327710004,
       "breakdown": {
         "tension": 0,
         "drama": 0.25234491876337417,
@@ -150,8 +150,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:01:09.738Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:16.867Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-23"
   }

@@ -55,7 +55,7 @@
       "awayTeam": "Rockets",
       "homeScore": 104,
       "awayScore": 114,
-      "excitement": 7.1,
+      "excitement": 7.2,
       "breakdown": {
         "tension": 2.668081021412023,
         "drama": 7.497667377776472,
@@ -87,7 +87,7 @@
       "awayTeam": "Nuggets",
       "homeScore": 118,
       "awayScore": 125,
-      "excitement": 6.5,
+      "excitement": 6.6,
       "breakdown": {
         "tension": 3.346078475471982,
         "drama": 6.7065779032199915,
@@ -119,7 +119,7 @@
       "awayTeam": "Wizards",
       "homeScore": 120,
       "awayScore": 109,
-      "excitement": 4.1,
+      "excitement": 4.8,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.180725619490172,
@@ -135,7 +135,7 @@
       "awayTeam": "Kings",
       "homeScore": 113,
       "awayScore": 99,
-      "excitement": 3.3,
+      "excitement": 4.1,
       "breakdown": {
         "tension": 1.25,
         "drama": 2.408680420094878,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:56.656Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:07.938Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-19"
   }

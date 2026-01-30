@@ -130,28 +130,12 @@
       "playoffRound": null
     },
     {
-      "id": "401772789",
-      "homeTeam": "Steelers",
-      "awayTeam": "Bills",
-      "homeScore": 7,
-      "awayScore": 26,
-      "excitement": 6.1,
-      "breakdown": {
-        "tension": 6.688058848647167,
-        "drama": 4.571895929018199,
-        "finish": 4.97165688547366
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772895",
       "homeTeam": "Buccaneers",
       "awayTeam": "Cardinals",
       "homeScore": 20,
       "awayScore": 17,
-      "excitement": 5.5,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 4,
         "drama": 4.377176796911619,
@@ -169,12 +153,28 @@
       }
     },
     {
+      "id": "401772789",
+      "homeTeam": "Steelers",
+      "awayTeam": "Bills",
+      "homeScore": 7,
+      "awayScore": 26,
+      "excitement": 6.1,
+      "breakdown": {
+        "tension": 6.688058848647167,
+        "drama": 4.571895929018199,
+        "finish": 4.97165688547366
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772892",
       "homeTeam": "Dolphins",
       "awayTeam": "Saints",
       "homeScore": 21,
       "awayScore": 17,
-      "excitement": 4.8,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.9803550757257087,
@@ -278,8 +278,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:49.809Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:35.469Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 13
   }

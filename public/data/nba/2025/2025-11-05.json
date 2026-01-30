@@ -87,7 +87,7 @@
       "awayTeam": "Jazz",
       "homeScore": 114,
       "awayScore": 103,
-      "excitement": 6.1,
+      "excitement": 6.2,
       "breakdown": {
         "tension": 2.806960139205046,
         "drama": 7.613512352768933,
@@ -135,7 +135,7 @@
       "awayTeam": "Rockets",
       "homeScore": 109,
       "awayScore": 124,
-      "excitement": 4.9,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 1.5,
         "drama": 4.153381579635547,
@@ -151,7 +151,7 @@
       "awayTeam": "76ers",
       "homeScore": 132,
       "awayScore": 121,
-      "excitement": 3.6,
+      "excitement": 4.6,
       "breakdown": {
         "tension": 1.25,
         "drama": 3.4951766056095424,
@@ -184,8 +184,8 @@
     "count": 11,
     "totalGames": 11,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:04.380Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:32.535Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-05"
   }

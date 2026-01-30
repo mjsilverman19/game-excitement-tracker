@@ -55,7 +55,7 @@
       "awayTeam": "Bulls",
       "homeScore": 112,
       "awayScore": 109,
-      "excitement": 7.3,
+      "excitement": 7.5,
       "breakdown": {
         "tension": 4.484575706128707,
         "drama": 7.578568616252441,
@@ -87,7 +87,7 @@
       "awayTeam": "Wizards",
       "homeScore": 128,
       "awayScore": 115,
-      "excitement": 4,
+      "excitement": 4.5,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.518070957360819,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:14.149Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:18.213Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-16"
   }

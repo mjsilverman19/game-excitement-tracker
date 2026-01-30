@@ -94,11 +94,27 @@
       "awayTeam": "Seahawks",
       "homeScore": 20,
       "awayScore": 23,
-      "excitement": 6.8,
+      "excitement": 6.9,
       "breakdown": {
         "tension": 4.9095889961473596,
         "drama": 5.677113123933184,
         "finish": 6.2338989526088575
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772632",
+      "homeTeam": "Steelers",
+      "awayTeam": "Vikings",
+      "homeScore": 24,
+      "awayScore": 21,
+      "excitement": 6.1,
+      "breakdown": {
+        "tension": 3.028882494863039,
+        "drama": 4.637337829841503,
+        "finish": 4.022106938993948
       },
       "overtime": false,
       "bowlName": null,
@@ -121,28 +137,12 @@
       "playoffRound": null
     },
     {
-      "id": "401772632",
-      "homeTeam": "Steelers",
-      "awayTeam": "Vikings",
-      "homeScore": 24,
-      "awayScore": 21,
-      "excitement": 5,
-      "breakdown": {
-        "tension": 3.028882494863039,
-        "drama": 4.637337829841503,
-        "finish": 4.022106938993948
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772845",
       "homeTeam": "Buccaneers",
       "awayTeam": "Eagles",
       "homeScore": 25,
       "awayScore": 31,
-      "excitement": 5,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.5205978702329275,
@@ -158,6 +158,22 @@
           "Close game (6-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
         ]
       }
+    },
+    {
+      "id": "401772813",
+      "homeTeam": "Dolphins",
+      "awayTeam": "Jets",
+      "homeScore": 27,
+      "awayScore": 21,
+      "excitement": 4.5,
+      "breakdown": {
+        "tension": 2.5422012769773747,
+        "drama": 4.01168949980595,
+        "finish": 2.696538525112536
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401772741",
@@ -181,27 +197,11 @@
       "awayTeam": "Saints",
       "homeScore": 31,
       "awayScore": 19,
-      "excitement": 4.1,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 1.5024300763106069,
         "drama": 3.8601879775462944,
         "finish": 3.9428478781553187
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772813",
-      "homeTeam": "Dolphins",
-      "awayTeam": "Jets",
-      "homeScore": 27,
-      "awayScore": 21,
-      "excitement": 4.1,
-      "breakdown": {
-        "tension": 2.5422012769773747,
-        "drama": 4.01168949980595,
-        "finish": 2.696538525112536
       },
       "overtime": false,
       "bowlName": null,
@@ -278,8 +278,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:08.292Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:33:53.274Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 4
   }

@@ -126,7 +126,7 @@
       "awayTeam": "Cavaliers",
       "homeScore": 119,
       "awayScore": 135,
-      "excitement": 4.7,
+      "excitement": 4.9,
       "breakdown": {
         "tension": 1.5,
         "drama": 3.7667276085444152,
@@ -142,7 +142,7 @@
       "awayTeam": "Clippers",
       "homeScore": 140,
       "awayScore": 123,
-      "excitement": 3.6,
+      "excitement": 3.8,
       "breakdown": {
         "tension": 1.5,
         "drama": 4.148452989486633,
@@ -159,8 +159,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:01:28.531Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:36.795Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-01"
   }

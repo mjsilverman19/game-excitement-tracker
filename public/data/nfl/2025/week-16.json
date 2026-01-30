@@ -114,6 +114,29 @@
       "playoffRound": null
     },
     {
+      "id": "401772802",
+      "homeTeam": "Browns",
+      "awayTeam": "Bills",
+      "homeScore": 20,
+      "awayScore": 23,
+      "excitement": 6.6,
+      "breakdown": {
+        "tension": 4,
+        "drama": 3.2501220549769436,
+        "finish": 5.955687361917732
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
       "id": "401772913",
       "homeTeam": "Broncos",
       "awayTeam": "Jaguars",
@@ -128,6 +151,29 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
+    },
+    {
+      "id": "401772805",
+      "homeTeam": "Texans",
+      "awayTeam": "Raiders",
+      "homeScore": 23,
+      "awayScore": 21,
+      "excitement": 6.5,
+      "breakdown": {
+        "tension": 4,
+        "drama": 4.340309934936676,
+        "finish": 4.3017032690953245
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (2-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
     },
     {
       "id": "401772910",
@@ -162,29 +208,6 @@
       "playoffRound": null
     },
     {
-      "id": "401772802",
-      "homeTeam": "Browns",
-      "awayTeam": "Bills",
-      "homeScore": 20,
-      "awayScore": 23,
-      "excitement": 5.8,
-      "breakdown": {
-        "tension": 4,
-        "drama": 3.2501220549769436,
-        "finish": 5.955687361917732
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
-    },
-    {
       "id": "401772803",
       "homeTeam": "Titans",
       "awayTeam": "Chiefs",
@@ -199,29 +222,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401772805",
-      "homeTeam": "Texans",
-      "awayTeam": "Raiders",
-      "homeScore": 23,
-      "awayScore": 21,
-      "excitement": 5.5,
-      "breakdown": {
-        "tension": 4,
-        "drama": 4.340309934936676,
-        "finish": 4.3017032690953245
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (2-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
     },
     {
       "id": "401772824",
@@ -278,8 +278,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:10.462Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:49.695Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 16
   }

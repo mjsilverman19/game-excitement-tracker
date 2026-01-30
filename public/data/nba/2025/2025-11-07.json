@@ -87,7 +87,7 @@
       "awayTeam": "Hornets",
       "homeScore": 126,
       "awayScore": 108,
-      "excitement": 4.6,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 1.5,
         "drama": 5.592213926641448,
@@ -114,6 +114,22 @@
       "playoffRound": null
     },
     {
+      "id": "401809776",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Mavericks",
+      "homeScore": 118,
+      "awayScore": 104,
+      "excitement": 4,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 3.0563485878223804,
+        "finish": 1.9311491615264422
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401809511",
       "homeTeam": "Wizards",
       "awayTeam": "Cavaliers",
@@ -130,28 +146,12 @@
       "playoffRound": null
     },
     {
-      "id": "401809776",
-      "homeTeam": "Grizzlies",
-      "awayTeam": "Mavericks",
-      "homeScore": 118,
-      "awayScore": 104,
-      "excitement": 3.3,
-      "breakdown": {
-        "tension": 1.25,
-        "drama": 3.0563485878223804,
-        "finish": 1.9311491615264422
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401809779",
       "homeTeam": "Nuggets",
       "awayTeam": "Warriors",
       "homeScore": 129,
       "awayScore": 104,
-      "excitement": 2.807215987477944,
+      "excitement": 2.900579416720197,
       "breakdown": {
         "tension": 0.2048632867734712,
         "drama": 2.0058203609655827,
@@ -184,8 +184,8 @@
     "count": 11,
     "totalGames": 11,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:10.241Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:36.911Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-07"
   }

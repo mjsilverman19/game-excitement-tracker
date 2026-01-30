@@ -146,6 +146,22 @@
       "playoffRound": null
     },
     {
+      "id": "401772866",
+      "homeTeam": "Texans",
+      "awayTeam": "49ers",
+      "homeScore": 26,
+      "awayScore": 15,
+      "excitement": 3.7,
+      "breakdown": {
+        "tension": 1.7056939213945366,
+        "drama": 3.0737161879726616,
+        "finish": 2.623298434352152
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772762",
       "homeTeam": "Broncos",
       "awayTeam": "Cowboys",
@@ -156,22 +172,6 @@
         "tension": 2.2428784011493894,
         "drama": 3.403987618088321,
         "finish": 2.4737432166852136
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401772866",
-      "homeTeam": "Texans",
-      "awayTeam": "49ers",
-      "homeScore": 26,
-      "awayScore": 15,
-      "excitement": 3.5,
-      "breakdown": {
-        "tension": 1.7056939213945366,
-        "drama": 3.0737161879726616,
-        "finish": 2.623298434352152
       },
       "overtime": false,
       "bowlName": null,
@@ -216,8 +216,8 @@
     "count": 13,
     "totalGames": 13,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:26.483Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:11.307Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 8
   }

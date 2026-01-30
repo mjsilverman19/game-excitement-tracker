@@ -39,27 +39,11 @@
       "awayTeam": "Raptors",
       "homeScore": 109,
       "awayScore": 119,
-      "excitement": 6.2,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 2.9240687439005297,
         "drama": 6.329298558663104,
         "finish": 5.110617535921598
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401810066",
-      "homeTeam": "Jazz",
-      "awayTeam": "Pacers",
-      "homeScore": 152,
-      "awayScore": 128,
-      "excitement": 4.016700241789704,
-      "breakdown": {
-        "tension": 1.496728149172582,
-        "drama": 4.949948683104277,
-        "finish": 1.8996964553761013
       },
       "overtime": false,
       "bowlName": null,
@@ -71,11 +55,27 @@
       "awayTeam": "Grizzlies",
       "homeScore": 133,
       "awayScore": 120,
-      "excitement": 3.4,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 1.25,
         "drama": 2.9507336535553605,
         "finish": 2.468320306244472
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810066",
+      "homeTeam": "Jazz",
+      "awayTeam": "Pacers",
+      "homeScore": 152,
+      "awayScore": 128,
+      "excitement": 4.035794472218595,
+      "breakdown": {
+        "tension": 1.496728149172582,
+        "drama": 4.949948683104277,
+        "finish": 1.8996964553761013
       },
       "overtime": false,
       "bowlName": null,
@@ -87,7 +87,7 @@
       "awayTeam": "Warriors",
       "homeScore": 126,
       "awayScore": 102,
-      "excitement": 2.788228171550986,
+      "excitement": 2.926783302154487,
       "breakdown": {
         "tension": 0.014490570733328934,
         "drama": 2.028958138622757,
@@ -104,8 +104,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:36.584Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:46.856Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-11"
   }

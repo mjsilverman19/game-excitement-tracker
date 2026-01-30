@@ -55,7 +55,7 @@
       "awayTeam": "Thunder",
       "homeScore": 96,
       "awayScore": 109,
-      "excitement": 4.9,
+      "excitement": 5.2,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.1812384551311075,
@@ -71,7 +71,7 @@
       "awayTeam": "Lakers",
       "homeScore": 95,
       "awayScore": 119,
-      "excitement": 4.6844972370954014,
+      "excitement": 4.685893341272267,
       "breakdown": {
         "tension": 1.321339051308731,
         "drama": 3.8518644474473644,
@@ -88,8 +88,8 @@
     "count": 5,
     "totalGames": 5,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:46.159Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:55.587Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-15"
   }

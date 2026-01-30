@@ -62,7 +62,7 @@
       "awayTeam": "Pistons",
       "homeScore": 112,
       "awayScore": 99,
-      "excitement": 3.9,
+      "excitement": 4.3,
       "breakdown": {
         "tension": 1.3902740412483006,
         "drama": 4.706088989464413,
@@ -78,7 +78,7 @@
       "awayTeam": "76ers",
       "homeScore": 129,
       "awayScore": 104,
-      "excitement": 2.95295629067194,
+      "excitement": 3.0385122036716576,
       "breakdown": {
         "tension": 0,
         "drama": 2.4988756003522234,
@@ -94,7 +94,7 @@
       "awayTeam": "Kings",
       "homeScore": 125,
       "awayScore": 101,
-      "excitement": 2.754422724206055,
+      "excitement": 2.895392529619908,
       "breakdown": {
         "tension": 0,
         "drama": 1.9026147788810468,
@@ -111,8 +111,8 @@
     "count": 6,
     "totalGames": 6,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:25.381Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:31.757Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-28"
   }

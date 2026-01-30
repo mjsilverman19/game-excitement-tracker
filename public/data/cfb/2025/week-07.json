@@ -114,6 +114,45 @@
       "playoffRound": null
     },
     {
+      "id": "401752733",
+      "homeTeam": "Ole Miss",
+      "awayTeam": "Washington St",
+      "homeScore": 24,
+      "awayScore": 21,
+      "excitement": 5.5,
+      "breakdown": {
+        "tension": 4,
+        "drama": 3.275306122845195,
+        "finish": 3.3378192717931228
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401752735",
+      "homeTeam": "Tennessee",
+      "awayTeam": "Arkansas",
+      "homeScore": 34,
+      "awayScore": 31,
+      "excitement": 5.4,
+      "breakdown": {
+        "tension": 2.841473710177441,
+        "drama": 4.846094469809769,
+        "finish": 2.829004909364246
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401762481",
       "homeTeam": "North Texas",
       "awayTeam": "South Florida",
@@ -140,45 +179,6 @@
         "tension": 3.5094208366508175,
         "drama": 4.788652164549544,
         "finish": 4.38950851497026
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
-      "id": "401752733",
-      "homeTeam": "Ole Miss",
-      "awayTeam": "Washington St",
-      "homeScore": 24,
-      "awayScore": 21,
-      "excitement": 4.7,
-      "breakdown": {
-        "tension": 4,
-        "drama": 3.275306122845195,
-        "finish": 3.3378192717931228
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
-    },
-    {
-      "id": "401752735",
-      "homeTeam": "Tennessee",
-      "awayTeam": "Arkansas",
-      "homeScore": 34,
-      "awayScore": 31,
-      "excitement": 4.6,
-      "breakdown": {
-        "tension": 2.841473710177441,
-        "drama": 4.846094469809769,
-        "finish": 2.829004909364246
       },
       "overtime": false,
       "bowlName": null,
@@ -303,8 +303,8 @@
     "count": 18,
     "totalGames": 18,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:33.164Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:00.126Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 7
   }

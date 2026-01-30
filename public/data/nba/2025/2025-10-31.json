@@ -55,7 +55,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 126,
       "awayScore": 124,
-      "excitement": 7.8,
+      "excitement": 8,
       "breakdown": {
         "tension": 4,
         "drama": 7.9843014414168865,
@@ -71,7 +71,7 @@
       "awayTeam": "Celtics",
       "homeScore": 108,
       "awayScore": 109,
-      "excitement": 7.6,
+      "excitement": 7.9,
       "breakdown": {
         "tension": 4,
         "drama": 8.683126384413457,
@@ -119,7 +119,7 @@
       "awayTeam": "Jazz",
       "homeScore": 118,
       "awayScore": 96,
-      "excitement": 3.2,
+      "excitement": 3.4,
       "breakdown": {
         "tension": 0.9976561261203301,
         "drama": 2.6380926815310217,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:48.147Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:20.862Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-10-31"
   }

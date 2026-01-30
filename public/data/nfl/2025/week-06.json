@@ -199,11 +199,27 @@
       "awayTeam": "Bengals",
       "homeScore": 27,
       "awayScore": 18,
-      "excitement": 3.7,
+      "excitement": 4,
       "breakdown": {
         "tension": 1.5,
         "drama": 2.8812396296338356,
         "finish": 3.4444518073152466
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401772859",
+      "homeTeam": "Raiders",
+      "awayTeam": "Titans",
+      "homeScore": 20,
+      "awayScore": 10,
+      "excitement": 3.7,
+      "breakdown": {
+        "tension": 2.5095381282495066,
+        "drama": 2.8782434397691663,
+        "finish": 2.3989842524860285
       },
       "overtime": false,
       "bowlName": null,
@@ -224,22 +240,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401772859",
-      "homeTeam": "Raiders",
-      "awayTeam": "Titans",
-      "homeScore": 20,
-      "awayScore": 10,
-      "excitement": 3.5,
-      "breakdown": {
-        "tension": 2.5095381282495066,
-        "drama": 2.8782434397691663,
-        "finish": 2.3989842524860285
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
     }
   ],
   "metadata": {
@@ -248,8 +248,8 @@
     "count": 15,
     "totalGames": 15,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:17.756Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:02.900Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 6
   }

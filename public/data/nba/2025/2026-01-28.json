@@ -103,11 +103,27 @@
       "awayTeam": "Hawks",
       "homeScore": 106,
       "awayScore": 117,
-      "excitement": 5.5,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 1.5973803466808822,
         "drama": 5.144068087970743,
         "finish": 4.936376002529798
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810533",
+      "homeTeam": "Jazz",
+      "awayTeam": "Warriors",
+      "homeScore": 124,
+      "awayScore": 140,
+      "excitement": 4.7,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 3.111881889784291,
+        "finish": 4.973420201773466
       },
       "overtime": false,
       "bowlName": null,
@@ -128,22 +144,6 @@
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
-    },
-    {
-      "id": "401810533",
-      "homeTeam": "Jazz",
-      "awayTeam": "Warriors",
-      "homeScore": 124,
-      "awayScore": 140,
-      "excitement": 4.5,
-      "breakdown": {
-        "tension": 1.5,
-        "drama": 3.111881889784291,
-        "finish": 4.973420201773466
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
     }
   ],
   "metadata": {
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:43.467Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:46.538Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-28"
   }

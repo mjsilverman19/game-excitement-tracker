@@ -162,28 +162,12 @@
       "playoffRound": null
     },
     {
-      "id": "401772811",
-      "homeTeam": "Raiders",
-      "awayTeam": "Chargers",
-      "homeScore": 9,
-      "awayScore": 20,
-      "excitement": 5.3,
-      "breakdown": {
-        "tension": 4.184484904550651,
-        "drama": 3.822751046507221,
-        "finish": 5.076438656315808
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772730",
       "homeTeam": "Cardinals",
       "awayTeam": "Panthers",
       "homeScore": 27,
       "awayScore": 22,
-      "excitement": 5,
+      "excitement": 5.6,
       "breakdown": {
         "tension": 2.5,
         "drama": 3.893961490875177,
@@ -201,12 +185,28 @@
       }
     },
     {
+      "id": "401772811",
+      "homeTeam": "Raiders",
+      "awayTeam": "Chargers",
+      "homeScore": 9,
+      "awayScore": 20,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 4.184484904550651,
+        "drama": 3.822751046507221,
+        "finish": 5.076438656315808
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401772936",
       "homeTeam": "Packers",
       "awayTeam": "Commanders",
       "homeScore": 27,
       "awayScore": 18,
-      "excitement": 4,
+      "excitement": 4.2,
       "breakdown": {
         "tension": 1.7649401988464641,
         "drama": 3.3344815014967715,
@@ -271,8 +271,8 @@
     "count": 16,
     "totalGames": 16,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:58:54.311Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:33:42.967Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 2
   }

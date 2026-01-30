@@ -119,7 +119,7 @@
       "awayTeam": "Lakers",
       "homeScore": 104,
       "awayScore": 118,
-      "excitement": 5.1,
+      "excitement": 5.3,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.523301406157609,
@@ -135,7 +135,7 @@
       "awayTeam": "Trail Blazers",
       "homeScore": 140,
       "awayScore": 116,
-      "excitement": 3.4999673135083227,
+      "excitement": 3.556465766100143,
       "breakdown": {
         "tension": 0.8735388215465685,
         "drama": 3.4375663637422473,
@@ -152,8 +152,8 @@
     "count": 9,
     "totalGames": 9,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:00:44.304Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:54.147Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-14"
   }

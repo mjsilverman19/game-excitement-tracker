@@ -103,7 +103,7 @@
       "awayTeam": "Suns",
       "homeScore": 123,
       "awayScore": 119,
-      "excitement": 6.6,
+      "excitement": 7,
       "breakdown": {
         "tension": 4,
         "drama": 6.330914226866115,
@@ -126,7 +126,7 @@
       "awayTeam": "Mavericks",
       "homeScore": 129,
       "awayScore": 119,
-      "excitement": 6.2,
+      "excitement": 6.3,
       "breakdown": {
         "tension": 2.788010866401349,
         "drama": 7.496449030518915,
@@ -142,7 +142,7 @@
       "awayTeam": "Kings",
       "homeScore": 128,
       "awayScore": 119,
-      "excitement": 5.7,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 3.6901422418566634,
         "drama": 7.445273106681436,
@@ -158,7 +158,7 @@
       "awayTeam": "76ers",
       "homeScore": 103,
       "awayScore": 115,
-      "excitement": 5,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 1.25,
         "drama": 4.42751937095612,
@@ -198,8 +198,8 @@
     "count": 11,
     "totalGames": 11,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:01:20.071Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:37:28.409Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-11-28"
   }

@@ -103,7 +103,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 125,
       "awayScore": 106,
-      "excitement": 3.7,
+      "excitement": 3.8,
       "breakdown": {
         "tension": 0.8999999999999999,
         "drama": 3.8655526637815383,
@@ -119,7 +119,7 @@
       "awayTeam": "Timberwolves",
       "homeScore": 115,
       "awayScore": 141,
-      "excitement": 3.697127571675337,
+      "excitement": 3.7212301584012177,
       "breakdown": {
         "tension": 0.03707230569427322,
         "drama": 1.9948956308902799,
@@ -136,8 +136,8 @@
     "count": 8,
     "totalGames": 8,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:43.831Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:49.156Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-04"
   }

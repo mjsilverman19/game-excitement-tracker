@@ -135,7 +135,7 @@
       "awayTeam": "Hawks",
       "homeScore": 133,
       "awayScore": 126,
-      "excitement": 6.8,
+      "excitement": 7,
       "breakdown": {
         "tension": 3.1225045303403043,
         "drama": 7.79389504921704,
@@ -162,32 +162,32 @@
       "playoffRound": null
     },
     {
-      "id": "401810225",
-      "homeTeam": "Spurs",
-      "awayTeam": "Wizards",
-      "homeScore": 119,
-      "awayScore": 94,
-      "excitement": 3.0378486532768965,
+      "id": "401810224",
+      "homeTeam": "Thunder",
+      "awayTeam": "Clippers",
+      "homeScore": 122,
+      "awayScore": 101,
+      "excitement": 3.3,
       "breakdown": {
-        "tension": 0.01636939985584096,
-        "drama": 1.779617809952429,
-        "finish": 3.212609884011979
+        "tension": 0,
+        "drama": 2.4400962359130856,
+        "finish": 2.028119660519713
       },
       "overtime": false,
       "bowlName": null,
       "playoffRound": null
     },
     {
-      "id": "401810224",
-      "homeTeam": "Thunder",
-      "awayTeam": "Clippers",
-      "homeScore": 122,
-      "awayScore": 101,
-      "excitement": 3,
+      "id": "401810225",
+      "homeTeam": "Spurs",
+      "awayTeam": "Wizards",
+      "homeScore": 119,
+      "awayScore": 94,
+      "excitement": 3.118856761137063,
       "breakdown": {
-        "tension": 0,
-        "drama": 2.4400962359130856,
-        "finish": 2.028119660519713
+        "tension": 0.01636939985584096,
+        "drama": 1.779617809952429,
+        "finish": 3.212609884011979
       },
       "overtime": false,
       "bowlName": null,
@@ -200,8 +200,8 @@
     "count": 12,
     "totalGames": 12,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:02:02.017Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:38:09.855Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2025-12-18"
   }

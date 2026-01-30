@@ -146,6 +146,52 @@
       "playoffRound": null
     },
     {
+      "id": "401752758",
+      "homeTeam": "Texas",
+      "awayTeam": "Vanderbilt",
+      "homeScore": 34,
+      "awayScore": 31,
+      "excitement": 4.5,
+      "breakdown": {
+        "tension": 2,
+        "drama": 1.2485114241343593,
+        "finish": 2.3580000991297805
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401752890",
+      "homeTeam": "Michigan",
+      "awayTeam": "Purdue",
+      "homeScore": 21,
+      "awayScore": 16,
+      "excitement": 4.1,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 1.335896359607344,
+        "finish": 2.6437865885425396
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
       "id": "401752756",
       "homeTeam": "Ole Miss",
       "awayTeam": "South Carolina",
@@ -210,52 +256,6 @@
       "playoffRound": null
     },
     {
-      "id": "401752758",
-      "homeTeam": "Texas",
-      "awayTeam": "Vanderbilt",
-      "homeScore": 34,
-      "awayScore": 31,
-      "excitement": 3.1,
-      "breakdown": {
-        "tension": 2,
-        "drama": 1.2485114241343593,
-        "finish": 2.3580000991297805
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (3-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
-    },
-    {
-      "id": "401752890",
-      "homeTeam": "Michigan",
-      "awayTeam": "Purdue",
-      "homeScore": 21,
-      "awayScore": 16,
-      "excitement": 3,
-      "breakdown": {
-        "tension": 1.25,
-        "drama": 1.335896359607344,
-        "finish": 2.6437865885425396
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null,
-      "dataQuality": {
-        "warning": true,
-        "severity": "high",
-        "issues": [
-          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
-        ]
-      }
-    },
-    {
       "id": "401756942",
       "homeTeam": "Utah",
       "awayTeam": "Cincinnati",
@@ -301,8 +301,8 @@
     "count": 17,
     "totalGames": 17,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:50.638Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:36:18.244Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 10
   }

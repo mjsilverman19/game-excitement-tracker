@@ -89,28 +89,12 @@
       "playoffRound": null
     },
     {
-      "id": "401772818",
-      "homeTeam": "Cowboys",
-      "awayTeam": "Cardinals",
-      "homeScore": 17,
-      "awayScore": 27,
-      "excitement": 6.6,
-      "breakdown": {
-        "tension": 5.144653778829876,
-        "drama": 5.079129543801152,
-        "finish": 5.3571434422795825
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401772763",
       "homeTeam": "Patriots",
       "awayTeam": "Falcons",
       "homeScore": 24,
       "awayScore": 23,
-      "excitement": 6.3,
+      "excitement": 7.2,
       "breakdown": {
         "tension": 4,
         "drama": 5.511511373917405,
@@ -126,6 +110,22 @@
           "Close game (1-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
         ]
       }
+    },
+    {
+      "id": "401772818",
+      "homeTeam": "Cowboys",
+      "awayTeam": "Cardinals",
+      "homeScore": 17,
+      "awayScore": 27,
+      "excitement": 6.6,
+      "breakdown": {
+        "tension": 5.144653778829876,
+        "drama": 5.079129543801152,
+        "finish": 5.3571434422795825
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401772767",
@@ -149,7 +149,7 @@
       "awayTeam": "Chargers",
       "homeScore": 20,
       "awayScore": 27,
-      "excitement": 5.7,
+      "excitement": 5.8,
       "breakdown": {
         "tension": 3.801652968778939,
         "drama": 4.345474224876296,
@@ -188,7 +188,7 @@
       "awayTeam": "Colts",
       "homeScore": 27,
       "awayScore": 20,
-      "excitement": 4.6,
+      "excitement": 4.7,
       "breakdown": {
         "tension": 2.9015415155105106,
         "drama": 5.3852056546876526,
@@ -253,8 +253,8 @@
     "count": 14,
     "totalGames": 14,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T02:59:31.106Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:34:15.752Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "week": 9
   }

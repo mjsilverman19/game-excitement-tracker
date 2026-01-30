@@ -66,28 +66,12 @@
       "playoffRound": null
     },
     {
-      "id": "401810512",
-      "homeTeam": "Hornets",
-      "awayTeam": "76ers",
-      "homeScore": 130,
-      "awayScore": 93,
-      "excitement": 4.222322387954682,
-      "breakdown": {
-        "tension": 1.282156798574844,
-        "drama": 4.945283749890939,
-        "finish": 1.7047724948422243
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810515",
       "homeTeam": "Celtics",
       "awayTeam": "Trail Blazers",
       "homeScore": 102,
       "awayScore": 94,
-      "excitement": 3.8,
+      "excitement": 5.1,
       "breakdown": {
         "tension": 1.25,
         "drama": 3.1537571838450655,
@@ -105,12 +89,28 @@
       }
     },
     {
+      "id": "401810512",
+      "homeTeam": "Hornets",
+      "awayTeam": "76ers",
+      "homeScore": 130,
+      "awayScore": 93,
+      "excitement": 4.222322387954682,
+      "breakdown": {
+        "tension": 1.282156798574844,
+        "drama": 4.945283749890939,
+        "finish": 1.7047724948422243
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
       "id": "401810518",
       "homeTeam": "Timberwolves",
       "awayTeam": "Warriors",
       "homeScore": 108,
       "awayScore": 83,
-      "excitement": 3.641403315826115,
+      "excitement": 3.6562153835084508,
       "breakdown": {
         "tension": 1.782773765802769,
         "drama": 4.067358744608337,
@@ -127,8 +127,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:38.512Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:41.391Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-26"
   }

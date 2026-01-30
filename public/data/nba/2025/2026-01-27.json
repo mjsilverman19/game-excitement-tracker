@@ -34,28 +34,12 @@
       "playoffRound": null
     },
     {
-      "id": "401810525",
-      "homeTeam": "Jazz",
-      "awayTeam": "Clippers",
-      "homeScore": 103,
-      "awayScore": 115,
-      "excitement": 7.5,
-      "breakdown": {
-        "tension": 5.9019118183439545,
-        "drama": 7.559054452403214,
-        "finish": 4.919149770293352
-      },
-      "overtime": false,
-      "bowlName": null,
-      "playoffRound": null
-    },
-    {
       "id": "401810523",
       "homeTeam": "Nuggets",
       "awayTeam": "Pistons",
       "homeScore": 107,
       "awayScore": 109,
-      "excitement": 7.1,
+      "excitement": 7.7,
       "breakdown": {
         "tension": 4,
         "drama": 6.173875071693271,
@@ -71,6 +55,22 @@
           "Close game (2-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
         ]
       }
+    },
+    {
+      "id": "401810525",
+      "homeTeam": "Jazz",
+      "awayTeam": "Clippers",
+      "homeScore": 103,
+      "awayScore": 115,
+      "excitement": 7.5,
+      "breakdown": {
+        "tension": 5.9019118183439545,
+        "drama": 7.559054452403214,
+        "finish": 4.919149770293352
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
     },
     {
       "id": "401810520",
@@ -110,7 +110,7 @@
       "awayTeam": "Pelicans",
       "homeScore": 104,
       "awayScore": 95,
-      "excitement": 4.4,
+      "excitement": 5.4,
       "breakdown": {
         "tension": 1.25,
         "drama": 5.045847101597524,
@@ -134,8 +134,8 @@
     "count": 7,
     "totalGames": 7,
     "insufficientData": 0,
-    "generatedAt": "2026-01-30T03:03:40.684Z",
-    "algorithmVersion": "3.4",
+    "generatedAt": "2026-01-30T03:39:43.377Z",
+    "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
     "date": "2026-01-27"
   }
