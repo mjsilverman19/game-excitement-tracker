@@ -1,0 +1,167 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810542",
+      "homeTeam": "Magic",
+      "awayTeam": "Raptors",
+      "homeScore": 130,
+      "awayScore": 120,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 7.186140371845432,
+        "drama": 10,
+        "finish": 6.543076061403429
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810549",
+      "homeTeam": "Jazz",
+      "awayTeam": "Nets",
+      "homeScore": 99,
+      "awayScore": 109,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 6.594444348521746,
+        "drama": 9.28681655639961,
+        "finish": 5.843011799116043
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810546",
+      "homeTeam": "Pelicans",
+      "awayTeam": "Grizzlies",
+      "homeScore": 114,
+      "awayScore": 106,
+      "excitement": 7.4,
+      "breakdown": {
+        "tension": 7.381258519674329,
+        "drama": 9.211213162847967,
+        "finish": 3.5318733732361145
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 92% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
+    },
+    {
+      "id": "401810551",
+      "homeTeam": "Warriors",
+      "awayTeam": "Pistons",
+      "homeScore": 124,
+      "awayScore": 131,
+      "excitement": 7.3,
+      "breakdown": {
+        "tension": 2.712809913210733,
+        "drama": 7.662299323726528,
+        "finish": 6.196649852968355
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810548",
+      "homeTeam": "Suns",
+      "awayTeam": "Cavaliers",
+      "homeScore": 126,
+      "awayScore": 113,
+      "excitement": 6,
+      "breakdown": {
+        "tension": 5.471933628644049,
+        "drama": 7.64983984822432,
+        "finish": 1.800125438686152
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810550",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Clippers",
+      "homeScore": 122,
+      "awayScore": 109,
+      "excitement": 6,
+      "breakdown": {
+        "tension": 3.5635407819942913,
+        "drama": 7.106867993854126,
+        "finish": 4.233322342732986
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810543",
+      "homeTeam": "Wizards",
+      "awayTeam": "Lakers",
+      "homeScore": 111,
+      "awayScore": 142,
+      "excitement": 3.2591390988673403,
+      "breakdown": {
+        "tension": 0.03811391679603271,
+        "drama": 0.7601536515071907,
+        "finish": 4.889166989773115
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810544",
+      "homeTeam": "Celtics",
+      "awayTeam": "Kings",
+      "homeScore": 112,
+      "awayScore": 93,
+      "excitement": 3.1,
+      "breakdown": {
+        "tension": 0.8999999999999999,
+        "drama": 0.9279034228008975,
+        "finish": 1.703845246820492
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810545",
+      "homeTeam": "Knicks",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 127,
+      "awayScore": 97,
+      "excitement": 2.695480289922285,
+      "breakdown": {
+        "tension": 0,
+        "drama": 1.613448512522307,
+        "finish": 1.7789430742332113
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 9,
+    "totalGames": 9,
+    "insufficientData": 0,
+    "generatedAt": "2026-01-31T10:21:14.347Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-01-30"
+  }
+}
