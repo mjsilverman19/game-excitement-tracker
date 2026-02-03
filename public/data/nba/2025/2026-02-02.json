@@ -1,0 +1,80 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810568",
+      "homeTeam": "Pacers",
+      "awayTeam": "Rockets",
+      "homeScore": 114,
+      "awayScore": 118,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 5.729544537920946,
+        "drama": 9.438446063059644,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810567",
+      "homeTeam": "Hornets",
+      "awayTeam": "Pelicans",
+      "homeScore": 102,
+      "awayScore": 95,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 5.163348006983495,
+        "drama": 10,
+        "finish": 5.52748068394716
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810569",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Timberwolves",
+      "homeScore": 137,
+      "awayScore": 128,
+      "excitement": 6.6,
+      "breakdown": {
+        "tension": 4.3978249377334855,
+        "drama": 8.675987251098457,
+        "finish": 2.6455721180572316
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810570",
+      "homeTeam": "Clippers",
+      "awayTeam": "76ers",
+      "homeScore": 113,
+      "awayScore": 128,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 4.7316807365082605,
+        "finish": 4.962171162219988
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-02-03T10:31:08.428Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-02-02"
+  }
+}
