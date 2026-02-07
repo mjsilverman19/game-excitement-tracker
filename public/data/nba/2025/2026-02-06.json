@@ -1,0 +1,112 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810599",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Pelicans",
+      "homeScore": 115,
+      "awayScore": 119,
+      "excitement": 9.4,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810601",
+      "homeTeam": "Kings",
+      "awayTeam": "Clippers",
+      "homeScore": 111,
+      "awayScore": 114,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 7.302897030316467,
+        "drama": 8.815276434181607,
+        "finish": 6.500700902822571
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810596",
+      "homeTeam": "Celtics",
+      "awayTeam": "Heat",
+      "homeScore": 98,
+      "awayScore": 96,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.339126311208137
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810598",
+      "homeTeam": "Bucks",
+      "awayTeam": "Pacers",
+      "homeScore": 105,
+      "awayScore": 99,
+      "excitement": 6.6,
+      "breakdown": {
+        "tension": 4.125994694688346,
+        "drama": 7.36379289906928,
+        "finish": 3.3335101879994076
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810600",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Grizzlies",
+      "homeScore": 135,
+      "awayScore": 115,
+      "excitement": 4.6,
+      "breakdown": {
+        "tension": 2.915485511950619,
+        "drama": 5.6628813319471245,
+        "finish": 2.2643890214646
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810597",
+      "homeTeam": "Pistons",
+      "awayTeam": "Knicks",
+      "homeScore": 118,
+      "awayScore": 80,
+      "excitement": 3.4395738647121723,
+      "breakdown": {
+        "tension": 1.5282953499179661,
+        "drama": 3.55017856577526,
+        "finish": 1.7050854635047736
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 6,
+    "totalGames": 6,
+    "insufficientData": 0,
+    "generatedAt": "2026-02-07T10:33:40.661Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-02-06"
+  }
+}
