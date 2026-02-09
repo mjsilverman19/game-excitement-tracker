@@ -1,0 +1,80 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810615",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Clippers",
+      "homeScore": 96,
+      "awayScore": 115,
+      "excitement": 5.7,
+      "breakdown": {
+        "tension": 2.8517371000120084,
+        "drama": 5.051315828161174,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810612",
+      "homeTeam": "Celtics",
+      "awayTeam": "Knicks",
+      "homeScore": 89,
+      "awayScore": 111,
+      "excitement": 5.6,
+      "breakdown": {
+        "tension": 2.6938978556014406,
+        "drama": 5.34791880323242,
+        "finish": 4.915762164084055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810614",
+      "homeTeam": "Raptors",
+      "awayTeam": "Pacers",
+      "homeScore": 122,
+      "awayScore": 104,
+      "excitement": 4.7,
+      "breakdown": {
+        "tension": 3.1901086637682563,
+        "drama": 5.94503042254361,
+        "finish": 2.092101439580244
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810613",
+      "homeTeam": "Wizards",
+      "awayTeam": "Heat",
+      "homeScore": 101,
+      "awayScore": 132,
+      "excitement": 3.973940084107024,
+      "breakdown": {
+        "tension": 0.5047664541958505,
+        "drama": 2.5072964327655374,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-02-09T10:59:55.931Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-02-08"
+  }
+}
