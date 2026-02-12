@@ -18,6 +18,7 @@ import { populateCustomDatePicker } from './components/date-picker.js';
 import { populateWeekPicker } from './components/week-picker.js';
 import { loadTeams, displayTeams, filterTeams, selectTeam, loadSchedule, displaySchedule, loadSingleGame, displaySingleGame, backToWeek, backToSchedule } from './components/team-picker.js';
 import { openExportModal, closeExportModal, attachExportListeners } from './components/export-modal.js';
+import { openTopGames, closeTopGames } from './components/top-games.js';
 
 window.ALGORITHM_CONFIG = ALGORITHM_CONFIG;
 window.getTier = getTier;
@@ -124,6 +125,10 @@ window.getTier = getTier;
             document.getElementById('nflOption').classList.toggle('active', window.selectedSport === 'NFL');
             document.getElementById('cfbOption').classList.toggle('active', window.selectedSport === 'CFB');
             document.getElementById('nbaOption').classList.toggle('active', window.selectedSport === 'NBA');
+
+            // Clean up top games state when returning to normal view
+            document.getElementById('topGamesSelector').style.display = 'none';
+            document.getElementById('topGamesLink').classList.remove('active');
 
             // Show/hide appropriate navigation
             if (window.selectedSport === 'NBA') {
@@ -572,6 +577,22 @@ window.getTier = getTier;
                     document.getElementById('teamSearchInput').value = '';
                 }
             });
+
+            // Top games link
+            document.getElementById('topGamesLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.viewMode === 'top-games') {
+                    closeTopGames();
+                } else {
+                    openTopGames();
+                }
+            });
+
+            // Top games back link
+            document.getElementById('topGamesBack').addEventListener('click', (e) => {
+                e.preventDefault();
+                closeTopGames();
+            });
         }
 
         // Show loading state
@@ -710,6 +731,8 @@ window.getTier = getTier;
         window.backToSchedule = backToSchedule;
         window.openExportModal = openExportModal;
         window.closeExportModal = closeExportModal;
+        window.openTopGames = openTopGames;
+        window.closeTopGames = closeTopGames;
         window.loadGames = loadGames;
         window.showLoading = showLoading;
         window.showEmpty = showEmpty;

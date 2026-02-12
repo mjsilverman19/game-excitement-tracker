@@ -1045,6 +1045,47 @@
             color: var(--text-secondary);
         }
 
+        .find-game-link.active {
+            color: var(--text-primary);
+        }
+
+        /* Top Games */
+        .top-games-presets {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .top-games-preset-btn {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: none;
+            border: 1px solid var(--border-secondary);
+            border-radius: 2px;
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            font-family: inherit;
+        }
+
+        .top-games-preset-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-primary);
+            color: var(--text-primary);
+        }
+
+        .top-games-preset-btn.active {
+            background: var(--bg-active);
+            border-color: var(--bg-active-alt);
+            color: var(--text-primary);
+        }
+
+        .top-games-context {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            letter-spacing: 0.05em;
+        }
+
         .team-picker {
             position: absolute;
             background: var(--bg-primary);
