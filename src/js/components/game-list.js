@@ -154,9 +154,15 @@ export function createGameRow(game, index) {
         bowlInfo = `<div class="bowl-info playoff">${game.playoffRound}</div>`;
     }
 
+    let contextInfo = '';
+    if (game._topGamesContext) {
+        contextInfo = `<div class="top-games-context">#${index + 1} · ${game._topGamesContext}</div>`;
+    }
+
     return `
         <div class="game-row" data-game-index="${index}">
             ${bowlInfo}
+            ${contextInfo}
             <div class="score-rating-line ${ratingClass}">
                 <span class="score-value">${displayScore}</span>
                 <span class="score-separator"> · </span>
