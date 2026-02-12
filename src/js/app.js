@@ -28,11 +28,11 @@ window.getTier = getTier;
         }
 
         // State
-        const currentNFLWeek = getCurrentNFLWeek();
-        window.selectedSport = 'NFL';
-        window.selectedSeason = currentNFLWeek.season;
-        window.selectedWeek = currentNFLWeek.week;
-        window.selectedDate = null; // For NBA date-based navigation
+        const currentNBAWeek = getCurrentWeek('NBA');
+        window.selectedSport = 'NBA';
+        window.selectedSeason = currentNBAWeek.season;
+        window.selectedWeek = null;
+        window.selectedDate = getDefaultNBADate(); // For NBA date-based navigation
         window.spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         window.currentGames = null;
         window.periodAverages = null;
