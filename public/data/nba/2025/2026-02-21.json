@@ -1,0 +1,112 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810666",
+      "homeTeam": "Suns",
+      "awayTeam": "Magic",
+      "homeScore": 113,
+      "awayScore": 110,
+      "excitement": 9.2,
+      "breakdown": {
+        "tension": 6.301911295102446,
+        "drama": 10,
+        "finish": 7.361249110561352
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810671",
+      "homeTeam": "Knicks",
+      "awayTeam": "Rockets",
+      "homeScore": 108,
+      "awayScore": 106,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 5.789245953754114
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810667",
+      "homeTeam": "Pelicans",
+      "awayTeam": "76ers",
+      "homeScore": 126,
+      "awayScore": 111,
+      "excitement": 8.6,
+      "breakdown": {
+        "tension": 5.931208431377283,
+        "drama": 10,
+        "finish": 5.951853861062233
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810668",
+      "homeTeam": "Heat",
+      "awayTeam": "Grizzlies",
+      "homeScore": 136,
+      "awayScore": 120,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 3.158231511005025,
+        "drama": 6.140147374651192,
+        "finish": 2.54133183893209
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810669",
+      "homeTeam": "Bulls",
+      "awayTeam": "Pistons",
+      "homeScore": 110,
+      "awayScore": 126,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 4.977338807665641,
+        "finish": 4.889406358892959
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810670",
+      "homeTeam": "Spurs",
+      "awayTeam": "Kings",
+      "homeScore": 139,
+      "awayScore": 122,
+      "excitement": 4,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 3.480815223311067,
+        "finish": 3.05468891061587
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 6,
+    "totalGames": 6,
+    "insufficientData": 0,
+    "generatedAt": "2026-02-22T10:32:32.466Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-02-21"
+  }
+}
