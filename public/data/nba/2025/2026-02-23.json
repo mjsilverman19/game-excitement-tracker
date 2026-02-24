@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810684",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Kings",
+      "homeScore": 114,
+      "awayScore": 123,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 8.268878706598395,
+        "drama": 9.518100013736433,
+        "finish": 5.853734453287033
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810683",
+      "homeTeam": "Pistons",
+      "awayTeam": "Spurs",
+      "homeScore": 103,
+      "awayScore": 114,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 6.373396981934678,
+        "drama": 9.276659525750446,
+        "finish": 5.1835727530539275
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810685",
+      "homeTeam": "Rockets",
+      "awayTeam": "Jazz",
+      "homeScore": 125,
+      "awayScore": 105,
+      "excitement": 3.1,
+      "breakdown": {
+        "tension": 0.8999999999999999,
+        "drama": 1.1356602429397604,
+        "finish": 1.703822331948373
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-02-24T10:39:23.530Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-02-23"
+  }
+}
