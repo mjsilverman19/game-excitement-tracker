@@ -1,0 +1,103 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810719",
+      "homeTeam": "Heat",
+      "awayTeam": "Rockets",
+      "homeScore": 115,
+      "awayScore": 105,
+      "excitement": 8.3,
+      "breakdown": {
+        "tension": 7.92328243008742,
+        "drama": 10,
+        "finish": 5.996927485429801
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810720",
+      "homeTeam": "Wizards",
+      "awayTeam": "Raptors",
+      "homeScore": 125,
+      "awayScore": 134,
+      "excitement": 7.6,
+      "breakdown": {
+        "tension": 5.165944982760542,
+        "drama": 8.002220374102311,
+        "finish": 5.0871538163996455
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810722",
+      "homeTeam": "Jazz",
+      "awayTeam": "Pelicans",
+      "homeScore": 105,
+      "awayScore": 115,
+      "excitement": 5.6,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 4.092274251163777,
+        "finish": 5.010658192090611
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (10-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401810718",
+      "homeTeam": "Hornets",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 109,
+      "awayScore": 93,
+      "excitement": 4.4,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 4.077103487385368,
+        "finish": 3.6981331446374472
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810721",
+      "homeTeam": "Warriors",
+      "awayTeam": "Lakers",
+      "homeScore": 101,
+      "awayScore": 129,
+      "excitement": 4.017895731212761,
+      "breakdown": {
+        "tension": 0.8488652439057798,
+        "drama": 2.465439913044748,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 5,
+    "totalGames": 5,
+    "insufficientData": 0,
+    "generatedAt": "2026-03-01T10:31:44.983Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-02-28"
+  }
+}
