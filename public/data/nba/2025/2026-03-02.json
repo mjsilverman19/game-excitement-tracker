@@ -1,0 +1,87 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810736",
+      "homeTeam": "Jazz",
+      "awayTeam": "Nuggets",
+      "homeScore": 125,
+      "awayScore": 128,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 4,
+        "drama": 8.764682877878485,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810737",
+      "homeTeam": "Warriors",
+      "awayTeam": "Clippers",
+      "homeScore": 101,
+      "awayScore": 114,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 3.521919568780143,
+        "drama": 10,
+        "finish": 6.1113262162107205
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    },
+    {
+      "id": "401810734",
+      "homeTeam": "Wizards",
+      "awayTeam": "Rockets",
+      "homeScore": 118,
+      "awayScore": 123,
+      "excitement": 6.1,
+      "breakdown": {
+        "tension": 2,
+        "drama": 2.8704076422859686,
+        "finish": 4.892649709035827
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (5-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401810735",
+      "homeTeam": "Bucks",
+      "awayTeam": "Celtics",
+      "homeScore": 81,
+      "awayScore": 108,
+      "excitement": 4.123755378511244,
+      "breakdown": {
+        "tension": 1.047283972890108,
+        "drama": 2.6331722459940963,
+        "finish": 4.8968447032016655
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-03-03T10:49:54.080Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-03-02"
+  }
+}
