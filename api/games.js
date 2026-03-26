@@ -67,7 +67,7 @@ export default async function handler(req, res) {
       actualSeasonType = '3';
     }
 
-    if (sport === 'NBA') {
+    if (sport === 'NBA' || sport === 'MLB') {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
     } else if (week === 'bowls') {
       console.log(`Fetching ${sport} bowl games for ${season} season`);

@@ -113,9 +113,9 @@ function validateOptions() {
     process.exit(1);
   }
 
-  if (options.sport === 'NBA') {
+  if (options.sport === 'NBA' || options.sport === 'MLB') {
     if (!options.all && !options.date) {
-      console.error('Error: NBA requires either --date or --all');
+      console.error(`Error: ${options.sport} requires either --date or --all`);
       printUsage();
       process.exit(1);
     }
@@ -134,7 +134,7 @@ function getStaticFilePath(sport, season, weekOrDate) {
   const dir = join(PUBLIC_DATA_DIR, sportLower, String(season));
 
   let filename;
-  if (sport === 'NBA') {
+  if (sport === 'NBA' || sport === 'MLB') {
     filename = `${weekOrDate}.json`;
   } else {
     let weekStr;
@@ -156,6 +156,7 @@ function getStaticFilePath(sport, season, weekOrDate) {
 
 function getSummaryPath(sport) {
   if (sport === 'NBA') return 'basketball/nba';
+  if (sport === 'MLB') return 'baseball/mlb';
   if (sport === 'CFB') return 'football/college-football';
   return 'football/nfl';
 }
@@ -229,7 +230,7 @@ async function generateStatic(sport, season, weekOrDate) {
       seasonType = '3';
     }
 
-    if (sport === 'NBA') {
+    if (sport === 'NBA' || sport === 'MLB') {
       games = await fetchGames(sport, season, null, seasonType, weekOrDate);
     } else {
       games = await fetchGames(sport, season, weekOrDate, seasonType);
@@ -267,7 +268,7 @@ async function generateStatic(sport, season, weekOrDate) {
       source: 'ESPN Win Probability Analysis'
     };
 
-    if (sport === 'NBA') {
+    if (sport === 'NBA' || sport === 'MLB') {
       metadata.date = weekOrDate;
     } else {
       metadata.week = weekOrDate;
@@ -421,13 +422,13 @@ async function main() {
   console.log(`\n🏈 Game Excitement Tracker - Static Data Generator\n`);
 
   if (options.all) {
-    if (options.sport === 'NBA') {
+    if (options.sport === 'NBA' || options.sport === 'MLB') {
       await generateAllNBADates(options.season);
     } else {
       await generateAllWeeks(options.sport, options.season);
     }
   } else {
-    const weekOrDate = options.sport === 'NBA' ? options.date : options.week;
+    const weekOrDate = (options.sport === 'NBA' || options.sport === 'MLB') ? options.date : options.week;
     await generateStatic(options.sport, options.season, weekOrDate);
   }
 

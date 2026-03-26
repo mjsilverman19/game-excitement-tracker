@@ -157,6 +157,8 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
   }
   const blowoutThreshold = sport === 'NBA'
     ? SCORING_CONFIG.thresholds.blowoutMargin.nba
+    : sport === 'MLB'
+    ? SCORING_CONFIG.thresholds.blowoutMargin.mlb
     : SCORING_CONFIG.thresholds.blowoutMargin.nflCfb;
 
   if (lateCloseness < SCORING_CONFIG.thresholds.lateClosenessThreshold &&
@@ -241,7 +243,7 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
 
   // Hard margin cap for extreme blowouts (data quality guardrail)
   if (margin != null) {
-    const blowoutCapThreshold = sport === 'NBA' ? 22 : 28;
+    const blowoutCapThreshold = sport === 'NBA' ? 22 : sport === 'MLB' ? 12 : 28;
     if (margin > blowoutCapThreshold) {
       return {
         score: Math.min(finalScore, 6.5),
@@ -698,7 +700,7 @@ function calculateCloseGameBonus(game, sport, finishScore = 0, tensionScore = 0)
   const config = SCORING_CONFIG.bonuses.closeGame;
 
   // Adjust thresholds for basketball (higher scoring)
-  const factor = sport === 'NBA' ? 2 : 1;
+  const factor = sport === 'NBA' ? 2 : 1; // MLB uses factor 1 (low-scoring like football)
 
   let baseBonus = 0;
   if (margin <= 3 * factor) {
@@ -750,7 +752,7 @@ function calculateMarginBasedTensionFloor(margin, sport, lateCloseness = null) {
   const config = SCORING_CONFIG.thresholds.tensionFloor;
   if (!config) return 0;
 
-  const factor = sport === 'NBA' ? config.nbaMultiplier : 1;
+  const factor = sport === 'NBA' ? config.nbaMultiplier : (sport === 'MLB' ? (config.mlbMultiplier || 1) : 1);
   let floor = 0;
 
   if (margin <= config.oneScore.margin * factor) {
@@ -1192,7 +1194,7 @@ function applyMarginCorrection(normalizedScore, margin, sport, tensionScore, dra
   if (residual >= 0) return { ...noCorrection, marginPredicted, residual };
 
   // Sport-adjusted maximum margin for correction eligibility
-  const f = sport === 'NBA' ? 2 : 1;
+  const f = sport === 'NBA' ? 2 : 1; // MLB uses f=1 (low-scoring like football)
   const maxCloseMargin = config.maxCloseMargin * f;
   if (margin > maxCloseMargin) return { ...noCorrection, marginPredicted, residual };
 

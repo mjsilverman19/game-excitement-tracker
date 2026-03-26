@@ -4,7 +4,7 @@
  */
 
 import { fetchStaticData } from '../services/api.js';
-import { getCurrentWeek, getDefaultNBADate, formatDate, addDays, parseDate } from '../utils/dates.js';
+import { getCurrentWeek, getDefaultNBADate, formatDate, addDays, parseDate, isDateBasedSport } from '../utils/dates.js';
 
 const TOP_GAMES_COUNT = 10;
 
@@ -12,7 +12,7 @@ const TOP_GAMES_COUNT = 10;
  * Get range presets for each sport
  */
 export function getRangePresets(sport) {
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         return [
             { label: 'last 7 days', value: 'last-7', count: 7 },
             { label: 'last 14 days', value: 'last-14', count: 14 },
@@ -31,7 +31,7 @@ export function getRangePresets(sport) {
  * Get periods (weeks or dates) to fetch for a given preset
  */
 function getPeriodsToFetch(sport, season, preset) {
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         const startDate = parseDate(getDefaultNBADate());
         const dates = [];
         for (let i = 0; i < preset.count; i++) {
@@ -62,7 +62,7 @@ function getPeriodsToFetch(sport, season, preset) {
  * Format context label for a game (shown in the game row)
  */
 function formatContext(sport, period) {
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         const date = parseDate(period);
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -94,7 +94,7 @@ async function fetchTopGames(sport, season, preset) {
             } else {
                 // Fall back to API
                 let requestBody;
-                if (sport === 'NBA') {
+                if (isDateBasedSport(sport)) {
                     requestBody = { sport, date: period };
                 } else {
                     requestBody = { sport, season, week: period, seasonType: '2' };

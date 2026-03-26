@@ -125,6 +125,8 @@ export function createGameRow(game, index) {
         sportPath = 'college-football';
     } else if (window.selectedSport === 'NBA') {
         sportPath = 'nba';
+    } else if (window.selectedSport === 'MLB') {
+        sportPath = 'mlb';
     }
     const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
 

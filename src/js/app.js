@@ -8,6 +8,7 @@ import {
     formatDate,
     getCurrentWeek,
     getDefaultNBADate,
+    isDateBasedSport,
     parseDate,
     updateDateNavigation
 } from './utils/dates.js';
@@ -29,11 +30,11 @@ window.getTier = getTier;
         }
 
         // State
-        const currentNBAWeek = getCurrentWeek('NBA');
-        window.selectedSport = 'NBA';
-        window.selectedSeason = currentNBAWeek.season;
+        const currentMLBWeek = getCurrentWeek('MLB');
+        window.selectedSport = 'MLB';
+        window.selectedSeason = currentMLBWeek.season;
         window.selectedWeek = null;
-        window.selectedDate = getDefaultNBADate(); // For NBA date-based navigation
+        window.selectedDate = getDefaultNBADate(); // For date-based navigation (NBA, MLB)
         window.spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
         window.currentGames = null;
         window.periodAverages = null;
@@ -65,13 +66,13 @@ window.getTier = getTier;
             // Smart week discovery: Find the best starting week/date before loading games
             const result = await findLatestAvailable(window.selectedSport, window.selectedSeason);
 
-            if (window.selectedSport === 'NBA') {
-                window.selectedDate = result.week; // For NBA, 'week' is actually the date string
+            if (isDateBasedSport(window.selectedSport)) {
+                window.selectedDate = result.week; // For date-based sports, 'week' is actually the date string
             } else {
                 window.selectedWeek = result.week;
             }
 
-            console.log(`📍 Smart discovery: Starting with ${window.selectedSport} ${window.selectedSport === 'NBA' ? 'date' : 'week'} ${result.week} (fromCache: ${result.fromCache})`);
+            console.log(`📍 Smart discovery: Starting with ${window.selectedSport} ${isDateBasedSport(window.selectedSport) ? 'date' : 'week'} ${result.week} (fromCache: ${result.fromCache})`);
 
             updateUI();
             loadGames();
@@ -99,7 +100,7 @@ window.getTier = getTier;
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
 
-            if (window.selectedSport === 'NBA') {
+            if (isDateBasedSport(window.selectedSport)) {
                 const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(now.getTime() - 24*60*60*1000);
                 document.getElementById('headerWeekInfo').textContent =
                     `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
@@ -125,13 +126,14 @@ window.getTier = getTier;
             document.getElementById('nflOption').classList.toggle('active', window.selectedSport === 'NFL');
             document.getElementById('cfbOption').classList.toggle('active', window.selectedSport === 'CFB');
             document.getElementById('nbaOption').classList.toggle('active', window.selectedSport === 'NBA');
+            document.getElementById('mlbOption').classList.toggle('active', window.selectedSport === 'MLB');
 
             // Clean up top games state when returning to normal view
             document.getElementById('topGamesSelector').style.display = 'none';
             document.getElementById('topGamesLink').classList.remove('active');
 
             // Show/hide appropriate navigation
-            if (window.selectedSport === 'NBA') {
+            if (isDateBasedSport(window.selectedSport)) {
                 document.getElementById('weekSelector').style.display = 'none';
                 document.getElementById('dateSelector').style.display = 'block';
                 updateDateNavigation();
@@ -248,7 +250,7 @@ window.getTier = getTier;
         }
 
         function handlePreviousDate() {
-            if (window.selectedSport !== 'NBA' || !window.selectedDate) return;
+            if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
 
             const currentDate = parseDate(window.selectedDate);
             const prevDate = addDays(currentDate, -1);
@@ -261,7 +263,7 @@ window.getTier = getTier;
         }
 
         function handleNextDate() {
-            if (window.selectedSport !== 'NBA' || !window.selectedDate) return;
+            if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
 
             const currentDate = parseDate(window.selectedDate);
             const nextDate = addDays(currentDate, 1);
@@ -276,7 +278,7 @@ window.getTier = getTier;
         }
 
         function handlePreviousWeek() {
-            if (window.selectedSport === 'NBA') {
+            if (isDateBasedSport(window.selectedSport)) {
                 handlePreviousDate();
                 return;
             }
@@ -307,7 +309,7 @@ window.getTier = getTier;
         }
 
         function handleNextWeek() {
-            if (window.selectedSport === 'NBA') {
+            if (isDateBasedSport(window.selectedSport)) {
                 handleNextDate();
                 return;
             }
@@ -468,9 +470,29 @@ window.getTier = getTier;
                 }
             });
 
-            // Custom date picker toggle (NBA)
+            document.getElementById('mlbOption').addEventListener('click', () => {
+                if (window.selectedSport !== 'MLB') {
+                    window.periodAverages = null;
+                    window.selectedSport = 'MLB';
+                    window.selectedSeason = getCurrentWeek('MLB').season;
+                    window.selectedDate = getDefaultNBADate();
+
+                    // Reset date picker state
+                    window.pickerMonth = null;
+                    window.pickerYear = null;
+                    // Reset team lookup state
+                    window.allTeams = [];
+                    window.viewMode = 'week';
+                    window.selectedTeam = null;
+                    window.isInitialLoad = true;
+                    updateUI();
+                    loadGames();
+                }
+            });
+
+            // Custom date picker toggle (date-based sports)
             document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
-                if (window.selectedSport === 'NBA') {
+                if (isDateBasedSport(window.selectedSport)) {
                     e.stopPropagation();
                     const picker = document.getElementById('customDatePicker');
                     const isVisible = picker.classList.contains('visible');
@@ -489,7 +511,7 @@ window.getTier = getTier;
                 const picker = document.getElementById('customDatePicker');
                 const currentDateDisplay = document.getElementById('currentDateDisplay');
 
-                if (window.selectedSport === 'NBA' && !picker.contains(e.target) && e.target !== currentDateDisplay) {
+                if (isDateBasedSport(window.selectedSport) && !picker.contains(e.target) && e.target !== currentDateDisplay) {
                     picker.classList.remove('visible');
                 }
             });
@@ -601,7 +623,7 @@ window.getTier = getTier;
             let loadingMessage = customMessage;
 
             if (!loadingMessage) {
-                if (window.selectedSport === 'NBA') {
+                if (isDateBasedSport(window.selectedSport)) {
                     const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                     const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
@@ -627,7 +649,7 @@ window.getTier = getTier;
         // Show empty state
         function showEmpty(message = null) {
             if (!message) {
-                if (window.selectedSport === 'NBA') {
+                if (isDateBasedSport(window.selectedSport)) {
                     const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
                     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                         'July', 'August', 'September', 'October', 'November', 'December'];
