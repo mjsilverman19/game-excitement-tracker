@@ -4,9 +4,12 @@ import { NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound } from '../shared/algorithm-confi
 
 export async function fetchGames(sport, season, week, seasonType = '2', date = null) {
   try {
-    // Handle NBA date-based fetching
+    // Handle date-based fetching (NBA, MLB)
     if (sport === 'NBA') {
       return await fetchNBAGames(date);
+    }
+    if (sport === 'MLB') {
+      return await fetchMLBGames(date);
     }
 
     // Handle NFL/CFB week-based fetching
@@ -115,6 +118,27 @@ async function fetchNBAGames(date) {
   return games.filter(game => game.completed);
 }
 
+async function fetchMLBGames(date) {
+  let targetDate = date;
+  if (!targetDate) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    targetDate = yesterday.toISOString().split('T')[0].replace(/-/g, '');
+  } else if (targetDate.includes('-')) {
+    targetDate = targetDate.replace(/-/g, '');
+  }
+
+  const url = `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=${targetDate}`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`MLB API error: ${response.status}`);
+
+  const data = await response.json();
+
+  const games = (data.events || []).map(event => parseEvent(event, 'MLB'));
+  return games.filter(game => game.completed);
+}
+
 function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
   const competition = event.competitions?.[0] || event;
   const competitors = competition.competitors || [];
@@ -194,7 +218,7 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
 }
 
 function detectOvertimeFromStatus(status, sport) {
-  const regulationPeriods = 4;
+  const regulationPeriods = sport === 'MLB' ? 9 : 4;
   if (typeof status?.period === 'number' && status.period > regulationPeriods) return true;
 
   const shortDetail = status?.type?.shortDetail || '';
@@ -211,6 +235,8 @@ export async function fetchSingleGame(sport, gameId) {
       apiPath = 'football/college-football';
     } else if (sport === 'NBA') {
       apiPath = 'basketball/nba';
+    } else if (sport === 'MLB') {
+      apiPath = 'baseball/mlb';
     } else {
       throw new Error('Invalid sport');
     }

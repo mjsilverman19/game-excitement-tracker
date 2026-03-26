@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Entertainment Index</title>
-    <meta name="description" content="Ranks NFL, CFB, and NBA games by entertainment value using win probability data. Find the best games to watch without spoilers.">
+    <meta name="description" content="Ranks NFL, CFB, NBA, and MLB games by entertainment value using win probability data. Find the best games to watch without spoilers.">
     <meta name="author" content="Matthew Silverman">
     <!-- SheetJS library for Excel export -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -43,7 +43,9 @@
                         <span class="separator">·</span>
                         <span class="sport-option" data-sport="CFB" id="cfbOption">cfb<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
-                        <span class="sport-option active" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
+                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
+                        <span class="separator">·</span>
+                        <span class="sport-option active" data-sport="MLB" id="mlbOption">mlb<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
                         <span class="find-game-link" id="findGameLink">find a game</span>
                         <span class="separator">·</span>
@@ -199,6 +201,7 @@
                     <option value="NFL">NFL</option>
                     <option value="CFB">CFB</option>
                     <option value="NBA">NBA</option>
+                    <option value="MLB">MLB</option>
                 </select>
             </div>
 
@@ -251,7 +254,7 @@
             </div>
 
             <div class="export-warning" id="exportWarning" style="display: none;">
-                Note: NBA exports may take 1-2 minutes due to the larger number of games.
+                Note: NBA and MLB exports may take 1-2 minutes due to the larger number of games.
             </div>
 
             <div class="export-actions">

@@ -3,7 +3,7 @@
  * Handles season export functionality for generating Excel files
  */
 
-import { getCurrentWeek } from '../utils/dates.js';
+import { getCurrentWeek, isDateBasedSport } from '../utils/dates.js';
 
 // ===== HELPER FUNCTIONS =====
 
@@ -12,7 +12,7 @@ import { getCurrentWeek } from '../utils/dates.js';
  */
 function getStaticPath(sport, season, weekOrDate) {
     const sportLower = sport.toLowerCase();
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         return `/data/${sportLower}/${season}/${weekOrDate}.json`;
     }
     let weekStr;
@@ -76,6 +76,15 @@ export function getWeekRangePresets(sport) {
             { label: 'Post-All-Star', value: 'post-allstar', start: `${season + 1}-02-16`, end: `${season + 1}-04-30` },
             { label: 'Custom', value: 'custom', start: null, end: null }
         ];
+    } else if (sport === 'MLB') {
+        const currentSeasonInfo = getCurrentWeek('MLB');
+        const season = currentSeasonInfo.season;
+        return [
+            { label: 'All', value: 'all', start: `${season}-03-20`, end: `${season}-10-31` },
+            { label: 'First Half', value: 'first-half', start: `${season}-03-20`, end: `${season}-07-15` },
+            { label: 'Second Half', value: 'second-half', start: `${season}-07-16`, end: `${season}-10-31` },
+            { label: 'Custom', value: 'custom', start: null, end: null }
+        ];
     }
     return [];
 }
@@ -99,7 +108,7 @@ export function populateWeekRangeUI(sport) {
     validationMessage.textContent = '';
 
     // Show/hide appropriate range UI
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         weekRangeGroup.style.display = 'none';
         dateRangeGroup.style.display = 'block';
     } else {
@@ -111,7 +120,7 @@ export function populateWeekRangeUI(sport) {
     const presets = getWeekRangePresets(sport);
 
     // Populate preset buttons
-    const presetsContainer = sport === 'NBA' ? exportDatePresets : exportPresets;
+    const presetsContainer = isDateBasedSport(sport) ? exportDatePresets : exportPresets;
     presetsContainer.innerHTML = '';
 
     presets.forEach(preset => {
@@ -131,7 +140,7 @@ export function populateWeekRangeUI(sport) {
     });
 
     // Populate week dropdowns for NFL/CFB
-    if (sport !== 'NBA') {
+    if (!isDateBasedSport(sport)) {
         let weekOptions = [];
         if (sport === 'NFL') {
             weekOptions = Array.from({ length: 18 }, (_, i) => ({ value: i + 1, label: `Week ${i + 1}` }));
@@ -152,7 +161,7 @@ export function populateWeekRangeUI(sport) {
         exportStartWeek.value = weekOptions[0].value;
         exportEndWeek.value = weekOptions[weekOptions.length - 1].value;
     } else {
-        // Initialize NBA date inputs with default "All" preset
+        // Initialize date-based sport inputs with default "All" preset
         const allPreset = presets.find(p => p.value === 'all');
         if (allPreset) {
             exportStartDate.value = allPreset.start;
@@ -179,12 +188,17 @@ export function handlePresetSelection(sport, preset) {
 
     if (preset.value === 'custom') {
         // Show custom range inputs
-        if (sport === 'NBA') {
+        if (isDateBasedSport(sport)) {
             exportCustomDateRange.style.display = 'block';
-            const currentSeasonInfo = getCurrentWeek('NBA');
+            const currentSeasonInfo = getCurrentWeek(sport);
             const season = currentSeasonInfo.season;
-            exportStartDate.value = `${season}-10-01`;
-            exportEndDate.value = `${season + 1}-04-30`;
+            if (sport === 'MLB') {
+                exportStartDate.value = `${season}-03-20`;
+                exportEndDate.value = `${season}-10-31`;
+            } else {
+                exportStartDate.value = `${season}-10-01`;
+                exportEndDate.value = `${season + 1}-04-30`;
+            }
         } else {
             exportCustomRange.style.display = 'block';
         }
@@ -194,7 +208,7 @@ export function handlePresetSelection(sport, preset) {
         exportCustomDateRange.style.display = 'none';
 
         // Set values from preset
-        if (sport === 'NBA') {
+        if (isDateBasedSport(sport)) {
             exportStartDate.value = preset.start;
             exportEndDate.value = preset.end;
         } else {
@@ -214,7 +228,7 @@ export function validateRangeSelection(sport) {
     const validationMessage = document.getElementById('exportValidationMessage');
     const downloadBtn = document.getElementById('exportDownloadBtn');
 
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         const startDate = document.getElementById('exportStartDate').value;
         const endDate = document.getElementById('exportEndDate').value;
 
@@ -277,8 +291,8 @@ export function openExportModal() {
     const currentSeasonInfo = getCurrentWeek(window.selectedSport);
     seasonSelect.innerHTML = `<option value="${currentSeasonInfo.season}">${currentSeasonInfo.season}</option>`;
 
-    // Show/hide NBA warning
-    if (window.selectedSport === 'NBA') {
+    // Show/hide date-based sport warning
+    if (isDateBasedSport(window.selectedSport)) {
         warningDiv.style.display = 'block';
     } else {
         warningDiv.style.display = 'none';
@@ -382,12 +396,12 @@ export function getRangeInfo(sport, rangeStart, rangeEnd) {
                 filenameSuffix = `weeks-${rangeStart}-${rangeEnd}`;
             }
         }
-    } else if (sport === 'NBA') {
+    } else if (isDateBasedSport(sport)) {
         // Check if it's a partial season by comparing dates
-        const currentSeasonInfo = getCurrentWeek('NBA');
+        const currentSeasonInfo = getCurrentWeek(sport);
         const season = currentSeasonInfo.season;
-        const defaultStart = `${season}-10-01`;
-        const defaultEnd = `${season + 1}-04-30`;
+        const defaultStart = sport === 'MLB' ? `${season}-03-20` : `${season}-10-01`;
+        const defaultEnd = sport === 'MLB' ? `${season}-10-31` : `${season + 1}-04-30`;
 
         if (rangeStart && rangeEnd && (rangeStart !== defaultStart || rangeEnd !== defaultEnd)) {
             isPartial = true;
@@ -445,11 +459,12 @@ export async function fetchAllWeeks(sport, season, rangeStart = null, rangeEnd =
                 weeks.push('bowls');
             }
         }
-    } else if (sport === 'NBA') {
-        // NBA uses date-based fetching
+    } else if (isDateBasedSport(sport)) {
+        // Date-based sports use date fetching
         useDateBasedFetch = true;
-        // Use provided date range or default to Oct 1 - Today
-        const startDate = rangeStart ? new Date(rangeStart) : new Date(season, 9, 1);
+        // Use provided date range or default to season start - Today
+        const defaultStartMonth = sport === 'MLB' ? 2 : 9; // March for MLB, October for NBA
+        const startDate = rangeStart ? new Date(rangeStart) : new Date(season, defaultStartMonth, 1);
         const endDate = rangeEnd ? new Date(rangeEnd) : new Date();
         const daysDiff = Math.floor((endDate - startDate) / (24 * 60 * 60 * 1000));
 
@@ -559,7 +574,7 @@ export async function exportFullSeason() {
 
     // Get selected range
     let rangeStart, rangeEnd;
-    if (sport === 'NBA') {
+    if (isDateBasedSport(sport)) {
         rangeStart = document.getElementById('exportStartDate').value;
         rangeEnd = document.getElementById('exportEndDate').value;
     } else {
@@ -605,7 +620,7 @@ export async function exportFullSeason() {
 
             // Format week - handle bowls, playoffs, and dates
             let weekDisplay;
-            if (sport === 'NBA') {
+            if (isDateBasedSport(sport)) {
                 weekDisplay = game.week; // Date string
             } else if (game.week === 'playoffs' || game.playoffRound) {
                 weekDisplay = 'Playoff';
@@ -667,6 +682,8 @@ export async function exportFullSeason() {
         let filename;
         if (sport === 'NBA') {
             filename = `gei-nba-${season}-${season + 1}-${rangeInfo.filenameSuffix}.xlsx`;
+        } else if (sport === 'MLB') {
+            filename = `gei-mlb-${season}-${rangeInfo.filenameSuffix}.xlsx`;
         } else {
             filename = `gei-${sport.toLowerCase()}-${season}-${rangeInfo.filenameSuffix}.xlsx`;
         }
@@ -721,8 +738,8 @@ export function attachExportListeners() {
         const warningDiv = document.getElementById('exportWarning');
         const seasonSelect = document.getElementById('exportSeasonSelect');
 
-        // Show/hide NBA warning
-        if (sport === 'NBA') {
+        // Show/hide date-based sport warning
+        if (isDateBasedSport(sport)) {
             warningDiv.style.display = 'block';
         } else {
             warningDiv.style.display = 'none';
@@ -804,10 +821,10 @@ export function attachExportListeners() {
     });
 
     document.getElementById('exportStartDate').addEventListener('change', () => {
-        validateRangeSelection('NBA');
+        validateRangeSelection(document.getElementById('exportSportSelect').value);
     });
 
     document.getElementById('exportEndDate').addEventListener('change', () => {
-        validateRangeSelection('NBA');
+        validateRangeSelection(document.getElementById('exportSportSelect').value);
     });
 }

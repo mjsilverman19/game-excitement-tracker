@@ -1,5 +1,9 @@
 import { NFL_PLAYOFF_ROUNDS, getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
 
+export function isDateBasedSport(sport) {
+  return sport === 'NBA' || sport === 'MLB';
+}
+
 export function addDays(date, days) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
@@ -91,11 +95,19 @@ export function getCurrentWeek(sport) {
     return info;
   }
 
+  if (sport === 'MLB') {
+    // MLB season runs roughly March-October
+    const season = month >= 2 ? year : year - 1;
+    const info = { season: season, week: 1 };
+    console.log('⚾ getCurrentWeek(MLB):', info);
+    return info;
+  }
+
   return { season: year, week: 1 };
 }
 
 export function updateDateNavigation() {
-  if (window.selectedSport !== 'NBA' || !window.selectedDate) return;
+  if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
 
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -146,7 +158,8 @@ export function updateDateNavigation() {
 const CACHE_TTL = {
   NFL: 24 * 60 * 60 * 1000,
   CFB: 24 * 60 * 60 * 1000,
-  NBA: 12 * 60 * 60 * 1000
+  NBA: 12 * 60 * 60 * 1000,
+  MLB: 12 * 60 * 60 * 1000
 };
 
 function getCacheKey(sport, season) {
@@ -328,22 +341,23 @@ export async function findLatestAvailable(sport, season) {
     return { week: currentWeek, fromCache: false };
   }
 
-  if (sport === 'NBA') {
+  if (sport === 'NBA' || sport === 'MLB') {
     const today = new Date();
-    console.log('🏀 NBA: Checking backwards from yesterday');
+    const emoji = sport === 'NBA' ? '🏀' : '⚾';
+    console.log(`${emoji} ${sport}: Checking backwards from yesterday`);
 
     for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
       const date = addDays(today, -daysAgo);
       const dateStr = formatDate(date);
 
       if (await staticFileExists(sport, season, dateStr)) {
-        console.log(`✅ Found NBA date ${dateStr}`);
+        console.log(`✅ Found ${sport} date ${dateStr}`);
         return { week: dateStr, fromCache: false };
       }
     }
 
     const yesterday = formatDate(addDays(today, -1));
-    console.log(`⚠️ No NBA data found in last 7 days, defaulting to ${yesterday}`);
+    console.log(`⚠️ No ${sport} data found in last 7 days, defaulting to ${yesterday}`);
     return { week: yesterday, fromCache: false };
   }
 

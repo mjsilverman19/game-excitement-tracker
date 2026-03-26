@@ -12,6 +12,9 @@ export function resolveSportLeague(sport) {
   if (sport === 'NBA') {
     return { sportType: 'basketball', league: 'nba' };
   }
+  if (sport === 'MLB') {
+    return { sportType: 'baseball', league: 'mlb' };
+  }
   return {
     sportType: 'football',
     league: sport === 'CFB' ? 'college-football' : 'nfl'
