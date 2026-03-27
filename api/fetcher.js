@@ -11,6 +11,9 @@ export async function fetchGames(sport, season, week, seasonType = '2', date = n
     if (sport === 'MLB') {
       return await fetchMLBGames(date);
     }
+    if (sport === 'CBB') {
+      return await fetchCBBGames(date);
+    }
 
     // Handle NFL/CFB week-based fetching
     const league = sport === 'CFB' ? 'college-football' : 'nfl';
@@ -118,6 +121,45 @@ async function fetchNBAGames(date) {
   return games.filter(game => game.completed);
 }
 
+export async function fetchMarchMadnessGames(season) {
+  // Fetch all NCAA tournament games for a season
+  // Tournament typically runs mid-March through early April
+  const year = season + 1; // CBB season 2025 means 2025-26, tournament in March 2026
+  const startDate = `${year}0301`;
+  const endDate = `${year}0415`;
+
+  const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=${startDate}-${endDate}&seasontype=3&groups=100&limit=200`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`March Madness API error: ${response.status}`);
+
+  const data = await response.json();
+
+  const games = (data.events || []).map(event => parseEvent(event, 'CBB'));
+  return games; // Return all games including incomplete ones for bracket display
+}
+
+async function fetchCBBGames(date) {
+  let targetDate = date;
+  if (!targetDate) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    targetDate = yesterday.toISOString().split('T')[0].replace(/-/g, '');
+  } else if (targetDate.includes('-')) {
+    targetDate = targetDate.replace(/-/g, '');
+  }
+
+  const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=${targetDate}&groups=100&limit=100`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`CBB API error: ${response.status}`);
+
+  const data = await response.json();
+
+  const games = (data.events || []).map(event => parseEvent(event, 'CBB'));
+  return games.filter(game => game.completed);
+}
+
 async function fetchMLBGames(date) {
   let targetDate = date;
   if (!targetDate) {
@@ -203,6 +245,35 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
     }
   }
 
+  // Parse CBB tournament data (seeds and bracket round)
+  let homeSeed = null;
+  let awaySeed = null;
+  let bracketRound = null;
+  let bracketRegion = null;
+
+  if (sport === 'CBB') {
+    homeSeed = homeTeam?.curatedRank?.current ?? homeTeam?.seed ?? null;
+    awaySeed = awayTeam?.curatedRank?.current ?? awayTeam?.seed ?? null;
+
+    // Try to get bracket round from competition or notes
+    if (competition.bracketRound) {
+      bracketRound = competition.bracketRound.name || null;
+    }
+    // Fall back to notes headline for round info
+    const notes = competition.notes || [];
+    if (notes.length > 0) {
+      const headline = notes[0]?.headline || '';
+      if (!bracketRound && headline) {
+        bracketRound = headline;
+      }
+      // Extract region from headline (e.g., "NCAA Tournament - South Region - First Round")
+      const regionMatch = headline.match(/(South|East|West|Midwest)\s+Region/i);
+      if (regionMatch) {
+        bracketRegion = regionMatch[1];
+      }
+    }
+  }
+
   return {
     id: event.id,
     homeTeam: homeTeam?.team?.shortDisplayName || homeTeam?.team?.displayName || 'Unknown',
@@ -213,7 +284,11 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
     overtime: overtime,
     date: event.date || competition.date,
     bowlName: bowlName,
-    playoffRound: playoffRound
+    playoffRound: playoffRound,
+    homeSeed: homeSeed,
+    awaySeed: awaySeed,
+    bracketRound: bracketRound,
+    bracketRegion: bracketRegion
   };
 }
 
@@ -237,6 +312,8 @@ export async function fetchSingleGame(sport, gameId) {
       apiPath = 'basketball/nba';
     } else if (sport === 'MLB') {
       apiPath = 'baseball/mlb';
+    } else if (sport === 'CBB') {
+      apiPath = 'basketball/mens-college-basketball';
     } else {
       throw new Error('Invalid sport');
     }
