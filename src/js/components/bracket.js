@@ -44,10 +44,21 @@ function normalizeRegion(regionStr) {
 export async function openBracketView() {
     window.viewMode = 'bracket';
 
-    // Update UI state
-    document.getElementById('bracketLink').classList.add('active');
-    document.getElementById('dateSelector').style.display = 'none';
+    // Update date selector to show bracket mode
+    document.getElementById('dateSelector').style.display = 'block';
     document.getElementById('weekSelector').style.display = 'none';
+    document.getElementById('prevDate').style.display = 'none';
+    document.getElementById('nextDate').style.display = 'none';
+    // Hide the separators around the date nav arrows
+    const dateSeps = document.getElementById('dateSelector').querySelectorAll(':scope > .separator');
+    dateSeps.forEach(sep => {
+        if (sep.id !== 'bracketSeparator') sep.style.display = 'none';
+    });
+    document.getElementById('currentDateDisplay').textContent = `march madness ${window.selectedSeason + 1}`;
+    const bracketLink = document.getElementById('bracketLink');
+    bracketLink.style.display = 'inline';
+    bracketLink.textContent = '← back to dates';
+    document.getElementById('bracketSeparator').style.display = 'inline';
 
     // Update header
     document.getElementById('headerWeekInfo').textContent = `March Madness ${window.selectedSeason + 1}`;
@@ -125,7 +136,15 @@ export async function openBracketView() {
  */
 export function closeBracketView() {
     window.viewMode = 'week';
-    document.getElementById('bracketLink').classList.remove('active');
+
+    // Restore date navigation elements
+    document.getElementById('prevDate').style.display = '';
+    document.getElementById('nextDate').style.display = '';
+    const dateSeps = document.getElementById('dateSelector').querySelectorAll(':scope > .separator');
+    dateSeps.forEach(sep => {
+        if (sep.id !== 'bracketSeparator') sep.style.display = '';
+    });
+
     window.updateUI();
     window.loadGames();
 }
@@ -186,8 +205,6 @@ function renderBracket(games) {
         </div>
     `;
 
-    // Back link
-    html += `<div class="bracket-back"><a href="#" class="bracket-back-link" id="bracketBackLink">← back to games</a></div>`;
 
     // Bracket container
     html += '<div class="bracket-container">';
@@ -244,12 +261,6 @@ function renderBracket(games) {
     html += '</div>';
 
     document.getElementById('resultsArea').innerHTML = html;
-
-    // Attach event listeners
-    document.getElementById('bracketBackLink')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        closeBracketView();
-    });
 
     // Score toggle
     const scoreToggle = document.getElementById('scoreToggle');

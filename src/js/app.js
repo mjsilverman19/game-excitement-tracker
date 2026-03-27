@@ -130,17 +130,6 @@ window.getTier = getTier;
             document.getElementById('mlbOption').classList.toggle('active', window.selectedSport === 'MLB');
             document.getElementById('cbbOption').classList.toggle('active', window.selectedSport === 'CBB');
 
-            // Show/hide March Madness bracket link
-            const bracketLink = document.getElementById('bracketLink');
-            const bracketSeparator = document.getElementById('bracketSeparator');
-            if (window.selectedSport === 'CBB') {
-                bracketLink.style.display = 'inline';
-                bracketSeparator.style.display = 'inline';
-            } else {
-                bracketLink.style.display = 'none';
-                bracketSeparator.style.display = 'none';
-            }
-
             // Clean up top games state when returning to normal view
             document.getElementById('topGamesSelector').style.display = 'none';
             document.getElementById('topGamesLink').classList.remove('active');
@@ -150,9 +139,21 @@ window.getTier = getTier;
                 document.getElementById('weekSelector').style.display = 'none';
                 document.getElementById('dateSelector').style.display = 'block';
                 updateDateNavigation();
+
+                // Show March Madness link only for CBB
+                const bracketLink = document.getElementById('bracketLink');
+                const bracketSeparator = document.getElementById('bracketSeparator');
+                const isCBB = window.selectedSport === 'CBB';
+                bracketLink.style.display = isCBB ? 'inline' : 'none';
+                bracketSeparator.style.display = isCBB ? 'inline' : 'none';
+                if (isCBB) {
+                    bracketLink.textContent = window.viewMode === 'bracket' ? '← back to dates' : 'march madness';
+                }
             } else {
                 document.getElementById('weekSelector').style.display = 'block';
                 document.getElementById('dateSelector').style.display = 'none';
+                document.getElementById('bracketLink').style.display = 'none';
+                document.getElementById('bracketSeparator').style.display = 'none';
                 updateWeekNavigation();
             }
         }
