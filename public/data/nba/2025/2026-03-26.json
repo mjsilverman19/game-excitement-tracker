@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810920",
+      "homeTeam": "Magic",
+      "awayTeam": "Kings",
+      "homeScore": 121,
+      "awayScore": 117,
+      "excitement": 6.9,
+      "breakdown": {
+        "tension": 4,
+        "drama": 5.899401289581436,
+        "finish": 5.108166077517882
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (4-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401810918",
+      "homeTeam": "Hornets",
+      "awayTeam": "Knicks",
+      "homeScore": 114,
+      "awayScore": 103,
+      "excitement": 5.5,
+      "breakdown": {
+        "tension": 4.800633611247381,
+        "drama": 6.194009040732919,
+        "finish": 2.574398835890876
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810919",
+      "homeTeam": "Pistons",
+      "awayTeam": "Pelicans",
+      "homeScore": 129,
+      "awayScore": 108,
+      "excitement": 3.9,
+      "breakdown": {
+        "tension": 0.9556841139929142,
+        "drama": 3.580344010634507,
+        "finish": 3.2296837337522843
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-03-27T10:54:35.653Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-03-26"
+  }
+}
