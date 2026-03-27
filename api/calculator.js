@@ -58,6 +58,10 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       overtime: excitement.overtimeDetected ?? game.overtime,
       bowlName: game.bowlName,
       playoffRound: game.playoffRound,
+      homeSeed: game.homeSeed,
+      awaySeed: game.awaySeed,
+      bracketRound: game.bracketRound,
+      bracketRegion: game.bracketRegion,
       dataQuality: dataQuality.hasIssues ? {
         warning: true,
         severity: dataQuality.severity,
@@ -93,6 +97,10 @@ export async function analyzeGameEntertainmentDetailed(game, sport = 'NFL') {
       overtime: game.overtime,
       bowlName: game.bowlName,
       playoffRound: game.playoffRound,
+      homeSeed: game.homeSeed,
+      awaySeed: game.awaySeed,
+      bracketRound: game.bracketRound,
+      bracketRegion: game.bracketRegion,
       ...excitement,
       dataQuality: dataQuality.hasIssues ? {
         warning: true,

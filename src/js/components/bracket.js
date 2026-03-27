@@ -72,10 +72,8 @@ export async function openBracketView() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 sport: 'CBB',
-                date: startDate,
-                tournamentMode: true,
-                startDate: startDate,
-                endDate: endDate
+                season: season,
+                tournamentMode: true
             })
         });
 

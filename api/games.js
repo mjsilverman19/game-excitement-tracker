@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
     // Handle March Madness tournament request
     if (sport === 'CBB' && tournamentMode) {
-      console.log(`Fetching March Madness bracket for season ${season || window?.selectedSeason}`);
+      console.log(`Fetching March Madness bracket for season ${season || 'default'}`);
 
       const tournamentSeason = season || new Date().getFullYear() - 1;
       const games = await fetchMarchMadnessGames(tournamentSeason);
