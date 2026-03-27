@@ -1432,3 +1432,156 @@
             margin-top: 12px;
             line-height: 1.5;
         }
+
+        /* ===== March Madness Bracket ===== */
+
+        .bracket-back {
+            margin-bottom: 24px;
+        }
+
+        .bracket-back-link {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-decoration: underline;
+            letter-spacing: 0.05em;
+        }
+
+        .bracket-back-link:hover {
+            color: var(--text-primary);
+        }
+
+        .bracket-container {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+        }
+
+        .bracket-round {
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .bracket-round-header {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: lowercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-secondary);
+        }
+
+        .bracket-round-games {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bracket-region-label {
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .bracket-region-label:first-child {
+            margin-top: 0;
+        }
+
+        .bracket-matchup {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-secondary);
+            border-radius: 2px;
+            position: relative;
+            padding-right: 36px;
+        }
+
+        .bracket-matchup:hover {
+            border-color: var(--border-primary);
+        }
+
+        .bracket-team {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: all 150ms ease;
+        }
+
+        .bracket-team:first-child {
+            border-bottom: 1px solid var(--border-secondary);
+        }
+
+        .bracket-team.winner {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .bracket-seed {
+            font-size: 10px;
+            color: var(--text-muted);
+            min-width: 22px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .bracket-name {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bracket-team-score {
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            min-width: 20px;
+            text-align: right;
+        }
+
+        .bracket-gei {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            border-left: 1px solid var(--border-secondary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .bracket-gei.must-watch {
+            color: var(--accent-must-watch);
+        }
+
+        .bracket-gei.recommended {
+            color: var(--accent-recommended);
+        }
+
+        .bracket-gei.skip {
+            color: var(--text-muted);
+        }
+
+        /* Bracket responsive */
+        @media (max-width: 768px) {
+            .bracket-container {
+                flex-direction: column;
+                gap: 32px;
+            }
+
+            .bracket-round {
+                min-width: unset;
+                width: 100%;
+            }
+        }

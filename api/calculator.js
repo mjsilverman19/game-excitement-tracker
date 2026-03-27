@@ -155,7 +155,7 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
     const marginFloor = calculateMarginBasedTensionFloor(margin, sport, lateCloseness);
     tensionScore = Math.max(tensionScore, marginFloor);
   }
-  const blowoutThreshold = sport === 'NBA'
+  const blowoutThreshold = (sport === 'NBA' || sport === 'CBB')
     ? SCORING_CONFIG.thresholds.blowoutMargin.nba
     : sport === 'MLB'
     ? SCORING_CONFIG.thresholds.blowoutMargin.mlb
@@ -243,7 +243,7 @@ function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
 
   // Hard margin cap for extreme blowouts (data quality guardrail)
   if (margin != null) {
-    const blowoutCapThreshold = sport === 'NBA' ? 22 : sport === 'MLB' ? 12 : 28;
+    const blowoutCapThreshold = (sport === 'NBA' || sport === 'CBB') ? 22 : sport === 'MLB' ? 12 : 28;
     if (margin > blowoutCapThreshold) {
       return {
         score: Math.min(finalScore, 6.5),
@@ -700,7 +700,7 @@ function calculateCloseGameBonus(game, sport, finishScore = 0, tensionScore = 0)
   const config = SCORING_CONFIG.bonuses.closeGame;
 
   // Adjust thresholds for basketball (higher scoring)
-  const factor = sport === 'NBA' ? 2 : 1; // MLB uses factor 1 (low-scoring like football)
+  const factor = (sport === 'NBA' || sport === 'CBB') ? 2 : 1; // Basketball uses factor 2 (higher scoring)
 
   let baseBonus = 0;
   if (margin <= 3 * factor) {
@@ -752,7 +752,7 @@ function calculateMarginBasedTensionFloor(margin, sport, lateCloseness = null) {
   const config = SCORING_CONFIG.thresholds.tensionFloor;
   if (!config) return 0;
 
-  const factor = sport === 'NBA' ? config.nbaMultiplier : (sport === 'MLB' ? (config.mlbMultiplier || 1) : 1);
+  const factor = (sport === 'NBA' || sport === 'CBB') ? config.nbaMultiplier : (sport === 'MLB' ? (config.mlbMultiplier || 1) : 1);
   let floor = 0;
 
   if (margin <= config.oneScore.margin * factor) {
@@ -1194,7 +1194,7 @@ function applyMarginCorrection(normalizedScore, margin, sport, tensionScore, dra
   if (residual >= 0) return { ...noCorrection, marginPredicted, residual };
 
   // Sport-adjusted maximum margin for correction eligibility
-  const f = sport === 'NBA' ? 2 : 1; // MLB uses f=1 (low-scoring like football)
+  const f = (sport === 'NBA' || sport === 'CBB') ? 2 : 1; // Basketball uses f=2 (higher scoring)
   const maxCloseMargin = config.maxCloseMargin * f;
   if (margin > maxCloseMargin) return { ...noCorrection, marginPredicted, residual };
 

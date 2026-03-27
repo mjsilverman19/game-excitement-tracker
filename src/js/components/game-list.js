@@ -127,6 +127,8 @@ export function createGameRow(game, index) {
         sportPath = 'nba';
     } else if (window.selectedSport === 'MLB') {
         sportPath = 'mlb';
+    } else if (window.selectedSport === 'CBB') {
+        sportPath = 'mens-college-basketball';
     }
     const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
 

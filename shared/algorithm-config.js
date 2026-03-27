@@ -69,7 +69,8 @@ export const ALGORITHM_CONFIG = {
       NFL: { mustWatch: 8.3, recommended: 6.0 },
       CFB: { mustWatch: 7.7, recommended: 5.8 },
       NBA: { mustWatch: 8.5, recommended: 6.5 },
-      MLB: { mustWatch: 8.5, recommended: 6.5 }
+      MLB: { mustWatch: 8.5, recommended: 6.5 },
+      CBB: { mustWatch: 8.5, recommended: 6.5 }
     }
   },
 
@@ -118,7 +119,8 @@ export const ALGORITHM_CONFIG = {
     blowoutMargin: {
       nflCfb: 21,
       nba: 18,
-      mlb: 8
+      mlb: 8,
+      cbb: 20
     },
     competitiveBand: {
       low: 0.30,
@@ -216,7 +218,8 @@ export const ALGORITHM_CONFIG = {
         NFL: { intercept: 8.37, slope: -0.199 },
         CFB: { intercept: 7.13, slope: -0.114 },
         NBA: { intercept: 9.00, slope: -0.178 },
-        MLB: { intercept: 9.00, slope: -0.178 }
+        MLB: { intercept: 9.00, slope: -0.178 },
+        CBB: { intercept: 9.00, slope: -0.178 }
       },
       // Maximum margin (sport-adjusted) eligible for correction
       // Beyond this, margin is too large for ESPN overconfidence to be the issue

@@ -13,6 +13,7 @@ import {
     updateDateNavigation
 } from './utils/dates.js';
 import { loadGames } from './services/api.js';
+import { openBracketView, closeBracketView } from './components/bracket.js';
 import { displayResults, calculatePeriodAverages, createGameRow, attachScoreToggleListener, attachRadarChartListeners } from './components/game-list.js';
 import { renderRadarChart, attachMetricHoverListeners } from './components/radar-chart.js';
 import { populateCustomDatePicker } from './components/date-picker.js';
@@ -127,6 +128,18 @@ window.getTier = getTier;
             document.getElementById('cfbOption').classList.toggle('active', window.selectedSport === 'CFB');
             document.getElementById('nbaOption').classList.toggle('active', window.selectedSport === 'NBA');
             document.getElementById('mlbOption').classList.toggle('active', window.selectedSport === 'MLB');
+            document.getElementById('cbbOption').classList.toggle('active', window.selectedSport === 'CBB');
+
+            // Show/hide March Madness bracket link
+            const bracketLink = document.getElementById('bracketLink');
+            const bracketSeparator = document.getElementById('bracketSeparator');
+            if (window.selectedSport === 'CBB') {
+                bracketLink.style.display = 'inline';
+                bracketSeparator.style.display = 'inline';
+            } else {
+                bracketLink.style.display = 'none';
+                bracketSeparator.style.display = 'none';
+            }
 
             // Clean up top games state when returning to normal view
             document.getElementById('topGamesSelector').style.display = 'none';
@@ -490,6 +503,34 @@ window.getTier = getTier;
                 }
             });
 
+            document.getElementById('cbbOption').addEventListener('click', () => {
+                if (window.selectedSport !== 'CBB') {
+                    window.periodAverages = null;
+                    window.selectedSport = 'CBB';
+                    window.selectedSeason = getCurrentWeek('CBB').season;
+                    window.selectedDate = getDefaultNBADate();
+
+                    window.pickerMonth = null;
+                    window.pickerYear = null;
+                    window.allTeams = [];
+                    window.viewMode = 'week';
+                    window.selectedTeam = null;
+                    window.isInitialLoad = true;
+                    updateUI();
+                    loadGames();
+                }
+            });
+
+            // March Madness bracket link
+            document.getElementById('bracketLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.viewMode === 'bracket') {
+                    closeBracketView();
+                } else {
+                    openBracketView();
+                }
+            });
+
             // Custom date picker toggle (date-based sports)
             document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
                 if (isDateBasedSport(window.selectedSport)) {
@@ -755,6 +796,8 @@ window.getTier = getTier;
         window.closeExportModal = closeExportModal;
         window.openTopGames = openTopGames;
         window.closeTopGames = closeTopGames;
+        window.openBracketView = openBracketView;
+        window.closeBracketView = closeBracketView;
         window.loadGames = loadGames;
         window.showLoading = showLoading;
         window.showEmpty = showEmpty;
