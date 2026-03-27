@@ -283,8 +283,8 @@ function renderMatchup(game) {
     const awayScoreText = shouldShowScores ? game.awayScore : '';
     const otText = shouldShowScores && game.overtime ? ' OT' : '';
 
-    const geiDisplay = shouldShowScores ? displayScore : '?';
-    const geiClass = shouldShowScores ? tierClass : 'skip';
+    const geiDisplay = displayScore;
+    const geiClass = tierClass;
 
     return `
         <div class="bracket-matchup">
