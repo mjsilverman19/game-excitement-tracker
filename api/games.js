@@ -1,5 +1,5 @@
 // Streamlined Games API Endpoint
-import { fetchGames, fetchSingleGame } from './fetcher.js';
+import { fetchGames, fetchSingleGame, fetchMarchMadnessGames } from './fetcher.js';
 import { analyzeGameEntertainment } from './calculator.js';
 import { NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound } from '../shared/algorithm-config.js';
 
@@ -21,7 +21,44 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { sport = 'NFL', season, week, seasonType = '2', date, gameId } = req.body;
+    const { sport = 'NFL', season, week, seasonType = '2', date, gameId, tournamentMode } = req.body;
+
+    // Handle March Madness tournament request
+    if (sport === 'CBB' && tournamentMode) {
+      console.log(`Fetching March Madness bracket for season ${season || 'default'}`);
+
+      const tournamentSeason = season || new Date().getFullYear() - 1;
+      const games = await fetchMarchMadnessGames(tournamentSeason);
+      const completedGames = games.filter(g => g.completed);
+
+      if (!completedGames || completedGames.length === 0) {
+        return res.status(200).json({
+          success: true,
+          games: [],
+          metadata: { sport, tournamentMode: true, count: 0 }
+        });
+      }
+
+      console.log(`Found ${completedGames.length} completed tournament games, analyzing...`);
+
+      const analyzedGames = await Promise.all(
+        completedGames.map(game => analyzeGameEntertainment(game, sport))
+      );
+
+      const validGames = analyzedGames.filter(game => game !== null);
+      validGames.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
+
+      return res.status(200).json({
+        success: true,
+        games: validGames,
+        metadata: {
+          sport,
+          tournamentMode: true,
+          count: validGames.length,
+          totalGames: analyzedGames.length
+        }
+      });
+    }
 
     // Handle single game request
     if (gameId) {
@@ -67,7 +104,7 @@ export default async function handler(req, res) {
       actualSeasonType = '3';
     }
 
-    if (sport === 'NBA' || sport === 'MLB') {
+    if (sport === 'NBA' || sport === 'MLB' || sport === 'CBB') {
       console.log(`Fetching ${sport} games for ${date || 'yesterday'}`);
     } else if (week === 'bowls') {
       console.log(`Fetching ${sport} bowl games for ${season} season`);

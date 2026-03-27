@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Entertainment Index</title>
-    <meta name="description" content="Ranks NFL, CFB, NBA, and MLB games by entertainment value using win probability data. Find the best games to watch without spoilers.">
+    <meta name="description" content="Ranks NFL, CFB, NBA, MLB, and CBB games by entertainment value using win probability data. Find the best games to watch without spoilers.">
     <meta name="author" content="Matthew Silverman">
     <!-- SheetJS library for Excel export -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -47,10 +47,11 @@
                         <span class="separator">·</span>
                         <span class="sport-option active" data-sport="MLB" id="mlbOption">mlb<span class="beta-label">beta</span></span>
                         <span class="separator">·</span>
+                        <span class="sport-option" data-sport="CBB" id="cbbOption">cbb<span class="beta-label">beta</span></span>
+                        <span class="separator">·</span>
                         <span class="find-game-link" id="findGameLink">find a game</span>
                         <span class="separator">·</span>
                         <span class="find-game-link" id="topGamesLink">top games</span>
-
                         <!-- Team Picker Dropdown -->
                         <div class="team-picker" id="teamPicker">
                             <input type="text" class="team-search-input" placeholder="search teams..." id="teamSearchInput">
@@ -86,6 +87,8 @@
                         <span class="current-selection" id="currentDateDisplay">yesterday</span>
                         <span class="separator">·</span>
                         <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
+                        <span class="separator" id="bracketSeparator" style="display: none;">·</span>
+                        <a href="#" class="week-nav-link" id="bracketLink" style="display: none;">march madness</a>
 
                         <!-- Custom Date Picker Dropdown -->
                         <div class="date-picker" id="customDatePicker">
@@ -202,6 +205,7 @@
                     <option value="CFB">CFB</option>
                     <option value="NBA">NBA</option>
                     <option value="MLB">MLB</option>
+                    <option value="CBB">CBB</option>
                 </select>
             </div>
 

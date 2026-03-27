@@ -85,6 +85,15 @@ export function getWeekRangePresets(sport) {
             { label: 'Second Half', value: 'second-half', start: `${season}-07-16`, end: `${season}-10-31` },
             { label: 'Custom', value: 'custom', start: null, end: null }
         ];
+    } else if (sport === 'CBB') {
+        const currentSeasonInfo = getCurrentWeek('CBB');
+        const season = currentSeasonInfo.season;
+        return [
+            { label: 'All', value: 'all', start: `${season}-11-01`, end: `${season + 1}-04-10` },
+            { label: 'Regular Season', value: 'regular', start: `${season}-11-01`, end: `${season + 1}-03-15` },
+            { label: 'March Madness', value: 'march-madness', start: `${season + 1}-03-16`, end: `${season + 1}-04-10` },
+            { label: 'Custom', value: 'custom', start: null, end: null }
+        ];
     }
     return [];
 }
@@ -195,6 +204,9 @@ export function handlePresetSelection(sport, preset) {
             if (sport === 'MLB') {
                 exportStartDate.value = `${season}-03-20`;
                 exportEndDate.value = `${season}-10-31`;
+            } else if (sport === 'CBB') {
+                exportStartDate.value = `${season}-11-01`;
+                exportEndDate.value = `${season + 1}-04-10`;
             } else {
                 exportStartDate.value = `${season}-10-01`;
                 exportEndDate.value = `${season + 1}-04-30`;
@@ -400,8 +412,8 @@ export function getRangeInfo(sport, rangeStart, rangeEnd) {
         // Check if it's a partial season by comparing dates
         const currentSeasonInfo = getCurrentWeek(sport);
         const season = currentSeasonInfo.season;
-        const defaultStart = sport === 'MLB' ? `${season}-03-20` : `${season}-10-01`;
-        const defaultEnd = sport === 'MLB' ? `${season}-10-31` : `${season + 1}-04-30`;
+        const defaultStart = sport === 'MLB' ? `${season}-03-20` : sport === 'CBB' ? `${season}-11-01` : `${season}-10-01`;
+        const defaultEnd = sport === 'MLB' ? `${season}-10-31` : sport === 'CBB' ? `${season + 1}-04-10` : `${season + 1}-04-30`;
 
         if (rangeStart && rangeEnd && (rangeStart !== defaultStart || rangeEnd !== defaultEnd)) {
             isPartial = true;
@@ -463,7 +475,7 @@ export async function fetchAllWeeks(sport, season, rangeStart = null, rangeEnd =
         // Date-based sports use date fetching
         useDateBasedFetch = true;
         // Use provided date range or default to season start - Today
-        const defaultStartMonth = sport === 'MLB' ? 2 : 9; // March for MLB, October for NBA
+        const defaultStartMonth = sport === 'MLB' ? 2 : sport === 'CBB' ? 10 : 9; // March for MLB, November for CBB, October for NBA
         const startDate = rangeStart ? new Date(rangeStart) : new Date(season, defaultStartMonth, 1);
         const endDate = rangeEnd ? new Date(rangeEnd) : new Date();
         const daysDiff = Math.floor((endDate - startDate) / (24 * 60 * 60 * 1000));
@@ -680,8 +692,8 @@ export async function exportFullSeason() {
         // Generate filename with range info
         const rangeInfo = getRangeInfo(sport, rangeStart, rangeEnd);
         let filename;
-        if (sport === 'NBA') {
-            filename = `gei-nba-${season}-${season + 1}-${rangeInfo.filenameSuffix}.xlsx`;
+        if (sport === 'NBA' || sport === 'CBB') {
+            filename = `gei-${sport.toLowerCase()}-${season}-${season + 1}-${rangeInfo.filenameSuffix}.xlsx`;
         } else if (sport === 'MLB') {
             filename = `gei-mlb-${season}-${rangeInfo.filenameSuffix}.xlsx`;
         } else {

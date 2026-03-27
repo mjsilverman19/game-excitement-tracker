@@ -31,6 +31,8 @@ export default async function handler(req, res) {
       apiPath = 'basketball/nba';
     } else if (sport === 'MLB') {
       apiPath = 'baseball/mlb';
+    } else if (sport === 'CBB') {
+      apiPath = 'basketball/mens-college-basketball';
     } else {
       return res.status(400).json({
         success: false,

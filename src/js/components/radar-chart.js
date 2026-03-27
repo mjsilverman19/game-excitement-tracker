@@ -88,7 +88,7 @@ export function renderRadarChart(breakdown, averages = null) {
         `;
     });
 
-    const legendLabel = (window.selectedSport === 'NBA' || window.selectedSport === 'MLB') ? 'Date avg' : 'Week avg';
+    const legendLabel = (window.selectedSport === 'NBA' || window.selectedSport === 'MLB' || window.selectedSport === 'CBB') ? 'Date avg' : 'Week avg';
     const legend = hasAverages ? `
         <div class="radar-legend">
             <div class="radar-legend-item">

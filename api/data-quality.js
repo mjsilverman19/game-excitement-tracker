@@ -70,7 +70,7 @@ export function detectDataQualityIssues(probs, game, sport = 'NFL') {
     const leadChanges = countLeadChanges(probs);
 
     // Sport-specific thresholds for "close game"
-    const closeThreshold = sport === 'NBA' ? 10 : sport === 'MLB' ? 4 : 7;
+    const closeThreshold = (sport === 'NBA' || sport === 'CBB') ? 10 : sport === 'MLB' ? 4 : 7;
 
     if (margin <= closeThreshold && leadChanges === 0) {
       issues.push({
@@ -81,7 +81,7 @@ export function detectDataQualityIssues(probs, game, sport = 'NFL') {
     }
 
     // Also flag if a one-possession game has very few lead changes
-    const onePossessionThreshold = sport === 'NBA' ? 3 : sport === 'MLB' ? 2 : 3;
+    const onePossessionThreshold = (sport === 'NBA' || sport === 'CBB') ? 3 : sport === 'MLB' ? 2 : 3;
     if (margin <= onePossessionThreshold && leadChanges <= 1) {
       // Only flag if not already flagged for 0 lead changes
       if (leadChanges === 1) {
@@ -119,7 +119,7 @@ export function detectDataQualityIssues(probs, game, sport = 'NFL') {
 
   // Issue 4: Sparse data points
   // Full games typically have 400-600 data points; sparse data may miss drama
-  const minExpectedPoints = sport === 'NBA' ? 200 : sport === 'MLB' ? 100 : 150;
+  const minExpectedPoints = (sport === 'NBA' || sport === 'CBB') ? 200 : sport === 'MLB' ? 100 : 150;
   if (probs.length < minExpectedPoints) {
     issues.push({
       type: 'sparse-data',
