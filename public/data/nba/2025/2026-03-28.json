@@ -1,0 +1,143 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810932",
+      "homeTeam": "Hornets",
+      "awayTeam": "76ers",
+      "homeScore": 114,
+      "awayScore": 118,
+      "excitement": 9.1,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810934",
+      "homeTeam": "Grizzlies",
+      "awayTeam": "Bulls",
+      "homeScore": 125,
+      "awayScore": 124,
+      "excitement": 8.7,
+      "breakdown": {
+        "tension": 8.22050241147873,
+        "drama": 10,
+        "finish": 6.19402351989773
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810935",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Pistons",
+      "homeScore": 87,
+      "awayScore": 109,
+      "excitement": 5.4,
+      "breakdown": {
+        "tension": 2.6829537750876153,
+        "drama": 4.980800323857162,
+        "finish": 4.900113614135711
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810933",
+      "homeTeam": "Hawks",
+      "awayTeam": "Kings",
+      "homeScore": 123,
+      "awayScore": 113,
+      "excitement": 5.2,
+      "breakdown": {
+        "tension": 1.4780572044067386,
+        "drama": 4.943267846108949,
+        "finish": 3.2692300506725664
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (10-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    },
+    {
+      "id": "401810931",
+      "homeTeam": "Bucks",
+      "awayTeam": "Spurs",
+      "homeScore": 95,
+      "awayScore": 127,
+      "excitement": 3.2723823156151832,
+      "breakdown": {
+        "tension": 0.041041067991601565,
+        "drama": 0.7983124893044544,
+        "finish": 4.8891569873723055
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810936",
+      "homeTeam": "Suns",
+      "awayTeam": "Jazz",
+      "homeScore": 134,
+      "awayScore": 109,
+      "excitement": 2.585865174416096,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.731010144556093,
+        "finish": 1.7042294758443077
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 6,
+    "totalGames": 6,
+    "insufficientData": 0,
+    "generatedAt": "2026-03-29T10:41:25.280Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-03-28"
+  }
+}
