@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401810985",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Spurs",
+      "homeScore": 136,
+      "awayScore": 134,
+      "excitement": 8.8,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.497182315637141
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810986",
+      "homeTeam": "76ers",
+      "awayTeam": "Pistons",
+      "homeScore": 93,
+      "awayScore": 116,
+      "excitement": 4.209378066390669,
+      "breakdown": {
+        "tension": 0.46348837620517225,
+        "drama": 2.9666737683866433,
+        "finish": 4.8971297346185985
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401810984",
+      "homeTeam": "Heat",
+      "awayTeam": "Wizards",
+      "homeScore": 152,
+      "awayScore": 136,
+      "excitement": 3.5,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 1.2797916156087037,
+        "finish": 1.7038903508736412
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-05T10:41:47.180Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-04"
+  }
+}
