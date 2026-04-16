@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401866756",
+      "homeTeam": "Clippers",
+      "awayTeam": "Warriors",
+      "homeScore": 121,
+      "awayScore": 126,
+      "excitement": 9.2,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401866757",
+      "homeTeam": "76ers",
+      "awayTeam": "Magic",
+      "homeScore": 109,
+      "awayScore": 97,
+      "excitement": 7.7,
+      "breakdown": {
+        "tension": 6.64784410229198,
+        "drama": 9.333004121715497,
+        "finish": 5.005216089588837
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 87% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-16T11:09:51.669Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-15"
+  }
+}
