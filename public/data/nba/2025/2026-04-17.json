@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401866759",
+      "homeTeam": "Suns",
+      "awayTeam": "Warriors",
+      "homeScore": 111,
+      "awayScore": 96,
+      "excitement": 4.5,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 4.652719609695218,
+        "finish": 3.349434730588295
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401866758",
+      "homeTeam": "Magic",
+      "awayTeam": "Hornets",
+      "homeScore": 121,
+      "awayScore": 90,
+      "excitement": 3.0718191239403607,
+      "breakdown": {
+        "tension": 0.772725345365751,
+        "drama": 2.657404653108326,
+        "finish": 1.7058094188198054
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-18T10:49:01.092Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-17"
+  }
+}
