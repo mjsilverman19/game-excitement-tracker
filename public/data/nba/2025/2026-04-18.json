@@ -1,0 +1,96 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869188",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Timberwolves",
+      "homeScore": 116,
+      "awayScore": 105,
+      "excitement": 6.7,
+      "breakdown": {
+        "tension": 5.091679355539567,
+        "drama": 7.976325162433957,
+        "finish": 3.8806220923871386
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869190",
+      "homeTeam": "Lakers",
+      "awayTeam": "Rockets",
+      "homeScore": 107,
+      "awayScore": 98,
+      "excitement": 6.3,
+      "breakdown": {
+        "tension": 4.975479523279911,
+        "drama": 7.428884348718569,
+        "finish": 3.4353401188119514
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869189",
+      "homeTeam": "Knicks",
+      "awayTeam": "Hawks",
+      "homeScore": 113,
+      "awayScore": 102,
+      "excitement": 5,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 5.560856235139548,
+        "finish": 2.818388359271247
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869187",
+      "homeTeam": "Cavaliers",
+      "awayTeam": "Raptors",
+      "homeScore": 126,
+      "awayScore": 113,
+      "excitement": 4.9,
+      "breakdown": {
+        "tension": 4.013158451478591,
+        "drama": 5.964396660206686,
+        "finish": 1.9074544343142827
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-19T10:48:41.577Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-18"
+  }
+}
