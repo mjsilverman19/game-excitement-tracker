@@ -1,0 +1,103 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869193",
+      "homeTeam": "Pistons",
+      "awayTeam": "Magic",
+      "homeScore": 101,
+      "awayScore": 112,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 7.74661549214801,
+        "drama": 9.895360852734886,
+        "finish": 6.535153442983116
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869194",
+      "homeTeam": "Spurs",
+      "awayTeam": "Trail Blazers",
+      "homeScore": 111,
+      "awayScore": 98,
+      "excitement": 4.2,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 2.8452413571022728,
+        "finish": 2.1640347026938582
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869191",
+      "homeTeam": "Celtics",
+      "awayTeam": "76ers",
+      "homeScore": 123,
+      "awayScore": 91,
+      "excitement": 2.575802839136492,
+      "breakdown": {
+        "tension": 0,
+        "drama": 1.1596065415100578,
+        "finish": 1.7235082264825852
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869192",
+      "homeTeam": "Thunder",
+      "awayTeam": "Suns",
+      "homeScore": 119,
+      "awayScore": 84,
+      "excitement": 2.530318744169392,
+      "breakdown": {
+        "tension": 0,
+        "drama": 0.9783577813419749,
+        "finish": 1.7037093875395746
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Final win probability is 90% instead of near 0% or 100% - data may include post-game noise"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 4,
+    "totalGames": 4,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-20T11:22:48.440Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-19"
+  }
+}
