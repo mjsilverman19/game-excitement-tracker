@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869387",
+      "homeTeam": "Knicks",
+      "awayTeam": "Hawks",
+      "homeScore": 106,
+      "awayScore": 107,
+      "excitement": 9.3,
+      "breakdown": {
+        "tension": 4,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869395",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Timberwolves",
+      "homeScore": 114,
+      "awayScore": 119,
+      "excitement": 9.2,
+      "breakdown": {
+        "tension": 4.458083960456165,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869369",
+      "homeTeam": "Cavaliers",
+      "awayTeam": "Raptors",
+      "homeScore": 115,
+      "awayScore": 105,
+      "excitement": 5.4,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 5.449213984551234,
+        "finish": 3.9779888906515044
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (10-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-21T11:14:15.077Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-20"
+  }
+}
