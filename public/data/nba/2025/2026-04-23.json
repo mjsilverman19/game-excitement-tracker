@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869389",
+      "homeTeam": "Hawks",
+      "awayTeam": "Knicks",
+      "homeScore": 109,
+      "awayScore": 108,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 4,
+        "drama": 9.78394992759808,
+        "finish": 8.906172641303336
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869375",
+      "homeTeam": "Raptors",
+      "awayTeam": "Cavaliers",
+      "homeScore": 126,
+      "awayScore": 104,
+      "excitement": 7.6,
+      "breakdown": {
+        "tension": 7.329644287324918,
+        "drama": 9.127809505372952,
+        "finish": 5.57700122019657
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869398",
+      "homeTeam": "Timberwolves",
+      "awayTeam": "Nuggets",
+      "homeScore": 113,
+      "awayScore": 96,
+      "excitement": 3.9,
+      "breakdown": {
+        "tension": 1.5,
+        "drama": 3.8164358732198758,
+        "finish": 2.298360337015178
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-24T11:11:33.068Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-23"
+  }
+}
