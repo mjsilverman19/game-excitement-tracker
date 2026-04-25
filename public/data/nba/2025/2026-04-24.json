@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869400",
+      "homeTeam": "Rockets",
+      "awayTeam": "Lakers",
+      "homeScore": 108,
+      "awayScore": 112,
+      "excitement": 9.6,
+      "breakdown": {
+        "tension": 7.067545228025526,
+        "drama": 10,
+        "finish": 6.9529295553909645
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869382",
+      "homeTeam": "Trail Blazers",
+      "awayTeam": "Spurs",
+      "homeScore": 108,
+      "awayScore": 120,
+      "excitement": 8.9,
+      "breakdown": {
+        "tension": 6.805402142478698,
+        "drama": 10,
+        "finish": 6.852967210561345
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869404",
+      "homeTeam": "76ers",
+      "awayTeam": "Celtics",
+      "homeScore": 100,
+      "awayScore": 108,
+      "excitement": 8.3,
+      "breakdown": {
+        "tension": 5.250800625656145,
+        "drama": 9.109198876324346,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-25T10:50:27.661Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-24"
+  }
+}
