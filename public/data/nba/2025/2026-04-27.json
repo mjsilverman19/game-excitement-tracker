@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869415",
+      "homeTeam": "Magic",
+      "awayTeam": "Pistons",
+      "homeScore": 94,
+      "awayScore": 88,
+      "excitement": 9,
+      "breakdown": {
+        "tension": 7.834843539445235,
+        "drama": 10,
+        "finish": 6.028312615196723
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869373",
+      "homeTeam": "Suns",
+      "awayTeam": "Thunder",
+      "homeScore": 122,
+      "awayScore": 131,
+      "excitement": 6.2,
+      "breakdown": {
+        "tension": 2.7618954919558036,
+        "drama": 5.893952326831637,
+        "finish": 4.980464470827138
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869401",
+      "homeTeam": "Nuggets",
+      "awayTeam": "Timberwolves",
+      "homeScore": 125,
+      "awayScore": 113,
+      "excitement": 4.5,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 4.316360318938941,
+        "finish": 2.2376314437304448
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-28T11:50:17.765Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-27"
+  }
+}
