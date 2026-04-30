@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869380",
+      "homeTeam": "Cavaliers",
+      "awayTeam": "Raptors",
+      "homeScore": 125,
+      "awayScore": 120,
+      "excitement": 8.5,
+      "breakdown": {
+        "tension": 7.286823913564964,
+        "drama": 10,
+        "finish": 5.139017924107215
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869407",
+      "homeTeam": "Lakers",
+      "awayTeam": "Rockets",
+      "homeScore": 93,
+      "awayScore": 99,
+      "excitement": 8.4,
+      "breakdown": {
+        "tension": 5.187404444249704,
+        "drama": 8.670461049312975,
+        "finish": 5.497000773419275
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869416",
+      "homeTeam": "Pistons",
+      "awayTeam": "Magic",
+      "homeScore": 116,
+      "awayScore": 109,
+      "excitement": 5.3,
+      "breakdown": {
+        "tension": 1.25,
+        "drama": 4.01498427396067,
+        "finish": 2.672111111690882
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null,
+      "dataQuality": {
+        "warning": true,
+        "severity": "high",
+        "issues": [
+          "Close game (7-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-04-30T11:43:03.114Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-04-29"
+  }
+}
