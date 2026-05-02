@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869381",
+      "homeTeam": "Raptors",
+      "awayTeam": "Cavaliers",
+      "homeScore": 112,
+      "awayScore": 110,
+      "excitement": 9.4,
+      "breakdown": {
+        "tension": 5.682139345459127,
+        "drama": 10,
+        "finish": 10
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869417",
+      "homeTeam": "Magic",
+      "awayTeam": "Pistons",
+      "homeScore": 79,
+      "awayScore": 93,
+      "excitement": 9.1,
+      "breakdown": {
+        "tension": 4.289161270357983,
+        "drama": 10,
+        "finish": 6.64632261560739
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401869409",
+      "homeTeam": "Rockets",
+      "awayTeam": "Lakers",
+      "homeScore": 78,
+      "awayScore": 98,
+      "excitement": 5.2,
+      "breakdown": {
+        "tension": 1.6188682801961587,
+        "drama": 4.480156030541287,
+        "finish": 4.889991073409551
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 3,
+    "totalGames": 3,
+    "insufficientData": 0,
+    "generatedAt": "2026-05-02T10:56:48.196Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-05-01"
+  }
+}
