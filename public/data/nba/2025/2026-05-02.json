@@ -1,0 +1,36 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401869412",
+      "homeTeam": "Celtics",
+      "awayTeam": "76ers",
+      "homeScore": 100,
+      "awayScore": 109,
+      "excitement": 8.9,
+      "breakdown": {
+        "tension": 7.80566452075754,
+        "drama": 9.793390822360491,
+        "finish": 6.9529295553909645
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-05-03T10:58:07.356Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-05-02"
+  }
+}
