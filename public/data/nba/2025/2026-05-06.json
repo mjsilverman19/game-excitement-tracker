@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401871160",
+      "homeTeam": "Knicks",
+      "awayTeam": "76ers",
+      "homeScore": 108,
+      "awayScore": 102,
+      "excitement": 8.2,
+      "breakdown": {
+        "tension": 6.520061786423947,
+        "drama": 9.138131663357909,
+        "finish": 5.591407030258608
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    },
+    {
+      "id": "401871153",
+      "homeTeam": "Spurs",
+      "awayTeam": "Timberwolves",
+      "homeScore": 133,
+      "awayScore": 95,
+      "excitement": 2.8001169102919654,
+      "breakdown": {
+        "tension": 0,
+        "drama": 2.084239781770076,
+        "finish": 1.704454742049353
+      },
+      "overtime": false,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 2,
+    "totalGames": 2,
+    "insufficientData": 0,
+    "generatedAt": "2026-05-07T11:53:11.419Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-05-06"
+  }
+}
