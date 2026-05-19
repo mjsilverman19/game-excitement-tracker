@@ -1,0 +1,36 @@
+{
+  "success": true,
+  "games": [
+    {
+      "id": "401873197",
+      "homeTeam": "Thunder",
+      "awayTeam": "Spurs",
+      "homeScore": 115,
+      "awayScore": 122,
+      "excitement": 9.3,
+      "breakdown": {
+        "tension": 7.915458595870362,
+        "drama": 10,
+        "finish": 7.371881890656942
+      },
+      "overtime": true,
+      "bowlName": null,
+      "playoffRound": null,
+      "homeSeed": null,
+      "awaySeed": null,
+      "bracketRound": null,
+      "bracketRegion": null
+    }
+  ],
+  "metadata": {
+    "sport": "NBA",
+    "season": 2025,
+    "count": 1,
+    "totalGames": 1,
+    "insufficientData": 0,
+    "generatedAt": "2026-05-19T12:44:43.718Z",
+    "algorithmVersion": "3.5",
+    "source": "ESPN Win Probability Analysis",
+    "date": "2026-05-18"
+  }
+}
