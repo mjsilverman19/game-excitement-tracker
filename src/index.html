@@ -32,6 +32,7 @@
             </a>
             <nav class="site-nav" aria-label="Site">
                 <a href="#" class="site-nav-link active" id="discoverLink">Discover</a>
+                <a href="#" class="site-nav-link" id="savedLink">Saved games <span class="nav-count" id="savedCount" hidden>0</span></a>
                 <a href="#" class="site-nav-link" id="aboutLink">About</a>
                 <button type="button" class="site-nav-link theme-toggle" id="themeToggle">Dark</button>
             </nav>
@@ -133,6 +134,24 @@
             <div id="resultsArea">
                 <!-- Results populated by JavaScript -->
             </div>
+        </div>
+
+        <div class="saved-content hidden" id="savedContent">
+            <div class="page-intro">
+                <div class="page-intro-text">
+                    <h1 class="headline">Saved games</h1>
+                    <p class="subheadline">Your watchlist, without the result.</p>
+                </div>
+                <div class="show-me">
+                    <div class="show-me-label">Show me:</div>
+                    <div class="segmented" id="spoilerControlSaved" role="group" aria-label="Spoiler level">
+                        <button type="button" class="segmented-option active" data-mode="strict">Strict</button>
+                        <button type="button" class="segmented-option" data-mode="context">Context</button>
+                        <button type="button" class="segmented-option" data-mode="scores">Scores</button>
+                    </div>
+                </div>
+            </div>
+            <div id="savedArea"></div>
         </div>
 
         <div class="about-content hidden" id="aboutContent">

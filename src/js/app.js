@@ -21,6 +21,7 @@ import { populateWeekPicker } from './components/week-picker.js';
 import { loadTeams, displayTeams, filterTeams, selectTeam, loadSchedule, displaySchedule, loadSingleGame, displaySingleGame, backToWeek, backToSchedule } from './components/team-picker.js';
 import { openExportModal, closeExportModal, attachExportListeners } from './components/export-modal.js';
 import { openTopGames, closeTopGames } from './components/top-games.js';
+import { renderSavedGames, updateSavedCount } from './components/saved-games.js';
 
 window.ALGORITHM_CONFIG = ALGORITHM_CONFIG;
 window.getTier = getTier;
@@ -78,6 +79,7 @@ window.getTier = getTier;
 
             updateThemeToggleText();
             updateSpoilerControl();
+            updateSavedCount();
             attachEventListeners();
             initNavigation();
 
@@ -156,10 +158,13 @@ window.getTier = getTier;
         }
 
         function updateSpoilerControl() {
-            document.querySelectorAll('#spoilerControl .segmented-option').forEach(btn => {
+            document.querySelectorAll('#spoilerControl .segmented-option, #spoilerControlSaved .segmented-option').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.mode === window.spoilerMode);
             });
             document.getElementById('spoilerHint').textContent = SPOILER_HINTS[window.spoilerMode];
+            if (!document.getElementById('savedContent').classList.contains('hidden')) {
+                renderSavedGames();
+            }
         }
 
         const SPORT_NOUNS = {
@@ -181,12 +186,17 @@ window.getTier = getTier;
         }
 
         function showView(view) {
-            const isAbout = view === 'about';
-            document.getElementById('mainContent').classList.toggle('hidden', isAbout);
-            document.getElementById('aboutContent').classList.toggle('hidden', !isAbout);
-            document.getElementById('discoverLink').classList.toggle('active', !isAbout);
-            document.getElementById('aboutLink').classList.toggle('active', isAbout);
-            if (isAbout) populateAlgorithmMetricsTable();
+            const views = { discover: 'mainContent', saved: 'savedContent', about: 'aboutContent' };
+            const links = { discover: 'discoverLink', saved: 'savedLink', about: 'aboutLink' };
+            Object.entries(views).forEach(([name, id]) => {
+                document.getElementById(id).classList.toggle('hidden', name !== view);
+            });
+            Object.entries(links).forEach(([name, id]) => {
+                document.getElementById(id).classList.toggle('active', name === view);
+            });
+            window.currentView = view;
+            if (view === 'about') populateAlgorithmMetricsTable();
+            if (view === 'saved') renderSavedGames();
             window.scrollTo(0, 0);
         }
 
@@ -439,7 +449,10 @@ window.getTier = getTier;
         function attachEventListeners() {
             // Sport tabs
             document.querySelectorAll('.sport-tab').forEach(tab => {
-                tab.addEventListener('click', () => switchSport(tab.dataset.sport));
+                tab.addEventListener('click', () => {
+                    if (window.currentView && window.currentView !== 'discover') showView('discover');
+                    switchSport(tab.dataset.sport);
+                });
             });
 
             // Range control
@@ -450,8 +463,8 @@ window.getTier = getTier;
                 });
             });
 
-            // Spoiler control
-            document.querySelectorAll('#spoilerControl .segmented-option').forEach(btn => {
+            // Spoiler control (main and saved views share the preference)
+            document.querySelectorAll('#spoilerControl .segmented-option, #spoilerControlSaved .segmented-option').forEach(btn => {
                 btn.addEventListener('click', () => setSpoilerMode(btn.dataset.mode));
             });
 
@@ -507,6 +520,10 @@ window.getTier = getTier;
             document.getElementById('discoverLink').addEventListener('click', (e) => {
                 e.preventDefault();
                 showView('discover');
+            });
+            document.getElementById('savedLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('saved');
             });
             document.getElementById('homeLink').addEventListener('click', (e) => {
                 e.preventDefault();
@@ -684,6 +701,8 @@ window.getTier = getTier;
         window.showLoading = showLoading;
         window.showEmpty = showEmpty;
         window.updateUI = updateUI;
+        window.updateSavedCount = updateSavedCount;
+        window.showView = showView;
         window.markCustomRange = markCustomRange;
         window.applyRangeMode = applyRangeMode;
         window.attachRadarChartListeners = attachRadarChartListeners;

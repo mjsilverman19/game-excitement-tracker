@@ -155,12 +155,12 @@ export function displaySchedule(team, games) {
 
     let html = `
         <div class="schedule-view">
+            <a href="#" class="back-link" id="backToWeek">← Back to games</a>
             <div class="schedule-header">
                 <span class="team-name">${team.displayName}</span>
-                <span class="separator">·</span>
-                <span class="schedule-season">${window.selectedSeason}</span>
+                <span class="schedule-season">${window.selectedSeason} season</span>
             </div>
-            <a href="#" class="back-link" id="backToWeek">← Back to games</a>
+            <p class="schedule-hint">Pick a game to rate it. Results stay hidden unless Show me is set to Scores.</p>
 
             <div class="schedule-list">
     `;
@@ -177,15 +177,13 @@ export function displaySchedule(team, games) {
         const resultText = window.spoilerFree ? 'final' : game.result;
 
         html += `
-            <div class="schedule-row" data-game-id="${game.id}">
+            <button type="button" class="schedule-row" data-game-id="${game.id}">
                 <span class="schedule-week">${weekText}</span>
-                <span class="separator">·</span>
                 <span class="schedule-date">${game.displayDate}</span>
-                <span class="separator">·</span>
                 <span class="schedule-opponent">${locationPrefix} ${game.opponent}</span>
-                <span class="separator">·</span>
                 <span class="schedule-result">${resultText}</span>
-            </div>
+                <span class="schedule-go" aria-hidden="true">Rate →</span>
+            </button>
         `;
     });
 

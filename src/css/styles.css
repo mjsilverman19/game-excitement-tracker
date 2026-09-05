@@ -565,6 +565,154 @@
             color: var(--text-muted);
         }
 
+        .nav-count {
+            display: inline-block;
+            min-width: 20px;
+            padding: 1px 6px;
+            margin-left: 4px;
+            border-radius: var(--radius-pill);
+            background: var(--color-primary);
+            color: var(--color-primary-contrast);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 16px;
+        }
+
+        /* ==========================================================
+           Saved games view
+           ========================================================== */
+        .saved-content {
+            padding-top: 32px;
+        }
+
+        .sport-pill {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--border-primary);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+        }
+
+        .saved-table .col-sport {
+            width: 72px;
+        }
+
+        .saved-table .col-actions {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .row-link {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            margin-right: 10px;
+        }
+
+        .row-link:hover {
+            color: var(--text-primary);
+        }
+
+        .remove-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: none;
+            border-radius: 50%;
+            color: var(--text-muted);
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        .remove-btn:hover {
+            background: var(--bg-hover);
+            color: var(--accent-skip);
+        }
+
+        /* ==========================================================
+           Team schedule and single game views
+           ========================================================== */
+        .schedule-view {
+            padding-top: 4px;
+        }
+
+        .schedule-season {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .schedule-hint {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border-primary);
+        }
+
+        .schedule-row {
+            display: grid;
+            grid-template-columns: 110px 130px 1fr 80px auto;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            padding: 14px 8px;
+            border: none;
+            border-bottom: 1px solid var(--border-secondary);
+            background: none;
+            font-size: 15px;
+            text-align: left;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 150ms ease;
+        }
+
+        .schedule-row:hover {
+            background: var(--bg-hover);
+        }
+
+        .schedule-week,
+        .schedule-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .schedule-opponent {
+            font-weight: 500;
+        }
+
+        .schedule-result {
+            color: var(--text-secondary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .schedule-go {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .schedule-row:hover .schedule-go {
+            color: var(--color-primary);
+        }
+
         /* About Page */
         .about-body {
             max-width: 720px;
@@ -584,8 +732,8 @@
         }
 
         .about-section p {
-            font-size: 14px;
-            line-height: 1.6;
+            font-size: 16px;
+            line-height: 1.65;
             color: var(--text-secondary);
             margin-bottom: 12px;
         }
@@ -617,7 +765,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 16px 0 24px 0;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .about-table th {
@@ -1818,6 +1966,27 @@
                 align-items: flex-start;
             }
 
+            .schedule-row {
+                grid-template-columns: 1fr auto;
+                grid-template-areas: "week go" "opponent go" "date go" "result go";
+                gap: 2px 12px;
+            }
+
+            .schedule-week { grid-area: week; }
+            .schedule-date { grid-area: date; }
+            .schedule-opponent { grid-area: opponent; }
+            .schedule-result { grid-area: result; }
+            .schedule-go { grid-area: go; }
+
+            .saved-table .col-sport,
+            .saved-table .col-date {
+                display: none;
+            }
+
+            .site-nav-link .nav-count {
+                display: none;
+            }
+
             /* Mobile spacing adjustments */
             .statistics-line {
                 margin-bottom: 16px;
@@ -2030,7 +2199,7 @@
             transform: translate(-50%, -50%);
             background: var(--bg-elevated);
             border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-card);
             padding: 32px;
             z-index: 2000;
             display: none;
@@ -2058,11 +2227,12 @@
         }
 
         .export-modal-header {
-            font-size: 14px;
-            font-weight: 500;
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             color: var(--text-primary);
             margin-bottom: 24px;
-            letter-spacing: 0.05em;
         }
 
         .export-form-group {
@@ -2102,21 +2272,20 @@
 
         .export-btn {
             flex: 1;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: 500;
             color: var(--text-primary);
-            background: var(--bg-active);
+            background: var(--bg-elevated);
             border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-pill);
             padding: 10px 16px;
             cursor: pointer;
             transition: all 150ms ease;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
         }
 
         .export-btn:hover {
-            background: var(--bg-active-alt);
-            border-color: var(--bg-active-alt);
+            background: var(--bg-hover);
+            border-color: var(--text-secondary);
         }
 
         .export-btn.primary {
@@ -2179,26 +2348,25 @@
         }
 
         .export-preset-btn {
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 500;
             color: var(--text-primary);
-            background: var(--bg-hover);
+            background: var(--bg-elevated);
             border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
-            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            padding: 6px 14px;
             cursor: pointer;
             transition: all 150ms ease;
-            letter-spacing: 0.05em;
         }
 
         .export-preset-btn:hover {
-            background: var(--bg-active);
-            border-color: var(--bg-active-alt);
+            background: var(--bg-hover);
         }
 
         .export-preset-btn.active {
-            background: var(--bg-active-alt);
-            border-color: var(--bg-active-alt);
-            color: var(--text-primary);
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-primary-contrast);
         }
 
         .export-custom-range {
@@ -2285,11 +2453,11 @@
         }
 
         .bracket-round-header {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-transform: lowercase;
-            letter-spacing: 0.05em;
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
             margin-bottom: 16px;
             padding-bottom: 8px;
             border-bottom: 1px solid var(--border-secondary);
@@ -2318,10 +2486,12 @@
         .bracket-matchup {
             display: flex;
             flex-direction: column;
+            background: var(--bg-elevated);
             border: 1px solid var(--border-secondary);
             border-radius: var(--radius-sm);
             position: relative;
-            padding-right: 36px;
+            padding-right: 40px;
+            box-shadow: var(--shadow-card);
         }
 
         .bracket-matchup:hover {
@@ -2373,7 +2543,8 @@
             right: 0;
             top: 0;
             bottom: 0;
-            width: 32px;
+            width: 36px;
+            font-family: var(--font-display);
             display: flex;
             align-items: center;
             justify-content: center;
