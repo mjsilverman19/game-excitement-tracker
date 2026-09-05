@@ -43,7 +43,7 @@ window.getTier = getTier;
         window.isInitialLoad = true; // Track if this is the first load to enable auto-fallback
 
         // Theme state
-        window.currentTheme = localStorage.getItem('theme') || 'dark';
+        window.currentTheme = localStorage.getItem('theme') || 'light';
 
         // Team lookup state
         window.viewMode = 'week'; // 'week' | 'schedule' | 'single-game'

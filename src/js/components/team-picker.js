@@ -24,7 +24,7 @@ export async function loadTeams() {
     }
 
     // Show loading state
-    document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Loading teams...</div>';
+    document.getElementById('teamList').innerHTML = '<div style="color: var(--text-muted); padding: 8px;">Loading teams...</div>';
 
     try {
         const response = await fetch(`/api/teams?sport=${window.selectedSport}`);
@@ -44,7 +44,7 @@ export async function loadTeams() {
         }
     } catch (error) {
         console.error('Error loading teams:', error);
-        document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Failed to load teams</div>';
+        document.getElementById('teamList').innerHTML = '<div style="color: var(--text-muted); padding: 8px;">Failed to load teams</div>';
     }
 }
 
@@ -56,7 +56,7 @@ export function displayTeams(teams) {
     teamList.innerHTML = '';
 
     if (teams.length === 0) {
-        teamList.innerHTML = '<div style="color: #6b6560; padding: 8px;">No teams found</div>';
+        teamList.innerHTML = '<div style="color: var(--text-muted); padding: 8px;">No teams found</div>';
         return;
     }
 
