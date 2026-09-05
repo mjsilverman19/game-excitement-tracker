@@ -242,7 +242,7 @@ function renderTableRow(game, index, options = {}) {
             <td class="col-date">${escapeHtml(formatGameDate(game))}${overtimeBadge(game)}</td>
             ${showScores ? `<td class="col-final">${escapeHtml(finalText.replace('Final ', ''))}</td>` : ''}
             <td class="col-gei">${formatScore(game.excitement)}</td>
-            <td class="col-rec"><span class="tier-${tier.cssClass}">${capitalize(tier.label)}</span> <button type="button" class="why-link why-link-row" data-game-id="${game.id}" aria-expanded="false" aria-controls="detail-${game.id}">Why?</button></td>
+            <td class="col-rec"><span class="tier-${tier.cssClass}">${capitalize(tier.label)}</span><button type="button" class="why-link visually-hidden" data-game-id="${game.id}" aria-expanded="false" aria-controls="detail-${game.id}">Why this game?</button></td>
             <td class="col-save"><button type="button" class="save-btn save-btn-icon ${saved ? 'saved' : ''}" data-game-id="${game.id}" aria-pressed="${saved}" aria-label="${saved ? 'Remove from saved games' : 'Save game'}">${saved ? BOOKMARK_FILLED : BOOKMARK_ICON}</button></td>
         </tr>
         <tr class="rankings-detail-row" hidden>

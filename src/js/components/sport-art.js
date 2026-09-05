@@ -2,6 +2,10 @@
  * Decorative sport artwork for the hero card.
  * Inline SVG drawn in currentColor so it inherits the card's text color
  * and works in both themes. Everything is generated, no image assets.
+ *
+ * The baseball seam is the reference: a long double seam sweeping down
+ * the right of the card with dense V-shaped stitches, the way the
+ * thread reads on a close-up photograph.
  */
 
 function cubicPoint(p0, p1, p2, p3, t) {
@@ -20,72 +24,85 @@ function cubicTangent(p0, p1, p2, p3, t) {
     return { x: x / len, y: y / len };
 }
 
+function f(n) {
+    return n.toFixed(1);
+}
+
 /**
- * Stitches along a cubic curve: short angled ticks either side of the seam,
- * the way a baseball's red thread reads from a distance.
+ * Chevron stitches along a seam: each stitch is a V whose apex sits just
+ * ahead of the seam centerline and whose arms reach back past both seam
+ * edges, so a run of them reads as the thread on a baseball.
  */
-function stitches(p0, p1, p2, p3, count, length, angle) {
+function seamStitches(p0, p1, p2, p3, count, reach) {
     let out = '';
     for (let i = 0; i <= count; i++) {
         const t = i / count;
         const p = cubicPoint(p0, p1, p2, p3, t);
         const tan = cubicTangent(p0, p1, p2, p3, t);
         const n = { x: -tan.y, y: tan.x };
-        const c = Math.cos(angle);
-        const s = Math.sin(angle);
-        // Rotate the normal by +/- angle to give the stitch its lean
-        const d1 = { x: n.x * c - n.y * s, y: n.x * s + n.y * c };
-        const d2 = { x: n.x * c + n.y * s, y: -n.x * s + n.y * c };
-        out += `<line x1="${(p.x - d1.x * length).toFixed(1)}" y1="${(p.y - d1.y * length).toFixed(1)}" x2="${(p.x + d1.x * length * 0.15).toFixed(1)}" y2="${(p.y + d1.y * length * 0.15).toFixed(1)}"/>`;
-        out += `<line x1="${(p.x + d2.x * length).toFixed(1)}" y1="${(p.y + d2.y * length).toFixed(1)}" x2="${(p.x - d2.x * length * 0.15).toFixed(1)}" y2="${(p.y - d2.y * length * 0.15).toFixed(1)}"/>`;
+        const apex = { x: p.x + tan.x * reach * 0.55, y: p.y + tan.y * reach * 0.55 };
+        const left = { x: p.x + n.x * reach - tan.x * reach * 0.45, y: p.y + n.y * reach - tan.y * reach * 0.45 };
+        const right = { x: p.x - n.x * reach - tan.x * reach * 0.45, y: p.y - n.y * reach - tan.y * reach * 0.45 };
+        out += `<path d="M${f(left.x)} ${f(left.y)} L${f(apex.x)} ${f(apex.y)} L${f(right.x)} ${f(right.y)}"/>`;
     }
     return out;
 }
 
+function seamPath(p0, p1, p2, p3, offset) {
+    let d = '';
+    const steps = 40;
+    for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const p = cubicPoint(p0, p1, p2, p3, t);
+        const tan = cubicTangent(p0, p1, p2, p3, t);
+        const x = p.x - tan.y * offset;
+        const y = p.y + tan.x * offset;
+        d += `${i === 0 ? 'M' : 'L'}${f(x)} ${f(y)} `;
+    }
+    return d;
+}
+
 function baseballArt() {
-    // One long seam sweeping down the right side of the card
-    const p0 = { x: 620, y: -40 };
-    const p1 = { x: 470, y: 120 };
-    const p2 = { x: 470, y: 320 };
-    const p3 = { x: 640, y: 470 };
-    const seam = `M${p0.x} ${p0.y} C${p1.x} ${p1.y}, ${p2.x} ${p2.y}, ${p3.x} ${p3.y}`;
+    const p0 = { x: 700, y: -60 };
+    const p1 = { x: 500, y: 110 };
+    const p2 = { x: 500, y: 330 };
+    const p3 = { x: 720, y: 500 };
     return `
         <svg class="hero-art" viewBox="0 0 720 420" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
-            <g fill="none" stroke="currentColor" stroke-linecap="round">
-                <path d="${seam}" stroke-width="3" opacity="0.35"/>
-                <g stroke-width="5">${stitches(p0, p1, p2, p3, 22, 22, 0.55)}</g>
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="${seamPath(p0, p1, p2, p3, 14)}" stroke-width="2" opacity="0.22"/>
+                <path d="${seamPath(p0, p1, p2, p3, -14)}" stroke-width="2" opacity="0.22"/>
+                <g stroke-width="7" opacity="0.72">${seamStitches(p0, p1, p2, p3, 26, 26)}</g>
             </g>
         </svg>`;
 }
 
 function footballArt() {
-    // A football silhouette turned on its side, laces up
     const lace = [];
-    for (let i = 0; i < 7; i++) {
-        const x = 470 + i * 26;
-        lace.push(`<line x1="${x}" y1="188" x2="${x}" y2="232"/>`);
+    for (let i = 0; i < 8; i++) {
+        const x = 452 + i * 30;
+        lace.push(`<path d="M${x} 176 L${x} 244"/>`);
     }
     return `
         <svg class="hero-art" viewBox="0 0 720 420" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M300 210 C300 60, 480 -20, 640 40 C760 90, 760 330, 640 380 C480 440, 300 360, 300 210 Z" stroke-width="3" opacity="0.35"/>
-                <path d="M340 210 C360 130, 420 80, 520 62 M340 210 C360 290, 420 340, 520 358" stroke-width="2" opacity="0.2"/>
-                <line x1="450" y1="210" x2="640" y2="210" stroke-width="5"/>
-                <g stroke-width="5">${lace.join('')}</g>
+                <path d="M260 210 C260 40, 470 -40, 660 30 C820 90, 820 330, 660 390 C470 460, 260 380, 260 210 Z" stroke-width="3" opacity="0.3"/>
+                <path d="M300 210 C330 110, 410 50, 540 40 M300 210 C330 310, 410 370, 540 380" stroke-width="2" opacity="0.18"/>
+                <path d="M420 210 L690 210" stroke-width="8" opacity="0.7"/>
+                <g stroke-width="8" opacity="0.7">${lace.join('')}</g>
             </g>
         </svg>`;
 }
 
 function basketballArt() {
-    // The quarter of a ball that shows at the edge of the card
     return `
         <svg class="hero-art" viewBox="0 0 720 420" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
             <g fill="none" stroke="currentColor" stroke-linecap="round">
-                <circle cx="640" cy="210" r="300" stroke-width="3" opacity="0.35"/>
-                <path d="M340 210 H940" stroke-width="4" opacity="0.6"/>
-                <path d="M640 -90 V510" stroke-width="4" opacity="0.6"/>
-                <path d="M430 -2 C560 120, 560 300, 430 422" stroke-width="4" opacity="0.6"/>
-                <path d="M850 -2 C720 120, 720 300, 850 422" stroke-width="4" opacity="0.6"/>
+                <circle cx="660" cy="210" r="320" stroke-width="3" opacity="0.3"/>
+                <path d="M340 210 H980" stroke-width="7" opacity="0.6"/>
+                <path d="M660 -110 V530" stroke-width="7" opacity="0.6"/>
+                <path d="M436 -10 C580 110, 580 310, 436 430" stroke-width="7" opacity="0.6"/>
+                <path d="M884 -10 C740 110, 740 310, 884 430" stroke-width="7" opacity="0.6"/>
             </g>
         </svg>`;
 }
