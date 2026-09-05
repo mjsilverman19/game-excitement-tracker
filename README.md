@@ -51,11 +51,17 @@ Use the Export Season flow in the UI to download an Excel file for a full season
 
 ## Static Data Generation
 
-Static JSON datasets can be generated with `scripts/generate-static.js` to populate `public/data/` for offline or faster loads. Example:
+Static JSON datasets can be generated with `scripts/generate-static.js` to populate `public/data/` for offline or faster loads. Pass `current` for the season or week to resolve them from the calendar, which is what the scheduled workflow does. Examples:
 
 ```bash
-node scripts/generate-static.js --sport NFL --season 2025 --all
+node scripts/generate-static.js --sport NFL --season current --all
+node scripts/generate-static.js --sport CFB --season current --week current
+node scripts/generate-static.js --sport NFL --season 2025 --week 7
 ```
+
+Season and week boundaries are defined once in `shared/season-dates.js` and used by the browser, the generator, and the workflow, so nothing needs updating when a new season starts.
+
+To regenerate a whole season after a schema or algorithm change, run the workflow manually with `scope` set to `all`, a `sport`, and a `season`. It overwrites every file for that season and commits the result to the branch it ran on.
 
 ## Tech Stack
 
@@ -119,6 +125,13 @@ Analyzes games for a given week (NFL/CFB) or date (NBA). Can also analyze a sing
       "awayTeam": "Bills",
       "homeScore": 24,
       "awayScore": 20,
+      "homeTeamId": "12",
+      "awayTeamId": "2",
+      "homeAbbr": "KC",
+      "awayAbbr": "BUF",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
+      "date": "2024-11-17T21:25Z",
       "excitement": 8.7,
       "breakdown": {
         "tension": 7.2,

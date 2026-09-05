@@ -104,6 +104,7 @@ export function populateCustomDatePicker() {
                 window.selectedDate = cellDateStr;
                 console.log(`📅 NBA window.selectedDate changed via date picker: ${window.selectedDate}`);
                 window.isInitialLoad = false; // User manually selected date
+                window.markCustomRange();
                 document.getElementById('customDatePicker').classList.remove('visible');
                 window.updateUI();
                 window.loadGames();

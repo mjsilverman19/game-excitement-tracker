@@ -12,12 +12,12 @@
 export function renderRadarChart(breakdown, averages = null) {
     // Handle missing or empty breakdown data
     if (!breakdown || Object.keys(breakdown).length === 0) {
-        return '<div style="color: #6b6560; font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
+        return '<div style="color: var(--text-muted); font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
     }
 
     const metrics = window.ALGORITHM_CONFIG.metrics || [];
     if (metrics.length === 0) {
-        return '<div style="color: #6b6560; font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
+        return '<div style="color: var(--text-muted); font-size: 11px; padding: 8px;">Breakdown data not available for this game. Try selecting a different week to load fresh data.</div>';
     }
 
     const size = 330;
@@ -99,7 +99,7 @@ export function renderRadarChart(breakdown, averages = null) {
             </div>
             <div class="radar-legend-item">
                 <svg width="20" height="10" aria-hidden="true">
-                    <line x1="0" y1="5" x2="20" y2="5" stroke="rgba(160, 140, 180, 0.6)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+                    <line x1="0" y1="5" x2="20" y2="5" stroke="var(--accent-average)" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="4 3"></line>
                 </svg>
                 <span>${legendLabel}</span>
             </div>

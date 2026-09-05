@@ -14,21 +14,17 @@ import {
 } from './utils/dates.js';
 import { loadGames } from './services/api.js';
 import { openBracketView, closeBracketView } from './components/bracket.js';
-import { displayResults, calculatePeriodAverages, createGameRow, attachScoreToggleListener, attachRadarChartListeners } from './components/game-list.js';
+import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners } from './components/game-list.js';
 import { renderRadarChart, attachMetricHoverListeners } from './components/radar-chart.js';
 import { populateCustomDatePicker } from './components/date-picker.js';
 import { populateWeekPicker } from './components/week-picker.js';
 import { loadTeams, displayTeams, filterTeams, selectTeam, loadSchedule, displaySchedule, loadSingleGame, displaySingleGame, backToWeek, backToSchedule } from './components/team-picker.js';
 import { openExportModal, closeExportModal, attachExportListeners } from './components/export-modal.js';
 import { openTopGames, closeTopGames } from './components/top-games.js';
+import { renderSavedGames, updateSavedCount } from './components/saved-games.js';
 
 window.ALGORITHM_CONFIG = ALGORITHM_CONFIG;
 window.getTier = getTier;
-
-        // Legacy function for backwards compatibility
-        function getCurrentNFLWeek() {
-            return getCurrentWeek('NFL');
-        }
 
         // State
         const currentMLBWeek = getCurrentWeek('MLB');
@@ -36,14 +32,36 @@ window.getTier = getTier;
         window.selectedSeason = currentMLBWeek.season;
         window.selectedWeek = null;
         window.selectedDate = getDefaultNBADate(); // For date-based navigation (NBA, MLB)
-        window.spoilerFree = localStorage.getItem('spoilerFree') !== 'false';
+
+        // Range: 'latest' (smart discovery), 'current' (this week / last 7 days),
+        // 'season' (top games across the season), or 'custom' after manual navigation
+        window.rangeMode = 'latest';
+
+        // Spoiler level: 'strict' hides everything, 'context' shows overtime and
+        // postseason labels, 'scores' shows final scores. spoilerFree stays in sync
+        // for the renderers that only need a yes/no.
+        const SPOILER_MODES = ['strict', 'context', 'scores'];
+        const SPOILER_HINTS = {
+            strict: 'No scores. No spoilers. Just great games.',
+            context: 'Overtime and postseason context, still no scores.',
+            scores: 'Final scores shown. Spoilers ahead.'
+        };
+        function readSpoilerMode() {
+            const stored = localStorage.getItem('spoilerMode');
+            if (SPOILER_MODES.includes(stored)) return stored;
+            // Migrate the old boolean preference
+            return localStorage.getItem('spoilerFree') === 'false' ? 'scores' : 'strict';
+        }
+        window.spoilerMode = readSpoilerMode();
+        window.spoilerFree = window.spoilerMode !== 'scores';
+        window.rerenderResults = null; // set by whichever view last rendered
         window.currentGames = null;
         window.periodAverages = null;
         window.isLoading = false;
         window.isInitialLoad = true; // Track if this is the first load to enable auto-fallback
 
         // Theme state
-        window.currentTheme = localStorage.getItem('theme') || 'dark';
+        window.currentTheme = localStorage.getItem('theme') || 'light';
 
         // Team lookup state
         window.viewMode = 'week'; // 'week' | 'schedule' | 'single-game'
@@ -60,23 +78,126 @@ window.getTier = getTier;
             initSupabase(); // Fire and forget
 
             updateThemeToggleText();
+            updateSpoilerControl();
+            updateSavedCount();
             attachEventListeners();
-
             initNavigation();
 
-            // Smart week discovery: Find the best starting week/date before loading games
-            const result = await findLatestAvailable(window.selectedSport, window.selectedSeason);
+            await applyRangeMode('latest');
+        }
 
+        // Apply a range mode for the current sport and load the matching games
+        async function applyRangeMode(mode) {
+            if (window.viewMode === 'top-games' && mode !== 'season' && !(mode === 'current' && isDateBasedSport(window.selectedSport))) {
+                // Leave the top games view without triggering its own reload
+                window.viewMode = 'week';
+                window.isLoading = false;
+                delete window._topGamesPrevState;
+                document.getElementById('topGamesSelector').hidden = true;
+                document.getElementById('periodStepper').hidden = false;
+            }
+
+            window.rangeMode = mode;
+            updateRangeControl();
+
+            if (mode === 'season') {
+                openTopGames('season');
+                return;
+            }
+
+            if (mode === 'current') {
+                if (isDateBasedSport(window.selectedSport)) {
+                    // Last seven days for date-based sports
+                    openTopGames('week');
+                    return;
+                }
+                window.selectedWeek = getCurrentWeek(window.selectedSport).week;
+                window.isInitialLoad = false;
+                updateUI();
+                loadGames();
+                return;
+            }
+
+            // Latest: smart discovery of the most recent period with data
+            window.isInitialLoad = true;
+            const result = await findLatestAvailable(window.selectedSport, window.selectedSeason);
             if (isDateBasedSport(window.selectedSport)) {
-                window.selectedDate = result.week; // For date-based sports, 'week' is actually the date string
+                window.selectedDate = result.week; // For date-based sports, 'week' is the date string
             } else {
                 window.selectedWeek = result.week;
             }
-
-            console.log(`📍 Smart discovery: Starting with ${window.selectedSport} ${isDateBasedSport(window.selectedSport) ? 'date' : 'week'} ${result.week} (fromCache: ${result.fromCache})`);
-
+            console.log(`📍 Smart discovery: ${window.selectedSport} ${result.week} (fromCache: ${result.fromCache})`);
             updateUI();
             loadGames();
+        }
+
+        function updateRangeControl() {
+            document.querySelectorAll('#rangeControl .segmented-option').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.range === window.rangeMode);
+            });
+        }
+
+        // Manual navigation (stepper, pickers) leaves the preset ranges
+        function markCustomRange() {
+            if (window.rangeMode !== 'custom') {
+                window.rangeMode = 'custom';
+                updateRangeControl();
+            }
+        }
+
+        function setSpoilerMode(mode) {
+            if (!SPOILER_MODES.includes(mode)) return;
+            window.spoilerMode = mode;
+            window.spoilerFree = mode !== 'scores';
+            localStorage.setItem('spoilerMode', mode);
+            localStorage.setItem('spoilerFree', String(window.spoilerFree));
+            updateSpoilerControl();
+            if (typeof window.rerenderResults === 'function') {
+                window.rerenderResults();
+            }
+        }
+
+        function updateSpoilerControl() {
+            document.querySelectorAll('#spoilerControl .segmented-option, #spoilerControlSaved .segmented-option').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === window.spoilerMode);
+            });
+            document.getElementById('spoilerHint').textContent = SPOILER_HINTS[window.spoilerMode];
+            if (!document.getElementById('savedContent').classList.contains('hidden')) {
+                renderSavedGames();
+            }
+        }
+
+        const SPORT_NOUNS = {
+            NFL: 'football',
+            CFB: 'college football',
+            NBA: 'basketball',
+            MLB: 'baseball',
+            CBB: 'college basketball'
+        };
+
+        function updateIntro() {
+            const noun = SPORT_NOUNS[window.selectedSport] || 'games';
+            const sub = document.getElementById('subheadline');
+            if (window.rangeMode === 'season') {
+                sub.textContent = `The best ${noun} of the season, without the result.`;
+            } else {
+                sub.textContent = `The best recent ${noun}, without the result.`;
+            }
+        }
+
+        function showView(view) {
+            const views = { discover: 'mainContent', saved: 'savedContent', about: 'aboutContent' };
+            const links = { discover: 'discoverLink', saved: 'savedLink', about: 'aboutLink' };
+            Object.entries(views).forEach(([name, id]) => {
+                document.getElementById(id).classList.toggle('hidden', name !== view);
+            });
+            Object.entries(links).forEach(([name, id]) => {
+                document.getElementById(id).classList.toggle('active', name === view);
+            });
+            window.currentView = view;
+            if (view === 'about') populateAlgorithmMetricsTable();
+            if (view === 'saved') renderSavedGames();
+            window.scrollTo(0, 0);
         }
 
         // Theme Toggle Functions
@@ -90,177 +211,67 @@ window.getTier = getTier;
         function updateThemeToggleText() {
             const themeToggle = document.getElementById('themeToggle');
             if (themeToggle) {
-                themeToggle.textContent = window.currentTheme === 'dark' ? 'light' : 'dark';
+                themeToggle.textContent = window.currentTheme === 'dark' ? 'Light' : 'Dark';
             }
         }
 
         // Update UI elements
         function updateUI() {
-            // Update header week info
-            const now = new Date();
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'];
+            updateIntro();
 
-            if (isDateBasedSport(window.selectedSport)) {
-                const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(now.getTime() - 24*60*60*1000);
-                document.getElementById('headerWeekInfo').textContent =
-                    `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
-            } else if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
-                // NFL playoff rounds - show proper round name
-                const roundInfo = NFL_PLAYOFF_ROUNDS[window.selectedWeek];
-                document.getElementById('headerWeekInfo').textContent =
-                    `${roundInfo.label} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-            } else {
-                if (window.selectedWeek === 'bowls') {
-                    document.getElementById('headerWeekInfo').textContent =
-                        `Bowl Season · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-                } else if (window.selectedWeek === 'playoffs') {
-                    document.getElementById('headerWeekInfo').textContent =
-                        `College Football Playoff · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-                } else {
-                    document.getElementById('headerWeekInfo').textContent =
-                        `Week ${window.selectedWeek} · ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-                }
+            // Update sport tabs
+            ['NFL', 'CFB', 'NBA', 'MLB', 'CBB'].forEach(sport => {
+                document.getElementById(`${sport.toLowerCase()}Option`).classList.toggle('active', window.selectedSport === sport);
+            });
+
+            // March Madness link only for CBB
+            const bracketLink = document.getElementById('bracketLink');
+            const isCBB = window.selectedSport === 'CBB';
+            bracketLink.hidden = !isCBB;
+            if (isCBB) {
+                bracketLink.textContent = window.viewMode === 'bracket' ? 'Back to dates' : 'March Madness';
             }
 
-            // Update sport selector
-            document.getElementById('nflOption').classList.toggle('active', window.selectedSport === 'NFL');
-            document.getElementById('cfbOption').classList.toggle('active', window.selectedSport === 'CFB');
-            document.getElementById('nbaOption').classList.toggle('active', window.selectedSport === 'NBA');
-            document.getElementById('mlbOption').classList.toggle('active', window.selectedSport === 'MLB');
-            document.getElementById('cbbOption').classList.toggle('active', window.selectedSport === 'CBB');
+            // Stepper shows the selected period unless top games is open
+            const inTopGames = window.viewMode === 'top-games';
+            document.getElementById('topGamesSelector').hidden = !inTopGames;
+            document.getElementById('periodStepper').hidden = inTopGames;
+            if (inTopGames) return;
 
-            // Clean up top games state when returning to normal view
-            document.getElementById('topGamesSelector').style.display = 'none';
-            document.getElementById('topGamesLink').classList.remove('active');
-
-            // Show/hide appropriate navigation
             if (isDateBasedSport(window.selectedSport)) {
-                document.getElementById('weekSelector').style.display = 'none';
-                document.getElementById('dateSelector').style.display = 'block';
                 updateDateNavigation();
-
-                // Show March Madness link only for CBB
-                const bracketLink = document.getElementById('bracketLink');
-                const bracketSeparator = document.getElementById('bracketSeparator');
-                const isCBB = window.selectedSport === 'CBB';
-                bracketLink.style.display = isCBB ? 'inline' : 'none';
-                bracketSeparator.style.display = isCBB ? 'inline' : 'none';
-                if (isCBB) {
-                    bracketLink.textContent = window.viewMode === 'bracket' ? '← back to dates' : 'march madness';
-                }
             } else {
-                document.getElementById('weekSelector').style.display = 'block';
-                document.getElementById('dateSelector').style.display = 'none';
-                document.getElementById('bracketLink').style.display = 'none';
-                document.getElementById('bracketSeparator').style.display = 'none';
                 updateWeekNavigation();
             }
         }
 
         // Update week-based navigation (NFL/CFB)
         function updateWeekNavigation() {
-            // Short labels for navigation display
-            const nflRoundLabels = {
-                'wild-card': 'wild card',
-                'divisional': 'divisional',
-                'conference': 'conference',
-                'super-bowl': 'super bowl'
-            };
-
-            // Update week display
-            if (window.selectedWeek === 'bowls') {
-                document.getElementById('currentWeekDisplay').textContent =
-                    `${window.selectedSeason} · bowls`;
-            } else if (window.selectedWeek === 'playoffs') {
-                document.getElementById('currentWeekDisplay').textContent =
-                    `${window.selectedSeason} · playoffs`;
-            } else if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
-                document.getElementById('currentWeekDisplay').textContent =
-                    `${window.selectedSeason} · ${nflRoundLabels[window.selectedWeek]}`;
-            } else {
-                document.getElementById('currentWeekDisplay').textContent =
-                    `${window.selectedSeason} · week ${window.selectedWeek}`;
-            }
-
-            // Update prev/next week numbers
             const maxWeeks = window.selectedSport === 'NFL' ? 18 : 15;
-            const prevWeekLink = document.getElementById('prevWeek');
-            const nextWeekLink = document.getElementById('nextWeek');
+            const week = window.selectedWeek;
+            let label;
+            let hasPrev = true;
+            let hasNext = true;
 
-            // Handle navigation for NFL playoff rounds
-            if (window.selectedSport === 'NFL' && isNFLPlayoffRound(window.selectedWeek)) {
-                const prevRound = getPrevNFLPlayoffRound(window.selectedWeek);
-                const nextRound = getNextNFLPlayoffRound(window.selectedWeek);
-
-                // Previous: either previous round or week 18
-                if (prevRound === 18) {
-                    document.getElementById('prevWeekNum').textContent = 'week 18';
-                } else if (prevRound) {
-                    document.getElementById('prevWeekNum').textContent = nflRoundLabels[prevRound];
-                }
-                prevWeekLink.style.display = 'inline';
-
-                // Next: either next round or hide
-                if (nextRound) {
-                    document.getElementById('nextWeekNum').textContent = nflRoundLabels[nextRound];
-                    nextWeekLink.style.display = 'inline';
-                } else {
-                    nextWeekLink.style.display = 'none';
-                }
-            }
-            // Handle navigation for CFB playoffs
-            else if (window.selectedWeek === 'playoffs') {
-                // Previous from playoffs is bowls
-                document.getElementById('prevWeekNum').textContent = 'bowls';
-                prevWeekLink.style.display = 'inline';
-                nextWeekLink.style.display = 'none';
-            } else if (window.selectedWeek === 'bowls') {
-                // Previous from bowls is week 15, next is playoffs for CFB
-                document.getElementById('prevWeekNum').textContent = maxWeeks;
-                prevWeekLink.style.display = 'inline';
-                if (window.selectedSport === 'CFB') {
-                    document.getElementById('nextWeekNum').textContent = 'playoffs';
-                    nextWeekLink.style.display = 'inline';
-                } else {
-                    nextWeekLink.style.display = 'none';
-                }
+            if (window.selectedSport === 'NFL' && isNFLPlayoffRound(week)) {
+                label = NFL_PLAYOFF_ROUNDS[week].label;
+                hasNext = getNextNFLPlayoffRound(week) !== null;
+            } else if (week === 'playoffs') {
+                label = 'College Football Playoff';
+                hasNext = false;
+            } else if (week === 'bowls') {
+                label = 'Bowl Season';
+                hasNext = window.selectedSport === 'CFB';
             } else {
-                const prevWeekNum = window.selectedWeek > 1 ? window.selectedWeek - 1 : null;
-                let nextWeekNum;
-
-                // For CFB at week 15, next is "bowls"
-                if (window.selectedSport === 'CFB' && window.selectedWeek === maxWeeks) {
-                    nextWeekNum = 'bowls';
-                } else if (window.selectedSport === 'NFL' && window.selectedWeek === maxWeeks) {
-                    // For NFL at week 18, next is "wild-card"
-                    nextWeekNum = 'wild-card';
-                } else if (window.selectedWeek < maxWeeks) {
-                    nextWeekNum = window.selectedWeek + 1;
-                } else {
-                    nextWeekNum = null;
-                }
-
-                if (prevWeekNum) {
-                    document.getElementById('prevWeekNum').textContent = prevWeekNum;
-                    prevWeekLink.style.display = 'inline';
-                } else {
-                    prevWeekLink.style.display = 'none';
-                }
-
-                if (nextWeekNum) {
-                    if (nextWeekNum === 'bowls') {
-                        document.getElementById('nextWeekNum').textContent = 'bowls';
-                    } else if (nextWeekNum === 'wild-card') {
-                        document.getElementById('nextWeekNum').textContent = 'wild card';
-                    } else {
-                        document.getElementById('nextWeekNum').textContent = nextWeekNum;
-                    }
-                    nextWeekLink.style.display = 'inline';
-                } else {
-                    nextWeekLink.style.display = 'none';
-                }
+                label = `Week ${week}`;
+                hasPrev = week > 1;
+                // Week 15/18 steps into the postseason for both sports
+                hasNext = week < maxWeeks || window.selectedSport === 'CFB' || window.selectedSport === 'NFL';
             }
+
+            document.getElementById('periodLabel').textContent = `${label} · ${window.selectedSeason}`;
+            document.getElementById('prevPeriod').disabled = !hasPrev;
+            document.getElementById('nextPeriod').disabled = !hasNext;
         }
 
         function handlePreviousDate() {
@@ -271,6 +282,7 @@ window.getTier = getTier;
 
             window.selectedDate = formatDate(prevDate);
             window.isInitialLoad = false;
+            markCustomRange();
 
             updateUI();
             loadGames();
@@ -285,6 +297,7 @@ window.getTier = getTier;
             if (canNavigateToDate(nextDate)) {
                 window.selectedDate = formatDate(nextDate);
                 window.isInitialLoad = false;
+                markCustomRange();
 
                 updateUI();
                 loadGames();
@@ -318,6 +331,7 @@ window.getTier = getTier;
             }
 
             window.isInitialLoad = false;
+            markCustomRange();
             updateUI();
             loadGames();
         }
@@ -359,44 +373,20 @@ window.getTier = getTier;
             }
 
             window.isInitialLoad = false;
+            markCustomRange();
             updateUI();
             loadGames();
         }
 
         function initNavigation() {
-            const prevButton = document.getElementById('prevDate');
-            const nextButton = document.getElementById('nextDate');
-
-            if (prevButton) {
-                prevButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    handlePreviousDate();
-                });
-            }
-
-            if (nextButton) {
-                nextButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    handleNextDate();
-                });
-            }
-
-            const prevWeekButton = document.getElementById('prevWeek');
-            const nextWeekButton = document.getElementById('nextWeek');
-
-            if (prevWeekButton) {
-                prevWeekButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    handlePreviousWeek();
-                });
-            }
-
-            if (nextWeekButton) {
-                nextWeekButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    handleNextWeek();
-                });
-            }
+            document.getElementById('prevPeriod').addEventListener('click', (e) => {
+                e.preventDefault();
+                handlePreviousWeek();
+            });
+            document.getElementById('nextPeriod').addEventListener('click', (e) => {
+                e.preventDefault();
+                handleNextWeek();
+            });
         }
 
         // Populate algorithm metrics table in about page
@@ -426,100 +416,56 @@ window.getTier = getTier;
             });
         }
 
+        // Switch sport and re-apply the active range
+        async function switchSport(sport) {
+            if (window.selectedSport === sport) return;
+            window.periodAverages = null;
+            window.selectedSport = sport;
+            window.selectedSeason = getCurrentWeek(sport).season;
+            window.selectedDate = getDefaultNBADate();
+            window.pickerMonth = null;
+            window.pickerYear = null;
+            // Reset team lookup state
+            window.allTeams = [];
+            window.viewMode = window.viewMode === 'top-games' ? 'top-games' : 'week';
+            window.selectedTeam = null;
+            document.getElementById('teamSearchInput').value = '';
+            closeTeamPicker();
+
+            const mode = window.rangeMode === 'custom' ? 'latest' : window.rangeMode;
+            await applyRangeMode(mode);
+        }
+
+        function closeTeamPicker() {
+            document.getElementById('teamPicker').classList.remove('visible');
+        }
+
+        function openTeamPicker() {
+            loadTeams();
+            document.getElementById('teamPicker').classList.add('visible');
+        }
+
         // Attach event listeners
         function attachEventListeners() {
-            // Sport selector
-            document.getElementById('nflOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'NFL') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'NFL';
-                    const currentWeek = getCurrentWeek('NFL');
-                    window.selectedSeason = currentWeek.season;
-                    window.selectedWeek = currentWeek.week;
-                    // Reset team lookup state
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true; // Allow fallback for sport switch
-                    updateUI();
-                    loadGames();
-                }
+            // Sport tabs
+            document.querySelectorAll('.sport-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    if (window.currentView && window.currentView !== 'discover') showView('discover');
+                    switchSport(tab.dataset.sport);
+                });
             });
 
-            document.getElementById('cfbOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'CFB') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'CFB';
-                    const currentWeek = getCurrentWeek('CFB');
-                    window.selectedSeason = currentWeek.season;
-                    window.selectedWeek = 'playoffs'; // Default to playoffs during CFP season
-                    // Reset team lookup state
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true; // Allow fallback for sport switch
-                    updateUI();
-                    loadGames();
-                }
+            // Range control
+            document.querySelectorAll('#rangeControl .segmented-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (window.rangeMode === btn.dataset.range && window.viewMode !== 'about') return;
+                    applyRangeMode(btn.dataset.range);
+                });
             });
 
-            document.getElementById('nbaOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'NBA') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'NBA';
-                    window.selectedSeason = getCurrentWeek('NBA').season;
-                    // Use navigation module for clean date handling
-                    window.selectedDate = getDefaultNBADate();
-
-                    // Reset date picker state
-                    window.pickerMonth = null;
-                    window.pickerYear = null;
-                    // Reset team lookup state
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true; // Allow fallback for sport switch
-                    updateUI();
-                    loadGames();
-                }
-            });
-
-            document.getElementById('mlbOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'MLB') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'MLB';
-                    window.selectedSeason = getCurrentWeek('MLB').season;
-                    window.selectedDate = getDefaultNBADate();
-
-                    // Reset date picker state
-                    window.pickerMonth = null;
-                    window.pickerYear = null;
-                    // Reset team lookup state
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true;
-                    updateUI();
-                    loadGames();
-                }
-            });
-
-            document.getElementById('cbbOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'CBB') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'CBB';
-                    window.selectedSeason = getCurrentWeek('CBB').season;
-                    window.selectedDate = getDefaultNBADate();
-
-                    window.pickerMonth = null;
-                    window.pickerYear = null;
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true;
-                    updateUI();
-                    loadGames();
-                }
+            // Spoiler control (main and saved views share the preference)
+            document.querySelectorAll('#spoilerControl .segmented-option, #spoilerControlSaved .segmented-option').forEach(btn => {
+                btn.addEventListener('click', () => setSpoilerMode(btn.dataset.mode));
             });
 
             // March Madness bracket link
@@ -532,49 +478,63 @@ window.getTier = getTier;
                 }
             });
 
-            // Custom date picker toggle (date-based sports)
-            document.getElementById('currentDateDisplay').addEventListener('click', (e) => {
-                if (isDateBasedSport(window.selectedSport)) {
-                    e.stopPropagation();
-                    const picker = document.getElementById('customDatePicker');
-                    const isVisible = picker.classList.contains('visible');
+            // Period label opens the week or date picker
+            document.getElementById('periodLabel').addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (window.viewMode === 'bracket') return;
+                const isDate = isDateBasedSport(window.selectedSport);
+                const picker = document.getElementById(isDate ? 'customDatePicker' : 'weekPicker');
+                const other = document.getElementById(isDate ? 'weekPicker' : 'customDatePicker');
+                other.classList.remove('visible');
+                if (picker.classList.contains('visible')) {
+                    picker.classList.remove('visible');
+                    return;
+                }
+                if (isDate) {
+                    populateCustomDatePicker();
+                } else {
+                    populateWeekPicker();
+                }
+                picker.classList.add('visible');
+            });
 
-                    if (!isVisible) {
-                        populateCustomDatePicker();
-                        picker.classList.add('visible');
-                    } else {
+            // Escape closes any open picker
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                ['weekPicker', 'customDatePicker'].forEach(id => document.getElementById(id).classList.remove('visible'));
+                closeTeamPicker();
+            });
+
+            // Close pickers and the team list when clicking outside
+            document.addEventListener('click', (e) => {
+                const label = document.getElementById('periodLabel');
+                ['weekPicker', 'customDatePicker'].forEach(id => {
+                    const picker = document.getElementById(id);
+                    if (!picker.contains(e.target) && e.target !== label) {
                         picker.classList.remove('visible');
                     }
+                });
+                if (!document.getElementById('teamSearch').contains(e.target)) {
+                    closeTeamPicker();
                 }
             });
 
-            // Close custom date picker when clicking outside
-            document.addEventListener('click', (e) => {
-                const picker = document.getElementById('customDatePicker');
-                const currentDateDisplay = document.getElementById('currentDateDisplay');
-
-                if (isDateBasedSport(window.selectedSport) && !picker.contains(e.target) && e.target !== currentDateDisplay) {
-                    picker.classList.remove('visible');
-                }
-            });
-
-            // About link
+            // Site navigation
             document.getElementById('aboutLink').addEventListener('click', (e) => {
                 e.preventDefault();
-                const mainContent = document.getElementById('mainContent');
-                const aboutContent = document.getElementById('aboutContent');
-
-                if (aboutContent.classList.contains('hidden')) {
-                    mainContent.classList.add('hidden');
-                    aboutContent.classList.remove('hidden');
-                    e.target.textContent = 'home';
-                    // Populate algorithm metrics table
-                    populateAlgorithmMetricsTable();
-                } else {
-                    aboutContent.classList.add('hidden');
-                    mainContent.classList.remove('hidden');
-                    e.target.textContent = 'about';
-                }
+                showView('about');
+            });
+            document.getElementById('discoverLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('discover');
+            });
+            document.getElementById('savedLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('saved');
+            });
+            document.getElementById('homeLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('discover');
             });
 
             // Theme toggle
@@ -583,79 +543,23 @@ window.getTier = getTier;
                 toggleTheme();
             });
 
-            // Week picker toggle
-            document.getElementById('currentWeekDisplay').addEventListener('click', (e) => {
-                e.stopPropagation();
-                const picker = document.getElementById('weekPicker');
-                const isVisible = picker.classList.contains('visible');
-
-                if (!isVisible) {
-                    populateWeekPicker();
-                    picker.classList.add('visible');
-                } else {
-                    picker.classList.remove('visible');
-                }
-            });
-
-            // Close week picker when clicking outside
-            document.addEventListener('click', (e) => {
-                const picker = document.getElementById('weekPicker');
-                const currentWeekDisplay = document.getElementById('currentWeekDisplay');
-
-                if (!picker.contains(e.target) && e.target !== currentWeekDisplay) {
-                    picker.classList.remove('visible');
-                }
-            });
-
-            // Team lookup - Find a game link
-            document.getElementById('findGameLink').addEventListener('click', (e) => {
-                e.stopPropagation();
-                const picker = document.getElementById('teamPicker');
-                const isVisible = picker.classList.contains('visible');
-
-                if (!isVisible) {
-                    loadTeams();
-                    picker.classList.add('visible');
-                    document.getElementById('teamSearchInput').focus();
-                } else {
-                    picker.classList.remove('visible');
-                    document.getElementById('teamSearchInput').value = '';
-                }
-            });
-
-            // Team search input
+            // Team search
             const searchInput = document.getElementById('teamSearchInput');
-            console.log('Attaching search input listener, element:', searchInput);
+            searchInput.addEventListener('focus', () => openTeamPicker());
+            searchInput.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openTeamPicker();
+            });
             searchInput.addEventListener('input', (e) => {
-                console.log('Search input event fired, value:', e.target.value);
+                openTeamPicker();
                 filterTeams(e.target.value);
             });
-
-            // Close team picker when clicking outside
-            document.addEventListener('click', (e) => {
-                const picker = document.getElementById('teamPicker');
-                const findGameLink = document.getElementById('findGameLink');
-
-                if (!picker.contains(e.target) && e.target !== findGameLink) {
-                    picker.classList.remove('visible');
-                    document.getElementById('teamSearchInput').value = '';
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    closeTeamPicker();
+                    searchInput.blur();
                 }
-            });
-
-            // Top games link
-            document.getElementById('topGamesLink').addEventListener('click', (e) => {
-                e.preventDefault();
-                if (window.viewMode === 'top-games') {
-                    closeTopGames();
-                } else {
-                    openTopGames();
-                }
-            });
-
-            // Top games back link
-            document.getElementById('topGamesBack').addEventListener('click', (e) => {
-                e.preventDefault();
-                closeTopGames();
             });
         }
 
@@ -754,10 +658,10 @@ window.getTier = getTier;
             }
         }
 
-        function attachVoteListeners() {
+        function attachVoteListeners(root = document) {
             const votes = loadVotes();
 
-            document.querySelectorAll('.vote-btn').forEach(button => {
+            root.querySelectorAll('.vote-btn').forEach(button => {
                 const gameId = button.dataset.gameId;
                 const voteType = button.dataset.vote;
 
@@ -777,6 +681,7 @@ window.getTier = getTier;
 
         // Expose functions to window for use by imported modules
         window.createGameRow = createGameRow;
+        window.renderRankings = renderRankings;
         window.displayResults = displayResults;
         window.displaySchedule = displaySchedule;
         window.displaySingleGame = displaySingleGame;
@@ -803,8 +708,11 @@ window.getTier = getTier;
         window.showLoading = showLoading;
         window.showEmpty = showEmpty;
         window.updateUI = updateUI;
+        window.updateSavedCount = updateSavedCount;
+        window.showView = showView;
+        window.markCustomRange = markCustomRange;
+        window.applyRangeMode = applyRangeMode;
         window.attachRadarChartListeners = attachRadarChartListeners;
-        window.attachScoreToggleListener = attachScoreToggleListener;
         window.attachVoteListeners = attachVoteListeners;
 
         // Start the app

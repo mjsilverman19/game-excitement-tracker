@@ -6,6 +6,10 @@
     <title>Game Entertainment Index</title>
     <meta name="description" content="Ranks NFL, CFB, NBA, MLB, and CBB games by entertainment value using win probability data. Find the best games to watch without spoilers.">
     <meta name="author" content="Matthew Silverman">
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;900&family=Oswald:wght@500;600;700&display=swap">
     <!-- SheetJS library for Excel export -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <!-- Supabase client -->
@@ -13,7 +17,7 @@
     <script>
         // Prevent flash of wrong theme by setting theme before CSS loads
         (function() {
-            const theme = localStorage.getItem('theme') || 'dark';
+            const theme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
@@ -21,82 +25,73 @@
 </head>
 <body>
     <div class="container">
-        <nav class="main-nav">
-            <a href="#" class="nav-link" id="aboutLink">about</a>
-            <span class="separator">·</span>
-            <a href="#" class="nav-link" id="themeToggle">light</a>
-        </nav>
+        <header class="site-header">
+            <a href="#" class="brand" id="homeLink" aria-label="Game Entertainment Index home">
+                <span class="brand-mark">GEI</span>
+                <span class="brand-name">Game<br>Entertainment<br>Index</span>
+            </a>
+            <nav class="site-nav" aria-label="Site">
+                <a href="#" class="site-nav-link active" id="discoverLink">Discover</a>
+                <a href="#" class="site-nav-link" id="savedLink">Saved games <span class="nav-count" id="savedCount" hidden>0</span></a>
+                <a href="#" class="site-nav-link" id="aboutLink">About</a>
+                <button type="button" class="site-nav-link theme-toggle" id="themeToggle">Dark</button>
+            </nav>
+        </header>
 
         <div class="main-content" id="mainContent">
-            <div class="content-wrapper">
-                <header>
-                    <div class="masthead">GEI</div>
-                    <div class="header-info">
-                        <div class="site-title">Game Entertainment Index</div>
-                        <div class="week-info" id="headerWeekInfo">Week 16 · December 28, 2025</div>
-                    </div>
-                </header>
+            <nav class="sport-tabs" aria-label="Sport">
+                <button type="button" class="sport-tab" data-sport="NFL" id="nflOption">NFL</button>
+                <button type="button" class="sport-tab" data-sport="CFB" id="cfbOption">CFB</button>
+                <button type="button" class="sport-tab" data-sport="NBA" id="nbaOption">NBA</button>
+                <button type="button" class="sport-tab active" data-sport="MLB" id="mlbOption">MLB</button>
+                <button type="button" class="sport-tab" data-sport="CBB" id="cbbOption">CBB</button>
+            </nav>
 
-                <div class="selection-interface">
-                    <div class="sport-selector" style="position: relative;">
-                        <span class="sport-option" data-sport="NFL" id="nflOption">nfl</span>
-                        <span class="separator">·</span>
-                        <span class="sport-option" data-sport="CFB" id="cfbOption">cfb<span class="beta-label">beta</span></span>
-                        <span class="separator">·</span>
-                        <span class="sport-option" data-sport="NBA" id="nbaOption">nba<span class="beta-label">beta</span></span>
-                        <span class="separator">·</span>
-                        <span class="sport-option active" data-sport="MLB" id="mlbOption">mlb<span class="beta-label">beta</span></span>
-                        <span class="separator">·</span>
-                        <span class="sport-option" data-sport="CBB" id="cbbOption">cbb<span class="beta-label">beta</span></span>
-                        <span class="separator">·</span>
-                        <span class="find-game-link" id="findGameLink">find a game</span>
-                        <span class="separator">·</span>
-                        <span class="find-game-link" id="topGamesLink">top games</span>
+            <div class="control-row">
+                <div class="control-left">
+                    <div class="segmented" id="rangeControl" role="group" aria-label="Range">
+                        <button type="button" class="segmented-option active" data-range="latest">Latest</button>
+                        <button type="button" class="segmented-option" data-range="current">This week</button>
+                        <button type="button" class="segmented-option" data-range="season">Season</button>
+                    </div>
+                    <div class="team-search" id="teamSearch">
+                        <span class="team-search-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                        <input type="search" class="team-search-input" id="teamSearchInput" placeholder="Find a team" autocomplete="off" aria-label="Find a team">
                         <!-- Team Picker Dropdown -->
                         <div class="team-picker" id="teamPicker">
-                            <input type="text" class="team-search-input" placeholder="search teams..." id="teamSearchInput">
                             <div class="team-list" id="teamList">
                                 <!-- Filtered teams appear here -->
                             </div>
                         </div>
                     </div>
-                    <div class="season-week-selector" id="weekSelector" style="position: relative;">
-                        <a href="#" class="week-nav-link" id="prevWeek">← week <span id="prevWeekNum"></span></a>
-                        <span class="separator">·</span>
-                        <span class="current-selection" id="currentWeekDisplay">2024 · week 16</span>
-                        <span class="separator">·</span>
-                        <a href="#" class="week-nav-link" id="nextWeek">week <span id="nextWeekNum"></span> →</a>
+                </div>
+                <div class="control-right">
+                    <div class="stepper" id="periodStepper">
+                        <button type="button" class="stepper-btn" id="prevPeriod" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <button type="button" class="stepper-label" id="periodLabel" aria-haspopup="dialog"></button>
+                        <button type="button" class="stepper-btn" id="nextPeriod" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
                         <!-- Week Picker Dropdown -->
                         <div class="week-picker" id="weekPicker">
                             <div class="season-selector">
-                                <span class="season-selector-label">season</span>
+                                <span class="season-selector-label">Season</span>
                                 <div class="season-buttons" id="seasonButtons">
                                     <!-- Season buttons populated by JS -->
                                 </div>
                             </div>
-                            <div class="week-picker-header">select week</div>
+                            <div class="week-picker-header">Select week</div>
                             <div class="week-grid" id="weekGrid">
                                 <!-- Week buttons populated by JS -->
                             </div>
                         </div>
-                    </div>
-                    <div class="season-week-selector" id="dateSelector" style="position: relative; display: none;">
-                        <a href="#" class="week-nav-link" id="prevDate">← <span id="prevDateDisplay"></span></a>
-                        <span class="separator">·</span>
-                        <span class="current-selection" id="currentDateDisplay">yesterday</span>
-                        <span class="separator">·</span>
-                        <a href="#" class="week-nav-link" id="nextDate"><span id="nextDateDisplay"></span> →</a>
-                        <span class="separator" id="bracketSeparator" style="display: none;">·</span>
-                        <a href="#" class="week-nav-link" id="bracketLink" style="display: none;">march madness</a>
 
                         <!-- Custom Date Picker Dropdown -->
                         <div class="date-picker" id="customDatePicker">
                             <div class="date-picker-header">
-                                <span class="date-picker-month" id="pickerMonthYear">December 2025</span>
+                                <span class="date-picker-month" id="pickerMonthYear"></span>
                                 <div class="date-picker-nav">
-                                    <button class="date-picker-nav-btn" id="prevMonth">←</button>
-                                    <button class="date-picker-nav-btn" id="nextMonth">→</button>
+                                    <button type="button" class="date-picker-nav-btn" id="prevMonth" aria-label="Previous month"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                                    <button type="button" class="date-picker-nav-btn" id="nextMonth" aria-label="Next month"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                                 </div>
                             </div>
                             <div class="date-grid" id="dateGrid">
@@ -111,39 +106,57 @@
                             </div>
                         </div>
                     </div>
-                    <div class="season-week-selector" id="topGamesSelector" style="display: none;">
-                        <a href="#" class="week-nav-link" id="topGamesBack">← back</a>
-                        <span class="separator">·</span>
-                        <span class="top-games-presets" id="topGamesPresets">
+                    <div class="top-games-presets" id="topGamesSelector" hidden>
+                        <div class="segmented" id="topGamesPresets" role="group" aria-label="Range">
                             <!-- Preset buttons populated by JS -->
-                        </span>
+                        </div>
                     </div>
+                    <button type="button" class="text-button" id="bracketLink" hidden>March Madness</button>
                 </div>
+            </div>
 
-                <div id="resultsArea">
-                    <!-- Results populated by JavaScript -->
+            <div class="page-intro">
+                <div class="page-intro-text">
+                    <h1 class="headline" id="headline">Find your next great game.</h1>
+                    <p class="subheadline" id="subheadline">The best recent baseball, without the result.</p>
                 </div>
+                <div class="show-me">
+                    <div class="show-me-label">Show me:</div>
+                    <div class="segmented" id="spoilerControl" role="group" aria-label="Spoiler level">
+                        <button type="button" class="segmented-option active" data-mode="strict">Strict</button>
+                        <button type="button" class="segmented-option" data-mode="context">Context</button>
+                        <button type="button" class="segmented-option" data-mode="scores">Scores</button>
+                    </div>
+                    <div class="show-me-hint" id="spoilerHint">No scores. No spoilers. Just great games.</div>
+                </div>
+            </div>
 
-                <div class="footer">
-                    <p class="footer-text">
-                        Entertainment scores reflect game dynamics including score margin, lead changes, and overtime.
-                        <br><br>
-                        <a href="#" class="footer-link" id="exportSeasonLink">export data</a>
-                    </p>
-                    <p class="footer-text footer-attribution">Built by Matthew Silverman · 2026</p>
-                </div>
+            <div id="resultsArea">
+                <!-- Results populated by JavaScript -->
             </div>
         </div>
 
-        <div class="about-content hidden" id="aboutContent">
-            <div class="content-wrapper">
-                <header>
-                    <div class="masthead">GEI</div>
-                    <div class="header-info">
-                        <div class="site-title">Game Entertainment Index</div>
+        <div class="saved-content hidden" id="savedContent">
+            <div class="page-intro">
+                <div class="page-intro-text">
+                    <h1 class="headline">Saved games</h1>
+                    <p class="subheadline">Your watchlist, without the result.</p>
+                </div>
+                <div class="show-me">
+                    <div class="show-me-label">Show me:</div>
+                    <div class="segmented" id="spoilerControlSaved" role="group" aria-label="Spoiler level">
+                        <button type="button" class="segmented-option active" data-mode="strict">Strict</button>
+                        <button type="button" class="segmented-option" data-mode="context">Context</button>
+                        <button type="button" class="segmented-option" data-mode="scores">Scores</button>
                     </div>
-                </header>
+                </div>
+            </div>
+            <div id="savedArea"></div>
+        </div>
 
+        <div class="about-content hidden" id="aboutContent">
+            <h1 class="headline">About</h1>
+            <div class="about-body">
                 <section class="about-section">
                     <h3>Who am I?</h3>
                     <p>I'm Matthew Silverman. I work in financial communications in New York.</p>
@@ -192,6 +205,18 @@
                 </section>
             </div>
         </div>
+
+        <footer class="site-footer">
+            <div class="site-footer-left">
+                <span class="brand-mark brand-mark-small">GEI</span>
+                <span class="site-footer-tagline">A more entertaining sports world.</span>
+            </div>
+            <div class="site-footer-right">
+                <a href="#" class="site-footer-link" id="exportSeasonLink">Export data</a>
+                <span class="site-footer-sep">·</span>
+                <span>Built by Matthew Silverman</span>
+            </div>
+        </footer>
 
         <!-- Export Season Modal -->
         <div class="export-modal-overlay" id="exportModalOverlay"></div>

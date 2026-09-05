@@ -24,7 +24,7 @@ export async function loadTeams() {
     }
 
     // Show loading state
-    document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Loading teams...</div>';
+    document.getElementById('teamList').innerHTML = '<div style="color: var(--text-muted); padding: 8px;">Loading teams...</div>';
 
     try {
         const response = await fetch(`/api/teams?sport=${window.selectedSport}`);
@@ -44,7 +44,7 @@ export async function loadTeams() {
         }
     } catch (error) {
         console.error('Error loading teams:', error);
-        document.getElementById('teamList').innerHTML = '<div style="color: #6b6560; padding: 8px;">Failed to load teams</div>';
+        document.getElementById('teamList').innerHTML = '<div style="color: var(--text-muted); padding: 8px;">Failed to load teams</div>';
     }
 }
 
@@ -56,7 +56,7 @@ export function displayTeams(teams) {
     teamList.innerHTML = '';
 
     if (teams.length === 0) {
-        teamList.innerHTML = '<div style="color: #6b6560; padding: 8px;">No teams found</div>';
+        teamList.innerHTML = '<div style="color: var(--text-muted); padding: 8px;">No teams found</div>';
         return;
     }
 
@@ -155,19 +155,12 @@ export function displaySchedule(team, games) {
 
     let html = `
         <div class="schedule-view">
+            <a href="#" class="back-link" id="backToWeek">← Back to games</a>
             <div class="schedule-header">
                 <span class="team-name">${team.displayName}</span>
-                <span class="separator">·</span>
-                <span class="schedule-season">${window.selectedSeason}</span>
+                <span class="schedule-season">${window.selectedSeason} season</span>
             </div>
-            <a href="#" class="back-link" id="backToWeek">← back to week ${window.selectedWeek}</a>
-
-            <div class="spoiler-toggle-wrapper">
-                <span class="toggle-label">show results</span>
-                <div class="toggle-switch ${!window.spoilerFree ? 'active' : ''}" id="scheduleScoreToggle">
-                    <div class="toggle-slider"></div>
-                </div>
-            </div>
+            <p class="schedule-hint">Pick a game to rate it. Results stay hidden unless Show me is set to Scores.</p>
 
             <div class="schedule-list">
     `;
@@ -184,15 +177,13 @@ export function displaySchedule(team, games) {
         const resultText = window.spoilerFree ? 'final' : game.result;
 
         html += `
-            <div class="schedule-row" data-game-id="${game.id}">
+            <button type="button" class="schedule-row" data-game-id="${game.id}">
                 <span class="schedule-week">${weekText}</span>
-                <span class="separator">·</span>
                 <span class="schedule-date">${game.displayDate}</span>
-                <span class="separator">·</span>
                 <span class="schedule-opponent">${locationPrefix} ${game.opponent}</span>
-                <span class="separator">·</span>
                 <span class="schedule-result">${resultText}</span>
-            </div>
+                <span class="schedule-go" aria-hidden="true">Rate →</span>
+            </button>
         `;
     });
 
@@ -209,15 +200,7 @@ export function displaySchedule(team, games) {
         backToWeek();
     });
 
-    // Toggle listener
-    const toggle = document.getElementById('scheduleScoreToggle');
-    if (toggle) {
-        toggle.addEventListener('click', () => {
-            window.spoilerFree = !window.spoilerFree;
-            localStorage.setItem('spoilerFree', window.spoilerFree);
-            displaySchedule(team, games);  // Re-render with new spoiler state
-        });
-    }
+    window.rerenderResults = () => displaySchedule(team, games);
 
     document.querySelectorAll('.schedule-row').forEach(row => {
         row.addEventListener('click', () => {
@@ -267,10 +250,11 @@ export async function loadSingleGame(gameId) {
  */
 export function displaySingleGame(game) {
     window.periodAverages = null;
+    window.currentSingleGame = game;
     const resultsArea = document.getElementById('resultsArea');
 
     let html = `
-        <a href="#" class="back-link" id="backToSchedule">← back to ${window.selectedTeam.displayName.toLowerCase()} schedule</a>
+        <a href="#" class="back-link" id="backToSchedule">← Back to ${window.selectedTeam.displayName} schedule</a>
         <div class="games-list">
             ${window.createGameRow(game, 0)}
         </div>
@@ -285,6 +269,8 @@ export function displaySingleGame(game) {
     });
 
     window.attachRadarChartListeners();
+    window.attachVoteListeners();
+    window.rerenderResults = () => displaySingleGame(game);
 }
 
 /**

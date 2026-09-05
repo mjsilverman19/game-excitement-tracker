@@ -1,4 +1,5 @@
-import { NFL_PLAYOFF_ROUNDS, getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
+import { getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
+import { getSeasonInfo } from '../../../shared/season-dates.js';
 
 export function isDateBasedSport(sport) {
   return sport === 'NBA' || sport === 'MLB' || sport === 'CBB';
@@ -44,123 +45,30 @@ export function canNavigateToDate(date) {
   return targetDate <= today;
 }
 
+// Season and week boundaries live in shared/season-dates.js so the browser,
+// the static generator, and the GitHub workflow all agree on them.
 export function getCurrentWeek(sport) {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-
-  if (sport === 'NFL') {
-    let season = year;
-    let seasonStart = new Date(year, 8, 1);
-
-    while (seasonStart.getDay() !== 1) {
-      seasonStart.setDate(seasonStart.getDate() + 1);
-    }
-    seasonStart.setDate(seasonStart.getDate() + 3);
-
-    if (now < seasonStart) {
-      season = year - 1;
-      seasonStart = new Date(season, 8, 1);
-      while (seasonStart.getDay() !== 1) {
-        seasonStart.setDate(seasonStart.getDate() + 1);
-      }
-      seasonStart.setDate(seasonStart.getDate() + 3);
-    }
-
-    const daysSinceStart = Math.floor((now - seasonStart) / (24 * 60 * 60 * 1000));
-    let week = Math.floor(daysSinceStart / 7) + 1;
-    week = Math.min(18, Math.max(1, week));
-    return { season: season, week: week };
-  }
-
-  if (sport === 'CFB') {
-    let season = year;
-    let seasonStart = new Date(year, 7, 24);
-
-    if (now < seasonStart) {
-      season = year - 1;
-      seasonStart = new Date(season, 7, 24);
-    }
-
-    const daysSinceStart = Math.floor((now - seasonStart) / (24 * 60 * 60 * 1000));
-    let week = Math.floor(daysSinceStart / 7) + 1;
-    week = Math.min(15, Math.max(1, week));
-    return { season: season, week: week };
-  }
-
-  if (sport === 'NBA') {
-    const season = month >= 9 ? year : year - 1;
-    const info = { season: season, week: 1 };
-    console.log('🏀 getCurrentWeek(NBA):', info);
-    return info;
-  }
-
-  if (sport === 'MLB') {
-    // MLB season runs roughly March-October
-    const season = month >= 2 ? year : year - 1;
-    const info = { season: season, week: 1 };
-    console.log('⚾ getCurrentWeek(MLB):', info);
-    return info;
-  }
-
-  if (sport === 'CBB') {
-    // CBB season runs October-April (like NBA)
-    const season = month >= 9 ? year : year - 1;
-    const info = { season: season, week: 1 };
-    console.log('🏀 getCurrentWeek(CBB):', info);
-    return info;
-  }
-
-  return { season: year, week: 1 };
+  return getSeasonInfo(sport);
 }
 
 export function updateDateNavigation() {
   if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
 
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const currentDate = parseDate(window.selectedDate);
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
 
-  const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-  const yesterday = addDays(today, -1);
-  const twoDaysAgo = addDays(today, -2);
-
-  let currentDisplayText;
-  if (formatDate(currentDate) === formatDate(today)) {
-    currentDisplayText = 'today';
-  } else if (formatDate(currentDate) === formatDate(yesterday)) {
-    currentDisplayText = 'yesterday';
-  } else if (formatDate(currentDate) === formatDate(twoDaysAgo)) {
-    currentDisplayText = '2 days ago';
-  } else {
-    currentDisplayText = `${monthShort[currentDate.getMonth()]} ${currentDate.getDate()}`;
+  const label = document.getElementById('periodLabel');
+  if (label) {
+    label.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
   }
 
-  const currentDisplay = document.getElementById('currentDateDisplay');
-  if (currentDisplay) currentDisplay.textContent = currentDisplayText;
-
-  const prevDate = addDays(currentDate, -1);
-  const nextDate = addDays(currentDate, 1);
-
-  const prevDisplay = document.getElementById('prevDateDisplay');
-  const nextDisplay = document.getElementById('nextDateDisplay');
-
-  if (prevDisplay) {
-    prevDisplay.textContent = `${monthShort[prevDate.getMonth()]} ${prevDate.getDate()}`;
+  const nextButton = document.getElementById('nextPeriod');
+  if (nextButton) {
+    nextButton.disabled = !canNavigateToDate(addDays(currentDate, 1));
   }
-
-  if (nextDisplay) {
-    const canGoNext = canNavigateToDate(nextDate);
-    nextDisplay.textContent = canGoNext ? `${monthShort[nextDate.getMonth()]} ${nextDate.getDate()}` : '';
-
-    const nextButton = document.getElementById('nextDate');
-    if (nextButton) {
-      nextButton.style.opacity = canGoNext ? '1' : '0.3';
-      nextButton.style.pointerEvents = canGoNext ? 'auto' : 'none';
-    }
-  }
+  const prevButton = document.getElementById('prevPeriod');
+  if (prevButton) prevButton.disabled = false;
 }
 
 const CACHE_TTL = {
@@ -251,28 +159,19 @@ function getStaticPath(sport, season, weekOrDate) {
   } else {
     filename = weekOrDate;
   }
-  return `data/static/${sportLower}/${season}/${filename}.json`;
+  return `/data/${sportLower}/${season}/${filename}.json`;
 }
 
+// Finds the most recent period with data. Deliberately ignores the
+// last-viewed cache so "Latest" always means the newest games.
 export async function findLatestAvailable(sport, season) {
   console.log(`🔍 findLatestAvailable(${sport}, ${season})`);
 
   // Check for NFL postseason
   if (sport === 'NFL' && isNFLPostseason()) {
     console.log('🏈 NFL postseason detected (Jan/Feb)');
-
-    const cached = getValidCache(sport, season);
     const playoffRounds = getNFLPlayoffRoundKeys();
 
-    // Check if cached value is a playoff round
-    if (cached && playoffRounds.includes(cached.week)) {
-      console.log(`✅ Using cached playoff round: ${cached.week}`);
-      return { week: cached.week, fromCache: true };
-    }
-
-    if (cached && typeof cached.week === 'number') {
-      console.log(`⚠️ Ignoring cached regular season week ${cached.week} during postseason`);
-    }
 
     // Check playoff rounds in chronological order
     // wild-card → divisional → conference → super-bowl
@@ -291,15 +190,6 @@ export async function findLatestAvailable(sport, season) {
   if (sport === 'CFB' && isCFBPostseason()) {
     console.log('🏈 CFB postseason detected (Dec/Jan)');
 
-    const cached = getValidCache(sport, season);
-    if (cached && (cached.week === 'playoffs' || cached.week === 'bowls')) {
-      console.log(`✅ Using cached postseason week: ${cached.week}`);
-      return { week: cached.week, fromCache: true };
-    }
-
-    if (cached && typeof cached.week === 'number') {
-      console.log(`⚠️ Ignoring cached regular season week ${cached.week} during postseason`);
-    }
 
     console.log('🔎 Checking postseason weeks: playoffs → bowls → week 15...');
     for (const week of ['playoffs', 'bowls']) {
@@ -312,13 +202,6 @@ export async function findLatestAvailable(sport, season) {
     console.log('⚠️ No postseason data found, falling back to regular season');
   }
 
-  const cached = getValidCache(sport, season);
-  if (cached) {
-    console.log(`✅ Using cached week/date: ${cached.week}`);
-    return { week: cached.week, fromCache: true };
-  }
-
-  console.log('🔎 No valid cache, starting HEAD request discovery');
 
   if (sport === 'NFL') {
     const { week: currentWeek } = getCurrentWeek('NFL');

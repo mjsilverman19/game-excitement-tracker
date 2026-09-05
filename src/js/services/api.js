@@ -1,37 +1,19 @@
 import { setCache, isDateBasedSport } from '../utils/dates.js';
 
-// Helper: Determine if we should use static file or API
+// Helper: Determine if we should try the static file before the API
 export function shouldUseStatic(sport, season, weekOrDate) {
-    // Don't use static files for current/future weeks
-    // Use 24-hour buffer to ensure games are completed
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-
     if (isDateBasedSport(sport)) {
-        // For date-based sports (NBA, MLB), check if the date is at least 1 day ago
+        // For date-based sports (NBA, MLB, CBB), only dates at least a day old
+        // can have a static file, since games must be complete
+        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const gameDate = new Date(weekOrDate);
-        console.log(`🔍 shouldUseStatic check - gameDate: ${gameDate.toISOString()}, oneDayAgo: ${oneDayAgo.toISOString()}, result: ${gameDate <= oneDayAgo}`);
         return gameDate <= oneDayAgo;
-    } else {
-        // For NFL/CFB, use week end dates
-        const weekEndDate = getWeekEndDate(sport, season, weekOrDate);
-        return weekEndDate <= oneDayAgo;
-    }
-}
-
-// Helper: Get the end date for a given week
-export function getWeekEndDate(sport, season, week) {
-    // This is a simplified version - actual week end dates vary
-    // For production, you may want to use more precise dates
-    const now = new Date();
-
-    // If requesting current season and current/future week, assume not completed
-    if (season >= now.getFullYear()) {
-        // Return far future date to force API call for current season
-        return new Date('2099-12-31');
     }
 
-    // For past seasons, assume all weeks are completed
-    return new Date(season, 11, 31); // End of season year
+    // For NFL/CFB, always try the static file first. The generator only writes
+    // a week once its games are complete, so a file that exists is safe to
+    // use, and a missing file falls through to the live API.
+    return true;
 }
 
 // Helper: Get static file path

@@ -131,19 +131,20 @@ async function fetchTopGames(sport, season, preset) {
 /**
  * Populate range preset buttons
  */
-function populateTopGamesPresets(sport) {
+function populateTopGamesPresets(sport, activeIndex = 0) {
     const presetsContainer = document.getElementById('topGamesPresets');
     const presets = getRangePresets(sport);
 
     presetsContainer.innerHTML = '';
     presets.forEach((preset, index) => {
         const btn = document.createElement('button');
-        btn.className = 'top-games-preset-btn';
-        if (index === 0) btn.classList.add('active');
+        btn.type = 'button';
+        btn.className = 'segmented-option';
+        if (index === activeIndex) btn.classList.add('active');
         btn.textContent = preset.label;
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
-            presetsContainer.querySelectorAll('.top-games-preset-btn').forEach(b => b.classList.remove('active'));
+            presetsContainer.querySelectorAll('.segmented-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             loadTopGamesForPreset(window.selectedSport, window.selectedSeason, preset);
         });
@@ -197,32 +198,11 @@ function displayTopGamesResults(games, rangeLabel) {
         <span class="stat-number">${stats.skip}</span> skip
     </div>`;
 
-    html += `
-        <div class="spoiler-toggle-wrapper">
-            <span class="toggle-label">show scores</span>
-            <div class="toggle-switch ${!window.spoilerFree ? 'active' : ''}" id="scoreToggle">
-                <div class="toggle-slider"></div>
-            </div>
-        </div>
-    `;
-
-    html += '<div class="games-list">';
-    games.forEach((game, index) => {
-        html += window.createGameRow(game, index);
-    });
-    html += '</div>';
+    html += window.renderRankings(games, { mode: 'top-games', tableHeading: `More from ${rangeLabel}` });
 
     resultsArea.innerHTML = html;
 
-    // Attach spoiler toggle that re-renders top games view (not the normal displayResults)
-    const toggle = document.getElementById('scoreToggle');
-    if (toggle) {
-        toggle.addEventListener('click', () => {
-            window.spoilerFree = !window.spoilerFree;
-            localStorage.setItem('spoilerFree', window.spoilerFree);
-            displayTopGamesResults(games, rangeLabel);
-        });
-    }
+    window.rerenderResults = () => displayTopGamesResults(games, rangeLabel);
 
     window.periodAverages = window.calculatePeriodAverages(games);
     window.attachRadarChartListeners();
@@ -230,33 +210,31 @@ function displayTopGamesResults(games, rangeLabel) {
 }
 
 /**
- * Open top games view
+ * Open top games view.
+ * scope 'season' loads the widest preset; 'week' loads the narrowest.
  */
-export function openTopGames() {
+export function openTopGames(scope = 'season') {
     // Save current state for "back" navigation
-    window._topGamesPrevState = {
-        viewMode: window.viewMode,
-        selectedWeek: window.selectedWeek,
-        selectedDate: window.selectedDate,
-    };
+    if (window.viewMode !== 'top-games') {
+        window._topGamesPrevState = {
+            viewMode: window.viewMode,
+            selectedWeek: window.selectedWeek,
+            selectedDate: window.selectedDate,
+        };
+    }
 
     window.viewMode = 'top-games';
+    window.isLoading = false;
 
-    // Hide normal navigation, show top games navigation
-    document.getElementById('weekSelector').style.display = 'none';
-    document.getElementById('dateSelector').style.display = 'none';
-    document.getElementById('topGamesSelector').style.display = 'block';
+    // Presets take the stepper's place in the control row
+    document.getElementById('periodStepper').hidden = true;
+    document.getElementById('topGamesSelector').hidden = false;
+    window.updateUI();
 
-    // Update header
-    document.getElementById('headerWeekInfo').textContent = 'Top Games';
-
-    // Highlight link
-    document.getElementById('topGamesLink').classList.add('active');
-
-    // Populate presets and auto-load first preset
-    populateTopGamesPresets(window.selectedSport);
     const presets = getRangePresets(window.selectedSport);
-    loadTopGamesForPreset(window.selectedSport, window.selectedSeason, presets[0]);
+    const index = scope === 'week' ? 0 : presets.length - 1;
+    populateTopGamesPresets(window.selectedSport, index);
+    loadTopGamesForPreset(window.selectedSport, window.selectedSeason, presets[index]);
 }
 
 /**
@@ -273,9 +251,8 @@ export function closeTopGames() {
         delete window._topGamesPrevState;
     }
 
-    // Hide top games navigation
-    document.getElementById('topGamesSelector').style.display = 'none';
-    document.getElementById('topGamesLink').classList.remove('active');
+    document.getElementById('topGamesSelector').hidden = true;
+    document.getElementById('periodStepper').hidden = false;
 
     // Restore normal UI
     window.updateUI();
