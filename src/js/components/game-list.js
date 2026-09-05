@@ -54,11 +54,11 @@ function initials(name) {
     return String(name || '?').slice(0, 3).toUpperCase();
 }
 
-function renderLogo(name, url, size) {
+function renderLogo(name, url, size, abbr = null) {
     if (url) {
-        return `<img class="team-logo team-logo-${size}" src="${escapeHtml(url)}" alt="" loading="lazy">`;
+        return `<img class="team-logo team-logo-${size}" src="${escapeHtml(url)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:this.className+' team-logo-fallback',textContent:this.dataset.abbr}))" data-abbr="${escapeHtml(abbr || initials(name))}">`;
     }
-    return `<span class="team-logo team-logo-${size} team-logo-fallback" aria-hidden="true">${escapeHtml(initials(name))}</span>`;
+    return `<span class="team-logo team-logo-${size} team-logo-fallback" aria-hidden="true">${escapeHtml(abbr || initials(name))}</span>`;
 }
 
 /**
@@ -160,13 +160,13 @@ export function renderHeroCard(game, index = 0, options = {}) {
                 <div class="hero-eyebrow">${heroEyebrow(game, index, options)}${context ? ` · ${escapeHtml(context)}` : ''}</div>
                 <div class="hero-matchup">
                     <div class="hero-team">
-                        ${renderLogo(game.awayTeam, game.awayLogo, 'lg')}
+                        ${renderLogo(game.awayTeam, game.awayLogo, 'lg', game.awayAbbr)}
                         <span class="hero-team-name">${escapeHtml(game.awayTeam)}</span>
                     </div>
                     <div class="hero-team hero-team-home">
                         <span class="hero-vs">vs</span>
                         <span class="hero-team-name">${escapeHtml(game.homeTeam)}</span>
-                        ${renderLogo(game.homeTeam, game.homeLogo, 'lg')}
+                        ${renderLogo(game.homeTeam, game.homeLogo, 'lg', game.homeAbbr)}
                     </div>
                 </div>
                 <div class="hero-date">${escapeHtml(formatGameDate(game))}${overtimeBadge(game)}${finalText ? `<span class="final-score">${escapeHtml(finalText)}</span>` : ''}</div>
@@ -196,13 +196,13 @@ export function renderFeatureCard(game, index, options = {}) {
             ${rank}
             <div class="feature-main">
                 <div class="feature-matchup">
-                    ${renderLogo(game.awayTeam, game.awayLogo, 'md')}
+                    ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
                     <div class="feature-names">
                         <span class="feature-team-name">${escapeHtml(game.awayTeam)}</span>
                         <span class="feature-vs">vs</span>
                         <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
                     </div>
-                    ${renderLogo(game.homeTeam, game.homeLogo, 'md')}
+                    ${renderLogo(game.homeTeam, game.homeLogo, 'md', game.homeAbbr)}
                 </div>
                 <div class="feature-side">
                     <div class="feature-date">${escapeHtml(formatGameDate(game))}${overtimeBadge(game)}</div>
@@ -231,7 +231,7 @@ function renderTableRow(game, index, options = {}) {
         <tr class="rankings-row" data-game-id="${game.id}">
             <td class="col-game">
                 <div class="row-matchup">
-                    <span class="row-logos">${renderLogo(game.awayTeam, game.awayLogo, 'sm')}${renderLogo(game.homeTeam, game.homeLogo, 'sm')}</span>
+                    <span class="row-logos">${renderLogo(game.awayTeam, game.awayLogo, 'sm', game.awayAbbr)}${renderLogo(game.homeTeam, game.homeLogo, 'sm', game.homeAbbr)}</span>
                     <span class="row-names">
                         ${options.mode === 'top-games' ? `<span class="row-rank">#${index + 1}</span>` : ''}
                         <span class="row-teams">${escapeHtml(game.awayTeam)} <span class="row-vs">vs</span> ${escapeHtml(game.homeTeam)}</span>

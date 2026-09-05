@@ -70,7 +70,7 @@ graph TD
 
 ### 4) Static JSON files (`public/data/**`)
 **Consumers**: frontend fetch for historical weeks/dates.
-- **Schema**: `success`, `games[]`, `metadata` (see example in `public/data/nfl/2025/week-01.json`). Each `games[]` entry includes `excitement`, `breakdown`, `overtime`.
+- **Schema**: `success`, `games[]`, `metadata` (see example in `public/data/nfl/2025/week-01.json`). Each `games[]` entry includes `excitement`, `breakdown`, `overtime`, plus team identity and presentation fields (`homeTeamId`, `awayTeamId`, `homeAbbr`, `awayAbbr`, `homeLogo`, `awayLogo`, `date`) that the frontend uses for logos and dates. Files generated before those fields existed lack them; the frontend falls back to a monogram and the period label.
 - **Transformations**: none; read-only by frontend.
 - **Break risk**:
   - Old files embed old algorithm outputs. UI may show stale scores after algorithm changes.

@@ -87,7 +87,7 @@ async function fetchFromCoreAPI(league, season, week, seasonType) {
         const response = await fetch(ref);
         if (!response.ok) return null;
         const event = await response.json();
-        return parseEvent(event);
+        return parseEvent(event, league === 'college-football' ? 'CFB' : 'NFL');
       } catch (error) {
         console.error(`Failed to fetch event:`, error);
         return null;
@@ -181,12 +181,48 @@ async function fetchMLBGames(date) {
   return games.filter(game => game.completed);
 }
 
+// ESPN CDN logo path per league, used when an event carries a team id but no logo URL
+const LOGO_LEAGUE = {
+  NFL: 'nfl',
+  CFB: 'ncaa',
+  NBA: 'nba',
+  MLB: 'mlb',
+  CBB: 'ncaa'
+};
+
+/**
+ * Team identity fields from an ESPN competitor. Handles the scoreboard
+ * shape (team.logo), the summary shape (team.logos[]) and the core API
+ * shape (team.$ref only).
+ */
+export function parseTeamIdentity(competitor, sport = 'NFL') {
+  const team = competitor?.team || {};
+  let id = team.id ?? null;
+  if (!id && typeof team.$ref === 'string') {
+    const match = team.$ref.match(/\/teams\/(\d+)/);
+    if (match) id = match[1];
+  }
+
+  let logo = team.logo || team.logos?.[0]?.href || null;
+  if (!logo && id && LOGO_LEAGUE[sport]) {
+    logo = `https://a.espncdn.com/i/teamlogos/${LOGO_LEAGUE[sport]}/500/${id}.png`;
+  }
+
+  return {
+    id: id != null ? String(id) : null,
+    abbreviation: team.abbreviation || null,
+    logo
+  };
+}
+
 function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
   const competition = event.competitions?.[0] || event;
   const competitors = competition.competitors || [];
 
   const homeTeam = competitors.find(c => c.homeAway === 'home');
   const awayTeam = competitors.find(c => c.homeAway === 'away');
+  const homeIdentity = parseTeamIdentity(homeTeam, sport);
+  const awayIdentity = parseTeamIdentity(awayTeam, sport);
 
   const completed = competition.status?.type?.completed || false;
 
@@ -280,9 +316,15 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
     awayTeam: awayTeam?.team?.shortDisplayName || awayTeam?.team?.displayName || 'Unknown',
     homeScore: parseInt(homeTeam?.score || 0),
     awayScore: parseInt(awayTeam?.score || 0),
+    homeTeamId: homeIdentity.id,
+    awayTeamId: awayIdentity.id,
+    homeAbbr: homeIdentity.abbreviation,
+    awayAbbr: awayIdentity.abbreviation,
+    homeLogo: homeIdentity.logo,
+    awayLogo: awayIdentity.logo,
     completed: completed,
     overtime: overtime,
-    date: event.date || competition.date,
+    date: event.date || competition.date || null,
     bowlName: bowlName,
     playoffRound: playoffRound,
     homeSeed: homeSeed,
@@ -335,6 +377,8 @@ export async function fetchSingleGame(sport, gameId) {
     const competitors = competition.competitors || [];
     const homeTeam = competitors.find(c => c.homeAway === 'home');
     const awayTeam = competitors.find(c => c.homeAway === 'away');
+    const homeIdentity = parseTeamIdentity(homeTeam, sport);
+    const awayIdentity = parseTeamIdentity(awayTeam, sport);
 
     const completed = competition.status?.type?.completed || false;
     const overtime = detectOvertimeFromStatus(competition.status, sport);
@@ -388,9 +432,15 @@ export async function fetchSingleGame(sport, gameId) {
       awayTeam: awayTeam?.team?.shortDisplayName || awayTeam?.team?.displayName || 'Unknown',
       homeScore: parseInt(homeTeam?.score || 0),
       awayScore: parseInt(awayTeam?.score || 0),
+      homeTeamId: homeIdentity.id,
+      awayTeamId: awayIdentity.id,
+      homeAbbr: homeIdentity.abbreviation,
+      awayAbbr: awayIdentity.abbreviation,
+      homeLogo: homeIdentity.logo,
+      awayLogo: awayIdentity.logo,
       completed: completed,
       overtime: overtime,
-      date: data.header?.competitions?.[0]?.date,
+      date: competition.date || null,
       bowlName: bowlName,
       playoffRound: playoffRound
     };

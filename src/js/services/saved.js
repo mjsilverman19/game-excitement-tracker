@@ -52,6 +52,8 @@ function snapshot(game, sport, context) {
         awayScore: game.awayScore,
         homeLogo: game.homeLogo ?? null,
         awayLogo: game.awayLogo ?? null,
+        homeAbbr: game.homeAbbr ?? null,
+        awayAbbr: game.awayAbbr ?? null,
         excitement: game.excitement,
         breakdown: game.breakdown ?? null,
         overtime: Boolean(game.overtime),
