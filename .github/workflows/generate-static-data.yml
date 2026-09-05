@@ -106,67 +106,57 @@ jobs:
       - name: Generate NFL data
         if: contains(steps.determine.outputs.sport, 'NFL') || steps.determine.outputs.sport == 'all'
         run: |
-          CURRENT_WEEK=$(node -e "
-            const now = new Date();
-            const seasonStart = new Date(2025, 8, 4); // Sept 4, 2025
-            const weeks = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
-            console.log(Math.min(18, Math.max(1, weeks)));
-          ")
-          echo "Generating NFL week $CURRENT_WEEK"
-          node scripts/generate-static.js --sport NFL --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NFL generation completed with warnings"
+          # Season and week resolve from the calendar in shared/season-dates.js.
+          # Running Tuesday, "current" is the week whose games ended Monday night.
+          echo "Generating NFL current week"
+          node scripts/generate-static.js --sport NFL --season current --week current ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NFL generation completed with warnings"
 
-          # Generate NFL playoff rounds if in January/February
+          # Generate NFL playoff rounds if in January/February.
+          # "current" resolves to the prior calendar year's season before kickoff,
+          # so January 2027 maps to the 2026 season.
           MONTH=$(date +%-m)
           DAY=$(date +%-d)
-          YEAR=$(date +%Y)
-          # Playoffs in Jan/Feb are for the previous year's season (e.g., Jan 2026 = 2025 season)
-          PLAYOFF_SEASON=$((YEAR - 1))
-          echo "Playoff season: $PLAYOFF_SEASON"
 
           if [ "$MONTH" = "1" ] && [ "$DAY" -ge 10 ]; then
             echo "Generating NFL playoff rounds"
             # Wild Card (mid-January)
-            node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week wild-card --force || echo "NFL wild-card generation completed with warnings"
+            node scripts/generate-static.js --sport NFL --season current --week wild-card --force || echo "NFL wild-card generation completed with warnings"
             # Divisional (late January)
             if [ "$DAY" -ge 17 ]; then
-              node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week divisional --force || echo "NFL divisional generation completed with warnings"
+              node scripts/generate-static.js --sport NFL --season current --week divisional --force || echo "NFL divisional generation completed with warnings"
             fi
             # Conference Championships (late January)
             if [ "$DAY" -ge 24 ]; then
-              node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week conference --force || echo "NFL conference generation completed with warnings"
+              node scripts/generate-static.js --sport NFL --season current --week conference --force || echo "NFL conference generation completed with warnings"
             fi
           fi
           if [ "$MONTH" = "2" ]; then
             echo "Generating NFL playoff rounds (February)"
             # Generate all playoff rounds in February
-            node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week wild-card --force || echo "NFL wild-card generation completed with warnings"
-            node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week divisional --force || echo "NFL divisional generation completed with warnings"
-            node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week conference --force || echo "NFL conference generation completed with warnings"
+            node scripts/generate-static.js --sport NFL --season current --week wild-card --force || echo "NFL wild-card generation completed with warnings"
+            node scripts/generate-static.js --sport NFL --season current --week divisional --force || echo "NFL divisional generation completed with warnings"
+            node scripts/generate-static.js --sport NFL --season current --week conference --force || echo "NFL conference generation completed with warnings"
             # Super Bowl (early February)
             if [ "$DAY" -ge 9 ]; then
-              node scripts/generate-static.js --sport NFL --season $PLAYOFF_SEASON --week super-bowl --force || echo "NFL super-bowl generation completed with warnings"
+              node scripts/generate-static.js --sport NFL --season current --week super-bowl --force || echo "NFL super-bowl generation completed with warnings"
             fi
           fi
 
       - name: Generate CFB data
         if: contains(steps.determine.outputs.sport, 'CFB') || steps.determine.outputs.sport == 'all'
         run: |
-          CURRENT_WEEK=$(node -e "
-            const now = new Date();
-            const seasonStart = new Date(2025, 7, 23); // Aug 23, 2025
-            const weeks = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
-            console.log(Math.min(15, Math.max(1, weeks)));
-          ")
-          echo "Generating CFB week $CURRENT_WEEK"
-          node scripts/generate-static.js --sport CFB --season 2025 --week $CURRENT_WEEK ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB generation completed with warnings"
+          # Season and week resolve from the calendar in shared/season-dates.js.
+          # Running Sunday, "current" is the week whose Saturday slate just finished.
+          echo "Generating CFB current week"
+          node scripts/generate-static.js --sport CFB --season current --week current ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB generation completed with warnings"
 
           # Also generate bowls and playoffs if in December/January
           MONTH=$(date +%-m)
           if [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
             echo "Generating CFB bowls"
-            node scripts/generate-static.js --sport CFB --season 2025 --week bowls --force || echo "CFB bowls generation completed with warnings"
+            node scripts/generate-static.js --sport CFB --season current --week bowls --force || echo "CFB bowls generation completed with warnings"
             echo "Generating CFB playoffs"
-            node scripts/generate-static.js --sport CFB --season 2025 --week playoffs --force || echo "CFB playoffs generation completed with warnings"
+            node scripts/generate-static.js --sport CFB --season current --week playoffs --force || echo "CFB playoffs generation completed with warnings"
           fi
 
       - name: Generate NBA data
@@ -175,7 +165,7 @@ jobs:
           # Generate yesterday's games only (not future dates)
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
           echo "Generating NBA data for $YESTERDAY"
-          node scripts/generate-static.js --sport NBA --season 2025 --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NBA generation completed with warnings"
+          node scripts/generate-static.js --sport NBA --season current --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NBA generation completed with warnings"
 
       - name: Check for generated files
         id: check_files

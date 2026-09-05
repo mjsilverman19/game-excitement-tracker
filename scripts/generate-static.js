@@ -6,6 +6,7 @@
 import { fetchGames } from '../api/fetcher.js';
 import { analyzeGameEntertainment } from '../api/calculator.js';
 import { ALGORITHM_CONFIG, NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound, getNFLPlayoffRoundKeys } from '../shared/algorithm-config.js';
+import { getCurrentSeason, getCurrentWeekNumber } from '../shared/season-dates.js';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
@@ -36,11 +37,13 @@ for (let i = 0; i < args.length; i++) {
   if (arg === '--sport' && i + 1 < args.length) {
     options.sport = args[++i].toUpperCase();
   } else if (arg === '--season' && i + 1 < args.length) {
-    options.season = parseInt(args[++i]);
+    const seasonValue = args[++i];
+    // 'current' resolves to the in-progress season once the sport is known
+    options.season = seasonValue === 'current' ? 'current' : parseInt(seasonValue);
   } else if (arg === '--week' && i + 1 < args.length) {
     const weekValue = args[++i];
     // Keep special values as strings, parse numbers
-    if (weekValue === 'bowls' || weekValue === 'playoffs' || NFL_PLAYOFF_WEEK_VALUES.includes(weekValue)) {
+    if (weekValue === 'current' || weekValue === 'bowls' || weekValue === 'playoffs' || NFL_PLAYOFF_WEEK_VALUES.includes(weekValue)) {
       options.week = weekValue;
     } else {
       options.week = parseInt(weekValue);
@@ -65,10 +68,11 @@ Usage: node scripts/generate-static.js [options]
 
 Options:
   --sport <NFL|CFB|NBA>    Sport to generate data for (required)
-  --season <year>          Season year (required)
+  --season <year|current>  Season year (required). 'current' resolves from the calendar.
   --week <number|round>    Week number or special value:
                            - NFL: 1-18, wild-card, divisional, conference, super-bowl
                            - CFB: 1-15, bowls, playoffs
+                           - current: the regular-season week in progress today
   --date <YYYY-MM-DD>      Date for NBA games (required for NBA unless --all)
   --until <YYYY-MM-DD>     End date for NBA --all generation
   --all                    Generate all weeks/dates for the season
@@ -77,25 +81,28 @@ Options:
 
 Examples:
   # Generate single week
-  node scripts/generate-static.js --sport NFL --season 2025 --week 1
+  node scripts/generate-static.js --sport NFL --season 2026 --week 1
+
+  # Generate the in-progress week of the in-progress season (what the workflow runs)
+  node scripts/generate-static.js --sport NFL --season current --week current
 
   # Generate NFL Wild Card round
-  node scripts/generate-static.js --sport NFL --season 2024 --week wild-card
+  node scripts/generate-static.js --sport NFL --season current --week wild-card
 
-  # Generate all NFL weeks including playoffs for 2025
-  node scripts/generate-static.js --sport NFL --season 2025 --all
+  # Generate all NFL weeks including playoffs for the current season
+  node scripts/generate-static.js --sport NFL --season current --all
 
   # Generate CFB bowls
-  node scripts/generate-static.js --sport CFB --season 2025 --week bowls
+  node scripts/generate-static.js --sport CFB --season current --week bowls
 
   # Generate all CFB weeks including bowls
-  node scripts/generate-static.js --sport CFB --season 2025 --all
+  node scripts/generate-static.js --sport CFB --season current --all
 
   # Generate single NBA date
-  node scripts/generate-static.js --sport NBA --season 2025 --date 2025-10-22
+  node scripts/generate-static.js --sport NBA --season 2026 --date 2026-10-22
 
   # Generate all NBA dates for season (with force overwrite)
-  node scripts/generate-static.js --sport NBA --season 2025 --all --force
+  node scripts/generate-static.js --sport NBA --season current --all --force
 `);
 }
 
@@ -111,6 +118,16 @@ function validateOptions() {
     console.error('Error: --season is required');
     printUsage();
     process.exit(1);
+  }
+
+  // Resolve 'current' against the calendar now that the sport is validated
+  if (options.season === 'current') {
+    options.season = getCurrentSeason(options.sport);
+    console.log(`📅 Resolved --season current to ${options.season}`);
+  }
+  if (options.week === 'current') {
+    options.week = getCurrentWeekNumber(options.sport);
+    console.log(`📅 Resolved --week current to ${options.week}`);
   }
 
   if (options.sport === 'NBA' || options.sport === 'MLB' || options.sport === 'CBB') {
@@ -362,7 +379,7 @@ async function generateAllWeeks(sport, season) {
 // Generate all NBA game dates for a season
 async function generateAllNBADates(season) {
   // NBA season runs from October to April (next year)
-  // For 2025 season: October 2025 - April 2026
+  // For example, the 2026 season is October 2026 - April 2027
   const startDate = new Date(`${season}-10-01`);
   const seasonEndDate = options.until
     ? new Date(options.until)

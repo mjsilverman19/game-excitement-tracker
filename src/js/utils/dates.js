@@ -1,4 +1,5 @@
-import { NFL_PLAYOFF_ROUNDS, getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
+import { getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
+import { getSeasonInfo } from '../../../shared/season-dates.js';
 
 export function isDateBasedSport(sport) {
   return sport === 'NBA' || sport === 'MLB' || sport === 'CBB';
@@ -44,74 +45,10 @@ export function canNavigateToDate(date) {
   return targetDate <= today;
 }
 
+// Season and week boundaries live in shared/season-dates.js so the browser,
+// the static generator, and the GitHub workflow all agree on them.
 export function getCurrentWeek(sport) {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-
-  if (sport === 'NFL') {
-    let season = year;
-    let seasonStart = new Date(year, 8, 1);
-
-    while (seasonStart.getDay() !== 1) {
-      seasonStart.setDate(seasonStart.getDate() + 1);
-    }
-    seasonStart.setDate(seasonStart.getDate() + 3);
-
-    if (now < seasonStart) {
-      season = year - 1;
-      seasonStart = new Date(season, 8, 1);
-      while (seasonStart.getDay() !== 1) {
-        seasonStart.setDate(seasonStart.getDate() + 1);
-      }
-      seasonStart.setDate(seasonStart.getDate() + 3);
-    }
-
-    const daysSinceStart = Math.floor((now - seasonStart) / (24 * 60 * 60 * 1000));
-    let week = Math.floor(daysSinceStart / 7) + 1;
-    week = Math.min(18, Math.max(1, week));
-    return { season: season, week: week };
-  }
-
-  if (sport === 'CFB') {
-    let season = year;
-    let seasonStart = new Date(year, 7, 24);
-
-    if (now < seasonStart) {
-      season = year - 1;
-      seasonStart = new Date(season, 7, 24);
-    }
-
-    const daysSinceStart = Math.floor((now - seasonStart) / (24 * 60 * 60 * 1000));
-    let week = Math.floor(daysSinceStart / 7) + 1;
-    week = Math.min(15, Math.max(1, week));
-    return { season: season, week: week };
-  }
-
-  if (sport === 'NBA') {
-    const season = month >= 9 ? year : year - 1;
-    const info = { season: season, week: 1 };
-    console.log('🏀 getCurrentWeek(NBA):', info);
-    return info;
-  }
-
-  if (sport === 'MLB') {
-    // MLB season runs roughly March-October
-    const season = month >= 2 ? year : year - 1;
-    const info = { season: season, week: 1 };
-    console.log('⚾ getCurrentWeek(MLB):', info);
-    return info;
-  }
-
-  if (sport === 'CBB') {
-    // CBB season runs October-April (like NBA)
-    const season = month >= 9 ? year : year - 1;
-    const info = { season: season, week: 1 };
-    console.log('🏀 getCurrentWeek(CBB):', info);
-    return info;
-  }
-
-  return { season: year, week: 1 };
+  return getSeasonInfo(sport);
 }
 
 export function updateDateNavigation() {
@@ -251,7 +188,7 @@ function getStaticPath(sport, season, weekOrDate) {
   } else {
     filename = weekOrDate;
   }
-  return `data/static/${sportLower}/${season}/${filename}.json`;
+  return `/data/${sportLower}/${season}/${filename}.json`;
 }
 
 export async function findLatestAvailable(sport, season) {

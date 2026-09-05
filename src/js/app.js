@@ -429,39 +429,27 @@ window.getTier = getTier;
         // Attach event listeners
         function attachEventListeners() {
             // Sport selector
-            document.getElementById('nflOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'NFL') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'NFL';
-                    const currentWeek = getCurrentWeek('NFL');
-                    window.selectedSeason = currentWeek.season;
-                    window.selectedWeek = currentWeek.week;
-                    // Reset team lookup state
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true; // Allow fallback for sport switch
-                    updateUI();
-                    loadGames();
-                }
-            });
+            // Week-based sports use the same smart discovery as the initial
+            // page load: postseason rounds when in season, otherwise the
+            // latest regular-season week with data available.
+            async function switchToWeekSport(sport) {
+                if (window.selectedSport === sport) return;
+                window.periodAverages = null;
+                window.selectedSport = sport;
+                window.selectedSeason = getCurrentWeek(sport).season;
+                // Reset team lookup state
+                window.allTeams = [];
+                window.viewMode = 'week';
+                window.selectedTeam = null;
+                window.isInitialLoad = true; // Allow fallback for sport switch
+                const result = await findLatestAvailable(sport, window.selectedSeason);
+                window.selectedWeek = result.week;
+                updateUI();
+                loadGames();
+            }
 
-            document.getElementById('cfbOption').addEventListener('click', () => {
-                if (window.selectedSport !== 'CFB') {
-                    window.periodAverages = null;
-                    window.selectedSport = 'CFB';
-                    const currentWeek = getCurrentWeek('CFB');
-                    window.selectedSeason = currentWeek.season;
-                    window.selectedWeek = 'playoffs'; // Default to playoffs during CFP season
-                    // Reset team lookup state
-                    window.allTeams = [];
-                    window.viewMode = 'week';
-                    window.selectedTeam = null;
-                    window.isInitialLoad = true; // Allow fallback for sport switch
-                    updateUI();
-                    loadGames();
-                }
-            });
+            document.getElementById('nflOption').addEventListener('click', () => switchToWeekSport('NFL'));
+            document.getElementById('cfbOption').addEventListener('click', () => switchToWeekSport('CFB'));
 
             document.getElementById('nbaOption').addEventListener('click', () => {
                 if (window.selectedSport !== 'NBA') {

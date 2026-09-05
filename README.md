@@ -51,11 +51,15 @@ Use the Export Season flow in the UI to download an Excel file for a full season
 
 ## Static Data Generation
 
-Static JSON datasets can be generated with `scripts/generate-static.js` to populate `public/data/` for offline or faster loads. Example:
+Static JSON datasets can be generated with `scripts/generate-static.js` to populate `public/data/` for offline or faster loads. Pass `current` for the season or week to resolve them from the calendar, which is what the scheduled workflow does. Examples:
 
 ```bash
-node scripts/generate-static.js --sport NFL --season 2025 --all
+node scripts/generate-static.js --sport NFL --season current --all
+node scripts/generate-static.js --sport CFB --season current --week current
+node scripts/generate-static.js --sport NFL --season 2025 --week 7
 ```
+
+Season and week boundaries are defined once in `shared/season-dates.js` and used by the browser, the generator, and the workflow, so nothing needs updating when a new season starts.
 
 ## Tech Stack
 
