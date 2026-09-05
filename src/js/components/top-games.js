@@ -198,11 +198,7 @@ function displayTopGamesResults(games, rangeLabel) {
         <span class="stat-number">${stats.skip}</span> skip
     </div>`;
 
-    html += '<div class="games-list">';
-    games.forEach((game, index) => {
-        html += window.createGameRow(game, index);
-    });
-    html += '</div>';
+    html += window.renderRankings(games, { mode: 'top-games', tableHeading: `More from ${rangeLabel}` });
 
     resultsArea.innerHTML = html;
 

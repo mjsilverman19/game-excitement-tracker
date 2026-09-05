@@ -252,6 +252,7 @@ export async function loadSingleGame(gameId) {
  */
 export function displaySingleGame(game) {
     window.periodAverages = null;
+    window.currentSingleGame = game;
     const resultsArea = document.getElementById('resultsArea');
 
     let html = `
@@ -270,6 +271,7 @@ export function displaySingleGame(game) {
     });
 
     window.attachRadarChartListeners();
+    window.attachVoteListeners();
     window.rerenderResults = () => displaySingleGame(game);
 }
 

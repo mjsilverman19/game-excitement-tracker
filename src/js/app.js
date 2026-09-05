@@ -14,7 +14,7 @@ import {
 } from './utils/dates.js';
 import { loadGames } from './services/api.js';
 import { openBracketView, closeBracketView } from './components/bracket.js';
-import { displayResults, calculatePeriodAverages, createGameRow, attachRadarChartListeners } from './components/game-list.js';
+import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners } from './components/game-list.js';
 import { renderRadarChart, attachMetricHoverListeners } from './components/radar-chart.js';
 import { populateCustomDatePicker } from './components/date-picker.js';
 import { populateWeekPicker } from './components/week-picker.js';
@@ -634,10 +634,10 @@ window.getTier = getTier;
             }
         }
 
-        function attachVoteListeners() {
+        function attachVoteListeners(root = document) {
             const votes = loadVotes();
 
-            document.querySelectorAll('.vote-btn').forEach(button => {
+            root.querySelectorAll('.vote-btn').forEach(button => {
                 const gameId = button.dataset.gameId;
                 const voteType = button.dataset.vote;
 
@@ -657,6 +657,7 @@ window.getTier = getTier;
 
         // Expose functions to window for use by imported modules
         window.createGameRow = createGameRow;
+        window.renderRankings = renderRankings;
         window.displayResults = displayResults;
         window.displaySchedule = displaySchedule;
         window.displaySingleGame = displaySingleGame;
