@@ -38,16 +38,6 @@ export function displayResults() {
         <span class="stat-number">${stats.skip}</span> skip
     </div>`;
 
-    // Toggle slider for scores
-    html += `
-        <div class="spoiler-toggle-wrapper">
-            <span class="toggle-label">show scores</span>
-            <div class="toggle-switch ${!window.spoilerFree ? 'active' : ''}" id="scoreToggle">
-                <div class="toggle-slider"></div>
-            </div>
-        </div>
-    `;
-
     // Games list
     html += '<div class="games-list">';
     console.log(`🎮 About to render ${sortedGames.length} games to DOM`);
@@ -67,9 +57,9 @@ export function displayResults() {
 
     // Attach event listeners
     window.periodAverages = calculatePeriodAverages(window.currentGames);
-    attachScoreToggleListener();
     attachRadarChartListeners();
     window.attachVoteListeners();
+    window.rerenderResults = displayResults;
 }
 
 // Calculate period averages for radar chart overlay
@@ -133,9 +123,12 @@ export function createGameRow(game, index) {
     const recapUrl = `https://www.espn.com/${sportPath}/game/_/gameId/${game.id}`;
 
 
-    // Build bowl/playoff info for postseason games
+    // Build bowl/playoff info for postseason games (hidden in strict mode)
     let bowlInfo = '';
-    if (window.selectedSport === 'CFB' && (game.bowlName || game.playoffRound)) {
+    const showContext = window.spoilerMode !== 'strict';
+    if (!showContext) {
+        // No postseason labels in strict mode
+    } else if (window.selectedSport === 'CFB' && (game.bowlName || game.playoffRound)) {
         if (game.playoffRound) {
             // Format CFB playoff games based on round
             if (game.playoffRound === 'Championship') {
@@ -198,18 +191,6 @@ export function createGameRow(game, index) {
             <a href="${recapUrl}" target="_blank" rel="noopener noreferrer" class="game-recap-link">See ESPN recap</a>
         </div>
     `;
-}
-
-// Attach score toggle listener
-export function attachScoreToggleListener() {
-    const toggle = document.getElementById('scoreToggle');
-    if (toggle) {
-        toggle.addEventListener('click', () => {
-            window.spoilerFree = !window.spoilerFree;
-            localStorage.setItem('spoilerFree', window.spoilerFree);
-            displayResults();
-        });
-    }
 }
 
 // Attach radar chart click listeners

@@ -160,14 +160,7 @@ export function displaySchedule(team, games) {
                 <span class="separator">·</span>
                 <span class="schedule-season">${window.selectedSeason}</span>
             </div>
-            <a href="#" class="back-link" id="backToWeek">← back to week ${window.selectedWeek}</a>
-
-            <div class="spoiler-toggle-wrapper">
-                <span class="toggle-label">show results</span>
-                <div class="toggle-switch ${!window.spoilerFree ? 'active' : ''}" id="scheduleScoreToggle">
-                    <div class="toggle-slider"></div>
-                </div>
-            </div>
+            <a href="#" class="back-link" id="backToWeek">← Back to games</a>
 
             <div class="schedule-list">
     `;
@@ -209,15 +202,7 @@ export function displaySchedule(team, games) {
         backToWeek();
     });
 
-    // Toggle listener
-    const toggle = document.getElementById('scheduleScoreToggle');
-    if (toggle) {
-        toggle.addEventListener('click', () => {
-            window.spoilerFree = !window.spoilerFree;
-            localStorage.setItem('spoilerFree', window.spoilerFree);
-            displaySchedule(team, games);  // Re-render with new spoiler state
-        });
-    }
+    window.rerenderResults = () => displaySchedule(team, games);
 
     document.querySelectorAll('.schedule-row').forEach(row => {
         row.addEventListener('click', () => {
@@ -270,7 +255,7 @@ export function displaySingleGame(game) {
     const resultsArea = document.getElementById('resultsArea');
 
     let html = `
-        <a href="#" class="back-link" id="backToSchedule">← back to ${window.selectedTeam.displayName.toLowerCase()} schedule</a>
+        <a href="#" class="back-link" id="backToSchedule">← Back to ${window.selectedTeam.displayName} schedule</a>
         <div class="games-list">
             ${window.createGameRow(game, 0)}
         </div>
@@ -285,6 +270,7 @@ export function displaySingleGame(game) {
     });
 
     window.attachRadarChartListeners();
+    window.rerenderResults = () => displaySingleGame(game);
 }
 
 /**

@@ -41,6 +41,7 @@ export function populateWeekPicker() {
             window.selectedSeason = year;
             window.selectedWeek = 1; // Reset to week 1 when changing season
             window.isInitialLoad = false; // User manually selected season
+            window.markCustomRange();
             window.updateUI();
             window.loadGames();
             document.getElementById('weekPicker').classList.remove('visible');
@@ -63,6 +64,7 @@ export function populateWeekPicker() {
             window.periodAverages = null;
             window.selectedWeek = week;
             window.isInitialLoad = false; // User manually selected week
+            window.markCustomRange();
             window.updateUI();
             window.loadGames();
             document.getElementById('weekPicker').classList.remove('visible');
@@ -82,6 +84,7 @@ export function populateWeekPicker() {
             window.periodAverages = null;
             window.selectedWeek = 'bowls';
             window.isInitialLoad = false;
+            window.markCustomRange();
             window.updateUI();
             window.loadGames();
             document.getElementById('weekPicker').classList.remove('visible');
@@ -98,6 +101,7 @@ export function populateWeekPicker() {
             window.periodAverages = null;
             window.selectedWeek = 'playoffs';
             window.isInitialLoad = false;
+            window.markCustomRange();
             window.updateUI();
             window.loadGames();
             document.getElementById('weekPicker').classList.remove('visible');
@@ -126,6 +130,7 @@ export function populateWeekPicker() {
                 window.periodAverages = null;
                 window.selectedWeek = roundKey;
                 window.isInitialLoad = false;
+                window.markCustomRange();
                 window.updateUI();
                 window.loadGames();
                 document.getElementById('weekPicker').classList.remove('visible');

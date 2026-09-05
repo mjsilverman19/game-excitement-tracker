@@ -44,24 +44,15 @@ function normalizeRegion(regionStr) {
 export async function openBracketView() {
     window.viewMode = 'bracket';
 
-    // Update date selector to show bracket mode
-    document.getElementById('dateSelector').style.display = 'block';
-    document.getElementById('weekSelector').style.display = 'none';
-    document.getElementById('prevDate').style.display = 'none';
-    document.getElementById('nextDate').style.display = 'none';
-    // Hide the separators around the date nav arrows
-    const dateSeps = document.getElementById('dateSelector').querySelectorAll(':scope > .separator');
-    dateSeps.forEach(sep => {
-        if (sep.id !== 'bracketSeparator') sep.style.display = 'none';
-    });
-    document.getElementById('currentDateDisplay').textContent = `march madness ${window.selectedSeason + 1}`;
+    // The stepper shows the tournament instead of a date
+    document.getElementById('periodStepper').hidden = false;
+    document.getElementById('topGamesSelector').hidden = true;
+    document.getElementById('prevPeriod').hidden = true;
+    document.getElementById('nextPeriod').hidden = true;
+    document.getElementById('periodLabel').textContent = `March Madness ${window.selectedSeason + 1}`;
     const bracketLink = document.getElementById('bracketLink');
-    bracketLink.style.display = 'inline';
-    bracketLink.textContent = '← back to dates';
-    document.getElementById('bracketSeparator').style.display = 'inline';
-
-    // Update header
-    document.getElementById('headerWeekInfo').textContent = `March Madness ${window.selectedSeason + 1}`;
+    bracketLink.hidden = false;
+    bracketLink.textContent = 'Back to dates';
 
     window.showLoading('loading march madness bracket...');
 
@@ -138,12 +129,8 @@ export function closeBracketView() {
     window.viewMode = 'week';
 
     // Restore date navigation elements
-    document.getElementById('prevDate').style.display = '';
-    document.getElementById('nextDate').style.display = '';
-    const dateSeps = document.getElementById('dateSelector').querySelectorAll(':scope > .separator');
-    dateSeps.forEach(sep => {
-        if (sep.id !== 'bracketSeparator') sep.style.display = '';
-    });
+    document.getElementById('prevPeriod').hidden = false;
+    document.getElementById('nextPeriod').hidden = false;
 
     window.updateUI();
     window.loadGames();
@@ -194,16 +181,6 @@ function renderBracket(games) {
         <span class="stat-number">${mustWatch}</span> must watch ·
         <span class="stat-number">${recommended}</span> recommended
     </div>`;
-
-    // Spoiler toggle
-    html += `
-        <div class="spoiler-toggle-wrapper">
-            <span class="toggle-label">show scores</span>
-            <div class="toggle-switch ${!window.spoilerFree ? 'active' : ''}" id="scoreToggle">
-                <div class="toggle-slider"></div>
-            </div>
-        </div>
-    `;
 
 
     // Bracket container
@@ -262,15 +239,7 @@ function renderBracket(games) {
 
     document.getElementById('resultsArea').innerHTML = html;
 
-    // Score toggle
-    const scoreToggle = document.getElementById('scoreToggle');
-    if (scoreToggle) {
-        scoreToggle.addEventListener('click', () => {
-            window.spoilerFree = !window.spoilerFree;
-            localStorage.setItem('spoilerFree', window.spoilerFree);
-            renderBracket(games); // Re-render with new spoiler state
-        });
-    }
+    window.rerenderResults = () => renderBracket(games);
 }
 
 /**

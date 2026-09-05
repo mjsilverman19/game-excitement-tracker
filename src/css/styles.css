@@ -134,63 +134,439 @@
             max-width: 100%;
         }
 
-        /* Header - GEI Masthead */
-        header {
-            margin-bottom: 64px;
+
+        [hidden] {
+            display: none !important;
         }
 
-        .masthead {
+        /* ==========================================================
+           Site header
+           ========================================================== */
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-mark {
             font-family: var(--font-display);
-            font-size: 96px;
+            font-size: 40px;
             font-weight: 700;
             font-variation-settings: 'opsz' 144;
-            color: var(--text-primary);
-            line-height: 0.9;
-            margin-bottom: 16px;
             letter-spacing: -0.04em;
-        }
-
-        .header-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .site-title {
-            font-size: 14px;
+            line-height: 1;
             color: var(--text-primary);
-            font-weight: 600;
         }
 
-        .week-info {
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 400;
+        .brand-mark-small {
+            font-size: 22px;
         }
 
-        /* Navigation - utility links above the masthead (rebuilt in the shell pass) */
-        .main-nav {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 32px;
-        }
-
-        .nav-link {
+        .brand-name {
+            font-family: var(--font-display);
             font-size: 12px;
-            color: var(--text-muted);
-            text-decoration: underline;
-            font-weight: 400;
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.005em;
+            padding-left: 14px;
+            border-left: 1px solid var(--text-primary);
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .site-nav-link {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
             transition: color 150ms ease;
         }
 
-        .nav-link:hover {
+        .site-nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .site-nav-link.active {
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 1.5px;
+        }
+
+        .theme-toggle {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================
+           Sport tabs
+           ========================================================== */
+        .sport-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-primary);
+            margin-bottom: 24px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .sport-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sport-tab {
+            position: relative;
+            background: none;
+            border: none;
+            padding: 20px 28px 18px;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 150ms ease;
+            white-space: nowrap;
+        }
+
+        .sport-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .sport-tab.active {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .sport-tab.active::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: -1px;
+            height: 2px;
+            background: var(--text-primary);
+        }
+
+        /* ==========================================================
+           Control row: range, search, stepper
+           ========================================================== */
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 24px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+
+        .control-left,
+        .control-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .segmented {
+            display: inline-flex;
+            align-items: stretch;
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-pill);
+            background: var(--bg-elevated);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .segmented-option {
+            background: none;
+            border: none;
+            border-right: 1px solid var(--border-primary);
+            padding: 9px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: var(--radius-pill);
+            margin: -1px 0 -1px -1px;
+            transition: background 150ms ease, color 150ms ease;
+            white-space: nowrap;
+        }
+
+        .segmented-option:first-child {
+            margin-left: 0;
+        }
+
+        .segmented-option:last-child {
+            border-right: none;
+        }
+
+        .segmented-option:hover {
+            background: var(--bg-hover);
+        }
+
+        .segmented-option.active {
+            background: var(--color-primary);
+            color: var(--color-primary-contrast);
+            border-color: var(--color-primary);
+        }
+
+        .segmented-option.active + .segmented-option {
+            border-left: none;
+        }
+
+        .team-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .team-search-icon {
+            position: absolute;
+            left: 12px;
+            display: flex;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .team-search-input {
+            width: 200px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-pill);
+            padding: 9px 14px 9px 36px;
+            font-size: 14px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 150ms ease, width 200ms ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .team-search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .team-search-input:focus {
+            border-color: var(--color-primary);
+            width: 260px;
+        }
+
+        .team-search-input::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+        }
+
+        .team-picker {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 280px;
+            max-height: 360px;
+            overflow-y: auto;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-card);
+            padding: 8px;
+            z-index: 1000;
+            display: none;
+            box-shadow: var(--shadow-popover);
+        }
+
+        .team-picker.visible {
+            display: block;
+        }
+
+        .stepper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stepper-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: none;
+            background: none;
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 150ms ease, color 150ms ease;
+        }
+
+        .stepper-btn:hover:not(:disabled) {
+            background: var(--bg-hover);
+        }
+
+        .stepper-btn:disabled {
+            color: var(--border-primary);
+            cursor: default;
+        }
+
+        .stepper-label {
+            background: none;
+            border: none;
+            padding: 6px 10px;
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            min-width: 180px;
+            text-align: center;
+            transition: background 150ms ease;
+        }
+
+        .stepper-label:hover {
+            background: var(--bg-hover);
+        }
+
+        .text-button {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-primary);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+
+        .text-button:hover {
+            color: var(--color-primary-hover);
+        }
+
+        /* ==========================================================
+           Page intro: headline and spoiler control
+           ========================================================== */
+        .page-intro {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px 40px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .headline {
+            font-family: var(--font-display);
+            font-size: 60px;
+            font-weight: 700;
+            font-variation-settings: 'opsz' 144;
+            letter-spacing: -0.035em;
+            line-height: 1;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .subheadline {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            line-height: 1.25;
             color: var(--text-secondary);
         }
 
+        .show-me {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .show-me-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .show-me-hint {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .about-content .headline {
+            margin-bottom: 32px;
+        }
+
+        /* ==========================================================
+           Footer
+           ========================================================== */
+        .site-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 24px;
+            flex-wrap: wrap;
+            margin-top: 64px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-primary);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .site-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .site-footer-tagline {
+            font-family: var(--font-display);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .site-footer-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-footer-link {
+            color: var(--text-secondary);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .site-footer-link:hover {
+            color: var(--text-primary);
+        }
+
+        .site-footer-sep {
+            color: var(--text-muted);
+        }
+
         /* About Page */
-        .about-content {
+        .about-body {
             max-width: 720px;
         }
 
@@ -275,88 +651,15 @@
             color: var(--text-primary);
         }
 
-        /* Selection Interface - Minimal */
-        .selection-interface {
-            margin-bottom: 48px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .sport-selector {
-            font-size: 14px;
-            letter-spacing: 0.05em;
-        }
-
-        .sport-option {
-            color: var(--text-muted);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 150ms ease;
-            margin-right: 12px;
-            position: relative;
-        }
-
-        .sport-option:hover {
-            color: var(--text-secondary);
-        }
-
-        .sport-option.active {
-            color: var(--text-primary);
-        }
-
-        .beta-label {
-            font-size: 10px;
-            color: var(--text-muted);
-            vertical-align: super;
-            margin-left: 2px;
-            font-weight: 400;
-            letter-spacing: 0.05em;
-        }
-
-        .separator {
-            color: var(--text-muted);
-            margin: 0 8px;
-        }
-
-        .season-week-selector {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .week-nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 150ms ease;
-        }
-
-        .week-nav-link:hover {
-            color: var(--text-primary);
-            text-decoration: underline;
-        }
-
-        .current-selection {
-            color: var(--text-primary);
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-style: dotted;
-            text-decoration-color: var(--text-muted);
-            transition: all 150ms ease;
-        }
-
-        .current-selection:hover {
-            text-decoration-color: var(--text-secondary);
-        }
-
         /* Week Picker Dropdown */
         .week-picker {
             position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
             background: var(--bg-elevated);
             border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-card);
             padding: 16px;
-            margin-top: 8px;
             z-index: 1000;
             display: none;
             min-width: 280px;
@@ -457,51 +760,6 @@
 
         .stat-number {
             color: var(--text-secondary);
-        }
-
-        /* Spoiler Control - Toggle Slider */
-        .spoiler-toggle-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 48px;
-        }
-
-        .toggle-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 32px;
-            height: 16px;
-            background: var(--bg-hover);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 200ms ease;
-            border: 1px solid var(--border-primary);
-        }
-
-        .toggle-switch.active {
-            background: var(--bg-active-alt);
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 10px;
-            height: 10px;
-            background: var(--text-muted);
-            border-radius: 50%;
-            transition: all 200ms ease;
-        }
-
-        .toggle-switch.active .toggle-slider {
-            left: 18px;
-            background: var(--text-secondary);
         }
 
         /* Game List - Card-free */
@@ -665,11 +923,12 @@
         /* Date Picker - Custom Calendar */
         .date-picker {
             position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
             background: var(--bg-elevated);
             border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-card);
             padding: 16px;
-            margin-top: 8px;
             z-index: 1000;
             display: none;
             min-width: 280px;
@@ -701,10 +960,11 @@
         }
 
         .date-picker-nav-btn {
-            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
             color: var(--text-secondary);
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 4px 6px;
             border: 1px solid var(--border-secondary);
             border-radius: var(--radius-sm);
             transition: all 150ms ease;
@@ -969,33 +1229,6 @@
             color: var(--text-muted);
         }
 
-        /* Footer */
-        .footer {
-            margin-top: 80px;
-            padding-top: 80px;
-        }
-
-        .footer-text {
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 500px;
-        }
-
-        .footer-attribution {
-            margin-top: 16px;
-        }
-
-        .footer-link {
-            color: var(--text-muted);
-            text-decoration: underline;
-            transition: color 150ms ease;
-        }
-
-        .footer-link:hover {
-            color: var(--text-secondary);
-        }
-
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
@@ -1003,13 +1236,80 @@
                 overflow-x: hidden;
             }
 
-            .content-wrapper,
-            .about-content {
-                max-width: 100%;
+            .site-header {
+                padding-bottom: 14px;
             }
 
-            .masthead {
-                font-size: 64px;
+            .brand-mark {
+                font-size: 32px;
+            }
+
+            .brand-name {
+                font-size: 11px;
+            }
+
+            .site-nav {
+                gap: 18px;
+            }
+
+            .site-nav-link {
+                font-size: 15px;
+            }
+
+            .sport-tabs {
+                justify-content: flex-start;
+                gap: 0;
+            }
+
+            .sport-tab {
+                padding: 16px 16px 14px;
+            }
+
+            .sport-tab.active::after {
+                left: 12px;
+                right: 12px;
+            }
+
+            .control-row {
+                margin-bottom: 24px;
+            }
+
+            .control-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .team-search-input,
+            .team-search-input:focus {
+                width: 160px;
+            }
+
+            .stepper-label {
+                min-width: 0;
+                font-size: 16px;
+            }
+
+            .week-picker,
+            .date-picker {
+                right: auto;
+                left: 0;
+            }
+
+            .headline {
+                font-size: 38px;
+            }
+
+            .subheadline {
+                font-size: 18px;
+            }
+
+            .page-intro {
+                align-items: flex-start;
+            }
+
+            .site-footer {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
             /* Show stacked layout elements */
@@ -1083,15 +1383,6 @@
                 margin-bottom: 16px;
             }
 
-            .spoiler-toggle-wrapper {
-                margin-bottom: 32px;
-            }
-
-            .main-nav {
-                justify-content: flex-start;
-                margin-bottom: 24px;
-            }
-
             /* Mobile vote button adjustments */
             .vote-btn {
                 font-size: 20px;
@@ -1104,95 +1395,11 @@
             }
         }
 
-        /* Team Lookup Feature */
-        .find-game-link {
-            color: var(--text-muted);
-            text-decoration: underline;
-            cursor: pointer;
-            transition: color 150ms ease;
-        }
-
-        .find-game-link:hover {
-            color: var(--text-secondary);
-        }
-
-        .find-game-link.active {
-            color: var(--text-primary);
-        }
-
-        /* Top Games */
-        .top-games-presets {
-            display: inline-flex;
-            gap: 4px;
-        }
-
-        .top-games-preset-btn {
-            font-size: 12px;
-            color: var(--text-secondary);
-            background: none;
-            border: 1px solid var(--border-secondary);
-            border-radius: var(--radius-sm);
-            padding: 4px 10px;
-            cursor: pointer;
-            transition: all 150ms ease;
-            font-family: inherit;
-        }
-
-        .top-games-preset-btn:hover {
-            background: var(--bg-hover);
-            border-color: var(--border-primary);
-            color: var(--text-primary);
-        }
-
-        .top-games-preset-btn.active {
-            background: var(--bg-active);
-            border-color: var(--bg-active-alt);
-            color: var(--text-primary);
-        }
-
         .top-games-context {
             font-size: 12px;
             color: var(--text-muted);
             margin-bottom: 4px;
             letter-spacing: 0.05em;
-        }
-
-        .team-picker {
-            position: absolute;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-top: 8px;
-            z-index: 1000;
-            display: none;
-            min-width: 280px;
-            max-height: 400px;
-            box-shadow: var(--shadow-popover);
-        }
-
-        .team-picker.visible {
-            display: block;
-        }
-
-        .team-search-input {
-            width: 100%;
-            background: var(--bg-hover);
-            border: 1px solid var(--border-primary);
-            border-radius: var(--radius-sm);
-            padding: 8px 12px;
-            font-size: 14px;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            outline: none;
-        }
-
-        .team-search-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .team-search-input:focus {
-            border-color: var(--bg-active-alt);
         }
 
         .team-list {
@@ -1202,34 +1409,29 @@
 
         .team-item {
             font-size: 14px;
-            color: var(--text-secondary);
-            padding: 8px 0;
+            color: var(--text-primary);
+            padding: 9px 12px;
             cursor: pointer;
-            transition: color 150ms ease;
-            border-bottom: 1px solid var(--border-secondary);
+            border-radius: var(--radius-sm);
+            transition: background 150ms ease;
         }
 
         .team-item:hover {
-            color: var(--text-primary);
-        }
-
-        .team-item:last-child {
-            border-bottom: none;
+            background: var(--bg-hover);
         }
 
         .schedule-header {
-            font-size: 14px;
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             color: var(--text-primary);
             margin-bottom: 8px;
         }
 
-        .schedule-season {
-            color: var(--text-secondary);
-        }
-
         .back-link {
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: var(--text-secondary);
             text-decoration: none;
             display: inline-block;
             margin-bottom: 32px;
@@ -1238,8 +1440,12 @@
         }
 
         .back-link:hover {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             text-decoration: underline;
+        }
+
+        .schedule-season {
+            color: var(--text-secondary);
         }
 
         .schedule-list {
