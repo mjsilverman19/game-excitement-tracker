@@ -498,6 +498,13 @@ window.getTier = getTier;
                 picker.classList.add('visible');
             });
 
+            // Escape closes any open picker
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                ['weekPicker', 'customDatePicker'].forEach(id => document.getElementById(id).classList.remove('visible'));
+                closeTeamPicker();
+            });
+
             // Close pickers and the team list when clicking outside
             document.addEventListener('click', (e) => {
                 const label = document.getElementById('periodLabel');

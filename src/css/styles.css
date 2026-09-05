@@ -1473,6 +1473,10 @@
             background: var(--bg-hover);
         }
 
+        .rankings-row .col-game {
+            cursor: pointer;
+        }
+
         .row-matchup {
             display: flex;
             align-items: center;
@@ -1891,6 +1895,8 @@
             }
 
             .site-header {
+                flex-wrap: wrap;
+                gap: 14px 0;
                 padding-bottom: 14px;
             }
 
@@ -1903,11 +1909,14 @@
             }
 
             .site-nav {
-                gap: 18px;
+                width: 100%;
+                justify-content: space-between;
+                gap: 16px;
             }
 
             .site-nav-link {
                 font-size: 15px;
+                white-space: nowrap;
             }
 
             .sport-tabs {
@@ -2095,8 +2104,31 @@
             }
 
             .rankings-table .col-date,
-            .rankings-table .col-final {
+            .rankings-table .col-final,
+            .rankings-table .row-logos,
+            .saved-table .row-link {
                 display: none;
+            }
+
+            .rankings-table .col-game {
+                width: auto;
+            }
+
+            .rankings-table td.col-gei {
+                font-size: 16px;
+            }
+
+            .rankings-table td.col-rec {
+                font-size: 14px;
+                white-space: normal;
+            }
+
+            .rankings-table th.col-rec {
+                font-size: 10px;
+            }
+
+            .rankings-table .col-save {
+                width: 36px;
             }
 
             .why-link-row {

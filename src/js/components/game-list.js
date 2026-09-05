@@ -438,6 +438,15 @@ export function attachRadarChartListeners() {
         });
     });
 
+    // Tapping the matchup in a table row opens the same detail as "Why?"
+    document.querySelectorAll('.rankings-row .col-game').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+            if (e.target.closest('button, a')) return;
+            const link = cell.closest('.rankings-row')?.querySelector('.why-link');
+            if (link) link.click();
+        });
+    });
+
     document.querySelectorAll('.save-btn').forEach(button => {
         button.addEventListener('click', () => {
             const gameId = button.dataset.gameId;
