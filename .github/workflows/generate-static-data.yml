@@ -70,9 +70,13 @@ jobs:
             if [ -f "$TRIGGER_FILE" ]; then
               SPORT=$(cat "$TRIGGER_FILE" | jq -r '.sport // "all"')
               FORCE=$(cat "$TRIGGER_FILE" | jq -r '.force // "true"')
-              echo "Push trigger detected, sport=$SPORT, force=$FORCE"
+              SCOPE=$(cat "$TRIGGER_FILE" | jq -r '.scope // "current"')
+              SEASON=$(cat "$TRIGGER_FILE" | jq -r '.season // "current"')
+              echo "Push trigger detected, sport=$SPORT, force=$FORCE, scope=$SCOPE, season=$SEASON"
               echo "sport=$SPORT" >> $GITHUB_OUTPUT
               echo "force=$FORCE" >> $GITHUB_OUTPUT
+              echo "scope=$SCOPE" >> $GITHUB_OUTPUT
+              echo "season=$SEASON" >> $GITHUB_OUTPUT
               exit 0
             fi
           fi
