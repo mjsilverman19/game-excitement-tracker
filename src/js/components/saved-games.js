@@ -78,7 +78,7 @@ export function renderSavedGames() {
 
     const games = listSavedGames();
     const showScores = window.spoilerMode === 'scores';
-    const showContext = window.spoilerMode !== 'strict';
+    const showContext = showScores;
 
     if (games.length === 0) {
         area.innerHTML = `
@@ -122,7 +122,13 @@ export function renderSavedGames() {
     }).join('');
 
     area.innerHTML = `
-        <div class="statistics-line"><span class="stat-number">${games.length}</span> saved ${games.length === 1 ? 'game' : 'games'}</div>
+        <div class="section-heading saved-heading">
+            <div class="statistics-line"><span class="stat-number">${games.length}</span> saved ${games.length === 1 ? 'game' : 'games'}</div>
+            <label class="show-scores-toggle">
+                <input type="checkbox" class="show-scores-input" ${showScores ? 'checked' : ''}>
+                Show scores
+            </label>
+        </div>
         <div class="rankings-table-wrap">
             <table class="rankings-table saved-table">
                 <thead>
@@ -148,5 +154,6 @@ export function renderSavedGames() {
         });
     });
 
+    if (typeof window.attachShowScoresToggles === 'function') window.attachShowScoresToggles();
     updateSavedCount();
 }

@@ -206,7 +206,9 @@ function displayTopGamesResults(games, rangeLabel) {
 
     window.periodAverages = window.calculatePeriodAverages(games);
     window.attachRadarChartListeners();
+    if (typeof window.attachShowScoresToggles === 'function') window.attachShowScoresToggles();
     window.attachVoteListeners();
+    if (typeof window.hydrateHeroStadium === 'function') window.hydrateHeroStadium(games[0]);
 }
 
 /**

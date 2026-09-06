@@ -69,6 +69,9 @@ export async function analyzeGameEntertainment(game, sport = 'NFL') {
       awaySeed: game.awaySeed,
       bracketRound: game.bracketRound,
       bracketRegion: game.bracketRegion,
+      venueId: game.venueId ?? null,
+      venueName: game.venueName ?? null,
+      venueImage: game.venueImage ?? null,
       dataQuality: dataQuality.hasIssues ? {
         warning: true,
         severity: dataQuality.severity,
@@ -109,6 +112,9 @@ export async function analyzeGameEntertainmentDetailed(game, sport = 'NFL') {
       bracketRound: game.bracketRound,
       bracketRegion: game.bracketRegion,
       ...excitement,
+      venueId: game.venueId ?? null,
+      venueName: game.venueName ?? null,
+      venueImage: game.venueImage ?? null,
       dataQuality: dataQuality.hasIssues ? {
         warning: true,
         severity: dataQuality.severity,
