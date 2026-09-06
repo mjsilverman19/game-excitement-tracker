@@ -110,6 +110,7 @@ window.getTier = getTier;
 
             // Latest: smart discovery of the most recent period with data
             window.isInitialLoad = true;
+            window.showLoading('finding latest games...');
             const result = await findLatestAvailable(window.selectedSport, window.selectedSeason);
             if (isDateBasedSport(window.selectedSport)) {
                 window.selectedDate = result.week; // For date-based sports, 'week' is the date string

@@ -283,26 +283,23 @@ export async function findLatestAvailable(sport, season) {
   if (sport === 'NBA' || sport === 'MLB') {
     const today = new Date();
     const emoji = sport === 'NBA' ? '🏀' : '⚾';
-    console.log(`${emoji} ${sport}: Checking backwards from yesterday`);
+    const yesterday = formatDate(addDays(today, -1));
 
-    // Daily for the recent stretch, then every few days through the season so
-    // offseason "Latest" still lands on the last completed slate.
-    const dayOffsets = [];
-    for (let daysAgo = 1; daysAgo <= 21; daysAgo++) dayOffsets.push(daysAgo);
-    for (let daysAgo = 24; daysAgo <= 400; daysAgo += 3) dayOffsets.push(daysAgo);
-
-    for (const daysAgo of dayOffsets) {
-      const date = addDays(today, -daysAgo);
-      const dateStr = formatDate(date);
-
+    // latest.json is the fast path. When it is missing, do NOT walk hundreds of
+    // dates with sequential HEAD requests — that made MLB first load (~12s+)
+    // when no static season was published. Probe only a short recent window
+    // (covers a race where data landed before the pointer was written), then
+    // hand off to the live API with yesterday.
+    console.log(`${emoji} ${sport}: No latest pointer — short recent lookback only`);
+    for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
+      const dateStr = formatDate(addDays(today, -daysAgo));
       if (await staticFileExists(sport, season, dateStr)) {
         console.log(`✅ Found ${sport} date ${dateStr}`);
         return { week: dateStr, fromCache: false };
       }
     }
 
-    const yesterday = formatDate(addDays(today, -1));
-    console.log(`⚠️ No ${sport} data found in season lookback, defaulting to ${yesterday}`);
+    console.log(`⚠️ No ${sport} static data in last 7 days, defaulting to ${yesterday} (API)`);
     return { week: yesterday, fromCache: false };
   }
 

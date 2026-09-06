@@ -5,6 +5,29 @@
 
 import { getCurrentWeek, isDateBasedSport } from '../utils/dates.js';
 
+const SHEETJS_CDN = 'https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js';
+let sheetJsLoadPromise = null;
+
+/** Load SheetJS only when an export actually needs it (keeps first paint light). */
+function ensureSheetJS() {
+    if (typeof globalThis.XLSX !== 'undefined') return Promise.resolve();
+    if (sheetJsLoadPromise) return sheetJsLoadPromise;
+
+    sheetJsLoadPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = SHEETJS_CDN;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => {
+            sheetJsLoadPromise = null;
+            reject(new Error('Failed to load SheetJS'));
+        };
+        document.head.appendChild(script);
+    });
+
+    return sheetJsLoadPromise;
+}
+
 // ===== HELPER FUNCTIONS =====
 
 /**
@@ -608,6 +631,8 @@ export async function exportFullSeason() {
         allGames.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
 
         showExportProgress(1, 1, 'Generating Excel file...');
+
+        await ensureSheetJS();
 
         // Generate Excel file
         const workbook = XLSX.utils.book_new();

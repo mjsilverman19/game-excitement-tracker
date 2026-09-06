@@ -10,13 +10,15 @@ on:
     - cron: '0 10 * 12,1 *'
     # NBA: Daily 10 AM UTC (5 AM EST, after West Coast games)
     - cron: '0 10 * 10-12,1-6 *'
+    # MLB: Daily 11 AM UTC (7 AM EDT, after late West Coast/extra-inning games)
+    - cron: '0 11 * 3-10 *'
   push:
     paths:
       - '.github/trigger-generate.json'
   workflow_dispatch:
     inputs:
       sport:
-        description: 'Sport to generate (NFL, CFB, NBA, or all)'
+        description: 'Sport to generate (NFL, CFB, NBA, MLB, or all)'
         required: false
         default: 'all'
       force:
@@ -108,6 +110,12 @@ jobs:
             echo "Added NBA (daily during season)"
           fi
 
+          # MLB: Daily during season (March through October)
+          if [ "$MONTH" -ge 3 ] && [ "$MONTH" -le 10 ]; then
+            SPORTS="${SPORTS:+$SPORTS,}MLB"
+            echo "Added MLB (daily during season)"
+          fi
+
           # Default to none if no sports matched
           if [ -z "$SPORTS" ]; then
             SPORTS="none"
@@ -123,7 +131,7 @@ jobs:
         if: steps.determine.outputs.scope == 'all'
         run: |
           # Every week (or date) of the season for each requested sport, overwriting existing files.
-          for SPORT in NFL CFB NBA; do
+          for SPORT in NFL CFB NBA MLB; do
             if [ "${{ steps.determine.outputs.sport }}" = "all" ] || echo "${{ steps.determine.outputs.sport }}" | grep -q "$SPORT"; then
               echo "Regenerating all $SPORT data for season ${{ steps.determine.outputs.season }}"
               node scripts/generate-static.js --sport $SPORT --season ${{ steps.determine.outputs.season }} --all --force || echo "$SPORT full regeneration completed with warnings"
@@ -193,6 +201,14 @@ jobs:
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
           echo "Generating NBA data for $YESTERDAY"
           node scripts/generate-static.js --sport NBA --season current --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NBA generation completed with warnings"
+
+      - name: Generate MLB data
+        if: steps.determine.outputs.scope != 'all' && (contains(steps.determine.outputs.sport, 'MLB') || steps.determine.outputs.sport == 'all')
+        run: |
+          # Generate yesterday's games only (not future dates)
+          YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
+          echo "Generating MLB data for $YESTERDAY"
+          node scripts/generate-static.js --sport MLB --season current --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "MLB generation completed with warnings"
 
       - name: Check for generated files
         id: check_files

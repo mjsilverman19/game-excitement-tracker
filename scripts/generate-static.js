@@ -68,14 +68,14 @@ function printUsage() {
 Usage: node scripts/generate-static.js [options]
 
 Options:
-  --sport <NFL|CFB|NBA>    Sport to generate data for (required)
+  --sport <NFL|CFB|NBA|MLB> Sport to generate data for (required)
   --season <year|current>  Season year (required). 'current' resolves from the calendar.
   --week <number|round>    Week number or special value:
                            - NFL: 1-18, wild-card, divisional, conference, super-bowl
                            - CFB: 1-15, bowls, playoffs
                            - current: the regular-season week in progress today
-  --date <YYYY-MM-DD>      Date for NBA games (required for NBA unless --all)
-  --until <YYYY-MM-DD>     End date for NBA --all generation
+  --date <YYYY-MM-DD>      Date for NBA/MLB games (required for date sports unless --all)
+  --until <YYYY-MM-DD>     End date for NBA/MLB --all generation
   --all                    Generate all weeks/dates for the season
   --force                  Overwrite existing files
   --help, -h               Show this help message
@@ -104,13 +104,16 @@ Examples:
 
   # Generate all NBA dates for season (with force overwrite)
   node scripts/generate-static.js --sport NBA --season current --all --force
+
+  # Generate single MLB date
+  node scripts/generate-static.js --sport MLB --season 2026 --date 2026-09-05
 `);
 }
 
 // Validate options
 function validateOptions() {
-  if (!options.sport || !['NFL', 'CFB', 'NBA'].includes(options.sport)) {
-    console.error('Error: --sport is required and must be NFL, CFB, or NBA');
+  if (!options.sport || !['NFL', 'CFB', 'NBA', 'MLB'].includes(options.sport)) {
+    console.error('Error: --sport is required and must be NFL, CFB, NBA, or MLB');
     printUsage();
     process.exit(1);
   }
@@ -397,25 +400,27 @@ async function generateAllWeeks(sport, season) {
   console.log(`   ❌ Errors: ${results.errors}`);
 }
 
-// Generate all NBA game dates for a season
-async function generateAllNBADates(season) {
-  // NBA season runs from October to April (next year)
-  // For example, the 2026 season is October 2026 - April 2027
-  const startDate = new Date(`${season}-10-01`);
-  const seasonEndDate = options.until
-    ? new Date(options.until)
-    : new Date(`${season + 1}-04-30`);
+// Generate all game dates for a date-based sport season
+async function generateAllDateSportDates(sport, season) {
+  // NBA: Oct → June next year. MLB: late March → early November same year.
+  const startDate = sport === 'MLB'
+    ? new Date(`${season}-03-20`)
+    : new Date(`${season}-10-01`);
+  const defaultEnd = sport === 'MLB'
+    ? new Date(`${season}-11-05`)
+    : new Date(`${season + 1}-06-30`);
+  const seasonEndDate = options.until ? new Date(options.until) : defaultEnd;
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   yesterday.setHours(0, 0, 0, 0);
   const endDate = seasonEndDate < yesterday ? seasonEndDate : yesterday;
 
   if (startDate > yesterday) {
-    console.log(`\n⚠️  NBA ${season} season hasn't started yet (starts ${startDate.toISOString().split('T')[0]})\n`);
+    console.log(`\n⚠️  ${sport} ${season} season hasn't started yet (starts ${startDate.toISOString().split('T')[0]})\n`);
     return;
   }
 
-  console.log(`\n🚀 Generating NBA dates from ${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}...\n`);
+  console.log(`\n🚀 Generating ${sport} dates from ${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}...\n`);
   const totalDays = Math.floor((endDate - startDate) / (24 * 60 * 60 * 1000)) + 1;
   console.log(`📅 Processing ${totalDays} days (skipping future dates)\n`);
 
@@ -433,7 +438,7 @@ async function generateAllNBADates(season) {
     const dateStr = currentDate.toISOString().split('T')[0];
     results.total++;
 
-    const result = await generateStatic('NBA', season, dateStr);
+    const result = await generateStatic(sport, season, dateStr);
 
     if (result.success) results.successful++;
     else if (result.skipped) results.skipped++;
@@ -442,8 +447,6 @@ async function generateAllNBADates(season) {
 
     // Move to next date
     currentDate.setDate(currentDate.getDate() + 1);
-
-    // No delay between dates
   }
 
   console.log(`\n📊 Summary:`);
@@ -462,7 +465,7 @@ async function main() {
 
   if (options.all) {
     if (options.sport === 'NBA' || options.sport === 'MLB' || options.sport === 'CBB') {
-      await generateAllNBADates(options.season);
+      await generateAllDateSportDates(options.sport, options.season);
     } else {
       await generateAllWeeks(options.sport, options.season);
     }
