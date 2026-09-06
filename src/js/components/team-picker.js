@@ -160,7 +160,7 @@ export function displaySchedule(team, games) {
                 <span class="team-name">${team.displayName}</span>
                 <span class="schedule-season">${window.selectedSeason} season</span>
             </div>
-            <p class="schedule-hint">Pick a game to rate it. Results stay hidden unless Show me is set to Scores.</p>
+            <p class="schedule-hint">Pick a game to rate it. Results stay hidden unless Show scores is on.</p>
 
             <div class="schedule-list">
     `;
@@ -271,6 +271,7 @@ export function displaySingleGame(game) {
     window.attachRadarChartListeners();
     window.attachVoteListeners();
     window.rerenderResults = () => displaySingleGame(game);
+    if (typeof window.hydrateHeroStadium === 'function') window.hydrateHeroStadium(game);
 }
 
 /**

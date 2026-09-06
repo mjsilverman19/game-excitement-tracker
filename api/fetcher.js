@@ -1,6 +1,7 @@
 // Simplified ESPN Data Fetcher
 
 import { NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound } from '../shared/algorithm-config.js';
+import { parseVenue } from '../shared/venue.js';
 
 export async function fetchGames(sport, season, week, seasonType = '2', date = null) {
   try {
@@ -227,6 +228,7 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
   const completed = competition.status?.type?.completed || false;
 
   const overtime = detectOvertimeFromStatus(competition.status, sport);
+  const venueFields = parseVenue(competition.venue || event.venue, sport);
 
   // Parse bowl name and playoff round for postseason
   let bowlName = null;
@@ -330,7 +332,8 @@ function parseEvent(event, sport = 'NFL', nflPlayoffRound = null) {
     homeSeed: homeSeed,
     awaySeed: awaySeed,
     bracketRound: bracketRound,
-    bracketRegion: bracketRegion
+    bracketRegion: bracketRegion,
+    ...venueFields
   };
 }
 
@@ -382,6 +385,7 @@ export async function fetchSingleGame(sport, gameId) {
 
     const completed = competition.status?.type?.completed || false;
     const overtime = detectOvertimeFromStatus(competition.status, sport);
+    const venueFields = parseVenue(data.gameInfo?.venue || competition.venue, sport);
 
     // Parse bowl name and playoff round for CFB
     let bowlName = null;
@@ -442,7 +446,8 @@ export async function fetchSingleGame(sport, gameId) {
       overtime: overtime,
       date: competition.date || null,
       bowlName: bowlName,
-      playoffRound: playoffRound
+      playoffRound: playoffRound,
+      ...venueFields
     };
   } catch (error) {
     console.error('Error fetching single game:', error);

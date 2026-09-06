@@ -3,6 +3,7 @@
 import { heroArt } from './sport-art.js';
 import { isGameSaved, toggleSavedGame } from '../services/saved.js';
 import { isDateBasedSport, parseDate } from '../utils/dates.js';
+import { venueImageUrl } from '../../shared/venue.js';
 
 const SPORT_LABELS = {
     NFL: 'NFL',
@@ -125,7 +126,75 @@ function recapUrl(game) {
 }
 
 function stadiumImage(game) {
-    return STADIUM_IMAGES[`${window.selectedSport}-${game.homeAbbr}`] || null;
+    // Sync paint only trusts an explicit image URL (or rare local override).
+    // Constructed CDN URLs are applied in hydrateHeroStadium after a load check.
+    if (game?.venueImage) return game.venueImage;
+    return STADIUM_IMAGES[`${window.selectedSport}-${game?.homeAbbr}`] || null;
+}
+
+function heroBackground(game) {
+    const stadium = stadiumImage(game);
+    if (stadium) {
+        return `<div class="hero-stadium" style="background-image:url('${escapeHtml(stadium)}')"></div><div class="hero-scrim"></div>`;
+    }
+    return heroArt(window.selectedSport);
+}
+
+/**
+ * For games without venueImage baked into static JSON, resolve the home
+ * stadium photo from ESPN via /api/venue and swap it into the hero card.
+ */
+export async function hydrateHeroStadium(game) {
+    if (!game?.id) return;
+
+    const hero = document.querySelector(`.hero-card[data-game-id="${CSS.escape(String(game.id))}"]`);
+    if (!hero) return;
+
+    let imageUrl = stadiumImage(game) || venueImageUrl(window.selectedSport, game.venueId);
+
+    if (!imageUrl) {
+        try {
+            const params = new URLSearchParams({
+                sport: window.selectedSport,
+                gameId: String(game.id)
+            });
+            const response = await fetch(`/api/venue?${params}`);
+            if (!response.ok) return;
+            const data = await response.json();
+            if (!data.success || !data.venueImage) return;
+
+            game.venueId = data.venueId || game.venueId;
+            game.venueName = data.venueName || game.venueName;
+            game.venueImage = data.venueImage;
+            imageUrl = data.venueImage;
+        } catch (error) {
+            console.warn('Could not hydrate stadium image:', error);
+            return;
+        }
+    }
+
+    const loads = await new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = imageUrl;
+    });
+    if (!loads) return;
+
+    // Replace any existing stadium attempt or generated art
+    hero.querySelector('.hero-stadium')?.remove();
+    hero.querySelector('.hero-scrim')?.remove();
+    hero.querySelector('.hero-art')?.remove();
+
+    const stadium = document.createElement('div');
+    stadium.className = 'hero-stadium';
+    stadium.style.backgroundImage = `url('${imageUrl}')`;
+
+    const scrim = document.createElement('div');
+    scrim.className = 'hero-scrim';
+
+    hero.prepend(scrim);
+    hero.prepend(stadium);
 }
 
 function saveButton(game, variant) {
@@ -162,13 +231,9 @@ export function renderHeroCard(game, index = 0, options = {}) {
     const tier = tierFor(game);
     const context = contextLabel(game);
     const finalText = finalScoreText(game);
-    const stadium = stadiumImage(game);
-    const background = stadium
-        ? `<div class="hero-stadium" style="background-image:url('${escapeHtml(stadium)}')"></div><div class="hero-scrim"></div>`
-        : heroArt(window.selectedSport);
     return `
         <section class="hero-card" data-game-id="${game.id}">
-            ${background}
+            ${heroBackground(game)}
             <div class="hero-body">
                 <div class="hero-eyebrow">${heroEyebrow(game, index, options)}${context ? ` · ${escapeHtml(context)}` : ''}</div>
                 <div class="hero-matchup">
@@ -293,7 +358,13 @@ export function renderRankings(games, options = {}) {
             <section class="rankings-section">
                 <div class="section-heading">
                     <h2 class="section-title">${escapeHtml(heading)}</h2>
-                    ${link}
+                    <div class="section-heading-actions">
+                        <label class="show-scores-toggle">
+                            <input type="checkbox" class="show-scores-input" ${showScores ? 'checked' : ''}>
+                            Show scores
+                        </label>
+                        ${link}
+                    </div>
                 </div>
                 <div class="rankings-table-wrap">
                     <table class="rankings-table">
@@ -361,8 +432,10 @@ export function displayResults() {
 
     window.periodAverages = calculatePeriodAverages(window.currentGames);
     attachRadarChartListeners();
+    if (typeof window.attachShowScoresToggles === 'function') window.attachShowScoresToggles();
     window.attachVoteListeners();
     window.rerenderResults = displayResults;
+    hydrateHeroStadium(sortedGames[0]);
 }
 
 // Calculate period averages for radar chart overlay

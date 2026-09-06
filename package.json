@@ -13,6 +13,7 @@
   },
   "type": "module",
   "scripts": {
+    "dev": "node scripts/dev-server.js",
     "generate": "node scripts/generate-static.js",
     "generate:nfl": "node scripts/generate-static.js --sport NFL --season current --all",
     "generate:cfb": "node scripts/generate-static.js --sport CFB --season current --all",

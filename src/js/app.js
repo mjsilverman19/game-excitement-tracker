@@ -13,7 +13,7 @@ import {
     updateDateNavigation
 } from './utils/dates.js';
 import { loadGames } from './services/api.js';
-import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners } from './components/game-list.js';
+import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners, hydrateHeroStadium } from './components/game-list.js';
 import { renderRadarChart, attachMetricHoverListeners } from './components/radar-chart.js';
 import { populateCustomDatePicker } from './components/date-picker.js';
 import { populateWeekPicker } from './components/week-picker.js';
@@ -36,20 +36,14 @@ window.getTier = getTier;
         // 'season' (top games across the season), or 'custom' after manual navigation
         window.rangeMode = 'latest';
 
-        // Spoiler level: 'strict' hides everything, 'context' shows overtime and
-        // postseason labels, 'scores' shows final scores. spoilerFree stays in sync
-        // for the renderers that only need a yes/no.
-        const SPOILER_MODES = ['strict', 'context', 'scores'];
-        const SPOILER_HINTS = {
-            strict: 'No scores. No spoilers. Just great games.',
-            context: 'Overtime and postseason context, still no scores.',
-            scores: 'Final scores shown. Spoilers ahead.'
-        };
+        // Scores toggle: 'strict' hides scores/spoilers, 'scores' shows finals.
+        // spoilerFree stays in sync for renderers that only need a yes/no.
         function readSpoilerMode() {
             const stored = localStorage.getItem('spoilerMode');
-            if (SPOILER_MODES.includes(stored)) return stored;
-            // Migrate the old boolean preference
-            return localStorage.getItem('spoilerFree') === 'false' ? 'scores' : 'strict';
+            if (stored === 'scores') return 'scores';
+            // Migrate old 'context' / boolean preference to the binary toggle
+            if (localStorage.getItem('spoilerFree') === 'false') return 'scores';
+            return 'strict';
         }
         window.spoilerMode = readSpoilerMode();
         window.spoilerFree = window.spoilerMode !== 'scores';
@@ -141,42 +135,35 @@ window.getTier = getTier;
         }
 
         function setSpoilerMode(mode) {
-            if (!SPOILER_MODES.includes(mode)) return;
-            window.spoilerMode = mode;
-            window.spoilerFree = mode !== 'scores';
-            localStorage.setItem('spoilerMode', mode);
+            const next = mode === 'scores' ? 'scores' : 'strict';
+            window.spoilerMode = next;
+            window.spoilerFree = next !== 'scores';
+            localStorage.setItem('spoilerMode', next);
             localStorage.setItem('spoilerFree', String(window.spoilerFree));
             updateSpoilerControl();
             if (typeof window.rerenderResults === 'function') {
                 window.rerenderResults();
             }
-        }
-
-        function updateSpoilerControl() {
-            document.querySelectorAll('#spoilerControl .segmented-option, #spoilerControlSaved .segmented-option').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.mode === window.spoilerMode);
-            });
-            document.getElementById('spoilerHint').textContent = SPOILER_HINTS[window.spoilerMode];
             if (!document.getElementById('savedContent').classList.contains('hidden')) {
                 renderSavedGames();
             }
         }
 
-        const SPORT_NOUNS = {
-            NFL: 'football',
-            CFB: 'college football',
-            NBA: 'basketball',
-            MLB: 'baseball'
-        };
+        function updateSpoilerControl() {
+            const checked = window.spoilerMode === 'scores';
+            document.querySelectorAll('.show-scores-input').forEach(input => {
+                input.checked = checked;
+            });
+        }
 
-        function updateIntro() {
-            const noun = SPORT_NOUNS[window.selectedSport] || 'games';
-            const sub = document.getElementById('subheadline');
-            if (window.rangeMode === 'season') {
-                sub.textContent = `The best ${noun} of the season, without the result.`;
-            } else {
-                sub.textContent = `The best recent ${noun}, without the result.`;
-            }
+        function attachShowScoresToggles() {
+            document.querySelectorAll('.show-scores-input').forEach(input => {
+                if (input.dataset.bound === '1') return;
+                input.dataset.bound = '1';
+                input.addEventListener('change', () => {
+                    setSpoilerMode(input.checked ? 'scores' : 'strict');
+                });
+            });
         }
 
         function showView(view) {
@@ -196,8 +183,6 @@ window.getTier = getTier;
 
         // Update UI elements
         function updateUI() {
-            updateIntro();
-
             // Update sport tabs
             ['NFL', 'CFB', 'NBA', 'MLB'].forEach(sport => {
                 document.getElementById(`${sport.toLowerCase()}Option`).classList.toggle('active', window.selectedSport === sport);
@@ -434,10 +419,7 @@ window.getTier = getTier;
                 });
             });
 
-            // Spoiler control (main and saved views share the preference)
-            document.querySelectorAll('#spoilerControl .segmented-option, #spoilerControlSaved .segmented-option').forEach(btn => {
-                btn.addEventListener('click', () => setSpoilerMode(btn.dataset.mode));
-            });
+            // Show scores toggles are wired after each results render
 
             // Period label opens the week or date picker
             document.getElementById('periodLabel').addEventListener('click', (e) => {
@@ -636,6 +618,7 @@ window.getTier = getTier;
         // Expose functions to window for use by imported modules
         window.createGameRow = createGameRow;
         window.renderRankings = renderRankings;
+        window.hydrateHeroStadium = hydrateHeroStadium;
         window.displayResults = displayResults;
         window.displaySchedule = displaySchedule;
         window.displaySingleGame = displaySingleGame;
@@ -665,6 +648,7 @@ window.getTier = getTier;
         window.markCustomRange = markCustomRange;
         window.applyRangeMode = applyRangeMode;
         window.attachRadarChartListeners = attachRadarChartListeners;
+        window.attachShowScoresToggles = attachShowScoresToggles;
         window.attachVoteListeners = attachVoteListeners;
 
         // Start the app

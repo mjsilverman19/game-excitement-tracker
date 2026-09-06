@@ -55,6 +55,7 @@
 
             /* Type */
             --font-display: 'Newsreader', 'Tiempos Headline', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+            --font-headline: 'Big Shoulders Display', 'Oswald', 'Arial Narrow', Impact, sans-serif;
             --font-wordmark: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
             --font-condensed: 'Oswald', 'Arial Narrow', 'Helvetica Neue Condensed', Impact, sans-serif;
             --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -403,7 +404,7 @@
         }
 
         /* ==========================================================
-           Page intro: headline and spoiler control
+           Page intro: headline
            ========================================================== */
         .page-intro {
             display: flex;
@@ -415,11 +416,10 @@
         }
 
         .headline {
-            font-family: var(--font-display);
+            font-family: var(--font-headline);
             font-size: 64px;
             font-weight: 700;
-            font-variation-settings: 'opsz' 72;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.01em;
             line-height: 1;
             color: var(--text-primary);
             margin-bottom: 8px;
@@ -434,26 +434,21 @@
             color: var(--text-secondary);
         }
 
-        .show-me {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
+        /* About / Saved use the editorial display face, not the athletic headline */
+        .about-content .headline,
+        .saved-content .headline {
+            font-size: 40px;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+            margin: 28px 0 28px;
         }
 
-        .show-me-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-primary);
+        .saved-content .subheadline {
+            font-size: 18px;
         }
 
-        .show-me-hint {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .about-content .headline {
-            margin-bottom: 32px;
+        .about-content {
+            padding-top: 12px;
         }
 
         /* ==========================================================
@@ -654,27 +649,33 @@
 
         /* About Page */
         .about-body {
-            max-width: 720px;
+            max-width: 680px;
         }
 
         .about-section {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .about-section h3 {
             font-family: var(--font-display);
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
-            letter-spacing: -0.01em;
-            margin-bottom: 12px;
+            font-variation-settings: 'opsz' 36;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            margin-bottom: 10px;
             color: var(--text-primary);
         }
 
         .about-section p {
             font-size: 16px;
-            line-height: 1.65;
+            line-height: 1.6;
             color: var(--text-secondary);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+        }
+
+        .about-section p:last-child {
+            margin-bottom: 0;
         }
 
         .about-section ul,
@@ -1335,6 +1336,41 @@
             justify-content: space-between;
             gap: 16px;
             margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .section-heading-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .saved-heading {
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .saved-heading .statistics-line {
+            margin-bottom: 0;
+        }
+
+        .show-scores-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .show-scores-input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--color-primary);
+            cursor: pointer;
         }
 
         .section-title {
@@ -1922,6 +1958,12 @@
 
             .headline {
                 font-size: 38px;
+            }
+
+            .about-content .headline,
+            .saved-content .headline {
+                font-size: 32px;
+                margin: 20px 0 20px;
             }
 
             .subheadline {
