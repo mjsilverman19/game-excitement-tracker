@@ -151,8 +151,12 @@ async function staticFileExists(sport, season, weekOrDate) {
 /**
  * Walk day-by-day from fromDateStr until a static slate with games exists.
  * direction: -1 previous, +1 next. Returns the date string or null.
+ *
+ * When no static file is found within maxSteps, falls back to the next
+ * calendar day in that direction so the caller can load via the live API.
+ * Forward steps still refuse future dates.
  */
-export async function findAdjacentDateWithData(sport, season, fromDateStr, direction, { maxSteps = 120 } = {}) {
+export async function findAdjacentDateWithData(sport, season, fromDateStr, direction, { maxSteps = 14 } = {}) {
   if (!fromDateStr || !direction) return null;
 
   let cursor = parseDate(fromDateStr);
@@ -166,7 +170,10 @@ export async function findAdjacentDateWithData(sport, season, fromDateStr, direc
     }
   }
 
-  return null;
+  // No nearby static slate — step one calendar day and let loadGames use the API.
+  const fallback = addDays(parseDate(fromDateStr), direction);
+  if (direction > 0 && !canNavigateToDate(fallback)) return null;
+  return formatDate(fallback);
 }
 
 async function readLatestPointer(sport, season) {

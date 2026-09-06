@@ -27,6 +27,7 @@ const options = {
   date: null,
   all: false,
   force: false,
+  from: null,
   until: null
 };
 
@@ -51,6 +52,8 @@ for (let i = 0; i < args.length; i++) {
     }
   } else if (arg === '--date' && i + 1 < args.length) {
     options.date = args[++i];
+  } else if (arg === '--from' && i + 1 < args.length) {
+    options.from = args[++i];
   } else if (arg === '--until' && i + 1 < args.length) {
     options.until = args[++i];
   } else if (arg === '--all') {
@@ -75,6 +78,7 @@ Options:
                            - CFB: 1-15, bowls, playoffs
                            - current: the regular-season week in progress today
   --date <YYYY-MM-DD>      Date for NBA/MLB games (required for date sports unless --all)
+  --from <YYYY-MM-DD>      Start date for NBA/MLB --all generation (default: season open)
   --until <YYYY-MM-DD>     End date for NBA/MLB --all generation
   --all                    Generate all weeks/dates for the season
   --force                  Overwrite existing files
@@ -107,6 +111,9 @@ Examples:
 
   # Generate single MLB date
   node scripts/generate-static.js --sport MLB --season 2026 --date 2026-09-05
+
+  # Backfill a window of MLB dates
+  node scripts/generate-static.js --sport MLB --season current --all --from 2026-08-01 --until 2026-09-05
 `);
 }
 
@@ -403,9 +410,10 @@ async function generateAllWeeks(sport, season) {
 // Generate all game dates for a date-based sport season
 async function generateAllDateSportDates(sport, season) {
   // NBA: Oct → June next year. MLB: late March → early November same year.
-  const startDate = sport === 'MLB'
+  const defaultStart = sport === 'MLB'
     ? new Date(`${season}-03-20`)
     : new Date(`${season}-10-01`);
+  const startDate = options.from ? new Date(options.from) : defaultStart;
   const defaultEnd = sport === 'MLB'
     ? new Date(`${season}-11-05`)
     : new Date(`${season + 1}-06-30`);
@@ -417,6 +425,11 @@ async function generateAllDateSportDates(sport, season) {
 
   if (startDate > yesterday) {
     console.log(`\n⚠️  ${sport} ${season} season hasn't started yet (starts ${startDate.toISOString().split('T')[0]})\n`);
+    return;
+  }
+
+  if (startDate > endDate) {
+    console.log(`\n⚠️  Nothing to generate: --from ${startDate.toISOString().split('T')[0]} is after end ${endDate.toISOString().split('T')[0]}\n`);
     return;
   }
 
