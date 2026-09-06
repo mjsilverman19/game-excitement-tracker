@@ -4,6 +4,7 @@ import { loadVotes, saveVotes } from './services/storage.js';
 import {
     addDays,
     canNavigateToDate,
+    findAdjacentDateWithData,
     findLatestAvailable,
     formatDate,
     getCurrentWeek,
@@ -230,33 +231,53 @@ window.getTier = getTier;
             document.getElementById('nextPeriod').disabled = !hasNext;
         }
 
-        function handlePreviousDate() {
+        async function handlePreviousDate() {
             if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
 
-            const currentDate = parseDate(window.selectedDate);
-            const prevDate = addDays(currentDate, -1);
+            const prevButton = document.getElementById('prevPeriod');
+            if (prevButton) prevButton.disabled = true;
 
-            window.selectedDate = formatDate(prevDate);
-            window.isInitialLoad = false;
-            markCustomRange();
+            try {
+                const found = await findAdjacentDateWithData(
+                    window.selectedSport,
+                    window.selectedSeason,
+                    window.selectedDate,
+                    -1
+                );
+                if (!found) return;
 
-            updateUI();
-            loadGames();
-        }
-
-        function handleNextDate() {
-            if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
-
-            const currentDate = parseDate(window.selectedDate);
-            const nextDate = addDays(currentDate, 1);
-
-            if (canNavigateToDate(nextDate)) {
-                window.selectedDate = formatDate(nextDate);
+                window.selectedDate = found;
                 window.isInitialLoad = false;
                 markCustomRange();
-
                 updateUI();
                 loadGames();
+            } finally {
+                updateUI();
+            }
+        }
+
+        async function handleNextDate() {
+            if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
+
+            const nextButton = document.getElementById('nextPeriod');
+            if (nextButton) nextButton.disabled = true;
+
+            try {
+                const found = await findAdjacentDateWithData(
+                    window.selectedSport,
+                    window.selectedSeason,
+                    window.selectedDate,
+                    1
+                );
+                if (!found) return;
+
+                window.selectedDate = found;
+                window.isInitialLoad = false;
+                markCustomRange();
+                updateUI();
+                loadGames();
+            } finally {
+                updateUI();
             }
         }
 

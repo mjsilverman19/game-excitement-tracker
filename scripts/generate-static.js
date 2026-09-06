@@ -7,7 +7,8 @@ import { fetchGames } from '../api/fetcher.js';
 import { analyzeGameEntertainment } from '../api/calculator.js';
 import { ALGORITHM_CONFIG, NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound, getNFLPlayoffRoundKeys } from '../shared/algorithm-config.js';
 import { getCurrentSeason, getCurrentWeekNumber } from '../shared/season-dates.js';
-import { writeFile, mkdir } from 'fs/promises';
+import { stringifyStaticJson, isPeriodNewer, buildLatestPointer, parseLatestPointer } from '../shared/static-latest.js';
+import { writeFile, mkdir, readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -171,6 +172,25 @@ function getStaticFilePath(sport, season, weekOrDate) {
   return { dir, filepath: join(dir, filename) };
 }
 
+async function updateLatestPointer(dir, sport, weekOrDate) {
+  const latestPath = join(dir, 'latest.json');
+  let current = null;
+  if (existsSync(latestPath)) {
+    try {
+      current = parseLatestPointer(JSON.parse(await readFile(latestPath, 'utf8')));
+    } catch {
+      current = null;
+    }
+  }
+
+  if (current && !isPeriodNewer(sport, weekOrDate, current.period)) {
+    return;
+  }
+
+  await writeFile(latestPath, stringifyStaticJson(buildLatestPointer(weekOrDate)), 'utf8');
+  console.log(`📌 Updated latest pointer → ${weekOrDate}`);
+}
+
 function getSummaryPath(sport) {
   if (sport === 'NBA') return 'basketball/nba';
   if (sport === 'MLB') return 'baseball/mlb';
@@ -319,8 +339,9 @@ async function generateStatic(sport, season, weekOrDate) {
     // Create directory if it doesn't exist
     await mkdir(dir, { recursive: true });
 
-    // Write JSON file
-    await writeFile(filepath, JSON.stringify(responseData, null, 2), 'utf8');
+    // Compact JSON — smaller downloads for the Discover UI
+    await writeFile(filepath, stringifyStaticJson(responseData), 'utf8');
+    await updateLatestPointer(dir, sport, weekOrDate);
 
     console.log(`✅ Generated ${filepath} (${validGames.length} games)`);
 

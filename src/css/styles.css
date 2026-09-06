@@ -1691,14 +1691,15 @@
 
         .score-dim-row {
             display: grid;
-            grid-template-columns: 72px minmax(0, 1fr) 36px;
+            grid-template-columns: max-content minmax(0, 1fr) 2.75rem;
             align-items: center;
-            gap: 14px;
+            column-gap: 12px;
         }
 
         .score-dim-label {
             font-size: 14px;
             font-weight: 600;
+            line-height: 1;
             color: var(--text-primary);
         }
 
@@ -1731,9 +1732,133 @@
         .score-dim-value {
             font-size: 14px;
             font-weight: 600;
+            line-height: 1;
             font-variant-numeric: tabular-nums;
             text-align: right;
             color: var(--text-primary);
+        }
+
+        .detail-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .detail-highlights[hidden] {
+            display: none;
+        }
+
+        .highlight-player {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .highlight-player[hidden] {
+            display: none;
+        }
+
+        .highlight-video {
+            width: 100%;
+            max-height: 360px;
+            border-radius: var(--radius-sm);
+            background: #0f1612;
+            aspect-ratio: 16 / 9;
+        }
+
+        .highlight-caption {
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .highlight-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .highlight-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            min-width: 0;
+            font: inherit;
+        }
+
+        .highlight-card:hover .highlight-title,
+        .highlight-card.is-active .highlight-title {
+            color: var(--color-primary);
+        }
+
+        .highlight-card.is-active .highlight-media {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        .highlight-media {
+            position: relative;
+            display: block;
+            aspect-ratio: 16 / 9;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--bg-hover);
+        }
+
+        .highlight-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .highlight-thumb-empty {
+            background: linear-gradient(135deg, var(--bg-hover), var(--bg-active));
+        }
+
+        .highlight-play {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(20, 32, 26, 0.72);
+            color: var(--text-on-hero);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            padding-left: 2px;
+        }
+
+        .highlight-duration {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(20, 32, 26, 0.75);
+            color: var(--text-on-hero);
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .highlight-title {
+            font-size: 13px;
+            line-height: 1.35;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .games-list {
@@ -2292,8 +2417,8 @@
             }
 
             .score-dim-row {
-                grid-template-columns: 64px minmax(0, 1fr) 32px;
-                gap: 10px;
+                grid-template-columns: max-content minmax(0, 1fr) 2.5rem;
+                column-gap: 10px;
             }
 
             .score-legend-shortfall {
