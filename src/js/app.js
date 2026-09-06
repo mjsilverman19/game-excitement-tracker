@@ -397,6 +397,9 @@ window.getTier = getTier;
         // Switch sport and re-apply the active range
         async function switchSport(sport) {
             if (window.selectedSport === sport) return;
+            // Allow the new sport's load to proceed even if a prior load is in flight
+            // (loadGames otherwise aborts while window.isLoading is true).
+            window.isLoading = false;
             window.periodAverages = null;
             window.selectedSport = sport;
             window.selectedSeason = getCurrentWeek(sport).season;
