@@ -1,7 +1,7 @@
 {
   "name": "game-entertainment-index",
   "version": "2.5.0",
-  "description": "Ranks NFL, CFB, and NBA games by entertainment value using win probability data",
+    "description": "Ranks NFL, CFB, NBA, and MLB games by entertainment value using win probability data",
   "author": "Matthew Silverman",
   "license": "MIT",
   "repository": {
@@ -18,6 +18,7 @@
     "generate:nfl": "node scripts/generate-static.js --sport NFL --season current --all",
     "generate:cfb": "node scripts/generate-static.js --sport CFB --season current --all",
     "generate:nba": "node scripts/generate-static.js --sport NBA --season current --all",
+    "generate:mlb": "node scripts/generate-static.js --sport MLB --season current --all",
     "trigger": "node scripts/trigger-generate.js",
     "compare:canonical": "node scripts/compare-canonical-games.js",
     "lint": "eslint \"src/js/**/*.js\" \"api/**/*.js\" \"scripts/**/*.js\"",
