@@ -7,7 +7,7 @@ import { listSavedGames, removeSavedGame, savedGamesCount } from '../services/sa
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const SPORT_LABELS = { NFL: 'NFL', CFB: 'CFB', NBA: 'NBA', MLB: 'MLB', CBB: 'CBB' };
+const SPORT_LABELS = { NFL: 'NFL', CFB: 'CFB', NBA: 'NBA', MLB: 'MLB' };
 
 const NFL_ROUND_SHORT = {
     'wild-card': 'Wild Card',
@@ -95,7 +95,7 @@ export function renderSavedGames() {
         const context = showContext ? [game.playoffRound, game.bowlName].filter(Boolean).join(' · ') : '';
         const ot = showContext && game.overtime ? '<span class="ot-badge">OT</span>' : '';
         const finalText = showScores ? `${game.awayScore ?? 0}–${game.homeScore ?? 0}${game.overtime ? ' OT' : ''}` : '';
-        const recapPaths = { NFL: 'nfl', CFB: 'college-football', NBA: 'nba', MLB: 'mlb', CBB: 'mens-college-basketball' };
+        const recapPaths = { NFL: 'nfl', CFB: 'college-football', NBA: 'nba', MLB: 'mlb' };
         const recap = `https://www.espn.com/${recapPaths[game.sport] || 'nfl'}/game/_/gameId/${game.id}`;
         return `
             <tr class="rankings-row" data-sport="${escapeHtml(game.sport)}" data-game-id="${escapeHtml(game.id)}">

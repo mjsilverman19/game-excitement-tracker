@@ -3,7 +3,7 @@ import { setCache, isDateBasedSport } from '../utils/dates.js';
 // Helper: Determine if we should try the static file before the API
 export function shouldUseStatic(sport, season, weekOrDate) {
     if (isDateBasedSport(sport)) {
-        // For date-based sports (NBA, MLB, CBB), only dates at least a day old
+        // For date-based sports (NBA, MLB), only dates at least a day old
         // can have a static file, since games must be complete
         const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const gameDate = new Date(weekOrDate);

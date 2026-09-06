@@ -2,7 +2,7 @@ import { getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
 import { getSeasonInfo } from '../../../shared/season-dates.js';
 
 export function isDateBasedSport(sport) {
-  return sport === 'NBA' || sport === 'MLB' || sport === 'CBB';
+  return sport === 'NBA' || sport === 'MLB';
 }
 
 export function addDays(date, days) {
@@ -75,8 +75,7 @@ const CACHE_TTL = {
   NFL: 24 * 60 * 60 * 1000,
   CFB: 24 * 60 * 60 * 1000,
   NBA: 12 * 60 * 60 * 1000,
-  MLB: 12 * 60 * 60 * 1000,
-  CBB: 12 * 60 * 60 * 1000
+  MLB: 12 * 60 * 60 * 1000
 };
 
 function getCacheKey(sport, season) {
@@ -233,9 +232,9 @@ export async function findLatestAvailable(sport, season) {
     return { week: currentWeek, fromCache: false };
   }
 
-  if (sport === 'NBA' || sport === 'MLB' || sport === 'CBB') {
+  if (sport === 'NBA' || sport === 'MLB') {
     const today = new Date();
-    const emoji = sport === 'NBA' ? '🏀' : sport === 'CBB' ? '🏀' : '⚾';
+    const emoji = sport === 'NBA' ? '🏀' : '⚾';
     console.log(`${emoji} ${sport}: Checking backwards from yesterday`);
 
     for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
