@@ -248,7 +248,8 @@ window.getTier = getTier;
                 if (!found) return;
 
                 window.selectedDate = found;
-                window.isInitialLoad = false;
+                // Allow loadGames empty-day fallback when stepping into API dates / off days
+                window.isInitialLoad = true;
                 markCustomRange();
                 updateUI();
                 loadGames();
@@ -273,7 +274,8 @@ window.getTier = getTier;
                 if (!found) return;
 
                 window.selectedDate = found;
-                window.isInitialLoad = false;
+                // Allow loadGames empty-day fallback when stepping into API dates / off days
+                window.isInitialLoad = true;
                 markCustomRange();
                 updateUI();
                 loadGames();
