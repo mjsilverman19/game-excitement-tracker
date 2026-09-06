@@ -27,9 +27,9 @@ window.ALGORITHM_CONFIG = ALGORITHM_CONFIG;
 window.getTier = getTier;
 
         // State
-        const currentMLBWeek = getCurrentWeek('MLB');
-        window.selectedSport = 'MLB';
-        window.selectedSeason = currentMLBWeek.season;
+        const currentCFBWeek = getCurrentWeek('CFB');
+        window.selectedSport = 'CFB';
+        window.selectedSeason = currentCFBWeek.season;
         window.selectedWeek = null;
         window.selectedDate = getDefaultNBADate(); // For date-based navigation (NBA, MLB)
 
