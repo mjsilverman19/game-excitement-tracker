@@ -212,8 +212,10 @@ export function renderFeatureCard(game, index, options = {}) {
                     ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
                     <div class="feature-names">
                         <span class="feature-team-name">${escapeHtml(game.awayTeam)}</span>
-                        <span class="feature-vs">vs</span>
-                        <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
+                        <span class="feature-home-row">
+                            <span class="feature-vs">vs</span>
+                            <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
+                        </span>
                     </div>
                     ${renderLogo(game.homeTeam, game.homeLogo, 'md', game.homeAbbr)}
                 </div>

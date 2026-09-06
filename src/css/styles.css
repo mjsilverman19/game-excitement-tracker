@@ -1232,6 +1232,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 4px;
             min-width: 0;
         }
 
@@ -1246,6 +1247,14 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            min-width: 0;
+        }
+
+        .feature-home-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
         }
 
         .feature-vs {
@@ -1254,11 +1263,10 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin: 4px 0;
             padding: 2px 0;
             border-top: 1px solid var(--border-primary);
             border-bottom: 1px solid var(--border-primary);
-            align-self: flex-start;
+            flex-shrink: 0;
         }
 
         .feature-side {
