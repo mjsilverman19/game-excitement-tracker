@@ -151,6 +151,7 @@ export async function loadSchedule(team) {
  * Display team's schedule
  */
 export function displaySchedule(team, games) {
+    if (typeof window.placeDiscoverControls === 'function') window.placeDiscoverControls('dock');
     const resultsArea = document.getElementById('resultsArea');
 
     let html = `
@@ -251,6 +252,7 @@ export async function loadSingleGame(gameId) {
 export function displaySingleGame(game) {
     window.periodAverages = null;
     window.currentSingleGame = game;
+    if (typeof window.placeDiscoverControls === 'function') window.placeDiscoverControls('dock');
     const resultsArea = document.getElementById('resultsArea');
 
     let html = `

@@ -14,7 +14,7 @@ import {
     updateDateNavigation
 } from './utils/dates.js';
 import { loadGames } from './services/api.js';
-import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners, hydrateHeroStadium } from './components/game-list.js';
+import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners, hydrateHeroStadium, placeDiscoverControls } from './components/game-list.js';
 import { renderRadarChart, attachMetricHoverListeners } from './components/radar-chart.js';
 import { populateCustomDatePicker } from './components/date-picker.js';
 import { populateWeekPicker } from './components/week-picker.js';
@@ -155,6 +155,7 @@ window.getTier = getTier;
             const checked = window.spoilerMode === 'scores';
             document.querySelectorAll('.show-scores-input').forEach(input => {
                 input.checked = checked;
+                input.setAttribute('aria-checked', checked ? 'true' : 'false');
             });
         }
 
@@ -163,6 +164,7 @@ window.getTier = getTier;
                 if (input.dataset.bound === '1') return;
                 input.dataset.bound = '1';
                 input.addEventListener('change', () => {
+                    input.setAttribute('aria-checked', input.checked ? 'true' : 'false');
                     setSpoilerMode(input.checked ? 'scores' : 'strict');
                 });
             });
@@ -178,7 +180,6 @@ window.getTier = getTier;
                 document.getElementById(id).classList.toggle('active', name === view);
             });
             window.currentView = view;
-            if (view === 'about') populateAlgorithmMetricsTable();
             if (view === 'saved') renderSavedGames();
             window.scrollTo(0, 0);
         }
@@ -190,9 +191,9 @@ window.getTier = getTier;
                 document.getElementById(`${sport.toLowerCase()}Option`).classList.toggle('active', window.selectedSport === sport);
             });
 
-            // Stepper shows the selected period unless top games is open
+            // Season / multi-day ranges hide the day stepper; no secondary presets in the upper right
             const inTopGames = window.viewMode === 'top-games';
-            document.getElementById('topGamesSelector').hidden = !inTopGames;
+            document.getElementById('topGamesSelector').hidden = true;
             document.getElementById('periodStepper').hidden = inTopGames;
             if (inTopGames) return;
 
@@ -369,33 +370,6 @@ window.getTier = getTier;
             });
         }
 
-        // Populate algorithm metrics table in about page
-        function populateAlgorithmMetricsTable() {
-            const tableBody = document.getElementById('algorithmMetricsTable');
-            if (!tableBody) return;
-
-            // Clear existing content
-            tableBody.innerHTML = '';
-
-            // Get metrics and weights from config
-            const metrics = ALGORITHM_CONFIG.metrics;
-            const weights = ALGORITHM_CONFIG.weights;
-
-            // Populate table rows
-            metrics.forEach(metric => {
-                const row = document.createElement('tr');
-                const weight = weights[metric.key];
-                const weightPercent = Math.round(weight * 100);
-
-                row.innerHTML = `
-                    <td style="text-transform: capitalize;">${metric.label}</td>
-                    <td>${weightPercent}%</td>
-                    <td>${metric.description}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
         // Switch sport and re-apply the active range
         async function switchSport(sport) {
             if (window.selectedSport === sport) return;
@@ -528,6 +502,7 @@ window.getTier = getTier;
 
         // Show loading state
         function showLoading(customMessage = null) {
+            if (typeof window.placeDiscoverControls === 'function') window.placeDiscoverControls('dock');
             const resultsArea = document.getElementById('resultsArea');
             let loadingMessage = customMessage;
 
@@ -574,6 +549,7 @@ window.getTier = getTier;
                     message = `No games found for Week ${window.selectedWeek}, ${window.selectedSeason}.`;
                 }
             }
+            if (typeof window.placeDiscoverControls === 'function') window.placeDiscoverControls('dock');
             const resultsArea = document.getElementById('resultsArea');
             resultsArea.innerHTML = `
                 <div class="empty-state">
@@ -646,6 +622,7 @@ window.getTier = getTier;
         window.createGameRow = createGameRow;
         window.renderRankings = renderRankings;
         window.hydrateHeroStadium = hydrateHeroStadium;
+        window.placeDiscoverControls = placeDiscoverControls;
         window.displayResults = displayResults;
         window.displaySchedule = displaySchedule;
         window.displaySingleGame = displaySingleGame;

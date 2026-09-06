@@ -125,7 +125,8 @@ export function renderSavedGames() {
         <div class="section-heading saved-heading">
             <div class="statistics-line"><span class="stat-number">${games.length}</span> saved ${games.length === 1 ? 'game' : 'games'}</div>
             <label class="show-scores-toggle">
-                <input type="checkbox" class="show-scores-input" ${showScores ? 'checked' : ''}>
+                <input type="checkbox" class="show-scores-input" role="switch" aria-checked="${showScores ? 'true' : 'false'}" ${showScores ? 'checked' : ''}>
+                <span class="show-scores-switch" aria-hidden="true"></span>
                 Show scores
             </label>
         </div>

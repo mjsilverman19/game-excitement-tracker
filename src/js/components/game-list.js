@@ -426,6 +426,27 @@ function renderTableRow(game, index, options = {}) {
 }
 
 /**
+ * Keep discover controls in the DOM (listeners stay attached).
+ * 'rankings' places them between feature cards and the table;
+ * 'dock' parks them above results for loading / empty / team views.
+ */
+export function placeDiscoverControls(target = 'dock') {
+    const controls = document.getElementById('discoverControls');
+    if (!controls) return;
+
+    if (target === 'rankings') {
+        const mount = document.getElementById('controlsMount');
+        if (mount) {
+            mount.appendChild(controls);
+            return;
+        }
+    }
+
+    const dock = document.getElementById('controlsDock');
+    if (dock) dock.appendChild(controls);
+}
+
+/**
  * Full rankings layout: hero, two feature cards, then the table.
  */
 export function renderRankings(games, options = {}) {
@@ -445,21 +466,21 @@ export function renderRankings(games, options = {}) {
         html += `<div class="feature-details">${detailPanel(second)}${third ? detailPanel(third) : ''}</div>`;
     }
 
+    // Discover controls (range / search / stepper) mount here — below cards, above table
+    html += '<div id="controlsMount" class="controls-mount"></div>';
+
     if (rest.length > 0) {
         const heading = options.tableHeading || 'Explore the rankings';
-        const link = options.mode === 'top-games'
-            ? ''
-            : '<button type="button" class="section-link" id="viewSeasonLink">View season ' + ARROW_ICON + '</button>';
         html += `
             <section class="rankings-section">
                 <div class="section-heading">
                     <h2 class="section-title">${escapeHtml(heading)}</h2>
                     <div class="section-heading-actions">
                         <label class="show-scores-toggle">
-                            <input type="checkbox" class="show-scores-input" ${showScores ? 'checked' : ''}>
+                            <input type="checkbox" class="show-scores-input" role="switch" aria-checked="${showScores ? 'true' : 'false'}" ${showScores ? 'checked' : ''}>
+                            <span class="show-scores-switch" aria-hidden="true"></span>
                             Show scores
                         </label>
-                        ${link}
                     </div>
                 </div>
                 <div class="rankings-table-wrap">
@@ -524,7 +545,10 @@ export function displayResults() {
 
     html += renderRankings(sortedGames, { mode: 'week' });
 
+    // Park controls before wiping results so the node isn't destroyed with innerHTML
+    placeDiscoverControls('dock');
     document.getElementById('resultsArea').innerHTML = html;
+    placeDiscoverControls('rankings');
 
     window.periodAverages = calculatePeriodAverages(window.currentGames);
     attachRadarChartListeners();
@@ -658,9 +682,4 @@ export function attachRadarChartListeners() {
             if (typeof window.updateSavedCount === 'function') window.updateSavedCount();
         });
     });
-
-    const seasonLink = document.getElementById('viewSeasonLink');
-    if (seasonLink) {
-        seasonLink.addEventListener('click', () => window.applyRangeMode('season'));
-    }
 }
