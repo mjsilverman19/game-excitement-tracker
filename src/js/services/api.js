@@ -3,11 +3,16 @@ import { setCache, isDateBasedSport, parseDate, addDays, formatDate } from '../u
 // Helper: Determine if we should try the static file before the API
 export function shouldUseStatic(sport, season, weekOrDate) {
     if (isDateBasedSport(sport)) {
-        // For date-based sports (NBA, MLB), only dates at least a day old
-        // can have a static file, since games must be complete
-        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-        const gameDate = new Date(weekOrDate);
-        return gameDate <= oneDayAgo;
+        // For date-based sports (NBA, MLB), only prior calendar days can have
+        // a static file — games from "today" may still be in progress.
+        // Use parseDate (local midnight) rather than `new Date('YYYY-MM-DD')`,
+        // which is UTC midnight and shifts the day in US timezones.
+        if (!weekOrDate || typeof weekOrDate !== 'string') return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const gameDate = parseDate(weekOrDate);
+        gameDate.setHours(0, 0, 0, 0);
+        return gameDate < today;
     }
 
     // For NFL/CFB, always try the static file first. The generator only writes
