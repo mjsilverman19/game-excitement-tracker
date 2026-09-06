@@ -15,7 +15,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "13",
+      "awayTeamId": "12",
+      "homeAbbr": "LV",
+      "awayAbbr": "KC",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lv.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/kc.png",
+      "date": "2026-01-04T21:25Z"
     },
     {
       "id": "401772964",
@@ -31,7 +38,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "4",
+      "awayTeamId": "5",
+      "homeAbbr": "CIN",
+      "awayAbbr": "CLE",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cin.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cle.png",
+      "date": "2026-01-04T18:00Z"
     },
     {
       "id": "401772960",
@@ -47,7 +61,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "23",
+      "awayTeamId": "33",
+      "homeAbbr": "PIT",
+      "awayAbbr": "BAL",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/pit.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/bal.png",
+      "date": "2026-01-05T01:20Z"
     },
     {
       "id": "401772959",
@@ -63,7 +84,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "21",
+      "awayTeamId": "28",
+      "homeAbbr": "PHI",
+      "awayAbbr": "WSH",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/phi.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/wsh.png",
+      "date": "2026-01-04T21:25Z"
     },
     {
       "id": "401772966",
@@ -79,7 +107,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "1",
+      "awayTeamId": "18",
+      "homeAbbr": "ATL",
+      "awayAbbr": "NO",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/no.png",
+      "date": "2026-01-04T18:00Z"
     },
     {
       "id": "401772965",
@@ -95,7 +130,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "3",
+      "awayTeamId": "8",
+      "homeAbbr": "CHI",
+      "awayAbbr": "DET",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/chi.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/det.png",
+      "date": "2026-01-04T21:25Z"
     },
     {
       "id": "401772962",
@@ -111,7 +153,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "34",
+      "awayTeamId": "11",
+      "homeAbbr": "HOU",
+      "awayAbbr": "IND",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/hou.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ind.png",
+      "date": "2026-01-04T18:00Z"
     },
     {
       "id": "401772969",
@@ -134,7 +183,14 @@
         "issues": [
           "Close game (2-point margin) but 0 lead changes detected - dramatic moments may be missing from probability data"
         ]
-      }
+      },
+      "homeTeamId": "27",
+      "awayTeamId": "29",
+      "homeAbbr": "TB",
+      "awayAbbr": "CAR",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/tb.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/car.png",
+      "date": "2026-01-03T21:30Z"
     },
     {
       "id": "401772963",
@@ -150,7 +206,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "19",
+      "awayTeamId": "6",
+      "homeAbbr": "NYG",
+      "awayAbbr": "DAL",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyg.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/dal.png",
+      "date": "2026-01-04T18:00Z"
     },
     {
       "id": "401772961",
@@ -166,7 +229,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "25",
+      "awayTeamId": "26",
+      "homeAbbr": "SF",
+      "awayAbbr": "SEA",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sf.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sea.png",
+      "date": "2026-01-04T01:00Z"
     },
     {
       "id": "401772968",
@@ -182,7 +252,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "16",
+      "awayTeamId": "9",
+      "homeAbbr": "MIN",
+      "awayAbbr": "GB",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/min.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/gb.png",
+      "date": "2026-01-04T18:00Z"
     },
     {
       "id": "401772955",
@@ -198,7 +275,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "14",
+      "awayTeamId": "22",
+      "homeAbbr": "LAR",
+      "awayAbbr": "ARI",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lar.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ari.png",
+      "date": "2026-01-04T21:25Z"
     },
     {
       "id": "401772956",
@@ -214,7 +298,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "7",
+      "awayTeamId": "24",
+      "homeAbbr": "DEN",
+      "awayAbbr": "LAC",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/den.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lac.png",
+      "date": "2026-01-04T21:25Z"
     },
     {
       "id": "401772970",
@@ -230,7 +321,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "30",
+      "awayTeamId": "10",
+      "homeAbbr": "JAX",
+      "awayAbbr": "TEN",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/jax.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ten.png",
+      "date": "2026-01-04T18:00Z"
     },
     {
       "id": "401772958",
@@ -246,7 +344,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "17",
+      "awayTeamId": "15",
+      "homeAbbr": "NE",
+      "awayAbbr": "MIA",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/mia.png",
+      "date": "2026-01-04T21:25Z"
     },
     {
       "id": "401772967",
@@ -262,7 +367,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "2",
+      "awayTeamId": "20",
+      "homeAbbr": "BUF",
+      "awayAbbr": "NYJ",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/buf.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyj.png",
+      "date": "2026-01-04T21:25Z"
     }
   ],
   "metadata": {
@@ -274,6 +386,7 @@
     "generatedAt": "2026-01-30T03:34:59.551Z",
     "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
-    "week": 18
+    "week": 18,
+    "logosEnrichedAt": "2026-09-06T02:48:08.614Z"
   }
 }

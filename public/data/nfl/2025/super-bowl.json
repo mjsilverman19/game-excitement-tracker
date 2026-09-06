@@ -15,7 +15,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Super Bowl"
+      "playoffRound": "Super Bowl",
+      "homeTeamId": "17",
+      "awayTeamId": "26",
+      "homeAbbr": "NE",
+      "awayAbbr": "SEA",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sea.png",
+      "date": "2026-02-08T23:30Z"
     }
   ],
   "metadata": {
@@ -29,6 +36,7 @@
     "source": "ESPN Win Probability Analysis",
     "week": "super-bowl",
     "playoffRound": "Super Bowl",
-    "seasonType": "3"
+    "seasonType": "3",
+    "logosEnrichedAt": "2026-09-06T02:48:08.141Z"
   }
 }

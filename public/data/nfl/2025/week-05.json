@@ -15,7 +15,14 @@
       },
       "overtime": true,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "14",
+      "awayTeamId": "25",
+      "homeAbbr": "LAR",
+      "awayAbbr": "SF",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lar.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sf.png",
+      "date": "2025-10-03T00:15Z"
     },
     {
       "id": "401772746",
@@ -31,7 +38,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "26",
+      "awayTeamId": "27",
+      "homeAbbr": "SEA",
+      "awayAbbr": "TB",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sea.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/tb.png",
+      "date": "2025-10-05T20:05Z"
     },
     {
       "id": "401772633",
@@ -47,7 +61,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "5",
+      "awayTeamId": "16",
+      "homeAbbr": "CLE",
+      "awayAbbr": "MIN",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cle.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/min.png",
+      "date": "2025-10-05T13:30Z"
     },
     {
       "id": "401772814",
@@ -63,7 +84,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "30",
+      "awayTeamId": "12",
+      "homeAbbr": "JAX",
+      "awayAbbr": "KC",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/jax.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/kc.png",
+      "date": "2025-10-07T00:15Z"
     },
     {
       "id": "401772922",
@@ -79,7 +107,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "2",
+      "awayTeamId": "17",
+      "homeAbbr": "BUF",
+      "awayAbbr": "NE",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/buf.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+      "date": "2025-10-06T00:20Z"
     },
     {
       "id": "401772747",
@@ -102,7 +137,14 @@
         "issues": [
           "One-possession game (1 pts) but only 1 lead change - data may be incomplete"
         ]
-      }
+      },
+      "homeTeamId": "22",
+      "awayTeamId": "10",
+      "homeAbbr": "ARI",
+      "awayAbbr": "TEN",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ari.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ten.png",
+      "date": "2025-10-05T20:05Z"
     },
     {
       "id": "401772745",
@@ -118,7 +160,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "21",
+      "awayTeamId": "7",
+      "homeAbbr": "PHI",
+      "awayAbbr": "DEN",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/phi.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/den.png",
+      "date": "2025-10-05T17:00Z"
     },
     {
       "id": "401772852",
@@ -134,7 +183,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "29",
+      "awayTeamId": "15",
+      "homeAbbr": "CAR",
+      "awayAbbr": "MIA",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/car.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/mia.png",
+      "date": "2025-10-05T17:00Z"
     },
     {
       "id": "401772853",
@@ -150,7 +206,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "24",
+      "awayTeamId": "28",
+      "homeAbbr": "LAC",
+      "awayAbbr": "WSH",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lac.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/wsh.png",
+      "date": "2025-10-05T20:25Z"
     },
     {
       "id": "401772744",
@@ -166,7 +229,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "18",
+      "awayTeamId": "19",
+      "homeAbbr": "NO",
+      "awayAbbr": "NYG",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/no.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyg.png",
+      "date": "2025-10-05T17:00Z"
     },
     {
       "id": "401772850",
@@ -182,7 +252,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "20",
+      "awayTeamId": "6",
+      "homeAbbr": "NYJ",
+      "awayAbbr": "DAL",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/nyj.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/dal.png",
+      "date": "2025-10-05T17:00Z"
     },
     {
       "id": "401772743",
@@ -198,7 +275,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "33",
+      "awayTeamId": "34",
+      "homeAbbr": "BAL",
+      "awayAbbr": "HOU",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/bal.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/hou.png",
+      "date": "2025-10-05T17:00Z"
     },
     {
       "id": "401772854",
@@ -214,7 +298,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "4",
+      "awayTeamId": "8",
+      "homeAbbr": "CIN",
+      "awayAbbr": "DET",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cin.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/det.png",
+      "date": "2025-10-05T20:25Z"
     },
     {
       "id": "401772851",
@@ -230,7 +321,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": null
+      "playoffRound": null,
+      "homeTeamId": "11",
+      "awayTeamId": "13",
+      "homeAbbr": "IND",
+      "awayAbbr": "LV",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ind.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lv.png",
+      "date": "2025-10-05T17:00Z"
     }
   ],
   "metadata": {
@@ -242,6 +340,7 @@
     "generatedAt": "2026-01-30T03:33:57.049Z",
     "algorithmVersion": "3.5",
     "source": "ESPN Win Probability Analysis",
-    "week": 5
+    "week": 5,
+    "logosEnrichedAt": "2026-09-06T02:48:08.253Z"
   }
 }

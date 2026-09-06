@@ -4,6 +4,7 @@ import { heroArt } from './sport-art.js';
 import { isGameSaved, toggleSavedGame } from '../services/saved.js';
 import { isDateBasedSport, parseDate } from '../utils/dates.js';
 import { venueImageUrl } from '../../shared/venue.js';
+import { renderScoreBreakdown, attachScoreBreakdownListeners } from './score-breakdown.js';
 
 const SPORT_LABELS = {
     NFL: 'NFL',
@@ -274,15 +275,15 @@ export function renderFeatureCard(game, index, options = {}) {
             ${rank}
             <div class="feature-main">
                 <div class="feature-matchup">
-                    ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
-                    <div class="feature-names">
+                    <div class="feature-team">
+                        ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
                         <span class="feature-team-name">${escapeHtml(game.awayTeam)}</span>
-                        <span class="feature-home-row">
-                            <span class="feature-vs">vs</span>
-                            <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
-                        </span>
                     </div>
-                    ${renderLogo(game.homeTeam, game.homeLogo, 'md', game.homeAbbr)}
+                    <div class="feature-team feature-team-home">
+                        <span class="feature-vs">vs</span>
+                        <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
+                        ${renderLogo(game.homeTeam, game.homeLogo, 'md', game.homeAbbr)}
+                    </div>
                 </div>
                 <div class="feature-side">
                     <div class="feature-date">${escapeHtml(formatGameDate(game))}${overtimeBadge(game)}</div>
@@ -297,7 +298,6 @@ export function renderFeatureCard(game, index, options = {}) {
                 ${whyLink(game)}
             </div>
         </article>
-        ${detailPanel(game)}
     `;
 }
 
@@ -347,6 +347,8 @@ export function renderRankings(games, options = {}) {
         html += renderFeatureCard(second, 1, options);
         if (third) html += renderFeatureCard(third, 2, options);
         html += '</div>';
+        // Details sit below the grid so opening one doesn't displace the other card
+        html += `<div class="feature-details">${detailPanel(second)}${third ? detailPanel(third) : ''}</div>`;
     }
 
     if (rest.length > 0) {
@@ -469,13 +471,14 @@ function renderDetail(container, game) {
     } catch (e) {
         breakdown = {};
     }
+    const score = game?.excitement;
     container.innerHTML = `
-        <div class="detail-inner">
-            <div class="detail-chart">${window.renderRadarChart(breakdown, window.periodAverages)}</div>
-            <div class="detail-side">
-                <div class="detail-heading">Why it rates ${formatScore(game?.excitement)}</div>
-                <p class="detail-copy">The score comes from ESPN win probability across the whole game: tension is how long the outcome stayed in doubt, drama is the size and timing of momentum swings, finish is how the ending played out.</p>
-                ${dataQualityNote(game || {})}
+        <div class="detail-panel">
+            <div class="detail-heading">Why it rates ${formatScore(score)}</div>
+            <p class="detail-copy">The Game Entertainment Index reads ESPN win probability across the whole game, then scores how long the outcome stayed in doubt, how hard momentum swung, and how the ending played out.</p>
+            ${dataQualityNote(game || {})}
+            ${renderScoreBreakdown(breakdown, window.periodAverages, score)}
+            <div class="detail-footer">
                 <div class="detail-vote">
                     <span class="detail-vote-label">Agree with this rating?</span>
                     <div class="vote-container">
@@ -487,7 +490,7 @@ function renderDetail(container, game) {
             </div>
         </div>
     `;
-    setTimeout(() => window.attachMetricHoverListeners(container), 0);
+    setTimeout(() => attachScoreBreakdownListeners(container), 0);
     window.attachVoteListeners(container);
 }
 

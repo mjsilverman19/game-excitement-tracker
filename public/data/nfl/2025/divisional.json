@@ -15,7 +15,14 @@
       },
       "overtime": true,
       "bowlName": null,
-      "playoffRound": "Divisional Round"
+      "playoffRound": "Divisional Round",
+      "homeTeamId": "7",
+      "awayTeamId": "2",
+      "homeAbbr": "DEN",
+      "awayAbbr": "BUF",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/den.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/buf.png",
+      "date": "2026-01-17T21:30Z"
     },
     {
       "id": "401772985",
@@ -31,7 +38,14 @@
       },
       "overtime": true,
       "bowlName": null,
-      "playoffRound": "Divisional Round"
+      "playoffRound": "Divisional Round",
+      "homeTeamId": "3",
+      "awayTeamId": "14",
+      "homeAbbr": "CHI",
+      "awayAbbr": "LAR",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/chi.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lar.png",
+      "date": "2026-01-18T23:30Z"
     },
     {
       "id": "401772983",
@@ -47,7 +61,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Divisional Round"
+      "playoffRound": "Divisional Round",
+      "homeTeamId": "17",
+      "awayTeamId": "34",
+      "homeAbbr": "NE",
+      "awayAbbr": "HOU",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/hou.png",
+      "date": "2026-01-18T20:00Z"
     },
     {
       "id": "401772984",
@@ -63,7 +84,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Divisional Round"
+      "playoffRound": "Divisional Round",
+      "homeTeamId": "26",
+      "awayTeamId": "25",
+      "homeAbbr": "SEA",
+      "awayAbbr": "SF",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sea.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sf.png",
+      "date": "2026-01-18T01:00Z"
     }
   ],
   "metadata": {
@@ -77,6 +105,7 @@
     "source": "ESPN Win Probability Analysis",
     "week": "divisional",
     "playoffRound": "Divisional Round",
-    "seasonType": "3"
+    "seasonType": "3",
+    "logosEnrichedAt": "2026-09-06T02:48:08.109Z"
   }
 }

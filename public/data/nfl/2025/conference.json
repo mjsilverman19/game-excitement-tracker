@@ -15,7 +15,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Conference Championships"
+      "playoffRound": "Conference Championships",
+      "homeTeamId": "7",
+      "awayTeamId": "17",
+      "homeAbbr": "DEN",
+      "awayAbbr": "NE",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/den.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+      "date": "2026-01-25T20:00Z"
     },
     {
       "id": "401772987",
@@ -31,7 +38,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Conference Championships"
+      "playoffRound": "Conference Championships",
+      "homeTeamId": "26",
+      "awayTeamId": "14",
+      "homeAbbr": "SEA",
+      "awayAbbr": "LAR",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sea.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lar.png",
+      "date": "2026-01-25T23:30Z"
     }
   ],
   "metadata": {
@@ -45,6 +59,7 @@
     "source": "ESPN Win Probability Analysis",
     "week": "conference",
     "playoffRound": "Conference Championships",
-    "seasonType": "3"
+    "seasonType": "3",
+    "logosEnrichedAt": "2026-09-06T02:48:08.079Z"
   }
 }

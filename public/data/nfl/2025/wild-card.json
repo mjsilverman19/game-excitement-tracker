@@ -15,7 +15,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Wild Card Round"
+      "playoffRound": "Wild Card Round",
+      "homeTeamId": "30",
+      "awayTeamId": "2",
+      "homeAbbr": "JAX",
+      "awayAbbr": "BUF",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/jax.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/buf.png",
+      "date": "2026-01-11T18:00Z"
     },
     {
       "id": "401772980",
@@ -31,7 +38,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Wild Card Round"
+      "playoffRound": "Wild Card Round",
+      "homeTeamId": "21",
+      "awayTeamId": "25",
+      "homeAbbr": "PHI",
+      "awayAbbr": "SF",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/phi.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/sf.png",
+      "date": "2026-01-11T21:30Z"
     },
     {
       "id": "401772981",
@@ -47,7 +61,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Wild Card Round"
+      "playoffRound": "Wild Card Round",
+      "homeTeamId": "3",
+      "awayTeamId": "9",
+      "homeAbbr": "CHI",
+      "awayAbbr": "GB",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/chi.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/gb.png",
+      "date": "2026-01-11T01:00Z"
     },
     {
       "id": "401772979",
@@ -63,7 +84,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Wild Card Round"
+      "playoffRound": "Wild Card Round",
+      "homeTeamId": "29",
+      "awayTeamId": "14",
+      "homeAbbr": "CAR",
+      "awayAbbr": "LAR",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/car.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lar.png",
+      "date": "2026-01-10T21:30Z"
     },
     {
       "id": "401772976",
@@ -79,7 +107,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Wild Card Round"
+      "playoffRound": "Wild Card Round",
+      "homeTeamId": "23",
+      "awayTeamId": "34",
+      "homeAbbr": "PIT",
+      "awayAbbr": "HOU",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/pit.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/hou.png",
+      "date": "2026-01-13T01:15Z"
     },
     {
       "id": "401772978",
@@ -95,7 +130,14 @@
       },
       "overtime": false,
       "bowlName": null,
-      "playoffRound": "Wild Card Round"
+      "playoffRound": "Wild Card Round",
+      "homeTeamId": "17",
+      "awayTeamId": "24",
+      "homeAbbr": "NE",
+      "awayAbbr": "LAC",
+      "homeLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/ne.png",
+      "awayLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/lac.png",
+      "date": "2026-01-12T01:15Z"
     }
   ],
   "metadata": {
@@ -109,6 +151,7 @@
     "source": "ESPN Win Probability Analysis",
     "week": "wild-card",
     "playoffRound": "Wild Card Round",
-    "seasonType": "3"
+    "seasonType": "3",
+    "logosEnrichedAt": "2026-09-06T02:48:08.648Z"
   }
 }
