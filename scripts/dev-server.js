@@ -190,7 +190,15 @@ const server = http.createServer(async (nodeReq, nodeRes) => {
         await serveFile(nodeRes, staticPath);
         return;
       } catch {
-        // fall through to SPA fallback
+        // Missing /data files must 404 — the SPA fallback returns HTML with
+        // status 200, which made staticFileExists() treat empty dates/weeks
+        // as real data and broke NBA/NFL latest discovery.
+        if (url.pathname.startsWith('/data/')) {
+          nodeRes.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+          nodeRes.end(JSON.stringify({ success: false, error: 'Not found' }));
+          return;
+        }
+        // fall through to SPA fallback for non-data paths
       }
     }
 

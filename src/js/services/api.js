@@ -1,4 +1,4 @@
-import { setCache, isDateBasedSport } from '../utils/dates.js';
+import { setCache, isDateBasedSport, parseDate, addDays, formatDate } from '../utils/dates.js';
 
 // Helper: Determine if we should try the static file before the API
 export function shouldUseStatic(sport, season, weekOrDate) {
@@ -40,6 +40,11 @@ export async function fetchStaticData(sport, season, weekOrDate) {
         const response = await fetch(path);
 
         if (!response.ok) {
+            return null;
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) {
             return null;
         }
 
@@ -149,15 +154,10 @@ export async function loadGames(fallbackAttempt = 0) {
                 if (isDateBasedSport(window.selectedSport)) {
                     // For date-based sports, try previous date
                     console.log(`🔄 ${window.selectedSport} fallback - current date: ${window.selectedDate}`);
-                    const currentDate = window.selectedDate ? new Date(window.selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                    const prevDate = new Date(currentDate);
-                    prevDate.setDate(prevDate.getDate() - 1);
-
-                    // Format using local date components to avoid timezone issues
-                    const year = prevDate.getFullYear();
-                    const month = String(prevDate.getMonth() + 1).padStart(2, '0');
-                    const day = String(prevDate.getDate()).padStart(2, '0');
-                    const newDate = `${year}-${month}-${day}`;
+                    const currentDate = window.selectedDate
+                        ? parseDate(window.selectedDate)
+                        : addDays(new Date(), -1);
+                    const newDate = formatDate(addDays(currentDate, -1));
                     console.log(`📅 ${window.selectedSport} fallback: ${window.selectedDate} → ${newDate}`);
                     window.selectedDate = newDate;
                     console.log(`📅 ${window.selectedSport} window.selectedDate changed via fallback: ${window.selectedDate}`);

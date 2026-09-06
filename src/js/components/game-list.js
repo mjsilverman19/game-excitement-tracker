@@ -4,6 +4,7 @@ import { heroArt } from './sport-art.js';
 import { isGameSaved, toggleSavedGame } from '../services/saved.js';
 import { isDateBasedSport, parseDate } from '../utils/dates.js';
 import { venueImageUrl } from '../../shared/venue.js';
+import { renderScoreBreakdown, attachScoreBreakdownListeners } from './score-breakdown.js';
 
 const SPORT_LABELS = {
     NFL: 'NFL',
@@ -125,6 +126,106 @@ function recapUrl(game) {
     return `https://www.espn.com/${paths[window.selectedSport] || 'nfl'}/game/_/gameId/${game.id}`;
 }
 
+function formatDuration(seconds) {
+    if (typeof seconds !== 'number' || seconds < 0) return '';
+    const m = Math.floor(seconds / 60);
+    const s = String(Math.round(seconds % 60)).padStart(2, '0');
+    return `${m}:${s}`;
+}
+
+function renderHighlightCards(highlights) {
+    return highlights.map((clip, index) => {
+        const duration = formatDuration(clip.duration);
+        const thumb = clip.thumbnail
+            ? `<img class="highlight-thumb" src="${escapeHtml(clip.thumbnail)}" alt="" loading="lazy">`
+            : '<span class="highlight-thumb highlight-thumb-empty" aria-hidden="true"></span>';
+        return `
+            <button type="button" class="highlight-card${index === 0 ? ' is-active' : ''}"
+                data-highlight-index="${index}"
+                aria-pressed="${index === 0 ? 'true' : 'false'}">
+                <span class="highlight-media">
+                    ${thumb}
+                    <span class="highlight-play" aria-hidden="true">▶</span>
+                    ${duration ? `<span class="highlight-duration">${duration}</span>` : ''}
+                </span>
+                <span class="highlight-title">${escapeHtml(clip.headline)}</span>
+            </button>
+        `;
+    }).join('');
+}
+
+function attachHighlightPlayer(slot, highlights) {
+    const player = slot.querySelector('.highlight-player');
+    const video = slot.querySelector('.highlight-video');
+    const caption = slot.querySelector('.highlight-caption');
+    const cards = [...slot.querySelectorAll('.highlight-card')];
+    if (!player || !video || !cards.length) return;
+
+    const playClip = (index, { autoplay = true } = {}) => {
+        const clip = highlights[index];
+        if (!clip?.source) return;
+
+        cards.forEach((card, i) => {
+            const active = i === index;
+            card.classList.toggle('is-active', active);
+            card.setAttribute('aria-pressed', String(active));
+        });
+
+        player.hidden = false;
+        if (caption) caption.textContent = clip.headline || '';
+        if (clip.thumbnail) video.setAttribute('poster', clip.thumbnail);
+        else video.removeAttribute('poster');
+        if (video.dataset.source !== clip.source) {
+            video.dataset.source = clip.source;
+            video.src = clip.source;
+        }
+        if (autoplay) {
+            video.play().catch(() => {
+                // Autoplay can be blocked until a direct user gesture on the video.
+            });
+        }
+    };
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const index = Number(card.dataset.highlightIndex);
+            playClip(index);
+        });
+    });
+
+    // Start with the first playable clip loaded (no autoplay until click, except
+    // the click that opened Why-this-game isn't a gesture on the video element).
+    const firstPlayable = highlights.findIndex(clip => clip.source);
+    if (firstPlayable >= 0) playClip(firstPlayable, { autoplay: false });
+}
+
+async function loadDetailHighlights(container, game) {
+    const slot = container.querySelector('.detail-highlights');
+    if (!slot || !game?.id) return;
+
+    try {
+        const response = await fetch(`/api/highlights?sport=${encodeURIComponent(window.selectedSport)}&gameId=${encodeURIComponent(game.id)}`);
+        if (!response.ok) return;
+        const data = await response.json();
+        // Prefer clips we can play on-site; skip link-only stubs.
+        const highlights = (data?.highlights || []).filter(clip => clip.source).slice(0, 6);
+        if (!highlights.length) return;
+
+        slot.innerHTML = `
+            <div class="score-section-label">Highlights</div>
+            <div class="highlight-player" hidden>
+                <video class="highlight-video" controls playsinline preload="metadata"></video>
+                <div class="highlight-caption"></div>
+            </div>
+            <div class="highlight-row">${renderHighlightCards(highlights)}</div>
+        `;
+        slot.hidden = false;
+        attachHighlightPlayer(slot, highlights);
+    } catch {
+        // Highlights are optional — leave the slot hidden on failure.
+    }
+}
+
 function stadiumImage(game) {
     // Sync paint only trusts an explicit image URL (or rare local override).
     // Constructed CDN URLs are applied in hydrateHeroStadium after a load check.
@@ -212,12 +313,6 @@ function detailPanel(game) {
     return `<div class="game-detail" id="detail-${game.id}" data-breakdown='${escapeHtml(JSON.stringify(game.breakdown || {}))}' hidden></div>`;
 }
 
-function dataQualityNote(game) {
-    if (!game.dataQuality?.warning) return '';
-    const issues = (game.dataQuality.issues || []).map(escapeHtml).join(' ');
-    return `<div class="detail-note">Data note: ${issues}</div>`;
-}
-
 // ===== Cards =====
 
 function heroEyebrow(game, index, options) {
@@ -274,15 +369,15 @@ export function renderFeatureCard(game, index, options = {}) {
             ${rank}
             <div class="feature-main">
                 <div class="feature-matchup">
-                    ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
-                    <div class="feature-names">
+                    <div class="feature-team">
+                        ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
                         <span class="feature-team-name">${escapeHtml(game.awayTeam)}</span>
-                        <span class="feature-home-row">
-                            <span class="feature-vs">vs</span>
-                            <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
-                        </span>
                     </div>
-                    ${renderLogo(game.homeTeam, game.homeLogo, 'md', game.homeAbbr)}
+                    <div class="feature-team feature-team-home">
+                        <span class="feature-vs">vs</span>
+                        <span class="feature-team-name">${escapeHtml(game.homeTeam)}</span>
+                        ${renderLogo(game.homeTeam, game.homeLogo, 'md', game.homeAbbr)}
+                    </div>
                 </div>
                 <div class="feature-side">
                     <div class="feature-date">${escapeHtml(formatGameDate(game))}${overtimeBadge(game)}</div>
@@ -297,7 +392,6 @@ export function renderFeatureCard(game, index, options = {}) {
                 ${whyLink(game)}
             </div>
         </article>
-        ${detailPanel(game)}
     `;
 }
 
@@ -347,6 +441,8 @@ export function renderRankings(games, options = {}) {
         html += renderFeatureCard(second, 1, options);
         if (third) html += renderFeatureCard(third, 2, options);
         html += '</div>';
+        // Details sit below the grid so opening one doesn't displace the other card
+        html += `<div class="feature-details">${detailPanel(second)}${third ? detailPanel(third) : ''}</div>`;
     }
 
     if (rest.length > 0) {
@@ -469,13 +565,14 @@ function renderDetail(container, game) {
     } catch (e) {
         breakdown = {};
     }
+    const score = game?.excitement;
     container.innerHTML = `
-        <div class="detail-inner">
-            <div class="detail-chart">${window.renderRadarChart(breakdown, window.periodAverages)}</div>
-            <div class="detail-side">
-                <div class="detail-heading">Why it rates ${formatScore(game?.excitement)}</div>
-                <p class="detail-copy">The score comes from ESPN win probability across the whole game: tension is how long the outcome stayed in doubt, drama is the size and timing of momentum swings, finish is how the ending played out.</p>
-                ${dataQualityNote(game || {})}
+        <div class="detail-panel">
+            <div class="detail-heading">Why it rates ${formatScore(score)}</div>
+            <p class="detail-copy">The Game Entertainment Index scores a finished game from 0 to 10 on how much it was worth watching, using ESPN win probability rather than the final score.</p>
+            ${renderScoreBreakdown(breakdown, window.periodAverages, score)}
+            <div class="detail-highlights" hidden></div>
+            <div class="detail-footer">
                 <div class="detail-vote">
                     <span class="detail-vote-label">Agree with this rating?</span>
                     <div class="vote-container">
@@ -487,8 +584,9 @@ function renderDetail(container, game) {
             </div>
         </div>
     `;
-    setTimeout(() => window.attachMetricHoverListeners(container), 0);
+    setTimeout(() => attachScoreBreakdownListeners(container), 0);
     window.attachVoteListeners(container);
+    if (game) loadDetailHighlights(container, game);
 }
 
 function findGame(gameId) {

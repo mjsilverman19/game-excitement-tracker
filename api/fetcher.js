@@ -48,8 +48,8 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
   if (league === 'nfl' && isNFLPlayoffRound(week)) {
     const roundInfo = NFL_PLAYOFF_ROUNDS[week];
     const espnWeek = roundInfo.espnWeek;
-    // Use seasontype=3 for postseason, no dates param needed
-    url = `${baseUrl}?limit=100&week=${espnWeek}&seasontype=3`;
+    // dates=YYYY pins the season year; without it ESPN returns the current season
+    url = `${baseUrl}?limit=100&week=${espnWeek}&seasontype=3&dates=${season}`;
   }
   // For CFB postseason (bowls or playoffs), fetch all postseason games
   else if (league === 'college-football' && (week === 'bowls' || week === 'playoffs' || seasonType === '3')) {
@@ -60,7 +60,8 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
 
     url = `${baseUrl}?limit=100&seasontype=3&dates=${bowlStartDate}-${bowlEndDate}`;
   } else {
-    url = `${baseUrl}?limit=100&week=${week}&seasontype=${seasonType}`;
+    // dates=YYYY selects that season's week (ESPN defaults to the current season)
+    url = `${baseUrl}?limit=100&week=${week}&seasontype=${seasonType}&dates=${season}`;
   }
 
   const response = await fetch(url);

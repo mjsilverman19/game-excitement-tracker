@@ -1,5 +1,6 @@
 import { getNFLPlayoffRoundKeys } from '../../../shared/algorithm-config.js';
 import { getSeasonInfo } from '../../../shared/season-dates.js';
+import { parseLatestPointer } from '../../../shared/static-latest.js';
 
 export function isDateBasedSport(sport) {
   return sport === 'NBA' || sport === 'MLB';
@@ -138,9 +139,49 @@ async function staticFileExists(sport, season, weekOrDate) {
 
   try {
     const response = await fetch(path, { method: 'HEAD' });
-    return response.ok;
+    if (!response.ok) return false;
+    // SPA fallbacks return 200 HTML for missing paths; only real JSON counts.
+    const contentType = response.headers.get('content-type') || '';
+    return contentType.includes('application/json');
   } catch (e) {
     return false;
+  }
+}
+
+/**
+ * Walk day-by-day from fromDateStr until a static slate with games exists.
+ * direction: -1 previous, +1 next. Returns the date string or null.
+ */
+export async function findAdjacentDateWithData(sport, season, fromDateStr, direction, { maxSteps = 120 } = {}) {
+  if (!fromDateStr || !direction) return null;
+
+  let cursor = parseDate(fromDateStr);
+  for (let step = 0; step < maxSteps; step++) {
+    cursor = addDays(cursor, direction);
+    if (direction > 0 && !canNavigateToDate(cursor)) return null;
+
+    const dateStr = formatDate(cursor);
+    if (await staticFileExists(sport, season, dateStr)) {
+      return dateStr;
+    }
+  }
+
+  return null;
+}
+
+async function readLatestPointer(sport, season) {
+  const sportLower = sport.toLowerCase();
+  const path = `/data/${sportLower}/${season}/latest.json`;
+  try {
+    const response = await fetch(path);
+    if (!response.ok) return null;
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) return null;
+    const data = await response.json();
+    const pointer = parseLatestPointer(data);
+    return pointer ? pointer.period : null;
+  } catch {
+    return null;
   }
 }
 
@@ -165,6 +206,13 @@ function getStaticPath(sport, season, weekOrDate) {
 // last-viewed cache so "Latest" always means the newest games.
 export async function findLatestAvailable(sport, season) {
   console.log(`🔍 findLatestAvailable(${sport}, ${season})`);
+
+  // Prefer the season's latest.json pointer (one request) when present.
+  const fromPointer = await readLatestPointer(sport, season);
+  if (fromPointer != null && await staticFileExists(sport, season, fromPointer)) {
+    console.log(`✅ Using latest pointer → ${fromPointer}`);
+    return { week: fromPointer, fromCache: false };
+  }
 
   // Check for NFL postseason
   if (sport === 'NFL' && isNFLPostseason()) {
@@ -237,7 +285,13 @@ export async function findLatestAvailable(sport, season) {
     const emoji = sport === 'NBA' ? '🏀' : '⚾';
     console.log(`${emoji} ${sport}: Checking backwards from yesterday`);
 
-    for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
+    // Daily for the recent stretch, then every few days through the season so
+    // offseason "Latest" still lands on the last completed slate.
+    const dayOffsets = [];
+    for (let daysAgo = 1; daysAgo <= 21; daysAgo++) dayOffsets.push(daysAgo);
+    for (let daysAgo = 24; daysAgo <= 400; daysAgo += 3) dayOffsets.push(daysAgo);
+
+    for (const daysAgo of dayOffsets) {
       const date = addDays(today, -daysAgo);
       const dateStr = formatDate(date);
 
@@ -248,7 +302,7 @@ export async function findLatestAvailable(sport, season) {
     }
 
     const yesterday = formatDate(addDays(today, -1));
-    console.log(`⚠️ No ${sport} data found in last 7 days, defaulting to ${yesterday}`);
+    console.log(`⚠️ No ${sport} data found in season lookback, defaulting to ${yesterday}`);
     return { week: yesterday, fromCache: false };
   }
 
