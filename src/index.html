@@ -37,25 +37,12 @@
                 <button type="button" class="sport-tab" data-sport="MLB" id="mlbOption">MLB</button>
             </nav>
 
-            <div class="control-row">
-                <div class="control-left">
-                    <div class="segmented" id="rangeControl" role="group" aria-label="Range">
-                        <button type="button" class="segmented-option active" data-range="latest">Latest</button>
-                        <button type="button" class="segmented-option" data-range="current">This week</button>
-                        <button type="button" class="segmented-option" data-range="season">Season</button>
-                    </div>
-                    <div class="team-search" id="teamSearch">
-                        <span class="team-search-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-                        <input type="search" class="team-search-input" id="teamSearchInput" placeholder="Find a team" autocomplete="off" aria-label="Find a team">
-                        <!-- Team Picker Dropdown -->
-                        <div class="team-picker" id="teamPicker">
-                            <div class="team-list" id="teamList">
-                                <!-- Filtered teams appear here -->
-                            </div>
-                        </div>
-                    </div>
+            <div class="page-intro">
+                <div class="page-intro-text">
+                    <h1 class="headline" id="headline">Missed the games?</h1>
+                    <p class="subheadline" id="subheadline">See which were worth watching.</p>
                 </div>
-                <div class="control-right">
+                <div class="control-right" id="periodControls">
                     <div class="stepper" id="periodStepper">
                         <button type="button" class="stepper-btn" id="prevPeriod" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                         <button type="button" class="stepper-label" id="periodLabel" aria-haspopup="dialog"></button>
@@ -104,11 +91,26 @@
                 </div>
             </div>
 
-            <div class="page-intro">
-                <div class="page-intro-text">
-                    <h1 class="headline" id="headline">Missed the games?</h1>
-                    <p class="subheadline" id="subheadline">See which were worth watching.</p>
+            <div id="controlsDock">
+            <div class="control-row" id="discoverControls">
+                <div class="control-left">
+                    <div class="segmented" id="rangeControl" role="group" aria-label="Range">
+                        <button type="button" class="segmented-option active" data-range="latest">Latest</button>
+                        <button type="button" class="segmented-option" data-range="current">This week</button>
+                        <button type="button" class="segmented-option" data-range="season">Season</button>
+                    </div>
+                    <div class="team-search" id="teamSearch">
+                        <span class="team-search-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                        <input type="search" class="team-search-input" id="teamSearchInput" placeholder="Find a team" autocomplete="off" aria-label="Find a team">
+                        <!-- Team Picker Dropdown -->
+                        <div class="team-picker" id="teamPicker">
+                            <div class="team-list" id="teamList">
+                                <!-- Filtered teams appear here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
             </div>
 
             <div id="resultsArea">
@@ -127,52 +129,68 @@
         </div>
 
         <div class="about-content hidden" id="aboutContent">
-            <h1 class="headline">About</h1>
+            <div class="page-intro">
+                <div class="page-intro-text">
+                    <h1 class="headline">About the Game Entertainment Index</h1>
+                    <p class="subheadline">Find the games worth watching — without seeing the score.</p>
+                </div>
+            </div>
             <div class="about-body">
                 <section class="about-section">
-                    <h3>Who am I?</h3>
-                    <p>I'm Matthew Silverman. I work in financial communications in New York.</p>
+                    <p>The Game Entertainment Index (GEI) rates completed games from 0 to 10 based on how the action unfolded. It helps you decide what to watch when you couldn’t catch it live.</p>
+                    <p>A final score rarely tells the whole story. A 24-21 game might be a back-and-forth thriller or a blowout narrowed in garbage time. GEI uses ESPN win probability data to distinguish between them, measuring how competitive, eventful and dramatic a game was.</p>
                 </section>
 
                 <section class="about-section">
-                    <h3>What is this?</h3>
-                    <p>I built this site to solve a problem I kept running into as a sports fan: how do you know which past games are worth watching without seeing the score?</p>
-                    <p>The site pulls win probability data from ESPN and runs it through an algorithm. Win probability graphs contain information that final scores don't. A 24-21 game could be a back-and-forth thriller or a blowout that got close in garbage time. The model tries to tell the difference.</p>
-                </section>
-
-                <section class="about-section">
-                    <h3>How it works</h3>
-                    <p>The algorithm analyzes win probability data across three independent dimensions:</p>
+                    <h3>How the ratings work</h3>
+                    <p>GEI combines three dimensions into a single rating:</p>
 
                     <table class="about-table">
                         <thead>
                             <tr>
-                                <th>Metric</th>
+                                <th>Dimension</th>
                                 <th>Weight</th>
-                                <th>Description</th>
+                                <th>What it measures</th>
                             </tr>
                         </thead>
-                        <tbody id="algorithmMetricsTable">
-                            <!-- Populated dynamically from ALGORITHM_CONFIG -->
+                        <tbody>
+                            <tr>
+                                <td>Tension</td>
+                                <td>20%</td>
+                                <td>Sustained uncertainty, including close competition and the potential for a comeback.</td>
+                            </tr>
+                            <tr>
+                                <td>Drama</td>
+                                <td>45%</td>
+                                <td>Momentum swings and changes in each team’s chances of winning.</td>
+                            </tr>
+                            <tr>
+                                <td>Finish</td>
+                                <td>35%</td>
+                                <td>How much uncertainty and drama remained in the closing stages.</td>
+                            </tr>
                         </tbody>
                     </table>
 
-                    <p>These weights reflect what makes games entertaining: big momentum swings and dramatic endings matter more than sustained closeness alone. A boring first three quarters followed by a dramatic finish is more watchable than a close game that gets decided early in the fourth.</p>
+                    <p>The weighting puts more emphasis on momentum swings and the finish than on sustained closeness. It reflects an editorial judgment: A game’s biggest turns and decisive moments often make it worth revisiting.</p>
+                    <p>Scores stay hidden by default, so you can choose a game without learning the result.</p>
                 </section>
 
                 <section class="about-section">
-                    <h3>Flaws in this approach</h3>
-                    <p>This model reflects one definition of entertaining: competitive games with meaningful swings and late drama. It won't flag a defensive masterpiece, a historic individual performance, or a rivalry game that matters for reasons the data can't see.</p>
-                    <p>Which raises interesting questions on its own. What makes something worth watching? Can you quantify it? Where does the model fail, and what does that reveal about what we actually value? I don't have great answers but am open to any thoughts.</p>
+                    <h3>What the ratings capture — and what they miss</h3>
+                    <p>GEI measures a particular kind of entertainment: competitive uncertainty, shifting momentum and dramatic endings.</p>
+                    <p>It doesn’t fully capture exceptional individual performances, tactical brilliance, rivalry stakes or the significance of a historic moment. A low-rated game may still be essential viewing for a particular fan.</p>
+                    <p>Treat the ratings as a guide. Their usefulness depends on the underlying data and how closely this definition of entertainment matches your own.</p>
                 </section>
 
                 <section class="about-section">
-                    <h3>Feedback & contact</h3>
-                    <p>This is a hobby project and a work in progress. If you have suggestions, see something broken, or want to discuss the methodology, I'd love to hear from you.</p>
+                    <h3>Behind the project</h3>
+                    <p>GEI is an independent project created by Matthew Silverman, a sports fan working in financial communications in New York.</p>
+                    <p>Feedback helps refine the model. If a rating feels wrong, you spot a problem or you have an idea for improving the site, get in touch.</p>
                     <p>
-                        <a href="mailto:mjsilverman19@gmail.com">mjsilverman19@gmail.com</a> ·
+                        <a href="mailto:mjsilverman19@gmail.com">Email Matthew</a> ·
                         <a href="https://www.linkedin.com/in/matthew-silverman-a84382105/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
-                        <a href="https://buymeacoffee.com/msilverman" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+                        <a href="https://buymeacoffee.com/msilverman" target="_blank" rel="noopener noreferrer">Support the project</a>
                     </p>
                 </section>
             </div>

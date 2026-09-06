@@ -9,6 +9,14 @@ import { getCurrentWeek, getDefaultNBADate, formatDate, addDays, parseDate, isDa
 const TOP_GAMES_COUNT = 10;
 
 /**
+ * Opening day for date-based sports (aligned with export / static generator).
+ */
+function getDateSeasonStart(sport, season) {
+    if (sport === 'MLB') return parseDate(`${season}-03-20`);
+    return parseDate(`${season}-10-01`); // NBA
+}
+
+/**
  * Get range presets for each sport
  */
 export function getRangePresets(sport) {
@@ -17,6 +25,7 @@ export function getRangePresets(sport) {
             { label: 'last 7 days', value: 'last-7', count: 7 },
             { label: 'last 14 days', value: 'last-14', count: 14 },
             { label: 'last 30 days', value: 'last-30', count: 30 },
+            { label: 'full season', value: 'full', count: null },
         ];
     } else {
         return [
@@ -32,8 +41,18 @@ export function getRangePresets(sport) {
  */
 function getPeriodsToFetch(sport, season, preset) {
     if (isDateBasedSport(sport)) {
-        const startDate = parseDate(getDefaultNBADate());
         const dates = [];
+        if (preset.value === 'full') {
+            const end = parseDate(getDefaultNBADate());
+            let cursor = getDateSeasonStart(sport, season);
+            while (cursor <= end) {
+                dates.push(formatDate(cursor));
+                cursor = addDays(cursor, 1);
+            }
+            return dates;
+        }
+
+        const startDate = parseDate(getDefaultNBADate());
         for (let i = 0; i < preset.count; i++) {
             dates.push(formatDate(addDays(startDate, -i)));
         }
@@ -73,83 +92,73 @@ function formatContext(sport, period) {
 }
 
 /**
+ * Fetch games for one period (week or date). Full-season scans stay on static
+ * files so off-days don't trigger hundreds of API calls.
+ */
+async function fetchPeriodGames(sport, season, period, { allowApi }) {
+    try {
+        const staticData = await fetchStaticData(sport, season, period);
+        if (staticData && staticData.success && staticData.games) {
+            return staticData.games.map(game => {
+                game._topGamesContext = formatContext(sport, period);
+                return game;
+            });
+        }
+
+        if (!allowApi) return [];
+
+        let requestBody;
+        if (isDateBasedSport(sport)) {
+            requestBody = { sport, date: period };
+        } else {
+            requestBody = { sport, season, week: period, seasonType: '2' };
+        }
+
+        const response = await fetch('/api/games', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+        const data = await response.json();
+
+        if (data.success && data.games) {
+            return data.games.map(game => {
+                game._topGamesContext = formatContext(sport, period);
+                return game;
+            });
+        }
+    } catch (error) {
+        console.error(`Error fetching period ${period}:`, error);
+    }
+    return [];
+}
+
+/**
  * Fetch top games across a time range
  */
 async function fetchTopGames(sport, season, preset) {
     const periods = getPeriodsToFetch(sport, season, preset);
     const allGames = [];
+    const allowApi = !(preset.value === 'full' && isDateBasedSport(sport));
+    const chunkSize = preset.value === 'full' && isDateBasedSport(sport) ? 20 : 1;
 
-    for (let i = 0; i < periods.length; i++) {
-        const period = periods[i];
+    for (let i = 0; i < periods.length; i += chunkSize) {
+        const chunk = periods.slice(i, i + chunkSize);
+        window.showLoading(`finding top games... (${Math.min(i + chunk.length, periods.length)}/${periods.length})`);
 
-        window.showLoading(`finding top games... (${i + 1}/${periods.length})`);
+        const results = await Promise.all(
+            chunk.map(period => fetchPeriodGames(sport, season, period, { allowApi }))
+        );
+        results.forEach(games => allGames.push(...games));
 
-        try {
-            const staticData = await fetchStaticData(sport, season, period);
-            if (staticData && staticData.success && staticData.games) {
-                staticData.games.forEach(game => {
-                    game._topGamesContext = formatContext(sport, period);
-                    allGames.push(game);
-                });
-            } else {
-                // Fall back to API
-                let requestBody;
-                if (isDateBasedSport(sport)) {
-                    requestBody = { sport, date: period };
-                } else {
-                    requestBody = { sport, season, week: period, seasonType: '2' };
-                }
-
-                const response = await fetch('/api/games', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody)
-                });
-                const data = await response.json();
-
-                if (data.success && data.games) {
-                    data.games.forEach(game => {
-                        game._topGamesContext = formatContext(sport, period);
-                        allGames.push(game);
-                    });
-                }
-            }
-        } catch (error) {
-            console.error(`Error fetching period ${period}:`, error);
-        }
-
-        // Small delay between fetches to avoid hammering the server
-        if (i < periods.length - 1) {
+        // Small delay between short-range fetches to avoid hammering the API
+        if (allowApi && i + chunkSize < periods.length) {
             await new Promise(resolve => setTimeout(resolve, 50));
         }
     }
 
     allGames.sort((a, b) => (b.excitement || 0) - (a.excitement || 0));
     return allGames.slice(0, TOP_GAMES_COUNT);
-}
-
-/**
- * Populate range preset buttons
- */
-function populateTopGamesPresets(sport, activeIndex = 0) {
-    const presetsContainer = document.getElementById('topGamesPresets');
-    const presets = getRangePresets(sport);
-
-    presetsContainer.innerHTML = '';
-    presets.forEach((preset, index) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'segmented-option';
-        if (index === activeIndex) btn.classList.add('active');
-        btn.textContent = preset.label;
-        btn.dataset.index = index;
-        btn.addEventListener('click', () => {
-            presetsContainer.querySelectorAll('.segmented-option').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            loadTopGamesForPreset(window.selectedSport, window.selectedSeason, preset);
-        });
-        presetsContainer.appendChild(btn);
-    });
 }
 
 /**
@@ -200,7 +209,9 @@ function displayTopGamesResults(games, rangeLabel) {
 
     html += window.renderRankings(games, { mode: 'top-games', tableHeading: `More from ${rangeLabel}` });
 
+    if (typeof window.placeDiscoverControls === 'function') window.placeDiscoverControls('dock');
     resultsArea.innerHTML = html;
+    if (typeof window.placeDiscoverControls === 'function') window.placeDiscoverControls('rankings');
 
     window.rerenderResults = () => displayTopGamesResults(games, rangeLabel);
 
@@ -228,14 +239,13 @@ export function openTopGames(scope = 'season') {
     window.viewMode = 'top-games';
     window.isLoading = false;
 
-    // Presets take the stepper's place in the control row
+    // Keep the upper-right clear — range is chosen via Latest / This week / Season
     document.getElementById('periodStepper').hidden = true;
-    document.getElementById('topGamesSelector').hidden = false;
+    document.getElementById('topGamesSelector').hidden = true;
     window.updateUI();
 
     const presets = getRangePresets(window.selectedSport);
     const index = scope === 'week' ? 0 : presets.length - 1;
-    populateTopGamesPresets(window.selectedSport, index);
     loadTopGamesForPreset(window.selectedSport, window.selectedSeason, presets[index]);
 }
 
