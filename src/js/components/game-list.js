@@ -8,8 +8,13 @@ const SPORT_LABELS = {
     NFL: 'NFL',
     CFB: 'College Football',
     NBA: 'NBA',
-    MLB: 'MLB',
-    CBB: 'College Basketball'
+    MLB: 'MLB'
+};
+
+// Home team's stadium photo for the hero card background, keyed by `${sport}-${homeAbbr}`.
+// Teams without a photo fall back to the generated sport artwork.
+const STADIUM_IMAGES = {
+    'MLB-LAD': '/images/stadiums/mlb-lad.jpg'
 };
 
 const NFL_ROUND_SHORT = {
@@ -115,8 +120,12 @@ function finalScoreText(game) {
 }
 
 function recapUrl(game) {
-    const paths = { NFL: 'nfl', CFB: 'college-football', NBA: 'nba', MLB: 'mlb', CBB: 'mens-college-basketball' };
+    const paths = { NFL: 'nfl', CFB: 'college-football', NBA: 'nba', MLB: 'mlb' };
     return `https://www.espn.com/${paths[window.selectedSport] || 'nfl'}/game/_/gameId/${game.id}`;
+}
+
+function stadiumImage(game) {
+    return STADIUM_IMAGES[`${window.selectedSport}-${game.homeAbbr}`] || null;
 }
 
 function saveButton(game, variant) {
@@ -153,9 +162,13 @@ export function renderHeroCard(game, index = 0, options = {}) {
     const tier = tierFor(game);
     const context = contextLabel(game);
     const finalText = finalScoreText(game);
+    const stadium = stadiumImage(game);
+    const background = stadium
+        ? `<div class="hero-stadium" style="background-image:url('${escapeHtml(stadium)}')"></div><div class="hero-scrim"></div>`
+        : heroArt(window.selectedSport);
     return `
         <section class="hero-card" data-game-id="${game.id}">
-            ${heroArt(window.selectedSport)}
+            ${background}
             <div class="hero-body">
                 <div class="hero-eyebrow">${heroEyebrow(game, index, options)}${context ? ` · ${escapeHtml(context)}` : ''}</div>
                 <div class="hero-matchup">

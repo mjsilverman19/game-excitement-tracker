@@ -20,6 +20,10 @@
       "destination": "/public/data/:path*"
     },
     {
+      "source": "/images/:path*",
+      "destination": "/public/images/:path*"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/:path*"
     },
@@ -48,6 +52,15 @@
         {
           "key": "X-Cache-Note",
           "value": "1hr cache allows regenerated static data to propagate within reasonable time"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, immutable"
         }
       ]
     }

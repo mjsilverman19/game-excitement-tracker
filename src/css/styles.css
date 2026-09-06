@@ -6,8 +6,7 @@
 
         /* ==========================================================
            Design tokens
-           Light is the default. Dark is derived from the same palette:
-           cream ground, forest green primary, rust for "skip".
+           Cream ground, forest green primary, rust for "skip".
            ========================================================== */
         :root {
             color-scheme: light;
@@ -64,41 +63,6 @@
             /* Layout */
             --page-max-width: 1120px;
             --page-padding: 40px;
-        }
-
-        [data-theme="dark"] {
-            color-scheme: dark;
-
-            --bg-primary: #121a15;
-            --bg-elevated: #182219;
-            --bg-hover: #1f2b23;
-            --bg-active: #28362d;
-            --bg-active-alt: #344439;
-            --bg-hero: #1f3d2e;
-
-            --text-primary: #eeeae1;
-            --text-secondary: #a8ada6;
-            --text-muted: #757b76;
-            --text-on-hero: #f6f4ee;
-            --text-on-hero-muted: rgba(246, 244, 238, 0.72);
-
-            --border-primary: #34413a;
-            --border-secondary: #24302a;
-
-            --color-primary: #8fc4a2;
-            --color-primary-hover: #a4d3b5;
-            --color-primary-contrast: #121a15;
-            --color-danger: #e0735c;
-
-            --accent-must-watch: #8fc4a2;
-            --accent-recommended: #7fae8c;
-            --accent-skip: #d48a6e;
-            --accent-average: #a99bc6;
-
-            --shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
-            --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6);
-            --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
-            --overlay: rgba(0, 0, 0, 0.6);
         }
 
         html {
@@ -209,15 +173,6 @@
             text-decoration: underline;
             text-underline-offset: 6px;
             text-decoration-thickness: 1.5px;
-        }
-
-        .theme-toggle {
-            font-family: var(--font-body);
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
         }
 
         /* ==========================================================
@@ -445,22 +400,6 @@
 
         .stepper-label:hover {
             background: var(--bg-hover);
-        }
-
-        .text-button {
-            background: none;
-            border: none;
-            padding: 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--color-primary);
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            cursor: pointer;
-        }
-
-        .text-button:hover {
-            color: var(--color-primary-hover);
         }
 
         /* ==========================================================
@@ -1033,6 +972,21 @@
             color: var(--text-on-hero);
             opacity: 0.8;
             pointer-events: none;
+        }
+
+        /* Home team's stadium photo, when we have one, replaces .hero-art behind the card */
+        .hero-stadium {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-scrim {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(100deg, rgba(31, 61, 46, 0.94) 0%, rgba(31, 61, 46, 0.86) 46%, rgba(31, 61, 46, 0.42) 100%);
         }
 
         .hero-body {
@@ -2449,160 +2403,4 @@
             color: var(--color-danger);
             margin-top: 12px;
             line-height: 1.5;
-        }
-
-        /* ===== March Madness Bracket ===== */
-
-        .bracket-back {
-            margin-bottom: 24px;
-        }
-
-        .bracket-back-link {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-decoration: underline;
-            letter-spacing: 0.05em;
-        }
-
-        .bracket-back-link:hover {
-            color: var(--text-primary);
-        }
-
-        .bracket-container {
-            display: flex;
-            gap: 24px;
-            overflow-x: auto;
-            padding-bottom: 16px;
-        }
-
-        .bracket-round {
-            min-width: 200px;
-            flex-shrink: 0;
-        }
-
-        .bracket-round-header {
-            font-family: var(--font-display);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.01em;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-secondary);
-        }
-
-        .bracket-round-games {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .bracket-region-label {
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 8px;
-            margin-bottom: 4px;
-        }
-
-        .bracket-region-label:first-child {
-            margin-top: 0;
-        }
-
-        .bracket-matchup {
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-secondary);
-            border-radius: var(--radius-sm);
-            position: relative;
-            padding-right: 40px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .bracket-matchup:hover {
-            border-color: var(--border-primary);
-        }
-
-        .bracket-team {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 8px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            transition: all 150ms ease;
-        }
-
-        .bracket-team:first-child {
-            border-bottom: 1px solid var(--border-secondary);
-        }
-
-        .bracket-team.winner {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .bracket-seed {
-            font-size: 10px;
-            color: var(--text-muted);
-            min-width: 22px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .bracket-name {
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .bracket-team-score {
-            font-size: 12px;
-            font-variant-numeric: tabular-nums;
-            min-width: 20px;
-            text-align: right;
-        }
-
-        .bracket-gei {
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 36px;
-            font-family: var(--font-display);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 600;
-            border-left: 1px solid var(--border-secondary);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .bracket-gei.must-watch {
-            color: var(--accent-must-watch);
-        }
-
-        .bracket-gei.recommended {
-            color: var(--accent-recommended);
-        }
-
-        .bracket-gei.skip {
-            color: var(--text-muted);
-        }
-
-        /* Bracket responsive */
-        @media (max-width: 768px) {
-            .bracket-container {
-                flex-direction: column;
-                gap: 32px;
-            }
-
-            .bracket-round {
-                min-width: unset;
-                width: 100%;
-            }
         }

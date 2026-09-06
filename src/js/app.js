@@ -13,7 +13,6 @@ import {
     updateDateNavigation
 } from './utils/dates.js';
 import { loadGames } from './services/api.js';
-import { openBracketView, closeBracketView } from './components/bracket.js';
 import { displayResults, calculatePeriodAverages, createGameRow, renderRankings, attachRadarChartListeners } from './components/game-list.js';
 import { renderRadarChart, attachMetricHoverListeners } from './components/radar-chart.js';
 import { populateCustomDatePicker } from './components/date-picker.js';
@@ -60,9 +59,6 @@ window.getTier = getTier;
         window.isLoading = false;
         window.isInitialLoad = true; // Track if this is the first load to enable auto-fallback
 
-        // Theme state
-        window.currentTheme = localStorage.getItem('theme') || 'light';
-
         // Team lookup state
         window.viewMode = 'week'; // 'week' | 'schedule' | 'single-game'
         window.selectedTeam = null;
@@ -77,7 +73,6 @@ window.getTier = getTier;
             // Initialize Supabase (async, won't block UI)
             initSupabase(); // Fire and forget
 
-            updateThemeToggleText();
             updateSpoilerControl();
             updateSavedCount();
             attachEventListeners();
@@ -171,8 +166,7 @@ window.getTier = getTier;
             NFL: 'football',
             CFB: 'college football',
             NBA: 'basketball',
-            MLB: 'baseball',
-            CBB: 'college basketball'
+            MLB: 'baseball'
         };
 
         function updateIntro() {
@@ -200,37 +194,14 @@ window.getTier = getTier;
             window.scrollTo(0, 0);
         }
 
-        // Theme Toggle Functions
-        function toggleTheme() {
-            window.currentTheme = window.currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', window.currentTheme);
-            localStorage.setItem('theme', window.currentTheme);
-            updateThemeToggleText();
-        }
-
-        function updateThemeToggleText() {
-            const themeToggle = document.getElementById('themeToggle');
-            if (themeToggle) {
-                themeToggle.textContent = window.currentTheme === 'dark' ? 'Light' : 'Dark';
-            }
-        }
-
         // Update UI elements
         function updateUI() {
             updateIntro();
 
             // Update sport tabs
-            ['NFL', 'CFB', 'NBA', 'MLB', 'CBB'].forEach(sport => {
+            ['NFL', 'CFB', 'NBA', 'MLB'].forEach(sport => {
                 document.getElementById(`${sport.toLowerCase()}Option`).classList.toggle('active', window.selectedSport === sport);
             });
-
-            // March Madness link only for CBB
-            const bracketLink = document.getElementById('bracketLink');
-            const isCBB = window.selectedSport === 'CBB';
-            bracketLink.hidden = !isCBB;
-            if (isCBB) {
-                bracketLink.textContent = window.viewMode === 'bracket' ? 'Back to dates' : 'March Madness';
-            }
 
             // Stepper shows the selected period unless top games is open
             const inTopGames = window.viewMode === 'top-games';
@@ -468,20 +439,9 @@ window.getTier = getTier;
                 btn.addEventListener('click', () => setSpoilerMode(btn.dataset.mode));
             });
 
-            // March Madness bracket link
-            document.getElementById('bracketLink').addEventListener('click', (e) => {
-                e.preventDefault();
-                if (window.viewMode === 'bracket') {
-                    closeBracketView();
-                } else {
-                    openBracketView();
-                }
-            });
-
             // Period label opens the week or date picker
             document.getElementById('periodLabel').addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (window.viewMode === 'bracket') return;
                 const isDate = isDateBasedSport(window.selectedSport);
                 const picker = document.getElementById(isDate ? 'customDatePicker' : 'weekPicker');
                 const other = document.getElementById(isDate ? 'weekPicker' : 'customDatePicker');
@@ -535,12 +495,6 @@ window.getTier = getTier;
             document.getElementById('homeLink').addEventListener('click', (e) => {
                 e.preventDefault();
                 showView('discover');
-            });
-
-            // Theme toggle
-            document.getElementById('themeToggle').addEventListener('click', (e) => {
-                e.preventDefault();
-                toggleTheme();
             });
 
             // Team search
@@ -702,8 +656,6 @@ window.getTier = getTier;
         window.closeExportModal = closeExportModal;
         window.openTopGames = openTopGames;
         window.closeTopGames = closeTopGames;
-        window.openBracketView = openBracketView;
-        window.closeBracketView = closeBracketView;
         window.loadGames = loadGames;
         window.showLoading = showLoading;
         window.showEmpty = showEmpty;

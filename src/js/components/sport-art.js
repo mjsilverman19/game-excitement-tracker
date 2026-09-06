@@ -1,7 +1,8 @@
 /**
  * Decorative sport artwork for the hero card.
- * Inline SVG drawn in currentColor so it inherits the card's text color
- * and works in both themes. Everything is generated, no image assets.
+ * Inline SVG drawn in currentColor so it inherits the card's text color.
+ * Everything is generated; teams with a real stadium photo use that instead
+ * (see STADIUM_IMAGES in game-list.js).
  *
  * The baseball seam is the reference: a long double seam sweeping down
  * the right of the card with dense V-shaped stitches, the way the
@@ -112,6 +113,6 @@ function basketballArt() {
  */
 export function heroArt(sport) {
     if (sport === 'MLB') return baseballArt();
-    if (sport === 'NBA' || sport === 'CBB') return basketballArt();
+    if (sport === 'NBA') return basketballArt();
     return footballArt();
 }

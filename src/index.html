@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Entertainment Index</title>
-    <meta name="description" content="Ranks NFL, CFB, NBA, MLB, and CBB games by entertainment value using win probability data. Find the best games to watch without spoilers.">
+    <meta name="description" content="Ranks NFL, CFB, NBA, and MLB games by entertainment value using win probability data. Find the best games to watch without spoilers.">
     <meta name="author" content="Matthew Silverman">
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,13 +14,6 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <!-- Supabase client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Prevent flash of wrong theme by setting theme before CSS loads
-        (function() {
-            const theme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -34,7 +27,6 @@
                 <a href="#" class="site-nav-link active" id="discoverLink">Discover</a>
                 <a href="#" class="site-nav-link" id="savedLink">Saved games <span class="nav-count" id="savedCount" hidden>0</span></a>
                 <a href="#" class="site-nav-link" id="aboutLink">About</a>
-                <button type="button" class="site-nav-link theme-toggle" id="themeToggle">Dark</button>
             </nav>
         </header>
 
@@ -44,7 +36,6 @@
                 <button type="button" class="sport-tab" data-sport="CFB" id="cfbOption">CFB</button>
                 <button type="button" class="sport-tab" data-sport="NBA" id="nbaOption">NBA</button>
                 <button type="button" class="sport-tab active" data-sport="MLB" id="mlbOption">MLB</button>
-                <button type="button" class="sport-tab" data-sport="CBB" id="cbbOption">CBB</button>
             </nav>
 
             <div class="control-row">
@@ -111,7 +102,6 @@
                             <!-- Preset buttons populated by JS -->
                         </div>
                     </div>
-                    <button type="button" class="text-button" id="bracketLink" hidden>March Madness</button>
                 </div>
             </div>
 
@@ -230,7 +220,6 @@
                     <option value="CFB">CFB</option>
                     <option value="NBA">NBA</option>
                     <option value="MLB">MLB</option>
-                    <option value="CBB">CBB</option>
                 </select>
             </div>
 
