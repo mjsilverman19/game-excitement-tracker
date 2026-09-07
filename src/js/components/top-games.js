@@ -197,19 +197,8 @@ async function loadTopGamesForPreset(sport, season, preset) {
 function displayTopGamesResults(games, rangeLabel) {
     const resultsArea = document.getElementById('resultsArea');
 
-    const stats = {
-        mustWatch: games.filter(g => window.getTier(g.excitement || 0, window.selectedSport)?.cssClass === 'must-watch').length,
-        recommended: games.filter(g => window.getTier(g.excitement || 0, window.selectedSport)?.cssClass === 'recommended').length,
-        skip: games.filter(g => window.getTier(g.excitement || 0, window.selectedSport)?.cssClass === 'skip').length
-    };
-
-    let html = '';
-
-    html += `<div class="statistics-line">
-        top ${games.length} games · ${rangeLabel} ·
-        <span class="stat-number">${stats.mustWatch}</span> must watch ·
-        <span class="stat-number">${stats.recommended}</span> recommended ·
-        <span class="stat-number">${stats.skip}</span> skip
+    let html = `<div class="statistics-line">
+        top ${games.length} games · ${rangeLabel}
     </div>`;
 
     html += window.renderRankings(games, { mode: 'top-games', tableHeading: `More from ${rangeLabel}` });
