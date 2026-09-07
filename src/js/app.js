@@ -7,6 +7,7 @@ import {
     findAdjacentDateWithData,
     findLatestAvailable,
     formatDate,
+    formatDisplayDate,
     getCurrentWeek,
     getDefaultNBADate,
     isDateBasedSport,
@@ -249,8 +250,6 @@ window.getTier = getTier;
                 if (!found) return;
 
                 window.selectedDate = found;
-                // Allow loadGames empty-day fallback when stepping into API dates / off days
-                window.isInitialLoad = true;
                 markCustomRange();
                 updateUI();
                 loadGames();
@@ -275,8 +274,6 @@ window.getTier = getTier;
                 if (!found) return;
 
                 window.selectedDate = found;
-                // Allow loadGames empty-day fallback when stepping into API dates / off days
-                window.isInitialLoad = true;
                 markCustomRange();
                 updateUI();
                 loadGames();
@@ -508,7 +505,9 @@ window.getTier = getTier;
 
             if (!loadingMessage) {
                 if (isDateBasedSport(window.selectedSport)) {
-                    const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
+                    // parseDate keeps this on local midnight; `new Date('YYYY-MM-DD')`
+                    // is UTC midnight and names the prior day in US timezones.
+                    const dateObj = window.selectedDate ? parseDate(window.selectedDate) : addDays(new Date(), -1);
                     const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     loadingMessage = `loading ${monthShort[dateObj.getMonth()]} ${dateObj.getDate()}...`;
                 } else if (window.selectedWeek === 'bowls') {
@@ -534,10 +533,8 @@ window.getTier = getTier;
         function showEmpty(message = null) {
             if (!message) {
                 if (isDateBasedSport(window.selectedSport)) {
-                    const dateObj = window.selectedDate ? new Date(window.selectedDate) : new Date(new Date().getTime() - 24*60*60*1000);
-                    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                        'July', 'August', 'September', 'October', 'November', 'December'];
-                    message = `No games found for ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}.`;
+                    const dateStr = window.selectedDate || formatDate(addDays(new Date(), -1));
+                    message = `No games found for ${formatDisplayDate(dateStr)}.`;
                 } else if (window.selectedWeek === 'bowls') {
                     message = `No completed bowl games yet for the ${window.selectedSeason} season.`;
                 } else if (window.selectedWeek === 'playoffs') {
