@@ -1,4 +1,4 @@
-import { setCache, isDateBasedSport, parseDate, addDays, formatDate, formatDisplayDate, findPreviousDateWithGames } from '../utils/dates.js';
+import { setCache, isDateBasedSport, parseDate, addDays, formatDate, findPreviousDateWithGames } from '../utils/dates.js';
 
 // Helper: Determine if we should try the static file before the API
 export function shouldUseStatic(sport, season, weekOrDate) {
@@ -60,23 +60,6 @@ export async function fetchStaticData(sport, season, weekOrDate) {
     }
 }
 
-/**
- * After a fallback walk, say which date was asked for and which one is shown.
- * Cleared when the requested date is the one that loaded.
- */
-function resolveFallbackNotice() {
-    const requested = window.dateFallbackFrom;
-    window.dateFallbackFrom = null;
-
-    if (!requested || !isDateBasedSport(window.selectedSport) || requested === window.selectedDate) {
-        window.dateFallbackNotice = null;
-        return;
-    }
-
-    window.dateFallbackNotice =
-        `No completed games on ${formatDisplayDate(requested)}. Showing ${formatDisplayDate(window.selectedDate)}.`;
-}
-
 // Load games
 export async function loadGames(fallbackAttempt = 0) {
     const loadId = Math.random().toString(36).substr(2, 9);
@@ -89,7 +72,6 @@ export async function loadGames(fallbackAttempt = 0) {
     // Set loading immediately to prevent race conditions
     window.isLoading = true;
     window.periodAverages = null;
-    window.dateFallbackNotice = null;
     if (fallbackAttempt === 0) window.dateFallbackFrom = null;
 
     // Add small delay to ensure this sticks before any other calls
@@ -118,7 +100,7 @@ export async function loadGames(fallbackAttempt = 0) {
                 window.currentGames = staticData.games;
                 console.log(`📊 [${loadId}] window.currentGames set to:`, window.currentGames.length, 'games');
                 console.log(`🎯 [${loadId}] About to call displayResults()`);
-                resolveFallbackNotice();
+                window.dateFallbackFrom = null;
                 window.displayResults();
 
                 // Cache successful load
@@ -164,7 +146,7 @@ export async function loadGames(fallbackAttempt = 0) {
         if (data.success && data.games && data.games.length > 0) {
             console.log(`✅ Loaded ${data.games.length} games from API`);
             window.currentGames = data.games;
-            resolveFallbackNotice();
+            window.dateFallbackFrom = null;
             window.displayResults();
 
             // Cache successful API load

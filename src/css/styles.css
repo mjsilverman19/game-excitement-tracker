@@ -2223,16 +2223,6 @@
             }
         }
 
-        /* Date fallback notice: shown when the requested day had no games */
-        .fallback-notice {
-            font-size: 13px;
-            color: var(--text-muted);
-            border-left: 2px solid var(--bg-active-alt);
-            padding-left: 10px;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
         /* Empty State */
         .empty-state {
             padding: 60px 0;
