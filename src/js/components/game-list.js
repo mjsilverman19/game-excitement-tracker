@@ -536,7 +536,12 @@ export function displayResults() {
         skip: sortedGames.filter(g => tierFor(g).cssClass === 'skip').length
     };
 
-    let html = `<div class="statistics-line">
+    let html = '';
+    if (window.dateFallbackNotice) {
+        html += `<div class="fallback-notice">${window.dateFallbackNotice}</div>`;
+    }
+
+    html += `<div class="statistics-line">
         <span class="stat-number">${sortedGames.length}</span> games ·
         <span class="stat-number">${stats.mustWatch}</span> must watch ·
         <span class="stat-number">${stats.recommended}</span> recommended ·

@@ -24,6 +24,19 @@ export function parseDate(dateString) {
   return new Date(year, month - 1, day);
 }
 
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * Human-readable form of a YYYY-MM-DD string or Date, parsed at local
+ * midnight. `new Date('YYYY-MM-DD')` is UTC midnight and renders the prior
+ * day in US timezones, so callers must not use it for display.
+ */
+export function formatDisplayDate(dateOrString) {
+  const date = typeof dateOrString === 'string' ? parseDate(dateOrString) : dateOrString;
+  return `${MONTH_NAMES[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
 export function isToday(date) {
   const today = new Date();
   return formatDate(date) === formatDate(today);
@@ -56,12 +69,10 @@ export function updateDateNavigation() {
   if (!isDateBasedSport(window.selectedSport) || !window.selectedDate) return;
 
   const currentDate = parseDate(window.selectedDate);
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'];
 
   const label = document.getElementById('periodLabel');
   if (label) {
-    label.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+    label.textContent = formatDisplayDate(currentDate);
   }
 
   const nextButton = document.getElementById('nextPeriod');
@@ -152,17 +163,23 @@ async function staticFileExists(sport, season, weekOrDate) {
  * Walk day-by-day from fromDateStr until a static slate with games exists.
  * direction: -1 previous, +1 next. Returns the date string or null.
  *
- * When no static file is found within maxSteps, falls back to the next
+ * When no static file is found within the walk, falls back to the next
  * calendar day in that direction so the caller can load via the live API.
- * Forward steps still refuse future dates.
+ * Only the immediate step is refused when it lands in the future: today has
+ * no static file by design (the generator only writes completed days), so
+ * stepping forward onto today must hand off to the API rather than give up.
  */
 export async function findAdjacentDateWithData(sport, season, fromDateStr, direction, { maxSteps = 14 } = {}) {
   if (!fromDateStr || !direction) return null;
 
+  const immediate = addDays(parseDate(fromDateStr), direction);
+  if (direction > 0 && !canNavigateToDate(immediate)) return null;
+
   let cursor = parseDate(fromDateStr);
   for (let step = 0; step < maxSteps; step++) {
     cursor = addDays(cursor, direction);
-    if (direction > 0 && !canNavigateToDate(cursor)) return null;
+    // Stop the static walk at today; the caller loads it from the live API.
+    if (direction > 0 && !canNavigateToDate(cursor)) break;
 
     const dateStr = formatDate(cursor);
     if (await staticFileExists(sport, season, dateStr)) {
@@ -171,9 +188,26 @@ export async function findAdjacentDateWithData(sport, season, fromDateStr, direc
   }
 
   // No nearby static slate — step one calendar day and let loadGames use the API.
-  const fallback = addDays(parseDate(fromDateStr), direction);
-  if (direction > 0 && !canNavigateToDate(fallback)) return null;
-  return formatDate(fallback);
+  return formatDate(immediate);
+}
+
+/**
+ * Newest slate with games at or before fromDateStr. Tries the short day-by-day
+ * walk first, then the season's latest pointer, which is what reaches back to
+ * the previous season during an offseason. Returns the previous calendar day
+ * when neither turns one up, so a caller stepping through API-served dates
+ * still makes progress.
+ */
+export async function findPreviousDateWithGames(sport, season, fromDateStr) {
+  const walked = await findAdjacentDateWithData(sport, season, fromDateStr, -1);
+  if (walked && await staticFileExists(sport, season, walked)) return walked;
+
+  const pointer = await readLatestPointer(sport, season);
+  if (pointer && pointer < fromDateStr && await staticFileExists(sport, season, pointer)) {
+    return pointer;
+  }
+
+  return walked;
 }
 
 async function readLatestPointer(sport, season) {
@@ -213,6 +247,18 @@ function getStaticPath(sport, season, weekOrDate) {
 // last-viewed cache so "Latest" always means the newest games.
 export async function findLatestAvailable(sport, season) {
   console.log(`🔍 findLatestAvailable(${sport}, ${season})`);
+
+  if (isDateBasedSport(sport)) {
+    const emoji = sport === 'NBA' ? '🏀' : '⚾';
+    const today = formatDate(new Date());
+
+    // Today is never published — the generator writes a day only once it is
+    // complete — so "latest" starts on today and reads it from the live API.
+    // A day with nothing final yet costs one cheap request, and loadGames
+    // falls back to the newest published slate from there.
+    console.log(`${emoji} ${sport}: Starting at today (${today}); loadGames falls back if nothing is final`);
+    return { week: today, fromCache: false };
+  }
 
   // Prefer the season's latest.json pointer (one request) when present.
   const fromPointer = await readLatestPointer(sport, season);
@@ -285,29 +331,6 @@ export async function findLatestAvailable(sport, season) {
 
     console.log(`⚠️ No CFB data found, defaulting to week ${currentWeek}`);
     return { week: currentWeek, fromCache: false };
-  }
-
-  if (sport === 'NBA' || sport === 'MLB') {
-    const today = new Date();
-    const emoji = sport === 'NBA' ? '🏀' : '⚾';
-    const yesterday = formatDate(addDays(today, -1));
-
-    // latest.json is the fast path. When it is missing, do NOT walk hundreds of
-    // dates with sequential HEAD requests — that made MLB first load (~12s+)
-    // when no static season was published. Probe only a short recent window
-    // (covers a race where data landed before the pointer was written), then
-    // hand off to the live API with yesterday.
-    console.log(`${emoji} ${sport}: No latest pointer — short recent lookback only`);
-    for (let daysAgo = 1; daysAgo <= 7; daysAgo++) {
-      const dateStr = formatDate(addDays(today, -daysAgo));
-      if (await staticFileExists(sport, season, dateStr)) {
-        console.log(`✅ Found ${sport} date ${dateStr}`);
-        return { week: dateStr, fromCache: false };
-      }
-    }
-
-    console.log(`⚠️ No ${sport} static data in last 7 days, defaulting to ${yesterday} (API)`);
-    return { week: yesterday, fromCache: false };
   }
 
   console.log('⚠️ Unexpected sport, using getCurrentWeek fallback');

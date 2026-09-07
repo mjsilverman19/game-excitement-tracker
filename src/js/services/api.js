@@ -1,4 +1,4 @@
-import { setCache, isDateBasedSport, parseDate, addDays, formatDate } from '../utils/dates.js';
+import { setCache, isDateBasedSport, parseDate, addDays, formatDate, formatDisplayDate, findPreviousDateWithGames } from '../utils/dates.js';
 
 // Helper: Determine if we should try the static file before the API
 export function shouldUseStatic(sport, season, weekOrDate) {
@@ -60,6 +60,23 @@ export async function fetchStaticData(sport, season, weekOrDate) {
     }
 }
 
+/**
+ * After a fallback walk, say which date was asked for and which one is shown.
+ * Cleared when the requested date is the one that loaded.
+ */
+function resolveFallbackNotice() {
+    const requested = window.dateFallbackFrom;
+    window.dateFallbackFrom = null;
+
+    if (!requested || !isDateBasedSport(window.selectedSport) || requested === window.selectedDate) {
+        window.dateFallbackNotice = null;
+        return;
+    }
+
+    window.dateFallbackNotice =
+        `No completed games on ${formatDisplayDate(requested)}. Showing ${formatDisplayDate(window.selectedDate)}.`;
+}
+
 // Load games
 export async function loadGames(fallbackAttempt = 0) {
     const loadId = Math.random().toString(36).substr(2, 9);
@@ -72,6 +89,8 @@ export async function loadGames(fallbackAttempt = 0) {
     // Set loading immediately to prevent race conditions
     window.isLoading = true;
     window.periodAverages = null;
+    window.dateFallbackNotice = null;
+    if (fallbackAttempt === 0) window.dateFallbackFrom = null;
 
     // Add small delay to ensure this sticks before any other calls
     await new Promise(resolve => setTimeout(resolve, 10));
@@ -80,6 +99,9 @@ export async function loadGames(fallbackAttempt = 0) {
     console.log(`🚀 [${loadId}] loadGames() PROCEEDING - window.isLoading set to true`);
 
     const MAX_FALLBACK_ATTEMPTS = 3;
+    // Each date-based fallback jumps to the nearest published slate rather than
+    // one calendar day, so a handful of attempts spans any realistic off-day run.
+    const MAX_DATE_FALLBACK_ATTEMPTS = 5;
 
     console.log(`🔍 [${loadId}] loadGames() called - Sport: ${window.selectedSport}, Week: ${window.selectedWeek}, Date: ${window.selectedDate}, window.isInitialLoad: ${window.isInitialLoad}, fallbackAttempt: ${fallbackAttempt}`);
 
@@ -96,6 +118,7 @@ export async function loadGames(fallbackAttempt = 0) {
                 window.currentGames = staticData.games;
                 console.log(`📊 [${loadId}] window.currentGames set to:`, window.currentGames.length, 'games');
                 console.log(`🎯 [${loadId}] About to call displayResults()`);
+                resolveFallbackNotice();
                 window.displayResults();
 
                 // Cache successful load
@@ -141,6 +164,7 @@ export async function loadGames(fallbackAttempt = 0) {
         if (data.success && data.games && data.games.length > 0) {
             console.log(`✅ Loaded ${data.games.length} games from API`);
             window.currentGames = data.games;
+            resolveFallbackNotice();
             window.displayResults();
 
             // Cache successful API load
@@ -152,21 +176,37 @@ export async function loadGames(fallbackAttempt = 0) {
         } else {
             console.log(`❌ No games found - window.isInitialLoad: ${window.isInitialLoad}, fallbackAttempt: ${fallbackAttempt}/${MAX_FALLBACK_ATTEMPTS}`);
 
-            // No games found - check if we should auto-fallback
-            if (window.isInitialLoad && fallbackAttempt < MAX_FALLBACK_ATTEMPTS) {
+            // No games found - check if we should auto-fallback.
+            // Date-based sports always fall back: an off-day, a rainout, or a
+            // slate still in progress leaves the requested date empty, and the
+            // nearest earlier day with games is what the reader wants to see.
+            const isDateSport = isDateBasedSport(window.selectedSport);
+            const maxAttempts = isDateSport ? MAX_DATE_FALLBACK_ATTEMPTS : MAX_FALLBACK_ATTEMPTS;
+
+            if ((isDateSport || window.isInitialLoad) && fallbackAttempt < maxAttempts) {
                 let canFallback = false;
 
-                if (isDateBasedSport(window.selectedSport)) {
-                    // For date-based sports, try previous date
-                    console.log(`🔄 ${window.selectedSport} fallback - current date: ${window.selectedDate}`);
-                    const currentDate = window.selectedDate
-                        ? parseDate(window.selectedDate)
-                        : addDays(new Date(), -1);
-                    const newDate = formatDate(addDays(currentDate, -1));
-                    console.log(`📅 ${window.selectedSport} fallback: ${window.selectedDate} → ${newDate}`);
-                    window.selectedDate = newDate;
-                    console.log(`📅 ${window.selectedSport} window.selectedDate changed via fallback: ${window.selectedDate}`);
-                    canFallback = true;
+                if (isDateSport) {
+                    // Jump to the nearest earlier slate with games. The helper
+                    // falls through to the previous calendar day when nothing is
+                    // published nearby, so the walk keeps making progress.
+                    const fromDate = window.selectedDate || formatDate(addDays(new Date(), -1));
+                    console.log(`🔄 ${window.selectedSport} fallback - current date: ${fromDate}`);
+                    if (!window.dateFallbackFrom) window.dateFallbackFrom = fromDate;
+
+                    const newDate = await findPreviousDateWithGames(
+                        window.selectedSport,
+                        window.selectedSeason,
+                        fromDate
+                    );
+
+                    if (newDate) {
+                        console.log(`📅 ${window.selectedSport} fallback: ${fromDate} → ${newDate}`);
+                        window.selectedDate = newDate;
+                        canFallback = true;
+                    } else {
+                        console.log(`⚠️ No earlier ${window.selectedSport} date to fall back to`);
+                    }
                 } else {
                     // For NFL/CFB, try previous week
                     console.log(`🔄 ${window.selectedSport} fallback - current week: ${window.selectedWeek}`);
@@ -197,11 +237,20 @@ export async function loadGames(fallbackAttempt = 0) {
                     console.log(`⛔ No fallback available`);
                 }
             } else {
-                console.log(`⛔ Fallback disabled - window.isInitialLoad: ${window.isInitialLoad}, attempts: ${fallbackAttempt}/${MAX_FALLBACK_ATTEMPTS}`);
+                console.log(`⛔ Fallback disabled - window.isInitialLoad: ${window.isInitialLoad}, attempts: ${fallbackAttempt}/${maxAttempts}`);
             }
 
             // No fallback or max attempts reached
             window.isInitialLoad = false;
+            const requestedDate = window.dateFallbackFrom;
+            window.dateFallbackFrom = null;
+            if (requestedDate && isDateBasedSport(window.selectedSport)) {
+                // The walk moved the date without turning up games. Put the
+                // reader back on the day they asked for instead of stranding
+                // them wherever the search gave up.
+                window.selectedDate = requestedDate;
+                window.updateUI();
+            }
             window.showEmpty();
         }
     } catch (error) {
