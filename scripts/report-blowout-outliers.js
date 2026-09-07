@@ -57,7 +57,7 @@ async function fetchProbabilities(gameId, sport) {
   const items = await fetchAllProbabilities(gameId, sport);
   if (!items) return [];
   return items.map(p => ({
-    value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
+    value: Math.max(0, Math.min(1, p.homeWinPercentage ?? 0.5)),
     period: p.period || 1
   }));
 }

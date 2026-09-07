@@ -29,7 +29,7 @@ function calculateScore(probs, game, sport, useDecisionAdjustment) {
   if (probs.length < 10) return null;
 
   const probValues = probs.map(p => ({
-    value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
+    value: Math.max(0, Math.min(1, p.homeWinPercentage ?? 0.5)),
     period: p.period || 1
   }));
 

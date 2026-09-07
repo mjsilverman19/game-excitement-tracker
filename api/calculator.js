@@ -140,7 +140,7 @@ function calculateExcitement(probabilities, game, sport = 'NFL') {
 function calculateExcitementDetailed(probabilities, game, sport = 'NFL') {
   const probs = probabilities
     .map(p => ({
-      value: Math.max(0, Math.min(1, p.homeWinPercentage || 0.5)),
+      value: Math.max(0, Math.min(1, p.homeWinPercentage ?? 0.5)),
       period: p.period || 1,
       clock: p.clock
     }))

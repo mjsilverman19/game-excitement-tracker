@@ -1,3 +1,5 @@
+import { isNFLPlayoffRound } from '../../../shared/algorithm-config.js';
+import { beginLoad } from './load-state.js';
 import { setCache, isDateBasedSport, parseDate, addDays, formatDate, findPreviousDateWithGames } from '../utils/dates.js';
 
 // Helper: Determine if we should try the static file before the API
@@ -32,6 +34,8 @@ export function getStaticPath(sport, season, weekOrDate) {
         weekStr = 'bowls';
     } else if (weekOrDate === 'playoffs') {
         weekStr = 'playoffs';
+    } else if (sport === 'NFL' && isNFLPlayoffRound(weekOrDate)) {
+        weekStr = weekOrDate;
     } else {
         weekStr = `week-${String(weekOrDate).padStart(2, '0')}`;
     }
@@ -64,18 +68,11 @@ export async function fetchStaticData(sport, season, weekOrDate) {
 export async function loadGames(fallbackAttempt = 0) {
     const loadId = Math.random().toString(36).substr(2, 9);
     console.log(`🚀 [${loadId}] loadGames() START - window.isLoading was: ${window.isLoading}`);
-    if (window.isLoading) {
-        console.log(`⚠️ [${loadId}] loadGames() BLOCKED - already loading, aborting`);
-        return;
-    }
+    const isCurrent = beginLoad();
 
-    // Set loading immediately to prevent race conditions
     window.isLoading = true;
     window.periodAverages = null;
     if (fallbackAttempt === 0) window.dateFallbackFrom = null;
-
-    // Add small delay to ensure this sticks before any other calls
-    await new Promise(resolve => setTimeout(resolve, 10));
 
     window.showLoading();
     console.log(`🚀 [${loadId}] loadGames() PROCEEDING - window.isLoading set to true`);
@@ -93,6 +90,7 @@ export async function loadGames(fallbackAttempt = 0) {
         console.log(`📂 [${loadId}] Checking static file - weekOrDate: ${weekOrDate}`);
         if (shouldUseStatic(window.selectedSport, window.selectedSeason, weekOrDate)) {
             const staticData = await fetchStaticData(window.selectedSport, window.selectedSeason, weekOrDate);
+            if (!isCurrent()) return;
             console.log(`📂 [${loadId}] Static data result:`, staticData ? `success=${staticData.success}, games=${staticData.games?.length || 0}` : 'null');
             if (staticData && staticData.success && staticData.games && staticData.games.length > 0) {
                 console.log(`✅ [${loadId}] Loaded from static file:`, getStaticPath(window.selectedSport, window.selectedSeason, weekOrDate));
@@ -140,7 +138,9 @@ export async function loadGames(fallbackAttempt = 0) {
             body: JSON.stringify(requestBody)
         });
 
+        if (!isCurrent()) return;
         const data = await response.json();
+        if (!isCurrent()) return;
         console.log(`🌐 API response:`, data ? `success=${data.success}, games=${data.games?.length || 0}` : 'null');
 
         if (data.success && data.games && data.games.length > 0) {
@@ -182,6 +182,7 @@ export async function loadGames(fallbackAttempt = 0) {
                         fromDate
                     );
 
+                    if (!isCurrent()) return;
                     if (newDate) {
                         console.log(`📅 ${window.selectedSport} fallback: ${fromDate} → ${newDate}`);
                         window.selectedDate = newDate;
@@ -236,10 +237,11 @@ export async function loadGames(fallbackAttempt = 0) {
             window.showEmpty();
         }
     } catch (error) {
+        if (!isCurrent()) return;
         console.error('Error:', error);
         window.isInitialLoad = false;
         window.showEmpty('Could not load games. Please try again.');
     } finally {
-        window.isLoading = false;
+        if (isCurrent()) window.isLoading = false;
     }
 }
