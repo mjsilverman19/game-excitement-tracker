@@ -4,8 +4,8 @@ on:
   schedule:
     # NFL: Tuesday 10 AM UTC (5 AM EST, after Monday Night Football)
     - cron: '0 10 * 9-12,1-2 2'
-    # CFB: Sunday 8 AM UTC (3 AM EST, after Saturday games) during regular season
-    - cron: '0 8 * 8-11 0'
+    # CFB: Daily during regular season, including Sunday/Monday spillover games
+    - cron: '0 8 * 8-11 *'
     # CFB: Daily 10 AM UTC (5 AM EST) during bowl/playoff season (Dec-Jan)
     - cron: '0 10 * 12,1 *'
     # NBA: Daily 10 AM UTC (5 AM EST, after West Coast games)
@@ -95,10 +95,10 @@ jobs:
             echo "Added NFL (playoff weekend)"
           fi
 
-          # CFB: Sunday during regular season (Aug-Nov), or daily during bowl/playoff season (Dec-Jan)
-          if [ "$DAY_OF_WEEK" = "7" ] && [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
+          # CFB: Daily during regular season (Aug-Nov) and bowl/playoff season (Dec-Jan)
+          if [ "$MONTH" -ge 8 ] && [ "$MONTH" -le 11 ]; then
             SPORTS="${SPORTS:+$SPORTS,}CFB"
-            echo "Added CFB (Sunday regular season)"
+            echo "Added CFB (daily regular season)"
           elif [ "$MONTH" = "12" ] || [ "$MONTH" = "1" ]; then
             SPORTS="${SPORTS:+$SPORTS,}CFB"
             echo "Added CFB (bowl/playoff season)"
@@ -183,7 +183,14 @@ jobs:
           # Season and week resolve from the calendar in shared/season-dates.js.
           # Running Sunday, "current" is the week whose Saturday slate just finished.
           echo "Generating CFB current week"
-          node scripts/generate-static.js --sport CFB --season current --week current ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "CFB generation completed with warnings"
+          node scripts/generate-static.js --sport CFB --season current --week current --force || echo "CFB generation completed with warnings"
+
+          # Tuesday starts a new ESPN week; refresh the previous slate too so
+          # late Monday finals are included before it becomes historical.
+          PREVIOUS_WEEK=$(node --input-type=module -e "import { getCurrentWeekNumber } from './shared/season-dates.js'; console.log(getCurrentWeekNumber('CFB') - 1)")
+          if [ "$PREVIOUS_WEEK" -ge 1 ]; then
+            node scripts/generate-static.js --sport CFB --season current --week "$PREVIOUS_WEEK" --force || echo "CFB previous-week generation completed with warnings"
+          fi
 
           # Also generate bowls and playoffs if in December/January
           MONTH=$(date +%-m)

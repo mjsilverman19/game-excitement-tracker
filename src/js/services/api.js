@@ -1,25 +1,32 @@
+import { getSeasonInfo } from '../../../shared/season-dates.js';
 import { isNFLPlayoffRound } from '../../../shared/algorithm-config.js';
 import { beginLoad } from './load-state.js';
 import { setCache, isDateBasedSport, parseDate, addDays, formatDate, findPreviousDateWithGames } from '../utils/dates.js';
 
 // Helper: Determine if we should try the static file before the API
-export function shouldUseStatic(sport, season, weekOrDate) {
+export function shouldUseStatic(sport, season, weekOrDate, now = new Date()) {
     if (isDateBasedSport(sport)) {
         // For date-based sports (NBA, MLB), only prior calendar days can have
         // a static file — games from "today" may still be in progress.
         // Use parseDate (local midnight) rather than `new Date('YYYY-MM-DD')`,
         // which is UTC midnight and shifts the day in US timezones.
         if (!weekOrDate || typeof weekOrDate !== 'string') return false;
-        const today = new Date();
+        const today = new Date(now);
         today.setHours(0, 0, 0, 0);
         const gameDate = parseDate(weekOrDate);
         gameDate.setHours(0, 0, 0, 0);
         return gameDate < today;
     }
 
-    // For NFL/CFB, always try the static file first. The generator only writes
-    // a week once its games are complete, so a file that exists is safe to
-    // use, and a missing file falls through to the live API.
+    // CFB slates can be published before late Saturday, Sunday, or Monday
+    // games finish. Keep this week and the prior week live across rollover.
+    if (sport === 'CFB') {
+        const current = getSeasonInfo(sport, now);
+        const week = Number(weekOrDate);
+        if (Number(season) === current.season && Number.isInteger(week) &&
+            week >= Math.max(1, current.week - 1) && week <= current.week) return false;
+    }
+
     return true;
 }
 
@@ -44,6 +51,7 @@ export function getStaticPath(sport, season, weekOrDate) {
 
 // Helper: Fetch from static file
 export async function fetchStaticData(sport, season, weekOrDate) {
+    if (!shouldUseStatic(sport, season, weekOrDate)) return null;
     try {
         const path = getStaticPath(sport, season, weekOrDate);
         const response = await fetch(path);

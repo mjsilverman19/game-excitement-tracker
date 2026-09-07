@@ -42,6 +42,10 @@ Games use sport-specific rating thresholds from `shared/algorithm-config.js`:
 
 Without a sport, the default thresholds are 8.0 and 6.0. Algorithm v3.5 also applies bonuses and a margin correction; the weighted metrics are the base score. Overtime games receive a bonus.
 
+## CFB Coverage and Refreshes
+
+CFB uses ESPN's full FBS scoreboard (`groups=80`), including games against FCS opponents. Only completed games with enough win-probability data are scored. The current and previous CFB weeks load live so an early static snapshot cannot hide later finals. Scheduled generation refreshes both weeks daily during the regular season.
+
 ## NFL Playoff Rounds
 
 For NFL postseason queries, the `week` value can be a round name instead of a number:

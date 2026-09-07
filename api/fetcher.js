@@ -64,6 +64,10 @@ async function fetchFromSiteAPI(league, week, seasonType, season) {
     url = `${baseUrl}?limit=100&week=${week}&seasontype=${seasonType}&dates=${season}`;
   }
 
+  // ESPN defaults to ranked teams. Group 80 includes the full FBS slate,
+  // including FBS-versus-FCS games; Week 1 can exceed 100 events.
+  if (sport === 'CFB') url = url.replace('limit=100', 'limit=200') + '&groups=80';
+
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Site API error: ${response.status}`);
 
