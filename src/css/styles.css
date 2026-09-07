@@ -437,6 +437,11 @@
             margin-top: 10px;
         }
 
+        /* Top Games hides both period controls; remove their empty flex row too. */
+        #periodControls:has(> #periodStepper[hidden]):has(> #topGamesSelector[hidden]) {
+            display: none;
+        }
+
         .headline {
             font-family: var(--font-headline);
             font-size: 64px;
