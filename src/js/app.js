@@ -1,3 +1,4 @@
+import { beginLoad } from './services/load-state.js';
 import { ALGORITHM_CONFIG, getTier, NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound, getNextNFLPlayoffRound, getPrevNFLPlayoffRound } from '../../shared/algorithm-config.js';
 import { initSupabase, upsertVoteToSupabase, deleteVoteFromSupabase } from './services/supabase.js';
 import { loadVotes, saveVotes } from './services/storage.js';
@@ -90,6 +91,8 @@ window.getTier = getTier;
 
             window.rangeMode = mode;
             updateRangeControl();
+            // Invalidate earlier results before asynchronous discovery starts.
+            const isCurrent = beginLoad();
 
             if (mode === 'season') {
                 openTopGames('season');
@@ -113,6 +116,7 @@ window.getTier = getTier;
             window.isInitialLoad = true;
             window.showLoading('finding latest games...');
             const result = await findLatestAvailable(window.selectedSport, window.selectedSeason);
+            if (!isCurrent()) return;
             if (isDateBasedSport(window.selectedSport)) {
                 window.selectedDate = result.week; // For date-based sports, 'week' is the date string
             } else {
@@ -370,8 +374,7 @@ window.getTier = getTier;
         // Switch sport and re-apply the active range
         async function switchSport(sport) {
             if (window.selectedSport === sport) return;
-            // Allow the new sport's load to proceed even if a prior load is in flight
-            // (loadGames otherwise aborts while window.isLoading is true).
+            // Reset the loading indicator while the new sport is discovered.
             window.isLoading = false;
             window.periodAverages = null;
             window.selectedSport = sport;

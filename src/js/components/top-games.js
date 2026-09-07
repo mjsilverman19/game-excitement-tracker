@@ -1,3 +1,4 @@
+import { beginLoad } from '../services/load-state.js';
 /**
  * Top Games Component
  * Shows the best games across a time range without needing to export
@@ -136,19 +137,21 @@ async function fetchPeriodGames(sport, season, period, { allowApi }) {
 /**
  * Fetch top games across a time range
  */
-async function fetchTopGames(sport, season, preset) {
+async function fetchTopGames(sport, season, preset, isCurrent) {
     const periods = getPeriodsToFetch(sport, season, preset);
     const allGames = [];
     const allowApi = !(preset.value === 'full' && isDateBasedSport(sport));
     const chunkSize = preset.value === 'full' && isDateBasedSport(sport) ? 20 : 1;
 
     for (let i = 0; i < periods.length; i += chunkSize) {
+        if (!isCurrent()) return [];
         const chunk = periods.slice(i, i + chunkSize);
         window.showLoading(`finding top games... (${Math.min(i + chunk.length, periods.length)}/${periods.length})`);
 
         const results = await Promise.all(
             chunk.map(period => fetchPeriodGames(sport, season, period, { allowApi }))
         );
+        if (!isCurrent()) return [];
         results.forEach(games => allGames.push(...games));
 
         // Small delay between short-range fetches to avoid hammering the API
@@ -165,11 +168,12 @@ async function fetchTopGames(sport, season, preset) {
  * Load and display top games for a specific preset
  */
 async function loadTopGamesForPreset(sport, season, preset) {
-    if (window.isLoading) return;
+    const isCurrent = beginLoad();
     window.isLoading = true;
 
     try {
-        const topGames = await fetchTopGames(sport, season, preset);
+        const topGames = await fetchTopGames(sport, season, preset, isCurrent);
+        if (!isCurrent()) return;
 
         if (topGames.length === 0) {
             window.showEmpty('No games found for this range.');
@@ -179,10 +183,11 @@ async function loadTopGamesForPreset(sport, season, preset) {
         window.currentGames = topGames;
         displayTopGamesResults(topGames, preset.label);
     } catch (error) {
+        if (!isCurrent()) return;
         console.error('Error loading top games:', error);
         window.showEmpty('Could not load top games. Please try again.');
     } finally {
-        window.isLoading = false;
+        if (isCurrent()) window.isLoading = false;
     }
 }
 
@@ -246,7 +251,7 @@ export function openTopGames(scope = 'season') {
 
     const presets = getRangePresets(window.selectedSport);
     const index = scope === 'week' ? 0 : presets.length - 1;
-    loadTopGamesForPreset(window.selectedSport, window.selectedSeason, presets[index]);
+    return loadTopGamesForPreset(window.selectedSport, window.selectedSeason, presets[index]);
 }
 
 /**

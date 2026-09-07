@@ -28,11 +28,19 @@ Games are scored based on three metrics derived from win probability data:
 
 | Metric | Weight | Description |
 |--------|--------|-------------|
-| **Tension** | 30% | Was there reason to keep watching? Measures sustained closeness and comeback potential. |
-| **Drama** | 35% | Leverage-weighted swings — big momentum shifts matter more when the game is close. |
+| **Tension** | 20% | Was there reason to keep watching? Measures sustained closeness and comeback potential. |
+| **Drama** | 45% | Leverage-weighted swings — big momentum shifts matter more when the game is close. |
 | **Finish** | 35% | How did it end? Combines late-game volatility, final closeness, and walk-off moments. |
 
-Games are categorized as **must watch** (8+), **recommended** (6-7.9), or **skip** (<6). Overtime games receive a bonus.
+Games use sport-specific rating thresholds from `shared/algorithm-config.js`:
+
+| Sport | Must watch | Recommended | Skip |
+|-------|------------|-------------|------|
+| NFL | 8.3+ | 6.0–8.2 | Below 6.0 |
+| CFB | 7.7+ | 5.8–7.6 | Below 5.8 |
+| NBA / MLB / CBB | 8.5+ | 6.5–8.4 | Below 6.5 |
+
+Without a sport, the default thresholds are 8.0 and 6.0. Algorithm v3.5 also applies bonuses and a margin correction; the weighted metrics are the base score. Overtime games receive a bonus.
 
 ## NFL Playoff Rounds
 
@@ -63,6 +71,14 @@ Season and week boundaries are defined once in `shared/season-dates.js` and used
 
 To regenerate a whole season after a schema or algorithm change, run the workflow manually with `scope` set to `all`, a `sport`, and a `season`. It overwrites every file for that season and commits the result to the branch it ran on.
 
+To re-score only games already present in static files, preserving slate membership and descriptive metadata:
+
+```bash
+node scripts/regenerate-existing-static.js --write --cache-dir /tmp/gei-static-regeneration
+```
+
+Omit `--write` to preview. This command caches fetched probabilities, backs up originals in the cache directory, and replaces datasets only after every game has been successfully analyzed. It writes a before-and-after report to `analysis/static-regeneration-report.json`. Regenerated files use algorithm version 3.5.1, which preserves exact zero win probabilities. Comparisons against saved scores can also reflect changes to ESPN's historical data.
+
 ## Tech Stack
 
 - **Frontend**: Vanilla HTML/CSS/JavaScript (modular structure, no build step)
@@ -75,6 +91,10 @@ To regenerate a whole season after a schema or algorithm change, run the workflo
 1. Install Vercel CLI: `npm i -g vercel`
 2. Run locally: `vercel dev`
 3. Open `http://localhost:3000`
+
+## Tests
+
+Run `npm test` for offline regression tests covering scoring, static paths, overlapping loads, and fallback behavior. Run `npm run lint` to check JavaScript sources.
 
 ## Deployment
 
