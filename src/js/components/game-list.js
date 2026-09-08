@@ -61,6 +61,19 @@ function initials(name) {
     return String(name || '?').slice(0, 3).toUpperCase();
 }
 
+/**
+ * Size class for a matchup, keyed on its longer team name. Both names in a
+ * matchup share one size, so the block stays balanced while long names
+ * (Diamondbacks, Melbourne United) step down enough to clear the card on a
+ * phone. The steps themselves live in the mobile block of styles.css.
+ */
+function matchupLengthClass(away, home) {
+    const longest = Math.max(String(away || '').length, String(home || '').length);
+    if (longest >= 12) return ' is-xlong';
+    if (longest >= 9) return ' is-long';
+    return '';
+}
+
 function renderLogo(name, url, size, abbr = null) {
     if (url) {
         return `<img class="team-logo team-logo-${size}" src="${escapeHtml(url)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:this.className+' team-logo-fallback',textContent:this.dataset.abbr}))" data-abbr="${escapeHtml(abbr || initials(name))}">`;
@@ -331,7 +344,7 @@ export function renderHeroCard(game, index = 0, options = {}) {
             ${heroBackground(game)}
             <div class="hero-body">
                 <div class="hero-eyebrow">${heroEyebrow(game, index, options)}${context ? ` · ${escapeHtml(context)}` : ''}</div>
-                <div class="hero-matchup">
+                <div class="hero-matchup${matchupLengthClass(game.awayTeam, game.homeTeam)}">
                     <div class="hero-team">
                         ${renderLogo(game.awayTeam, game.awayLogo, 'lg', game.awayAbbr)}
                         <span class="hero-team-name">${escapeHtml(game.awayTeam)}</span>
@@ -368,7 +381,7 @@ export function renderFeatureCard(game, index, options = {}) {
         <article class="feature-card" data-game-id="${game.id}">
             ${rank}
             <div class="feature-main">
-                <div class="feature-matchup">
+                <div class="feature-matchup${matchupLengthClass(game.awayTeam, game.homeTeam)}">
                     <div class="feature-team">
                         ${renderLogo(game.awayTeam, game.awayLogo, 'md', game.awayAbbr)}
                         <span class="feature-team-name">${escapeHtml(game.awayTeam)}</span>

@@ -1054,6 +1054,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            min-width: 0;
         }
 
         .hero-team-home {
@@ -1068,6 +1069,10 @@
             line-height: 0.95;
             letter-spacing: 0.01em;
             color: var(--text-on-hero);
+            min-width: 0;
+            /* The card clips its overflow for the stadium art, so a name with no
+               break opportunity (Diamondbacks) has to break rather than vanish. */
+            overflow-wrap: break-word;
         }
 
         .hero-vs {
@@ -1299,6 +1304,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             min-width: 0;
+            overflow-wrap: break-word;
         }
 
         .feature-vs {
@@ -2383,17 +2389,39 @@
             }
 
             .hero-team {
-                gap: 12px;
+                gap: 10px;
             }
 
+            /* Fluid across phone widths rather than one fixed step at 768px.
+               Each matchup steps down by its longer name (see matchupLengthClass)
+               so short names stay large and long ones clear the card. The home
+               row is the tighter of the two, since it also carries the vs rule. */
             .hero-team-name {
-                font-size: 40px;
+                font-size: clamp(28px, 16vw - 23px, 40px);
+            }
+
+            .hero-matchup.is-long .hero-team-name {
+                font-size: clamp(25px, 15vw - 23px, 40px);
+            }
+
+            .hero-matchup.is-xlong .hero-team-name {
+                font-size: clamp(20px, 14.3vw - 25px, 40px);
+            }
+
+            /* The home row also spends width on the vs rule, so give it back
+               the indent and trim the marker. */
+            .hero-team-home {
+                padding-left: 0;
+            }
+
+            .hero-vs {
+                font-size: 14px;
             }
 
             .team-logo-lg {
-                width: 48px;
-                height: 48px;
-                font-size: 16px;
+                width: 44px;
+                height: 44px;
+                font-size: 15px;
             }
 
             .hero-score {
@@ -2418,7 +2446,15 @@
             }
 
             .feature-team-name {
-                font-size: 26px;
+                font-size: clamp(21px, 7vw - 1px, 26px);
+            }
+
+            .feature-matchup.is-long .feature-team-name {
+                font-size: clamp(19px, 6.5vw - 2px, 26px);
+            }
+
+            .feature-matchup.is-xlong .feature-team-name {
+                font-size: clamp(17px, 12vw - 18px, 26px);
             }
 
             .team-logo-md {
