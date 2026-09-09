@@ -6,7 +6,8 @@
  *
  * Football week boundaries follow ESPN's calendar:
  * - NFL kicks off the Thursday after Labor Day. Week N runs Thursday to
- *   Wednesday starting kickoff + 7 * (N - 1) days.
+ *   Wednesday starting kickoff + 7 * (N - 1) days. The season itself turns
+ *   over at Labor Day so an opener earlier in that week is still reachable.
  * - CFB "Week 0" is the Saturday nine days before Labor Day. ESPN folds
  *   Week 0 into week 1, which runs through Labor Day Monday. Week 2 starts
  *   the Tuesday after Labor Day and every later week is Tuesday to Monday.
@@ -72,7 +73,13 @@ export function getCurrentSeason(sport, now = new Date()) {
   const month = now.getMonth();
 
   if (sport === 'NFL') {
-    return startOfDay(now) >= getNFLKickoff(year) ? year : year - 1;
+    // Labor Day, not kickoff. Week 1 is anchored to the Thursday after Labor
+    // Day for week *numbering*, but the league has opened on other nights, and
+    // pinning the season flip to that Thursday leaves any earlier week 1 game
+    // unreachable: the app would still be asking ESPN for last season. Flipping
+    // at Labor Day covers the whole opening week, and getCurrentWeekNumber
+    // already clamps the pre-kickoff days to week 1.
+    return startOfDay(now) >= getLaborDay(year) ? year : year - 1;
   }
   if (sport === 'CFB') {
     return startOfDay(now) >= getCFBWeekOneStart(year) ? year : year - 1;
