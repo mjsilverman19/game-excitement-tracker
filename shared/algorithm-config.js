@@ -53,7 +53,8 @@ export const ALGORITHM_CONFIG = {
   // margin-predicted score proportional to the tension+drama deficit.
   // Derived from regression analysis on 1410 games across 3 sports.
   // Version 3.5.1: Preserve exact zero win probabilities during scoring.
-  version: '3.5.1',
+  // Version 3.5.2: Include the incoming swing at the finish-window boundary.
+  version: '3.5.2',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
