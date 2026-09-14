@@ -146,43 +146,54 @@ function formatDuration(seconds) {
     return `${m}:${s}`;
 }
 
-function renderHighlightCards(highlights) {
-    return highlights.map((clip, index) => {
-        const duration = formatDuration(clip.duration);
-        const thumb = clip.thumbnail
-            ? `<img class="highlight-thumb" src="${escapeHtml(clip.thumbnail)}" alt="" loading="lazy">`
-            : '<span class="highlight-thumb highlight-thumb-empty" aria-hidden="true"></span>';
-        return `
-            <button type="button" class="highlight-card${index === 0 ? ' is-active' : ''}"
-                data-highlight-index="${index}"
-                aria-pressed="${index === 0 ? 'true' : 'false'}">
-                <span class="highlight-media">
-                    ${thumb}
-                    <span class="highlight-play" aria-hidden="true">▶</span>
-                    ${duration ? `<span class="highlight-duration">${duration}</span>` : ''}
-                </span>
-                <span class="highlight-title">${escapeHtml(clip.headline)}</span>
-            </button>
-        `;
-    }).join('');
+function renderHighlightCards(highlights, activeIndex = -1) {
+    return highlights
+        .map((clip, index) => ({ clip, index }))
+        .filter(({ index }) => index !== activeIndex)
+        .map(({ clip, index }) => {
+            const duration = formatDuration(clip.duration);
+            const thumb = clip.thumbnail
+                ? `<img class="highlight-thumb" src="${escapeHtml(clip.thumbnail)}" alt="" loading="lazy">`
+                : '<span class="highlight-thumb highlight-thumb-empty" aria-hidden="true"></span>';
+            return `
+                <button type="button" class="highlight-card"
+                    data-highlight-index="${index}">
+                    <span class="highlight-media">
+                        ${thumb}
+                        <span class="highlight-play" aria-hidden="true">▶</span>
+                        ${duration ? `<span class="highlight-duration">${duration}</span>` : ''}
+                    </span>
+                    <span class="highlight-title">${escapeHtml(clip.headline)}</span>
+                </button>
+            `;
+        })
+        .join('');
 }
 
 function attachHighlightPlayer(slot, highlights) {
     const player = slot.querySelector('.highlight-player');
     const video = slot.querySelector('.highlight-video');
     const caption = slot.querySelector('.highlight-caption');
-    const cards = [...slot.querySelectorAll('.highlight-card')];
-    if (!player || !video || !cards.length) return;
+    const row = slot.querySelector('.highlight-row');
+    if (!player || !video || !row) return;
 
-    const playClip = (index, { autoplay = true } = {}) => {
+    function bindCards() {
+        row.querySelectorAll('.highlight-card').forEach(card => {
+            card.addEventListener('click', () => {
+                playClip(Number(card.dataset.highlightIndex));
+            });
+        });
+    }
+
+    function showAlternatives(activeIndex) {
+        row.innerHTML = renderHighlightCards(highlights, activeIndex);
+        row.hidden = row.childElementCount === 0;
+        bindCards();
+    }
+
+    function playClip(index, { autoplay = true } = {}) {
         const clip = highlights[index];
         if (!clip?.source) return;
-
-        cards.forEach((card, i) => {
-            const active = i === index;
-            card.classList.toggle('is-active', active);
-            card.setAttribute('aria-pressed', String(active));
-        });
 
         player.hidden = false;
         if (caption) caption.textContent = clip.headline || '';
@@ -192,22 +203,16 @@ function attachHighlightPlayer(slot, highlights) {
             video.dataset.source = clip.source;
             video.src = clip.source;
         }
+        showAlternatives(index);
         if (autoplay) {
             video.play().catch(() => {
                 // Autoplay can be blocked until a direct user gesture on the video.
             });
         }
-    };
+    }
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const index = Number(card.dataset.highlightIndex);
-            playClip(index);
-        });
-    });
-
-    // Start with the first playable clip loaded (no autoplay until click, except
-    // the click that opened Why-this-game isn't a gesture on the video element).
+    // Start with the highest-ranked playable clip loaded. The active clip is
+    // omitted from the alternatives below so it is never shown twice.
     const firstPlayable = highlights.findIndex(clip => clip.source);
     if (firstPlayable >= 0) playClip(firstPlayable, { autoplay: false });
 }
@@ -230,7 +235,7 @@ async function loadDetailHighlights(container, game) {
                 <video class="highlight-video" controls playsinline preload="metadata"></video>
                 <div class="highlight-caption"></div>
             </div>
-            <div class="highlight-row">${renderHighlightCards(highlights)}</div>
+            <div class="highlight-row"></div>
         `;
         slot.hidden = false;
         attachHighlightPlayer(slot, highlights);
