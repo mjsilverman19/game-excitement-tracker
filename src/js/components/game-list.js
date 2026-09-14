@@ -230,15 +230,30 @@ async function loadDetailHighlights(container, game) {
         if (!highlights.length) return;
 
         slot.innerHTML = `
-            <div class="score-section-label">Highlights</div>
-            <div class="highlight-player" hidden>
-                <video class="highlight-video" controls playsinline preload="metadata"></video>
-                <div class="highlight-caption"></div>
-            </div>
-            <div class="highlight-row"></div>
+            <details class="highlights-disclosure">
+                <summary class="highlights-summary">
+                    <span class="highlights-summary-label">
+                        <span class="score-section-label">Highlights</span>
+                        <span class="highlights-spoiler-note">May contain spoilers</span>
+                    </span>
+                </summary>
+                <div class="highlights-content">
+                    <div class="highlight-player" hidden>
+                        <video class="highlight-video" controls playsinline preload="metadata"></video>
+                        <div class="highlight-caption"></div>
+                    </div>
+                    <div class="highlight-row"></div>
+                </div>
+            </details>
         `;
         slot.hidden = false;
-        attachHighlightPlayer(slot, highlights);
+
+        const disclosure = slot.querySelector('.highlights-disclosure');
+        disclosure?.addEventListener('toggle', () => {
+            if (!disclosure.open || disclosure.dataset.initialized === '1') return;
+            disclosure.dataset.initialized = '1';
+            attachHighlightPlayer(slot, highlights);
+        });
     } catch {
         // Highlights are optional — leave the slot hidden on failure.
     }
