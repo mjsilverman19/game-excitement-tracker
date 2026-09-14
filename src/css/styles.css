@@ -2455,7 +2455,10 @@
                 grid-template-columns: 1fr;
             }
 
-            .feature-grid > * {
+            .feature-grid > .feature-card:first-of-type,
+            .feature-grid > .feature-card:nth-of-type(2),
+            .feature-grid > .feature-detail-first,
+            .feature-grid > .feature-detail-second {
                 order: initial;
             }
 
