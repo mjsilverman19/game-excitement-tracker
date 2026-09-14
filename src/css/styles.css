@@ -1747,13 +1747,78 @@
         }
 
         .detail-highlights {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            display: block;
         }
 
         .detail-highlights[hidden] {
             display: none;
+        }
+
+        .highlights-disclosure {
+            border-top: 1px solid var(--border-secondary);
+            border-bottom: 1px solid var(--border-secondary);
+        }
+
+        .highlights-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 0;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .highlights-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .highlights-summary::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            margin-right: 3px;
+            flex: 0 0 auto;
+            border-right: 1.5px solid var(--text-secondary);
+            border-bottom: 1.5px solid var(--text-secondary);
+            transform: rotate(45deg);
+            transition: transform 150ms ease;
+        }
+
+        .highlights-disclosure[open] .highlights-summary::after {
+            transform: rotate(225deg);
+        }
+
+        .highlights-summary:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 4px;
+            border-radius: var(--radius-sm);
+        }
+
+        .highlights-summary-label {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .highlights-spoiler-note {
+            padding: 3px 7px;
+            border: 1px solid var(--border-primary);
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            line-height: 1.2;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .highlights-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 2px 0 16px;
         }
 
         .highlight-player {
@@ -1800,14 +1865,8 @@
             font: inherit;
         }
 
-        .highlight-card:hover .highlight-title,
-        .highlight-card.is-active .highlight-title {
+        .highlight-card:hover .highlight-title {
             color: var(--color-primary);
-        }
-
-        .highlight-card.is-active .highlight-media {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
         }
 
         .highlight-media {
