@@ -1238,13 +1238,27 @@
             gap: 16px;
         }
 
-        .feature-details {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        .feature-grid > .feature-card:first-of-type {
+            order: 1;
         }
 
-        .feature-details .game-detail:not([hidden]) {
+        .feature-grid > .feature-card:nth-of-type(2) {
+            order: 2;
+        }
+
+        .feature-grid > .game-detail {
+            grid-column: 1 / -1;
+        }
+
+        .feature-grid > .feature-detail-first {
+            order: 3;
+        }
+
+        .feature-grid > .feature-detail-second {
+            order: 4;
+        }
+
+        .feature-grid > .game-detail:not([hidden]) {
             margin-top: 0;
         }
 
@@ -2439,6 +2453,14 @@
 
             .feature-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .feature-grid > * {
+                order: initial;
+            }
+
+            .feature-grid > .game-detail {
+                grid-column: auto;
             }
 
             .feature-card {
