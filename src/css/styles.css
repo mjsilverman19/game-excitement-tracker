@@ -2184,7 +2184,7 @@
 
             .site-nav {
                 width: 100%;
-                justify-content: space-between;
+                justify-content: flex-start;
                 gap: 16px;
             }
 
