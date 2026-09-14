@@ -8,6 +8,43 @@ const SPORT_PATH = {
   CBB: 'basketball/mens-college-basketball'
 };
 
+const GAME_HIGHLIGHT_PATTERNS = [
+  /\b(?:full|game) highlights?\b/i,
+  /\bhighlights?\s*:/i,
+  /\bvs\.?\b.*\bhighlights?\b/i,
+  /\bhighlights?\b.*\bvs\.?\b/i,
+  /\bgame recap\b/i
+];
+
+const COVERAGE_PATTERNS = [
+  /\breacts?\b/i,
+  /\breaction\b/i,
+  /\bslams?\b/i,
+  /\bbreaks?\s+down\b/i,
+  /\bdebates?\b/i,
+  /\bdiscuss(?:es|ing)?\b/i,
+  /\banaly[sz](?:e|es|ing)\b/i,
+  /\binterview\b/i,
+  /\bpress conference\b/i,
+  /\bpostgame\b/i,
+  /\bfirst take\b/i,
+  /\bnfl live\b/i
+];
+
+function highlightRank(video) {
+  const text = `${video.headline || ''} ${video.description || ''}`;
+  let rank = 0;
+
+  if (GAME_HIGHLIGHT_PATTERNS.some(pattern => pattern.test(text))) rank += 100;
+  else if (/\bhighlights?\b/i.test(text)) rank += 50;
+
+  if (COVERAGE_PATTERNS.some(pattern => pattern.test(text))) rank -= 100;
+  if (video.duration >= 180) rank += 10;
+  else if (video.duration >= 90) rank += 5;
+
+  return rank;
+}
+
 function normalizeVideo(video) {
   if (!video?.id) return null;
 
@@ -39,7 +76,20 @@ function normalizeVideo(video) {
 
 export function parseHighlights(summary) {
   const raw = Array.isArray(summary?.videos) ? summary.videos : [];
-  return raw.map(normalizeVideo).filter(Boolean);
+  const seen = new Set();
+
+  return raw
+    .map(normalizeVideo)
+    .filter(Boolean)
+    .filter(video => {
+      const keys = [video.id, video.source, video.url].filter(Boolean);
+      if (keys.some(key => seen.has(key))) return false;
+      keys.forEach(key => seen.add(key));
+      return true;
+    })
+    .map((video, index) => ({ video, index, rank: highlightRank(video) }))
+    .sort((a, b) => b.rank - a.rank || a.index - b.index)
+    .map(item => item.video);
 }
 
 export async function fetchEspnHighlights(sport, gameId) {
