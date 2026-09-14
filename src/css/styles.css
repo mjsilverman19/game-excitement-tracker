@@ -471,8 +471,7 @@
             color: var(--text-secondary);
         }
 
-        /* About / Saved use the editorial display face, not the athletic headline */
-        .about-content .headline,
+        /* Saved uses the editorial display face, not the athletic headline */
         .saved-content .headline {
             font-size: 40px;
             letter-spacing: -0.01em;
@@ -482,10 +481,6 @@
 
         .saved-content .subheadline {
             font-size: 18px;
-        }
-
-        .about-content {
-            padding-top: 12px;
         }
 
         /* ==========================================================
@@ -682,98 +677,6 @@
 
         .schedule-row:hover .schedule-go {
             color: var(--color-primary);
-        }
-
-        /* About Page */
-        .about-body {
-            max-width: 680px;
-        }
-
-        .about-section {
-            margin-bottom: 28px;
-        }
-
-        .about-section h3 {
-            font-family: var(--font-display);
-            font-size: 22px;
-            font-weight: 600;
-            font-variation-settings: 'opsz' 36;
-            letter-spacing: -0.015em;
-            line-height: 1.2;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .about-section p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-
-        .about-section p:last-child {
-            margin-bottom: 0;
-        }
-
-        .about-section ul,
-        .about-section ol {
-            margin-left: 24px;
-            margin-bottom: 12px;
-        }
-
-        .about-section li {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .about-section a {
-            color: var(--text-secondary);
-            text-decoration: underline;
-            transition: color 150ms ease;
-        }
-
-        .about-section a:hover {
-            color: var(--text-primary);
-        }
-
-        .about-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0 24px 0;
-            font-size: 15px;
-        }
-
-        .about-table th {
-            text-align: left;
-            color: var(--text-primary);
-            font-weight: 500;
-            padding: 8px 12px 8px 0;
-            border-bottom: 1px solid var(--border-primary);
-        }
-
-        .about-table td {
-            color: var(--text-secondary);
-            padding: 12px 12px 12px 0;
-            border-bottom: 1px solid var(--border-secondary);
-            vertical-align: top;
-            line-height: 1.5;
-        }
-
-        .about-table td:first-child {
-            color: var(--text-primary);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .about-table code {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            background: var(--bg-hover);
-            padding: 2px 5px;
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
         }
 
         /* Week Picker Dropdown */
@@ -2337,7 +2240,6 @@
                 white-space: normal;
             }
 
-            .about-content .headline,
             .saved-content .headline {
                 font-size: 32px;
                 margin: 20px 0 20px;
