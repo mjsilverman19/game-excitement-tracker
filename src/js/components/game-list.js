@@ -322,8 +322,9 @@ function whyLink(game) {
     return `<button type="button" class="why-link" data-game-id="${game.id}" aria-expanded="false" aria-controls="detail-${game.id}">Why this game? ${ARROW_ICON}</button>`;
 }
 
-function detailPanel(game) {
-    return `<div class="game-detail" id="detail-${game.id}" data-breakdown='${escapeHtml(JSON.stringify(game.breakdown || {}))}' hidden></div>`;
+function detailPanel(game, className = '') {
+    const classes = ['game-detail', className].filter(Boolean).join(' ');
+    return `<div class="${classes}" id="detail-${game.id}" data-breakdown='${escapeHtml(JSON.stringify(game.breakdown || {}))}' hidden></div>`;
 }
 
 // ===== Cards =====
@@ -473,10 +474,12 @@ export function renderRankings(games, options = {}) {
     if (second) {
         html += '<div class="feature-grid">';
         html += renderFeatureCard(second, 1, options);
-        if (third) html += renderFeatureCard(third, 2, options);
+        html += detailPanel(second, 'feature-detail-first');
+        if (third) {
+            html += renderFeatureCard(third, 2, options);
+            html += detailPanel(third, 'feature-detail-second');
+        }
         html += '</div>';
-        // Details sit below the grid so opening one doesn't displace the other card
-        html += `<div class="feature-details">${detailPanel(second)}${third ? detailPanel(third) : ''}</div>`;
     }
 
     // Discover controls (range / search / stepper) mount here — below cards, above table
