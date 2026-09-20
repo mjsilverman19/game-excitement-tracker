@@ -86,13 +86,11 @@ jobs:
           # Build a list of sports to generate (can be multiple)
           SPORTS=""
 
-          # NFL: Tuesday during season (Sept-Feb), or Sunday/Monday during playoffs (Jan-Feb)
-          if [ "$DAY_OF_WEEK" = "2" ] && ([ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]); then
+          # NFL: Daily during season (Sept-Feb). A Tuesday-only run left Thursday
+          # and Sunday finals unpublished for most of the week.
+          if [ "$MONTH" -ge 9 ] || [ "$MONTH" -le 2 ]; then
             SPORTS="NFL"
-            echo "Added NFL (Tuesday during season)"
-          elif ([ "$DAY_OF_WEEK" = "7" ] || [ "$DAY_OF_WEEK" = "1" ]) && ([ "$MONTH" = "1" ] || [ "$MONTH" = "2" ]); then
-            SPORTS="NFL"
-            echo "Added NFL (playoff weekend)"
+            echo "Added NFL (daily during season)"
           fi
 
           # CFB: Daily during regular season (Aug-Nov) and bowl/playoff season (Dec-Jan)
@@ -142,9 +140,17 @@ jobs:
         if: steps.determine.outputs.scope != 'all' && (contains(steps.determine.outputs.sport, 'NFL') || steps.determine.outputs.sport == 'all')
         run: |
           # Season and week resolve from the calendar in shared/season-dates.js.
-          # Running Tuesday, "current" is the week whose games ended Monday night.
+          # Running daily, "current" is the week in progress, so force the
+          # rewrite to pick up each night's finals as they land.
           echo "Generating NFL current week"
-          node scripts/generate-static.js --sport NFL --season current --week current ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NFL generation completed with warnings"
+          node scripts/generate-static.js --sport NFL --season current --week current --force || echo "NFL generation completed with warnings"
+
+          # Thursday starts a new NFL week; refresh the previous slate too so
+          # late Monday-night finals are included before it becomes historical.
+          PREVIOUS_WEEK=$(node --input-type=module -e "import { getCurrentWeekNumber } from './shared/season-dates.js'; console.log(getCurrentWeekNumber('NFL') - 1)")
+          if [ "$PREVIOUS_WEEK" -ge 1 ]; then
+            node scripts/generate-static.js --sport NFL --season current --week "$PREVIOUS_WEEK" --force || echo "NFL previous-week generation completed with warnings"
+          fi
 
           # Generate NFL playoff rounds if in January/February.
           # "current" resolves to the prior calendar year's season before kickoff,

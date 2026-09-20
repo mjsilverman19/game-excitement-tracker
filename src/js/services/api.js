@@ -18,9 +18,10 @@ export function shouldUseStatic(sport, season, weekOrDate, now = new Date()) {
         return gameDate < today;
     }
 
-    // CFB slates can be published before late Saturday, Sunday, or Monday
-    // games finish. Keep this week and the prior week live across rollover.
-    if (sport === 'CFB') {
+    // Football slates get published while the week is still running: CFB spills
+    // into Sunday and Monday, NFL runs Thursday through Monday night. Keep this
+    // week and the prior week live across rollover so finals show the same day.
+    if (sport === 'CFB' || sport === 'NFL') {
         const current = getSeasonInfo(sport, now);
         const week = Number(weekOrDate);
         if (Number(season) === current.season && Number.isInteger(week) &&
