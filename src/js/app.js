@@ -29,15 +29,9 @@ window.ALGORITHM_CONFIG = ALGORITHM_CONFIG;
 window.getTier = getTier;
 
         // State
-        // Monday mornings default to NFL (recapping Sunday's games); CFB otherwise.
-        function defaultSport() {
-            const now = new Date();
-            return (now.getDay() === 1 && now.getHours() < 12) ? 'NFL' : 'CFB';
-        }
-        const initialSport = defaultSport();
-        const currentSportWeek = getCurrentWeek(initialSport);
-        window.selectedSport = initialSport;
-        window.selectedSeason = currentSportWeek.season;
+        const currentNFLWeek = getCurrentWeek('NFL');
+        window.selectedSport = 'NFL';
+        window.selectedSeason = currentNFLWeek.season;
         window.selectedWeek = null;
         window.selectedDate = getDefaultNBADate(); // For date-based navigation (NBA, MLB)
 
@@ -182,8 +176,8 @@ window.getTier = getTier;
         }
 
         function showView(view) {
-            const views = { discover: 'mainContent', saved: 'savedContent', about: 'aboutContent' };
-            const links = { discover: 'discoverLink', saved: 'savedLink', about: 'aboutLink' };
+            const views = { discover: 'mainContent', saved: 'savedContent' };
+            const links = { discover: 'discoverLink', saved: 'savedLink' };
             Object.entries(views).forEach(([name, id]) => {
                 document.getElementById(id).classList.toggle('hidden', name !== view);
             });
@@ -421,7 +415,7 @@ window.getTier = getTier;
             // Range control
             document.querySelectorAll('#rangeControl .segmented-option').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    if (window.rangeMode === btn.dataset.range && window.viewMode !== 'about') return;
+                    if (window.rangeMode === btn.dataset.range) return;
                     applyRangeMode(btn.dataset.range);
                 });
             });
@@ -469,10 +463,6 @@ window.getTier = getTier;
             });
 
             // Site navigation
-            document.getElementById('aboutLink').addEventListener('click', (e) => {
-                e.preventDefault();
-                showView('about');
-            });
             document.getElementById('discoverLink').addEventListener('click', (e) => {
                 e.preventDefault();
                 showView('discover');
