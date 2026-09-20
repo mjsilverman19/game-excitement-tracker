@@ -29,9 +29,15 @@ window.ALGORITHM_CONFIG = ALGORITHM_CONFIG;
 window.getTier = getTier;
 
         // State
-        const currentCFBWeek = getCurrentWeek('CFB');
-        window.selectedSport = 'CFB';
-        window.selectedSeason = currentCFBWeek.season;
+        // Monday mornings default to NFL (recapping Sunday's games); CFB otherwise.
+        function defaultSport() {
+            const now = new Date();
+            return (now.getDay() === 1 && now.getHours() < 12) ? 'NFL' : 'CFB';
+        }
+        const initialSport = defaultSport();
+        const currentSportWeek = getCurrentWeek(initialSport);
+        window.selectedSport = initialSport;
+        window.selectedSeason = currentSportWeek.season;
         window.selectedWeek = null;
         window.selectedDate = getDefaultNBADate(); // For date-based navigation (NBA, MLB)
 
