@@ -260,6 +260,18 @@ export async function findLatestAvailable(sport, season) {
     return { week: today, fromCache: false };
   }
 
+  // A football week in progress has no published file until the generator runs,
+  // so start on it and let the live API serve it, the way date-based sports
+  // start on today. loadGames falls back a week when nothing is final yet.
+  const inPostseason = (sport === 'NFL' && isNFLPostseason()) || (sport === 'CFB' && isCFBPostseason());
+  if (!inPostseason && (sport === 'NFL' || sport === 'CFB')) {
+    const current = getCurrentWeek(sport);
+    if (Number(season) === current.season) {
+      console.log(`🏈 ${sport}: starting at in-progress week ${current.week}`);
+      return { week: current.week, fromCache: false };
+    }
+  }
+
   // Prefer the season's latest.json pointer (one request) when present.
   const fromPointer = await readLatestPointer(sport, season);
   if (fromPointer != null && await staticFileExists(sport, season, fromPointer)) {

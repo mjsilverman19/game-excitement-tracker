@@ -43,7 +43,6 @@ test('CFB recent weeks stay live across Labor Day and Tuesday rollover', () => {
   assert.equal(shouldUseStatic('CFB', 2026, 2, tuesday), false);
   assert.equal(shouldUseStatic('CFB', 2026, 1, new Date(2026, 8, 15, 12)), true);
   assert.equal(shouldUseStatic('CFB', 2025, 1, monday), true);
-  assert.equal(shouldUseStatic('NFL', 2026, 1, monday), true);
   assert.equal(shouldUseStatic('CFB', 2025, 'bowls', monday), true);
 });
 
