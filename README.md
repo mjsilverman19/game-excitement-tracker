@@ -40,7 +40,7 @@ Games use sport-specific rating thresholds from `shared/algorithm-config.js`:
 | CFB | 7.7+ | 5.8–7.6 | Below 5.8 |
 | NBA / MLB / CBB | 8.5+ | 6.5–8.4 | Below 6.5 |
 
-Without a sport, the default thresholds are 8.0 and 6.0. Algorithm v3.5 also applies bonuses and a margin correction; the weighted metrics are the base score. Overtime games receive a bonus.
+Without a sport, the default thresholds are 8.0 and 6.0. Algorithm v3.5 also applies bonuses and a margin correction; the weighted metrics are the base score. Overtime games receive a bonus. Version 3.5.2 counts the swing into the first point of the finish window, so a decisive lead change at that boundary receives finish credit.
 
 ## CFB Coverage and Refreshes
 
@@ -81,7 +81,7 @@ To re-score only games already present in static files, preserving slate members
 node scripts/regenerate-existing-static.js --write --cache-dir /tmp/gei-static-regeneration
 ```
 
-Omit `--write` to preview. This command caches fetched probabilities, backs up originals in the cache directory, and replaces datasets only after every game has been successfully analyzed. It writes a before-and-after report to `analysis/static-regeneration-report.json`. Regenerated files use algorithm version 3.5.1, which preserves exact zero win probabilities. Comparisons against saved scores can also reflect changes to ESPN's historical data.
+Omit `--write` to preview. This command caches fetched probabilities, backs up originals in the cache directory, and replaces datasets only after every game has been successfully analyzed. It writes a before-and-after report to `analysis/static-regeneration-report.json`. Regenerated files use the current algorithm version, including exact zero win probabilities and the finish-window boundary correction. Comparisons against saved scores can also reflect changes to ESPN's historical data.
 
 ## Tech Stack
 
