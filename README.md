@@ -11,6 +11,24 @@ A web application that ranks NFL, college football, and NBA games by entertainme
 
 You can also search by team to find and analyze any specific game from their schedule.
 
+## Watch Now (NFL)
+
+The Watch now tab ranks ongoing NFL games using current win-probability closeness,
+the largest swing in the last eight probability points, and extra weight for close
+finishes in the last five minutes or overtime. These live signals are separate from
+the completed-game GEI rating. Scores are hidden until Show scores is checked.
+
+`GET /api/live` returns ongoing games, upcoming kickoffs for the current Eastern
+calendar day, and fetch metadata. It reads ESPN's scoreboard and game summaries;
+probabilities must match the latest play ID before a recommendation is displayed.
+Missing or lagging probabilities show Live data pending. Summary failures preserve
+the game with a pending label; scoreboard failures return 502. No post-game noise
+filter is applied to live probabilities, preserving genuine comebacks.
+
+The view refreshes every minute while visible, cancels requests on navigation,
+and marks retained results when refresh fails. Responses have a 20-second shared
+cache lifetime. ESPN may lag the broadcast; fetched time is not a latency guarantee.
+
 ## Voting System
 
 Each game includes upvote/downvote buttons for users to agree or disagree with the algorithm's rating. Votes are:

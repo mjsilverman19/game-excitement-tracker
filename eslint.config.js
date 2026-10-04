@@ -10,6 +10,10 @@ export default [
       globals: {
         // Browser globals
         window: 'readonly',
+        CSS: 'readonly',
+        Image: 'readonly',
+        URL: 'readonly',
+        Buffer: 'readonly',
         document: 'readonly',
         localStorage: 'readonly',
         console: 'readonly',
