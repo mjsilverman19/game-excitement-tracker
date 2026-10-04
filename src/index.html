@@ -24,6 +24,7 @@
             </a>
             <nav class="site-nav" aria-label="Site">
                 <a href="#" class="site-nav-link active" id="discoverLink">Discover</a>
+                <a href="#" class="site-nav-link" id="liveLink">Watch now</a>
                 <a href="#" class="site-nav-link" id="savedLink">Saved games <span class="nav-count" id="savedCount" hidden>0</span></a>
             </nav>
         </header>
@@ -115,6 +116,22 @@
             <div id="resultsArea">
                 <!-- Results populated by JavaScript -->
             </div>
+        </div>
+
+        <div class="live-content hidden" id="liveContent">
+            <div class="page-intro">
+                <div class="page-intro-text">
+                    <h1 class="headline">Worth switching to.</h1>
+                    <p class="subheadline">NFL games happening now, ranked by the action right now.</p>
+                </div>
+                <button type="button" class="live-refresh" id="liveRefresh">Refresh</button>
+            </div>
+            <div class="live-toolbar">
+                <p id="liveStatus" role="status" aria-live="polite"></p>
+                <label class="live-scores-toggle"><input type="checkbox" id="liveShowScores"> Show scores</label>
+            </div>
+            <p class="live-note">Live signals reflect current competitiveness and recent swings. Final GEI ratings appear in Discover after the game. ESPN updates may lag the broadcast.</p>
+            <div id="liveArea" aria-label="Live NFL games"></div>
         </div>
 
         <div class="saved-content hidden" id="savedContent">

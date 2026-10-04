@@ -1,3 +1,4 @@
+import { initLiveGames, startLiveGames, stopLiveGames } from './components/live-games.js';
 import { beginLoad } from './services/load-state.js';
 import { ALGORITHM_CONFIG, getTier, NFL_PLAYOFF_ROUNDS, isNFLPlayoffRound, getNextNFLPlayoffRound, getPrevNFLPlayoffRound } from '../../shared/algorithm-config.js';
 import { initSupabase, upsertVoteToSupabase, deleteVoteFromSupabase } from './services/supabase.js';
@@ -74,6 +75,7 @@ window.getTier = getTier;
             updateSavedCount();
             attachEventListeners();
             initNavigation();
+            initLiveGames();
 
             await applyRangeMode('latest');
         }
@@ -176,15 +178,17 @@ window.getTier = getTier;
         }
 
         function showView(view) {
-            const views = { discover: 'mainContent', saved: 'savedContent' };
-            const links = { discover: 'discoverLink', saved: 'savedLink' };
+            const views = { discover: 'mainContent', saved: 'savedContent', live: 'liveContent' };
+            const links = { discover: 'discoverLink', saved: 'savedLink', live: 'liveLink' };
             Object.entries(views).forEach(([name, id]) => {
                 document.getElementById(id).classList.toggle('hidden', name !== view);
             });
             Object.entries(links).forEach(([name, id]) => {
                 document.getElementById(id).classList.toggle('active', name === view);
             });
+            stopLiveGames();
             window.currentView = view;
+            if (view === 'live') startLiveGames();
             if (view === 'saved') renderSavedGames();
             window.scrollTo(0, 0);
         }
@@ -463,6 +467,10 @@ window.getTier = getTier;
             });
 
             // Site navigation
+            document.getElementById('liveLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('live');
+            });
             document.getElementById('discoverLink').addEventListener('click', (e) => {
                 e.preventDefault();
                 showView('discover');

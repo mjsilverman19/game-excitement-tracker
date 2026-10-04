@@ -4,6 +4,9 @@
   "functions": {
     "api/*.js": {
       "maxDuration": 10
+    },
+    "api/live.js": {
+      "maxDuration": 20
     }
   },
   "rewrites": [
