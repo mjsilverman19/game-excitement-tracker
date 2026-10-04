@@ -87,8 +87,17 @@ test('probability chart hides identifying labels until scores are enabled', asyn
 
 test('probability chart handles one point, zero probability, invalid data, and pending data', async t => {
   const { module } = await setup(t);
-  assert.match(module.renderLiveProbabilityChart({ probabilityHistory: [0] }), /cy="72.0"/);
+  assert.match(module.renderLiveProbabilityChart({ probabilityHistory: [0] }), /cy="88.0"/);
   assert.match(module.renderLiveProbabilityChart({ probabilityHistory: [1] }), /cy="8.0"/);
   assert.equal(module.renderLiveProbabilityChart({ probabilityHistory: [null, NaN, -1, 2] }), '');
   assert.equal(module.renderLiveProbabilityChart({ probabilityHistory: [.5], dataPending: true }), '');
+});
+
+
+test('game flow shows quarter markers without team or percentage labels', async t => {
+  const { module } = await setup(t);
+  const chart = module.renderLiveProbabilityChart({ homeTeam: 'Home', awayTeam: 'Away', probabilityHistory: [.4, .6, .5], quarterMarkers: [{ index: 0, period: 1 }, { index: 2, period: 2 }] });
+  assert.match(chart, /Game flow/);
+  assert.match(chart, />Q1<|>Q2</);
+  assert.doesNotMatch(chart, /Home|Away|50%/);
 });

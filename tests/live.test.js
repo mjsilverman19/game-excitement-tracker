@@ -96,13 +96,21 @@ test('live API rejects writes', async () => {
   assert.equal(res.code, 405);
 });
 
-test('live API provides the latest eight probabilities and suppresses lagging charts', () => {
+test('live API provides the full probability history and suppresses lagging charts', () => {
   const source = summary();
   source.winprobability = Array.from({ length: 12 }, (_, i) => ({ homeWinPercentage: i / 12, playId: i === 11 ? '2' : String(i) }));
   const result = enrichLiveGame(game, source);
-  assert.equal(result.probabilityHistory.length, 8);
-  assert.equal(result.probabilityHistory[0], 4 / 12);
+  assert.equal(result.probabilityHistory.length, 12);
+  assert.equal(result.probabilityHistory[0], 0);
   assert.equal(result.probabilityHistory.at(-1), 11 / 12);
   source.winprobability.at(-1).playId = 'stale';
   assert.deepEqual(enrichLiveGame(game, source).probabilityHistory, []);
+});
+
+
+test('quarter markers line up with probability play IDs across the full game', () => {
+  const source = summary();
+  source.drives = { previous: [{ plays: [{ id: 'a', sequenceNumber: '100', period: { number: 1 } }] }], current: { plays: [{ id: '2', sequenceNumber: '200', period: { number: 2 } }] } };
+  source.winprobability = [{ playId: 'a', homeWinPercentage: .4 }, { playId: '2', homeWinPercentage: .6 }];
+  assert.deepEqual(enrichLiveGame(game, source).quarterMarkers, [{ index: 0, period: 1 }, { index: 1, period: 2 }]);
 });

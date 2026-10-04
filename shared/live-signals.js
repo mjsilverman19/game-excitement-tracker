@@ -64,15 +64,24 @@ export function enrichLiveGame(game, summary) {
   const probabilities = summary.winprobability || [];
   const latestProbability = probabilities.at(-1);
   const pending = !latestProbability || !latestPlay || String(latestProbability.playId) !== String(latestPlay.id);
+  const chartPoints = probabilities.filter(p => typeof p.homeWinPercentage === 'number'
+    && Number.isFinite(p.homeWinPercentage) && p.homeWinPercentage >= 0 && p.homeWinPercentage <= 1);
+  const playPeriods = new Map(plays.map(play => [String(play.id), play.period?.number]));
+  const quarterMarkers = [];
+  for (let index = 0; index < chartPoints.length; index++) {
+    const period = playPeriods.get(String(chartPoints[index].playId));
+    if (Number.isInteger(period) && period > 0 && period <= 20
+      && !quarterMarkers.some(marker => marker.period === period)) {
+      quarterMarkers.push({ index, period });
+    }
+  }
   return {
     ...updated,
     ...(pending ? { priority: -1, label: 'Live data pending', closeness: null, recentSwing: null }
       : calculateLiveSignal(probabilities, updated)),
     probabilityPlayId: latestProbability?.playId || null,
-    probabilityHistory: pending ? [] : probabilities
-      .filter(p => typeof p.homeWinPercentage === 'number' && Number.isFinite(p.homeWinPercentage)
-        && p.homeWinPercentage >= 0 && p.homeWinPercentage <= 1)
-      .slice(-8).map(p => p.homeWinPercentage),
+    probabilityHistory: pending ? [] : chartPoints.map(p => p.homeWinPercentage),
+    quarterMarkers: pending ? [] : quarterMarkers,
     lastPlayAt: latestPlay?.wallclock || null,
     dataPending: pending
   };

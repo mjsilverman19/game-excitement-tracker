@@ -16,22 +16,31 @@ export function renderLiveProbabilityChart(game, labelsVisible = false) {
   const left = labelsVisible ? 32 : 4;
   const right = 316;
   const top = 8;
-  const bottom = 72;
+  const bottom = 88;
   const coordinates = values.map((value, i) => [
     values.length === 1 ? right : left + i / (values.length - 1) * (right - left),
     bottom - value * (bottom - top)
   ]);
   const path = coordinates.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  const markers = (game.quarterMarkers || []).filter(marker =>
+    Number.isInteger(marker.index) && marker.index >= 0 && marker.index < values.length
+    && Number.isInteger(marker.period) && marker.period > 0 && marker.period <= 20
+  ).map(marker => {
+    const x = values.length === 1 ? left : left + marker.index / (values.length - 1) * (right - left);
+    const label = marker.period <= 4 ? `Q${marker.period}` : marker.period === 5 ? 'OT' : `${marker.period - 4}OT`;
+    return `<line class="live-chart-quarter-line" x1="${x.toFixed(1)}" y1="8" x2="${x.toFixed(1)}" y2="88" /><text class="live-chart-quarter" x="${Math.max(left + 8, Math.min(right - 12, x)).toFixed(1)}" y="108" text-anchor="middle">${label}</text>`;
+  }).join('');
   const [endX, endY] = coordinates.at(-1);
   const current = Math.round(values.at(-1) * 100);
   const accessibleLabel = labelsVisible
-    ? `${game.homeTeam} win probability over recent plays, currently ${current} percent.`
-    : 'Recent win-probability movement. Team and percentage labels hidden.';
+    ? `${game.homeTeam} win probability through the game, currently ${current} percent.`
+    : 'Win-probability history through the game. Team and percentage labels hidden.';
   return `<figure class="live-probability">
-    <figcaption class="live-chart-caption">Recent momentum</figcaption>
-    <svg class="live-sparkline" viewBox="0 0 320 80" role="img" aria-label="${escapeHTML(accessibleLabel)}">
-      <line class="live-chart-midline" x1="${left}" y1="40" x2="${right}" y2="40" />
-      ${labelsVisible ? '<text class="live-chart-axis" x="0" y="12">100%</text><text class="live-chart-axis" x="0" y="44">50%</text><text class="live-chart-axis" x="0" y="76">0%</text>' : ''}
+    <figcaption class="live-chart-caption">Game flow</figcaption>
+    <svg class="live-sparkline" viewBox="0 0 320 112" role="img" aria-label="${escapeHTML(accessibleLabel)}">
+      <line class="live-chart-midline" x1="${left}" y1="48" x2="${right}" y2="48" />
+      ${labelsVisible ? '<text class="live-chart-axis" x="0" y="12">100%</text><text class="live-chart-axis" x="0" y="52">50%</text><text class="live-chart-axis" x="0" y="92">0%</text>' : ''}
+      ${markers}
       <path class="live-chart-path" d="${path}" />
       <circle class="live-chart-end" cx="${endX.toFixed(1)}" cy="${endY.toFixed(1)}" r="3" />
     </svg>
