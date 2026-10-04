@@ -22,14 +22,14 @@ export default async function handler(req, res) {
       timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
     }).format(new Date()).replace(/-/g, '');
     const scoreboard = await fetchJSON(
-      `https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${day}&limit=100`, 5000
+      `https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${day}&limit=100`, 4000
     );
     const events = (scoreboard.events || []).map(parseLiveEvent).filter(Boolean);
     const live = events.filter(game => game.state === 'in');
     const games = await Promise.all(live.map(async game => {
       try {
         const summary = await fetchJSON(
-          `https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${game.id}`, 6000
+          `https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${game.id}`, 4000
         );
         return enrichLiveGame(game, summary);
       } catch {
