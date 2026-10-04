@@ -9,6 +9,36 @@ function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 }
 
+export function renderLiveProbabilityChart(game, labelsVisible = false) {
+  const values = (game.probabilityHistory || []).filter(value =>
+    typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1);
+  if (game.dataPending || !values.length) return '';
+  const left = labelsVisible ? 32 : 4;
+  const right = 316;
+  const top = 8;
+  const bottom = 72;
+  const coordinates = values.map((value, i) => [
+    values.length === 1 ? right : left + i / (values.length - 1) * (right - left),
+    bottom - value * (bottom - top)
+  ]);
+  const path = coordinates.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  const [endX, endY] = coordinates.at(-1);
+  const current = Math.round(values.at(-1) * 100);
+  const accessibleLabel = labelsVisible
+    ? `${game.homeTeam} win probability over recent plays, currently ${current} percent.`
+    : 'Recent win-probability movement. Team and percentage labels hidden.';
+  return `<figure class="live-probability">
+    <figcaption class="live-chart-caption">Recent momentum</figcaption>
+    <svg class="live-sparkline" viewBox="0 0 320 80" role="img" aria-label="${escapeHTML(accessibleLabel)}">
+      <line class="live-chart-midline" x1="${left}" y1="40" x2="${right}" y2="40" />
+      ${labelsVisible ? '<text class="live-chart-axis" x="0" y="12">100%</text><text class="live-chart-axis" x="0" y="44">50%</text><text class="live-chart-axis" x="0" y="76">0%</text>' : ''}
+      <path class="live-chart-path" d="${path}" />
+      <circle class="live-chart-end" cx="${endX.toFixed(1)}" cy="${endY.toFixed(1)}" r="3" />
+    </svg>
+    ${labelsVisible ? `<p class="live-chart-values">${escapeHTML(game.homeTeam)} ${current}% · ${escapeHTML(game.awayTeam)} ${100 - current}%</p>` : ''}
+  </figure>`;
+}
+
 function render(data) {
   const area = document.getElementById('liveArea');
   const games = data.games || [];
@@ -16,6 +46,7 @@ function render(data) {
     <article class="live-card ${index === 0 && !game.dataPending ? 'live-card-featured' : ''}">
       <div class="live-card-header"><span class="live-label">${escapeHTML(game.label)}</span><span class="live-clock">${escapeHTML(game.status)}</span></div>
       <h2>${escapeHTML(game.awayTeam)} <span class="live-at">at</span> ${escapeHTML(game.homeTeam)}</h2>
+      ${renderLiveProbabilityChart(game, showScores)}
       ${showScores ? `<p class="live-score">${escapeHTML(game.awayTeam)} ${escapeHTML(game.awayScore)} · ${escapeHTML(game.homeTeam)} ${escapeHTML(game.homeScore)}</p>` : ''}
       <p class="live-reason">${game.dataPending ? 'Waiting for probabilities to catch up with the latest play.' :
         game.label === 'Tight finish' ? 'Still competitive in the final minutes.' :

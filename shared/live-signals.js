@@ -69,6 +69,10 @@ export function enrichLiveGame(game, summary) {
     ...(pending ? { priority: -1, label: 'Live data pending', closeness: null, recentSwing: null }
       : calculateLiveSignal(probabilities, updated)),
     probabilityPlayId: latestProbability?.playId || null,
+    probabilityHistory: pending ? [] : probabilities
+      .filter(p => typeof p.homeWinPercentage === 'number' && Number.isFinite(p.homeWinPercentage)
+        && p.homeWinPercentage >= 0 && p.homeWinPercentage <= 1)
+      .slice(-8).map(p => p.homeWinPercentage),
     lastPlayAt: latestPlay?.wallclock || null,
     dataPending: pending
   };

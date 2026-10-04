@@ -73,3 +73,22 @@ test('live view refreshes after a minute and pauses while hidden', async t => {
   document.hidden = false; document.visibilitychange(); await flush();
   assert.equal(requests, 3);
 });
+
+test('probability chart hides identifying labels until scores are enabled', async t => {
+  const { module } = await setup(t);
+  const game = { homeTeam: 'Home', awayTeam: 'Away', probabilityHistory: [.2, .6, .54] };
+  const hidden = module.renderLiveProbabilityChart(game);
+  assert.match(hidden, /<svg/);
+  assert.doesNotMatch(hidden, /Home|Away|54%|46%|<text|live-chart-values/);
+  const visible = module.renderLiveProbabilityChart(game, true);
+  assert.match(visible, /Home 54% · Away 46%/);
+  assert.match(visible, /100%/);
+});
+
+test('probability chart handles one point, zero probability, invalid data, and pending data', async t => {
+  const { module } = await setup(t);
+  assert.match(module.renderLiveProbabilityChart({ probabilityHistory: [0] }), /cy="72.0"/);
+  assert.match(module.renderLiveProbabilityChart({ probabilityHistory: [1] }), /cy="8.0"/);
+  assert.equal(module.renderLiveProbabilityChart({ probabilityHistory: [null, NaN, -1, 2] }), '');
+  assert.equal(module.renderLiveProbabilityChart({ probabilityHistory: [.5], dataPending: true }), '');
+});

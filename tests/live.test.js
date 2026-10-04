@@ -95,3 +95,14 @@ test('live API rejects writes', async () => {
   await handler({ method: 'POST' }, res);
   assert.equal(res.code, 405);
 });
+
+test('live API provides the latest eight probabilities and suppresses lagging charts', () => {
+  const source = summary();
+  source.winprobability = Array.from({ length: 12 }, (_, i) => ({ homeWinPercentage: i / 12, playId: i === 11 ? '2' : String(i) }));
+  const result = enrichLiveGame(game, source);
+  assert.equal(result.probabilityHistory.length, 8);
+  assert.equal(result.probabilityHistory[0], 4 / 12);
+  assert.equal(result.probabilityHistory.at(-1), 11 / 12);
+  source.winprobability.at(-1).playId = 'stale';
+  assert.deepEqual(enrichLiveGame(game, source).probabilityHistory, []);
+});
