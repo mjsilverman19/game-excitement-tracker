@@ -2854,6 +2854,7 @@
         }
 
 /* Watch now */
+.live-content { padding-top: 32px; }
 .live-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; color: var(--text-secondary); font-size: 13px; }
 .live-scores-toggle { display: flex; gap: 8px; align-items: center; white-space: nowrap; cursor: pointer; }
 .live-scores-toggle input { accent-color: var(--color-primary); }
