@@ -27,7 +27,7 @@ function render(data) {
       <div class="live-upcoming-row"><span>${escapeHTML(game.awayTeam)} at ${escapeHTML(game.homeTeam)}</span><time datetime="${escapeHTML(game.date)}">${escapeHTML(new Date(game.date).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' }))}</time></div>`).join('')}</section>`;
   }
   const updated = new Date(data.metadata.fetchedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  document.getElementById('liveStatus').textContent = `Updated ${updated} · Refreshes every minute${data.metadata.pending ? ' · Some live data pending' : ''}`;
+  document.getElementById('liveStatus').textContent = `Updated ${updated} · Refreshes every minute`;
 }
 
 async function refresh() {
