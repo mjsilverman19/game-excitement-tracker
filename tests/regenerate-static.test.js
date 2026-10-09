@@ -42,7 +42,7 @@ for (const fail of [false, true]) {
         assert.equal(updated.games[0].customField, game.customField);
         assert.equal(updated.games[0].homeLogo, game.homeLogo);
         assert.ok(updated.games[0].excitement < game.excitement);
-        assert.equal(updated.metadata.algorithmVersion, '3.5.1');
+        assert.equal(updated.metadata.algorithmVersion, '3.5.2');
         assert.equal(await readFile(join(root, 'cache/originals/nfl/2025/week-01.json'), 'utf8'), original);
       }
       assert.equal(await readFile(join(dir, 'latest.json'), 'utf8'), '{"week":1}');
