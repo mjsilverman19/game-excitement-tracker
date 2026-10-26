@@ -532,7 +532,10 @@ function calculateFinishQuality(probs, game, sport = 'NFL', overtimeDetected = f
   // Detect truncated OT data
   const adjustedProbs = detectAndAdjustForTruncatedData(probs);
   const finalMoments = Math.min(SCORING_CONFIG.thresholds.finalMomentPoints, adjustedProbs.length);
-  const finalProbs = adjustedProbs.slice(-finalMoments);
+  // Include the preceding state so a swing into the first point of the
+  // finish window is counted. Otherwise a late lead change at this boundary
+  // loses its walk-off credit and can be mistaken for a stable lead.
+  const finalProbs = adjustedProbs.slice(-(finalMoments + 1));
   const lastProb = adjustedProbs[adjustedProbs.length - 1].value;
   const finishWalkoff = SCORING_CONFIG.thresholds.finishWalkoff ?? {
     competitiveRange: { low: 0.35, high: 0.65 },
