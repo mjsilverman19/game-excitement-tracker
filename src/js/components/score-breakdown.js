@@ -1,30 +1,28 @@
 /**
  * Score breakdown panel for the "Why this game?" detail view.
  *
- * Leads with a one-line answer, then lists each dimension strongest first
- * with a plain-language definition, a percentile bar and the period average.
- * Dimensions that reveal how the game ended (Finish, Twist) stay hidden while
- * scores are hidden, so the panel never spoils a comeback.
+ * A bullet-graph list (Few): one row per dimension, label · bar · value,
+ * strongest first, with the period average as a comparative tick. Text is kept
+ * to the data itself; definitions appear on demand when a label is tapped.
+ * Finish and Twist reveal how the game ended, so they stay locked while scores
+ * are hidden.
  */
 
-// Short, always-visible definitions and the phrase used in the summary line.
-const DIMENSION_COPY = {
-    suspense: { short: 'Close throughout, with plays that could swing it', phrase: 'tension throughout' },
-    surprise: { short: 'Big momentum swings and lead changes', phrase: 'big momentum swings' },
-    finish: { short: 'The closing stretch stayed in doubt', phrase: 'a dramatic finish' },
-    twist: { short: 'How unlikely the result looked at its lowest point', phrase: 'an unlikely turnaround' },
-    pacing: { short: 'Not settled early', phrase: 'staying in doubt late' }
+const DEFINITIONS = {
+    suspense: 'Close throughout, with plays that could swing it',
+    surprise: 'Big momentum swings and lead changes',
+    finish: 'The closing stretch stayed in doubt',
+    twist: 'How unlikely the result looked at its lowest point',
+    pacing: 'Not settled early'
 };
 
 // Dimensions that reveal how the game ended.
 const SPOILER_KEYS = new Set(['finish', 'twist']);
 
-const SPORT_NAMES = { NFL: 'NFL', CFB: 'college football', NBA: 'NBA', MLB: 'MLB', CBB: 'college basketball' };
+const LOCK_ICON = '<svg class="score-lock" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/></svg>';
 
 function periodLabel() {
-    return (window.selectedSport === 'NBA' || window.selectedSport === 'MLB')
-        ? 'Date average'
-        : 'Week average';
+    return (window.selectedSport === 'NBA' || window.selectedSport === 'MLB') ? 'Date avg' : 'Week avg';
 }
 
 /** Percentile phrasing that cannot be mistaken for the 1–10 rating. */
@@ -34,19 +32,10 @@ export function rankLabel(value) {
     return `Bottom ${Math.max(1, Math.round(pct))}%`;
 }
 
-function joinPhrases(phrases) {
-    if (phrases.length <= 1) return phrases[0] || '';
-    return `${phrases.slice(0, -1).join(', ')} and ${phrases.at(-1)}`;
-}
-
-/** One-line answer to "why it rates X", from the strongest visible dimensions. */
-export function summaryLine(rows) {
-    const standouts = rows.filter(row => row.value >= 7).slice(0, 2);
-    if (standouts.length) {
-        return `Stood out for ${joinPhrases(standouts.map(row => DIMENSION_COPY[row.key]?.phrase || row.label.toLowerCase()))}.`;
-    }
-    if (rows.every(row => row.value < 4)) return 'Little drama on any measure.';
-    return 'A steady game without a standout moment.';
+/** The takeaway, stated once: the strongest visible dimensions. */
+export function strongestLine(rows) {
+    const standouts = rows.filter(row => row.value >= 7).slice(0, 2).map(row => row.label);
+    return standouts.length ? `Strongest: ${standouts.join(' · ')}` : '';
 }
 
 /**
@@ -58,71 +47,60 @@ export function renderScoreBreakdown(breakdown, averages = null) {
     const metrics = window.ALGORITHM_CONFIG?.metrics || [];
 
     if (!breakdown || metrics.length === 0 || Object.keys(breakdown).length === 0) {
-        return '<p class="detail-copy">Breakdown data is not available for this game.</p>';
+        return '<p class="detail-copy">Breakdown not available.</p>';
     }
-
     // Slates scored before v4 carry tension/drama/finish only.
     if (metrics.some(metric => typeof breakdown[metric.key] !== 'number')) {
-        return '<p class="detail-copy">This game was scored by an earlier version of the index; the breakdown will appear once it is rescored.</p>';
+        return '<p class="detail-copy">Breakdown available once this game is rescored.</p>';
     }
 
     const spoilerSafe = window.spoilerMode !== 'scores';
-    const rows = metrics
-        .filter(metric => !(spoilerSafe && SPOILER_KEYS.has(metric.key)))
-        .map(metric => ({
-            key: metric.key,
-            label: metric.label,
-            value: breakdown[metric.key],
-            average: averages && typeof averages[metric.key] === 'number' ? averages[metric.key] : null
-        }))
-        .sort((a, b) => b.value - a.value);
-    const hiddenLabels = metrics.filter(metric => spoilerSafe && SPOILER_KEYS.has(metric.key)).map(m => m.label);
+    const all = metrics.map(metric => ({
+        key: metric.key,
+        label: metric.label,
+        value: breakdown[metric.key],
+        average: averages && typeof averages[metric.key] === 'number' ? averages[metric.key] : null,
+        locked: spoilerSafe && SPOILER_KEYS.has(metric.key)
+    }));
+    const visible = all.filter(row => !row.locked).sort((a, b) => b.value - a.value);
+    const locked = all.filter(row => row.locked);
 
-    const dimensionRows = rows.map(row => {
+    const rowHtml = row => {
+        const defId = `def-${row.key}-${Math.random().toString(36).slice(2, 8)}`;
+        const label = `<button type="button" class="score-dim-label" aria-expanded="false" aria-controls="${defId}">${row.label}</button>`;
+        const def = `<p class="score-dim-def" id="${defId}" hidden>${DEFINITIONS[row.key] || ''}</p>`;
+        if (row.locked) {
+            return `<li class="score-dim is-locked">${label}<span class="score-dim-track" aria-hidden="true"></span><span class="score-dim-value" aria-label="Hidden while scores are off">${LOCK_ICON}</span>${def}</li>`;
+        }
         const pct = Math.max(0, Math.min(100, row.value * 10));
         const avgPct = row.average != null ? Math.max(0, Math.min(100, row.average * 10)) : null;
         const rank = rankLabel(row.value);
-        const description = DIMENSION_COPY[row.key]?.short || '';
-        return `
-            <li class="score-dim">
-                <div class="score-dim-head">
-                    <span class="score-dim-label">${escapeHtml(row.label)}</span>
-                    <span class="score-dim-rank">${rank}</span>
-                </div>
-                <div class="score-dim-track" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}"
-                    aria-label="${escapeHtml(row.label)}: ${rank}${avgPct != null ? `, ${periodLabel().toLowerCase()} ${rankLabel(row.average).toLowerCase()}` : ''}">
-                    <span class="score-dim-fill" style="width:${pct}%"></span>
-                    ${avgPct != null ? `<span class="score-dim-avg" style="left:${avgPct}%" aria-hidden="true"></span>` : ''}
-                </div>
-                <p class="score-dim-desc">${escapeHtml(description)}</p>
-            </li>
-        `;
-    }).join('');
+        return `<li class="score-dim">${label}<span class="score-dim-track" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}" aria-label="${row.label}: ${rank}"><span class="score-dim-fill" style="width:${pct}%"></span>${avgPct != null ? `<span class="score-dim-avg" style="left:${avgPct}%"></span>` : ''}</span><span class="score-dim-value">${rank}</span>${def}</li>`;
+    };
 
-    const sport = SPORT_NAMES[window.selectedSport] || 'other';
-    const hiddenNote = hiddenLabels.length
-        ? `<p class="score-hidden-note">${escapeHtml(joinPhrases(hiddenLabels))} hidden to avoid spoilers. Turn on Show scores to see them.</p>`
-        : '';
+    const strongest = strongestLine(visible);
+    const keyParts = [];
+    if (averages) keyParts.push(`<span class="score-key-avg" aria-hidden="true"></span>${periodLabel()}`);
+    if (locked.length) keyParts.push(`${LOCK_ICON}Show scores to reveal`);
 
     return `
         <div class="score-breakdown">
-            <p class="score-summary">${escapeHtml(summaryLine(rows))}</p>
-            <ul class="score-dims">${dimensionRows}</ul>
-            ${hiddenNote}
-            <p class="score-key">
-                ${averages ? `<span class="score-key-avg" aria-hidden="true"></span> ${periodLabel()} · ` : ''}Ranked against ${escapeHtml(sport)} games using ESPN's play-by-play win probability, not the final score.
-            </p>
+            ${strongest ? `<p class="score-summary">${strongest}</p>` : ''}
+            <ul class="score-dims">${[...visible, ...locked].map(rowHtml).join('')}</ul>
+            ${keyParts.length ? `<p class="score-key">${keyParts.join('<span class="score-key-sep" aria-hidden="true">·</span>')}</p>` : ''}
         </div>
     `;
 }
 
-function escapeHtml(str) {
-    return String(str ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+/** Tapping a dimension label shows its definition (details on demand). */
+export function attachScoreBreakdownListeners(container) {
+    container.querySelectorAll('.score-dim-label').forEach(button => {
+        button.addEventListener('click', () => {
+            const def = container.querySelector(`#${button.getAttribute('aria-controls')}`);
+            if (!def) return;
+            const open = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', String(!open));
+            def.hidden = open;
+        });
+    });
 }
-
-/** Definitions are always visible now; kept for callers that still attach. */
-export function attachScoreBreakdownListeners() {}
