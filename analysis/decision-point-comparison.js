@@ -23,7 +23,7 @@ import {
   applyDecisionAdjustmentA,
   applyDecisionAdjustmentC,
   fetchAllProbabilities
-} from '../api/calculator.js';
+} from '../archive/calculator-v3.5.1.js';
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
 
 const __filename = fileURLToPath(import.meta.url);

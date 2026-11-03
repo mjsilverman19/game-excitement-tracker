@@ -16,7 +16,7 @@ for (const fail of [false, true]) {
       await mkdir(dir, { recursive: true });
       await mkdir(join(root, 'analysis'));
       // The script hashes the source modules to invalidate obsolete cached scores.
-      for (const file of ['api/calculator.js', 'api/data-quality.js', 'shared/algorithm-config.js', 'shared/espn-api.js']) {
+      for (const file of ['api/calculator.js', 'api/data-quality.js', 'shared/algorithm-config.js', 'shared/espn-api.js', 'shared/belief-metrics.js', 'shared/scoring-model.js', 'shared/suspense-table.js', 'shared/score-calibration.js']) {
         await mkdir(join(root, file, '..'), { recursive: true });
         await writeFile(join(root, file), await readFile(resolve(file)));
       }
@@ -42,7 +42,7 @@ for (const fail of [false, true]) {
         assert.equal(updated.games[0].customField, game.customField);
         assert.equal(updated.games[0].homeLogo, game.homeLogo);
         assert.ok(updated.games[0].excitement < game.excitement);
-        assert.equal(updated.metadata.algorithmVersion, '3.5.1');
+        assert.equal(updated.metadata.algorithmVersion, '4.0.0');
         assert.equal(await readFile(join(root, 'cache/originals/nfl/2025/week-01.json'), 'utf8'), original);
       }
       assert.equal(await readFile(join(dir, 'latest.json'), 'utf8'), '{"week":1}');

@@ -40,7 +40,7 @@ graph TD
 - Serverless functions import the shared config directly via ESM.
 
 ### 1) `api/calculator.js` (source)
-**Outputs**: `excitement` (1–10), `breakdown `{tension, drama, finish}` (0–10), `overtime` passthrough (boolean), plus game metadata.
+**Outputs**: `excitement` (1–10), `breakdown` `{suspense, surprise, finish, twist, pacing}` (0–10, within-sport percentile ×10), `overtime` passthrough (boolean), plus game metadata.
 - **Where it happens**: `analyzeGameEntertainment` returns the output object with `excitement`, `breakdown`, `overtime` (search `analyzeGameEntertainment` in `api/calculator.js`).
 - **Transformations**:
   - Weighted combination of metrics (`weights`), overtime bonus, then normalization to 1–10 (search `calculateExcitement` in `api/calculator.js`).
@@ -123,12 +123,8 @@ graph TD
 |  | `src/js/components/game-list.js` (search `createGameRow`) | Tier class/label, display score, pie chart fill. | **High**: UI labels/colors and visual scale break. |
 |  | `src/js/components/export-modal.js` (search `exportFullSeason`) | Export rating/tier. | **High**: exported tiers and rating column wrong. |
 |  | `src/js/services/supabase.js` | Persisted as `algorithm_score` with `algorithm_version` for historical tracking. | **Medium**: historical data versioned for comparability. |
-| `breakdown.tension` | `src/js/components/radar-chart.js` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
-|  | `src/js/components/game-list.js` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
-| `breakdown.drama` | `src/js/components/radar-chart.js` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
-|  | `src/js/components/game-list.js` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
-| `breakdown.finish` | `src/js/components/radar-chart.js` (search `renderRadarChart`) | Radar chart axis value. | **High**: chart fails or mislabels if missing/renamed. |
-|  | `src/js/components/game-list.js` (search `data-breakdown`) | Serialized into `data-breakdown` for chart toggle. | **Medium**: chart toggle would receive empty data. |
+| `breakdown.<metric>` (v4: `suspense`, `surprise`, `finish`, `twist`, `pacing`) | `src/js/components/score-breakdown.js` (search `renderScoreBreakdown`) | Stacked contribution bar and per-dimension rows; keys and labels come from `ALGORITHM_CONFIG.metrics`, colors from `DIMENSION_COLORS`. Slates still carrying v3 keys show a "rescored soon" note. | **High**: renaming a key requires a matching config entry, color and rescored static data. |
+|  | `src/js/components/game-list.js` (search `data-breakdown`) | Serialized into `data-breakdown` for the detail panel. | **Medium**: detail panel would receive empty data. |
 | `breakdown.*` | `src/js/components/game-list.js` (search `calculatePeriodAverages`) | Computes week/date averages for radar chart overlay. Iterates `ALGORITHM_CONFIG.metrics` for keys. | **Low**: Auto-adapts to metric additions/renames via config. |
 | `overtime` (bonus applied) | `src/js/components/game-list.js` (search `gameScoreText`) | Adds "OT" suffix to score display. | **Low**: UI text only. |
 |  | `src/js/components/export-modal.js` (search `OT`) | Excel export `OT` column. | **Low**: export data missing if renamed. |
@@ -200,6 +196,13 @@ Continue to keep UI and backend consumers referencing `shared/algorithm-config.j
 ---
 
 ## Algorithm Version Notes
+
+### v4.0 (Suspense and Surprise)
+- **Model**: `api/calculator.js` now computes belief-path measures from Ely, Frankel & Kamenica (2015) in `shared/belief-metrics.js` and combines them in `shared/scoring-model.js`. The v3 tension/drama/finish formula, bonuses, decision point and margin correction are retired; the code is kept in `archive/calculator-v3.5.1.js`.
+- **Generated data**: `shared/suspense-table.js` (expected next-play variance by progress and win probability) and `shared/score-calibration.js` (per-sport quantile knots). Rebuild with `scripts/build-suspense-table.js` and `scripts/calibrate-scoring.js` from `analysis/wp-dataset/`.
+- **Breakdown keys** changed to `suspense`, `surprise`, `finish`, `twist`, `pacing`; static data must be rescored (`scripts/regenerate-existing-static.js --write`).
+- **Scale**: scores are quantile-mapped to each sport's v3.5.1 distribution, so tier rates and thresholds are unchanged.
+- **Live**: `shared/live-signals.js` ranks ongoing games mainly by current suspense from the same table.
 
 ### v3.0 (Finish, Tension, Drama Recalibration)
 - **Drama scaling**: `thresholds.dramaLogBase` added and used to reduce ceiling saturation for momentum drama.

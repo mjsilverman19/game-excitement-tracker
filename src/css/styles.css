@@ -37,9 +37,11 @@
             --color-danger: #b0412d;
 
             /* Metric colors for score breakdown */
-            --metric-tension: #b7cfc0;
-            --metric-drama: #1f3d2e;
-            --metric-finish: #3b7a57;
+            --metric-suspense: #1f3d2e;
+            --metric-surprise: #3b7a57;
+            --metric-finish: #7aa98c;
+            --metric-twist: #b7cfc0;
+            --metric-pacing: #c9b27c;
 
             /* Tiers */
             --accent-must-watch: #1f3d2e;
@@ -1723,7 +1725,7 @@
             height: 100%;
             border-radius: inherit;
             min-width: 0;
-            background: var(--metric-drama);
+            background: var(--metric-suspense);
         }
 
         .score-dim-avg {

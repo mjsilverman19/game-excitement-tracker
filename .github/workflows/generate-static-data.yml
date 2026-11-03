@@ -26,7 +26,7 @@ on:
         required: false
         default: 'false'
       scope:
-        description: 'current (the in-progress period) or all (every week or date of the season)'
+        description: 'current (the in-progress period), all (every week or date of the season), or rescore (re-score every existing static file with the current algorithm)'
         required: false
         default: 'current'
       season:
@@ -125,6 +125,13 @@ jobs:
           echo "scope=current" >> $GITHUB_OUTPUT
           echo "season=current" >> $GITHUB_OUTPUT
 
+      - name: Rescore existing static data
+        if: steps.determine.outputs.scope == 'rescore'
+        run: |
+          # Re-scores every existing slate in place with the current algorithm,
+          # preserving membership. Writes nothing unless every game succeeds.
+          node scripts/regenerate-existing-static.js --write
+
       - name: Regenerate full season
         if: steps.determine.outputs.scope == 'all'
         run: |
@@ -137,7 +144,7 @@ jobs:
           done
 
       - name: Generate NFL data
-        if: steps.determine.outputs.scope != 'all' && (contains(steps.determine.outputs.sport, 'NFL') || steps.determine.outputs.sport == 'all')
+        if: steps.determine.outputs.scope != 'all' && steps.determine.outputs.scope != 'rescore' && (contains(steps.determine.outputs.sport, 'NFL') || steps.determine.outputs.sport == 'all')
         run: |
           # Season and week resolve from the calendar in shared/season-dates.js.
           # Running daily, "current" is the week in progress, so force the
@@ -184,7 +191,7 @@ jobs:
           fi
 
       - name: Generate CFB data
-        if: steps.determine.outputs.scope != 'all' && (contains(steps.determine.outputs.sport, 'CFB') || steps.determine.outputs.sport == 'all')
+        if: steps.determine.outputs.scope != 'all' && steps.determine.outputs.scope != 'rescore' && (contains(steps.determine.outputs.sport, 'CFB') || steps.determine.outputs.sport == 'all')
         run: |
           # Season and week resolve from the calendar in shared/season-dates.js.
           # Running Sunday, "current" is the week whose Saturday slate just finished.
@@ -208,7 +215,7 @@ jobs:
           fi
 
       - name: Generate NBA data
-        if: steps.determine.outputs.scope != 'all' && (contains(steps.determine.outputs.sport, 'NBA') || steps.determine.outputs.sport == 'all')
+        if: steps.determine.outputs.scope != 'all' && steps.determine.outputs.scope != 'rescore' && (contains(steps.determine.outputs.sport, 'NBA') || steps.determine.outputs.sport == 'all')
         run: |
           # Generate yesterday's games only (not future dates)
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)
@@ -216,7 +223,7 @@ jobs:
           node scripts/generate-static.js --sport NBA --season current --date $YESTERDAY ${{ steps.determine.outputs.force == 'true' && '--force' || '' }} || echo "NBA generation completed with warnings"
 
       - name: Generate MLB data
-        if: steps.determine.outputs.scope != 'all' && (contains(steps.determine.outputs.sport, 'MLB') || steps.determine.outputs.sport == 'all')
+        if: steps.determine.outputs.scope != 'all' && steps.determine.outputs.scope != 'rescore' && (contains(steps.determine.outputs.sport, 'MLB') || steps.determine.outputs.sport == 'all')
         run: |
           # Generate yesterday's games only (not future dates)
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)

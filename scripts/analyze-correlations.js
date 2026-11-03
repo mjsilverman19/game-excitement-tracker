@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// NOTE: reads v3 tension/drama/finish breakdowns; for v4 use scripts/evaluate-model.js.
 
 import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';

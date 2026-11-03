@@ -13,9 +13,10 @@ You can also search by team to find and analyze any specific game from their sch
 
 ## Watch Now (NFL)
 
-The Watch now tab ranks ongoing NFL games using current win-probability closeness,
-the largest swing in the last eight probability points, and extra weight for close
-finishes in the last five minutes or overtime. These live signals are separate from
+The Watch now tab ranks ongoing NFL games mainly by current suspense: the expected
+size of the next win-probability swing given the score state and time left, from
+the same table used for completed games. Closeness and the largest swing in the
+last eight probability points add to it. These live signals are separate from
 the completed-game GEI rating. Scores are hidden until Show scores is checked.
 
 `GET /api/live` returns ongoing games, upcoming kickoffs for the current Eastern
@@ -42,13 +43,22 @@ Vote data enables analysis of where the algorithm aligns or diverges from viewer
 
 ## Entertainment Scoring
 
-Games are scored based on three metrics derived from win probability data:
+Algorithm v4 is based on Ely, Frankel & Kamenica, "Suspense and Surprise" (*Journal of Political Economy*, 2015). It treats the home team's win probability after each play as the viewer's belief and scores how that belief evolved:
 
-| Metric | Weight | Description |
-|--------|--------|-------------|
-| **Tension** | 20% | Was there reason to keep watching? Measures sustained closeness and comeback potential. |
-| **Drama** | 45% | Leverage-weighted swings — big momentum shifts matter more when the game is close. |
-| **Finish** | 35% | How did it end? Combines late-game volatility, final closeness, and walk-off moments. |
+| Component | What it measures |
+|-----------|------------------|
+| **Suspense** | How much the next play was expected to move win probability, summed over the game. High when the game stays close as time runs down. |
+| **Surprise** | How much win probability actually moved: swings, big plays, lead changes. |
+| **Finish** | Suspense and surprise in the final 20% of plays. |
+| **Twist** | How unlikely the final result looked at its least likely moment (comebacks, upsets). |
+| **Pacing** | How closely remaining uncertainty tracked the paper's ideal of falling steadily to zero at the final whistle, rather than collapsing early. |
+
+How it is computed (`shared/belief-metrics.js`, `shared/scoring-model.js`):
+
+- **Expected next-play swing.** ESPN publishes only what happened, so the "what could have happened" distribution is estimated from thousands of past games. `shared/suspense-table.js` holds the mean squared next-play change by game progress and win probability, per sport.
+- **Comparable across sports.** Suspense and surprise totals are divided by √plays, because both grow with the number of plays (paper §3.2). Each component is shown as its percentile within the sport (0–10).
+- **Final score.** The equal-weight quadratic mean of the five percentiles is mapped onto each sport's established score distribution (`shared/score-calibration.js`), so the tier thresholds below keep their meaning.
+- **Guardrails.** Final margins beyond 28 (football), 22 (basketball) or 12 (baseball) cap the score at 6.5. Overtime games score at least 6.0.
 
 Games use sport-specific rating thresholds from `shared/algorithm-config.js`:
 
@@ -58,7 +68,13 @@ Games use sport-specific rating thresholds from `shared/algorithm-config.js`:
 | CFB | 7.7+ | 5.8–7.6 | Below 5.8 |
 | NBA / MLB / CBB | 8.5+ | 6.5–8.4 | Below 6.5 |
 
-Without a sport, the default thresholds are 8.0 and 6.0. Algorithm v3.5 also applies bonuses and a margin correction; the weighted metrics are the base score. Overtime games receive a bonus.
+Without a sport, the default thresholds are 8.0 and 6.0.
+
+### Recalibrating
+
+1. Run the **Collect Win Probability Dataset** workflow, which writes `analysis/wp-dataset/` (ESPN is reachable from GitHub Actions).
+2. `node scripts/build-suspense-table.js && node scripts/calibrate-scoring.js`
+3. `node scripts/evaluate-model.js --movers` compares the model with the archived v3.5.1 model (`archive/calculator-v3.5.1.js`) and the canonical benchmark games.
 
 ## CFB Coverage and Refreshes
 
