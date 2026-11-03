@@ -1,0 +1,28 @@
+name: Collect Win Probability Dataset
+
+# Pulls raw ESPN win-probability series for calibration of the scoring model.
+# Commits the dataset back to the branch that triggered it.
+on:
+  push:
+    paths:
+      - '.github/collect-trigger.json'
+  workflow_dispatch:
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node scripts/collect-wp-dataset.js
+      - name: Commit dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add analysis/wp-dataset
+          if git diff --staged --quiet; then echo "No dataset changes"; exit 0; fi
+          git commit -m "Collect win probability dataset [skip ci]"
+          git push || (git pull --rebase origin "$GITHUB_REF_NAME" && git push)
