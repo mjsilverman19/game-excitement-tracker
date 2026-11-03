@@ -1616,106 +1616,59 @@
             color: var(--color-primary);
         }
 
-        /* Score breakdown: stacked bar + dimension rows */
+        /* Score breakdown: summary line + ranked dimension list */
         .score-breakdown {
             display: flex;
             flex-direction: column;
-            gap: 28px;
-            position: relative;
+            gap: 20px;
         }
 
-        .score-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .score-section-label {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .score-stack-bar {
-            display: flex;
-            height: 18px;
-            width: 100%;
-            border-radius: 4px;
-            overflow: hidden;
-            background: var(--bg-hover);
-        }
-
-        .score-stack-seg {
-            display: block;
-            height: 100%;
-            min-width: 0;
-        }
-
-        .score-legend {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px 18px;
-        }
-
-        .score-legend-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
+        .score-summary {
+            font-size: 17px;
+            line-height: 1.45;
+            font-weight: 500;
             color: var(--text-primary);
-            cursor: default;
-        }
-
-        .score-legend-swatch {
-            width: 10px;
-            height: 10px;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-
-        .score-legend-label {
-            color: var(--text-secondary);
-        }
-
-        .score-legend-value {
-            font-variant-numeric: tabular-nums;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .score-legend-shortfall {
-            margin-left: auto;
-            font-size: 13px;
-            color: var(--text-muted);
-            font-variant-numeric: tabular-nums;
+            margin-top: -8px;
         }
 
         .score-dims {
+            list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 18px;
         }
 
-        .score-dim-row {
-            display: grid;
-            grid-template-columns: max-content minmax(0, 1fr) 2.75rem;
-            align-items: center;
-            column-gap: 12px;
+        .score-dim {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .score-dim-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
         }
 
         .score-dim-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .score-dim-rank {
             font-size: 14px;
             font-weight: 600;
-            line-height: 1;
+            font-variant-numeric: tabular-nums;
             color: var(--text-primary);
         }
 
         .score-dim-track {
             position: relative;
-            height: 10px;
+            height: 8px;
             border-radius: var(--radius-pill);
             background: var(--bg-hover);
         }
@@ -1730,8 +1683,8 @@
 
         .score-dim-avg {
             position: absolute;
-            top: -3px;
-            bottom: -3px;
+            top: -4px;
+            bottom: -4px;
             width: 2px;
             margin-left: -1px;
             background: var(--text-primary);
@@ -1739,13 +1692,36 @@
             opacity: 0.55;
         }
 
-        .score-dim-value {
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1;
-            font-variant-numeric: tabular-nums;
-            text-align: right;
-            color: var(--text-primary);
+        .score-dim-desc {
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .score-hidden-note {
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-hover);
+        }
+
+        .score-key {
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .score-key-avg {
+            display: inline-block;
+            width: 2px;
+            height: 12px;
+            margin-right: 4px;
+            vertical-align: -2px;
+            background: var(--text-primary);
+            opacity: 0.55;
+            border-radius: 1px;
         }
 
         .detail-highlights {
@@ -2535,15 +2511,6 @@
                 gap: 18px;
             }
 
-            .score-dim-row {
-                grid-template-columns: max-content minmax(0, 1fr) 2.5rem;
-                column-gap: 10px;
-            }
-
-            .score-legend-shortfall {
-                margin-left: 0;
-                width: 100%;
-            }
 
         }
 

@@ -1,65 +1,61 @@
 /**
- * Score breakdown panel: stacked contribution bar + per-dimension
- * comparison against the period average. Replaces the radar chart in
- * the "Why this game?" detail view.
+ * Score breakdown panel for the "Why this game?" detail view.
+ *
+ * Leads with a one-line answer, then lists each dimension strongest first
+ * with a plain-language definition, a percentile bar and the period average.
+ * Dimensions that reveal how the game ended (Finish, Twist) stay hidden while
+ * scores are hidden, so the panel never spoils a comeback.
  */
 
-const DIMENSION_COLORS = {
-    suspense: 'var(--metric-suspense)',
-    surprise: 'var(--metric-surprise)',
-    finish: 'var(--metric-finish)',
-    twist: 'var(--metric-twist)',
-    pacing: 'var(--metric-pacing)'
+// Short, always-visible definitions and the phrase used in the summary line.
+const DIMENSION_COPY = {
+    suspense: { short: 'Close throughout, with plays that could swing it', phrase: 'tension throughout' },
+    surprise: { short: 'Big momentum swings and lead changes', phrase: 'big momentum swings' },
+    finish: { short: 'The closing stretch stayed in doubt', phrase: 'a dramatic finish' },
+    twist: { short: 'How unlikely the result looked at its lowest point', phrase: 'an unlikely turnaround' },
+    pacing: { short: 'Not settled early', phrase: 'staying in doubt late' }
 };
 
-function decimals() {
-    return window.ALGORITHM_CONFIG?.precision?.decimals ?? 1;
-}
+// Dimensions that reveal how the game ended.
+const SPOILER_KEYS = new Set(['finish', 'twist']);
 
-function formatMetric(value) {
-    const n = typeof value === 'number' ? value : 0;
-    return n.toFixed(decimals());
-}
+const SPORT_NAMES = { NFL: 'NFL', CFB: 'college football', NBA: 'NBA', MLB: 'MLB', CBB: 'college basketball' };
 
 function periodLabel() {
     return (window.selectedSport === 'NBA' || window.selectedSport === 'MLB')
-        ? 'date average'
-        : 'week average';
+        ? 'Date average'
+        : 'Week average';
 }
 
-/**
- * Round contributions so the displayed parts sum exactly to the target
- * score (avoids "1.6 + 4.2 + 3.4 ≠ 9.3" from independent rounding).
- */
-function roundContributionsToTotal(values, target, places) {
-    const factor = 10 ** places;
-    const rounded = values.map(v => Math.round(v * factor) / factor);
-    if (rounded.length === 0) return rounded;
+/** Percentile phrasing that cannot be mistaken for the 1–10 rating. */
+export function rankLabel(value) {
+    const pct = Math.max(0, Math.min(100, value * 10));
+    if (pct >= 50) return `Top ${Math.max(1, Math.round(100 - pct))}%`;
+    return `Bottom ${Math.max(1, Math.round(pct))}%`;
+}
 
-    const targetRounded = Math.round(target * factor) / factor;
-    const sum = rounded.reduce((acc, v) => acc + v, 0);
-    const diff = Math.round((targetRounded - sum) * factor) / factor;
-    if (diff === 0) return rounded;
+function joinPhrases(phrases) {
+    if (phrases.length <= 1) return phrases[0] || '';
+    return `${phrases.slice(0, -1).join(', ')} and ${phrases.at(-1)}`;
+}
 
-    let idx = 0;
-    for (let i = 1; i < rounded.length; i++) {
-        if (rounded[i] >= rounded[idx]) idx = i;
+/** One-line answer to "why it rates X", from the strongest visible dimensions. */
+export function summaryLine(rows) {
+    const standouts = rows.filter(row => row.value >= 7).slice(0, 2);
+    if (standouts.length) {
+        return `Stood out for ${joinPhrases(standouts.map(row => DIMENSION_COPY[row.key]?.phrase || row.label.toLowerCase()))}.`;
     }
-    rounded[idx] = Math.round((rounded[idx] + diff) * factor) / factor;
-    return rounded;
+    if (rows.every(row => row.value < 4)) return 'Little drama on any measure.';
+    return 'A steady game without a standout moment.';
 }
 
 /**
- * @param {Object} breakdown - per-metric scores (typically 0–10)
+ * @param {Object} breakdown - per-metric percentiles on a 0–10 scale
  * @param {Object|null} averages - period averages for the same keys
- * @param {number} excitement - final GEI score
  * @returns {string} HTML
  */
-export function renderScoreBreakdown(breakdown, averages = null, excitement = 0) {
+export function renderScoreBreakdown(breakdown, averages = null) {
     const metrics = window.ALGORITHM_CONFIG?.metrics || [];
-    const weights = window.ALGORITHM_CONFIG?.weights || {};
-    const maxScale = window.ALGORITHM_CONFIG?.scale?.max || 10;
-    const places = decimals();
 
     if (!breakdown || metrics.length === 0 || Object.keys(breakdown).length === 0) {
         return '<p class="detail-copy">Breakdown data is not available for this game.</p>';
@@ -70,132 +66,63 @@ export function renderScoreBreakdown(breakdown, averages = null, excitement = 0)
         return '<p class="detail-copy">This game was scored by an earlier version of the index; the breakdown will appear once it is rescored.</p>';
     }
 
-    const rows = metrics.map(metric => {
-        const value = typeof breakdown[metric.key] === 'number' ? breakdown[metric.key] : 0;
-        const weight = typeof weights[metric.key] === 'number' ? weights[metric.key] : 0;
-        return {
+    const spoilerSafe = window.spoilerMode !== 'scores';
+    const rows = metrics
+        .filter(metric => !(spoilerSafe && SPOILER_KEYS.has(metric.key)))
+        .map(metric => ({
             key: metric.key,
             label: metric.label,
-            desc: metric.description || '',
-            value,
-            weight,
-            // Equal-weight share of the score
-            contribution: value * weight,
-            color: DIMENSION_COLORS[metric.key] || 'var(--color-primary)',
+            value: breakdown[metric.key],
             average: averages && typeof averages[metric.key] === 'number' ? averages[metric.key] : null
-        };
-    });
+        }))
+        .sort((a, b) => b.value - a.value);
+    const hiddenLabels = metrics.filter(metric => spoilerSafe && SPOILER_KEYS.has(metric.key)).map(m => m.label);
 
-    // The published score is a calibrated power mean plus guardrails, not a
-    // plain weighted sum. Scale the parts so the stacked bar and legend always add
-    // up to the published score.
-    const weightedSum = rows.reduce((sum, row) => sum + row.contribution, 0);
-    const score = typeof excitement === 'number' && !Number.isNaN(excitement)
-        ? Math.max(0, Math.min(maxScale, excitement))
-        : weightedSum;
-    const scale = weightedSum > 0 ? score / weightedSum : 0;
-    const scaled = rows.map(row => row.contribution * scale);
-    const displayParts = roundContributionsToTotal(scaled, score, places);
-    rows.forEach((row, i) => {
-        row.displayContribution = displayParts[i] ?? 0;
-    });
-
-    const shortfall = Math.max(0, Math.round((maxScale - score) * (10 ** places)) / (10 ** places));
-
-    const stackedSegments = rows.map(row => {
-        const pct = Math.max(0, (row.displayContribution / maxScale) * 100);
-        return `<span class="score-stack-seg" style="width:${pct}%;background:${row.color}" title="${row.label}: ${formatMetric(row.displayContribution)}"></span>`;
-    }).join('');
-
-    const legend = rows.map(row => `
-        <span class="score-legend-item" data-metric="${row.key}" data-desc="${escapeAttr(row.desc)}">
-            <span class="score-legend-swatch" style="background:${row.color}" aria-hidden="true"></span>
-            <span class="score-legend-label">${row.label}</span>
-            <span class="score-legend-value">${formatMetric(row.displayContribution)}</span>
-        </span>
-    `).join('');
-
-    const avgHeading = `Each dimension vs ${periodLabel()}`;
     const dimensionRows = rows.map(row => {
-        const fillPct = Math.max(0, Math.min(100, (row.value / maxScale) * 100));
-        const avgPct = row.average != null
-            ? Math.max(0, Math.min(100, (row.average / maxScale) * 100))
-            : null;
-        const marker = avgPct != null
-            ? `<span class="score-dim-avg" style="left:${avgPct}%" title="${periodLabel()}: ${formatMetric(row.average)}"></span>`
-            : '';
+        const pct = Math.max(0, Math.min(100, row.value * 10));
+        const avgPct = row.average != null ? Math.max(0, Math.min(100, row.average * 10)) : null;
+        const rank = rankLabel(row.value);
+        const description = DIMENSION_COPY[row.key]?.short || '';
         return `
-            <div class="score-dim-row" data-metric="${row.key}" data-desc="${escapeAttr(row.desc)}">
-                <span class="score-dim-label">${row.label}</span>
-                <div class="score-dim-track">
-                    <span class="score-dim-fill" style="width:${fillPct}%"></span>
-                    ${marker}
+            <li class="score-dim">
+                <div class="score-dim-head">
+                    <span class="score-dim-label">${escapeHtml(row.label)}</span>
+                    <span class="score-dim-rank">${rank}</span>
                 </div>
-                <span class="score-dim-value">${formatMetric(row.value)}</span>
-            </div>
+                <div class="score-dim-track" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}"
+                    aria-label="${escapeHtml(row.label)}: ${rank}${avgPct != null ? `, ${periodLabel().toLowerCase()} ${rankLabel(row.average).toLowerCase()}` : ''}">
+                    <span class="score-dim-fill" style="width:${pct}%"></span>
+                    ${avgPct != null ? `<span class="score-dim-avg" style="left:${avgPct}%" aria-hidden="true"></span>` : ''}
+                </div>
+                <p class="score-dim-desc">${escapeHtml(description)}</p>
+            </li>
         `;
     }).join('');
 
+    const sport = SPORT_NAMES[window.selectedSport] || 'other';
+    const hiddenNote = hiddenLabels.length
+        ? `<p class="score-hidden-note">${escapeHtml(joinPhrases(hiddenLabels))} hidden to avoid spoilers. Turn on Show scores to see them.</p>`
+        : '';
+
     return `
         <div class="score-breakdown">
-            <div class="score-section">
-                <div class="score-section-label">How the score is built</div>
-                <div class="score-stack" role="img" aria-label="Score composition out of ${maxScale}">
-                    <div class="score-stack-bar">${stackedSegments}</div>
-                </div>
-                <div class="score-legend">
-                    ${legend}
-                    <span class="score-legend-shortfall">${formatMetric(shortfall)} short of ${maxScale}</span>
-                </div>
-            </div>
-            <div class="score-section">
-                <div class="score-section-label">${avgHeading}</div>
-                <div class="score-dims">${dimensionRows}</div>
-            </div>
-            <div class="metric-tooltip" id="metric-tooltip" hidden></div>
+            <p class="score-summary">${escapeHtml(summaryLine(rows))}</p>
+            <ul class="score-dims">${dimensionRows}</ul>
+            ${hiddenNote}
+            <p class="score-key">
+                ${averages ? `<span class="score-key-avg" aria-hidden="true"></span> ${periodLabel()} · ` : ''}Ranked against ${escapeHtml(sport)} games using ESPN's play-by-play win probability, not the final score.
+            </p>
         </div>
     `;
 }
 
-function escapeAttr(str) {
-    return String(str || '')
+function escapeHtml(str) {
+    return String(str ?? '')
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 }
 
-/**
- * Tooltips for legend / dimension labels (same pattern as the old radar).
- */
-export function attachScoreBreakdownListeners(container) {
-    const root = container.querySelector('.score-breakdown') || container;
-    const tooltip = root.querySelector('.metric-tooltip');
-    if (!tooltip) return;
-
-    const hide = () => {
-        tooltip.hidden = true;
-        tooltip.style.display = '';
-        tooltip.textContent = '';
-    };
-
-    const targets = root.querySelectorAll('[data-desc]');
-    targets.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            const desc = el.dataset.desc;
-            if (!desc) return;
-            tooltip.textContent = desc;
-            tooltip.hidden = false;
-            tooltip.style.display = 'block';
-        });
-        el.addEventListener('mousemove', (e) => {
-            if (tooltip.hidden) return;
-            const rect = root.getBoundingClientRect();
-            tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-            tooltip.style.top = `${e.clientY - rect.top + 10}px`;
-        });
-        el.addEventListener('mouseleave', hide);
-    });
-
-    root.addEventListener('mouseleave', hide);
-}
+/** Definitions are always visible now; kept for callers that still attach. */
+export function attachScoreBreakdownListeners() {}

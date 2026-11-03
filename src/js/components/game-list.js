@@ -629,7 +629,6 @@ function renderDetail(container, game) {
     container.innerHTML = `
         <div class="detail-panel">
             <div class="detail-heading">Why it rates ${formatScore(score)}</div>
-            <p class="detail-copy">Rated on how the game unfolded, not the final score, using ESPN's play-by-play win probability. Each dimension is ranked against other games in the sport: a 9 means it beat 90% of them.</p>
             ${renderScoreBreakdown(breakdown, window.periodAverages, score)}
             <div class="detail-highlights" hidden></div>
             <div class="detail-footer">
