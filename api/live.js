@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         );
         return enrichLiveGame(game, summary);
       } catch {
-        return { ...game, priority: -1, label: 'Live data pending', closeness: null, recentSwing: null, dataPending: true };
+        return { ...game, priority: -1, label: 'Live data pending', closeness: null, recentSwing: null, suspense: null, dataPending: true };
       }
     }));
     const ongoing = games.filter(game => game.state === 'in');

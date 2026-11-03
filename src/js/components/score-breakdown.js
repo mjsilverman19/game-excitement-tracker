@@ -5,9 +5,11 @@
  */
 
 const DIMENSION_COLORS = {
-    tension: 'var(--metric-tension)',
-    drama: 'var(--metric-drama)',
-    finish: 'var(--metric-finish)'
+    suspense: 'var(--metric-suspense)',
+    surprise: 'var(--metric-surprise)',
+    finish: 'var(--metric-finish)',
+    twist: 'var(--metric-twist)',
+    pacing: 'var(--metric-pacing)'
 };
 
 function decimals() {
@@ -59,8 +61,13 @@ export function renderScoreBreakdown(breakdown, averages = null, excitement = 0)
     const maxScale = window.ALGORITHM_CONFIG?.scale?.max || 10;
     const places = decimals();
 
-    if (!breakdown || metrics.length === 0) {
+    if (!breakdown || metrics.length === 0 || Object.keys(breakdown).length === 0) {
         return '<p class="detail-copy">Breakdown data is not available for this game.</p>';
+    }
+
+    // Slates scored before v4 carry tension/drama/finish only.
+    if (metrics.some(metric => typeof breakdown[metric.key] !== 'number')) {
+        return '<p class="detail-copy">This game was scored by an earlier version of the index; the breakdown will appear once it is rescored.</p>';
     }
 
     const rows = metrics.map(metric => {
@@ -72,15 +79,15 @@ export function renderScoreBreakdown(breakdown, averages = null, excitement = 0)
             desc: metric.description || '',
             value,
             weight,
-            // Pre-bonus weighted share of the score
+            // Equal-weight share of the score
             contribution: value * weight,
             color: DIMENSION_COLORS[metric.key] || 'var(--color-primary)',
             average: averages && typeof averages[metric.key] === 'number' ? averages[metric.key] : null
         };
     });
 
-    // Final GEI includes bonuses / decision / margin adjustments on top of the
-    // weighted sum. Scale the parts so the stacked bar and legend always add
+    // The published score is a calibrated power mean plus guardrails, not a
+    // plain weighted sum. Scale the parts so the stacked bar and legend always add
     // up to the published score.
     const weightedSum = rows.reduce((sum, row) => sum + row.contribution, 0);
     const score = typeof excitement === 'number' && !Number.isNaN(excitement)

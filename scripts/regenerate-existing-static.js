@@ -13,7 +13,7 @@ const shouldWrite = args.includes('--write');
 const dataDir = resolve('public/data');
 const reportPath = resolve('analysis/static-regeneration-report.json');
 const hash = value => createHash('sha256').update(value).digest('hex');
-const scoringHash = hash((await Promise.all(['api/calculator.js', 'api/data-quality.js', 'shared/algorithm-config.js', 'shared/espn-api.js'].map(file => readFile(file, 'utf8')))).join('\n'));
+const scoringHash = hash((await Promise.all(['api/calculator.js', 'api/data-quality.js', 'shared/algorithm-config.js', 'shared/espn-api.js', 'shared/belief-metrics.js', 'shared/scoring-model.js', 'shared/suspense-table.js', 'shared/score-calibration.js'].map(file => readFile(file, 'utf8')))).join('\n'));
 await mkdir(cacheDir, { recursive: true });
 
 async function filesUnder(dir) {
@@ -78,7 +78,7 @@ async function worker() {
       try { result = JSON.parse(await readFile(resultPath, 'utf8')); } catch {
         result = await analyzeGameEntertainmentDetailed(game, sport);
         if (!result || failedGameIds.has(String(game.id))) throw new Error('Probability data unavailable or incomplete');
-        if (!Number.isFinite(result.score) || !['tension', 'drama', 'finish'].every(metric => Number.isFinite(result.breakdown?.[metric]))) throw new Error('Invalid calculated score');
+        if (!Number.isFinite(result.score) || !ALGORITHM_CONFIG.metrics.every(({ key }) => Number.isFinite(result.breakdown?.[key]))) throw new Error('Invalid calculated score');
         await writeFile(resultPath, JSON.stringify(result));
       }
       results.set(key, result);

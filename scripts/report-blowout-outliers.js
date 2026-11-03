@@ -11,7 +11,7 @@ import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { analyzeGameEntertainmentDetailed, fetchAllProbabilities } from '../api/calculator.js';
+import { analyzeGameEntertainmentDetailed, fetchAllProbabilities } from '../archive/calculator-v3.5.1.js';
 import { fetchSingleGame } from '../api/fetcher.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

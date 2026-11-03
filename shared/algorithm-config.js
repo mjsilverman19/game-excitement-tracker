@@ -36,24 +36,15 @@ export function getPrevNFLPlayoffRound(currentRound) {
 }
 
 export const ALGORITHM_CONFIG = {
-  // Version 3.3: Reweight to emphasize drama over tension
-  // - Reduced tension weight: 0.30 → 0.20
-  // - Increased drama weight: 0.35 → 0.45
-  // - Finish weight unchanged: 0.35
-  // - Games with high volatility and momentum swings now score higher
-  // Version 3.4: Add sport-specific tier thresholds
-  // NBA games score higher on average (mean 6.7, 39% must-watch at 8.0)
-  // CFB games score lower (mean 4.9, 16% must-watch at 8.0)
-  // Sport-specific thresholds normalize must-watch rate to ~20% per sport
-  // Version 3.5: Bayesian margin correction
-  // When ESPN WP data is overconfident, all three components (tension, drama,
-  // finish) are suppressed simultaneously since they share the same data source.
-  // The final score margin is an independent signal. When it disagrees with
-  // the WP-derived score (close margin but low GEI), we blend toward the
-  // margin-predicted score proportional to the tension+drama deficit.
-  // Derived from regression analysis on 1410 games across 3 sports.
-  // Version 3.5.1: Preserve exact zero win probabilities during scoring.
-  version: '3.5.1',
+  // Version 4.0: Suspense and surprise model
+  // Replaces the v3 tension/drama/finish formula and its bonuses with the
+  // belief-path measures of Ely, Frankel & Kamenica, "Suspense and Surprise"
+  // (JPE 2015). Each component is the game's percentile within its sport; the
+  // equal-weight power mean of components is mapped onto the established score
+  // distribution, so tier thresholds keep their meaning. Calibration lives in
+  // shared/suspense-table.js and shared/score-calibration.js (both generated).
+  // Earlier versions: see archive/calculator-v3.5.1.js.
+  version: '4.0.0',
 
   scale: { min: 1, max: 10 },
   precision: { decimals: 1 },
@@ -63,9 +54,8 @@ export const ALGORITHM_CONFIG = {
     mustWatch: { min: 8, label: 'must watch', cssClass: 'must-watch' },
     recommended: { min: 6, label: 'recommended', cssClass: 'recommended' },
     skip: { min: 0, label: 'skip', cssClass: 'skip' },
-    // Sport-specific overrides (derived from 2024-25 season score distributions)
-    // Target: ~20% must-watch, ~35% recommended, ~45% skip per sport
-    // Tuned against canonical game set to avoid regressions
+    // Sport-specific overrides. Scores are quantile-mapped to each sport's
+    // distribution, so these keep ~20% must-watch / ~35% recommended per sport.
     bySport: {
       NFL: { mustWatch: 8.3, recommended: 6.0 },
       CFB: { mustWatch: 7.7, recommended: 5.8 },
@@ -75,171 +65,38 @@ export const ALGORITHM_CONFIG = {
     }
   },
 
-  // Weights for 3-factor model
-  // Tension and Drama are correlated by design (close games have more swings)
-  // but they tell users different parts of the story
+  // Components contribute equally (power mean, see shared/scoring-model.js).
+  // Used by the breakdown panel to apportion the score.
   weights: {
-    tension: 0.20,
-    drama: 0.45,
-    finish: 0.35
+    suspense: 0.2,
+    surprise: 0.2,
+    finish: 0.2,
+    twist: 0.2,
+    pacing: 0.2
   },
 
   thresholds: {
     minDataPoints: 10,
-    finalMomentPoints: 10,
-    walkoffSwingThreshold: 0.15,
-    leverageFloor: 0.01,
-    lateDramaSwingThreshold: 0.15,
-    largeFinalSwingThreshold: 0.20,
-    lateClosenessThreshold: 0.25,
-    dramaLogBase: 18,
-    tensionFloor: {
-      oneScore: { margin: 3, floor: 4.0 },
-      close: { margin: 7, floor: 2.5 },
-      competitive: { margin: 10, floor: 1.5 },
-      nbaMultiplier: 2
-    },
-    finishLogBase: 12,
-    finishWalkoff: {
-      competitiveRange: { low: 0.35, high: 0.65 },
-      minSwing: 0.15,
-      largeSwing: 0.25
-    },
-    exceptionalFinish: {
-      lateLeadChangesRequired: 3,
-      competitiveOTRange: { low: 0.35, high: 0.65 },
-      finalSwingThreshold: 0.25,
-      finalWindowSize: 10,
-      sustainedUncertaintyRange: { low: 0.40, high: 0.60 },
-      multipliers: {
-        tier3: 1.5,
-        tier2: 1.25,
-        tier1: 1.1
-      }
-    },
-    blowoutMargin: {
-      nflCfb: 21,
-      nba: 18,
-      mlb: 8,
-      cbb: 20
-    },
-    competitiveBand: {
-      low: 0.30,
-      high: 0.70
-    },
-    dramaTimeWeight: {
-      exponent: 2,
-      factor: 0.5
-    },
-    leadChangeSigmoid: {
-      center: 5,
-      slope: 1.5
-    },
-    comeback: {
-      minDeficit: 0.15,
-      tier1: 0.30,
-      tier2: 0.40,
-      maxBoost: 4,
-      timeMultiplier: {
-        min: 0.5,
-        max: 1.0
-      }
-    },
-    // Decision Point: When was the game truly decided?
-    // Games decided early should score lower even if they had early excitement
-    //
-    // KNOWN LIMITATION: Low-scoring defensive games may show artificially early
-    // decision points due to ESPN's probability model being overconfident when
-    // one team has a modest lead. Example: Miami(OH) at Northwestern 2024 showed
-    // 89% win probability in Q3 despite only a 7-point lead that held until a
-    // game-sealing INT with 3 minutes left. This is an upstream data limitation.
-    decisionPoint: {
-      // Competitive band: game is "in doubt" when probability is within this range
-      competitiveBandLow: 0.25,
-      competitiveBandHigh: 0.75,
-      // Adjustment method: 'A' (multiplier), 'C' (blend), or 'none'
-      // v3.2: Set to 'none' - adjustment was compensating for truncated data bug
-      adjustmentMethod: 'none',
-      // Option A parameters: multiplier = lateness ^ exponent
-      multiplierExponent: 0.5, // sqrt softens penalty
-      // Option C parameters: blend between raw score and lateness-based score
-      blendWeightLateness: 0.6, // 60% weight to lateness score
-      // Lateness-to-score mapping for Option C (non-linear tiers)
-      latenessScoreMap: [
-        { minLateness: 0.95, score: 10 },
-        { minLateness: 0.90, score: 9 },
-        { minLateness: 0.80, score: 8 },
-        { minLateness: 0.70, score: 7 },
-        { minLateness: 0.60, score: 6 },
-        { minLateness: 0.50, score: 5 },
-        { minLateness: 0.35, score: 4 },
-        { minLateness: 0.20, score: 3 },
-        { minLateness: 0.00, score: 2 }
-      ]
-    }
+    // Share of plays treated as the closing stretch for the Finish component
+    finishShare: 0.2
   },
 
-  bonuses: {
-    upset: { max: 0.8, threshold: 0.55 },
-    comeback: {
-      max: 2.0,
-      minDeficit: 0.35,
-      tier1: 0.40,
-      tier2: 0.45
+  guardrails: {
+    // ESPN data-quality guard for extreme final margins
+    blowoutCap: {
+      margin: { football: 28, basketball: 22, baseball: 12 },
+      maxScore: 6.5
     },
-    volatility: {
-      // Extraordinary volatility bonus for games with rare swing patterns
-      max: 1.5,
-      largeSwingThreshold: 0.18,
-      massiveSwingThreshold: 0.50,
-      extremeRecoveryThreshold: 0.18,
-      multiSwingCount: 6
-    },
-    overtime: {
-      // Overtime bonus - OT games are inherently dramatic
-      base: 0.8,           // Base bonus for going to OT
-      perAdditionalOT: 0.3 // Bonus per additional OT period
-    },
-    closeGame: {
-      // Score margin bonus for close final scores
-      margin3orLess: 1.5,  // 1-3 point games
-      margin7orLess: 0.5,  // 4-7 point games
-      margin10orLess: 0.2, // 8-10 point games
-      tensionFloor: 3.0,   // Below this, 75% reduction
-      tensionFullCredit: 5.0 // Above this, full bonus
-    },
-    marginCorrection: {
-      // Bayesian margin correction: blend WP-derived score toward margin-predicted
-      // score when ESPN WP data appears overconfident (close margin but flat WP).
-      // Only applies upward corrections (never penalizes exciting blowouts).
-      //
-      // Per-sport regression parameters (GEI = a + b * margin):
-      // Derived from 2024-25 season data (1410 games)
-      regression: {
-        NFL: { intercept: 8.37, slope: -0.199 },
-        CFB: { intercept: 7.13, slope: -0.114 },
-        NBA: { intercept: 9.00, slope: -0.178 },
-        MLB: { intercept: 9.00, slope: -0.178 },
-        CBB: { intercept: 9.00, slope: -0.178 }
-      },
-      // Maximum margin (sport-adjusted) eligible for correction
-      // Beyond this, margin is too large for ESPN overconfidence to be the issue
-      maxCloseMargin: 14, // multiplied by 2 for NBA
-      // Maximum correction blend factor (0-1)
-      // At alpha=0.5, the correction closes at most 50% of the residual gap
-      maxAlpha: 0.5,
-      // Tension + Drama deficit detection
-      // Expected values: T = max(3, 6.5 - margin/(2*f)), D = max(4, 8.5 - margin/(2*f))
-      // Based on well-rated close game averages: NFL T=6.8 D=8.0, CFB T=6.0 D=8.1, NBA T=5.6 D=9.3
-      maxTensionDeficit: 4,
-      maxDramaDeficit: 5
-    }
+    // Overtime means the game was level at the end of regulation
+    overtimeFloor: 6.0
   },
 
   metrics: [
-    { key: 'tension', label: 'Tension', description: 'Was there sustained reason to keep watching? (closeness or comeback potential)' },
-    { key: 'drama', label: 'Drama', description: 'How much volatility and momentum swings throughout the game.' },
-    { key: 'finish', label: 'Finish', description: 'How dramatic was the ending?' }
+    { key: 'suspense', label: 'Suspense', description: 'How much the next play could swing the outcome, summed over the game. High when the game stayed close with time running down.' },
+    { key: 'surprise', label: 'Surprise', description: 'How much the win probability actually moved: momentum swings, big plays and lead changes.' },
+    { key: 'finish', label: 'Finish', description: 'Suspense and surprise in the closing stretch of the game.' },
+    { key: 'twist', label: 'Twist', description: 'How unlikely the final result looked at its least likely moment.' },
+    { key: 'pacing', label: 'Pacing', description: 'Whether the outcome stayed in doubt until the end, rather than being settled early.' }
   ]
 };
 

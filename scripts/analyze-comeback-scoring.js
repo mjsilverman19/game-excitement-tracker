@@ -7,7 +7,7 @@
  * Task 2: Verify and enhance comeback detection
  */
 
-import { analyzeGameEntertainmentDetailed, fetchAllProbabilities } from '../api/calculator.js';
+import { analyzeGameEntertainmentDetailed, fetchAllProbabilities } from '../archive/calculator-v3.5.1.js';
 import { ALGORITHM_CONFIG } from '../shared/algorithm-config.js';
 
 async function analyzeComebackScoring(gameId, sport = 'CFB') {

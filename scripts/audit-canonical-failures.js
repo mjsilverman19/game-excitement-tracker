@@ -12,8 +12,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { fetchAllProbabilities } from '../api/calculator.js';
-import { analyzeGameEntertainmentDetailed } from '../api/calculator.js';
+import { fetchAllProbabilities } from '../archive/calculator-v3.5.1.js';
+import { analyzeGameEntertainmentDetailed } from '../archive/calculator-v3.5.1.js';
 import { fetchSingleGame } from '../api/fetcher.js';
 import { getTier } from '../shared/algorithm-config.js';
 

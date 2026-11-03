@@ -1,10 +1,16 @@
+import { expectedSwing, gameProgress } from './belief-metrics.js';
+
 // Live recommendations use the current state, not the completed-game rating.
-export function calculateLiveSignal(probabilities, { period = 1, clock = '' } = {}) {
+// Priority is led by suspense (Ely, Frankel & Kamenica 2015): the expected size
+// of the next win-probability move given the score state and time left, which
+// is what a viewer switching games right now would experience. Recent surprise
+// (the largest swing in the last eight plays) adds momentum.
+export function calculateLiveSignal(probabilities, { period = 1, clock = '', sport = 'NFL' } = {}) {
   const points = (probabilities || []).filter(p =>
     typeof p.homeWinPercentage === 'number' && Number.isFinite(p.homeWinPercentage) &&
     p.homeWinPercentage >= 0 && p.homeWinPercentage <= 1
   );
-  if (!points.length) return { priority: -1, label: 'Live data pending', closeness: null, recentSwing: null };
+  if (!points.length) return { priority: -1, label: 'Live data pending', closeness: null, recentSwing: null, suspense: null };
   const current = points.at(-1).homeWinPercentage;
   const closeness = 1 - Math.abs(current - 0.5) * 2;
   const recent = points.slice(-8);
@@ -16,11 +22,16 @@ export function calculateLiveSignal(probabilities, { period = 1, clock = '' } = 
   const seconds = parts.length === 2 && parts.every(Number.isFinite) ? parts[0] * 60 + parts[1] : null;
   const late = period > 4 || (period === 4 && seconds !== null && seconds <= 300);
   const tight = closeness >= 0.6;
+  const progress = gameProgress(sport, period, clock);
+  const suspense = expectedSwing(sport, current, progress);
+  // Scale against the most suspenseful state possible: 50/50 on the last play.
+  const peak = expectedSwing(sport, 0.5, 0.99);
+  const suspenseShare = peak > 0 ? Math.min(1, suspense / peak) : 0;
   const label = late && tight ? 'Tight finish' : recentSwing >= 0.15 && closeness >= 0.2
-    ? 'Momentum swing' : tight ? 'Close game' : 'One team in control';
+    ? 'Momentum swing' : tight ? 'Close game' : suspenseShare >= 0.5 ? 'Within reach' : 'One team in control';
   return {
-    priority: Math.round((closeness * 70 + Math.min(recentSwing / 0.3, 1) * 20 + (late ? closeness * 10 : 0)) * 10) / 10,
-    label, closeness, recentSwing
+    priority: Math.round((suspenseShare * 60 + closeness * 20 + Math.min(recentSwing / 0.3, 1) * 20) * 10) / 10,
+    label, closeness, recentSwing, suspense
   };
 }
 
@@ -77,7 +88,7 @@ export function enrichLiveGame(game, summary) {
   }
   return {
     ...updated,
-    ...(pending ? { priority: -1, label: 'Live data pending', closeness: null, recentSwing: null }
+    ...(pending ? { priority: -1, label: 'Live data pending', closeness: null, recentSwing: null, suspense: null }
       : calculateLiveSignal(probabilities, updated)),
     probabilityPlayId: latestProbability?.playId || null,
     probabilityHistory: pending ? [] : chartPoints.map(p => p.homeWinPercentage),

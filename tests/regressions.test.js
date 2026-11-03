@@ -103,13 +103,13 @@ test('zero probabilities remain decisive; missing probabilities still default to
     const zero = await analyze(0);
     const nearZero = await analyze(0.000001);
     const neutral = await analyze(0.5);
-    for (const metric of ['tension', 'drama', 'finish']) {
+    for (const metric of ['suspense', 'surprise', 'finish', 'twist', 'pacing']) {
         assert.ok(Math.abs(zero.breakdown[metric] - nearZero.breakdown[metric]) < 0.01);
     }
-    assert.ok(zero.breakdown.tension < neutral.breakdown.tension);
+    assert.ok(zero.breakdown.suspense < neutral.breakdown.suspense);
     assert.deepEqual((await analyze(null)).breakdown, neutral.breakdown);
     assert.deepEqual((await analyze(undefined)).breakdown, neutral.breakdown);
-    assert.ok((await analyze(1)).breakdown.tension < neutral.breakdown.tension);
+    assert.ok((await analyze(1)).breakdown.suspense < neutral.breakdown.suspense);
 });
 
 test('an initial week fallback keeps ownership of the child loading state', async () => {

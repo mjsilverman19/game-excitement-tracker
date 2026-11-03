@@ -629,7 +629,7 @@ function renderDetail(container, game) {
     container.innerHTML = `
         <div class="detail-panel">
             <div class="detail-heading">Why it rates ${formatScore(score)}</div>
-            <p class="detail-copy">The Game Entertainment Index scores a finished game from 0 to 10 on how much it was worth watching, using ESPN win probability rather than the final score.</p>
+            <p class="detail-copy">The Game Entertainment Index scores a finished game from 0 to 10 on how much it was worth watching, using ESPN win probability rather than the final score: how much each play could swing the result (suspense) and how much it did (surprise). Each dimension shows the game's percentile among games in its sport.</p>
             ${renderScoreBreakdown(breakdown, window.periodAverages, score)}
             <div class="detail-highlights" hidden></div>
             <div class="detail-footer">

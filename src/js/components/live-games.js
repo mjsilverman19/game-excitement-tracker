@@ -60,7 +60,8 @@ function render(data) {
       <p class="live-reason">${game.dataPending ? 'Waiting for probabilities to catch up with the latest play.' :
         game.label === 'Tight finish' ? 'Still competitive in the final minutes.' :
         game.label === 'Momentum swing' ? 'A big shift in win probability in the last eight plays.' :
-        game.label === 'Close game' ? 'Both teams have a strong chance to win.' : 'The current win probability favors one side.'}</p>
+        game.label === 'Close game' ? 'Both teams have a strong chance to win.' :
+        game.label === 'Within reach' ? 'One side leads, but late plays can still flip it.' : 'The current win probability favors one side.'}</p>
     </article>`).join('')}</div>` : '<div class="live-empty"><h2>No NFL games live right now</h2><p>Check back at kickoff, or find a completed game in Discover.</p></div>';
   if (data.upcoming?.length) {
     area.innerHTML += `<section class="live-upcoming"><h2>Next kickoffs</h2>${data.upcoming.map(game => `
