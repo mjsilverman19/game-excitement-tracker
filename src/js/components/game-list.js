@@ -629,7 +629,7 @@ function renderDetail(container, game) {
     container.innerHTML = `
         <div class="detail-panel">
             <div class="detail-heading">Why this game rates ${formatScore(score)}</div>
-            <p class="detail-copy">We rate how entertaining a game was based on how it unfolded, not the final score. Each rating uses play-by-play win probabilities to measure five aspects of the action.</p>
+            <p class="detail-copy">We aim to rate a game’s entertainment value based on how it unfolded, not the final score. Each rating uses play-by-play win probabilities to measure five aspects of the action.</p>
             ${renderScoreBreakdown(breakdown)}
             <div class="detail-highlights" hidden></div>
             <div class="detail-footer">
