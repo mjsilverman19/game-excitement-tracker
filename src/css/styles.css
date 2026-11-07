@@ -1557,7 +1557,7 @@
         .detail-panel {
             display: flex;
             flex-direction: column;
-            gap: 22px;
+            gap: 18px;
             max-width: 720px;
         }
 
@@ -1572,7 +1572,7 @@
 
         .detail-copy {
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.5;
             color: var(--text-secondary);
             max-width: 58ch;
             margin-top: -8px;
@@ -1620,28 +1620,30 @@
         .score-breakdown {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 13px;
             border-top: 1px solid var(--border-secondary);
-            padding-top: 20px;
+            padding-top: 16px;
         }
 
         .score-section-label {
-            font-size: 16px;
+            font-family: var(--font-display);
+            font-size: 20px;
             font-weight: 600;
-            line-height: 1.4;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
             color: var(--text-primary);
         }
 
         .score-dims {
             display: flex;
             flex-direction: column;
-            gap: 19px;
+            gap: 14px;
         }
 
         .score-dim-row {
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 5px;
         }
 
         .score-dim-heading {
@@ -1654,6 +1656,7 @@
         .score-dim-label,
         .score-dim-value {
             font-size: 14px;
+            line-height: 1.35;
             font-weight: 600;
             color: var(--text-primary);
         }
@@ -1680,8 +1683,8 @@
         }
 
         .score-dim-description {
-            font-size: 13px;
-            line-height: 1.5;
+            font-size: 12.5px;
+            line-height: 1.4;
             color: var(--text-secondary);
         }
 
@@ -2469,7 +2472,7 @@
 
             .detail-panel {
                 max-width: none;
-                gap: 18px;
+                gap: 14px;
             }
 
         }
