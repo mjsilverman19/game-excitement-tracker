@@ -1616,136 +1616,73 @@
             color: var(--color-primary);
         }
 
-        /* Score breakdown: stacked bar + dimension rows */
+        /* Spoiler-free dimension breakdown */
         .score-breakdown {
             display: flex;
             flex-direction: column;
-            gap: 28px;
-            position: relative;
-        }
-
-        .score-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            gap: 18px;
+            border-top: 1px solid var(--border-secondary);
+            padding-top: 20px;
         }
 
         .score-section-label {
-            font-size: 11px;
+            font-size: 16px;
             font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .score-stack-bar {
-            display: flex;
-            height: 18px;
-            width: 100%;
-            border-radius: 4px;
-            overflow: hidden;
-            background: var(--bg-hover);
-        }
-
-        .score-stack-seg {
-            display: block;
-            height: 100%;
-            min-width: 0;
-        }
-
-        .score-legend {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px 18px;
-        }
-
-        .score-legend-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
+            line-height: 1.4;
             color: var(--text-primary);
-            cursor: default;
-        }
-
-        .score-legend-swatch {
-            width: 10px;
-            height: 10px;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-
-        .score-legend-label {
-            color: var(--text-secondary);
-        }
-
-        .score-legend-value {
-            font-variant-numeric: tabular-nums;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .score-legend-shortfall {
-            margin-left: auto;
-            font-size: 13px;
-            color: var(--text-muted);
-            font-variant-numeric: tabular-nums;
         }
 
         .score-dims {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 19px;
         }
 
         .score-dim-row {
-            display: grid;
-            grid-template-columns: max-content minmax(0, 1fr) 2.75rem;
-            align-items: center;
-            column-gap: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
         }
 
-        .score-dim-label {
+        .score-dim-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .score-dim-label,
+        .score-dim-value {
             font-size: 14px;
             font-weight: 600;
-            line-height: 1;
             color: var(--text-primary);
         }
 
+        .score-dim-value {
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+        }
+
         .score-dim-track {
-            position: relative;
-            height: 10px;
+            width: 100%;
+            height: 7px;
             border-radius: var(--radius-pill);
+            overflow: hidden;
             background: var(--bg-hover);
         }
 
         .score-dim-fill {
             display: block;
             height: 100%;
-            border-radius: inherit;
             min-width: 0;
-            background: var(--metric-suspense);
+            border-radius: inherit;
+            background: var(--accent-recommended);
         }
 
-        .score-dim-avg {
-            position: absolute;
-            top: -3px;
-            bottom: -3px;
-            width: 2px;
-            margin-left: -1px;
-            background: var(--text-primary);
-            border-radius: 1px;
-            opacity: 0.55;
-        }
-
-        .score-dim-value {
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1;
-            font-variant-numeric: tabular-nums;
-            text-align: right;
-            color: var(--text-primary);
+        .score-dim-description {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
         }
 
         .detail-highlights {
@@ -2533,16 +2470,6 @@
             .detail-panel {
                 max-width: none;
                 gap: 18px;
-            }
-
-            .score-dim-row {
-                grid-template-columns: max-content minmax(0, 1fr) 2.5rem;
-                column-gap: 10px;
-            }
-
-            .score-legend-shortfall {
-                margin-left: 0;
-                width: 100%;
             }
 
         }
