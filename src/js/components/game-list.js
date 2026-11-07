@@ -4,7 +4,7 @@ import { heroArt } from './sport-art.js';
 import { isGameSaved, toggleSavedGame } from '../services/saved.js';
 import { isDateBasedSport, parseDate } from '../utils/dates.js';
 import { venueImageUrl } from '../../shared/venue.js';
-import { renderScoreBreakdown, attachScoreBreakdownListeners } from './score-breakdown.js';
+import { renderScoreBreakdown } from './score-breakdown.js';
 
 const SPORT_LABELS = {
     NFL: 'NFL',
@@ -628,9 +628,9 @@ function renderDetail(container, game) {
     const score = game?.excitement;
     container.innerHTML = `
         <div class="detail-panel">
-            <div class="detail-heading">Why it rates ${formatScore(score)}</div>
-            <p class="detail-copy">Rated on how the game unfolded, not the final score, using ESPN's play-by-play win probability. Each dimension is ranked against other games in the sport: a 9 means it beat 90% of them.</p>
-            ${renderScoreBreakdown(breakdown, window.periodAverages, score)}
+            <div class="detail-heading">Why this game rates ${formatScore(score)}</div>
+            <p class="detail-copy">We rate how entertaining a game was based on how it unfolded, not the final score. Each rating uses play-by-play win probabilities to measure five aspects of the action.</p>
+            ${renderScoreBreakdown(breakdown)}
             <div class="detail-highlights" hidden></div>
             <div class="detail-footer">
                 <div class="detail-vote">
@@ -644,7 +644,7 @@ function renderDetail(container, game) {
             </div>
         </div>
     `;
-    setTimeout(() => attachScoreBreakdownListeners(container), 0);
+
     window.attachVoteListeners(container);
     if (game) loadDetailHighlights(container, game);
 }
